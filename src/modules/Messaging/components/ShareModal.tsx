@@ -8,7 +8,7 @@ function ShareModal() {
   const [show, setShow] = useState(false);
   const { account } = useContext(StarterKitContext);
 
-  const shareLink = `https://www.beetogether.work/messaging/${account?.address}`;
+  const shareLink = `${window.location.origin}/dashboard/messaging/${account?.address}`;
 
   const handleCopyClick = () => {
     navigator.clipboard.writeText(shareLink);

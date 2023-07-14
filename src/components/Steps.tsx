@@ -2,15 +2,14 @@ import { useContext } from 'react';
 import StarterKitContext from '../context/starterKit';
 import ConnectBlock from './ConnectBlock';
 import Loading from './Loading';
+import TalentLayerIdForm from './Form/TalentLayerIdForm';
 
 function Steps() {
-  const { account, loading } = useContext(StarterKitContext);
+  const { account, loading, user } = useContext(StarterKitContext);
 
   if (loading) {
     return <Loading />;
   }
-
-  console.log('STEPS');
 
   return (
     <div className='max-w-7xl mx-auto text-gray-200 sm:px-4 lg:px-0'>
@@ -20,6 +19,7 @@ function Steps() {
             <ConnectBlock />
           </div>
         )}
+        {account?.isConnected && !user && <TalentLayerIdForm />}
       </div>
     </div>
   );

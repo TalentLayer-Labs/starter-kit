@@ -21,8 +21,6 @@ const useServices = (
   const [loading, setLoading] = useState(false);
   const [offset, setOffset] = useState(0);
 
-  console.log('chainId', chainId);
-
   useEffect(() => {
     setServices([]);
     setOffset(0);
@@ -39,6 +37,7 @@ const useServices = (
             serviceStatus,
             buyerId,
             sellerId,
+            platformId: process.env.NEXT_PUBLIC_PLATFORM_ID,
             numberPerPage,
             offset,
             searchQuery,
@@ -60,6 +59,7 @@ const useServices = (
             serviceStatus,
             buyerId,
             sellerId,
+            platformId: process.env.NEXT_PUBLIC_PLATFORM_ID,
             numberPerPage,
             offset,
           });

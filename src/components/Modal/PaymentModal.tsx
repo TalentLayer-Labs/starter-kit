@@ -82,7 +82,7 @@ function PaymentModal({ service, payments, isBuyer }: IPaymentModalProps) {
                 )}
                 <div className='flex justify-center items-center w-full space-y-4 flex-col border-redpraha border-b pb-4'>
                   <div className='flex justify-between w-full'>
-                    <p className='text-base leading-4 text-gray-800'>Job rate</p>
+                    <p className='text-base leading-4 text-gray-800'>Rate</p>
                     <p className='text-base  leading-4 text-gray-600'>
                       {renderTokenAmount(rateToken, rateAmount)}
                     </p>

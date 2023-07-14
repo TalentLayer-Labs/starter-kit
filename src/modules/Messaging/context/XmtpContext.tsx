@@ -67,7 +67,6 @@ export const XmtpContextProvider = ({ children }: { children: ReactNode }) => {
     if (walletAddress && !providerState.client && signer) {
       try {
         let keys = loadKeys(walletAddress as string);
-        console.log('ALREADY GOT KEYS', keys);
         if (!keys) {
           keys = await Client.getKeys(signer, {
             env: process.env.NEXT_PUBLIC_MESSENGING_ENV as clientEnv,

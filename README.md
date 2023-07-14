@@ -21,7 +21,7 @@ TalentLayer is an open protocol and dev toolkit for hiring applications. You can
 
 **Documentation:** [Read here.](https://docs.talentlayer.org/technical-guides)
 
-**Example DAPP Tutorial:** [Read here.](https://docs.talentlayer.org/technical-guides/dapp-setup)
+**XMTP & TL:** [Read here.](https://docs.talentlayer.org/technical-guides/messaging/integrating-xmtp)
 
 ## 🗨 XMTP
 

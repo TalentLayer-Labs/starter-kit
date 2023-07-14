@@ -4,6 +4,8 @@ import Loading from '../../../components/Loading';
 import ServiceItem from '../../../components/ServiceItem';
 import useServices from '../../../hooks/useServices';
 import { IService, ServiceStatusEnum } from '../../../types';
+import Link from 'next/link';
+import { PlusCircleIcon } from '@heroicons/react/24/outline';
 
 function Services() {
   const PAGE_SIZE = 30;
@@ -21,9 +23,17 @@ function Services() {
   return (
     <div className='max-w-7xl mx-auto text-gray-200 sm:px-4 lg:px-0'>
       <div className=' -mx-6 -mt-6 '>
-        <p className='flex py-2 px-6 items-center text-2xl font-medium tracking-wider mb-8 border-b w-full border-gray-700 md:px-8 '>
-          All <span className='text-gray-100 ml-1'> Jobs </span>
-        </p>
+        <div className='flex py-2 px-6 items-center border-b w-full border-gray-700 mb-8'>
+          <p className='text-2xl font-medium flex-1'>
+            All <span className='text-gray-100 ml-1'> Gigs </span>
+          </p>
+          <Link
+            href={`/dashboard/services/create`}
+            className=' hover:bg-endnight text-white bg-endnight px-3 py-2 text-sm flex items-center rounded-xl'>
+            <PlusCircleIcon className='w-[18px] h-[18px] text-redpraha mr-2' />
+            Create Gig
+          </Link>
+        </div>
       </div>
       {searchQuery && services.length > 0 && (
         <p className='text-xl font-medium tracking-wider mb-8'>

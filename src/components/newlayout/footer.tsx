@@ -14,11 +14,6 @@ export const Footer = () => {
           <a className='me-2 btn-primary btn-sm btn my-2 mr-2' href='https://talentlayer.org'>
             Learn About TalentLayer
           </a>
-          <a
-            className='btn btn-primary btn-sm me-2 my-2'
-            href='https://www.beetogether.workimages/ee/Uc8K1Twrbb.jpg'>
-            Looking for something? 👀
-          </a>
         </div>
       </Container>
     </footer>

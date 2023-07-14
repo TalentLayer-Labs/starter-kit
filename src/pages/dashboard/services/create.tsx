@@ -9,7 +9,7 @@ function CreateService() {
   const { account, user } = useContext(StarterKitContext);
   const { userExists } = useContext(MessagingContext);
 
-  if (!account?.isConnected) {
+  if (!user) {
     return <Steps />;
   }
 

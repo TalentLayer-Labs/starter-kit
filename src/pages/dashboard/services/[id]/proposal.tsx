@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router';
 import { useContext } from 'react';
-import Back from '../../../../components/Back';
 import ProposalForm from '../../../../components/Form/ProposalForm';
 import Loading from '../../../../components/Loading';
 import Steps from '../../../../components/Steps';
@@ -23,7 +22,7 @@ function CreateOrEditProposal() {
     return <Loading />;
   }
 
-  if (!account?.isConnected) {
+  if (!user) {
     return <Steps />;
   }
 

@@ -11,7 +11,7 @@ function UserSubMenu() {
   const router = useRouter();
   const { disconnect } = useDisconnect();
 
-  if (!account?.isConnected) {
+  if (!user) {
     return null;
   }
 

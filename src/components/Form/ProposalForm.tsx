@@ -190,7 +190,6 @@ function ProposalForm({
           tx,
           'proposalRequest',
           cid,
-          true,
         );
         setSubmitting(false);
         resetForm();

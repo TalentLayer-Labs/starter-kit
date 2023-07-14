@@ -10,7 +10,7 @@ import useStreamConversations from '../../../modules/Messaging/hooks/useStreamCo
 
 function MessagingIndex() {
   const chainId = useChainId();
-  const { account } = useContext(StarterKitContext);
+  const { account, user } = useContext(StarterKitContext);
   const { data: signer } = useSigner({
     chainId,
   });
@@ -25,7 +25,7 @@ function MessagingIndex() {
     }
   };
 
-  if (!account?.isConnected) {
+  if (!user) {
     return <Steps />;
   }
 

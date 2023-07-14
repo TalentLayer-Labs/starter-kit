@@ -2,7 +2,7 @@ import {
   BanknotesIcon,
   BriefcaseIcon,
   ChatBubbleBottomCenterTextIcon,
-  EnvelopeOpenIcon,
+  SparklesIcon,
 } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import { useState } from 'react';
@@ -82,7 +82,7 @@ function Home() {
             <div className='mr-[60px] flex items-center justify-end lg:mr-0'>
               <a
                 href='/dashboard'
-                className='hidden rounded-md bg-redpraha py-[10px] px-[30px] text-base font-medium text-white hover:bg-opacity-90 sm:inline-block'>
+                className='rounded-md bg-redpraha py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base font-medium text-white hover:bg-opacity-90'>
                 Dapp
               </a>
             </div>
@@ -385,16 +385,17 @@ function Home() {
                     className='wow fadeInUp group mx-auto mb-[60px] max-w-[310px] text-center'
                     data-wow-delay='.4s'>
                     <div className='mx-auto mb-8 flex h-[90px] w-[90px] items-center justify-center rounded-3xl bg-redpraha bg-opacity-20 text-redpraha duration-300 group-hover:bg-redpraha group-hover:text-white   '>
-                      <EnvelopeOpenIcon width={48} height={48} />
+                      <SparklesIcon width={48} height={48} />
                     </div>
                     <h3 className='mb-4 text-xl font-semibold text-black  sm:text-[22px] xl:text-[26px]'>
-                      Web3 email
+                      Landing page
                     </h3>
-                    <div className='absolute top-[-5px] right-[40px] md:right-[100px] p-2 bg-redpraha text-white text-xs rounded-md'>
+                    {/* <div className='absolute top-[-5px] right-[40px] md:right-[100px] p-2 bg-redpraha text-white text-xs rounded-md'>
                       Coming Soon
-                    </div>
+                    </div> */}
                     <p className='text-base text-body'>
-                      Send email to your users without knowing the email
+                      This landing is part of the starter, please customize it with your brand and
+                      features!
                     </p>
                   </div>
                 </div>
@@ -1255,8 +1256,10 @@ function Home() {
                 <div className='pb-4 h-auto overflow-hidden px-[18px] sm:px-[26px]'>
                   <p className='text-base text-body'>
                     Yes it's better to mint your platformId, it will let you configure your
-                    platform, define fees and other important setup.
-                    <a href='https://docs.talentlayer.org/get-a-platform-id'>See more here</a>
+                    platform, define fees and other important setup.{' '}
+                    <a className='underline' href='https://docs.talentlayer.org/get-a-platform-id'>
+                      See more here
+                    </a>
                   </p>
                 </div>
               </div>
@@ -1324,7 +1327,10 @@ function Home() {
               <h2 className='mb-4 text-3xl font-bold text-black  sm:text-4xl md:text-[44px] md:leading-tight'>
                 Need any help?
               </h2>
-              <p className='text-base text-body'>Please contact us on the hackhathon discords</p>
+              <p className='text-base text-body'>
+                Please contact us on the hackhathon discords or direclty inside the dapp using xmtp
+                support conversation :)
+              </p>
             </div>
           </div>
         </section>
@@ -1347,6 +1353,32 @@ function Home() {
                     className='text-white opacity-70 hover:opacity-100'
                     target='_blank'
                     aria-label='social icon'>
+                    <svg
+                      width='24'
+                      height='24'
+                      viewBox='0 0 24 24'
+                      fill='none'
+                      xmlns='http://www.w3.org/2000/svg'>
+                      <g clip-path='url(#clip0_53_166)'>
+                        <path
+                          d='M22.162 5.65593C21.3986 5.99362 20.589 6.2154 19.76 6.31393C20.6337 5.79136 21.2877 4.96894 21.6 3.99993C20.78 4.48793 19.881 4.82993 18.944 5.01493C18.3146 4.34151 17.4804 3.89489 16.571 3.74451C15.6615 3.59413 14.7279 3.74842 13.9153 4.18338C13.1026 4.61834 12.4564 5.30961 12.0771 6.14972C11.6978 6.98983 11.6067 7.93171 11.818 8.82893C10.1551 8.74558 8.52833 8.31345 7.04329 7.56059C5.55824 6.80773 4.24813 5.75098 3.198 4.45893C2.82629 5.09738 2.63095 5.82315 2.632 6.56193C2.632 8.01193 3.37 9.29293 4.492 10.0429C3.82801 10.022 3.17863 9.84271 2.598 9.51993V9.57193C2.5982 10.5376 2.93237 11.4735 3.54385 12.221C4.15533 12.9684 5.00648 13.4814 5.953 13.6729C5.33661 13.84 4.69031 13.8646 4.063 13.7449C4.32987 14.5762 4.85001 15.3031 5.55059 15.824C6.25118 16.345 7.09713 16.6337 7.97 16.6499C7.10248 17.3313 6.10918 17.8349 5.04688 18.1321C3.98458 18.4293 2.87413 18.5142 1.779 18.3819C3.6907 19.6114 5.9161 20.2641 8.189 20.2619C15.882 20.2619 20.089 13.8889 20.089 8.36193C20.089 8.18193 20.084 7.99993 20.076 7.82193C20.8949 7.2301 21.6016 6.49695 22.163 5.65693L22.162 5.65593Z'
+                          fill='white'
+                        />
+                      </g>
+                      <defs>
+                        <clipPath id='clip0_53_166'>
+                          <rect width='24' height='24' fill='white' />
+                        </clipPath>
+                      </defs>
+                    </svg>
+                  </a>
+
+                  <a
+                    href='https://twitter.com/xmtp_'
+                    className='text-white opacity-70 hover:opacity-100'
+                    target='_blank'
+                    aria-label='social icon'
+                    style={{ transform: `rotateY(180deg)` }}>
                     <svg
                       width='24'
                       height='24'

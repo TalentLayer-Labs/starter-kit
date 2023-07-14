@@ -33,7 +33,7 @@ function UserProposalItem({ proposal }: { proposal: IProposal }) {
             <div className='flex flex-col'>
               <p className='text-gray-100 font-medium break-all'>{service.description?.title}</p>
               <p className='text-xs text-gray-500'>
-                Job created by {proposal.service.buyer.handle} the{' '}
+                Gig created by {proposal.service.buyer.handle} the{' '}
                 {formatDate(Number(proposal.service.createdAt) * 1000)}
               </p>
             </div>
@@ -63,7 +63,7 @@ function UserProposalItem({ proposal }: { proposal: IProposal }) {
           <Link
             className='text-zinc-600 bg-zinc-50 hover:bg-zinc-500 hover:text-white px-3 py-2 rounded text-sm'
             href={`/dashboard/services/${proposal.service.id}`}>
-            Show Job
+            Show Gig
           </Link>
           {isBuyer && proposal.status === ProposalStatusEnum.Pending && (
             <button className='text-green-600 bg-green-50 hover:bg-redpraha hover:text-white px-5 py-2 rounded'>

@@ -1,9 +1,9 @@
-import { watchAccount } from '@wagmi/core';
 import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
 import { useSigner } from 'wagmi';
 import Steps from '../../../components/Steps';
 import StarterKitContext from '../../../context/starterKit';
+import { useChainId } from '../../../hooks/useChainId';
 import useUserByAddress from '../../../hooks/useUserByAddress';
 import { XmtpContext } from '../context/XmtpContext';
 import useSendMessage from '../hooks/useSendMessage';
@@ -13,11 +13,10 @@ import { ChatMessageStatus, XmtpChatMessage } from '../utils/types';
 import CardHeader from './CardHeader';
 import MessageComposer from './MessageComposer';
 import MessageList from './MessageList';
-import { useChainId } from '../../../hooks/useChainId';
 
 function Dashboard() {
   const chainId = useChainId();
-  const { account } = useContext(StarterKitContext);
+  const { account, user } = useContext(StarterKitContext);
   const { data: signer } = useSigner({
     chainId,
   });
@@ -108,7 +107,7 @@ function Dashboard() {
     }
   };
 
-  if (!account?.isConnected) {
+  if (!user) {
     return <Steps />;
   }
 

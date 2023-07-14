@@ -12,6 +12,7 @@ import { StarterKitProvider } from '../context/starterKit';
 import { MessagingProvider } from '../modules/Messaging/context/messging';
 import { XmtpContextProvider } from '../modules/Messaging/context/XmtpContext';
 import '../styles/globals.css';
+import 'react-toastify/dist/ReactToastify.css';
 import Layout from './Layout';
 import { useEffect } from 'react';
 import SEO from '../../next-seo.config';

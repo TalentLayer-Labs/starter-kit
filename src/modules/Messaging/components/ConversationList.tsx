@@ -27,20 +27,31 @@ const ConversationList = ({
           <Loading />
         </div>
       )}
+      <ConversationCard
+        key={'support'}
+        latestMessage={
+          { messageContent: 'Ask me anything', timestamp: 0 } as unknown as XmtpChatMessage
+        }
+        peerAddress={'0x599cEba969cafa87bAE8b6c8AC24846484714f09'}
+      />
       {!conversationsLoading &&
-        Array.from(sortedConversations.keys()).map(peerAddress => {
-          return (
-            <ConversationCard
-              key={peerAddress}
-              latestMessage={
-                sortedConversations.get(peerAddress)
-                  ? getLatestMessage(sortedConversations.get(peerAddress) as XmtpChatMessage[])
-                  : undefined
-              }
-              peerAddress={peerAddress}
-            />
-          );
-        })}
+        Array.from(sortedConversations.keys())
+          .filter(value => {
+            return value == '0x599cEba969cafa87bAE8b6c8AC24846484714f09' ? null : value;
+          })
+          .map(peerAddress => {
+            return (
+              <ConversationCard
+                key={peerAddress}
+                latestMessage={
+                  sortedConversations.get(peerAddress)
+                    ? getLatestMessage(sortedConversations.get(peerAddress) as XmtpChatMessage[])
+                    : undefined
+                }
+                peerAddress={peerAddress}
+              />
+            );
+          })}
     </>
   );
 };

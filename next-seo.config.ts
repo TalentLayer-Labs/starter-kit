@@ -1,6 +1,6 @@
 const title = 'StarterKit';
 const description = 'Start Fast with XMTP & TalentLayer';
-const url = 'https://www.beetogether.work';
+const url = 'https://www.yourdomain.com';
 
 export default {
   title,
