@@ -113,7 +113,8 @@ function Home() {
 
                   <div className='flex flex-wrap items-center'>
                     <a
-                      href='javascript:void(0)'
+                      target='_blank'
+                      href='https://github.com/TalentLayer-Labs/starter-kit'
                       className='mr-6 mb-6 inline-flex h-[60px] items-center rounded-lg bg-black py-[14px] px-[30px] text-white hover:bg-opacity-90'>
                       <span className='mr-[18px] border-r border-stroke border-opacity-40 pr-[18px] leading-relaxed '>
                         Fork Now
@@ -132,7 +133,7 @@ function Home() {
                       </span>
                     </a>
 
-                    <a
+                    {/* <a
                       href='javascript:void(0)'
                       className='glightbox mb-6 inline-flex items-center py-4 text-black hover:text-primary '>
                       <span className='mr-[12px] flex h-[56px] w-[56px] items-center justify-center rounded-full border-2 border-current'>
@@ -152,7 +153,7 @@ function Home() {
                         <span className='block text-sm'> Watch Demo </span>
                         See how it works
                       </span>
-                    </a>
+                    </a> */}
                   </div>
                 </div>
               </div>
@@ -686,7 +687,13 @@ function Home() {
                       Fork the code
                     </h3>
                     <p className='text-base text-body'>
-                      All the code is fully open source, you can use it for any purposes
+                      All the code is fully open source, you can use it for any purposes,{' '}
+                      <a
+                        className='underline'
+                        target='_blank'
+                        href='https://docs.talentlayer.org/get-a-platform-id'>
+                        it's here
+                      </a>
                     </p>
                   </div>
                 </div>
