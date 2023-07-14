@@ -1,7 +1,5 @@
 import useUserByAddress from '../../../hooks/useUserByAddress';
 import { truncateAddress } from '../../../utils';
-import SearchModal from './SearchModal';
-import ShareModal from './ShareModal';
 
 interface IProps {
   peerAddress: string;
@@ -20,14 +18,6 @@ const CardHeader = ({ peerAddress }: IProps) => {
                 {user && user.handle ? <b>{user.handle}</b> : <b>{truncateAddress(peerAddress)}</b>}
               </span>
             </p>
-          </>
-        )}
-        {!peerAddress && (
-          <>
-            <p className='text-2xl font-medium flex-1'>Chats</p>
-
-            <SearchModal />
-            <ShareModal />
           </>
         )}
       </div>

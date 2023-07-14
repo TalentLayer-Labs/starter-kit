@@ -7,6 +7,8 @@ import CardHeader from '../../../modules/Messaging/components/CardHeader';
 import ConversationList from '../../../modules/Messaging/components/ConversationList';
 import { XmtpContext } from '../../../modules/Messaging/context/XmtpContext';
 import useStreamConversations from '../../../modules/Messaging/hooks/useStreamConversations';
+import SearchModal from '../../../modules/Messaging/components/SearchModal';
+import ShareModal from '../../../modules/Messaging/components/ShareModal';
 
 function MessagingIndex() {
   const chainId = useChainId();
@@ -43,7 +45,16 @@ function MessagingIndex() {
       )}
       {providerState?.client && (
         <div className='-mx-6 -mt-6'>
-          <CardHeader />
+          <div className='flex flex-row text-white'>
+            <div className='flex py-2 px-6 items-center border-b w-full border-gray-700'>
+              <>
+                <p className='text-2xl font-medium flex-1'>Chats</p>
+
+                <SearchModal />
+                <ShareModal />
+              </>
+            </div>
+          </div>
           <div className='flex flex-col'>
             <ConversationList
               conversationMessages={providerState.conversationMessages}

@@ -25,11 +25,6 @@ const chains: Chain[] = [customChains.polygonMumbai];
 const { provider } = configureChains(chains, [
   jsonRpcProvider({
     rpc: chain => {
-      if (chain.id == 5) {
-        return {
-          http: `https://eth-goerli.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY_GOERLI}`,
-        };
-      }
       return { http: chain.rpcUrls.default };
     },
   }),
