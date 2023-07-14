@@ -3,21 +3,18 @@ import { Web3Modal } from '@web3modal/react';
 import { DefaultSeo } from 'next-seo';
 import { ThemeProvider } from 'next-themes';
 import type { AppProps } from 'next/app';
-import { GoogleAnalytics } from 'nextjs-google-analytics';
+import { useEffect } from 'react';
 import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { Chain, WagmiConfig, configureChains, createClient } from 'wagmi';
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc';
+import SEO from '../../next-seo.config';
 import { customChains } from '../chains';
 import { StarterKitProvider } from '../context/starterKit';
-import { MessagingProvider } from '../modules/Messaging/context/messging';
 import { XmtpContextProvider } from '../modules/Messaging/context/XmtpContext';
+import { MessagingProvider } from '../modules/Messaging/context/messging';
 import '../styles/globals.css';
-import 'react-toastify/dist/ReactToastify.css';
 import Layout from './Layout';
-import { useEffect } from 'react';
-import SEO from '../../next-seo.config';
-
-import Script from 'next/script';
 
 const chains: Chain[] = [customChains.polygonMumbai];
 
@@ -45,8 +42,6 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <>
-      <Script src='/snarkjs.min.js' strategy='beforeInteractive' />
-      <GoogleAnalytics trackPageViews />
       <DefaultSeo {...SEO} />
       <ToastContainer position='bottom-right' />
       <WagmiConfig client={wagmiClient}>
