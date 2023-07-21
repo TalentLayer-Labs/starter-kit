@@ -15,6 +15,7 @@ import { XmtpContextProvider } from '../modules/Messaging/context/XmtpContext';
 import { MessagingProvider } from '../modules/Messaging/context/messging';
 import '../styles/globals.css';
 import Layout from './Layout';
+import { SessionProvider } from 'next-auth/react';
 
 const chains: Chain[] = [customChains.polygonMumbai];
 
@@ -35,7 +36,7 @@ const wagmiClient = createClient({
 // Web3Modal Ethereum Client
 const ethereumClient = new EthereumClient(wagmiClient, chains);
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   useEffect(() => {
     wagmiClient.autoConnect();
   }, []);
@@ -49,9 +50,11 @@ function MyApp({ Component, pageProps }: AppProps) {
           <XmtpContextProvider>
             <MessagingProvider>
               <ThemeProvider enableSystem={false}>
-                <Layout>
-                  <Component {...pageProps} />
-                </Layout>
+                <SessionProvider session={session}>
+                  <Layout>
+                    <Component {...pageProps} />
+                  </Layout>
+                </SessionProvider>
               </ThemeProvider>
             </MessagingProvider>
           </XmtpContextProvider>
