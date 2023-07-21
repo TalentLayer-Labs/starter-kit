@@ -8,7 +8,9 @@ import {
   CUSTOM_SCHEMAS,
   EASContractAddress,
   getAttestation,
-} from './utils/utils';
+} from '../utils/eas-utils';
+
+import { EAS, SchemaEncoder } from '@ethereum-attestation-service/eas-sdk';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { userId, userAddress, cid, chainId } = req.body;
