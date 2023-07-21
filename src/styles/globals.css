@@ -189,3 +189,231 @@ body .menuBottom {
     animation-iteration-count: 1 !important;
   }
 }
+
+/* UserTrustScore css */
+html{
+  /*animation:bgcolor 1.2s ease forwards;*/
+}
+@keyframes bgcolor{
+  0% {background: #fcd7d7;}
+  50% {background: #fcefd2;}
+  100% {background: #cafadf;}
+}
+.circle-text-color-anim {
+  animation: circle-text-color-anim 1.2s normal forwards;
+}
+
+@keyframes circle-text-color-anim {
+  0% {
+    color: #ff3b30;
+  }
+  20% {
+    color: #ff3b30;
+  }
+  30% {
+    color: #ff3b30;
+  }
+  40% {
+    color: #ff3b30;
+  }
+  50% {
+    color: #ff9500;
+  }
+  60% {
+    color: #ff9500;
+  }
+  70% {
+    color: #28cd41;
+  }
+  80% {
+    color: #28cd41;
+  }
+  90% {
+    color: #28cd41;
+  }
+  100% {
+    color: #26C63E;
+  }
+}
+
+.circle-bg-color-anim {
+  animation: circle-bg-color-anim 1.2s normal forwards;
+}
+
+@keyframes circle-bg-color-anim {
+  0% {background: #faeaea;}
+  50% {background: #faf5ea;}
+  100% {background: #eafaf1;}
+}
+.score-circular{
+  height:100px;
+  width: 100px;
+  position: relative;
+  margin: 0 auto;
+  border-radius: 100%;
+  box-shadow: 2px 4px 13px rgba(0,0,0,0.09);
+  transition: all 1s cubic-bezier(.25,.8,.25,1);
+}
+
+.score-circular:hover {
+  transform:scale(1.1);
+  cursor: pointer;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.09), 0 10px 10px rgba(0,0,0,0.09);
+}
+@media (hover: none) and (pointer: coarse) {
+  .score-circular:hover {
+    transform:scale(1.3);
+    box-shadow: 2px 4px 13px rgba(0,0,0,0.08);
+  }
+}
+.score-circular .score-inner{
+  position: absolute;
+  z-index: 11;
+  top: 50%;
+  left: 50%;
+  height: 80px;
+  width: 80px;
+  transform:scale(1.1);
+  margin: -40px 0 0 -40px;
+  background-color: #eafaf1;
+  border-radius: 100%;
+  border: 0.5px solid rgba(251, 251, 251, 0.45);
+  box-shadow: 0 14px 28px rgba(0,0,0,0.08), 0 10px 10px rgba(0,0,0,0.07);
+
+
+}
+.score-number::after {
+  position: absolute;
+  top:42%;
+  left:50%;
+  transform: translate(-50%, -50%);
+  text-shadow: 0px 1px 2px rgba(150, 150, 150, 0.14);
+  font-family: sans-serif;
+  z-index:11;
+  font-size:29px;
+  font-weight:600;
+  color: #080;
+  content: '122';
+  animation: score-counter 1.2s linear forwards;
+}
+@keyframes score-counter {
+  0% {
+    content: '1.0';
+    color: #ff3b30;
+  }
+  20% {
+    content: '1.2';
+    color: #ff3b30;
+  }
+  30% {
+    content: '2.6';
+    color: #ff3b30;
+  }
+  40% {
+    content: '2.8';
+    color: #ff3b30;
+  }
+  50% {
+    content: '3.0';
+    color: #ff9500;
+  }
+  60% {
+    content: '3.7';
+    color: #ff9500;
+  }
+  70% {
+    content: '4.1';
+    color: #28cd41;
+  }
+  80% {
+    content: '4.5';
+    color: #28cd41;
+  }
+  90% {
+    content: '4.7';
+    color: #28cd41;
+  }
+  100% {
+    content: '4.9';
+    color: #26C63E;
+  }
+}
+.score-circular .score-text{
+  position: absolute;
+  top:66%;
+  left:50%;
+  font-family: sans-serif;
+  transform: translate(-50%, -50%);
+  text-shadow: 0px 1px 2px rgba(150, 150, 150, 0.14);
+  z-index:11;
+  font-size:11px;
+  font-weight:500;
+  color: #080;
+}
+.score-circular .score-bar{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: #eafaf1;
+  -webkit-border-radius: 100%;
+  clip: rect(0px, 100px, 100px, 50px);
+  z-index:9;
+
+}
+
+.score-circle .score-bar .score-progress{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  border-radius: 100%;
+  -webkit-border-radius: 100%;
+  clip: rect(0px, 50px, 100px, 0px);
+  z-index:-8;
+  background: #28cd4100;
+}
+
+@keyframes circle-progress-color-anim-right {
+  0% {
+    background: #ff3b30;
+  }
+  30% {
+    background: #ff3b30;
+  }
+  99% {
+    background: #ff9500;
+  }
+  100% {
+    background: #28cd41;
+  }
+}
+@keyframes circle-progress-color-anim-left {
+  0% {
+    background: #28cd41;
+  }
+  100% {
+    background: #28cd41;
+  }
+}
+
+.progress-right .score-progress{
+  animation: progress-right 0.6s linear both, circle-progress-color-anim-right 0.6s normal forwards;
+}
+@keyframes progress-right{
+  100%{
+    transform: rotate(180deg);
+  }
+}
+.progress-left {
+  transform: rotate(180deg);
+
+}
+.progress-left .score-progress{
+  animation: progress-left 0.6s linear both, circle-progress-color-anim-left 0.6s normal forwards;
+  animation-delay:0.6s;
+}
+
+@keyframes progress-left{
+  100%{
+    transform: rotate(140deg);
+  }
+}

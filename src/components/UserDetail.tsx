@@ -6,6 +6,7 @@ import { IUser } from '../types';
 import Loading from './Loading';
 import Stars from './Stars';
 import CreateAttestation from './CreateAttestationTest';
+import UserTrustScore from './UserTrustScore';
 
 function UserDetail({ user }: { user: IUser }) {
   const { user: currentUser } = useContext(StarterKitContext);
@@ -16,10 +17,16 @@ function UserDetail({ user }: { user: IUser }) {
   }
 
   return (
+
     <>
       <CreateAttestation />
       <div className='rounded-xl p-4 border border-gray-700 text-white bg-endnight'>
         <div className='w-full'>
+
+    <div className='rounded-xl p-4 border border-gray-700 text-white bg-endnight'>
+      <div className='flex'>
+        <div className='w-9/12'>
+
           <div className='flex flex-col justify-start items-start gap-4'>
             <div className='flex items-center justify-start mb-4'>
               <img
@@ -43,6 +50,7 @@ function UserDetail({ user }: { user: IUser }) {
             </div>
           </div>
           <Stars rating={Number(user.rating)} numReviews={user.userStats.numReceivedReviews} />
+
         </div>
         <div className=' border-t border-gray-700 pt-2 w-full'>
           {userDescription?.name && (
@@ -50,6 +58,15 @@ function UserDetail({ user }: { user: IUser }) {
               <strong>Name:</strong> {userDescription?.name}
             </p>
           )}
+
+        </div>
+        <div className={'w-3/12'}>
+          <UserTrustScore user={user} />
+        </div>
+      </div>
+      <div className=' border-t border-gray-700 pt-2 w-full'>
+        {userDescription?.name && (
+
           <p className='text-sm text-gray-400 mt-4'>
             <strong>Skills:</strong> {userDescription?.skills_raw}
           </p>
