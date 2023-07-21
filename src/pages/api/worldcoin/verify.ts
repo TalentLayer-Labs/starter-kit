@@ -2,7 +2,6 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 export type Reply = {
   code: string;
 };
-import { ethers } from 'ethers';
 import { getDelegationSigner } from '../utils/delegate';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Reply>) {
@@ -32,15 +31,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       res.status(200).send({ code: wldResponse.code });
 
       // This is where you should perform backend actions based on the verified credential, such as setting a user as "verified" in a database
-      // TODO: update the verified status
-      const key = 'world-id-verified';
-      const formatedKey = ethers.encodeBytes32String(key);
-      const tx = await attestrationContract['attest(address,bytes32,bytes)'](
-        req.body.address,
-        formatedKey,
-        '0x01',
-      );
-      console.log(tx);
+      // TODO: here we need to get he certificate
     } else {
       res.status(400).send({ code: wldResponse.code });
     }
