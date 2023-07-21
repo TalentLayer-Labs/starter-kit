@@ -3,6 +3,7 @@ import { ethers } from 'ethers';
 import { getDelegationSigner } from '../utils/delegate';
 import { CUSTOM_SCHEMAS, EASContractAddress, getAttestation } from '../utils/eas-utils';
 import { EAS, SchemaEncoder } from '@ethereum-attestation-service/eas-sdk';
+import { getSHA256Hash } from '../utils/hash-data';
 const eas = new EAS(EASContractAddress);
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -11,12 +12,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     githubHash: '0x1234567890123456789012345678901234567890',
   };
 
+  // Hash the data
+  const hashedData = getSHA256Hash(githubdata);
+
   try {
     const schemaEncoder = new SchemaEncoder('string dataHash');
     console.log('schemaEncoder', schemaEncoder);
 
     const encoded = schemaEncoder.encodeData([
-      { name: 'dataHash', type: 'string', value: githubdata },
+      { name: 'dataHash', type: 'string', value: hashedData },
     ]);
 
     const signer = await getDelegationSigner(res);
