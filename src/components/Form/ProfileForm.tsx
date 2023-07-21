@@ -43,6 +43,13 @@ function ProfileForm({ callback }: { callback?: () => void }) {
     chainId,
   });
   const { isActiveDelegate } = useContext(StarterKitContext);
+  const [activeLvlUpMenu, setActiveLvlUpMenu] = useState(0);
+  const menuItems = [
+    { label: 'Github', content: 'Text content 1' },
+    { label: 'LinkedIn', content: 'Text content 2' },
+    { label: 'Upwork', content: 'Text content 3' },
+    { label: 'Malt', content: 'Text content 4' },
+  ];
 
   if (!user?.id) {
     return <Loading />;
@@ -219,7 +226,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
                         e.preventDefault();
                         generatePicture(setFieldValue);
                       }}
-                      className='border text-white bg-gray-700 hover:bg-gray-600 border-gray-600 rounded-md h-10 w-10 p-2 relative inline-flex items-center justify-center space-x-1 font-sans text-sm font-normal leading-5 no-underline outline-none transition-all duration-300'>
+                      className='border text-white bg-gray-700 hover:bg-gray-600 border-gray-700 rounded-md h-10 w-10 p-2 relative inline-flex items-center justify-center space-x-1 font-sans text-sm font-normal leading-5 no-underline outline-none transition-all duration-300'>
                       {aiLoading ? <Loading /> : 'GO'}
                     </button>
                   </div>
@@ -251,6 +258,32 @@ function ProfileForm({ callback }: { callback?: () => void }) {
 
               <Field type='hidden' id='skills' name='skills' />
             </label>
+
+            <div className='block border-t border-gray-700 pt-5 font-bold'>
+              <span className=''>Level up your trust score</span>
+              <div className='mt-1 flex divide-x rounded-lg border border-gray-700 py-3'>
+                <div className='-my-3 divide-y divide-gray-600 text-sm w-1/4'>
+                  <ul>
+                    {menuItems.map((menuItem, index) => (
+                      <li
+                        className={`w-full p-4 ${
+                          activeLvlUpMenu === index ? 'bg-gray-700' : ''
+                        } hover:cursor-pointer hover:bg-gray-600`}
+                        key={index}
+                        onClick={
+                          activeLvlUpMenu === index ? undefined : () => setActiveLvlUpMenu(index)
+                        }>
+                        {menuItem.label}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className='-my-3 divide-y divide-gray-700 text-sm w-3/4 p-3'>
+                  <dt className='font-medium'>{menuItems[activeLvlUpMenu].content}</dt>
+                </div>
+              </div>
+            </div>
 
             <SubmitButton isSubmitting={isSubmitting} label='Update' />
           </div>
