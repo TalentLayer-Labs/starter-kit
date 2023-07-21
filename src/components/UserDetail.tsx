@@ -5,6 +5,7 @@ import PohModule from '../modules/Poh/PohModule';
 import { IUser } from '../types';
 import Loading from './Loading';
 import Stars from './Stars';
+import CreateAttestation from './CreateAttestationTest';
 import UserTrustScore from './UserTrustScore';
 
 function UserDetail({ user }: { user: IUser }) {
@@ -16,9 +17,16 @@ function UserDetail({ user }: { user: IUser }) {
   }
 
   return (
+
+    <>
+      <CreateAttestation />
+      <div className='rounded-xl p-4 border border-gray-700 text-white bg-endnight'>
+        <div className='w-full'>
+
     <div className='rounded-xl p-4 border border-gray-700 text-white bg-endnight'>
       <div className='flex'>
         <div className='w-9/12'>
+
           <div className='flex flex-col justify-start items-start gap-4'>
             <div className='flex items-center justify-start mb-4'>
               <img
@@ -42,6 +50,15 @@ function UserDetail({ user }: { user: IUser }) {
             </div>
           </div>
           <Stars rating={Number(user.rating)} numReviews={user.userStats.numReceivedReviews} />
+
+        </div>
+        <div className=' border-t border-gray-700 pt-2 w-full'>
+          {userDescription?.name && (
+            <p className='text-sm text-gray-400 mt-4'>
+              <strong>Name:</strong> {userDescription?.name}
+            </p>
+          )}
+
         </div>
         <div className={'w-3/12'}>
           <UserTrustScore user={user} />
@@ -49,24 +66,21 @@ function UserDetail({ user }: { user: IUser }) {
       </div>
       <div className=' border-t border-gray-700 pt-2 w-full'>
         {userDescription?.name && (
-          <p className='text-sm text-gray-400 mt-4'>
-            <strong>Name:</strong> {userDescription?.name}
-          </p>
-        )}
-        <p className='text-sm text-gray-400 mt-4'>
-          <strong>Skills:</strong> {userDescription?.skills_raw}
-        </p>
-        <p className='text-sm text-gray-400 mt-4'>
-          <strong>About:</strong> {userDescription?.about}
-        </p>
-        {userDescription?.role && (
-          <p className='text-sm text-gray-400 mt-4'>
-            <strong>Role:</strong> {userDescription?.role}
-          </p>
-        )}
-      </div>
 
-      {/* {currentUser?.id === user.id && (
+          <p className='text-sm text-gray-400 mt-4'>
+            <strong>Skills:</strong> {userDescription?.skills_raw}
+          </p>
+          <p className='text-sm text-gray-400 mt-4'>
+            <strong>About:</strong> {userDescription?.about}
+          </p>
+          {userDescription?.role && (
+            <p className='text-sm text-gray-400 mt-4'>
+              <strong>Role:</strong> {userDescription?.role}
+            </p>
+          )}
+        </div>
+
+        {/* {currentUser?.id === user.id && (
         <div className=' border-t border-gray-700 pt-4 w-full mt-4'>
           <div className='flex flex-row gap-4 justify-end items-center'>
             <Link
@@ -78,7 +92,8 @@ function UserDetail({ user }: { user: IUser }) {
           </div>
         </div>
       )} */}
-    </div>
+      </div>
+    </>
   );
 }
 
