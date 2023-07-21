@@ -23,7 +23,9 @@ export async function isPlatformAllowedToDelegate(
 }
 
 export async function getDelegationSigner(res: NextApiResponse): Promise<Wallet | null> {
-  const provider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_BACKEND_RPC_URL);
+  const provider = new ethers.providers.JsonRpcProvider(
+    process.env.NEXT_PUBLIC_BACKEND_RPC_SEPOLIA_URL,
+  );
   const delegateSeedPhrase = process.env.NEXT_PRIVATE_DELEGATE_SEED_PHRASE;
 
   if (!delegateSeedPhrase) {

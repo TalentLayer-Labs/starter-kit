@@ -14,7 +14,7 @@ import axios from 'axios';
 export const alchemyApiKey = process.env.REACT_APP_ALCHEMY_API_KEY;
 
 export const CUSTOM_SCHEMAS = {
-  GITHUB_SCHEMA: '0xdc4f645a78a95d85fbc0395a97f04176399cc981753545c6eaff71bedd3f4a18',
+  GITHUB_SCHEMA: '0x04e786c276457b4045eca31a80dababf3a3288ed250ff3ab4bf54aec6b3ce709',
   CONFIRM_SCHEMA: '0xb96446c85ce538c1641a967f23ea11bbb4a390ef745fc5a9905689dbd48bac86',
 };
 
@@ -22,7 +22,7 @@ dayjs.extend(duration);
 dayjs.extend(relativeTime);
 
 function getChainId() {
-  return Number(process.env.REACT_APP_CHAIN_ID);
+  return Number(process.env.NEXT_SEPOLIA_CHAIN_ID);
 }
 
 export const CHAINID = getChainId();
@@ -66,7 +66,7 @@ export const EAS_CONFIG = {
 export const timeFormatString = 'MM/DD/YYYY h:mm:ss a';
 export async function getAddressForENS(name: string) {
   const provider = new ethers.providers.StaticJsonRpcProvider(
-    `https://eth-mainnet.g.alchemy.com/v2/${process.env.REACT_APP_ALCHEMY_API_KEY}`,
+    `https://eth-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_INFURA_ID}`,
     'mainnet',
   );
 
@@ -74,7 +74,7 @@ export async function getAddressForENS(name: string) {
 }
 export async function getENSName(address: string) {
   const provider = new ethers.providers.StaticJsonRpcProvider(
-    `https://eth-mainnet.g.alchemy.com/v2/${process.env.REACT_APP_ALCHEMY_API_KEY}`,
+    `https://eth-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_INFURA_ID}`,
     'mainnet',
   );
   return await provider.lookupAddress(address);

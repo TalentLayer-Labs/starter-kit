@@ -1,33 +1,28 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { ethers } from 'ethers';
-import { getDelegationSigner } from '../utils/delegate';
-import { CUSTOM_SCHEMAS, EASContractAddress, getAttestation } from '../utils/eas-utils';
+import { getDelegationSigner } from '../../pages/api/utils/delegate';
+import {
+  getAttestationsForAddress,
+  getConfirmationAttestationsForUIDs,
+  getENSNames,
+} from '../../pages/api/utils/eas-utils';
 import { EAS, SchemaEncoder } from '@ethereum-attestation-service/eas-sdk';
-const eas = new EAS(EASContractAddress);
+import { ResolvedAttestation } from './utils/types';
+import { AttestationItem } from './AttestationItem';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { userAddress } = req.body;
-  const githubdata = {
-    githubHash: '0x1234567890123456789012345678901234567890',
-  };
+  const { githubHash } = req.body;
 
   try {
-    const schemaEncoder = new SchemaEncoder('string dataHash');
-    console.log('schemaEncoder', schemaEncoder);
-
-    const encoded = schemaEncoder.encodeData([
-      { name: 'dataHash', type: 'string', value: githubdata },
-    ]);
-
+    const schemaEncoder = new SchemaEncoder('string githubHash');
+    const encoded = schemaEncoder.encodeData([{ name: 'name', type: 'string', value: githubHash }]);
     const signer = await getDelegationSigner(res);
     if (!signer) {
       return;
     }
-    console.log('signer', signer);
-
     eas.connect(signer);
 
-    const recipient = userAddress;
+    const recipient = '0x1caAb8ded4535bF42728feA90aFa7da1ac637E1E';
 
     const tx = await eas.attest({
       data: {
@@ -47,8 +42,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const attestation = await getAttestation(uid);
     console.log('attestation', attestation);
 
-    // res.status(200).json({ recipient: recipient });
-    res.status(200).json({ uid: uid });
+    res.status(200).json({ transaction: signer });
   } catch (error) {
     console.error('errorDebug', error);
     res.status(500).json('certificate creation failed');
