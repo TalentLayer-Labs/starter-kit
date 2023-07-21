@@ -26,7 +26,10 @@ function getChainId() {
 }
 
 export const CHAINID = getChainId();
-invariant(CHAINID, 'No chain ID env found');
+
+if (!CHAINID) {
+  throw new Error('No chain ID env found');
+}
 
 export const EAS_CHAIN_CONFIGS: EASChainConfig[] = [
   {
@@ -46,7 +49,10 @@ export const activeChainConfig = EAS_CHAIN_CONFIGS.find(config => config.chainId
 
 export const baseURL = `https://${activeChainConfig!.subdomain}easscan.org`;
 
-invariant(activeChainConfig, 'No chain config found for chain ID');
+if (!activeChainConfig) {
+  throw new Error('No active chain config found');
+}
+
 export const EASContractAddress = activeChainConfig.contractAddress;
 
 export const EASVersion = activeChainConfig.version;
