@@ -132,3 +132,14 @@ export const delegateMintID = async (
     throw err;
   }
 };
+
+export const createAttestation = async (userAddress: string): Promise<any> => {
+  try {
+    return await axios.post('/api/eas/create-attestation', {
+      userAddress,
+    });
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};

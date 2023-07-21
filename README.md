@@ -1,3 +1,9 @@
+
+When delpoying to prod dont forget this:
+NEXTAUTH_URL=https://example.com
+
+
+
 # StarterKit
 
 A Ready to Use NextJS dapp using TalentLayer & XMTP protocols.

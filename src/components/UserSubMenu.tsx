@@ -18,7 +18,7 @@ function UserSubMenu() {
   return (
     <div
       role='menu'
-      className='divide-gray-700 border-gray-700 bg-endnight mt-2 w-64 origin-top-right divide-y rounded-md border shadow-lg focus:outline-none'>
+      className='divide-gray-700 border-gray-700 bg-endnight mt-2 w-64 origin-top-right divide-y rounded-md border shadow-lg focus:outline-none z-20'>
       <div className='p-6 text-center' role='none'>
         <div
           className='relative mx-auto flex h-20 w-20 items-center justify-center rounded-full'
