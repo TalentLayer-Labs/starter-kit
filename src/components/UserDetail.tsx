@@ -5,7 +5,6 @@ import PohModule from '../modules/Poh/PohModule';
 import { IUser } from '../types';
 import Loading from './Loading';
 import Stars from './Stars';
-import CreateAttestation from './CreateAttestationTest';
 import UserTrustScore from './UserTrustScore';
 
 function UserDetail({ user }: { user: IUser }) {
@@ -18,7 +17,6 @@ function UserDetail({ user }: { user: IUser }) {
 
   return (
     <>
-      <CreateAttestation />
       <div className='rounded-xl p-4 border border-gray-700 text-white bg-endnight'>
         <div className='flex'>
           <div className='w-9/12'>
