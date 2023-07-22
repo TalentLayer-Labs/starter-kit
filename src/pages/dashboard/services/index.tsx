@@ -1,7 +1,5 @@
 import { useRouter } from 'next/router';
-import SearchServiceButton from '../../../components/Form/SearchServiceButton';
 import Loading from '../../../components/Loading';
-import ServiceItem from '../../../components/ServiceItem';
 import useServices from '../../../hooks/useServices';
 import { IService, ServiceStatusEnum } from '../../../types';
 import Link from 'next/link';

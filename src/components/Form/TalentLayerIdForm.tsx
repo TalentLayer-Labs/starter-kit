@@ -10,8 +10,6 @@ import TalentLayerID from '../../contracts/ABI/TalentLayerID.json';
 import { createTalentLayerIdTransactionToast, showErrorTransactionToast } from '../../utils/toast';
 import HelpPopover from '../HelpPopover';
 import SubmitButton from './SubmitButton';
-import { HandlePrice } from './handle-price';
-import { delegateMintID } from '../request';
 import { useChainId } from '../../hooks/useChainId';
 import { useConfig } from '../../hooks/useConfig';
 
@@ -61,19 +59,10 @@ function TalentLayerIdForm() {
 
         const handlePrice = await contract.getHandlePrice(submittedValues.handle);
 
-        if (process.env.NEXT_PUBLIC_ACTIVE_DELEGATE_MINT === 'true') {
-          const response = await delegateMintID(
-            chainId,
-            submittedValues.handle,
-            handlePrice,
-            account.address,
-          );
-          tx = response.data.transaction;
-        } else {
-          tx = await contract.mint(process.env.NEXT_PUBLIC_PLATFORM_ID, submittedValues.handle, {
-            value: handlePrice,
-          });
-        }
+        tx = await contract.mint(process.env.NEXT_PUBLIC_PLATFORM_ID, submittedValues.handle, {
+          value: handlePrice,
+        });
+
         await createTalentLayerIdTransactionToast(
           chainId,
           {
@@ -115,7 +104,6 @@ function TalentLayerIdForm() {
             </div>
 
             <div className='flex items-center'>
-              {values.handle && <HandlePrice handle={values.handle} />}
               <div>
                 <div className='sm:pl-2 sm:pr-4 sm:space-x-4 relative'>
                   <SubmitButton isSubmitting={isSubmitting} />
