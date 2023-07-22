@@ -3,7 +3,7 @@ import Steps from '../../components/Steps';
 import UserDetail from '../../components/UserDetail';
 import StarterKitContext from '../../context/starterKit';
 import Link from 'next/link';
-import { PencilSquareIcon } from '@heroicons/react/24/outline';
+import { EyeIcon, PencilSquareIcon } from '@heroicons/react/24/outline';
 import Attestations from '../../modules/Eas/components/Attestations';
 import { useAccount } from 'wagmi';
 import { ResolvedAttestation } from '../../modules/Eas/utils/types';
@@ -85,10 +85,24 @@ function Dashboard() {
           </p>
           <Link
             href={`/dashboard/profile/edit`}
-            className=' hover:bg-endnight text-white bg-endnight px-3 py-2 text-sm flex items-center rounded-xl'>
+            className=' hover:bg-endnight text-white bg-endnight px-3 mr-2 py-2 text-sm flex items-center rounded-xl'>
             <PencilSquareIcon className='w-[18px] h-[18px] text-redpraha mr-2' />
             Edit
           </Link>
+          <span
+            className='hover:bg-endnight text-white bg-endnight px-3 py-2 text-sm flex items-center rounded-xl mr-2'
+            onClick={() => {
+              const iframe = window.document.getElementById('iframe-container');
+              let about = document.querySelector('#about').textContent;
+              let title = document.querySelector('#title').textContent;
+              window.document.querySelector('iframe').src = `http://localhost:3000/public-templates/template-1/index.html?title=${title}&about=${about}`;
+              window.setTimeout(function() {
+                iframe.style.display = 'block';
+              },100)
+            }}>
+          <EyeIcon className='w-[18px] h-[18px] text-redpraha mr-2' />
+          See your public page
+        </span>
         </div>
       </div>
 

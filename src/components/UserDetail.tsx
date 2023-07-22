@@ -37,7 +37,9 @@ function UserDetail({ user, score }: { user: IUser; score: number }) {
                 />
                 <div className='flex flex-col'>
                   <p className='text-gray-100 font-medium break-all'>{user?.handle}</p>
-                  <p className='text-gray-400 text-xs'>{userDescription?.title}</p>
+                  <p id='title' className='text-gray-400 text-xs'>
+                    {userDescription?.title}
+                  </p>
                 </div>
               </div>
             </div>
@@ -52,7 +54,7 @@ function UserDetail({ user, score }: { user: IUser; score: number }) {
           {/*/>*/}
           <UserHuskyScore user={user} score={score} />
         </div>
-        <div className=' border-t border-gray-700 pt-2 w-full'>
+        <div className='border-t border-gray-700 pt-2 w-full'>
           {userDescription?.name && (
             <p className='text-sm text-gray-400 mt-4'>
               <strong>Name:</strong> {userDescription?.name}
@@ -62,7 +64,7 @@ function UserDetail({ user, score }: { user: IUser; score: number }) {
             <strong>Skills:</strong> {userDescription?.skills_raw}
           </p>
           <p className='text-sm text-gray-400 mt-4'>
-            <strong>About:</strong> {userDescription?.about}
+            <strong>About:</strong> <span id='about'>{userDescription?.about}</span>
           </p>
           {userDescription?.role && (
             <p className='text-sm text-gray-400 mt-4'>
