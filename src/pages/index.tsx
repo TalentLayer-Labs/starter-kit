@@ -481,7 +481,7 @@ function Home() {
                     className='wow fadeInUp relative z-10 mx-auto mb-14 w-full max-w-[470px] pb-6 lg:mx-0 lg:mb-0'
                     data-wow-delay='.2s'>
                     <img
-                      src='/images/home/about/about-1-light.png'
+                      src='/images/home/about/about-1-light-2.png'
                       alt='about image'
                       className='mx-auto max-w-full'
                     />
