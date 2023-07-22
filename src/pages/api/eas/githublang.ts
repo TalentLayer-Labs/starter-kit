@@ -5,7 +5,9 @@ import axios from 'axios';
 
 export default async function github(req: NextApiRequest, res: NextApiResponse) {
   const query = req.body;
-  const { username } = query;
+  const { id } = query;
+
+  const userInfo = await axios(`https://api.github.com/user/${id}`);
 
   const accessToken = req.headers;
   const graphQuery = `
@@ -32,7 +34,7 @@ export default async function github(req: NextApiRequest, res: NextApiResponse) 
   try {
     const result = await axios.post(
       'https://api.github.com/graphql',
-      { query: graphQuery, variables: { login: username } },
+      { query: graphQuery, variables: { login: userInfo.data.login } },
       {
         headers: { Authorization: accessToken.authorization },
       },

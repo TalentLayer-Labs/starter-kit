@@ -25,7 +25,7 @@ function Dashboard() {
 
     const response = await axios.post(
       '/api/eas/githublang',
-      { username: data.user.name },
+      { id: data.user?.id },
       {
         headers: { Authorization: `Bearer ${data?.accessToken}` },
       },
