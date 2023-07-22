@@ -9,6 +9,9 @@ const eas = new EAS(EASContractAddress);
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { userAddress, accessToken, userId } = req.body;
+  console.log('userAddress', userAddress);
+  console.log('accessToken', accessToken);
+  console.log('userId', userId);
 
   const langStats = getLanguageStats(userId, accessToken);
   if (!langStats) return;
@@ -16,9 +19,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const githubdata = {
     languageStats: langStats,
   };
+  console.log('githubdata', githubdata);
 
   // Hash the data
   const hashedData = getSHA256Hash(githubdata);
+  console.log('hashedData', hashedData);
 
   try {
     const schemaEncoder = new SchemaEncoder('string dataHash');
