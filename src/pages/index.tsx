@@ -1108,7 +1108,7 @@ function Home() {
               data-wow-delay='.3s'>
               <div className='faq border-b border-stroke last-of-type:border-none'>
                 <button className='faq-btn relative flex w-full justify-between pt-6 pb-1 px-[18px] text-left text-base font-medium text-black  sm:px-[26px] sm:text-lg'>
-                  Why you are so cool
+                  Why you are so cool ?
                 </button>
                 <div className='pb-4 h-auto overflow-hidden px-[18px] sm:px-[26px]'>
                   <p className='text-base text-body'>Cause i'm a Husky</p>
