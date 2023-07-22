@@ -10,13 +10,9 @@ import duration from 'dayjs/plugin/duration';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { ethers } from 'ethers';
 import axios from 'axios';
+import {CUSTOM_SCHEMAS} from "../../../modules/Eas/utils/utils";
 
 export const alchemyApiKey = process.env.REACT_APP_ALCHEMY_API_KEY;
-
-export const CUSTOM_SCHEMAS = {
-  GITHUB_SCHEMA: '0x04e786c276457b4045eca31a80dababf3a3288ed250ff3ab4bf54aec6b3ce709',
-  CONFIRM_SCHEMA: '0xb96446c85ce538c1641a967f23ea11bbb4a390ef745fc5a9905689dbd48bac86',
-};
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
@@ -109,7 +105,7 @@ export async function getAttestationsForAddress(address: string) {
       variables: {
         where: {
           schemaId: {
-            equals: CUSTOM_SCHEMAS.GITHUB_SCHEMA,
+            equals: CUSTOM_SCHEMAS.WORLDCOIN_SCHEMA,
           },
           OR: [
             {

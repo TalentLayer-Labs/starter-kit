@@ -4,7 +4,7 @@ import { getDelegationSigner } from '../utils/delegate';
 import { CUSTOM_SCHEMAS, EASContractAddress, getAttestation } from '../../../modules/Eas/utils/utils';
 import { EAS, SchemaEncoder } from '@ethereum-attestation-service/eas-sdk';
 import { getSHA256Hash } from '../utils/hash-data';
-import getGithubLangStats from '../../../modules/Eas/Github/getGithubLanguageStats';
+import axios from 'axios';
 const eas = new EAS(EASContractAddress);
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -13,18 +13,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   console.log('accessToken', accessToken);
   console.log('userId', userId);
 
-  const langStats = await getGithubLangStats(userId, accessToken);
-
-  const githubData = {
-    languageStats: langStats,
-  };
-  console.log('githubdata', githubData);
-
-  // Hash the data
-  const hashedData = getSHA256Hash(githubData);
-  console.log('hashedData', hashedData);
-
   try {
+    const response = await axios(`/api/worldcoin/verify-worldcoin`);
+
+    const worldCoinData = {
+      userAddress: userAddress,
+      isUnique: true,
+    };
+
+    // Hash the data
+    const hashedData = getSHA256Hash(worldCoinData);
+    console.log('hashedData', hashedData);
+
     const schemaEncoder = new SchemaEncoder('string dataHash');
     console.log('schemaEncoder', schemaEncoder);
 
@@ -51,7 +51,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         revocable: true,
         expirationTime: 0,
       },
-      schema: CUSTOM_SCHEMAS.GITHUB_SCHEMA,
+      schema: CUSTOM_SCHEMAS.WORLDCOIN_SCHEMA,
     });
     console.log('tx', tx);
 
@@ -61,7 +61,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const attestation = await getAttestation(uid);
     console.log('attestation', attestation);
 
-    res.status(200).json({ recipient: recipient, uid: 'uid', githubData: githubData });
+    res.status(200).json({ recipient: recipient, uid: 'uid', githubData: worldCoinData });
   } catch (error) {
     console.error('errorDebug', error);
     res.status(500).json('certificate creation failed');

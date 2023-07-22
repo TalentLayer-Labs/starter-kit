@@ -35,7 +35,7 @@ export default function WorldCoin() {
       signal: '',
       userAddress: address,
     };
-    fetch('/api/verify-worldcoin', {
+    fetch('/api/worldcoin/verify-worldcoin', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -43,6 +43,7 @@ export default function WorldCoin() {
       body: JSON.stringify(reqBody),
     }).then(async (res: Response) => {
       if (res.status == 200) {
+
         console.log('Successfully verified credential.');
       } else {
         throw new Error('Error: ' + (await res.json()).code) ?? 'Unknown error.';

@@ -1,7 +1,11 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { ethers } from 'ethers';
 import { getDelegationSigner } from '../utils/delegate';
-import { CUSTOM_SCHEMAS, EASContractAddress, getAttestation } from '../utils/eas-utils';
+import {
+  CUSTOM_SCHEMAS,
+  EASContractAddress,
+  getAttestation,
+} from '../../../modules/Eas/utils/utils';
 import { EAS, SchemaEncoder } from '@ethereum-attestation-service/eas-sdk';
 import { getSHA256Hash } from '../utils/hash-data';
 import getGithubLangStats from '../../../modules/Eas/Github/getGithubLanguageStats';
