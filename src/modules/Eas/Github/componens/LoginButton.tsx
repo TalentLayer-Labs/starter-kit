@@ -15,7 +15,7 @@ export default function GithubLoginButton() {
   if (session && session.user) {
     return (
       <>
-        <div className='flex gap-2 align-middle justify-center items-center mb-3 border border-gray-700 rounded-xl'>
+        <div className='flex gap-2 align-middle items-center mb-3 border border-gray-700 rounded-xl'>
           <p>✅ Signed in as {session.user.name} </p>
           <button
             className='ml-3 block text-blue-600 bg-red-50 hover:bg-redpraha hover:text-white rounded-xl px-5 py-2.5 text-center'
@@ -29,9 +29,12 @@ export default function GithubLoginButton() {
             Keep this information private{' '}
             <Toggle isChecked={privateState} onChange={() => setPrivate()} />
           </p>
-          <p className='text-xs mb-3'>
+          <p className='text-xs mb-3 mt-3'>
             🔐 Privacy ensured by the{' '}
-            <a href='https://litprotocol.com/' className='text-gray-400 hover:text-blue-400' target='_blank'>
+            <a
+              href='https://litprotocol.com/'
+              className='text-gray-400 hover:text-blue-400'
+              target='_blank'>
               Lit protocol
             </a>
           </p>
