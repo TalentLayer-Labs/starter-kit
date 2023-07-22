@@ -21,7 +21,7 @@ function AddAttestation(props: any) {
     try {
       const result = await createAttestation(
         user.address,
-        data?.accessToken,
+        data?.accessToken || 'missing-token',
         data?.user?.id || 'missing-id',
       );
       console.log('result', result.data.uid);
