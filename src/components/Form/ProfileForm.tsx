@@ -16,6 +16,7 @@ import { useChainId } from '../../hooks/useChainId';
 import { useConfig } from '../../hooks/useConfig';
 import { QuestionMarkCircle } from 'heroicons-react';
 import AddAttestation from '../AddAttestation';
+import {EyeIcon} from "@heroicons/react/24/outline";
 
 interface IFormValues {
   title?: string;
@@ -154,6 +155,44 @@ function ProfileForm({ callback }: { callback?: () => void }) {
 
   return (
     <>
+      <div className='flex mb-3 justify-between content-between w-1/2'>
+        <span
+          className='hover:bg-endnight text-white bg-endnight px-3 py-2 text-sm flex items-center rounded-xl mr-2'
+          onClick={() => {
+            const iframe = window.document.getElementById('iframe-container');
+            window.document.querySelector('iframe').src = `http://localhost:3000/public-templates/template-1/index.html?title=${initialValues.title}`;
+            window.setTimeout(function() {
+              iframe.style.display = 'block';
+            },100)
+          }}>
+          <EyeIcon className='w-[18px] h-[18px] text-redpraha mr-2' />
+          Public page 1
+        </span>
+        <span
+          className='hover:bg-endnight text-white bg-endnight px-3 py-2 text-sm flex items-center rounded-xl mr-2'
+          onClick={() => {
+            const iframe = window.document.getElementById('iframe-container');
+            window.document.querySelector('iframe').src = `http://localhost:3000/public-templates/template-2/index.html?title=${initialValues.title}`;
+            window.setTimeout(function() {
+              iframe.style.display = 'block';
+            },100)
+          }}>
+          <EyeIcon className='w-[18px] h-[18px] text-redpraha mr-2' />
+          Public page 2
+        </span>
+        <span
+          className='hover:bg-endnight text-white bg-endnight px-3 py-2 text-sm flex items-center rounded-xl mr-2'
+          onClick={() => {
+            const iframe = window.document.getElementById('iframe-container');
+            window.document.querySelector('iframe').src = `http://localhost:3000/public-templates/template-3/index.html?title=${initialValues.title}`;
+            window.setTimeout(function() {
+              iframe.style.display = 'block';
+            },100)
+          }}>
+          <EyeIcon className='w-[18px] h-[18px] text-redpraha mr-2' />
+          Public page 3
+        </span>
+      </div>
       <Formik
         initialValues={initialValues}
         enableReinitialize={true}
