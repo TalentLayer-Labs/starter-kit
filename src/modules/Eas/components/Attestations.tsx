@@ -1,5 +1,5 @@
 import { IUser } from '../../../types';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ResolvedAttestation } from '../utils/types';
 import {
   getAttestationsForAddress,
@@ -7,6 +7,8 @@ import {
   getENSNames,
 } from '../utils/utils';
 import { useAccount } from 'wagmi';
+import { ensNames, mockEnsNames, mockTempAttestations } from './mock-data';
+import { AttestationItem } from './AttestationItem';
 
 interface IProps {
   user: IUser;
@@ -23,7 +25,7 @@ function Attestations({ user }: IProps) {
       setLoading(true);
       if (!address) return;
       // const tmpAttestations = await getAttestationsForAddress(address);
-      const tmpAttestations = await getAttestationsForAddress(address);
+      const tmpAttestations = mockTempAttestations;
       console.log('tmpAttestations', tmpAttestations);
 
       const addresses = new Set<string>();
@@ -35,11 +37,13 @@ function Attestations({ user }: IProps) {
 
       const resolvedAttestations: ResolvedAttestation[] = [];
 
-      const ensNames = await getENSNames(Array.from(addresses));
+      // const ensNames = await getENSNames(Array.from(addresses));
+      const ensNames = mockEnsNames;
 
       const uids = tmpAttestations.map(att => att.id);
 
-      const confirmations = await getConfirmationAttestationsForUIDs(uids);
+      // const confirmations = await getConfirmationAttestationsForUIDs(uids);
+      const confirmations = [];
 
       tmpAttestations.forEach(att => {
         const amIAttester = att.attester.toLowerCase() === address.toLowerCase();
@@ -75,7 +79,15 @@ function Attestations({ user }: IProps) {
       <h2 className='mb-6 pb-4 border-b border-gray-gray-200 text-gray-100 font-medium break-all'>
         Your attestations
       </h2>
-      <div className='flex mb-8'></div>
+      <div className='flex flex-col mb-8'>
+        {attestations.map((attestation, i) => <div>{attestation.id}</div>)}
+        {/*{loading && <div>Loading...</div>}*/}
+        {/*{attestations.length > 0 || loading ? (*/}
+        {/*  attestations.map((attestation, i) => <AttestationItem key={i} data={attestation} />)*/}
+        {/*) : (*/}
+        {/*  <div>No one here yet</div>*/}
+        {/*)}*/}
+      </div>
     </>
   );
 }

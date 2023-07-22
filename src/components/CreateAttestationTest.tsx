@@ -15,6 +15,12 @@ function CreateAttestation() {
     return null;
   }
 
+  const handleCreateAttestation = async () => {
+    const attestationData = await createAttestation(user.address, data?.accessToken, data.user?.id);
+    console.log('attestationData', attestationData);
+    return attestationData;
+  };
+
   return (
     <>
       <h2>Get your Github Stats</h2>
@@ -35,7 +41,7 @@ function CreateAttestation() {
       <hr />
       <h2>Start</h2>
       <button
-        onClick={() => createAttestation(user.address, data?.accessToken, data?.user?.id)}
+        onClick={() => handleCreateAttestation()}
         className='block text-blue-600 bg-red-50 hover:bg-redpraha hover:text-white rounded-xl px-5 py-2.5 text-center'
         type='button'
         data-modal-toggle='defaultModal'>
