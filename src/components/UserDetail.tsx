@@ -1,7 +1,6 @@
 import { useContext } from 'react';
 import StarterKitContext from '../context/starterKit';
 import useUserById from '../hooks/useUserById';
-import PohModule from '../modules/Poh/PohModule';
 import { IUser } from '../types';
 import Loading from './Loading';
 import Stars from './Stars';
@@ -38,9 +37,6 @@ function UserDetail({ user }: { user: IUser }) {
                 <div className='flex flex-col'>
                   <p className='text-gray-100 font-medium break-all'>{user?.handle}</p>
                   <p className='text-gray-400 text-xs'>{userDescription?.title}</p>
-                </div>
-                <div className=''>
-                  <PohModule address={user.address} />
                 </div>
               </div>
             </div>
