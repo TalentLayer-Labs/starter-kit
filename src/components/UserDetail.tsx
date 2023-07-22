@@ -4,11 +4,10 @@ import useUserById from '../hooks/useUserById';
 import { IUser } from '../types';
 import Loading from './Loading';
 import Stars from './Stars';
-import UserTrustScore from './UserTrustScore';
-import VerifyButton from '../modules/WorldCoin/components/VerifyButton';
+import UserHuskyScore from './UserHuskyScore';
 import AddAttestation from './AddAttestation';
 
-function UserDetail({ user }: { user: IUser }) {
+function UserDetail({ user, score }: { user: IUser; score: number }) {
   const { user: currentUser } = useContext(StarterKitContext);
   const userDescription = user?.id ? useUserById(user?.id)?.description : null;
 
@@ -44,9 +43,14 @@ function UserDetail({ user }: { user: IUser }) {
             </div>
             <Stars rating={Number(user.rating)} numReviews={user.userStats.numReceivedReviews} />
           </div>
-          <div className={'w-3/12'}>
-            <UserTrustScore user={user} />
-          </div>
+          {/*<img*/}
+          {/*    className={'-p-1'}*/}
+          {/*  src={`/images/husky-white.png`}*/}
+          {/*  width={150}*/}
+          {/*  height={100}*/}
+          {/*  alt='husky logo'*/}
+          {/*/>*/}
+          <UserHuskyScore user={user} score={score} />
         </div>
         <div className=' border-t border-gray-700 pt-2 w-full'>
           {userDescription?.name && (

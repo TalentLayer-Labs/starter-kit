@@ -7,9 +7,9 @@ function Logo({ theme = 'dark' }: { theme?: 'dark' | 'light' }) {
       <Link href='/' className='flex items-center'>
         <Image
           src={'/logo-text-white.png'}
-          width={180}
-          height={36}
-          alt='StarterKit logo'
+          width={100}
+          height={100}
+          alt='Trustky Logo'
           className='-ml-2 sm:ml-0'
         />
       </Link>
