@@ -133,10 +133,16 @@ export const delegateMintID = async (
   }
 };
 
-export const createAttestation = async (userAddress: string): Promise<any> => {
+export const createAttestation = async (
+  userAddress: string,
+  accessToken: string,
+  userId: string,
+): Promise<any> => {
   try {
     return await axios.post('/api/eas/create-attestation', {
       userAddress,
+      accessToken,
+      userId,
     });
   } catch (err) {
     console.error(err);

@@ -15,7 +15,6 @@ import axios from 'axios';
 
 function Dashboard() {
   const { account, user } = useContext(StarterKitContext);
-  const { data } = useSession();
 
   async function fetchGithubData(): Promise<MouseEventHandler<HTMLButtonElement> | undefined> {
     if (!data) {
@@ -54,14 +53,6 @@ function Dashboard() {
 
       {account?.isConnected && user && (
         <div>
-          <div className='mb-6'>
-            <h2>Get your Github Stats</h2>
-            <GithubLoginButton />
-            <button disabled={data?.user.name ? false : true} onClick={fetchGithubData}>
-              Fetch
-            </button>
-            <hr />
-          </div>
           {/* -------------------------- */}
           <div className='mb-6'>
             <UserDetail user={user} />
