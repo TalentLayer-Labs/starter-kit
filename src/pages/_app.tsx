@@ -16,6 +16,7 @@ import { MessagingProvider } from '../modules/Messaging/context/messging';
 import '../styles/globals.css';
 import Layout from './Layout';
 import { SessionProvider } from 'next-auth/react';
+import { PreviewWebsite } from './PreviewWebsite';
 
 const chains: Chain[] = [customChains.polygonMumbai];
 
@@ -64,6 +65,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
           ethereumClient={ethereumClient}
           accentColor='blackWhite'
         />
+        <PreviewWebsite />
       </WagmiConfig>
     </>
   );
