@@ -6,6 +6,7 @@ import Loading from './Loading';
 import Stars from './Stars';
 import UserTrustScore from './UserTrustScore';
 import VerifyButton from '../modules/WorldCoin/components/VerifyButton';
+import AddAttestation from './AddAttestation';
 
 function UserDetail({ user }: { user: IUser }) {
   const { user: currentUser } = useContext(StarterKitContext);
@@ -17,7 +18,7 @@ function UserDetail({ user }: { user: IUser }) {
 
   return (
     <>
-      <CreateAttestation />
+      <AddAttestation />
       {/* <VerifyButton /> */}
       <div className='rounded-xl p-4 border border-gray-700 text-white bg-endnight'>
         <div className='flex'>
