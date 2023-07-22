@@ -1,16 +1,9 @@
 import { useContext, useState } from 'react';
 import Steps from '../../components/Steps';
-import UserBadges from '../../modules/Sismo/components/UserBadges';
 import UserDetail from '../../components/UserDetail';
-import UserGains from '../../components/UserGains';
-import UserPayments from '../../components/UserPayments';
-import UserProposals from '../../components/UserProposals';
-import UserServices from '../../components/UserServices';
 import StarterKitContext from '../../context/starterKit';
 import Link from 'next/link';
 import { PencilSquareIcon } from '@heroicons/react/24/outline';
-import GithubLoginButton from '../../modules/Eas/Github/componens/LoginButton';
-import { useSession } from 'next-auth/react';
 import axios from 'axios';
 
 function Dashboard() {
@@ -42,24 +35,9 @@ function Dashboard() {
           <div className='mb-6'>
             <UserDetail user={user} />
           </div>
-          <div className='mb-6'>
-            <UserBadges user={user} />
-          </div>
-          <div className='mb-6'>
-            <UserPayments user={user} />
-          </div>
-          <div className='mb-6'>
-            <UserGains user={user} />
-          </div>
-          <div className='mb-6'>
-            <UserServices user={user} type='buyer' />
-          </div>
-          <div className='mb-6'>
-            <UserServices user={user} type='seller' />
-          </div>
-          <div className='mb-6'>
-            <UserProposals user={user} />
-          </div>
+          <h2 className='mb-6 pb-4 border-b border-gray-gray-200 text-gray-100 font-medium break-all'>
+            {user.address ? 'Your certificates' : 'Certificates'}:
+          </h2>
         </div>
       )}
     </div>
