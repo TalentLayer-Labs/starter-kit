@@ -274,7 +274,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
                   } hover:cursor-pointer hover:bg-gray-600`}
                   key={index}
                   onClick={activeLvlUpMenu === index ? undefined : () => setActiveLvlUpMenu(index)}>
-                  {menuItem.label}
+                  {menuItem.label} +3
                 </li>
               ))}
             </ul>

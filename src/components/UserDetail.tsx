@@ -43,6 +43,13 @@ function UserDetail({ user, score }: { user: IUser; score: number }) {
             </div>
             <Stars rating={Number(user.rating)} numReviews={user.userStats.numReceivedReviews} />
           </div>
+          {/*<img*/}
+          {/*    className={'-p-1'}*/}
+          {/*  src={`/images/husky-white.png`}*/}
+          {/*  width={150}*/}
+          {/*  height={100}*/}
+          {/*  alt='husky logo'*/}
+          {/*/>*/}
           <UserHuskyScore user={user} score={score} />
         </div>
         <div className=' border-t border-gray-700 pt-2 w-full'>

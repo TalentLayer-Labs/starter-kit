@@ -26,6 +26,12 @@ function UserHuskyScore({ user, score }: { user: IUser; score: number }) {
       onClick={() => {
         push('/dashboard/profile/edit');
       }}>
+        {/*<img*/}
+        {/*    src={`/images/husky-white.png`}*/}
+        {/*    width={150}*/}
+        {/*    height={100}*/}
+        {/*    alt='husky logo'*/}
+        {/*/>*/}
       {/*<UserTrustScore user={user} />*/}
       <ReactStoreIndicator value={score} maxValue={10} width={100} />
       <div className={`circle-text-color-anim score-text text-center`}>
