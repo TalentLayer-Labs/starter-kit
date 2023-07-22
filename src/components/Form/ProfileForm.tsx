@@ -12,7 +12,6 @@ import Loading from '../Loading';
 import SubmitButton from './SubmitButton';
 import useUserById from '../../hooks/useUserById';
 import { SkillsInput } from './skills-input';
-import { delegateUpdateProfileData } from '../request';
 import { useChainId } from '../../hooks/useChainId';
 import { useConfig } from '../../hooks/useConfig';
 import { QuestionMarkCircle } from 'heroicons-react';
@@ -117,17 +116,13 @@ function ProfileForm({ callback }: { callback?: () => void }) {
         );
 
         let tx;
-        if (isActiveDelegate) {
-          const response = await delegateUpdateProfileData(chainId, user.id, user.address, cid);
-          tx = response.data.transaction;
-        } else {
-          const contract = new ethers.Contract(
-            config.contracts.talentLayerId,
-            TalentLayerID.abi,
-            signer,
-          );
-          tx = await contract.updateProfileData(user.id, cid);
-        }
+
+        const contract = new ethers.Contract(
+          config.contracts.talentLayerId,
+          TalentLayerID.abi,
+          signer,
+        );
+        tx = await contract.updateProfileData(user.id, cid);
 
         await createMultiStepsTransactionToast(
           chainId,

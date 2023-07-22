@@ -51,7 +51,7 @@ function Dashboard() {
             <UserDetail user={user} />
           </div>
           <h2 className='mb-6 pb-4 border-b border-gray-gray-200 text-gray-100 font-medium break-all'>
-            {user.address ? 'Your badges' : 'Badges'}:
+            {user.address ? 'Your certificates' : 'Certificates'}:
           </h2>
         </div>
       )}
