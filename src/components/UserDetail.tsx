@@ -17,9 +17,9 @@ function UserDetail({ user }: { user: IUser }) {
   }
 
   return (
-
     <>
       <CreateAttestation />
+      {/* <VerifyButton /> */}
       <div className='rounded-xl p-4 border border-gray-700 text-white bg-endnight'>
         <div className='flex'>
           <div className='w-9/12'>
@@ -40,36 +40,34 @@ function UserDetail({ user }: { user: IUser }) {
                   <p className='text-gray-100 font-medium break-all'>{user?.handle}</p>
                   <p className='text-gray-400 text-xs'>{userDescription?.title}</p>
                 </div>
-
               </div>
             </div>
+            <Stars rating={Number(user.rating)} numReviews={user.userStats.numReceivedReviews} />
           </div>
-          <Stars rating={Number(user.rating)} numReviews={user.userStats.numReceivedReviews} />
+          <div className={'w-3/12'}>
+            <UserTrustScore user={user} />
+          </div>
         </div>
-        <div className={'w-3/12'}>
-          <UserTrustScore user={user} />
+        <div className=' border-t border-gray-700 pt-2 w-full'>
+          {userDescription?.name && (
+            <p className='text-sm text-gray-400 mt-4'>
+              <strong>Name:</strong> {userDescription?.name}
+            </p>
+          )}
+          <p className='text-sm text-gray-400 mt-4'>
+            <strong>Skills:</strong> {userDescription?.skills_raw}
+          </p>
+          <p className='text-sm text-gray-400 mt-4'>
+            <strong>About:</strong> {userDescription?.about}
+          </p>
+          {userDescription?.role && (
+            <p className='text-sm text-gray-400 mt-4'>
+              <strong>Role:</strong> {userDescription?.role}
+            </p>
+          )}
         </div>
-      </div>
-      <div className=' border-t border-gray-700 pt-2 w-full'>
-        {userDescription?.name && (
-          <p className='text-sm text-gray-400 mt-4'>
-            <strong>Name:</strong> {userDescription?.name}
-          </p>
-        )}
-        <p className='text-sm text-gray-400 mt-4'>
-          <strong>Skills:</strong> {userDescription?.skills_raw}
-        </p>
-        <p className='text-sm text-gray-400 mt-4'>
-          <strong>About:</strong> {userDescription?.about}
-        </p>
-        {userDescription?.role && (
-          <p className='text-sm text-gray-400 mt-4'>
-            <strong>Role:</strong> {userDescription?.role}
-          </p>
-        )}
-      </div>
 
-      {/* {currentUser?.id === user.id && (
+        {/* {currentUser?.id === user.id && (
         <div className=' border-t border-gray-700 pt-4 w-full mt-4'>
           <div className='flex flex-row gap-4 justify-end items-center'>
             <Link
@@ -81,8 +79,8 @@ function UserDetail({ user }: { user: IUser }) {
           </div>
         </div>
       )} */}
-    </div>
-      </>
+      </div>
+    </>
   );
 }
 
