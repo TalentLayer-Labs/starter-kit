@@ -13,15 +13,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   console.log('accessToken', accessToken);
   console.log('userId', userId);
 
-  const langStats = getGithubLangStats(userId, accessToken);
+  const langStats = await getGithubLangStats(userId, accessToken);
 
-  const githubdata = {
+  const githubData = {
     languageStats: langStats,
   };
-  console.log('githubdata', githubdata);
+  console.log('githubdata', githubData);
 
   // Hash the data
-  const hashedData = getSHA256Hash(githubdata);
+  const hashedData = getSHA256Hash(githubData);
   console.log('hashedData', hashedData);
 
   try {
@@ -61,7 +61,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const attestation = await getAttestation(uid);
     console.log('attestation', attestation);
 
-    res.status(200).json({ recipient: recipient, uid: 'uid' });
+    res.status(200).json({ recipient: recipient, uid: 'uid', githubData: githubData });
   } catch (error) {
     console.error('errorDebug', error);
     res.status(500).json('certificate creation failed');

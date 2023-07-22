@@ -5,6 +5,7 @@ import StarterKitContext from '../../context/starterKit';
 import Link from 'next/link';
 import { PencilSquareIcon } from '@heroicons/react/24/outline';
 import axios from 'axios';
+import Attestations from "../../modules/Eas/components/Attestations";
 
 function Dashboard() {
   const { account, user } = useContext(StarterKitContext);
@@ -18,7 +19,7 @@ function Dashboard() {
       <div className=' -mx-6 -mt-6 '>
         <div className='flex py-2 px-6 items-center border-b w-full border-gray-700 mb-8'>
           <p className='text-2xl font-medium flex-1'>
-            Get started with your <span className='text-gray-100 ml-1'> Husky-Atestation </span>!
+            Get started with your <span className='text-gray-100 ml-1'> Husky-Attestation </span>!
           </p>
           <Link
             href={`/dashboard/profile/edit`}
@@ -35,9 +36,9 @@ function Dashboard() {
           <div className='mb-6'>
             <UserDetail user={user} />
           </div>
-          <h2 className='mb-6 pb-4 border-b border-gray-gray-200 text-gray-100 font-medium break-all'>
-            {user.address ? 'Your certificates' : 'Certificates'}:
-          </h2>
+          <div>
+            <Attestations />
+          </div>
         </div>
       )}
     </div>
