@@ -4,6 +4,7 @@ import Loading from './Loading';
 import StarterKitContext from '../context/starterKit';
 import GithubLoginButton from '../modules/Eas/Github/componens/LoginButton';
 import { useSession } from 'next-auth/react';
+import WorldCoin from '../pages/worldcoin';
 
 function AddAttestation(props: any) {
   const { user } = useContext(StarterKitContext);
@@ -48,7 +49,22 @@ function AddAttestation(props: any) {
       {loading && <Loading />}
       <p className={messageClass}>{message}</p>
       {props.type === 'github' && <GithubLoginButton />}
+      {props.type === 'worldcoin' && <WorldCoin />}
       {props.type === 'github' && data && (
+        <>
+          <hr />
+          <div className='flex align-middle justify-center align-middle'>
+            <button
+              onClick={handleAttestationCreation}
+              className='mt-3 block text-blue-600 bg-red-50 hover:bg-redpraha hover:text-white rounded-xl px-5 py-2.5 text-center'
+              type='button'
+              data-modal-toggle='defaultModal'>
+              Create Attestation
+            </button>
+          </div>
+        </>
+      )}
+      {props.type === 'worldcoin' && data && (
         <>
           <hr />
           <div className='flex align-middle justify-center align-middle'>

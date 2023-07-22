@@ -6,7 +6,6 @@ import Loading from './Loading';
 import Stars from './Stars';
 import UserTrustScore from './UserTrustScore';
 import VerifyButton from '../modules/WorldCoin/components/VerifyButton';
-import WorldCoin from '../pages/worldcoin';
 import AddAttestation from './AddAttestation';
 
 function UserDetail({ user }: { user: IUser }) {
@@ -20,7 +19,7 @@ function UserDetail({ user }: { user: IUser }) {
   return (
     <>
       <AddAttestation />
-      <WorldCoin />
+
       <div className='rounded-xl p-4 border border-gray-700 text-white bg-endnight'>
         <div className='flex'>
           <div className='w-9/12'>
@@ -40,9 +39,6 @@ function UserDetail({ user }: { user: IUser }) {
                 <div className='flex flex-col'>
                   <p className='text-gray-100 font-medium break-all'>{user?.handle}</p>
                   <p className='text-gray-400 text-xs'>{userDescription?.title}</p>
-                </div>
-                <div className=''>
-                  <PohModule address={user.address} />
                 </div>
               </div>
             </div>
