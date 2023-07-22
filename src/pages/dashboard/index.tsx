@@ -34,7 +34,7 @@ function Dashboard() {
         <div>
           {/* -------------------------- */}
           <div className='mb-6'>
-            <UserDetail user={user} />
+            <UserDetail user={user} score={5} />
           </div>
           <div>
             <Attestations />

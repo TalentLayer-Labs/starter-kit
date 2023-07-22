@@ -34,6 +34,7 @@
     "react-dom": "^18.2.0",
     "react-icons": "^4.10.1",
     "react-router-dom": "^6.4.2",
+    "react-score-indicator": "^2.2.1",
     "react-toastify": "^9.1.1",
     "siwe": "^2.1.4",
     "styled-components": "^6.0.5",

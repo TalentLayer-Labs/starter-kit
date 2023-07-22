@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import StarterKitContext from '../context/starterKit';
 import useUserById from '../hooks/useUserById';
 import { IUser } from '../types';
@@ -6,11 +6,15 @@ import Loading from './Loading';
 import Stars from './Stars';
 import UserTrustScore from './UserTrustScore';
 import VerifyButton from '../modules/WorldCoin/components/VerifyButton';
+import ReactStoreIndicator from 'react-score-indicator';
 import AddAttestation from './AddAttestation';
+import { useRouter } from 'next/navigation';
 
-function UserDetail({ user }: { user: IUser }) {
+function UserDetail({ user, score }: { user: IUser; score: number }) {
   const { user: currentUser } = useContext(StarterKitContext);
   const userDescription = user?.id ? useUserById(user?.id)?.description : null;
+  const [isHovered, setIsHovered] = useState(false);
+  const { push } = useRouter();
 
   if (!user?.id) {
     return <Loading />;
@@ -44,8 +48,26 @@ function UserDetail({ user }: { user: IUser }) {
             </div>
             <Stars rating={Number(user.rating)} numReviews={user.userStats.numReceivedReviews} />
           </div>
-          <div className={'w-3/12'}>
-            <UserTrustScore user={user} />
+          <div
+            className={'w-3/12 cursor-pointer'}
+            onMouseEnter={() => {
+              setIsHovered(true);
+            }}
+            onMouseLeave={() => {
+              setIsHovered(false);
+            }}
+            onClick={() => {
+              push('/dashboard/profile/edit');
+            }}>
+            {/*<UserTrustScore user={user} />*/}
+            <ReactStoreIndicator value={score} maxValue={10} width={100} />
+            <div className={`circle-text-color-anim score-text text-center`}>
+              {currentUser?.id === user.id ? (
+                <>{isHovered ? 'Improve it 🚀' : 'Husky Score'}</>
+              ) : (
+                <>TrustyScore</>
+              )}
+            </div>
           </div>
         </div>
         <div className=' border-t border-gray-700 pt-2 w-full'>
