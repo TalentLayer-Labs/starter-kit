@@ -1,10 +1,8 @@
 import { useRouter } from 'next/router';
 import Loading from '../../../components/Loading';
 import UserDetail from '../../../components/UserDetail';
-import UserServices from '../../../components/UserServices';
 import useUserById from '../../../hooks/useUserById';
 import LensModule from '../../../modules/Lens/LensModule';
-import UserBadges from '../../../modules/Sismo/components/UserBadges';
 
 function Profile() {
   const router = useRouter();
@@ -26,7 +24,7 @@ function Profile() {
           </div>
           <div>
             <div className='mb-6'>
-              <UserDetail user={user} />
+              <UserDetail user={user} score={0} />
             </div>
             <div className='mb-6'>
               <LensModule address={user.address} />

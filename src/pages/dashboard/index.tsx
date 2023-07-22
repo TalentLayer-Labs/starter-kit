@@ -9,7 +9,8 @@ import { useAccount } from 'wagmi';
 import { ResolvedAttestation } from '../../modules/Eas/utils/types';
 import { CUSTOM_SCHEMAS } from '../../modules/Eas/utils/utils';
 import { mockEnsNames, mockTempAttestations } from '../../modules/Eas/components/mock-data';
-import {getAttestationsForAddress} from "../api/utils/eas-utils";
+import { getAttestationsForAddress } from '../api/utils/eas-utils';
+import LensModule from '../../modules/Lens/LensModule';
 
 function Dashboard() {
   const { account, user } = useContext(StarterKitContext);
@@ -90,6 +91,7 @@ function Dashboard() {
             <PencilSquareIcon className='w-[18px] h-[18px] text-redpraha mr-2' />
             Edit
           </Link>
+          <LensModule address={user.address} />
         </div>
       </div>
 
