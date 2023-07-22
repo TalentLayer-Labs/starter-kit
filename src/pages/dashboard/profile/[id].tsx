@@ -29,15 +29,6 @@ function Profile() {
               <UserDetail user={user} />
             </div>
             <div className='mb-6'>
-              <UserBadges user={user} />
-            </div>
-            <div className='mb-6'>
-              <UserServices user={user} type='buyer' />
-            </div>
-            <div className='mb-6'>
-              <UserServices user={user} type='seller' />
-            </div>
-            <div className='mb-6'>
               <LensModule address={user.address} />
             </div>
           </div>

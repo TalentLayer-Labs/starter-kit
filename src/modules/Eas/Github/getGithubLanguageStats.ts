@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export default async function getLanguageStats(userId: string, accessToken: string) {
+export default async function getGithubLangStats(userId: string, accessToken: string) {
   const userInfo = await axios(`https://api.github.com/user/${userId}}`);
 
   const graphQuery = `
@@ -29,7 +29,7 @@ export default async function getLanguageStats(userId: string, accessToken: stri
       'https://api.github.com/graphql',
       { query: graphQuery, variables: { login: userInfo.data.login } },
       {
-        headers: { Authorization: accessToken },
+        headers: { Authorization: `Bearer ${accessToken}` },
       },
     );
 
@@ -73,7 +73,7 @@ export default async function getLanguageStats(userId: string, accessToken: stri
 
     return langRanking;
   } catch (err) {
-    console.log(err);
+    console.log(err, 'github');
     return null;
   }
 }

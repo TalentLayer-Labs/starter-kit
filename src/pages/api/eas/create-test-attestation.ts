@@ -5,24 +5,42 @@ import { CUSTOM_SCHEMAS, EASContractAddress, getAttestation } from '../utils/eas
 import { EAS, SchemaEncoder } from '@ethereum-attestation-service/eas-sdk';
 import { getSHA256Hash } from '../utils/hash-data';
 import getGithubLangStats from '../../../modules/Eas/Github/getGithubLanguageStats';
+import getWakatimeStats from '../../../modules/Eas/Wakatime/getWakatimeStats';
 const eas = new EAS(EASContractAddress);
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { userAddress, accessToken, userId } = req.body;
+  const {
+    userAddress,
+    accessToken: githubUseraccessToken,
+    userId: githubUserId,
+    wakatimeHandle,
+  } = req.body;
   console.log('userAddress', userAddress);
-  console.log('accessToken', accessToken);
-  console.log('userId', userId);
+  console.log('accessToken', githubUseraccessToken);
+  console.log('userId', githubUserId);
+  console.log('wakatimeHandle', wakatimeHandle);
 
-  const langStats = getGithubLangStats(userId, accessToken);
+  let githubLangStats = null;
+  if (githubUserId) {
+    githubLangStats = await getGithubLangStats(githubUserId, githubUseraccessToken);
+  }
 
-  const githubdata = {
-    languageStats: langStats,
+  let wakatimeStats = null;
+  if (wakatimeHandle) {
+    wakatimeStats = await getWakatimeStats(wakatimeHandle);
+  }
+
+  const toAttestate = {
+    githubLanguageStats: githubLangStats,
+    wakatimeStats: wakatimeStats,
   };
-  console.log('githubdata', githubdata);
 
-  // Hash the data
-  const hashedData = getSHA256Hash(githubdata);
-  console.log('hashedData', hashedData);
+  const hashedData = Object.entries(toAttestate)
+    .map(([key, value]) => ({
+      name: key,
+      hash: value ? getSHA256Hash(value) : null,
+    }))
+    .filter(({ hash }) => hash);
 
   try {
     const schemaEncoder = new SchemaEncoder('string dataHash');
@@ -61,7 +79,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const attestation = await getAttestation(uid);
     console.log('attestation', attestation);
 
-    res.status(200).json({ recipient: recipient, uid: 'uid' });
+    res.status(200).json({ recipient: recipient });
+    res.status(200).json({ uid: uid });
   } catch (error) {
     console.error('errorDebug', error);
     res.status(500).json('certificate creation failed');
