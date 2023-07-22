@@ -8,6 +8,7 @@
     "@headlessui/react": "^1.7.3",
     "@heroicons/react": "^2.0.12",
     "@leap-ai/sdk": "^0.0.119",
+    "@lit-protocol/lit-node-client": "^2.2.45",
     "@types/node": "^16.18.0",
     "@types/react": "^18.0.23",
     "@types/react-dom": "^18.0.7",
@@ -32,6 +33,7 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.4.2",
     "react-toastify": "^9.1.1",
+    "siwe": "^2.1.4",
     "wagmi": "^0.8.5",
     "yup": "^0.32.11",
     "zksync-web3": "^0.14.3"
