@@ -11,12 +11,14 @@ export default async function getWakatimeStats(handle: string) {
       response = await axios.get(url);
       data = response.data;
     }
-    const stats = {
-      // textCodingTimeRecordet: data.categories[0].text,
-      // from_date: data.categories.start_date,
-      // to_date: data.categories.end_date,
-    };
 
+    console.log('FORNTIE', data.data);
+
+    const stats = {
+      timeout: data.data.timeout,
+      daily_average: data.data.human_readable_daily_average_including_other_language,
+      main_os: data.data.operating_systems[0].name,
+    };
     return stats;
   } catch (err) {
     console.log(err, 'WAKATIME');
