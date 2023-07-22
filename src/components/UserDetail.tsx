@@ -4,7 +4,6 @@ import useUserById from '../hooks/useUserById';
 import { IUser } from '../types';
 import Loading from './Loading';
 import Stars from './Stars';
-import CreateAttestation from './CreateAttestationTest';
 import UserTrustScore from './UserTrustScore';
 import VerifyButton from '../modules/WorldCoin/components/VerifyButton';
 
