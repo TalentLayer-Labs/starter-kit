@@ -42,6 +42,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     eas.connect(signer);
 
     const recipient = userAddress;
+    console.log('recipient', recipient);
 
     const tx = await eas.attest({
       data: {

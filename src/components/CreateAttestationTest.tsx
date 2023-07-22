@@ -9,9 +9,9 @@ function CreateAttestation() {
   const { user } = useContext(StarterKitContext);
   const { data } = useSession();
 
-  if (!data?.user) {
-    return null;
-  }
+  // if (!data?.user) {
+  //   return null;
+  // }
 
   if (!user) {
     return null;
