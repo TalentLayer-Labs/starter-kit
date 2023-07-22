@@ -1,42 +1,76 @@
+**Trustky - Private Resume Builder**
 
-When delpoying to prod dont forget this:
-NEXTAUTH_URL=https://example.com
+![Trustky Logo](https://i.imgur.com/oO08xKS.jpg)
 
+**Table of Contents**
 
+- [Introduction](#introduction)
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Data Security and Privacy](#data-security-and-privacy)
+- [Contributing](#contributing)
+- [License](#license)
 
-# StarterKit
+## Introduction
 
-A Ready to Use NextJS dapp using TalentLayer & XMTP protocols.
-All essential components to start building an amazing dapp with interoperable work and messaging
+Trustky is a cutting-edge resume builder designed with privacy and data security as its core principles. It empowers users to create their perfect resumes while ensuring full control over their personal data. With Trustky, users can fetch credentials from platforms like GitHub, LinkedIn, and Upwork, decide which information to make public, and encrypt the rest for added privacy.
 
-## Start building in 60 seconds
+## Features
 
-- Fork the code
-- Clone your new repository
-- `cp .env.example .env`
-- `npm install`
-- `npm run dev`
+- **Privacy-Centric:** Trustky places user privacy above all else. Users decide what information is visible to the public and what remains encrypted.
+- **Data Encryption:** Industry-standard encryption methods, such as AES, are employed to protect sensitive user data from unauthorized access.
+- **Customizable Visibility:** Users can choose which resume sections require access approval, granting them complete control over their portfolio's privacy settings.
+- **Data Access Requests:** Trustky allows users to request access to specific parts of another user's encrypted data, ensuring consent is obtained before access is granted.
+- **User-Friendly Interface:** A simple and intuitive user interface makes resume building a seamless experience for all users.
+- **Privacy Compliance:** Trustky adheres to the highest privacy standards, ensuring compliance with GDPR and other data protection regulations.
 
-## 🛠️ TalentLayer
+## Installation
 
-TalentLayer is an open protocol and dev toolkit for hiring applications. You can use it to build platforms that leverage a unified decentralized backend for job posts, escrow, user profiles, and reputations.
+1. Clone the Trustky repository:
 
-### Developer Resources
+```
+git clone https://github.com/trustky-protocol/trustky.git
+```
 
-**Introduction:** [Read here.](https://docs.talentlayer.org/)
+2. Install the required dependencies:
 
-**Documentation:** [Read here.](https://docs.talentlayer.org/technical-guides)
+```
+npm install
+```
 
-**XMTP & TL:** [Read here.](https://docs.talentlayer.org/technical-guides/messaging/integrating-xmtp)
+3. Copy the .env.template file to .env and update the env variables:
 
-## 🗨 XMTP
+```
+cp .env.template .env
+```
 
-XMTP is an open protocol and dev toolkit for messaging applications. You can use it to build peer-to-peer messaging 
+4. Run the application:
 
-### Developer Resources
+```
+npm start
+```
 
-**Introduction:** [Read here.](https://xmtp.org/docs/dev-concepts/introduction)
+## Usage
 
-**Documentation:** [Read here.](https://xmtp.org/docs/dev-concepts/start-building)
+1. Navigate to Trustky in your web browser.
 
-**Example DAPP Tutorial:** [Read here.](https://xmtp.org/docs/client-sdk/javascript/tutorials/build-an-xmtp-hello-world-app)
+2. Sign up for an account or log in if you already have one.
+
+3. Grant permission to fetch your credentials from platforms like GitHub, LinkedIn, and Upwork.
+
+4. Customize the visibility of your resume sections according to your preferences.
+
+5. Enjoy building your resume with full control over your privacy!
+
+## Data Security and Privacy
+
+At Trustky, we take data security and privacy seriously. All user data is encrypted using robust Lit Protocol, and access is strictly controlled. 
+
+## Contributing
+
+We welcome contributions from the community to make Trustky even better. 
+
+## License
+
+Trustky is open-source software licensed under the [MIT License](https://opensource.org/licenses/MIT). Feel free to use, modify, and distribute it according to the terms of the license.
