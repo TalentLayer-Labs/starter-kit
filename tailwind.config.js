@@ -8,7 +8,7 @@ module.exports = {
     colors: {
       ...colors,
       midnight: '#0f172a',
-      endnight: '#1e293b',
+      endnight: '#1e295a',
       redpraha: '#F26D6D',
       yellowpraha: '#fff490',
       bluepraha: '#90f6ff',
