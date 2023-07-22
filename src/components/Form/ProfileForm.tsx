@@ -46,6 +46,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
   const [activeLvlUpMenu, setActiveLvlUpMenu] = useState(0);
   const menuItems = [
     { label: 'Github', content: <AddAttestation type='github' /> },
+    { label: 'WorldCoin', content: <AddAttestation type='worldcoin' /> },
     { label: 'LinkedIn', content: <AddAttestation type='linkedIn' /> },
     { label: 'Upwork', content: <AddAttestation type='upwork' /> },
     { label: 'Malt', content: <AddAttestation type='malt' /> },
