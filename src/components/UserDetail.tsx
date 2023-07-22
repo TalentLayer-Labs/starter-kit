@@ -1,7 +1,6 @@
 import { useContext } from 'react';
 import StarterKitContext from '../context/starterKit';
 import useUserById from '../hooks/useUserById';
-import PohModule from '../modules/Poh/PohModule';
 import { IUser } from '../types';
 import Loading from './Loading';
 import Stars from './Stars';
@@ -18,31 +17,30 @@ function UserDetail({ user }: { user: IUser }) {
   }
 
   return (
-      <>
-        <CreateAttestation />
-        <VerifyButton />
-    <div className='rounded-xl p-4 border border-gray-700 text-white bg-endnight'>
-      <div className='flex'>
-        <div className='w-9/12'>
-          <div className='flex flex-col justify-start items-start gap-4'>
-            <div className='flex items-center justify-start mb-4'>
-              <img
-                src={
-                  user?.description?.image_url
-                    ? user?.description?.image_url
-                    : `/images/default-avatar-${Number(user?.id ? user.id : '1') % 9}.jpeg`
-                }
-                className='w-10 mr-4 rounded-full'
-                width={50}
-                height={50}
-                alt='default avatar'
-              />
-              <div className='flex flex-col'>
-                <p className='text-gray-100 font-medium break-all'>{user?.handle}</p>
-                <p className='text-gray-400 text-xs'>{userDescription?.title}</p>
-              </div>
-              <div className=''>
-                <PohModule address={user.address} />
+
+    <>
+      <CreateAttestation />
+      <div className='rounded-xl p-4 border border-gray-700 text-white bg-endnight'>
+        <div className='flex'>
+          <div className='w-9/12'>
+            <div className='flex flex-col justify-start items-start gap-4'>
+              <div className='flex items-center justify-start mb-4'>
+                <img
+                  src={
+                    user?.description?.image_url
+                      ? user?.description?.image_url
+                      : `/images/default-avatar-${Number(user?.id ? user.id : '1') % 9}.jpeg`
+                  }
+                  className='w-10 mr-4 rounded-full'
+                  width={50}
+                  height={50}
+                  alt='default avatar'
+                />
+                <div className='flex flex-col'>
+                  <p className='text-gray-100 font-medium break-all'>{user?.handle}</p>
+                  <p className='text-gray-400 text-xs'>{userDescription?.title}</p>
+                </div>
+
               </div>
             </div>
           </div>
