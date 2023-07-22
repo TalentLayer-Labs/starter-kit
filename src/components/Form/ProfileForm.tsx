@@ -160,37 +160,40 @@ function ProfileForm({ callback }: { callback?: () => void }) {
           className='hover:bg-endnight text-white bg-endnight px-3 py-2 text-sm flex items-center rounded-xl mr-2'
           onClick={() => {
             const iframe = window.document.getElementById('iframe-container');
-            window.document.querySelector('iframe').src = `http://localhost:3000/public-templates/template-1/index.html?title=${initialValues.title}`;
+            let about = document.querySelector('#about').value;
+            window.document.querySelector('iframe').src = `http://localhost:3000/public-templates/template-1/index.html?title=${initialValues.title}&about=${about}`;
             window.setTimeout(function() {
               iframe.style.display = 'block';
             },100)
           }}>
           <EyeIcon className='w-[18px] h-[18px] text-redpraha mr-2' />
-          Public page 1
+          See public page 1
         </span>
         <span
           className='hover:bg-endnight text-white bg-endnight px-3 py-2 text-sm flex items-center rounded-xl mr-2'
           onClick={() => {
             const iframe = window.document.getElementById('iframe-container');
-            window.document.querySelector('iframe').src = `http://localhost:3000/public-templates/template-2/index.html?title=${initialValues.title}`;
+            let about = document.querySelector('#about').value;
+            window.document.querySelector('iframe').src = `http://localhost:3000/public-templates/template-2/index.html?title=${initialValues.title}&about=${about}`;
             window.setTimeout(function() {
               iframe.style.display = 'block';
             },100)
           }}>
           <EyeIcon className='w-[18px] h-[18px] text-redpraha mr-2' />
-          Public page 2
+          See public page 2
         </span>
         <span
           className='hover:bg-endnight text-white bg-endnight px-3 py-2 text-sm flex items-center rounded-xl mr-2'
           onClick={() => {
             const iframe = window.document.getElementById('iframe-container');
-            window.document.querySelector('iframe').src = `http://localhost:3000/public-templates/template-3/index.html?title=${initialValues.title}`;
+            let about = document.querySelector('#about').value;
+            window.document.querySelector('iframe').src = `http://localhost:3000/public-templates/template-3/index.html?title=${initialValues.title}&about=${about}`;
             window.setTimeout(function() {
               iframe.style.display = 'block';
             },100)
           }}>
           <EyeIcon className='w-[18px] h-[18px] text-redpraha mr-2' />
-          Public page 3
+          See public page 3
         </span>
       </div>
       <Formik

@@ -25,7 +25,7 @@
 						<div class="content">
 							<div class="inner">
 								<h1 id="title">Dimension</h1>
-								<p>A fully responsive site template designed by <a href="https://html5up.net">HTML5 UP</a> and released<br />
+								<p id="about-bio">A fully responsive site template designed by <a href="https://html5up.net">HTML5 UP</a> and released<br />
 								for free under the <a href="https://html5up.net/license">Creative Commons</a> license.</p>
 							</div>
 						</div>
@@ -362,7 +362,9 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
       console.log("document ready");
       var urlParam = new URL(location.href).searchParams;
       let title = urlParam.get("title");
-      document.querySelector('#title').innerHTML = title
+      let about = urlParam.get("about");
+      document.querySelector('#title').innerHTML = title;
+      document.querySelector('#about-bio').innerHTML = about;
     })
   </script>
 
