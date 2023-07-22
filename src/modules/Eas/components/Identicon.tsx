@@ -1,5 +1,5 @@
-import * as jdenticon from "jdenticon";
-import styled from "styled-components";
+import * as jdenticon from 'jdenticon';
+import styled from 'styled-components';
 
 type ContainerProps = {
   size: number;
@@ -26,7 +26,7 @@ export function Identicon({ address, size, className, onClick }: Props) {
   return (
     <Container size={size} className={className} onClick={onClick}>
       <img
-        alt={"Identicon"}
+        alt={'Identicon'}
         style={{ borderRadius: 100 }}
         src={`data:image/svg+xml;utf8,${encodeURIComponent(icon)}`}
       />

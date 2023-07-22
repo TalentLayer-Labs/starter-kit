@@ -15,8 +15,11 @@ export const alchemyApiKey = process.env.REACT_APP_ALCHEMY_API_KEY;
 
 export const CUSTOM_SCHEMAS = {
   GITHUB_SCHEMA: '0x04e786c276457b4045eca31a80dababf3a3288ed250ff3ab4bf54aec6b3ce709',
+  WORLDCOIN_SCHEMA: '0x1513a5f6cc99313c257435e8011162516ffeee9fdcda12cc5bd8ba75bb13892f ',
   CONFIRM_SCHEMA: '0xb96446c85ce538c1641a967f23ea11bbb4a390ef745fc5a9905689dbd48bac86',
 };
+
+console.log('CUSTOM_SCHEMAS.GITHUB_SCHEMA', CUSTOM_SCHEMAS.GITHUB_SCHEMA);
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
@@ -27,7 +30,6 @@ function getChainId() {
 
 // export const CHAINID = getChainId();
 export const CHAINID = 11155111;
-console.log('CHAINID', CHAINID);
 
 // if (!CHAINID) {
 //   throw new Error('No chain ID env found');
@@ -110,9 +112,9 @@ export async function getAttestationsForAddress(address: string) {
 
       variables: {
         where: {
-          // schemaId: {
-          //   equals: CUSTOM_SCHEMAS.GITHUB_SCHEMA,
-          // },
+          schemaId: {
+            equals: [CUSTOM_SCHEMAS.GITHUB_SCHEMA, CUSTOM_SCHEMAS.WORLDCOIN_SCHEMA],
+          },
           OR: [
             {
               attester: {
@@ -151,7 +153,7 @@ export async function getConfirmationAttestationsForUIDs(refUids: string[]) {
       variables: {
         where: {
           schemaId: {
-            equals: CUSTOM_SCHEMAS.CONFIRM_SCHEMA,
+            equals: [CUSTOM_SCHEMAS.GITHUB_SCHEMA, CUSTOM_SCHEMAS.WORLDCOIN_SCHEMA],
           },
           refUID: {
             in: refUids,

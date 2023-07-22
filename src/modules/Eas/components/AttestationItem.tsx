@@ -1,9 +1,9 @@
 import { ResolvedAttestation } from '../utils/types';
 import styled from 'styled-components';
-import { Identicon } from './components/Identicon';
+import { Identicon } from './Identicon';
 import { useAccount, useEnsAvatar, useSigner } from 'wagmi';
 import dayjs from 'dayjs';
-import { baseURL, CUSTOM_SCHEMAS, EASContractAddress, timeFormatString } from './utils/utils';
+import { baseURL, CUSTOM_SCHEMAS, EASContractAddress, timeFormatString } from '../utils/utils';
 import { theme } from '../utils/theme';
 import { EAS, SchemaEncoder } from '@ethereum-attestation-service/eas-sdk';
 import { ethers } from 'ethers';
@@ -13,12 +13,12 @@ import { MdOutlineVerified, MdVerified } from 'react-icons/md';
 const Container = styled.div`
   border-radius: 25px;
   border: 1px solid rgba(168, 198, 207, 0.4);
-  background: #fff;
+  background: #71778a;
   padding: 14px;
   display: flex;
   justify-content: space-between;
   box-sizing: border-box;
-  width: 100%;
+  width: 50%;
   margin-bottom: 10px;
   align-items: center;
   gap: 16px;
@@ -112,63 +112,64 @@ export function AttestationItem({ data }: Props) {
   if (!isConfirmed) {
     Icon = MdOutlineVerified;
   }
+    console.log("data", data)
 
   return (
     <Container
       onClick={() => {
         window.open(`${baseURL}/attestation/view/${data.id}`);
       }}>
-      <IconHolder>
-        <Identicon address={isAttester ? data.recipient : data.attester} size={60} />
-      </IconHolder>
-      <NameHolder>{data.name}</NameHolder>
+      {/*<IconHolder>*/}
+      {/*  <Identicon address={isAttester ? data.recipient : data.attester} size={60} />*/}
+      {/*</IconHolder>*/}
+      <NameHolder>{data.schemaName}</NameHolder>
       <Time>{dayjs.unix(data.time).format(timeFormatString)}</Time>
       <Check>
-        {isConfirmable ? (
-          <ConfirmButton
-            onClick={async e => {
-              e.stopPropagation();
+        {/*{isConfirmable ? (*/}
+        {/*  <ConfirmButton*/}
+        {/*    onClick={async e => {*/}
+        {/*      e.stopPropagation();*/}
 
-              setConfirming(true);
-              try {
-                const schemaEncoder = new SchemaEncoder('bool confirm');
-                const encoded = schemaEncoder.encodeData([
-                  { name: 'confirm', type: 'bool', value: true },
-                ]);
-                if (signer) eas.connect(signer);
+        {/*      setConfirming(true);*/}
+        {/*      try {*/}
+        {/*        const schemaEncoder = new SchemaEncoder('bool confirm');*/}
+        {/*        const encoded = schemaEncoder.encodeData([*/}
+        {/*          { name: 'confirm', type: 'bool', value: true },*/}
+        {/*        ]);*/}
+        {/*        if (signer) eas.connect(signer);*/}
 
-                const tx = await eas.attest({
-                  data: {
-                    recipient: ethers.constants.AddressZero,
-                    data: encoded,
-                    refUID: data.id,
-                    revocable: true,
-                    expirationTime: 0,
-                  },
-                  schema: CUSTOM_SCHEMAS.CONFIRM_SCHEMA,
-                });
+        {/*        const tx = await eas.attest({*/}
+        {/*          data: {*/}
+        {/*            recipient: ethers.constants.AddressZero,*/}
+        {/*            data: encoded,*/}
+        {/*            refUID: data.id,*/}
+        {/*            revocable: true,*/}
+        {/*            expirationTime: 0,*/}
+        {/*          },*/}
+        {/*          schema: CUSTOM_SCHEMAS.CONFIRM_SCHEMA,*/}
+        {/*        });*/}
 
-                await tx.wait();
-                setConfirming(false);
-                window.location.reload();
-              } catch (e) {
-                console.error(e);
-              }
-            }}>
-            {confirming ? 'Confirming...' : 'Confirm we met'}
-          </ConfirmButton>
-        ) : (
-          <VerifyIconContainer>
-            <Icon
-              color={
-                data.confirmation
-                  ? theme.supporting['green-vivid-400']
-                  : theme.neutrals['cool-grey-100']
-              }
-              size={22}
-            />
-          </VerifyIconContainer>
-        )}
+        {/*        await tx.wait();*/}
+        {/*        setConfirming(false);*/}
+        {/*        window.location.reload();*/}
+        {/*      } catch (e) {*/}
+        {/*        console.error(e);*/}
+        {/*      }*/}
+        {/*    }}>*/}
+        {/*    {confirming ? 'Confirming...' : 'Confirm attestation'}*/}
+        {/*  </ConfirmButton>*/}
+        {/*) : (*/}
+        {/*  <VerifyIconContainer>*/}
+        {/*    <Icon*/}
+        {/*      color={*/}
+        {/*        data.confirmation*/}
+        {/*          ? theme.supporting['green-vivid-400']*/}
+        {/*          : theme.neutrals['cool-grey-100']*/}
+        {/*      }*/}
+        {/*      size={22}*/}
+        {/*    />*/}
+        {/*  </VerifyIconContainer>*/}
+        {/*)}*/}
       </Check>
     </Container>
   );

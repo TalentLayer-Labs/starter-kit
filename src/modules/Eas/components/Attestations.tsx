@@ -1,23 +1,21 @@
-import { IUser } from '../../../types';
 import React, { useEffect, useState } from 'react';
 import { ResolvedAttestation } from '../utils/types';
+import { useAccount } from 'wagmi';
+import { ensNames, mockEnsNames, mockTempAttestations } from './mock-data';
+import { AttestationItem } from './AttestationItem';
 import {
+  CUSTOM_SCHEMAS,
   getAttestationsForAddress,
   getConfirmationAttestationsForUIDs,
   getENSNames,
 } from '../utils/utils';
-import { useAccount } from 'wagmi';
-import { ensNames, mockEnsNames, mockTempAttestations } from './mock-data';
-import { AttestationItem } from './AttestationItem';
 
-interface IProps {
-  user: IUser;
-}
-
-function Attestations({ user }: IProps) {
+function Attestations() {
   const { address } = useAccount();
   const [attestations, setAttestations] = useState<ResolvedAttestation[]>([]);
   const [loading, setLoading] = useState(false);
+
+  console.log(CUSTOM_SCHEMAS);
 
   useEffect(() => {
     async function getAtts() {
@@ -26,7 +24,6 @@ function Attestations({ user }: IProps) {
       if (!address) return;
       // const tmpAttestations = await getAttestationsForAddress(address);
       const tmpAttestations = mockTempAttestations;
-      console.log('tmpAttestations', tmpAttestations);
 
       const addresses = new Set<string>();
 
@@ -80,13 +77,14 @@ function Attestations({ user }: IProps) {
         Your attestations
       </h2>
       <div className='flex flex-col mb-8'>
-        {attestations.map((attestation, i) => <div>{attestation.id}</div>)}
-        {/*{loading && <div>Loading...</div>}*/}
-        {/*{attestations.length > 0 || loading ? (*/}
-        {/*  attestations.map((attestation, i) => <AttestationItem key={i} data={attestation} />)*/}
-        {/*) : (*/}
-        {/*  <div>No one here yet</div>*/}
-        {/*)}*/}
+        {/*{attestations.map((attestation, i) => {*/}
+        {/*  return <div>{attestation.schemaId}</div>;*/}
+        {/*})}*/}
+        {attestations.length > 0 ? (
+          attestations.map((attestation, i) => <AttestationItem key={i} data={attestation} />)
+        ) : (
+          <div>No one here yet</div>
+        )}
       </div>
     </>
   );

@@ -35,6 +35,8 @@ export interface MyData {
 
 export interface Attestation {
   id: string;
+  schemaId: string;
+  schemaName: string;
   attester: string;
   recipient: string;
   refUID: string;
