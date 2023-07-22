@@ -614,11 +614,13 @@ function Home() {
                   <div
                     className='wow fadeInUp group mx-auto mb-[60px] max-w-[310px] text-center'
                     data-wow-delay='.2s'>
-                    <div className='mx-auto mb-8 flex h-[90px] w-[90px] items-center justify-center rounded-3xl bg-redpraha bg-opacity-20 text-redpraha duration-300 group-hover:bg-redpraha group-hover:text-white   '>
-                      <p>logo</p>
-                    </div>
+                    <img
+                      src='/images/sponsors/worldcoin.png'
+                      className='mx-auto mb-8 flex h-[90px] w-[90px] items-center justify-center rounded-3xl bg-opacity-20 duration-300'
+                      alt=''
+                    />
                     <h3 className='mb-4 text-xl font-semibold text-black  sm:text-[22px] xl:text-[26px]'>
-                      WORLDCOIN
+                      Worldcoin
                     </h3>
                   </div>
                 </div>
@@ -627,9 +629,12 @@ function Home() {
                   <div
                     className='wow fadeInUp group mx-auto mb-[60px] max-w-[310px] text-center'
                     data-wow-delay='.3s'>
-                    <div className='mx-auto mb-8 flex h-[90px] w-[90px] items-center justify-center rounded-3xl bg-redpraha bg-opacity-20 text-redpraha duration-300 group-hover:bg-redpraha group-hover:text-white   '>
-                      logo
-                    </div>
+                    <img
+                      src='/images/sponsors/eas.png'
+                      className='mx-auto mb-8 flex h-[90px] w-[90px] items-center justify-center rounded-3xl bg-redpraha bg-opacity-20 text-redpraha duration-300 group-hover:bg-redpraha group-hover:text-white'
+                      alt=''
+                    />
+
                     <h3 className='mb-4 text-xl font-semibold text-black  sm:text-[22px] xl:text-[26px]'>
                       EAS
                     </h3>
@@ -640,11 +645,13 @@ function Home() {
                   <div
                     className='wow fadeInUp group mx-auto mb-[60px] max-w-[310px] text-center'
                     data-wow-delay='.4s'>
-                    <div className='mx-auto mb-8 flex h-[90px] w-[90px] items-center justify-center rounded-3xl bg-redpraha bg-opacity-20 text-redpraha duration-300 group-hover:bg-redpraha group-hover:text-white   '>
-                      <p>logo</p>
-                    </div>
+                    <img
+                      src='/images/sponsors/lit.png'
+                      className='mx-auto mb-8 flex h-[90px] w-[90px] items-center justify-center rounded-3xl bg-redpraha bg-opacity-20 text-redpraha duration-300 group-hover:bg-redpraha group-hover:text-white'
+                      alt=''
+                    />
                     <h3 className='mb-4 text-xl font-semibold text-black  sm:text-[22px] xl:text-[26px]'>
-                      WORLDCOIN
+                      Lit Protocol
                     </h3>
                   </div>
                 </div>
