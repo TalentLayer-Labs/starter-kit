@@ -16,12 +16,14 @@ function AddAttestation(props: any) {
   return (
     <>
       {props.type === 'github' && <GithubLoginButton />}
-      {data && data.user && (
+      {props.type === 'github' && data && (
         <>
           <hr />
           <div className='flex align-middle justify-center align-middle'>
             <button
-              onClick={() => createAttestation(user.address, data.accessToken, data.user.id)}
+              onClick={() =>
+                createAttestation(user.address, data.accessToken, data.user?.id || 'missing-id')
+              }
               className='mt-3 block text-blue-600 bg-red-50 hover:bg-redpraha hover:text-white rounded-xl px-5 py-2.5 text-center'
               type='button'
               data-modal-toggle='defaultModal'>
