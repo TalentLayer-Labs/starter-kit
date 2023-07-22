@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router';
 import { useContext } from 'react';
-import ProposalForm from '../../../../components/Form/ProposalForm';
 import Loading from '../../../../components/Loading';
 import Steps from '../../../../components/Steps';
 import StarterKitContext from '../../../../context/starterKit';
