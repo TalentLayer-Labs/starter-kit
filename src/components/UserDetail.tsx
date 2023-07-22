@@ -19,7 +19,7 @@ function UserDetail({ user }: { user: IUser }) {
   return (
     <>
       <AddAttestation />
-      {/* <VerifyButton /> */}
+
       <div className='rounded-xl p-4 border border-gray-700 text-white bg-endnight'>
         <div className='flex'>
           <div className='w-9/12'>
