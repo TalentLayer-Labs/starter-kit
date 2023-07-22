@@ -7,6 +7,7 @@ import Loading from './Loading';
 import Stars from './Stars';
 import CreateAttestation from './CreateAttestationTest';
 import UserTrustScore from './UserTrustScore';
+import VerifyButton from '../modules/WorldCoin/components/VerifyButton';
 
 function UserDetail({ user }: { user: IUser }) {
   const { user: currentUser } = useContext(StarterKitContext);
@@ -17,59 +18,60 @@ function UserDetail({ user }: { user: IUser }) {
   }
 
   return (
-    <>
-      <CreateAttestation />
-      <div className='rounded-xl p-4 border border-gray-700 text-white bg-endnight'>
-        <div className='flex'>
-          <div className='w-9/12'>
-            <div className='flex flex-col justify-start items-start gap-4'>
-              <div className='flex items-center justify-start mb-4'>
-                <img
-                  src={
-                    user?.description?.image_url
-                      ? user?.description?.image_url
-                      : `/images/default-avatar-${Number(user?.id ? user.id : '1') % 9}.jpeg`
-                  }
-                  className='w-10 mr-4 rounded-full'
-                  width={50}
-                  height={50}
-                  alt='default avatar'
-                />
-                <div className='flex flex-col'>
-                  <p className='text-gray-100 font-medium break-all'>{user?.handle}</p>
-                  <p className='text-gray-400 text-xs'>{userDescription?.title}</p>
-                </div>
-                <div className=''>
-                  <PohModule address={user.address} />
-                </div>
+      <>
+        <CreateAttestation />
+        <VerifyButton />
+    <div className='rounded-xl p-4 border border-gray-700 text-white bg-endnight'>
+      <div className='flex'>
+        <div className='w-9/12'>
+          <div className='flex flex-col justify-start items-start gap-4'>
+            <div className='flex items-center justify-start mb-4'>
+              <img
+                src={
+                  user?.description?.image_url
+                    ? user?.description?.image_url
+                    : `/images/default-avatar-${Number(user?.id ? user.id : '1') % 9}.jpeg`
+                }
+                className='w-10 mr-4 rounded-full'
+                width={50}
+                height={50}
+                alt='default avatar'
+              />
+              <div className='flex flex-col'>
+                <p className='text-gray-100 font-medium break-all'>{user?.handle}</p>
+                <p className='text-gray-400 text-xs'>{userDescription?.title}</p>
+              </div>
+              <div className=''>
+                <PohModule address={user.address} />
               </div>
             </div>
-            <Stars rating={Number(user.rating)} numReviews={user.userStats.numReceivedReviews} />
           </div>
-          <div className={'w-3/12'}>
-            <UserTrustScore user={user} />
-          </div>
+          <Stars rating={Number(user.rating)} numReviews={user.userStats.numReceivedReviews} />
         </div>
-        <div className=' border-t border-gray-700 pt-2 w-full'>
-          {userDescription?.name && (
-            <p className='text-sm text-gray-400 mt-4'>
-              <strong>Name:</strong> {userDescription?.name}
-            </p>
-          )}
-          <p className='text-sm text-gray-400 mt-4'>
-            <strong>Skills:</strong> {userDescription?.skills_raw}
-          </p>
-          <p className='text-sm text-gray-400 mt-4'>
-            <strong>About:</strong> {userDescription?.about}
-          </p>
-          {userDescription?.role && (
-            <p className='text-sm text-gray-400 mt-4'>
-              <strong>Role:</strong> {userDescription?.role}
-            </p>
-          )}
+        <div className={'w-3/12'}>
+          <UserTrustScore user={user} />
         </div>
+      </div>
+      <div className=' border-t border-gray-700 pt-2 w-full'>
+        {userDescription?.name && (
+          <p className='text-sm text-gray-400 mt-4'>
+            <strong>Name:</strong> {userDescription?.name}
+          </p>
+        )}
+        <p className='text-sm text-gray-400 mt-4'>
+          <strong>Skills:</strong> {userDescription?.skills_raw}
+        </p>
+        <p className='text-sm text-gray-400 mt-4'>
+          <strong>About:</strong> {userDescription?.about}
+        </p>
+        {userDescription?.role && (
+          <p className='text-sm text-gray-400 mt-4'>
+            <strong>Role:</strong> {userDescription?.role}
+          </p>
+        )}
+      </div>
 
-        {/* {currentUser?.id === user.id && (
+      {/* {currentUser?.id === user.id && (
         <div className=' border-t border-gray-700 pt-4 w-full mt-4'>
           <div className='flex flex-row gap-4 justify-end items-center'>
             <Link
@@ -81,8 +83,8 @@ function UserDetail({ user }: { user: IUser }) {
           </div>
         </div>
       )} */}
-      </div>
-    </>
+    </div>
+      </>
   );
 }
 
