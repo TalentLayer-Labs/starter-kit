@@ -9,6 +9,7 @@ import { useAccount } from 'wagmi';
 import { ResolvedAttestation } from '../../modules/Eas/utils/types';
 import { CUSTOM_SCHEMAS } from '../../modules/Eas/utils/utils';
 import { mockEnsNames, mockTempAttestations } from '../../modules/Eas/components/mock-data';
+import {getAttestationsForAddress} from "../api/utils/eas-utils";
 
 function Dashboard() {
   const { account, user } = useContext(StarterKitContext);
@@ -81,7 +82,7 @@ function Dashboard() {
       <div className=' -mx-6 -mt-6 '>
         <div className='flex py-2 px-6 items-center border-b w-full border-gray-700 mb-8'>
           <p className='text-2xl font-medium flex-1'>
-            Get started with your <span className='text-gray-100 ml-1'> Husky-Attestation </span>!
+            Get started with your <span className='text-gray-100 ml-1'> Husky-Attestations </span>!
           </p>
           <Link
             href={`/dashboard/profile/edit`}

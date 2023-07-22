@@ -1,14 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { ethers } from 'ethers';
 import { getDelegationSigner } from '../../pages/api/utils/delegate';
-import {
-  getAttestationsForAddress,
-  getConfirmationAttestationsForUIDs,
-  getENSNames,
-} from '../../pages/api/utils/eas-utils';
 import { EAS, SchemaEncoder } from '@ethereum-attestation-service/eas-sdk';
-import { ResolvedAttestation } from './utils/types';
-import { AttestationItem } from './AttestationItem';
+import { CUSTOM_SCHEMAS, EASContractAddress, getAttestation } from './utils/utils';
+
+const eas = new EAS(EASContractAddress);
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { githubHash } = req.body;
