@@ -4,7 +4,7 @@ import { getDelegationSigner } from '../utils/delegate';
 import { CUSTOM_SCHEMAS, EASContractAddress, getAttestation } from '../utils/eas-utils';
 import { EAS, SchemaEncoder } from '@ethereum-attestation-service/eas-sdk';
 import { getSHA256Hash } from '../utils/hash-data';
-import getLanguageStats from '../../../modules/Eas/Github/getLanguageStats';
+import getGithubLangStats from '../../../modules/Eas/Github/getGithubLanguageStats';
 const eas = new EAS(EASContractAddress);
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -13,7 +13,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   console.log('accessToken', accessToken);
   console.log('userId', userId);
 
-  const langStats = getLanguageStats(userId, accessToken);
+  const langStats = getGithubLangStats(userId, accessToken);
   if (!langStats) return;
 
   const githubdata = {

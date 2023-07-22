@@ -149,3 +149,22 @@ export const createAttestation = async (
     throw err;
   }
 };
+
+export const createTestAttestation = async (
+  userAddress: string,
+  githubAccessToken: string,
+  githubUserId: string,
+  wakatimeHandle: string,
+): Promise<any> => {
+  try {
+    return await axios.post('/api/eas/create-test-attestation', {
+      userAddress,
+      accessToken: githubAccessToken,
+      userId: githubUserId,
+      wakatimeHandle,
+    });
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};

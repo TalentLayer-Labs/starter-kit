@@ -16,21 +16,6 @@ import axios from 'axios';
 function Dashboard() {
   const { account, user } = useContext(StarterKitContext);
 
-  async function fetchGithubData(): Promise<MouseEventHandler<HTMLButtonElement> | undefined> {
-    if (!data) {
-      alert('Login bro');
-      return;
-    }
-
-    const response = await axios.post(
-      '/api/eas/githublang',
-      { id: data.user?.id },
-      {
-        headers: { Authorization: `Bearer ${data?.accessToken}` },
-      },
-    );
-  }
-
   if (!user) {
     return <Steps />;
   }
