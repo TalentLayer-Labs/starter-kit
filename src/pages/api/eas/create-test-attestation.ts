@@ -34,13 +34,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     githubLanguageStats: githubLangStats,
     wakatimeStats: wakatimeStats,
   };
-  console.log('toAttestate', toAttestate);
 
-  // Hash the data
-  // const hashedData = getSHA256Hash(toAttestate);
-  // console.log('hashedData', toAttestate);
-
-  // Hash data induvidualy, maybe we profit from it do it i see both use case it fit.
   const hashedData = Object.entries(toAttestate)
     .map(([key, value]) => ({
       name: key,
@@ -48,48 +42,45 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }))
     .filter(({ hash }) => hash);
 
-  console.log(hashedData, 'PPEEENIS');
-
   try {
-    //   const schemaEncoder = new SchemaEncoder('string dataHash');
-    //   console.log('schemaEncoder', schemaEncoder);
+    const schemaEncoder = new SchemaEncoder('string dataHash');
+    console.log('schemaEncoder', schemaEncoder);
 
-    //   const encoded = schemaEncoder.encodeData([
-    //     { name: 'dataHash', type: 'string', value: hashedData },
-    //   ]);
+    const encoded = schemaEncoder.encodeData([
+      { name: 'dataHash', type: 'string', value: hashedData },
+    ]);
 
-    //   const signer = await getDelegationSigner(res);
-    //   if (!signer) {
-    //     return;
-    //   }
-    //   console.log('signer', signer);
+    const signer = await getDelegationSigner(res);
+    if (!signer) {
+      return;
+    }
+    console.log('signer', signer);
 
-    //   eas.connect(signer);
+    eas.connect(signer);
 
-    //   const recipient = userAddress;
-    //   console.log('recipient', recipient);
+    const recipient = userAddress;
+    console.log('recipient', recipient);
 
-    //   const tx = await eas.attest({
-    //     data: {
-    //       recipient: recipient,
-    //       data: encoded,
-    //       refUID: ethers.constants.HashZero,
-    //       revocable: true,
-    //       expirationTime: 0,
-    //     },
-    //     schema: CUSTOM_SCHEMAS.GITHUB_SCHEMA,
-    //   });
-    //   console.log('tx', tx);
+    const tx = await eas.attest({
+      data: {
+        recipient: recipient,
+        data: encoded,
+        refUID: ethers.constants.HashZero,
+        revocable: true,
+        expirationTime: 0,
+      },
+      schema: CUSTOM_SCHEMAS.GITHUB_SCHEMA,
+    });
+    console.log('tx', tx);
 
-    //   const uid = await tx.wait();
-    //   console.log('uid', uid);
+    const uid = await tx.wait();
+    console.log('uid', uid);
 
-    //   const attestation = await getAttestation(uid);
-    //   console.log('attestation', attestation);
+    const attestation = await getAttestation(uid);
+    console.log('attestation', attestation);
 
-    // res.status(200).json({ recipient: recipient });
-    // res.status(200).json({ uid: uid });
-    res.status(200).json({ works: 'siirr' });
+    res.status(200).json({ recipient: recipient });
+    res.status(200).json({ uid: uid });
   } catch (error) {
     console.error('errorDebug', error);
     res.status(500).json('certificate creation failed');

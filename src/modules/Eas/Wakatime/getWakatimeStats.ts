@@ -11,11 +11,10 @@ export default async function getWakatimeStats(handle: string) {
       response = await axios.get(url);
       data = response.data;
     }
-
     const stats = {
-      textCodingTimeRecordet: data.text,
-      from_date: data.start_date,
-      to_date: data.end_date,
+      // textCodingTimeRecordet: data.categories[0].text,
+      // from_date: data.categories.start_date,
+      // to_date: data.categories.end_date,
     };
 
     return stats;

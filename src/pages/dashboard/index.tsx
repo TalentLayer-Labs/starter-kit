@@ -25,7 +25,7 @@ function Dashboard() {
       <div className=' -mx-6 -mt-6 '>
         <div className='flex py-2 px-6 items-center border-b w-full border-gray-700 mb-8'>
           <p className='text-2xl font-medium flex-1'>
-            Get started with your <span className='text-gray-100 ml-1'> Huskey-Atestation </span>!
+            Get started with your <span className='text-gray-100 ml-1'> Husky-Atestation </span>!
           </p>
           <Link
             href={`/dashboard/profile/edit`}
