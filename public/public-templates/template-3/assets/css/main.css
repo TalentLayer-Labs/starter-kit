@@ -2587,7 +2587,7 @@ input, select, textarea {
 		}
 
 		.icon.style2:before {
-			border-radius: 2.75em;
+			/*border-radius: 2.75em;*/
 			display: inline-block;
 			height: 2.75em;
 			line-height: 2.75em;
