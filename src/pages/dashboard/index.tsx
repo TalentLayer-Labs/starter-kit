@@ -98,7 +98,11 @@ function Dashboard() {
               const iframe = window.document.getElementById('iframe-container');
               let about = document.querySelector('#about').textContent;
               let title = document.querySelector('#title').textContent;
-              window.document.querySelector('iframe').src = `http://localhost:3000/public-templates/template-1/index.html?title=${title}&about=${about}`;
+              let linkGithub = document.querySelectorAll('.nCPyy')[0].firstChild.getAttribute('data-id');
+              let linkWordcoin = document.querySelectorAll('.nCPyy')[1].firstChild.getAttribute('data-id');
+              console.log(linkWordcoin);
+              let linkUpwork = document.querySelectorAll('.nCPyy')[2].firstChild.getAttribute('data-id');
+              window.document.querySelector('iframe').src = `http://localhost:3000/public-templates/template-1/index.html?title=${title}&about=${about}&linkGithub=${linkGithub}&linkWordcoin=${linkWordcoin}&linkUpwork=${linkUpwork}`;
               window.setTimeout(function() {
                 iframe.style.display = 'block';
               },100)

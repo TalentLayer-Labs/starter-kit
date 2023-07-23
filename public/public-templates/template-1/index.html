@@ -31,9 +31,9 @@
 						</div>
 						<nav>
               <ul class="icons">
-                <li><a href="#" class="icon brands style2 fa-github"><span class="label"></span></a></li>
-                <li><a href="#" class="icon brands style2"><img class='img-1' src="../../images/worldcoin-icon.svg" alt="" /></a></li>
-                <li><a href="#" class="icon brands style2"><img class='img-2' src="../../images/upwork.png" alt="" /></a></li>
+                <li><a id="linkGithub" href="#" target="_blank" class="icon brands style2 fa-github"><span class="label"></span></a></li>
+                <li><a id="linkWordcoin" href="#" target="_blank" class="icon brands style2"><img class='img-1' src="../../images/worldcoin-icon.svg" alt="" /></a></li>
+                <li><a id="linkUpwork" href="#" target="_blank" class="icon brands style2"><img class='img-2' src="../../images/upwork.png" alt="" /></a></li>
               </ul>
 						</nav>
 					</header>
@@ -371,8 +371,15 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
       var urlParam = new URL(location.href).searchParams;
       let title = urlParam.get("title");
       let about = urlParam.get("about");
+      let linkGithub = urlParam.get("linkGithub");
+      let linkWordcoin = urlParam.get("linkWordcoin");
+      console.log(linkWordcoin)
+      let linkUpwork = urlParam.get("linkUpwork");
       document.querySelector('#title').innerHTML = title;
       document.querySelector('#about-bio').innerHTML = about;
+      document.querySelector('#linkGithub').href = linkGithub;
+      document.querySelector('#linkWordcoin').href = linkWordcoin;
+      document.querySelector('#linkUpwork').href = linkUpwork;
     })
   </script>
 

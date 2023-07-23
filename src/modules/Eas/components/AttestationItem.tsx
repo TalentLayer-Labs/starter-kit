@@ -94,7 +94,7 @@ type Props = {
 
 const eas = new EAS(EASContractAddress);
 
-export function AttestationItem({ data }: Props) {
+export function AttestationItem({ data, key }: Props) {
   const { address } = useAccount();
   const [confirming, setConfirming] = useState(false);
 
@@ -119,6 +119,7 @@ export function AttestationItem({ data }: Props) {
       onClick={() => {
         window.open(`${baseURL}/attestation/view/${data.id}`);
       }}>
+      <span key={key} data-id={`${baseURL}/attestation/view/${data.id}`}></span>
       {/*<IconHolder>*/}
       {/*  <Identicon address={isAttester ? data.recipient : data.attester} size={60} />*/}
       {/*</IconHolder>*/}
