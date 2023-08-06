@@ -35,7 +35,12 @@ const initialValues: IFormValues = {
   rateAmount: 0,
 };
 
-function ServiceForm() {
+interface IServiceFormProps {
+  onChange?: (event: any) => void;
+}
+
+
+function ServiceForm(props: IServiceFormProps) {
   const config = useConfig();
   const chainId = useChainId();
 
@@ -132,6 +137,7 @@ function ServiceForm() {
             cid,
             signature,
           );
+          console.log('no active delegate', tx);
         }
 
         const newId = await createMultiStepsTransactionToast(
@@ -152,6 +158,7 @@ function ServiceForm() {
           router.push(`/dashboard/services/${newId}`);
         }
       } catch (error) {
+        console.log('tx error: ', error);
         showErrorTransactionToast(error);
       }
     } else {
@@ -160,13 +167,21 @@ function ServiceForm() {
   };
 
   return (
-    <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
-      {({ isSubmitting, setFieldValue }) => (
+    <Formik
+      initialValues={initialValues}
+      onSubmit={onSubmit}
+      validationSchema={validationSchema}
+      >
+      {({ isSubmitting, setFieldValue, handleChange }) => (
         <Form>
           <div className='grid grid-cols-1 gap-6 border border-gray-700 rounded-xl p-6 bg-endnight'>
             <label className='block'>
               <span className='text-gray-100'>Title</span>
               <Field
+                onChange={e => {
+                  handleChange(e);
+                  props.onChange && props.onChange(e);
+                }}
                 type='text'
                 id='title'
                 name='title'
@@ -181,6 +196,10 @@ function ServiceForm() {
             <label className='block'>
               <span className='text-gray-100'>About</span>
               <Field
+                onChange={e => {
+                  handleChange(e);
+                  props.onChange && props.onChange(e);
+                }}
                 as='textarea'
                 id='about'
                 name='about'
@@ -204,6 +223,10 @@ function ServiceForm() {
               <label className='block flex-1 mr-4'>
                 <span className='text-gray-100'>Amount</span>
                 <Field
+                  onChange={e => {
+                    handleChange(e);
+                    props.onChange && props.onChange(e);
+                  }}
                   type='number'
                   id='rateAmount'
                   name='rateAmount'
@@ -226,6 +249,7 @@ function ServiceForm() {
                     const token = allowedTokenList.find(token => token.address === e.target.value);
                     setSelectedToken(token);
                     setFieldValue('rateToken', e.target.value);
+                    props?.onChange && props.onChange(e);
                   }}>
                   <option value=''>Select a token</option>
                   {allowedTokenList.map((token, index) => (

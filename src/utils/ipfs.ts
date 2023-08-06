@@ -1,4 +1,7 @@
 /* eslint-disable no-console */
+//  TODO : add nvmrc to readme and repo
+// TODO : add ipfs key and secrets requirements to readme
+// TODO : search on gig not working
 import { create, IPFSHTTPClient } from 'ipfs-http-client';
 
 export const postToIPFS = async (data: any): Promise<string> => {
@@ -9,7 +12,7 @@ export const postToIPFS = async (data: any): Promise<string> => {
       'Basic ' +
       btoa(process.env.NEXT_PUBLIC_INFURA_ID + ':' + process.env.NEXT_PUBLIC_INFURA_SECRET);
     ipfs = create({
-      url: 'https://infura-ipfs.io:5001/api/v0',
+      url: process.env.NEXT_PUBLIC_IPFS_BASE_URL,
       headers: {
         authorization,
       },

@@ -8,6 +8,7 @@ import { XMarkIcon } from '@heroicons/react/24/outline';
 export function SkillsInput({
   initialValues,
   entityId,
+  onInput
 }: {
   initialValues?: string;
   entityId: string;
