@@ -1,5 +1,5 @@
 import { useWeb3Modal } from '@web3modal/react';
-import { BigNumberish, ethers, FixedNumber, Signer, Wallet } from 'ethers';
+import { BigNumberish, ethers, FixedNumber } from 'ethers';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useContext, useState } from 'react';
 import { useRouter } from 'next/router';
@@ -37,8 +37,8 @@ const initialValues: IFormValues = {
 
 interface IServiceFormProps {
   onChange?: (event: any) => void;
+  onSuccess?: () => void;
 }
-
 
 function ServiceForm(props: IServiceFormProps) {
   const config = useConfig();
@@ -155,7 +155,7 @@ function ServiceForm(props: IServiceFormProps) {
         setSubmitting(false);
         resetForm();
         if (newId) {
-          router.push(`/dashboard/services/${newId}`);
+          props?.onSuccess ? props.onSuccess() : router.push(`/dashboard/services/${newId}`);
         }
       } catch (error) {
         console.log('tx error: ', error);
@@ -167,20 +167,16 @@ function ServiceForm(props: IServiceFormProps) {
   };
 
   return (
-    <Formik
-      initialValues={initialValues}
-      onSubmit={onSubmit}
-      validationSchema={validationSchema}
-      >
+    <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
       {({ isSubmitting, setFieldValue, handleChange }) => (
         <Form>
           <div className='grid grid-cols-1 gap-6 border border-gray-700 rounded-xl p-6 bg-endnight'>
             <label className='block'>
               <span className='text-gray-100'>Title</span>
               <Field
-                onChange={e => {
+                onChange={(e: any) => {
                   handleChange(e);
-                  props.onChange && props.onChange(e);
+                  props.onChange && props.onChange({ [e?.target?.name]: e?.target?.value });
                 }}
                 type='text'
                 id='title'
@@ -196,9 +192,9 @@ function ServiceForm(props: IServiceFormProps) {
             <label className='block'>
               <span className='text-gray-100'>About</span>
               <Field
-                onChange={e => {
+                onChange={(e: any) => {
                   handleChange(e);
-                  props.onChange && props.onChange(e);
+                  props.onChange && props.onChange({ [e?.target?.name]: e?.target?.value });
                 }}
                 as='textarea'
                 id='about'
@@ -223,9 +219,9 @@ function ServiceForm(props: IServiceFormProps) {
               <label className='block flex-1 mr-4'>
                 <span className='text-gray-100'>Amount</span>
                 <Field
-                  onChange={e => {
+                  onChange={(e: any) => {
                     handleChange(e);
-                    props.onChange && props.onChange(e);
+                    props.onChange && props.onChange({ [e?.target?.name]: e?.target?.value });
                   }}
                   type='number'
                   id='rateAmount'
@@ -245,11 +241,11 @@ function ServiceForm(props: IServiceFormProps) {
                   name='rateToken'
                   className='mt-1 mb-1 block w-full rounded-xl border border-gray-700 bg-midnight shadow-sm focus:ring-opacity-50'
                   placeholder=''
-                  onChange={(e: { target: { value: string } }) => {
+                  onChange={(e: { target: { value: string; name: string } }) => {
                     const token = allowedTokenList.find(token => token.address === e.target.value);
                     setSelectedToken(token);
                     setFieldValue('rateToken', e.target.value);
-                    props?.onChange && props.onChange(e);
+                    props.onChange && props.onChange({ [e?.target?.name]: e?.target?.value });
                   }}>
                   <option value=''>Select a token</option>
                   {allowedTokenList.map((token, index) => (
