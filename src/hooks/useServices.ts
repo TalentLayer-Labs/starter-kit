@@ -84,7 +84,7 @@ const useServices = (
       }
     };
     fetchData();
-  }, [numberPerPage, offset, searchQuery]);
+  }, [numberPerPage, offset, searchQuery, buyerId, serviceStatus]);
 
   const loadMore = () => {
     numberPerPage ? setOffset(offset + numberPerPage) : '';
