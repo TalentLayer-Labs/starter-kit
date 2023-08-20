@@ -7,8 +7,18 @@ All essential components to start building an amazing dapp with interoperable wo
 
 - Fork the code
 - Clone your new repository
+
+- Copy .env.example file into a new .env file
 - `cp .env.example .env`
+
+- If you are using nvm, run:
+- `nvm use`
+- Else, use the recommended node version: `18^`
+
+-Install the dependencies
 - `npm install`
+
+-Run local server for development
 - `npm run dev`
 
 ## 🛠️ TalentLayer
