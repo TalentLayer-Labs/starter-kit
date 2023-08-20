@@ -11,5 +11,10 @@ export const navigation = [
   { name: 'Chat', href: '/dashboard/messaging', icon: ChatBubbleBottomCenterIcon, current: false },
   { name: 'Gigs', href: '/dashboard/services', icon: BriefcaseIcon, current: false },
   { name: 'Talents', href: '/dashboard/talents', icon: UserGroupIcon, current: false },
-  { name: 'Gig Board', href: '/dashboard/gig-board', icon: DeviceTabletIcon, current: false },
+  {
+    name: 'Gig Board',
+    href: '/dashboard/gig-board-create',
+    icon: DeviceTabletIcon,
+    current: false,
+  },
 ];

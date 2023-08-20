@@ -45,7 +45,7 @@ function SubmitButton({
             openConnectModal();
           }}
           type='button'
-          className='grow px-5 py-2 rounded-xl bg-redpraha text-white hover:bg-midnight  '>
+          className='grow px-5 py-2 rounded-xl bg-redpraha text-white hover:bg-midnight'>
           {'Connect first'}
         </button>
       )}
