@@ -25,9 +25,11 @@ const GigBoard = (props: IGigBoardProps) => {
   }
   return (
     <div>
-      <h1>{props.title}</h1>
+      <h1 className='text-title text-4xl mb-4'>{props.title}</h1>
       {services.map(_service => (
-        <ServiceItem key={_service.id} service={_service} />
+        <div className='my-2'>
+          <ServiceItem key={_service.id} service={_service} />
+        </div>
       ))}
     </div>
   );
