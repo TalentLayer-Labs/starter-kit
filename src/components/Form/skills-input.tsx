@@ -8,10 +8,11 @@ import { XMarkIcon } from '@heroicons/react/24/outline';
 export function SkillsInput({
   initialValues,
   entityId,
-  onInput
+  onSelectedSkills,
 }: {
   initialValues?: string;
   entityId: string;
+  onSelectedSkills?: (skills: string[]) => void;
 }) {
   const formikProps = useFormikContext();
   const { skills: filteredSkills, fetchData: refreshSkills, query, setQuery } = useWorkxSkills();
@@ -21,6 +22,9 @@ export function SkillsInput({
   const selectSkill = (value: string) => {
     const newSkills = [...allSkills, value];
     setAllSkills(newSkills);
+
+    // call this function in case consumer wants to hook into it
+    onSelectedSkills && onSelectedSkills(newSkills);
     setSelectedSkill('');
     setQuery('');
     formikProps.setFieldValue(entityId, newSkills.toString());
