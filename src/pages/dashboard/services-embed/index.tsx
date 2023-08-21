@@ -17,7 +17,7 @@ interface ILiveServiceContent {
   rateToken?: string;
 }
 
-const GigBoardCreator = () => {
+const ServicesEmbedCreate = () => {
   const [liveServiceContent, setLiveServiceContent] = useState<ILiveServiceContent>({
     title: 'Enter a title',
     rateToken: '0x0000000000000000000000000000000000000000',
@@ -28,7 +28,33 @@ const GigBoardCreator = () => {
   const allowedTokenList = useAllowedTokens();
   const { user } = useContext(StarterKitContext);
   const router = useRouter();
-  const navigateToGigBoardSettings = () => router.push('/dashboard/gig-board-create/settings');
+  const navigateToServicesEmbedSettings = () => router.push('/dashboard/services-embed/settings');
+
+  const handleServiceFormInput = async (event: ILiveServiceContent) => {
+    // TODO: move this to an async function expression
+    if (event.rateAmount) {
+      if (liveServiceContent?.rateToken) {
+        const token = allowedTokenList.find(
+          token => token.address === liveServiceContent.rateToken,
+        );
+
+        if (token) {
+          const _parsedRateAmount = await parseRateAmount(
+            event.rateAmount.toString(),
+            liveServiceContent.rateToken,
+            token.decimals,
+          );
+
+          setLiveServiceContent({
+            ...liveServiceContent,
+            rateAmount: _parsedRateAmount.toString(),
+          });
+        }
+      }
+    } else {
+      setLiveServiceContent({ ...liveServiceContent, ...event });
+    }
+  };
 
   if (!user) {
     return <Steps />;
@@ -42,39 +68,15 @@ const GigBoardCreator = () => {
       <div className='grid grid-cols-2 gap-2'>
         <div>
           <ServiceForm
-            onSuccess={navigateToGigBoardSettings}
-            onChange={(event: ILiveServiceContent) => {
-              // TODO: move this to an async function expression
-              if (event.rateAmount) {
-                if (liveServiceContent?.rateToken) {
-                  const token = allowedTokenList.find(
-                    token => token.address === liveServiceContent.rateToken,
-                  );
-
-                  if (token) {
-                    parseRateAmount(
-                      event.rateAmount.toString(),
-                      liveServiceContent.rateToken,
-                      token.decimals,
-                    ).then(_parsedRateAmount => {
-                      setLiveServiceContent({
-                        ...liveServiceContent,
-                        rateAmount: _parsedRateAmount.toString(),
-                      });
-                    });
-                  }
-                }
-              } else {
-                setLiveServiceContent({ ...liveServiceContent, ...event });
-              }
-            }}
+            onSuccess={navigateToServicesEmbedSettings}
+            onChange={handleServiceFormInput}
           />
           <div className='mt-4 grid grid-cols-2'>
             <div />
             <button
               type='submit'
               className='rounded-xl text-white'
-              onClick={navigateToGigBoardSettings}>
+              onClick={navigateToServicesEmbedSettings}>
               {'>'} Skip and configure your board
             </button>
           </div>
@@ -121,4 +123,4 @@ const GigBoardCreator = () => {
   );
 };
 
-export default GigBoardCreator;
+export default ServicesEmbedCreate;

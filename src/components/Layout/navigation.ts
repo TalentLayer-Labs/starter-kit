@@ -12,8 +12,8 @@ export const navigation = [
   { name: 'Gigs', href: '/dashboard/services', icon: BriefcaseIcon, current: false },
   { name: 'Talents', href: '/dashboard/talents', icon: UserGroupIcon, current: false },
   {
-    name: 'Gig Board',
-    href: '/dashboard/gig-board-create',
+    name: 'My Gig Board',
+    href: '/dashboard/services-embed',
     icon: DeviceTabletIcon,
     current: false,
   },

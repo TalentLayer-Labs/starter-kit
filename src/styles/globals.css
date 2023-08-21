@@ -182,10 +182,28 @@ body .menuBottom {
   animation-duration: 3s;
 }
 
-@media (print), (prefers-reduced-motion: reduce) {
+@media (print),
+(prefers-reduced-motion: reduce) {
   .animated {
     animation-duration: 1ms !important;
     transition-duration: 1ms !important;
     animation-iteration-count: 1 !important;
   }
+}
+
+
+.color-input::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.color-input::-webkit-color-swatch {
+  border: none;
+}
+
+.color-input::-moz-color-swatch-wrapper {
+  padding: 0;
+}
+
+.color-input::-moz-color-swatch {
+  border: none;
 }

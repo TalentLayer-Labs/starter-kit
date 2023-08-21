@@ -1,24 +1,23 @@
 import { Field, Form, Formik } from 'formik';
 import React, { useContext, useState } from 'react';
-import { SkillsInput } from '../../../components/Form/skills-input';
-import GigBoard from '../../../components/GigBoard';
+import ServicesEmbed from '../../../components/ServicesEmbed';
 import StarterKitContext from '../../../context/starterKit';
 import { ServiceStatusEnum } from '../../../types';
 
 const BASE_URL = 'http://localhost:3000';
-const GIG_BOARD_IFRAME_PATH = 'gig-board';
+const GIG_BOARD_IFRAME_PATH = 'services-embeddable';
 
-const generateGigBoardUrl = (buyerId: string, title: string, skill: ServiceStatusEnum) => {
+const generateServicesEmbedUrl = (buyerId: string, title: string, skill: ServiceStatusEnum) => {
   return `${BASE_URL}/${GIG_BOARD_IFRAME_PATH}?buyerId=${buyerId}&title=${encodeURIComponent(
     title,
   )}&skill=${ServiceStatusEnum[skill]}`;
 };
 
-const generateGigBoardIframeCode = (gigboardUrl: string): string => {
-  return `<iframe src="${gigboardUrl}" width="600" height="400"></iframe>`;
+const generateServicesEmbedIframeCode = (servicesEmbedUrl: string): string => {
+  return `<iframe src="${servicesEmbedUrl}" width="600" height="400"></iframe>`;
 };
 
-const GigBoardSettings = () => {
+const ServicesEmbedSettings = () => {
   const { user } = useContext(StarterKitContext);
   const [boardTitle, setBoardTitle] = useState<string>('My Gig Board');
   const [boardStatus, setBoardStatus] = useState<ServiceStatusEnum>(ServiceStatusEnum.Opened);
@@ -64,9 +63,20 @@ const GigBoardSettings = () => {
                     name='skill'
                     className='leading-tight bg-midnight text-xl text-gray-200 block'>
                     {Object.keys(ServiceStatusEnum).map(_serviceStatusEnum => (
-                      <option value={_serviceStatusEnum}>{_serviceStatusEnum}</option>
+                      <option key={_serviceStatusEnum} value={_serviceStatusEnum}>
+                        {_serviceStatusEnum}
+                      </option>
                     ))}
                   </Field>
+                </label>
+                <label className='block' htmlFor='primaryColor'>
+                  <span className='text-gray-100 block'>Board primary color</span>
+                  <input type='color' className='w-8 h-8 rounded-none border-0 color-input' />
+                </label>
+                <label className='block'>
+                  <span className='text-gray-100 block'>Board secondary color</span>
+
+                  <input type='color' className='w-8 h-8 rounded-none border-0 color-input' />
                 </label>
               </div>
             </Form>
@@ -74,19 +84,18 @@ const GigBoardSettings = () => {
           <div className='border border-sky-500 p-4 mt-4'>
             <code>
               {user?.id &&
-                generateGigBoardIframeCode(generateGigBoardUrl(user.id, boardTitle, boardStatus))}
+                generateServicesEmbedIframeCode(
+                  generateServicesEmbedUrl(user.id, boardTitle, boardStatus),
+                )}
             </code>
           </div>
         </div>
         <div>
-          {user?.id && <GigBoard buyerId={user.id} status={boardStatus} title={boardTitle} />}
-          <div className='mt-5'>
-            {user?.id && generateGigBoardUrl(user.id, boardTitle, boardStatus)}
-          </div>
+          {user?.id && <ServicesEmbed buyerId={user.id} status={boardStatus} title={boardTitle} />}
         </div>
       </div>
     </div>
   );
 };
 
-export default GigBoardSettings;
+export default ServicesEmbedSettings;
