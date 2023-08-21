@@ -4,7 +4,7 @@ import ServicesEmbed from '../../../components/ServicesEmbed';
 import StarterKitContext from '../../../context/starterKit';
 import { ServiceStatusEnum } from '../../../types';
 
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = global?.location?.origin;
 const GIG_BOARD_IFRAME_PATH = 'services-embeddable';
 
 const generateServicesEmbedUrl = (buyerId: string, title: string, skill: ServiceStatusEnum) => {
