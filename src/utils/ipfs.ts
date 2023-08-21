@@ -1,7 +1,4 @@
 /* eslint-disable no-console */
-//  TODO : add nvmrc to readme and repo
-// TODO : add ipfs key and secrets requirements to readme
-// TODO : search on gig not working
 import { create, IPFSHTTPClient } from 'ipfs-http-client';
 
 export const postToIPFS = async (data: any): Promise<string> => {
