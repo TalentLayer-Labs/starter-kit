@@ -6,12 +6,12 @@ import UserGains from '../../components/UserGains';
 import UserPayments from '../../components/UserPayments';
 import UserProposals from '../../components/UserProposals';
 import UserServices from '../../components/UserServices';
-import StarterKitContext from '../../context/starterKit';
+import TalentLayerContext from '../../context/talentLayer';
 import Link from 'next/link';
 import { PencilSquareIcon } from '@heroicons/react/24/outline';
 
 function Dashboard() {
-  const { account, user } = useContext(StarterKitContext);
+  const { account, user } = useContext(TalentLayerContext);
 
   if (!user) {
     return <Steps />;

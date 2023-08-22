@@ -1,7 +1,7 @@
 import { XmtpContext } from '../context/XmtpContext';
 import { useContext, useEffect, useState } from 'react';
 import { Conversation, DecodedMessage, Stream } from '@xmtp/xmtp-js';
-import StarterKitContext from '../../../context/starterKit';
+import TalentLayerContext from '../../../context/talentLayer';
 import { buildChatMessage, buildConversationId, getLatestMessage } from '../utils/messaging';
 import { InvitationContext } from '@xmtp/xmtp-js';
 
@@ -14,7 +14,7 @@ const useStreamMessages = (
   peerUserId: string,
   setMessageSendingErrorMsg: React.Dispatch<React.SetStateAction<string>>,
 ) => {
-  const { account } = useContext(StarterKitContext);
+  const { account } = useContext(TalentLayerContext);
   const { providerState, setProviderState } = useContext(XmtpContext);
   const [stream, setStream] = useState<Stream<DecodedMessage>>();
   const [conversation, setConversation] = useState<Conversation>();

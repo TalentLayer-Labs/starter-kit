@@ -2,7 +2,7 @@ import { ethers } from 'ethers';
 import { useRouter } from 'next/router';
 import { createContext, ReactNode, useContext, useMemo } from 'react';
 import { useSigner } from 'wagmi';
-import StarterKitContext from '../../../context/starterKit';
+import TalentLayerContext from '../../../context/talentLayer';
 import { XmtpContext } from './XmtpContext';
 import { useChainId } from '../../../hooks/useChainId';
 
@@ -18,7 +18,7 @@ const MessagingContext = createContext<{
 
 const MessagingProvider = ({ children }: { children: ReactNode }) => {
   const chainId = useChainId();
-  const { user } = useContext(StarterKitContext);
+  const { user } = useContext(TalentLayerContext);
   const { providerState } = useContext(XmtpContext);
   const { data: signer } = useSigner({
     chainId,

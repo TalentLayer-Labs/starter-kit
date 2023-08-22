@@ -1,12 +1,12 @@
 import { useContext } from 'react';
 import ProfileForm from '../../../components/Form/ProfileForm';
 import Steps from '../../../components/Steps';
-import StarterKitContext from '../../../context/starterKit';
+import TalentLayerContext from '../../../context/talentLayer';
 import Link from 'next/link';
 import { EyeIcon } from '@heroicons/react/24/outline';
 
 function EditProfile() {
-  const { account, user } = useContext(StarterKitContext);
+  const { account, user } = useContext(TalentLayerContext);
 
   if (!account?.isConnected || !user) {
     return <Steps />;

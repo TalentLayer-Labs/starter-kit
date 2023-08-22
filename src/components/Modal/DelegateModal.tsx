@@ -2,7 +2,7 @@ import { ethers } from 'ethers';
 import { useContext, useEffect, useState } from 'react';
 import { useProvider, useSigner } from 'wagmi';
 import { toggleDelegation } from '../../contracts/toggleDelegation';
-import StarterKitContext from '../../context/starterKit';
+import TalentLayerContext from '../../context/talentLayer';
 import TalentLayerID from '../../contracts/ABI/TalentLayerID.json';
 import { getUserByAddress } from '../../queries/users';
 import { useChainId } from '../../hooks/useChainId';
@@ -17,7 +17,7 @@ function DelegateModal() {
     chainId,
   });
   const provider = useProvider({ chainId });
-  const { user } = useContext(StarterKitContext);
+  const { user } = useContext(TalentLayerContext);
   const delegateAddress = process.env.NEXT_PUBLIC_DELEGATE_ADDRESS as string;
 
   if (!user) {

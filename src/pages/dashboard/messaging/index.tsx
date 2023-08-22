@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { useSigner } from 'wagmi';
 import Steps from '../../../components/Steps';
-import StarterKitContext from '../../../context/starterKit';
+import TalentLayerContext from '../../../context/talentLayer';
 import { useChainId } from '../../../hooks/useChainId';
 import CardHeader from '../../../modules/Messaging/components/CardHeader';
 import ConversationList from '../../../modules/Messaging/components/ConversationList';
@@ -12,7 +12,7 @@ import ShareModal from '../../../modules/Messaging/components/ShareModal';
 
 function MessagingIndex() {
   const chainId = useChainId();
-  const { account, user } = useContext(StarterKitContext);
+  const { account, user } = useContext(TalentLayerContext);
   const { data: signer } = useSigner({
     chainId,
   });

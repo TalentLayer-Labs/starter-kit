@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
 import { useSigner } from 'wagmi';
 import Steps from '../../../components/Steps';
-import StarterKitContext from '../../../context/starterKit';
+import TalentLayerContext from '../../../context/talentLayer';
 import { useChainId } from '../../../hooks/useChainId';
 import useUserByAddress from '../../../hooks/useUserByAddress';
 import { XmtpContext } from '../context/XmtpContext';
@@ -16,7 +16,7 @@ import MessageList from './MessageList';
 
 function Dashboard() {
   const chainId = useChainId();
-  const { account, user } = useContext(StarterKitContext);
+  const { account, user } = useContext(TalentLayerContext);
   const { data: signer } = useSigner({
     chainId,
   });

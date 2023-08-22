@@ -10,7 +10,7 @@ import { Chain, WagmiConfig, configureChains, createClient } from 'wagmi';
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc';
 import SEO from '../../next-seo.config';
 import { customChains } from '../chains';
-import { StarterKitProvider } from '../context/starterKit';
+import { TalentLayerProvider } from '../context/talentLayer';
 import { XmtpContextProvider } from '../modules/Messaging/context/XmtpContext';
 import { MessagingProvider } from '../modules/Messaging/context/messging';
 import '../styles/globals.css';
@@ -45,7 +45,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <DefaultSeo {...SEO} />
       <ToastContainer position='bottom-right' />
       <WagmiConfig client={wagmiClient}>
-        <StarterKitProvider>
+        <TalentLayerProvider>
           <XmtpContextProvider>
             <MessagingProvider>
               <ThemeProvider enableSystem={false}>
@@ -55,7 +55,7 @@ function MyApp({ Component, pageProps }: AppProps) {
               </ThemeProvider>
             </MessagingProvider>
           </XmtpContextProvider>
-        </StarterKitProvider>
+        </TalentLayerProvider>
         <Web3Modal
           projectId={`${process.env.NEXT_PUBLIC_WALLECT_CONNECT_PROJECT_ID}`}
           ethereumClient={ethereumClient}

@@ -2,7 +2,7 @@ import { BigNumber } from 'ethers';
 import { Field, Form, Formik } from 'formik';
 import { useContext, useMemo, useState } from 'react';
 import { useProvider, useSigner } from 'wagmi';
-import StarterKitContext from '../../context/starterKit';
+import TalentLayerContext from '../../context/talentLayer';
 import { executePayment } from '../../contracts/executePayment';
 import { IService, IToken, ServiceStatusEnum } from '../../types';
 import { renderTokenAmount } from '../../utils/conversion';
@@ -28,7 +28,7 @@ function ReleaseForm({
   isBuyer,
 }: IReleaseFormProps) {
   const chainId = useChainId();
-  const { user, isActiveDelegate } = useContext(StarterKitContext);
+  const { user, isActiveDelegate } = useContext(TalentLayerContext);
   const { data: signer } = useSigner({
     chainId,
   });

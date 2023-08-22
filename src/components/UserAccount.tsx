@@ -1,10 +1,10 @@
 import { Menu, Transition } from '@headlessui/react';
 import { Fragment, useContext } from 'react';
-import StarterKitContext from '../context/starterKit';
+import TalentLayerContext from '../context/talentLayer';
 import UserSubMenu from './UserSubMenu';
 
 function UserAccount() {
-  const { account, user } = useContext(StarterKitContext);
+  const { account, user } = useContext(TalentLayerContext);
 
   return (
     <div className='flex justify-between'>

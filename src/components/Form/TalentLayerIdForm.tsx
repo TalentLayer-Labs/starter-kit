@@ -5,7 +5,7 @@ import { useContext } from 'react';
 import { useRouter } from 'next/router';
 import { useProvider, useSigner } from 'wagmi';
 import * as Yup from 'yup';
-import StarterKitContext from '../../context/starterKit';
+import TalentLayerContext from '../../context/talentLayer';
 import TalentLayerID from '../../contracts/ABI/TalentLayerID.json';
 import { createTalentLayerIdTransactionToast, showErrorTransactionToast } from '../../utils/toast';
 import HelpPopover from '../HelpPopover';
@@ -27,7 +27,7 @@ function TalentLayerIdForm() {
   const config = useConfig();
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
-  const { user, account } = useContext(StarterKitContext);
+  const { user, account } = useContext(TalentLayerContext);
   const { data: signer } = useSigner({
     chainId,
   });

@@ -1,12 +1,12 @@
 import { useContext } from 'react';
 import ServiceForm from '../../../components/Form/ServiceForm';
 import Steps from '../../../components/Steps';
-import StarterKitContext from '../../../context/starterKit';
+import TalentLayerContext from '../../../context/talentLayer';
 import ConnectButton from '../../../modules/Messaging/components/ConnectButton';
 import MessagingContext from '../../../modules/Messaging/context/messging';
 
 function CreateService() {
-  const { account, user } = useContext(StarterKitContext);
+  const { account, user } = useContext(TalentLayerContext);
   const { userExists } = useContext(MessagingContext);
 
   if (!user) {

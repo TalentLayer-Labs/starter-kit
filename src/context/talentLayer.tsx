@@ -1,10 +1,10 @@
 import { createContext, ReactNode, useEffect, useMemo, useState } from 'react';
 import { useAccount } from 'wagmi';
-import { getUserByAddress, getUserById, getUserByIds } from '../queries/users';
-import { IAccount, IHive, IUser } from '../types';
 import { useChainId } from '../hooks/useChainId';
+import { getUserByAddress } from '../queries/users';
+import { IAccount, IUser } from '../types';
 
-const StarterKitContext = createContext<{
+const TalentLayerContext = createContext<{
   user?: IUser;
   account?: IAccount;
   isActiveDelegate: boolean;
@@ -17,7 +17,7 @@ const StarterKitContext = createContext<{
   loading: true,
 });
 
-const StarterKitProvider = ({ children }: { children: ReactNode }) => {
+const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
   const chainId = useChainId();
   const [user, setUser] = useState<IUser | undefined>();
   const account = useAccount();
@@ -79,9 +79,9 @@ const StarterKitProvider = ({ children }: { children: ReactNode }) => {
     };
   }, [account.address, user?.id, isActiveDelegate, loading]);
 
-  return <StarterKitContext.Provider value={value}>{children}</StarterKitContext.Provider>;
+  return <TalentLayerContext.Provider value={value}>{children}</TalentLayerContext.Provider>;
 };
 
-export { StarterKitProvider };
+export { TalentLayerProvider };
 
-export default StarterKitContext;
+export default TalentLayerContext;

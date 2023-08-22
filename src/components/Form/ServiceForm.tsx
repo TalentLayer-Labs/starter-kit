@@ -5,7 +5,7 @@ import { useContext, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useProvider, useSigner } from 'wagmi';
 import * as Yup from 'yup';
-import StarterKitContext from '../../context/starterKit';
+import TalentLayerContext from '../../context/talentLayer';
 import ServiceRegistry from '../../contracts/ABI/TalentLayerService.json';
 import { postToIPFS } from '../../utils/ipfs';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../utils/toast';
@@ -40,7 +40,7 @@ function ServiceForm() {
   const chainId = useChainId();
 
   const { open: openConnectModal } = useWeb3Modal();
-  const { user, account } = useContext(StarterKitContext);
+  const { user, account } = useContext(TalentLayerContext);
   const provider = useProvider({ chainId });
   const { data: signer } = useSigner({
     chainId,
@@ -49,7 +49,7 @@ function ServiceForm() {
   const router = useRouter();
   const allowedTokenList = useAllowedTokens();
   const [selectedToken, setSelectedToken] = useState<IToken>();
-  const { isActiveDelegate } = useContext(StarterKitContext);
+  const { isActiveDelegate } = useContext(TalentLayerContext);
 
   const validationSchema = Yup.object({
     title: Yup.string().required('Please provide a title for your service'),
