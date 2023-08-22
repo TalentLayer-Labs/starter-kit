@@ -16,7 +16,7 @@ import { MessagingProvider } from '../modules/Messaging/context/messging';
 import '../styles/globals.css';
 import Layout from './Layout';
 
-const chains: Chain[] = [customChains.polygonMumbai];
+const chains: Chain[] = [customChains.polygonMumbai, customChains.iexec];
 
 // Wagmi client
 const { provider } = configureChains(chains, [
