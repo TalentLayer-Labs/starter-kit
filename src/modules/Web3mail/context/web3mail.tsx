@@ -14,7 +14,7 @@ import TalentLayerContext from '../../../context/talentLayer';
 
 const Web3MailContext = createContext<{
   platformHasAccess: boolean;
-  protectEmailAndGrantAccess: () => void;
+  protectEmailAndGrantAccess: (email: string) => void;
 }>({
   platformHasAccess: false,
   protectEmailAndGrantAccess: () => {
@@ -97,6 +97,8 @@ const Web3MailProvider = ({ children }: { children: ReactNode }) => {
         return;
       }
 
+      setProtectedEmail(protectedEmail);
+
       console.log('Web3MailProvider ----  - before fetchGrantedAccess', protectedEmail);
       // Stuck here: WorkflowError: Failed to fetch granted access to this data: Failed to create contracts client: Missing iExec contract default address for chain 80001
       const listGrantedAccess = await dataProtector.fetchGrantedAccess({
@@ -112,8 +114,10 @@ const Web3MailProvider = ({ children }: { children: ReactNode }) => {
 
       const emailGrantedAccess = listGrantedAccess[0];
 
-      // Todo: try directly fetchMyContacts
-      // const contacts = await web3mail.fetchMyContacts();
+      if (!emailGrantedAccess) {
+        console.warn('Web3MailProvider ----  - User has not given access yet');
+        return;
+      }
 
       console.log('Web3MailProvider ---- ', {
         address: account,
@@ -123,7 +127,7 @@ const Web3MailProvider = ({ children }: { children: ReactNode }) => {
         listGrantedAccess,
       });
 
-      setProtectedEmail(protectedEmail);
+      setPlatformHasAccess(true);
       setEmailGrantedAccess(emailGrantedAccess);
     };
     fetchData().then(() => {
@@ -131,40 +135,47 @@ const Web3MailProvider = ({ children }: { children: ReactNode }) => {
     });
   }, [account]);
 
-  const protectEmailAndGrantAccess = useCallback(async () => {
-    console.log('Web3MailProvider ---- protectEmailAndGrantAccess', {
-      account,
-      protectedEmail,
-    });
+  const protectEmailAndGrantAccess = useCallback(
+    async (email: string) => {
+      console.log('Web3MailProvider ---- protectEmailAndGrantAccess', {
+        account,
+        protectedEmail,
+        email,
+      });
 
-    if (!dataProtector) {
-      console.error('Web3MailProvider ---- protectEmailAndGrantAccess --- dataProtector undefined');
-      return;
-    }
+      if (!dataProtector) {
+        console.error(
+          'Web3MailProvider ---- protectEmailAndGrantAccess --- dataProtector undefined',
+        );
+        return;
+      }
 
-    const protectedData = await dataProtector.protectData({
-      data: {
-        email: 'test@gmail.com',
-      },
-    });
+      const protectedData = await dataProtector.protectData({
+        data: {
+          email: email,
+        },
+      });
 
-    console.log('Web3MailProvider ---- protectEmailAndGrantAccess', {
-      protectedData,
-    });
+      console.log('Web3MailProvider ---- protectEmailAndGrantAccess', {
+        protectedData,
+      });
 
-    const grantedAccess = await dataProtector.grantAccess({
-      protectedData: protectedData.address,
-      authorizedApp: process.env.NEXT_PUBLIC_WEB3MAIL_APP_ADDRESS as string,
-      authorizedUser: process.env.NEXT_PUBLIC_WEB3MAIL_PLATFORM_PUBLIC_KEY as string,
-    });
+      const grantedAccess = await dataProtector.grantAccess({
+        protectedData: protectedData.address,
+        authorizedApp: process.env.NEXT_PUBLIC_WEB3MAIL_APP_ADDRESS as string,
+        authorizedUser: process.env.NEXT_PUBLIC_WEB3MAIL_PLATFORM_PUBLIC_KEY as string,
+      });
 
-    console.log('Web3MailProvider ---- protectEmailAndGrantAccess', {
-      grantedAccess,
-    });
+      console.log('Web3MailProvider ---- protectEmailAndGrantAccess', {
+        grantedAccess,
+      });
 
-    setProtectedEmail(protectedData);
-    setEmailGrantedAccess(grantedAccess);
-  }, [dataProtector, account]);
+      setProtectedEmail(protectedData);
+      setEmailGrantedAccess(grantedAccess);
+      setPlatformHasAccess(true);
+    },
+    [dataProtector, account],
+  );
 
   const value = useMemo(() => {
     return {

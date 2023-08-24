@@ -38,6 +38,16 @@ export type IUserDetails = {
   video_url?: string;
   about: string;
   skills_raw: string;
+  web3mail_preferences?: IWeb3mailPreferences;
+};
+
+export type IWeb3mailPreferences = {
+  activeOnNewService: boolean;
+  activeOnNewProposal: boolean;
+  activeOnProposalValidated: boolean;
+  activeOnFundRelease: boolean;
+  activeOnReview: boolean;
+  activeOnPlatformMarketing: boolean;
 };
 
 export type IUserStats = {
