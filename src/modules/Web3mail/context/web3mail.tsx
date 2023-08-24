@@ -1,13 +1,25 @@
 import { GrantedAccess, IExecDataProtector, ProtectedData } from '@iexec/dataprotector';
 import { IExecWeb3mail } from '@iexec/web3mail';
 import { providers } from 'ethers';
-import { ReactNode, createContext, useContext, useEffect, useMemo, useState } from 'react';
+import {
+  ReactNode,
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import TalentLayerContext from '../../../context/talentLayer';
 
 const Web3MailContext = createContext<{
   platformHasAccess: boolean;
+  protectEmailAndGrantAccess: () => void;
 }>({
   platformHasAccess: false,
+  protectEmailAndGrantAccess: () => {
+    return;
+  },
 });
 
 const Web3MailProvider = ({ children }: { children: ReactNode }) => {
@@ -60,8 +72,12 @@ const Web3MailProvider = ({ children }: { children: ReactNode }) => {
    * @when: Execute it only once after user is connected, and only if user switch wallet
    */
   useEffect(() => {
-    console.log('Web3MailProvider ---- fetchdata', { dataProtector, web3mail });
     if (!dataProtector || !web3mail || !account?.isConnected || isFetching) return;
+
+    console.log('Web3MailProvider ---- check if platform has access ?', {
+      dataProtector,
+      web3mail,
+    });
 
     setIsFetching(true);
 
@@ -115,9 +131,45 @@ const Web3MailProvider = ({ children }: { children: ReactNode }) => {
     });
   }, [account]);
 
+  const protectEmailAndGrantAccess = useCallback(async () => {
+    console.log('Web3MailProvider ---- protectEmailAndGrantAccess', {
+      account,
+      protectedEmail,
+    });
+
+    if (!dataProtector) {
+      console.error('Web3MailProvider ---- protectEmailAndGrantAccess --- dataProtector undefined');
+      return;
+    }
+
+    const protectedData = await dataProtector.protectData({
+      data: {
+        email: 'test@gmail.com',
+      },
+    });
+
+    console.log('Web3MailProvider ---- protectEmailAndGrantAccess', {
+      protectedData,
+    });
+
+    const grantedAccess = await dataProtector.grantAccess({
+      protectedData: protectedData.address,
+      authorizedApp: process.env.NEXT_PUBLIC_WEB3MAIL_APP_ADDRESS as string,
+      authorizedUser: process.env.NEXT_PUBLIC_WEB3MAIL_PLATFORM_PUBLIC_KEY as string,
+    });
+
+    console.log('Web3MailProvider ---- protectEmailAndGrantAccess', {
+      grantedAccess,
+    });
+
+    setProtectedEmail(protectedData);
+    setEmailGrantedAccess(grantedAccess);
+  }, [dataProtector, account]);
+
   const value = useMemo(() => {
     return {
       platformHasAccess,
+      protectEmailAndGrantAccess,
     };
   }, [platformHasAccess]);
 
