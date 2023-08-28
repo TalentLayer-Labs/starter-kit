@@ -10,14 +10,11 @@ import { useChainId } from '../../../hooks/useChainId';
 import { showErrorTransactionToast } from '../../../utils/toast';
 import Web3mailCard from './Web3mailCard';
 import Web3MailContext from '../context/web3mail';
+import { toast } from 'react-toastify';
 
 interface IFormValues {
   email: string;
 }
-
-const validationSchema = Yup.object({
-  email: Yup.string().required('email is required').email('email is not valid'),
-});
 
 function Web3mailForm() {
   const chainId = useChainId();
@@ -27,7 +24,7 @@ function Web3mailForm() {
   const { data: signer } = useSigner({
     chainId,
   });
-  const { protectEmailAndGrantAccess } = useContext(Web3MailContext);
+  const { protectEmailAndGrantAccess, emailIsProtected } = useContext(Web3MailContext);
 
   if (!user?.id) {
     return <Loading />;
@@ -37,15 +34,25 @@ function Web3mailForm() {
     email: '',
   };
 
+  const validationSchema = Yup.object({
+    email: emailIsProtected
+      ? Yup.string().notRequired()
+      : Yup.string().required('email is required').email('email is not valid'),
+  });
+
   const onSubmit = async (
     values: IFormValues,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void },
   ) => {
     if (user && provider && signer) {
       try {
-        protectEmailAndGrantAccess(values.email);
+        const promise = protectEmailAndGrantAccess(values.email);
+        await toast.promise(promise, {
+          pending: 'Pending transactions, follow instructions in your wallet',
+          success: 'Access granted succefully',
+          error: 'An error occurred while granted access',
+        });
         setSubmitting(false);
-        // TODO: show toast
       } catch (error) {
         showErrorTransactionToast(error);
       }
@@ -66,7 +73,7 @@ function Web3mailForm() {
             <Web3mailCard />
 
             <label className='block'>
-              <div className='mb-2 ml-0.5'>
+              <div className='mb-2 ml-1'>
                 <p className='font-heading text-base font-medium leading-none'>Your email</p>
                 <p className='font-sans text-xs font-normal leading-normal text-gray-400 mt-0.5'>
                   It will allow you to configure your preferences to be notified every time an
@@ -74,16 +81,37 @@ function Web3mailForm() {
                 </p>
               </div>
 
-              <Field
-                type='text'
-                id='email'
-                name='email'
-                className='mt-1 mb-1 block w-full rounded-xl border border-gray-700 bg-midnight shadow-sm focus:ring-opacity-50'
-                placeholder=''
-              />
+              {emailIsProtected ? (
+                <>
+                  <Field
+                    type='text'
+                    id='email'
+                    name='email'
+                    className='cursor-not-allowed mt-1 mb-1 block w-full rounded-xl border border-gray-700 bg-midnight shadow-sm focus:ring-opacity-50'
+                    placeholder='**********'
+                    readOnly
+                    disabled
+                    title='You already protect your email, just need to grant access now'
+                  />
+                  <span className='text-xs text-gray-400 ml-1'>
+                    You already protect your email, just need to grant access now
+                  </span>
+                </>
+              ) : (
+                <Field
+                  type='text'
+                  id='email'
+                  name='email'
+                  className='mt-1 mb-1 block w-full rounded-xl border border-gray-700 bg-midnight shadow-sm focus:ring-opacity-50'
+                  placeholder=''
+                />
+              )}
             </label>
 
-            <SubmitButton isSubmitting={isSubmitting} label='Protect and Share my email' />
+            <SubmitButton
+              isSubmitting={isSubmitting}
+              label={emailIsProtected ? 'Grant access' : 'Protect and Grant access'}
+            />
           </div>
         </Form>
       )}

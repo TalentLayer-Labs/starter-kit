@@ -17,17 +17,17 @@ import { IWeb3mailPreferences } from '../../../types';
 import { postToIPFS } from '../../../utils/ipfs';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../../utils/toast';
 import Web3mailCard from './Web3mailCard';
+import Web3mailRevokeButton from './Web3mailRevokeButton';
 
 function Web3mailPreferencesForm() {
   const config = useConfig();
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
-  const { user } = useContext(TalentLayerContext);
+  const { user, isActiveDelegate } = useContext(TalentLayerContext);
   const provider = useProvider({ chainId });
   const { data: signer } = useSigner({
     chainId,
   });
-  const { isActiveDelegate } = useContext(TalentLayerContext);
   const userDescription = user?.id ? useUserById(user?.id)?.description : null;
 
   if (!user?.id) {
@@ -127,9 +127,7 @@ function Web3mailPreferencesForm() {
                           important action happened.
                         </p>
                       </div>
-                      <span className='ml-3 px-3 font-sans transition-shadow duration-300 py-0.5 text-xs rounded-xl bg-green-100 bg-opacity-5 border-green-500 text-green-500 border bg-transparent font-medium flex items-center'>
-                        <LockClosedIcon width={16} height={16} />
-                      </span>
+                      <Web3mailRevokeButton />
                     </div>
                   </div>
                   <Field

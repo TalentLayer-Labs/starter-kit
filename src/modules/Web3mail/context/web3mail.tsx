@@ -14,10 +14,16 @@ import TalentLayerContext from '../../../context/talentLayer';
 
 const Web3MailContext = createContext<{
   platformHasAccess: boolean;
-  protectEmailAndGrantAccess: (email: string) => void;
+  emailIsProtected: boolean;
+  protectEmailAndGrantAccess: (email: string) => Promise<void>;
+  revokeAccess: () => Promise<void>;
 }>({
   platformHasAccess: false,
-  protectEmailAndGrantAccess: () => {
+  emailIsProtected: false,
+  protectEmailAndGrantAccess: async () => {
+    return;
+  },
+  revokeAccess: async () => {
     return;
   },
 });
@@ -25,6 +31,7 @@ const Web3MailContext = createContext<{
 const Web3MailProvider = ({ children }: { children: ReactNode }) => {
   const { account } = useContext(TalentLayerContext);
   const [platformHasAccess, setPlatformHasAccess] = useState(false);
+  const [emailIsProtected, setEmailIsProtected] = useState(false);
   const [dataProtector, setDataProtector] = useState<IExecDataProtector>();
   const [web3mail, setWeb3mail] = useState<IExecWeb3mail>();
   const [isFetching, setIsFetching] = useState<boolean>(false);
@@ -36,6 +43,8 @@ const Web3MailProvider = ({ children }: { children: ReactNode }) => {
     account,
     protectedEmail,
     emailGrantedAccess,
+    emailIsProtected,
+    platformHasAccess,
   });
 
   /*
@@ -98,6 +107,7 @@ const Web3MailProvider = ({ children }: { children: ReactNode }) => {
       }
 
       setProtectedEmail(protectedEmail);
+      setEmailIsProtected(true);
 
       console.log('Web3MailProvider ----  - before fetchGrantedAccess', protectedEmail);
       // Stuck here: WorkflowError: Failed to fetch granted access to this data: Failed to create contracts client: Missing iExec contract default address for chain 80001
@@ -150,18 +160,30 @@ const Web3MailProvider = ({ children }: { children: ReactNode }) => {
         return;
       }
 
-      const protectedData = await dataProtector.protectData({
-        data: {
-          email: email,
-        },
-      });
+      let newProtectedEmail;
+      if (!emailIsProtected) {
+        newProtectedEmail = await dataProtector.protectData({
+          data: {
+            email: email,
+          },
+        });
 
-      console.log('Web3MailProvider ---- protectEmailAndGrantAccess', {
-        protectedData,
-      });
+        console.log('Web3MailProvider ---- protectEmailAndGrantAccess', {
+          newProtectedEmail,
+        });
+      } else {
+        console.log(
+          'Web3MailProvider ---- protectEmailAndGrantAccess --- email is already protected just need to grant',
+          {
+            newProtectedEmail,
+          },
+        );
+      }
 
       const grantedAccess = await dataProtector.grantAccess({
-        protectedData: protectedData.address,
+        protectedData: (emailIsProtected
+          ? protectedEmail?.address
+          : newProtectedEmail?.address) as string,
         authorizedApp: process.env.NEXT_PUBLIC_WEB3MAIL_APP_ADDRESS as string,
         authorizedUser: process.env.NEXT_PUBLIC_WEB3MAIL_PLATFORM_PUBLIC_KEY as string,
       });
@@ -170,19 +192,48 @@ const Web3MailProvider = ({ children }: { children: ReactNode }) => {
         grantedAccess,
       });
 
-      setProtectedEmail(protectedData);
+      setProtectedEmail(newProtectedEmail);
+      setEmailIsProtected(true);
       setEmailGrantedAccess(grantedAccess);
       setPlatformHasAccess(true);
     },
-    [dataProtector, account],
+    [dataProtector, protectedEmail, account],
   );
+
+  const revokeAccess = useCallback(async () => {
+    console.log('Web3MailProvider ---- revokeAccess', {
+      account,
+      protectedEmail,
+    });
+
+    if (!dataProtector) {
+      console.error('Web3MailProvider ---- revokeAccess --- dataProtector undefined');
+      return;
+    }
+
+    if (!emailGrantedAccess) {
+      console.error('Web3MailProvider ---- revokeAccess --- emailGrantedAccess undefined');
+      return;
+    }
+
+    const revokeAccess = await dataProtector.revokeOneAccess(emailGrantedAccess);
+
+    console.log('Web3MailProvider ---- revokeAccess', {
+      revokeAccess,
+    });
+
+    setEmailGrantedAccess(undefined);
+    setPlatformHasAccess(false);
+  }, [emailGrantedAccess, account]);
 
   const value = useMemo(() => {
     return {
       platformHasAccess,
+      emailIsProtected,
       protectEmailAndGrantAccess,
+      revokeAccess,
     };
-  }, [platformHasAccess]);
+  }, [platformHasAccess, emailIsProtected, protectEmailAndGrantAccess, revokeAccess]);
 
   return <Web3MailContext.Provider value={value}>{children}</Web3MailContext.Provider>;
 };
