@@ -20,8 +20,8 @@ import { QuestionMarkCircle } from 'heroicons-react';
 interface IFormValues {
   title?: string;
   role?: string;
-  image_url?: string;
-  video_url?: string;
+  imageUrl?: string;
+  videoUrl?: string;
   name?: string;
   about?: string;
   skills?: string;
@@ -51,8 +51,8 @@ function ProfileForm({ callback }: { callback?: () => void }) {
   const initialValues: IFormValues = {
     title: userDescription?.title || '',
     role: userDescription?.role || '',
-    image_url: userDescription?.image_url || '',
-    video_url: userDescription?.video_url || '',
+    imageUrl: userDescription?.imageUrl || '',
+    videoUrl: userDescription?.videoUrl || '',
     name: userDescription?.name || '',
     about: userDescription?.about || '',
     skills: userDescription?.skills_raw || '',
@@ -85,8 +85,9 @@ function ProfileForm({ callback }: { callback?: () => void }) {
     }).then(response => response.json());
 
     setAiLoading(false);
-    setFieldValue('image_url', response.image);
+    setFieldValue('imageUrl', response.image);
   };
+
   function getRandomInt(max: number) {
     return Math.floor(Math.random() * max);
   }
@@ -101,8 +102,8 @@ function ProfileForm({ callback }: { callback?: () => void }) {
           JSON.stringify({
             title: values.title,
             role: values.role,
-            image_url: values.image_url,
-            video_url: values.video_url,
+            imageUrl: values.imageUrl,
+            videoUrl: values.videoUrl,
             name: values.name,
             about: values.about,
             skills: values.skills,
@@ -196,8 +197,8 @@ function ProfileForm({ callback }: { callback?: () => void }) {
               <span className='text-gray-100'>Picture Url</span>
               <Field
                 type='text'
-                id='image_url'
-                name='image_url'
+                id='imageUrl'
+                name='imageUrl'
                 className='mt-1 mb-1 block w-full rounded-xl border border-gray-700 bg-midnight shadow-sm focus:ring-opacity-50'
                 placeholder=''
               />
@@ -224,9 +225,9 @@ function ProfileForm({ callback }: { callback?: () => void }) {
                     </button>
                   </div>
                 </div>
-                {values.image_url && (
+                {values.imageUrl && (
                   <div className='flex items-center justify-center py-3'>
-                    <img width='300' height='300' src={values.image_url} alt='' />
+                    <img width='300' height='300' src={values.imageUrl} alt='' />
                   </div>
                 )}
               </div>

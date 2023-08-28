@@ -81,7 +81,7 @@ function ProposalForm({
     rateToken: existingProposal?.rateToken.address || '',
     rateAmount: existingRateTokenAmount || 0,
     expirationDate: existingExpirationDate || 15,
-    videoUrl: existingProposal?.description?.video_url || '',
+    videoUrl: existingProposal?.description?.videoUrl || '',
   };
 
   const askAI = async (input: string, setFieldValue: any) => {
@@ -127,7 +127,7 @@ function ProposalForm({
         const cid = await postToIPFS(
           JSON.stringify({
             about: values.about,
-            video_url: values.videoUrl,
+            videoUrl: values.videoUrl,
           }),
         );
 

@@ -1,5 +1,18 @@
 import { processRequest } from '../utils/graphql';
 
+// TODO: when graph is sync with last version
+// videoUrl
+// imageUrl
+// web3mailPreferences{
+//   activeOnNewService
+//   activeOnNewProposal
+//   activeOnProposalValidated
+//   activeOnFundRelease
+//   activeOnReview
+//   activeOnPlatformMarketing
+//   activeOnProtocolMarketing
+// }
+
 export const getUsers = (
   chainId: number,
   numberPerPage?: number,
