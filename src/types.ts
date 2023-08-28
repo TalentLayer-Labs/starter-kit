@@ -26,7 +26,7 @@ export type IUser = {
   rating: string;
   description?: IUserDetails;
   userStats: IUserStats;
-  image_url: string;
+  imageUrl: string;
   delegates?: string[];
 };
 
@@ -34,11 +34,11 @@ export type IUserDetails = {
   title: string;
   name: string;
   role: string;
-  image_url: string;
-  video_url?: string;
+  imageUrl: string;
+  videoUrl?: string;
   about: string;
   skills_raw: string;
-  web3mail_preferences?: IWeb3mailPreferences;
+  web3mailPreferences?: IWeb3mailPreferences;
 };
 
 export type IWeb3mailPreferences = {
@@ -167,7 +167,7 @@ export type IProposalDetails = {
   expectedHours: string;
   service: IService;
   expirationDate: string;
-  video_url: string;
+  videoUrl?: string;
 };
 
 export type IProposal = {
