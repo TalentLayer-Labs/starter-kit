@@ -7,7 +7,7 @@ function Web3mailCard() {
         <svg
           className='pointer-events-none start-3'
           xmlns='http://www.w3.org/2000/svg'
-          enable-background='new 0 0 1920 1080'
+          enableBackground='new 0 0 1920 1080'
           viewBox='0 0 1920 1080'
           id='concept-of-data-privacy-and-policy'>
           <path
