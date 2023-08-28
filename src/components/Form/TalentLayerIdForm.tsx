@@ -14,6 +14,7 @@ import { HandlePrice } from './handle-price';
 import { delegateMintID } from '../request';
 import { useChainId } from '../../hooks/useChainId';
 import { useConfig } from '../../hooks/useConfig';
+import { NetworkEnum } from '../../types';
 
 interface IFormValues {
   handle: string;
@@ -115,7 +116,9 @@ function TalentLayerIdForm() {
             </div>
 
             <div className='flex items-center'>
-              {values.handle && <HandlePrice handle={values.handle} />}
+              {values.handle && chainId != NetworkEnum.IEXEC && (
+                <HandlePrice handle={values.handle} />
+              )}
               <div>
                 <div className='sm:pl-2 sm:pr-4 sm:space-x-4 relative'>
                   <SubmitButton isSubmitting={isSubmitting} />
