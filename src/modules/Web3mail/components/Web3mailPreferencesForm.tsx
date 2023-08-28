@@ -1,20 +1,25 @@
 import { LockClosedIcon } from '@heroicons/react/24/outline';
 import { useWeb3Modal } from '@web3modal/react';
+import { ethers } from 'ethers';
 import { Field, Form, Formik } from 'formik';
 import { useContext } from 'react';
 import { useProvider, useSigner } from 'wagmi';
-import * as Yup from 'yup';
 import SubmitButton from '../../../components/Form/SubmitButton';
 import { Toogle } from '../../../components/Form/Toggle';
 import Loading from '../../../components/Loading';
+import { delegateUpdateProfileData } from '../../../components/request';
 import TalentLayerContext from '../../../context/talentLayer';
+import TalentLayerID from '../../../contracts/ABI/TalentLayerID.json';
 import { useChainId } from '../../../hooks/useChainId';
-import { showErrorTransactionToast } from '../../../utils/toast';
-import Web3mailCard from './Web3mailCard';
+import { useConfig } from '../../../hooks/useConfig';
 import useUserById from '../../../hooks/useUserById';
 import { IWeb3mailPreferences } from '../../../types';
+import { postToIPFS } from '../../../utils/ipfs';
+import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../../utils/toast';
+import Web3mailCard from './Web3mailCard';
 
 function Web3mailPreferencesForm() {
+  const config = useConfig();
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
   const { user } = useContext(TalentLayerContext);
@@ -22,6 +27,7 @@ function Web3mailPreferencesForm() {
   const { data: signer } = useSigner({
     chainId,
   });
+  const { isActiveDelegate } = useContext(TalentLayerContext);
   const userDescription = user?.id ? useUserById(user?.id)?.description : null;
 
   if (!user?.id) {
@@ -29,14 +35,14 @@ function Web3mailPreferencesForm() {
   }
 
   const initialValues: IWeb3mailPreferences = {
-    activeOnNewService: userDescription?.web3mail_preferences?.activeOnNewService || true,
-    activeOnNewProposal: userDescription?.web3mail_preferences?.activeOnNewProposal || true,
+    activeOnNewService: userDescription?.web3mailPreferences?.activeOnNewService || true,
+    activeOnNewProposal: userDescription?.web3mailPreferences?.activeOnNewProposal || true,
     activeOnProposalValidated:
-      userDescription?.web3mail_preferences?.activeOnProposalValidated || true,
-    activeOnFundRelease: userDescription?.web3mail_preferences?.activeOnFundRelease || true,
-    activeOnReview: userDescription?.web3mail_preferences?.activeOnReview || true,
+      userDescription?.web3mailPreferences?.activeOnProposalValidated || true,
+    activeOnFundRelease: userDescription?.web3mailPreferences?.activeOnFundRelease || true,
+    activeOnReview: userDescription?.web3mailPreferences?.activeOnReview || true,
     activeOnPlatformMarketing:
-      userDescription?.web3mail_preferences?.activeOnPlatformMarketing || true,
+      userDescription?.web3mailPreferences?.activeOnPlatformMarketing || true,
   };
 
   const onSubmit = async (
@@ -45,7 +51,52 @@ function Web3mailPreferencesForm() {
   ) => {
     if (user && provider && signer) {
       try {
-        console.log('Web3mailPreferencesForm ----', { values });
+        const cid = await postToIPFS(
+          JSON.stringify({
+            title: userDescription?.title,
+            role: userDescription?.role,
+            imageUrl: userDescription?.imageUrl,
+            videoUrl: userDescription?.videoUrl,
+            name: userDescription?.name,
+            about: userDescription?.about,
+            skills: userDescription?.skills_raw,
+            web3mailPreferences: {
+              activeOnNewService: values.activeOnNewService,
+              activeOnNewProposal: values.activeOnNewProposal,
+              activeOnProposalValidated: values.activeOnProposalValidated,
+              activeOnFundRelease: values.activeOnFundRelease,
+              activeOnReview: values.activeOnReview,
+              activeOnPlatformMarketing: values.activeOnPlatformMarketing,
+            },
+          }),
+        );
+
+        let tx;
+        if (isActiveDelegate) {
+          const response = await delegateUpdateProfileData(chainId, user.id, user.address, cid);
+          tx = response.data.transaction;
+        } else {
+          const contract = new ethers.Contract(
+            config.contracts.talentLayerId,
+            TalentLayerID.abi,
+            signer,
+          );
+          tx = await contract.updateProfileData(user.id, cid);
+        }
+
+        await createMultiStepsTransactionToast(
+          chainId,
+          {
+            pending: 'Updating your preferences...',
+            success: 'Congrats! Your preferences has been updated',
+            error: 'An error occurred while updating your preferences',
+          },
+          provider,
+          tx,
+          'user',
+          cid,
+        );
+
         setSubmitting(false);
       } catch (error) {
         showErrorTransactionToast(error);
