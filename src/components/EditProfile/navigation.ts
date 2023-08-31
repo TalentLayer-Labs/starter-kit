@@ -1,6 +1,6 @@
 import {
+  BellAlertIcon,
   Cog6ToothIcon,
-  LockClosedIcon,
   StarIcon,
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
@@ -14,9 +14,9 @@ export const navigation = [
     current: false,
   },
   {
-    name: 'Privacy',
+    name: 'Notifications',
     href: '/dashboard/profile/edit/privacy',
-    icon: LockClosedIcon,
+    icon: BellAlertIcon,
     current: false,
   },
   {

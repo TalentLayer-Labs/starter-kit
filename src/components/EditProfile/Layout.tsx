@@ -12,7 +12,7 @@ interface ContainerProps {
 }
 
 function Layout({ children, className }: ContainerProps) {
-  const { account, user } = useContext(TalentLayerContext);
+  const { account, user, completionScores } = useContext(TalentLayerContext);
 
   if (!account?.isConnected || !user) {
     return <Steps />;
@@ -40,32 +40,62 @@ function Layout({ children, className }: ContainerProps) {
               <div className='grid gap-8 sm:grid-cols-12'>
                 <div className='col-span-12 sm:col-span-4'>
                   <div className='flex w-full items-center gap-2'>
-                    <div className='relative inline-flex shrink-0 items-center justify-center outline-none h-12 w-12 rounded-full'>
-                      <div className='flex h-full w-full items-center justify-center overflow-hidden text-center transition-all duration-300 rounded-full'>
-                        <Image
-                          src={`/images/default-avatar-${Number(user?.id) % 9}.jpeg`}
-                          className='max-h-full max-w-full object-cover shadow-sm border-transparent h-12 w-12'
-                          width={48}
-                          height={48}
-                          alt='default avatar'
-                        />
+                    <div className='border-gray-700 bg-endnight relative w-full border transition-all duration-300 rounded-md flex flex-col p-6'>
+                      <div className='flex items-center'>
+                        <div className='relative inline-flex shrink-0 items-center justify-center outline-none h-12 w-12 rounded-full mr-4'>
+                          <div className='flex h-full w-full items-center justify-center overflow-hidden text-center transition-all duration-300 rounded-full'>
+                            <Image
+                              src={`/images/default-avatar-${Number(user?.id) % 9}.jpeg`}
+                              className='max-h-full max-w-full object-cover shadow-sm border-transparent h-12 w-12'
+                              width={48}
+                              height={48}
+                              alt='default avatar'
+                            />
+                          </div>
+                        </div>
+                        <div className=''>
+                          <p className='font-heading text-lg font-medium leading-none'>
+                            {user?.handle}
+                          </p>
+                          <p className='font-alt text-sm font-normal leading-normal text-gray-400'>
+                            {user?.description?.title}
+                          </p>
+                        </div>
+                      </div>
+                      <div className='mb-1 mt-6 flex items-center justify-between'>
+                        <h3 className='font-heading text-sm font-semibold leading-tight '>
+                          <span>Profile Completion</span>
+                        </h3>
+                        <div>
+                          <span className='text-gray-400 font-sans text-sm'>
+                            {completionScores?.total.percentage || '0'}%
+                          </span>
+                        </div>
+                      </div>
+                      <div>
+                        <div
+                          role='progressbar'
+                          className='bg-gray-700 relative w-full overflow-hidden h-1 rounded-full'>
+                          <div
+                            className='bg-redpraha rounded-full absolute start-0 top-0 h-full transition-all duration-300'
+                            style={{ width: completionScores?.total.percentage + '%' }}
+                          />
+                        </div>
+                        <div className='mt-2'>
+                          <p className='text-gray-400 font-sans text-xs leading-tight'>
+                            Reach out higher levels to increase your visibility and trust inside the
+                            network while preserving your privacy.
+                          </p>
+                        </div>
+                      </div>
+                      <div className='mt-8 border-t-2 border-dashed pt-8 border-gray-700'>
+                        <SideMenu />
                       </div>
                     </div>
-                    <div className=''>
-                      <p className='font-heading text-base font-medium leading-none'>
-                        {user?.handle}
-                      </p>
-                      <p className='font-alt text-xs font-normal leading-normal text-muted-400'>
-                        {user?.description?.title}
-                      </p>
-                    </div>
-                  </div>
-                  <div className='mt-8 max-w-[240px]'>
-                    <SideMenu />
                   </div>
                 </div>
                 <div className='col-span-12 sm:col-span-8'>
-                  <div className='pb-16 border-muted-700 relative w-full transition-all duration-300 rounded-md'>
+                  <div className='pb-16 border-gray-700 relative w-full transition-all duration-300 rounded-md'>
                     <div className='border border-gray-700 rounded-xl p-6 bg-endnight'>
                       {children}
                     </div>

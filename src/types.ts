@@ -26,18 +26,17 @@ export type IUser = {
   rating: string;
   description?: IUserDetails;
   userStats: IUserStats;
-  imageUrl: string;
   delegates?: string[];
 };
 
 export type IUserDetails = {
   title: string;
   name: string;
-  role: string;
-  imageUrl: string;
+  role?: string;
+  imageUrl?: string;
   videoUrl?: string;
-  about: string;
-  skills_raw: string;
+  about?: string;
+  skills_raw?: string;
   web3mailPreferences?: IWeb3mailPreferences;
 };
 
@@ -52,11 +51,11 @@ export type IWeb3mailPreferences = {
 
 export type IUserStats = {
   numReceivedReviews: number;
-  numGivenReviews: number;
-  numCreatedServices: number;
-  numFinishedServicesAsBuyer: number;
-  numCreatedProposals: number;
-  numFinishedServicesAsSeller: number;
+  numGivenReviews?: number;
+  numCreatedServices?: number;
+  numFinishedServicesAsBuyer?: number;
+  numCreatedProposals?: number;
+  numFinishedServicesAsSeller?: number;
 };
 
 export type IAccount = {

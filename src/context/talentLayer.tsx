@@ -3,18 +3,24 @@ import { useAccount } from 'wagmi';
 import { useChainId } from '../hooks/useChainId';
 import { getUserByAddress } from '../queries/users';
 import { IAccount, IUser } from '../types';
+import { getCompletionScores, ICompletionScores } from '../utils/profile';
 
 const TalentLayerContext = createContext<{
   user?: IUser;
   account?: IAccount;
   isActiveDelegate: boolean;
-  refreshData?: () => void;
+  refreshData: () => Promise<void>;
   loading: boolean;
+  completionScores?: ICompletionScores;
 }>({
   user: undefined,
   account: undefined,
   isActiveDelegate: false,
+  refreshData: async () => {
+    return;
+  },
   loading: true,
+  completionScores: undefined,
 });
 
 const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
@@ -23,6 +29,7 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
   const account = useAccount();
   const [isActiveDelegate, setIsActiveDelegate] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [completionScores, setCompletionScores] = useState<ICompletionScores | undefined>();
 
   const fetchData = async () => {
     if (!account.address || !account.isConnected) {
@@ -61,13 +68,10 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
   }, [chainId, account.address, account.isConnected, isActiveDelegate]);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      fetchData();
-    }, 4000);
-    return () => {
-      clearInterval(interval);
-    };
-  }, [fetchData]);
+    if (!user) return;
+    const completionScores = getCompletionScores(user);
+    setCompletionScores(completionScores);
+  }, [user]);
 
   const value = useMemo(() => {
     return {
@@ -76,8 +80,9 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
       isActiveDelegate,
       refreshData: fetchData,
       loading,
+      completionScores,
     };
-  }, [account.address, user?.id, isActiveDelegate, loading]);
+  }, [account.address, user?.id, isActiveDelegate, loading, completionScores]);
 
   return <TalentLayerContext.Provider value={value}>{children}</TalentLayerContext.Provider>;
 };

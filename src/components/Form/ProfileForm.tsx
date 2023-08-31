@@ -35,7 +35,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
   const config = useConfig();
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
-  const { user } = useContext(TalentLayerContext);
+  const { user, refreshData } = useContext(TalentLayerContext);
   const provider = useProvider({ chainId });
   const [aiLoading, setAiLoading] = useState(false);
   const userDescription = user?.id ? useUserById(user?.id)?.description : null;
@@ -140,6 +140,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
           callback();
         }
 
+        refreshData();
         setSubmitting(false);
       } catch (error) {
         showErrorTransactionToast(error);
