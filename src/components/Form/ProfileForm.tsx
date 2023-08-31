@@ -107,6 +107,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
             name: values.name,
             about: values.about,
             skills: values.skills,
+            web3mailPreferences: user.description?.web3mailPreferences,
           }),
         );
 
