@@ -17,12 +17,17 @@ describe('getCompletionScores', () => {
     const expected = {
       total: {
         score: 10,
-        totalPoint: 100,
-        percentage: 10,
+        totalPoint: 140,
+        percentage: 7,
       },
       userDetails: {
         score: 0,
-        totalPoint: 90,
+        totalPoint: 80,
+        percentage: 0,
+      },
+      web3mail: {
+        score: 0,
+        totalPoint: 50,
         percentage: 0,
       },
     };
@@ -36,18 +41,31 @@ describe('getCompletionScores', () => {
         title: 'Engineer',
         name: 'John',
         skills_raw: 'solidity, jest, js',
+        web3mailPreferences: {
+          activeOnNewService: false,
+          activeOnNewProposal: true,
+          activeOnProposalValidated: false,
+          activeOnFundRelease: false,
+          activeOnReview: false,
+          activeOnPlatformMarketing: false,
+        },
       },
     };
     const expected = {
       total: {
-        score: 50,
-        totalPoint: 100,
-        percentage: 50,
+        score: 100,
+        totalPoint: 140,
+        percentage: 71,
       },
       userDetails: {
         score: 40,
-        totalPoint: 90,
-        percentage: 44,
+        totalPoint: 80,
+        percentage: 50,
+      },
+      web3mail: {
+        score: 50,
+        totalPoint: 50,
+        percentage: 100,
       },
     };
     expect(getCompletionScores(user)).toEqual(expected);

@@ -1,8 +1,9 @@
-import { IUser, IUserDetails } from '../types';
+import { IUser, IUserDetails, IWeb3mailPreferences } from '../types';
 
 export type ICompletionScores = {
   total: ICompletionScore;
   userDetails: ICompletionScore;
+  web3mail: ICompletionScore;
 };
 
 export type ICompletionScore = {
@@ -22,7 +23,10 @@ const pointsByUserDetailsFields = {
   imageUrl: 10,
   about: 20,
   skills_raw: 20,
-  web3mailPreferences: 10,
+};
+
+const pointsByWeb3mailFields = {
+  activeOnNewProposal: 50,
 };
 
 export const getCompletionScores = (user: IUser): ICompletionScores => {
@@ -49,6 +53,21 @@ export const getCompletionScores = (user: IUser): ICompletionScores => {
     }
   });
 
+  let userWeb3mailScore = 0;
+  let userWeb3mailTotalPoint = 0;
+  Object.entries(pointsByWeb3mailFields).forEach(pointsByField => {
+    const [key, value] = pointsByField;
+    totalPoint += value;
+    userWeb3mailTotalPoint += value;
+    if (
+      user.description?.web3mailPreferences &&
+      user.description.web3mailPreferences[key as keyof IWeb3mailPreferences] !== null
+    ) {
+      score += value;
+      userWeb3mailScore += value;
+    }
+  });
+
   return {
     total: {
       score: score,
@@ -59,6 +78,11 @@ export const getCompletionScores = (user: IUser): ICompletionScores => {
       percentage: Math.round((userDetailsScore * 100) / userDetailsTotalPoint),
       score: userDetailsScore,
       totalPoint: userDetailsTotalPoint,
+    },
+    web3mail: {
+      percentage: Math.round((userWeb3mailScore * 100) / userWeb3mailTotalPoint),
+      score: userWeb3mailScore,
+      totalPoint: userWeb3mailTotalPoint,
     },
   };
 };

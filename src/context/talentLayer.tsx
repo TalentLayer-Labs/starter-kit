@@ -9,7 +9,7 @@ const TalentLayerContext = createContext<{
   user?: IUser;
   account?: IAccount;
   isActiveDelegate: boolean;
-  refreshData: () => Promise<void>;
+  refreshData: () => Promise<boolean>;
   loading: boolean;
   completionScores?: ICompletionScores;
 }>({
@@ -17,7 +17,7 @@ const TalentLayerContext = createContext<{
   account: undefined,
   isActiveDelegate: false,
   refreshData: async () => {
-    return;
+    return false;
   },
   loading: true,
   completionScores: undefined,
@@ -60,6 +60,7 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
       setLoading(false);
       // eslint-disable-next-line no-console
       console.error(err);
+      return false;
     }
   };
 

@@ -6,7 +6,13 @@ import {
 } from '@heroicons/react/24/outline';
 
 export const navigation = [
-  { name: 'Your profile', href: '/dashboard/profile/edit', icon: UserCircleIcon, current: false },
+  {
+    name: 'Your profile',
+    href: '/dashboard/profile/edit',
+    icon: UserCircleIcon,
+    current: false,
+    completitonKey: 'userDetails',
+  },
   {
     name: 'Trust Score',
     href: '/dashboard/profile/edit/trust-score',
@@ -18,6 +24,7 @@ export const navigation = [
     href: '/dashboard/profile/edit/privacy',
     icon: BellAlertIcon,
     current: false,
+    completitonKey: 'web3mail',
   },
   {
     name: 'Settings',

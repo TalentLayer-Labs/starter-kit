@@ -23,7 +23,7 @@ function Web3mailPreferencesForm() {
   const config = useConfig();
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
-  const { user, isActiveDelegate } = useContext(TalentLayerContext);
+  const { user, isActiveDelegate, refreshData } = useContext(TalentLayerContext);
   const provider = useProvider({ chainId });
   const { data: signer } = useSigner({
     chainId,
@@ -42,7 +42,7 @@ function Web3mailPreferencesForm() {
     activeOnFundRelease: userDescription?.web3mailPreferences?.activeOnFundRelease || true,
     activeOnReview: userDescription?.web3mailPreferences?.activeOnReview || true,
     activeOnPlatformMarketing:
-      userDescription?.web3mailPreferences?.activeOnPlatformMarketing || true,
+      userDescription?.web3mailPreferences?.activeOnPlatformMarketing || false,
   };
 
   const onSubmit = async (
@@ -97,6 +97,7 @@ function Web3mailPreferencesForm() {
           cid,
         );
 
+        refreshData();
         setSubmitting(false);
       } catch (error) {
         showErrorTransactionToast(error);
@@ -152,10 +153,6 @@ function Web3mailPreferencesForm() {
                       Receive email when:
                     </p>
                   </div>
-                  <Toogle
-                    entityId={'activeOnNewService'}
-                    label='A new gig corresponding your skills is open'
-                  />
 
                   <Toogle
                     entityId={'activeOnNewProposal'}
@@ -167,13 +164,18 @@ function Web3mailPreferencesForm() {
                     label='Your proposal has been validated'
                   />
 
-                  <Toogle entityId={'activeOnFundRelease'} label='The hirer released fund' />
+                  <Toogle entityId={'activeOnFundRelease'} label='You received new fund' />
 
                   <Toogle entityId={'activeOnReview'} label='You received a new review' />
 
                   <Toogle
+                    entityId={'activeOnNewService'}
+                    label='A new gig corresponding your skills is open'
+                  />
+
+                  <Toogle
                     entityId={'activeOnPlatformMarketing'}
-                    label='We want to keep you update on important annoucement, new features..'
+                    label='Important annoucement, new features, new partnerships..'
                   />
                 </div>
               </label>

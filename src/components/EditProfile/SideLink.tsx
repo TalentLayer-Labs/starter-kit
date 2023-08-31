@@ -1,14 +1,23 @@
 import { useRouter } from 'next/router';
+import { CheckIcon } from '@heroicons/react/24/outline';
 
-function SideLink({ children, href }: { children: React.ReactNode; href: string }) {
+function SideLink({
+  children,
+  href,
+  isCompleted,
+}: {
+  children: React.ReactNode;
+  href: string;
+  isCompleted: boolean;
+}) {
   const router = useRouter();
   const isDashboard = href == '/dashboard/profile/edit';
   let className = isDashboard
     ? router.asPath === href
-      ? 'text-primary-500 bg-redpraha/70'
+      ? 'text-primary-500 bg-redpraha'
       : ''
     : router.asPath.includes(href)
-    ? 'text-primary-500 bg-redpraha/70'
+    ? 'text-primary-500 bg-redpraha'
     : '';
 
   className +=
@@ -22,6 +31,11 @@ function SideLink({ children, href }: { children: React.ReactNode; href: string 
   return (
     <a href={href} onClick={handleClick} className={className}>
       {children}
+      {isCompleted && (
+        <span>
+          <CheckIcon width={20} height={20} className='bg-white p-1 text-redpraha rounded-full' />
+        </span>
+      )}
     </a>
   );
 }
