@@ -25,13 +25,19 @@ function Services() {
       <div className=' -mx-6 -mt-6 '>
         <div className='flex py-2 px-6 items-center border-b w-full border-gray-700 mb-8'>
           <p className='text-2xl font-medium flex-1'>
-            All <span className='text-gray-100 ml-1'> Gigs </span>
+            Search <span className='text-gray-100 ml-1'> Opportunities </span>
+          </p>
+          <p className='text-sm font-medium flex-1'>
+            <span className='text-gray-100 mr-1'>
+              {' '}
+              Find photography requests in your area or post an opportunity{' '}
+            </span>
           </p>
           <Link
             href={`/dashboard/services/create`}
             className=' hover:bg-endnight text-white bg-endnight px-3 py-2 text-sm flex items-center rounded-xl'>
             <PlusCircleIcon className='w-[18px] h-[18px] text-redpraha mr-2' />
-            Create Gig
+            Create Photo Request
           </Link>
         </div>
       </div>
