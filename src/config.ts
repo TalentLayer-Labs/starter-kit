@@ -1,4 +1,3 @@
-import { ethers } from 'ethers';
 import { IToken, NetworkEnum } from './types';
 
 export type Config = {
@@ -32,8 +31,8 @@ const mumbai: Config = {
     timeoutPayment: 3600 * 24 * 7,
   },
   tokens: {
-    [ethers.constants.AddressZero]: {
-      address: ethers.constants.AddressZero,
+    '0x0000000000000000000000000000000000000000': {
+      address: '0x0000000000000000000000000000000000000000',
       symbol: 'MATIC',
       name: 'Matic',
       decimals: 18,
@@ -62,8 +61,8 @@ const local: Config = {
     timeoutPayment: 3600 * 24 * 7,
   },
   tokens: {
-    [ethers.constants.AddressZero]: {
-      address: ethers.constants.AddressZero,
+    '0x0000000000000000000000000000000000000000': {
+      address: '0x0000000000000000000000000000000000000000',
       symbol: 'ETH',
       name: 'ETH',
       decimals: 18,
