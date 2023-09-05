@@ -18,6 +18,7 @@ import { useWeb3Modal } from '@web3modal/react';
 import { QuestionMarkCircle } from 'heroicons-react';
 import SubmitButton from '../../../components/Form/SubmitButton';
 import { generatePicture } from '../../../utils/ai-picture-gen';
+import { Container } from '../../../components/newlayout/container';
 
 interface IFormValues {
   about: string;
@@ -35,7 +36,6 @@ function AdminPresentation({ callback }: { callback?: () => void }) {
   const { id } = router.query;
   const { user, isAdmin, isActiveDelegate } = useContext(StarterKitContext);
   const platformDescription = usePlatform(id as string)?.description;
-  console.log(platformDescription);
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
   const config = useConfig();
@@ -115,7 +115,7 @@ function AdminPresentation({ callback }: { callback?: () => void }) {
   };
 
   return (
-    <>
+    <Container>
       <p className='text-xl font-medium tracking-wider'>Configuration {'/'} Presentation</p>
       <p className='mb-6 pb-4 border-b border-gray-gray-200 font-medium'>OffChain</p>
       <Formik
@@ -126,7 +126,7 @@ function AdminPresentation({ callback }: { callback?: () => void }) {
         {({ isSubmitting, setFieldValue, values }) => (
           <Form>
             <div className='grid grid-cols-1 gap-6 border border-gray-700 rounded-xl p-6 bg-endnight'>
-              <label className='block hidden'>
+              <label className='block'>
                 <span className='text-gray-100'>Website</span>
                 <Field
                   type='text'
@@ -199,7 +199,7 @@ function AdminPresentation({ callback }: { callback?: () => void }) {
           </Form>
         )}
       </Formik>
-    </>
+    </Container>
   );
 }
 
