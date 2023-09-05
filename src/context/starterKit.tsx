@@ -10,6 +10,7 @@ const StarterKitContext = createContext<{
   account?: IAccount;
   isActiveDelegate: boolean;
   ownedPlatforms: IPlatform[];
+  isAdmin: boolean;
   refreshData?: () => void;
   loading: boolean;
 }>({
@@ -17,6 +18,7 @@ const StarterKitContext = createContext<{
   account: undefined,
   isActiveDelegate: false,
   ownedPlatforms: [],
+  isAdmin: false,
   loading: true,
 });
 
@@ -26,6 +28,7 @@ const StarterKitProvider = ({ children }: { children: ReactNode }) => {
   const account = useAccount();
   const [isActiveDelegate, setIsActiveDelegate] = useState(false);
   const [ownedPlatforms, setOwnedPlatforms] = useState<IPlatform[]>([]);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const fetchData = async () => {
@@ -52,8 +55,16 @@ const StarterKitProvider = ({ children }: { children: ReactNode }) => {
           ) !== -1,
       );
 
-      const ownedPlatforms = await getPlatformsByOwner(chainId, currentUser.address);
-      setOwnedPlatforms(ownedPlatforms?.data?.data?.platforms);
+      const ownedPlatformsResponse = await getPlatformsByOwner(chainId, currentUser.address);
+      const ownedPlatforms: IPlatform[] = ownedPlatformsResponse?.data?.data?.platforms;
+      setOwnedPlatforms(ownedPlatforms);
+      if (ownedPlatforms) {
+        const isAdmin =
+          ownedPlatforms.filter(p => p.id === process.env.NEXT_PUBLIC_PLATFORM_ID).length > 0;
+        if (isAdmin) {
+          setIsAdmin(true);
+        }
+      }
 
       setLoading(false);
       return true;
@@ -82,6 +93,7 @@ const StarterKitProvider = ({ children }: { children: ReactNode }) => {
       user,
       account: account ? account : undefined,
       ownedPlatforms,
+      isAdmin,
       isActiveDelegate,
       refreshData: fetchData,
       loading,

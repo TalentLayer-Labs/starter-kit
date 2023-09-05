@@ -17,8 +17,28 @@ export const navigation = [
 ];
 
 export const navigationAdmin = [
-  { name: 'Presentation', href: '/admin', icon: PresentationChartLineIcon, current: false },
-  { name: 'Global', href: '/admin/global', icon: WalletIcon, current: false },
-  { name: 'Fees strategies', href: '/admin/fees', icon: ShieldCheckIcon, current: false },
-  { name: 'Dispute', href: '/admin/dispute', icon: ExclamationCircleIcon, current: false },
+  {
+    name: 'Presentation',
+    href: `/admin/presentation/${process.env.NEXT_PUBLIC_PLATFORM_ID}`,
+    icon: PresentationChartLineIcon,
+    current: false,
+  },
+  {
+    name: 'Global',
+    href: `/admin/global/${process.env.NEXT_PUBLIC_PLATFORM_ID}`,
+    icon: WalletIcon,
+    current: false,
+  },
+  {
+    name: 'Fees strategies',
+    href: `/admin/fees/${process.env.NEXT_PUBLIC_PLATFORM_ID}`,
+    icon: ShieldCheckIcon,
+    current: false,
+  },
+  {
+    name: 'Dispute',
+    href: `/admin/dispute/${process.env.NEXT_PUBLIC_PLATFORM_ID}`,
+    icon: ExclamationCircleIcon,
+    current: false,
+  },
 ];
