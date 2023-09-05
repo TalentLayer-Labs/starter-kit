@@ -39,6 +39,7 @@ function AdminFees() {
             }),
             valueType: 'number',
             initialValue: (platform?.originServiceFeeRate || 0) / FEE_RATE_DIVIDER,
+            shouldMultiplyByFeeRate: true,
           }}
           contractParams={{
             contractFunctionName: 'updateOriginServiceFeeRate',
@@ -57,6 +58,7 @@ function AdminFees() {
             }),
             valueType: 'number',
             initialValue: (platform?.originValidatedProposalFeeRate || 0) / FEE_RATE_DIVIDER,
+            shouldMultiplyByFeeRate: true,
           }}
           contractParams={{
             contractFunctionName: 'updateOriginValidatedProposalFeeRate',
@@ -75,6 +77,7 @@ function AdminFees() {
             }),
             valueType: 'number',
             initialValue: (Number(platform?.servicePostingFee) || 0) / FEE_RATE_DIVIDER,
+            shouldMultiplyByFeeRate: true,
           }}
           contractParams={{
             contractFunctionName: 'updateServicePostingFee',
@@ -93,6 +96,7 @@ function AdminFees() {
             }),
             valueType: 'number',
             initialValue: (Number(platform?.proposalPostingFee) || 0) / FEE_RATE_DIVIDER,
+            shouldMultiplyByFeeRate: true,
           }}
           contractParams={{
             contractFunctionName: 'updateProposalPostingFee',

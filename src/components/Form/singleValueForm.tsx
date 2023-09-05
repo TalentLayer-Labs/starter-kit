@@ -21,6 +21,7 @@ interface validationDatasType {
   validationSchema: Yup.ObjectSchema<ObjectShape>;
   valueType: string;
   initialValue?: number | string;
+  shouldMultiplyByFeeRate?: boolean;
 }
 
 interface contractParamsType {
@@ -40,7 +41,7 @@ function SingleValueForm({
   contractParams: contractParamsType;
   valueName: string;
 }) {
-  const { validationSchema, valueType, initialValue } = validationDatas;
+  const { validationSchema, valueType, initialValue, shouldMultiplyByFeeRate } = validationDatas;
   const { contractFunctionName, contractEntity, contractInputs, contractAddress, contractAbi } =
     contractParams;
 
@@ -60,9 +61,43 @@ function SingleValueForm({
     contract = new ethers.Contract(contractAddress, contractAbi, signer);
   }
 
-  if (!signer) {
-    return <Loading />;
-  }
+  //   switch (customType) {
+  //     case 'ArbitrationPrice': {
+  //       contractFunctionName = 'setArbitrationPrice';
+  //       validationSchema = Yup.object({
+  //         value: Yup.number().required('value is required'),
+  //       });
+  //       valueType = 'number';
+  //       contract = new ethers.Contract(
+  //         config.contracts.talentLayerArbitrator,
+  //         TalentLayerArbitrator.abi,
+  //         signer,
+  //       );
+  //       break;
+  //     }
+  //     case 'ArbitrationFeeTimeout': {
+  //       contractFunctionName = 'updateArbitrationFeeTimeout';
+  //       initialValue = platform.arbitrationFeeTimeout;
+  //       validationSchema = Yup.object({
+  //         value: Yup.number().required('value is required'),
+  //       });
+  //       valueType = 'number';
+  //       break;
+  //     }
+  //     // TODO: update
+  //     case 'DisputeStrategy': {
+  //       contractFunctionName = 'updateArbitrator';
+  //       selectOptions = [
+  //         { value: '0x0000000000000000000000000000000000000000', label: 'Self-Managed' },
+  //         { value: '0x0000000000000000000000000000000000000000', label: 'Other' },
+  //       ];
+  //       validationSchema = Yup.object({
+  //         value: Yup.number().required('value is required'),
+  //       });
+  //       valueType = 'select';
+  //       break;
+  //     }
+  //   }
 
   const onSubmit = async (
     values: IFormValuesString | IFormValuesNumber | undefined,
@@ -75,8 +110,7 @@ function SingleValueForm({
           return;
         }
         if (valueType === 'number') {
-          value = (value as number) * FEE_RATE_DIVIDER;
-          console.log(value);
+          value = shouldMultiplyByFeeRate ? (value as number) * FEE_RATE_DIVIDER : value;
         }
         const tx = await contract[contractFunctionName](contractInputs, value);
 
@@ -107,6 +141,7 @@ function SingleValueForm({
   return (
     <Formik
       initialValues={{ [valueName]: initialValue || null }}
+      // validationSchema={validationSchema}
       enableReinitialize={true}
       onSubmit={onSubmit}>
       {({ isSubmitting }) => (
@@ -114,6 +149,30 @@ function SingleValueForm({
           <label className='block'>
             <span>{valueName}</span>
             <div className='mt-1 mb-4 flex rounded-md shadow-sm'>
+              {/* {customType === 'DisputeStrategy' && selectOptions ? (
+                <Field
+                  component='select'
+                  id={valueName}
+                  name={valueName}
+                  className='mt-1 mr-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
+                  placeholder=''>
+                  <option value=''>Select a value</option>
+                  {selectOptions.map((selectOption, index) => (
+                    <option key={index} value={selectOption.value}>
+                      {selectOption.label}
+                    </option>
+                  ))}
+                </Field>
+              ) : (
+                <Field
+                  type={valueType}
+                  id={valueName}
+                  name={valueName}
+                  step='any'
+                  className='mt-1 mr-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
+                  placeholder=''
+                />
+              )} */}
               <Field
                 type={valueType}
                 id={valueName}
