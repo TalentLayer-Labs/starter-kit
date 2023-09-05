@@ -16,6 +16,7 @@ import { delegateUpdateProfileData } from '../request';
 import { useChainId } from '../../hooks/useChainId';
 import { useConfig } from '../../hooks/useConfig';
 import { QuestionMarkCircle } from 'heroicons-react';
+import { generatePicture } from '../../utils/ai-picture-gen';
 
 interface IFormValues {
   title?: string;
@@ -35,14 +36,13 @@ function ProfileForm({ callback }: { callback?: () => void }) {
   const config = useConfig();
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
-  const { user } = useContext(StarterKitContext);
+  const { user, isActiveDelegate } = useContext(StarterKitContext);
   const provider = useProvider({ chainId });
   const [aiLoading, setAiLoading] = useState(false);
   const userDescription = user?.id ? useUserById(user?.id)?.description : null;
   const { data: signer } = useSigner({
     chainId,
   });
-  const { isActiveDelegate } = useContext(StarterKitContext);
 
   if (!user?.id) {
     return <Loading />;
@@ -57,39 +57,6 @@ function ProfileForm({ callback }: { callback?: () => void }) {
     about: userDescription?.about || '',
     skills: userDescription?.skills_raw || '',
   };
-
-  const generatePicture = async (setFieldValue: any) => {
-    setAiLoading(true);
-    const colors = ['Red', 'Orange', 'Green', 'Blue', 'Purple', 'Black', 'Yellow', 'Aqua'];
-    const themes = [
-      'ready for the future of work',
-      'working on his computer',
-      '^playing with a chinese abacus',
-      'with a blanket',
-      'with a 4 leaf clover',
-      'just happy',
-      'using a hammer',
-      'climbing',
-    ];
-    const color = colors[getRandomInt(7)];
-    const theme = themes[getRandomInt(7)];
-    const customPrompt = `A cartoon futurist raccoon ${theme} with ${color} background `;
-    const response = await fetch('/api/ai/generate-image', {
-      method: 'Post',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        prompt: customPrompt,
-      }),
-    }).then(response => response.json());
-
-    setAiLoading(false);
-    setFieldValue('image_url', response.image);
-  };
-  function getRandomInt(max: number) {
-    return Math.floor(Math.random() * max);
-  }
 
   const onSubmit = async (
     values: IFormValues,
@@ -215,9 +182,14 @@ function ProfileForm({ callback }: { callback?: () => void }) {
                   <div className='ms-auto'>
                     <button
                       disabled={aiLoading}
-                      onClick={e => {
+                      onClick={async e => {
                         e.preventDefault();
-                        generatePicture(setFieldValue);
+                        setAiLoading(true);
+                        const imageUrl = await generatePicture();
+                        if (imageUrl) {
+                          setFieldValue('image_url', imageUrl);
+                        }
+                        setAiLoading(false);
                       }}
                       className='border text-white bg-gray-700 hover:bg-gray-600 border-gray-600 rounded-md h-10 w-10 p-2 relative inline-flex items-center justify-center space-x-1 font-sans text-sm font-normal leading-5 no-underline outline-none transition-all duration-300'>
                       {aiLoading ? <Loading /> : 'GO'}

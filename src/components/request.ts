@@ -39,6 +39,25 @@ export const delegateUpdateProfileData = async (
   }
 };
 
+export const delegateUpdatePlatformData = async (
+  platformId: string,
+  chainId: number,
+  userAddress: string,
+  cid: string,
+): Promise<any> => {
+  try {
+    return await axios.post('/api/delegate/update-platform-data', {
+      platformId,
+      chainId,
+      userAddress,
+      cid,
+    });
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
 export const delegateCreateOrUpdateProposal = async (
   chainId: number,
   userId: string,
