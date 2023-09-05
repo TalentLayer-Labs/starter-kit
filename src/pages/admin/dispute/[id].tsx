@@ -72,7 +72,7 @@ function AdminDispute() {
       <p className='text-xl font-medium tracking-wider'>Configuration {'/'} Dispute</p>
       <p className='mb-6 pb-4 border-b border-gray-gray-200 font-medium'>OnChain</p>
 
-      <Container className='w-3/4'>
+      <Container className='w-3/4 grid grid-cols-1 gap-6 border border-gray-700 rounded-xl p-6 bg-endnight'>
         <SingleValueForm
           validationDatas={{
             validationSchema: Yup.object({

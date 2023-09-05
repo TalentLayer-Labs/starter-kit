@@ -24,7 +24,7 @@ export const navigationAdmin = [
     current: false,
   },
   {
-    name: 'Global',
+    name: 'Control Center',
     href: `/admin/global/${process.env.NEXT_PUBLIC_PLATFORM_ID}`,
     icon: WalletIcon,
     current: false,
