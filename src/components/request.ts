@@ -58,6 +58,23 @@ export const delegateUpdatePlatformData = async (
   }
 };
 
+export const delegateUpdateMintStatus = async (
+  mintStatus: number,
+  userAddress: string,
+  chainId: number,
+): Promise<any> => {
+  try {
+    return await axios.post('/api/delegate/update-mint-status', {
+      mintStatus,
+      userAddress,
+      chainId,
+    });
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
 export const delegateCreateOrUpdateProposal = async (
   chainId: number,
   userId: string,

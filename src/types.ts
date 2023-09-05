@@ -143,6 +143,12 @@ export type IPlatformGain = {
   totalOriginPlatformFeeGain: string;
 };
 
+export enum MintStatusEnum {
+  ON_PAUSE,
+  ONLY_WHITELIST,
+  PUBLIC,
+}
+
 export type IKeyword = {
   id: string;
 };
