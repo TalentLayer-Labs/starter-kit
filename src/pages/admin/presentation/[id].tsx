@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import StarterKitContext from '../../../context/starterKit';
 import UserNeedsMoreRights from '../../../components/UserNeedsMoreRights';
 import * as Yup from 'yup';
@@ -16,6 +16,7 @@ import { useWeb3Modal } from '@web3modal/react';
 import SubmitButton from '../../../components/Form/SubmitButton';
 import { Container } from '../../../components/newlayout/container';
 import Steps from '../../../components/Steps';
+import Loading from '../../../components/Loading';
 
 interface IFormValues {
   name: string;
@@ -42,12 +43,24 @@ function AdminPresentation({ callback }: { callback?: () => void }) {
   const { data: signer } = useSigner({
     chainId,
   });
-  const isAdminOfThisPlatform = platform?.address === user?.address && isAdmin;
+  const [isLoading, setIsLoading] = useState(true);
+  const [isAdminOfThisPlatform, setIsAdminOfThisPlatform] = useState(false);
 
+  // Handle loading state
+  useEffect(() => {
+    if (isAdmin != null && user != null && platform != null && config != null) {
+      setIsAdminOfThisPlatform(platform?.address === user?.address && isAdmin);
+      setIsLoading(false);
+    }
+  }, [isAdmin, user, platform, config]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
   if (!user) {
     return <Steps />;
   }
-  if (!isAdminOfThisPlatform) {
+  if (!isLoading && !isAdminOfThisPlatform) {
     return <UserNeedsMoreRights />;
   }
 

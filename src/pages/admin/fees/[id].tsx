@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router';
 import Loading from '../../../components/Loading';
-import useUserById from '../../../hooks/useUserById';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import StarterKitContext from '../../../context/starterKit';
 import UserNeedsMoreRights from '../../../components/UserNeedsMoreRights';
 import SingleValueForm from '../../../components/Form/singleValueForm';
@@ -19,16 +18,26 @@ function AdminFees() {
   const { isAdmin, user } = useContext(StarterKitContext);
   const config = useConfig();
   const platform = usePlatform(id as string);
-  const isAdminOfThisPlatform = platform?.address === user?.address && isAdmin;
 
+  const [isLoading, setIsLoading] = useState(true);
+  const [isAdminOfThisPlatform, setIsAdminOfThisPlatform] = useState(false);
+
+  // Handle loading state
+  useEffect(() => {
+    if (isAdmin != null && user != null && platform != null && config != null) {
+      setIsAdminOfThisPlatform(platform?.address === user?.address && isAdmin);
+      setIsLoading(false);
+    }
+  }, [isAdmin, user, platform, config]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
   if (!user) {
     return <Steps />;
   }
-  if (!isAdminOfThisPlatform) {
+  if (!isLoading && !isAdminOfThisPlatform) {
     return <UserNeedsMoreRights />;
-  }
-  if (!config) {
-    return <Loading />;
   }
 
   return (

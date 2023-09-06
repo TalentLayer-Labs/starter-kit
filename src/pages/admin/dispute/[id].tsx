@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router';
 import Loading from '../../../components/Loading';
-import useUserById from '../../../hooks/useUserById';
 import { useContext, useEffect, useState } from 'react';
 import StarterKitContext from '../../../context/starterKit';
 import UserNeedsMoreRights from '../../../components/UserNeedsMoreRights';
@@ -30,30 +29,39 @@ function AdminDispute() {
     : null;
   const [arbitratorPrice, setArbitratorPrice] = useState<number | null>(null);
   let availableArbitrators: { value: string; label: string }[] = [];
-  const isAdminOfThisPlatform = platform?.address === user?.address && isAdmin;
+  const [isLoading, setIsLoading] = useState(true);
+  const [isAdminOfThisPlatform, setIsAdminOfThisPlatform] = useState(false);
 
-  // Get arbitrationPrice (not tested)
+  // Handle loading state
   useEffect(() => {
-    const fetchData = async () => {
-      if (arbitratorContract && arbitratorContract.address !== ethers.constants.AddressZero) {
-        const price = await arbitratorContract.arbitrationPrice(platform?.id);
-        console.log(price);
-        setArbitratorPrice(price);
-      }
-    };
-    fetchData();
-  }, [arbitratorContract]);
+    if (isAdmin != null && user != null && platform != null && config != null) {
+      setIsAdminOfThisPlatform(platform?.address === user?.address && isAdmin);
+      setIsLoading(false);
+    }
+  }, [isAdmin, user, platform, config]);
 
+  if (isLoading) {
+    return <Loading />;
+  }
   if (!user) {
     return <Steps />;
   }
-  if (!isAdminOfThisPlatform) {
+  if (!isLoading && !isAdminOfThisPlatform) {
     return <UserNeedsMoreRights />;
   }
 
-  if (!config || !platform) {
-    return <Loading />;
-  }
+  // // Get arbitrationPrice (not tested)
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     if (arbitratorContract && arbitratorContract.address !== ethers.constants.AddressZero) {
+  //       const price = await arbitratorContract.arbitrationPrice(platform?.id);
+  //       console.log(price);
+  //       setArbitratorPrice(price);
+  //     }
+  //   };
+  //   fetchData();
+  // }, [arbitratorContract]);
+
   if (config) {
     availableArbitrators = [
       {
