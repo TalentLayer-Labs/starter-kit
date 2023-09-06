@@ -17,6 +17,7 @@ import { MintStatusEnum } from '../../../types';
 import { delegateUpdateMintStatus } from '../../../components/request';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../../utils/toast';
 import { useWeb3Modal } from '@web3modal/react';
+import Steps from '../../../components/Steps';
 
 function AdminGlobal() {
   const router = useRouter();
@@ -35,11 +36,14 @@ function AdminGlobal() {
   const [mintStatus, setMintStatus] = useState<number>(-1);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  if (!user || !config || !platform) {
-    return <Loading />;
-  }
-  if (!isAdmin) {
+  if (!user) {
+    return <Steps />;
+  } else if (!isAdmin) {
     return <UserNeedsMoreRights />;
+  }
+
+  if (!config || !platform) {
+    return <Loading />;
   }
 
   if (config && TalentLayerPlatformID && provider) {

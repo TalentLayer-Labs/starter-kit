@@ -19,6 +19,7 @@ import { QuestionMarkCircle } from 'heroicons-react';
 import SubmitButton from '../../../components/Form/SubmitButton';
 import { generatePicture } from '../../../utils/ai-picture-gen';
 import { Container } from '../../../components/newlayout/container';
+import Steps from '../../../components/Steps';
 
 interface IFormValues {
   name: string;
@@ -47,9 +48,8 @@ function AdminPresentation({ callback }: { callback?: () => void }) {
   const [aiLoading, setAiLoading] = useState(false);
 
   if (!user) {
-    return <Loading />;
-  }
-  if (!isAdmin) {
+    return <Steps />;
+  } else if (!isAdmin) {
     return <UserNeedsMoreRights />;
   }
 

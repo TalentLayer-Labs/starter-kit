@@ -14,6 +14,7 @@ import usePlatform from '../../../hooks/usePlatform';
 import { useProvider } from 'wagmi';
 import { ethers } from 'ethers';
 import { useChainId } from '../../../hooks/useChainId';
+import Steps from '../../../components/Steps';
 
 function AdminDispute() {
   const router = useRouter();
@@ -60,11 +61,14 @@ function AdminDispute() {
     fetchData();
   }, [platform]);
 
-  if (!user || !config || !platform) {
-    return <Loading />;
-  }
-  if (!isAdmin) {
+  if (!user) {
+    return <Steps />;
+  } else if (!isAdmin) {
     return <UserNeedsMoreRights />;
+  }
+
+  if (!config || !platform) {
+    return <Loading />;
   }
 
   return (

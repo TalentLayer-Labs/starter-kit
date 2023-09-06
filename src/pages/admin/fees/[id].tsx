@@ -11,6 +11,7 @@ import TalentLayerPlatformID from '../../../contracts/ABI/TalentLayerPlatformID.
 import { Container } from '../../../components/newlayout/container';
 import usePlatform from '../../../hooks/usePlatform';
 import { FEE_RATE_DIVIDER } from '../../../config';
+import Steps from '../../../components/Steps';
 
 function AdminFees() {
   const router = useRouter();
@@ -19,11 +20,14 @@ function AdminFees() {
   const user = useUserById(id as string);
   const config = useConfig();
   const platform = usePlatform(id as string);
-  if (!user || !config) {
-    return <Loading />;
-  }
-  if (!isAdmin) {
+
+  if (!user) {
+    return <Steps />;
+  } else if (!isAdmin) {
     return <UserNeedsMoreRights />;
+  }
+  if (!config) {
+    return <Loading />;
   }
 
   return (
