@@ -29,7 +29,7 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.4.2",
     "react-toastify": "^9.1.1",
-    "wagmi": "^0.8.5",
+    "wagmi": "^0.8.6",
     "yup": "^0.32.11",
     "zksync-web3": "^0.14.3"
   },
