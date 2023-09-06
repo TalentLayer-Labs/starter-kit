@@ -19,8 +19,7 @@ import Steps from '../../../components/Steps';
 function AdminDispute() {
   const router = useRouter();
   const { id } = router.query;
-  const { isAdmin } = useContext(StarterKitContext);
-  const user = useUserById(id as string);
+  const { isAdmin, user } = useContext(StarterKitContext);
   const config = useConfig();
   const platform = usePlatform(id as string);
   const chainId = useChainId();
@@ -31,6 +30,7 @@ function AdminDispute() {
     : null;
   const [arbitratorPrice, setArbitratorPrice] = useState<number | null>(null);
   let availableArbitrators: { value: string; label: string }[] = [];
+  const isAdminOfThisPlatform = platform?.address === user?.address && isAdmin;
 
   // Get arbitrationPrice
   useEffect(() => {
@@ -46,7 +46,8 @@ function AdminDispute() {
 
   if (!user) {
     return <Steps />;
-  } else if (!isAdmin) {
+  }
+  if (!isAdminOfThisPlatform) {
     return <UserNeedsMoreRights />;
   }
 
@@ -101,6 +102,21 @@ function AdminDispute() {
             contractInputs: process.env.NEXT_PUBLIC_PLATFORM_ID,
           }}
           valueName={'Arbitration fee timeout (in seconds)'}
+        />
+
+        {/* TODO: delete */}
+        <SingleValueForm
+          validationDatas={{
+            valueType: 'string',
+          }}
+          contractParams={{
+            contractFunctionName: 'addArbitrator',
+            contractAddress: config.contracts.talentLayerPlatformId,
+            contractAbi: TalentLayerPlatformID.abi,
+            contractEntity: 'platform',
+            contractInputs: process.env.NEXT_PUBLIC_PLATFORM_ID,
+          }}
+          valueName={'New arbitrator address'}
         />
 
         {/* // TODO: hide if no arbitrator + check if get value & set value is working*/}

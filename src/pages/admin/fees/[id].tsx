@@ -16,14 +16,15 @@ import Steps from '../../../components/Steps';
 function AdminFees() {
   const router = useRouter();
   const { id } = router.query;
-  const { isAdmin } = useContext(StarterKitContext);
-  const user = useUserById(id as string);
+  const { isAdmin, user } = useContext(StarterKitContext);
   const config = useConfig();
   const platform = usePlatform(id as string);
+  const isAdminOfThisPlatform = platform?.address === user?.address && isAdmin;
 
   if (!user) {
     return <Steps />;
-  } else if (!isAdmin) {
+  }
+  if (!isAdminOfThisPlatform) {
     return <UserNeedsMoreRights />;
   }
   if (!config) {

@@ -32,8 +32,9 @@ const validationSchema = Yup.object({
 function AdminPresentation({ callback }: { callback?: () => void }) {
   const router = useRouter();
   const { id } = router.query;
-  const { user, isAdmin, isActiveDelegate } = useContext(StarterKitContext);
-  const platformDescription = usePlatform(id as string)?.description;
+  const { user, isAdmin } = useContext(StarterKitContext);
+  const platform = usePlatform(id as string);
+  const platformDescription = platform?.description;
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
   const config = useConfig();
@@ -41,10 +42,12 @@ function AdminPresentation({ callback }: { callback?: () => void }) {
   const { data: signer } = useSigner({
     chainId,
   });
+  const isAdminOfThisPlatform = platform?.address === user?.address && isAdmin;
 
   if (!user) {
     return <Steps />;
-  } else if (!isAdmin) {
+  }
+  if (!isAdminOfThisPlatform) {
     return <UserNeedsMoreRights />;
   }
 
