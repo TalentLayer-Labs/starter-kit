@@ -18,9 +18,10 @@ interface IFormValuesString {
 }
 
 interface validationDatasType {
-  validationSchema: Yup.ObjectSchema<ObjectShape>;
   valueType: string;
+  validationSchema?: Yup.ObjectSchema<ObjectShape>;
   initialValue?: number | string;
+  selectOptions?: { value: string; label: string }[];
   shouldMultiplyByFeeRate?: boolean;
 }
 
@@ -41,7 +42,8 @@ function SingleValueForm({
   contractParams: contractParamsType;
   valueName: string;
 }) {
-  const { validationSchema, valueType, initialValue, shouldMultiplyByFeeRate } = validationDatas;
+  const { validationSchema, valueType, initialValue, selectOptions, shouldMultiplyByFeeRate } =
+    validationDatas;
   const { contractFunctionName, contractEntity, contractInputs, contractAddress, contractAbi } =
     contractParams;
 
@@ -74,7 +76,7 @@ function SingleValueForm({
         if (valueType === 'number') {
           value = shouldMultiplyByFeeRate ? (value as number) * FEE_RATE_DIVIDER : value;
         }
-        const tx = await contract[contractFunctionName](contractInputs, value);
+        const tx = await contract[contractFunctionName](contractInputs, value, []);
 
         console.log('tx', tx);
 
@@ -112,13 +114,21 @@ function SingleValueForm({
             <span>{valueName}</span>
             <div className='mt-1 mb-4 flex rounded-md shadow-sm'>
               <Field
+                as={valueType === 'select' ? 'select' : undefined}
                 type={valueType}
                 id={valueName}
                 name={valueName}
                 step='any'
-                className='mt-1 mb-1 block w-full rounded-xl border border-gray-700 bg-midnight shadow-sm focus:ring-opacity-50 mr-4'
-                placeholder=''
-              />
+                className='mt-1 mr-2 block w-full rounded-md text-gray-800 border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
+                placeholder=''>
+                {valueType === 'select' && selectOptions
+                  ? selectOptions.map(option => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))
+                  : null}
+              </Field>
               <SubmitButton isSubmitting={isSubmitting} label='Update' />
             </div>
           </label>

@@ -26,21 +26,16 @@ function AdminDispute() {
   const chainId = useChainId();
   const provider = useProvider({ chainId });
   const arbitratorContractAddress = platform ? platform.arbitrator : null;
-  console.log(arbitratorContractAddress, platform);
   const arbitratorContract = arbitratorContractAddress
     ? new ethers.Contract(arbitratorContractAddress, TalentLayerArbitrator.abi, provider)
     : null;
-  console.log(arbitratorContract);
   const [arbitratorPrice, setArbitratorPrice] = useState<number | null>(null);
-  const [arbitrators, setArbitrators] = useState<string[]>([]);
+  let availableArbitrators: { value: string; label: string }[] = [];
 
   // Get arbitrationPrice
   useEffect(() => {
     const fetchData = async () => {
-      if (
-        arbitratorContract &&
-        arbitratorContract.address !== '0x0000000000000000000000000000000000000000'
-      ) {
+      if (arbitratorContract && arbitratorContract.address !== ethers.constants.AddressZero) {
         const price = await arbitratorContract.arbitrationPrice(platform?.id);
         console.log(price);
         setArbitratorPrice(price);
@@ -48,18 +43,6 @@ function AdminDispute() {
     };
     fetchData();
   }, [arbitratorContract]);
-
-  // Get All arbitrators
-  useEffect(() => {
-    const fetchData = async () => {
-      if (arbitratorContract) {
-        const arbitrators = await TalentLayerPlatformID.validArbitrators();
-        console.log(arbitrators);
-        setArbitrators(arbitrators);
-      }
-    };
-    fetchData();
-  }, [platform]);
 
   if (!user) {
     return <Steps />;
@@ -70,6 +53,15 @@ function AdminDispute() {
   if (!config || !platform) {
     return <Loading />;
   }
+  if (config) {
+    availableArbitrators = [
+      {
+        value: config.contracts.talentLayerArbitrator,
+        label: 'TalentLayer Arbitrator',
+      },
+      { value: ethers.constants.AddressZero, label: 'None' },
+    ];
+  }
 
   return (
     <Container>
@@ -77,6 +69,22 @@ function AdminDispute() {
       <p className='mb-6 pb-4 border-b border-gray-gray-200 font-medium'>OnChain</p>
 
       <Container className='w-3/4 grid grid-cols-1 gap-6 border border-gray-700 rounded-xl p-6 bg-endnight'>
+        <SingleValueForm
+          validationDatas={{
+            valueType: 'select',
+            initialValue: platform?.arbitrator || ethers.constants.AddressZero,
+            selectOptions: availableArbitrators,
+          }}
+          contractParams={{
+            contractFunctionName: 'updateArbitrator',
+            contractAddress: config.contracts.talentLayerPlatformId,
+            contractAbi: TalentLayerPlatformID.abi,
+            contractEntity: 'platform',
+            contractInputs: process.env.NEXT_PUBLIC_PLATFORM_ID,
+          }}
+          valueName={'Choose your dispute strategy'}
+        />
+
         <SingleValueForm
           validationDatas={{
             validationSchema: Yup.object({
@@ -95,6 +103,7 @@ function AdminDispute() {
           valueName={'Arbitration fee timeout (in seconds)'}
         />
 
+        {/* // TODO: hide if no arbitrator + check if get value & set value is working*/}
         <SingleValueForm
           validationDatas={{
             validationSchema: Yup.object({
