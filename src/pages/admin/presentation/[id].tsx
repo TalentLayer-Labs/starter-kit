@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router';
-import Loading from '../../../components/Loading';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import StarterKitContext from '../../../context/starterKit';
 import UserNeedsMoreRights from '../../../components/UserNeedsMoreRights';
 import * as Yup from 'yup';
@@ -15,9 +14,7 @@ import { ethers } from 'ethers';
 import { useConfig } from '../../../hooks/useConfig';
 import TalentLayerPlatformID from '../../../contracts/ABI/TalentLayerPlatformID.json';
 import { useWeb3Modal } from '@web3modal/react';
-import { QuestionMarkCircle } from 'heroicons-react';
 import SubmitButton from '../../../components/Form/SubmitButton';
-import { generatePicture } from '../../../utils/ai-picture-gen';
 import { Container } from '../../../components/newlayout/container';
 import Steps from '../../../components/Steps';
 
@@ -45,7 +42,6 @@ function AdminPresentation({ callback }: { callback?: () => void }) {
   const { data: signer } = useSigner({
     chainId,
   });
-  const [aiLoading, setAiLoading] = useState(false);
 
   if (!user) {
     return <Steps />;
@@ -126,7 +122,7 @@ function AdminPresentation({ callback }: { callback?: () => void }) {
         enableReinitialize={true}
         onSubmit={onSubmit}
         validationSchema={validationSchema}>
-        {({ isSubmitting, setFieldValue, values }) => (
+        {({ isSubmitting, values }) => (
           <Form>
             <div className='w-3/4 grid grid-cols-1 gap-6 border border-gray-700 rounded-xl p-6 bg-endnight mx-auto'>
               <label className='block'>
@@ -161,36 +157,9 @@ function AdminPresentation({ callback }: { callback?: () => void }) {
                   placeholder=''
                 />
                 <div className='border-gray-700 bg-gray-800 relative w-full border transition-all duration-300 rounded-xl p-4'>
-                  <div className='flex w-full items-center gap-3'>
-                    <QuestionMarkCircle className='hidden' />
-                    <div>
-                      <h2 className='font-heading text-xs font-bold text-white mb-1'>
-                        <span>Need help?</span>
-                      </h2>
-                      <p className='font-alt text-xs font-normal'>
-                        <span className='text-gray-400'>Use our AI to generate a cool one</span>
-                      </p>
-                    </div>
-                    <div className='ms-auto'>
-                      <button
-                        disabled={aiLoading}
-                        onClick={async e => {
-                          e.preventDefault();
-                          setAiLoading(true);
-                          const imageUrl = await generatePicture();
-                          if (imageUrl) {
-                            setFieldValue('image_url', imageUrl);
-                          }
-                          setAiLoading(false);
-                        }}
-                        className='border text-white bg-gray-700 hover:bg-gray-600 border-gray-600 rounded-md h-10 w-10 p-2 relative inline-flex items-center justify-center space-x-1 font-sans text-sm font-normal leading-5 no-underline outline-none transition-all duration-300'>
-                        {aiLoading ? <Loading /> : 'GO'}
-                      </button>
-                    </div>
-                  </div>
                   {values.image_url && (
                     <div className='flex items-center justify-center py-3'>
-                      <img width='300' height='300' src={values.image_url} alt='' />
+                      <img width='300' height='300' src={values.image_url} alt='image preview' />
                     </div>
                   )}
                 </div>
