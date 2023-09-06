@@ -9,7 +9,6 @@ import { useChainId } from '../../../hooks/useChainId';
 import { postToIPFS } from '../../../utils/ipfs';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../../utils/toast';
 import { Field, Form, Formik } from 'formik';
-import { delegateUpdatePlatformData } from '../../../components/request';
 import { ethers } from 'ethers';
 import { useConfig } from '../../../hooks/useConfig';
 import TalentLayerPlatformID from '../../../contracts/ABI/TalentLayerPlatformID.json';
@@ -73,19 +72,12 @@ function AdminPresentation({ callback }: { callback?: () => void }) {
           }),
         );
 
-        let tx;
-        if (isActiveDelegate) {
-          const platformId = id as string;
-          const response = await delegateUpdatePlatformData(platformId, chainId, user.address, cid);
-          tx = response.data.transaction;
-        } else {
-          const contract = new ethers.Contract(
-            config.contracts.talentLayerPlatformId,
-            TalentLayerPlatformID.abi,
-            signer,
-          );
-          tx = await contract.updateProfileData(id, cid);
-        }
+        const contract = new ethers.Contract(
+          config.contracts.talentLayerPlatformId,
+          TalentLayerPlatformID.abi,
+          signer,
+        );
+        const tx = await contract.updateProfileData(id, cid);
 
         await createMultiStepsTransactionToast(
           chainId,

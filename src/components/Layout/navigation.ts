@@ -6,7 +6,6 @@ import {
   PresentationChartLineIcon,
   ExclamationCircleIcon,
   ShieldCheckIcon,
-  WalletIcon,
 } from '@heroicons/react/24/outline';
 
 export const navigation = [
@@ -21,12 +20,6 @@ export const navigationAdmin = [
     name: 'Presentation',
     href: `/admin/presentation/${process.env.NEXT_PUBLIC_PLATFORM_ID}`,
     icon: PresentationChartLineIcon,
-    current: false,
-  },
-  {
-    name: 'Control Center',
-    href: `/admin/global/${process.env.NEXT_PUBLIC_PLATFORM_ID}`,
-    icon: WalletIcon,
     current: false,
   },
   {

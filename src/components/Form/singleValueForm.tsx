@@ -61,44 +61,6 @@ function SingleValueForm({
     contract = new ethers.Contract(contractAddress, contractAbi, signer);
   }
 
-  //   switch (customType) {
-  //     case 'ArbitrationPrice': {
-  //       contractFunctionName = 'setArbitrationPrice';
-  //       validationSchema = Yup.object({
-  //         value: Yup.number().required('value is required'),
-  //       });
-  //       valueType = 'number';
-  //       contract = new ethers.Contract(
-  //         config.contracts.talentLayerArbitrator,
-  //         TalentLayerArbitrator.abi,
-  //         signer,
-  //       );
-  //       break;
-  //     }
-  //     case 'ArbitrationFeeTimeout': {
-  //       contractFunctionName = 'updateArbitrationFeeTimeout';
-  //       initialValue = platform.arbitrationFeeTimeout;
-  //       validationSchema = Yup.object({
-  //         value: Yup.number().required('value is required'),
-  //       });
-  //       valueType = 'number';
-  //       break;
-  //     }
-  //     // TODO: update
-  //     case 'DisputeStrategy': {
-  //       contractFunctionName = 'updateArbitrator';
-  //       selectOptions = [
-  //         { value: '0x0000000000000000000000000000000000000000', label: 'Self-Managed' },
-  //         { value: '0x0000000000000000000000000000000000000000', label: 'Other' },
-  //       ];
-  //       validationSchema = Yup.object({
-  //         value: Yup.number().required('value is required'),
-  //       });
-  //       valueType = 'select';
-  //       break;
-  //     }
-  //   }
-
   const onSubmit = async (
     values: IFormValuesString | IFormValuesNumber | undefined,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void; resetForm: () => void },
@@ -149,36 +111,12 @@ function SingleValueForm({
           <label className='block'>
             <span>{valueName}</span>
             <div className='mt-1 mb-4 flex rounded-md shadow-sm'>
-              {/* {customType === 'DisputeStrategy' && selectOptions ? (
-                <Field
-                  component='select'
-                  id={valueName}
-                  name={valueName}
-                  className='mt-1 mr-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
-                  placeholder=''>
-                  <option value=''>Select a value</option>
-                  {selectOptions.map((selectOption, index) => (
-                    <option key={index} value={selectOption.value}>
-                      {selectOption.label}
-                    </option>
-                  ))}
-                </Field>
-              ) : (
-                <Field
-                  type={valueType}
-                  id={valueName}
-                  name={valueName}
-                  step='any'
-                  className='mt-1 mr-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
-                  placeholder=''
-                />
-              )} */}
               <Field
                 type={valueType}
                 id={valueName}
                 name={valueName}
                 step='any'
-                className='mt-1 mr-2 block w-full rounded-md text-gray-800 border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
+                className='mt-1 mb-1 block w-full rounded-xl border border-gray-700 bg-midnight shadow-sm focus:ring-opacity-50 mr-4'
                 placeholder=''
               />
               <SubmitButton isSubmitting={isSubmitting} label='Update' />
