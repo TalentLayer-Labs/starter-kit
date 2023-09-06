@@ -32,7 +32,7 @@ function AdminDispute() {
   let availableArbitrators: { value: string; label: string }[] = [];
   const isAdminOfThisPlatform = platform?.address === user?.address && isAdmin;
 
-  // Get arbitrationPrice
+  // Get arbitrationPrice (not tested)
   useEffect(() => {
     const fetchData = async () => {
       if (arbitratorContract && arbitratorContract.address !== ethers.constants.AddressZero) {
@@ -104,39 +104,26 @@ function AdminDispute() {
           valueName={'Arbitration fee timeout (in seconds)'}
         />
 
-        {/* TODO: delete */}
-        <SingleValueForm
-          validationDatas={{
-            valueType: 'string',
-          }}
-          contractParams={{
-            contractFunctionName: 'addArbitrator',
-            contractAddress: config.contracts.talentLayerPlatformId,
-            contractAbi: TalentLayerPlatformID.abi,
-            contractEntity: 'platform',
-            contractInputs: process.env.NEXT_PUBLIC_PLATFORM_ID,
-          }}
-          valueName={'New arbitrator address'}
-        />
-
-        {/* // TODO: hide if no arbitrator + check if get value & set value is working*/}
-        <SingleValueForm
-          validationDatas={{
-            validationSchema: Yup.object({
-              value: Yup.number().required('value is required'),
-            }),
-            valueType: 'number',
-            initialValue: arbitratorPrice || 0,
-          }}
-          contractParams={{
-            contractFunctionName: 'setArbitrationPrice',
-            contractAddress: config.contracts.talentLayerArbitrator,
-            contractAbi: TalentLayerArbitrator.abi,
-            contractEntity: 'arbitrator',
-            contractInputs: process.env.NEXT_PUBLIC_PLATFORM_ID,
-          }}
-          valueName={'Arbitration price (in Matic)'}
-        />
+        {/* visible only if arbitrator is not None */}
+        {platform?.arbitrator !== ethers.constants.AddressZero && (
+          <SingleValueForm
+            validationDatas={{
+              validationSchema: Yup.object({
+                value: Yup.number().required('value is required'),
+              }),
+              valueType: 'number',
+              initialValue: arbitratorPrice || 0,
+            }}
+            contractParams={{
+              contractFunctionName: 'setArbitrationPrice',
+              contractAddress: config.contracts.talentLayerArbitrator,
+              contractAbi: TalentLayerArbitrator.abi,
+              contractEntity: 'arbitrator',
+              contractInputs: process.env.NEXT_PUBLIC_PLATFORM_ID,
+            }}
+            valueName={'Arbitration price (in Matic)'}
+          />
+        )}
       </Container>
     </Container>
   );
