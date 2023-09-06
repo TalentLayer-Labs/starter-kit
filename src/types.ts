@@ -128,6 +128,7 @@ export type IPlatform = {
 
 export type IPlatformDescription = {
   id: string; // cid
+  name: string; // Not implement yet on 06.09.23
   about: string; // text
   website: string; // url
   platform: IPlatform;
