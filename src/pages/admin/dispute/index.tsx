@@ -1,9 +1,8 @@
-import { useRouter } from 'next/router';
 import Loading from '../../../components/Loading';
 import { useContext, useEffect, useState } from 'react';
 import StarterKitContext from '../../../context/starterKit';
 import UserNeedsMoreRights from '../../../components/UserNeedsMoreRights';
-import SingleValueForm from '../../../components/Form/singleValueForm';
+import SingleValueForm from '../../../components/Form/SingleValueForm';
 import * as Yup from 'yup';
 import { useConfig } from '../../../hooks/useConfig';
 import TalentLayerArbitrator from '../../../contracts/ABI/TalentLayerArbitrator.json';
@@ -16,25 +15,30 @@ import { useChainId } from '../../../hooks/useChainId';
 import Steps from '../../../components/Steps';
 
 function AdminDispute() {
-  const router = useRouter();
-  const { id } = router.query;
   const { isAdmin, user } = useContext(StarterKitContext);
   const config = useConfig();
-  const platform = usePlatform(id as string);
+  const platform = usePlatform(process.env.NEXT_PUBLIC_PLATFORM_ID as string);
   const chainId = useChainId();
   const provider = useProvider({ chainId });
   const arbitratorContractAddress = platform ? platform.arbitrator : null;
   const arbitratorContract = arbitratorContractAddress
     ? new ethers.Contract(arbitratorContractAddress, TalentLayerArbitrator.abi, provider)
     : null;
-  const [arbitratorPrice, setArbitratorPrice] = useState<number | null>(null);
+  const [arbitratorPrice, setArbitratorPrice] = useState<number>(-1);
   let availableArbitrators: { value: string; label: string }[] = [];
   const [isLoading, setIsLoading] = useState(true);
   const [isAdminOfThisPlatform, setIsAdminOfThisPlatform] = useState(false);
+  const fetchArbitrationPrice = async () => {
+    if (arbitratorContract && arbitratorContract.address !== ethers.constants.AddressZero) {
+      const price = await arbitratorContract.arbitrationPrice(platform?.id);
+      setArbitratorPrice(price);
+    }
+  };
 
   // Handle loading state
   useEffect(() => {
     if (isAdmin != null && user != null && platform != null && config != null) {
+      fetchArbitrationPrice();
       setIsAdminOfThisPlatform(platform?.address === user?.address && isAdmin);
       setIsLoading(false);
     }
@@ -49,18 +53,6 @@ function AdminDispute() {
   if (!isLoading && !isAdminOfThisPlatform) {
     return <UserNeedsMoreRights />;
   }
-
-  // // Get arbitrationPrice (not tested)
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     if (arbitratorContract && arbitratorContract.address !== ethers.constants.AddressZero) {
-  //       const price = await arbitratorContract.arbitrationPrice(platform?.id);
-  //       console.log(price);
-  //       setArbitratorPrice(price);
-  //     }
-  //   };
-  //   fetchData();
-  // }, [arbitratorContract]);
 
   if (config) {
     availableArbitrators = [
@@ -92,6 +84,7 @@ function AdminDispute() {
             contractInputs: process.env.NEXT_PUBLIC_PLATFORM_ID,
           }}
           valueName={'Choose your dispute strategy'}
+          callback={fetchArbitrationPrice}
         />
 
         <SingleValueForm
@@ -112,26 +105,23 @@ function AdminDispute() {
           valueName={'Arbitration fee timeout (in seconds)'}
         />
 
-        {/* visible only if arbitrator is not None */}
-        {platform?.arbitrator !== ethers.constants.AddressZero && (
-          <SingleValueForm
-            validationDatas={{
-              validationSchema: Yup.object({
-                value: Yup.number().required('value is required'),
-              }),
-              valueType: 'number',
-              initialValue: arbitratorPrice || 0,
-            }}
-            contractParams={{
-              contractFunctionName: 'setArbitrationPrice',
-              contractAddress: config.contracts.talentLayerArbitrator,
-              contractAbi: TalentLayerArbitrator.abi,
-              contractEntity: 'arbitrator',
-              contractInputs: process.env.NEXT_PUBLIC_PLATFORM_ID,
-            }}
-            valueName={'Arbitration price (in Matic)'}
-          />
-        )}
+        <SingleValueForm
+          validationDatas={{
+            validationSchema: Yup.object({
+              value: Yup.number().required('value is required'),
+            }),
+            valueType: 'number',
+            initialValue: arbitratorPrice,
+          }}
+          contractParams={{
+            contractFunctionName: 'setArbitrationPrice',
+            contractAddress: config.contracts.talentLayerArbitrator,
+            contractAbi: TalentLayerArbitrator.abi,
+            contractEntity: 'arbitrator',
+            contractInputs: process.env.NEXT_PUBLIC_PLATFORM_ID,
+          }}
+          valueName={'Arbitration price (in Matic)'}
+        />
       </Container>
     </Container>
   );

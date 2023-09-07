@@ -18,19 +18,19 @@ export const navigation = [
 export const navigationAdmin = [
   {
     name: 'Presentation',
-    href: `/admin/presentation/${process.env.NEXT_PUBLIC_PLATFORM_ID}`,
+    href: `/admin/presentation`,
     icon: PresentationChartLineIcon,
     current: false,
   },
   {
     name: 'Fees strategies',
-    href: `/admin/fees/${process.env.NEXT_PUBLIC_PLATFORM_ID}`,
+    href: `/admin/fees`,
     icon: ShieldCheckIcon,
     current: false,
   },
   {
     name: 'Dispute',
-    href: `/admin/dispute/${process.env.NEXT_PUBLIC_PLATFORM_ID}`,
+    href: `/admin/dispute`,
     icon: ExclamationCircleIcon,
     current: false,
   },

@@ -58,6 +58,16 @@ function ProfileForm({ callback }: { callback?: () => void }) {
     skills: userDescription?.skills_raw || '',
   };
 
+  const generatePictureUrl = async (e: React.FormEvent, callback: (string: string) => void) => {
+    e.preventDefault();
+    setAiLoading(true);
+    const imageUrl = await generatePicture();
+    if (imageUrl) {
+      callback(imageUrl);
+    }
+    setAiLoading(false);
+  }
+
   const onSubmit = async (
     values: IFormValues,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void },
@@ -182,15 +192,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
                   <div className='ms-auto'>
                     <button
                       disabled={aiLoading}
-                      onClick={async e => {
-                        e.preventDefault();
-                        setAiLoading(true);
-                        const imageUrl = await generatePicture();
-                        if (imageUrl) {
-                          setFieldValue('image_url', imageUrl);
-                        }
-                        setAiLoading(false);
-                      }}
+                      onClick={(e) => generatePictureUrl(e, (newUrl) => setFieldValue('image_url', newUrl))}
                       className='border text-white bg-gray-700 hover:bg-gray-600 border-gray-600 rounded-md h-10 w-10 p-2 relative inline-flex items-center justify-center space-x-1 font-sans text-sm font-normal leading-5 no-underline outline-none transition-all duration-300'>
                       {aiLoading ? <Loading /> : 'GO'}
                     </button>

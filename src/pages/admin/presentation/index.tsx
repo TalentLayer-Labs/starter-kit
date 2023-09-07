@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
 import StarterKitContext from '../../../context/starterKit';
 import UserNeedsMoreRights from '../../../components/UserNeedsMoreRights';
@@ -30,11 +29,9 @@ const validationSchema = Yup.object({
   // nothing required
 });
 
-function AdminPresentation({ callback }: { callback?: () => void }) {
-  const router = useRouter();
-  const { id } = router.query;
-  const { user, isAdmin } = useContext(StarterKitContext);
-  const platform = usePlatform(id as string);
+function AdminPresentation() {
+  const { user, isAdmin, loading } = useContext(StarterKitContext);
+  const platform = usePlatform(process.env.NEXT_PUBLIC_PLATFORM_ID as string);
   const platformDescription = platform?.description;
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
@@ -43,24 +40,14 @@ function AdminPresentation({ callback }: { callback?: () => void }) {
   const { data: signer } = useSigner({
     chainId,
   });
-  const [isLoading, setIsLoading] = useState(true);
-  const [isAdminOfThisPlatform, setIsAdminOfThisPlatform] = useState(false);
 
-  // Handle loading state
-  useEffect(() => {
-    if (isAdmin != null && user != null && platform != null && config != null) {
-      setIsAdminOfThisPlatform(platform?.address === user?.address && isAdmin);
-      setIsLoading(false);
-    }
-  }, [isAdmin, user, platform, config]);
-
-  if (isLoading) {
+  if (loading) {
     return <Loading />;
   }
   if (!user) {
     return <Steps />;
   }
-  if (!isLoading && !isAdminOfThisPlatform) {
+  if (!isAdmin) {
     return <UserNeedsMoreRights />;
   }
 
@@ -93,7 +80,7 @@ function AdminPresentation({ callback }: { callback?: () => void }) {
           TalentLayerPlatformID.abi,
           signer,
         );
-        const tx = await contract.updateProfileData(id, cid);
+        const tx = await contract.updateProfileData(platform?.id, cid);
 
         await createMultiStepsTransactionToast(
           chainId,
@@ -107,10 +94,6 @@ function AdminPresentation({ callback }: { callback?: () => void }) {
           'platform',
           cid,
         );
-
-        if (callback) {
-          callback();
-        }
 
         setSubmitting(false);
       } catch (error) {

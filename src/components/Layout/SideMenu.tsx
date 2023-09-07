@@ -5,6 +5,7 @@ import { useContext } from 'react';
 
 function SideMenu() {
   const { isAdmin } = useContext(StarterKitContext);
+  
   return (
     <nav className='space-y-1 px-3'>
       {navigation.map(item => (
@@ -14,9 +15,9 @@ function SideMenu() {
         </SideLink>
       ))}
       {isAdmin && (
-        <>
+        <div className='pt-4'>
           <span className='text-gray-100'>Administration</span>
-          <nav className='space-y-1 px-3'>
+          <nav className='space-y-1 px-3 mt-2'>
             {navigationAdmin.map(item => (
               <SideLink key={item.name} href={item.href}>
                 <item.icon
@@ -27,7 +28,7 @@ function SideMenu() {
               </SideLink>
             ))}
           </nav>
-        </>
+        </div>
       )}
     </nav>
   );

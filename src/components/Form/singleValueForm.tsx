@@ -8,7 +8,6 @@ import Loading from '../Loading';
 import SubmitButton from './SubmitButton';
 import { useChainId } from '../../hooks/useChainId';
 import { ObjectShape } from 'yup/lib/object';
-import { FEE_RATE_DIVIDER } from '../../config';
 
 interface IFormValuesNumber {
   value?: number;
@@ -22,7 +21,7 @@ interface validationDatasType {
   validationSchema?: Yup.ObjectSchema<ObjectShape>;
   initialValue?: number | string;
   selectOptions?: { value: string; label: string }[];
-  shouldMultiplyByFeeRate?: boolean;
+  hookModifyValue?: (value: number | string) => number | string;
 }
 
 interface contractParamsType {
@@ -37,12 +36,14 @@ function SingleValueForm({
   validationDatas,
   contractParams,
   valueName,
+  callback,
 }: {
   validationDatas: validationDatasType;
   contractParams: contractParamsType;
   valueName: string;
+  callback?: () => void;
 }) {
-  const { validationSchema, valueType, initialValue, selectOptions, shouldMultiplyByFeeRate } =
+  const { validationSchema, valueType, initialValue, selectOptions, hookModifyValue } =
     validationDatas;
   const { contractFunctionName, contractEntity, contractInputs, contractAddress, contractAbi } =
     contractParams;
@@ -73,9 +74,11 @@ function SingleValueForm({
         if (!value) {
           return;
         }
-        if (valueType === 'number') {
-          value = shouldMultiplyByFeeRate ? (value as number) * FEE_RATE_DIVIDER : value;
+
+        if (hookModifyValue) {
+          value = hookModifyValue(value);
         }
+
         const tx = await contract[contractFunctionName](contractInputs, value, []);
 
         console.log('tx', tx);
@@ -93,7 +96,12 @@ function SingleValueForm({
           '',
         );
 
+        if (callback) {
+          callback();
+        }
+
         setSubmitting(false);
+
       } catch (error) {
         showErrorTransactionToast(error);
       }
@@ -119,7 +127,7 @@ function SingleValueForm({
                 id={valueName}
                 name={valueName}
                 step='any'
-                className='mt-1 mb-1 block w-full rounded-xl border border-gray-700 bg-midnight shadow-sm focus:ring-opacity-50'
+                className='mt-1 mb-1 block w-full rounded-xl border border-gray-700 bg-midnight shadow-sm focus:ring-opacity-50 mr-4'
                 placeholder=''>
                 {valueType === 'select' && selectOptions
                   ? selectOptions.map(option => (
