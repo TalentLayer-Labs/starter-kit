@@ -113,7 +113,7 @@ function SingleValueForm({
   return (
     <Formik
       initialValues={{ [valueName]: initialValue || null }}
-      // validationSchema={validationSchema}
+      validationSchema={validationSchema}
       enableReinitialize={true}
       onSubmit={onSubmit}>
       {({ isSubmitting }) => (

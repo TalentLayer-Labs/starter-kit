@@ -50,7 +50,7 @@ function AdminFees() {
         <SingleValueForm
           validationDatas={{
             validationSchema: Yup.object({
-              value: Yup.number().required('value is required'),
+              'Fees (in %) on escrow for bringing the service': Yup.number().required('value is required'),
             }),
             valueType: 'number',
             initialValue: (platform?.originServiceFeeRate || 0) / FEE_RATE_DIVIDER,
@@ -69,7 +69,7 @@ function AdminFees() {
         <SingleValueForm
           validationDatas={{
             validationSchema: Yup.object({
-              value: Yup.number().required('value is required'),
+              'Fees (in %) paid for validating a proposal': Yup.number().required('value is required'),
             }),
             valueType: 'number',
             initialValue: (platform?.originValidatedProposalFeeRate || 0) / FEE_RATE_DIVIDER,
@@ -88,7 +88,7 @@ function AdminFees() {
         <SingleValueForm
           validationDatas={{
             validationSchema: Yup.object({
-              value: Yup.number().required('value is required'),
+              'Fees (in Matic) asked by the platform to post a proposal on the platform': Yup.number().required('value is required'),
             }),
             valueType: 'number',
             initialValue: (Number(platform?.servicePostingFee) || 0),
@@ -106,7 +106,7 @@ function AdminFees() {
         <SingleValueForm
           validationDatas={{
             validationSchema: Yup.object({
-              value: Yup.number().required('value is required'),
+              'Fees (in Matic) asked by the platform to post a service on the platform': Yup.number().required('value is required'),
             }),
             valueType: 'number',
             initialValue: (Number(platform?.proposalPostingFee) || 0),

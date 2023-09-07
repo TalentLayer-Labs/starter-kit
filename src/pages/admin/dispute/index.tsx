@@ -90,7 +90,7 @@ function AdminDispute() {
         <SingleValueForm
           validationDatas={{
             validationSchema: Yup.object({
-              value: Yup.number().required('value is required'),
+              'Arbitration fee timeout (in seconds)': Yup.number().required('value is required'),
             }),
             valueType: 'number',
             initialValue: platform?.arbitrationFeeTimeout || 0,
@@ -108,7 +108,7 @@ function AdminDispute() {
         <SingleValueForm
           validationDatas={{
             validationSchema: Yup.object({
-              value: Yup.number().required('value is required'),
+              'Arbitration price (in Matic)': Yup.number().required('value is required'),
             }),
             valueType: 'number',
             initialValue: arbitratorPrice,
