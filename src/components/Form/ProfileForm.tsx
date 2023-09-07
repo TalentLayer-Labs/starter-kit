@@ -1,8 +1,9 @@
 import { useWeb3Modal } from '@web3modal/react';
-import { ethers } from 'ethers';
+import { createPublicClient, http, createWalletClient, custom } from 'viem';
+import { polygonMumbai } from 'viem/chains'
 import { Field, Form, Formik } from 'formik';
 import { useContext, useState } from 'react';
-import { useProvider, useSigner } from 'wagmi';
+import { useProvider } from 'wagmi';
 import * as Yup from 'yup';
 import StarterKitContext from '../../context/starterKit';
 import TalentLayerID from '../../contracts/ABI/TalentLayerID.json';
@@ -39,9 +40,6 @@ function ProfileForm({ callback }: { callback?: () => void }) {
   const provider = useProvider({ chainId });
   const [aiLoading, setAiLoading] = useState(false);
   const userDescription = user?.id ? useUserById(user?.id)?.description : null;
-  const { data: signer } = useSigner({
-    chainId,
-  });
   const { isActiveDelegate } = useContext(StarterKitContext);
 
   if (!user?.id) {
@@ -95,7 +93,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
     values: IFormValues,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void },
   ) => {
-    if (user && provider && signer) {
+    if (user && provider) { 
       try {
         const cid = await postToIPFS(
           JSON.stringify({
@@ -108,18 +106,31 @@ function ProfileForm({ callback }: { callback?: () => void }) {
             skills: values.skills,
           }),
         );
-
         let tx;
         if (isActiveDelegate) {
           const response = await delegateUpdateProfileData(chainId, user.id, user.address, cid);
           tx = response.data.transaction;
         } else {
-          const contract = new ethers.Contract(
-            config.contracts.talentLayerId,
-            TalentLayerID.abi,
-            signer,
-          );
-          tx = await contract.updateProfileData(user.id, cid);
+          const publicClient = createPublicClient({
+            chain: polygonMumbai,
+            transport: http(),
+          });
+          
+          const walletClient = createWalletClient({
+            chain: polygonMumbai,
+            transport: http(),
+          });
+          const [address] = await walletClient.getAddresses()
+          const { request } = await publicClient.simulateContract({
+            address: config.contracts.talentLayerId,
+            abi: TalentLayerID.abi,
+            functionName: 'updateProfileData',
+            args: [user.id, cid],
+            account: address,
+          });
+
+          // Use the WalletClient to interact with contracts
+          tx = await walletClient.writeContract(request);
         }
 
         await createMultiStepsTransactionToast(
@@ -145,7 +156,6 @@ function ProfileForm({ callback }: { callback?: () => void }) {
       }
     } else {
       openConnectModal();
-    }
   };
 
   return (

@@ -1,4 +1,4 @@
-import { ethers } from 'ethers';
+import { getAddress } from 'viem'
 import { useRouter } from 'next/router';
 import { createContext, ReactNode, useContext, useMemo } from 'react';
 import { useSigner } from 'wagmi';
@@ -50,7 +50,7 @@ const MessagingProvider = ({ children }: { children: ReactNode }) => {
           return;
         }
       }
-      const buyerAddress = ethers.utils.getAddress(userAddress);
+      const buyerAddress = getAddress(userAddress);
       router.push(`/dashboard/messaging/${buyerAddress}`);
     }
   };
