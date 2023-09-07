@@ -1,5 +1,5 @@
 import { useWeb3Modal } from '@web3modal/react';
-import { createPublicClient, http, createWalletClient, custom } from 'viem';
+import { createPublicClient, http, createWalletClient} from 'viem';
 import { polygonMumbai } from 'viem/chains'
 import { Field, Form, Formik } from 'formik';
 import { useContext, useState } from 'react';
@@ -128,8 +128,6 @@ function ProfileForm({ callback }: { callback?: () => void }) {
             args: [user.id, cid],
             account: address,
           });
-
-          // Use the WalletClient to interact with contracts
           tx = await walletClient.writeContract(request);
         }
 
@@ -156,6 +154,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
       }
     } else {
       openConnectModal();
+    }
   };
 
   return (

@@ -1,9 +1,11 @@
 import { ethers, FixedNumber } from 'ethers';
+import { createPublicClient, http, createWalletClient} from 'viem';
+import { polygonMumbai } from 'viem/chains'
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { QuestionMarkCircle } from 'heroicons-react';
 import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
-import { useProvider, useSigner } from 'wagmi';
+import { useProvider} from 'wagmi';
 import * as Yup from 'yup';
 import StarterKitContext from '../../context/starterKit';
 import ServiceRegistry from '../../contracts/ABI/TalentLayerService.json';
@@ -48,9 +50,6 @@ function ProposalForm({
   const config = useConfig();
   const chainId = useChainId();
   const provider = useProvider({ chainId });
-  const { data: signer } = useSigner({
-    chainId,
-  });
   const router = useRouter();
   const allowedTokenList = useAllowedTokens();
   const { isActiveDelegate } = useContext(StarterKitContext);
@@ -111,7 +110,7 @@ function ProposalForm({
     }: { setSubmitting: (isSubmitting: boolean) => void; resetForm: () => void },
   ) => {
     const token = allowedTokenList.find(token => token.address === values.rateToken);
-    if (provider && signer && token) {
+    if (provider && token) {
       try {
         const parsedRateAmount = await parseRateAmount(
           values.rateAmount.toString(),
@@ -153,21 +152,30 @@ function ProposalForm({
           );
           tx = response.data.transaction;
         } else {
-          const contract = new ethers.Contract(
-            config.contracts.serviceRegistry,
-            ServiceRegistry.abi,
-            signer,
-          );
-          tx = existingProposal
-            ? await contract.updateProposal(
+          const publicClient = createPublicClient({
+            chain: polygonMumbai,
+            transport: http(),
+          });
+          
+          const walletClient = createWalletClient({
+            chain: polygonMumbai,
+            transport: http(),
+          });
+          const [address] = await walletClient.getAddresses()
+          const { request } = await publicClient.simulateContract({
+            address: config.contracts.serviceRegistry,
+            abi: ServiceRegistry.abi,
+            functionName: existingProposal ? 'updateProposal' : 'createProposal',
+            args: existingProposal
+            ? [
                 user.id,
                 service.id,
                 values.rateToken,
                 parsedRateAmountString,
                 cid,
                 convertExpirationDateString,
-              )
-            : await contract.createProposal(
+              ]
+            : [
                 user.id,
                 service.id,
                 values.rateToken,
@@ -176,7 +184,9 @@ function ProposalForm({
                 cid,
                 convertExpirationDateString,
                 signature,
-              );
+              ],
+            account: address,
+          });
         }
 
         await createMultiStepsTransactionToast(
