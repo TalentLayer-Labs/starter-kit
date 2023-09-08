@@ -1,6 +1,6 @@
-import { useWeb3Modal } from '@web3modal/react';
-import { createPublicClient, http, createWalletClient} from 'viem';
-import { polygonMumbai } from 'viem/chains'
+import { useWeb3Modal} from '@web3modal/react';
+import { createPublicClient, http, createWalletClient, custom} from 'viem';
+import { polygonMumbai } from '../../chains'
 import { Field, Form, Formik } from 'formik';
 import { useContext, useState } from 'react';
 import { useProvider } from 'wagmi';
@@ -35,7 +35,7 @@ const validationSchema = Yup.object({
 function ProfileForm({ callback }: { callback?: () => void }) {
   const config = useConfig();
   const chainId = useChainId();
-  const { open: openConnectModal } = useWeb3Modal();
+  const {open: openConnectModal} = useWeb3Modal();
   const { user } = useContext(StarterKitContext);
   const provider = useProvider({ chainId });
   const [aiLoading, setAiLoading] = useState(false);
@@ -113,14 +113,18 @@ function ProfileForm({ callback }: { callback?: () => void }) {
         } else {
           const publicClient = createPublicClient({
             chain: polygonMumbai,
-            transport: http(),
+            transport: http(process.env.NEXT_PUBLIC_BACKEND_RPC_URL),
           });
           
+        
           const walletClient = createWalletClient({
             chain: polygonMumbai,
-            transport: http(),
+            transport: http(window.ethereum),
           });
+          
           const [address] = await walletClient.getAddresses()
+          console.log(address)
+          
           const { request } = await publicClient.simulateContract({
             address: config.contracts.talentLayerId,
             abi: TalentLayerID.abi,
