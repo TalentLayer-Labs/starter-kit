@@ -11,7 +11,7 @@ export const postToIPFS = async (data: any): Promise<string> => {
         process.env.NEXT_PUBLIC_INFURA_ID + ':' + process.env.NEXT_PUBLIC_INFURA_SECRET,
       ).toString('base64');
     ipfs = create({
-      url: 'https://infura-ipfs.io:5001/api/v0',
+      url: process.env.NEXT_PUBLIC_IPFS_WRITE_URL,
       headers: {
         authorization,
       },
