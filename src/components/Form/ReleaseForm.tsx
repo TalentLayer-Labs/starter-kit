@@ -1,4 +1,3 @@
-import { BigNumber } from 'ethers';
 import { Field, Form, Formik } from 'formik';
 import { useContext, useMemo, useState } from 'react';
 import { useProvider, useSigner } from 'wagmi';
@@ -13,7 +12,7 @@ interface IFormValues {
 }
 
 interface IReleaseFormProps {
-  totalInEscrow: BigNumber;
+  totalInEscrow: bigint;
   rateToken: IToken;
   service: IService;
   isBuyer: boolean;
@@ -34,12 +33,12 @@ function ReleaseForm({
   });
   const provider = useProvider({ chainId });
   const [percent, setPercentage] = useState(0);
-
+  
   const handleSubmit = async (values: any) => {
     if (!user || !signer || !provider) {
       return;
     }
-    const percentToToken = totalInEscrow.mul(percent).div(100);
+    const percentToToken = (totalInEscrow * BigInt(percent))/ BigInt(100);
 
     await executePayment(
       chainId,
@@ -71,7 +70,7 @@ function ReleaseForm({
   };
 
   const amountSelected = useMemo(() => {
-    return percent ? totalInEscrow.mul(percent).div(100) : '';
+    return percent ? (totalInEscrow * BigInt(percent))/ BigInt(100) : '';
   }, [percent]);
 
   const initialValues: IFormValues = {
@@ -128,7 +127,7 @@ function ReleaseForm({
               }
             </div>
             <div className='flex items-center pt-6 space-x-2 rounded-b border-redpraha '>
-              {totalInEscrow.gt(0) && (
+              {totalInEscrow > 0 && (
                 <button
                   type='submit'
                   className=' hover:bg-endnight hover:text-white bg-redpraha text-midnight px-5 py-2 rounded'>

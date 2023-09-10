@@ -1,5 +1,5 @@
 import { Provider } from '@wagmi/core';
-import { BigNumber, Contract, Signer, ethers } from 'ethers';
+import { Contract, Signer, ethers } from 'ethers';
 import { toast } from 'react-toastify';
 import TransactionToast from '../components/TransactionToast';
 import TalentLayerEscrow from './ABI/TalentLayerEscrow.json';
@@ -14,7 +14,7 @@ export const executePayment = async (
   provider: Provider,
   profileId: string,
   transactionId: string,
-  amount: BigNumber,
+  amount: bigint,
   isBuyer: boolean,
   isActiveDelegate: boolean,
 ): Promise<void> => {
