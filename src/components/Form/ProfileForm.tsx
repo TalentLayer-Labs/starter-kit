@@ -119,7 +119,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
         
           const walletClient = createWalletClient({
             chain: polygonMumbai,
-            transport: http(window.ethereum),
+            transport:custom(window.ethereum)
           });
           
           const [address] = await walletClient.getAddresses()

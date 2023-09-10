@@ -1,5 +1,4 @@
-import { ethers, FixedNumber } from 'ethers';
-import { createPublicClient, http, createWalletClient} from 'viem';
+import { createPublicClient, http, createWalletClient, formatUnits} from 'viem';
 import { polygonMumbai } from 'viem/chains'
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { QuestionMarkCircle } from 'heroicons-react';
@@ -70,9 +69,8 @@ function ProposalForm({
       token => token.address === existingProposal?.rateToken.address,
     );
 
-    existingRateTokenAmount = FixedNumber.from(
-      ethers.utils.formatUnits(existingProposal.rateAmount, token?.decimals),
-    ).toUnsafeFloat();
+    const formattedRate = formatUnits(BigInt(existingProposal.rateAmount), Number(token?.decimals));
+    existingRateTokenAmount = parseFloat(formattedRate);
   }
 
   const initialValues: IFormValues = {
