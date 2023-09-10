@@ -1,5 +1,5 @@
 import { Provider } from '@wagmi/core';
-import { Contract, ethers, Signer } from 'ethers';
+import { Contract, Signer } from 'ethers';
 import { toast } from 'react-toastify';
 import TransactionToast from '../components/TransactionToast';
 import { getConfig } from '../config';
@@ -18,7 +18,7 @@ export const validateProposal = async (
   proposalId: string,
   rateToken: string,
   cid: string,
-  value: ethers.BigNumber,
+  value: bigint,
 ): Promise<void> => {
   const config = getConfig(chainId);
 
@@ -29,7 +29,7 @@ export const validateProposal = async (
   );
 
   try {
-    if (rateToken === ethers.constants.AddressZero) {
+    if (rateToken === '0x0000000000000000000000000000000000000000') {
       const tx1 = await talentLayerEscrow.createTransaction(
         parseInt(serviceId, 10),
         parseInt(proposalId, 10),
