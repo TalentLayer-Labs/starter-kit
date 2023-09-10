@@ -207,7 +207,7 @@ export type IToken = {
   address: `0x${string}`;
   symbol: string;
   decimals: number;
-  minimumTransactionAmount?: BigInt;
+  minimumTransactionAmount?: string;
 };
 
 export type ITokenFormattedValues = {

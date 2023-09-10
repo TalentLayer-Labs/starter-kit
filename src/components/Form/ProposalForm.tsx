@@ -69,8 +69,7 @@ function ProposalForm({
       token => token.address === existingProposal?.rateToken.address,
     );
 
-    const formattedRate = formatUnits(BigInt(existingProposal.rateAmount), Number(token?.decimals));
-    existingRateTokenAmount = parseFloat(formattedRate);
+    existingRateTokenAmount = parseFloat(formatUnits(BigInt(existingProposal.rateAmount), Number(token?.decimals)));
   }
 
   const initialValues: IFormValues = {

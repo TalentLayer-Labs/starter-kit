@@ -1,5 +1,6 @@
 import { useWeb3Modal } from '@web3modal/react';
-import { BigNumberish, ethers, FixedNumber, Signer, Wallet } from 'ethers';
+import { formatUnits } from 'viem';
+import { ethers} from 'ethers';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useContext, useState } from 'react';
 import { useRouter } from 'next/router';
@@ -57,31 +58,32 @@ function ServiceForm() {
     keywords: Yup.string().required('Please provide keywords for your service'),
     rateToken: Yup.string().required('Please select a payment token'),
     rateAmount: Yup.number()
-      .required('Please provide an amount for your service')
-      .when('rateToken', {
-        is: (rateToken: string) => rateToken !== '',
-        then: schema =>
-          schema.moreThan(
-            selectedToken
-              ? FixedNumber.from(
-                  ethers.utils.formatUnits(
-                    selectedToken?.minimumTransactionAmount as BigNumberish,
-                    selectedToken?.decimals,
-                  ),
-                ).toUnsafeFloat()
-              : 0,
-            `Amount must be greater than ${
-              selectedToken
-                ? FixedNumber.from(
-                    ethers.utils.formatUnits(
-                      selectedToken?.minimumTransactionAmount as BigNumberish,
-                      selectedToken?.decimals,
-                    ),
-                  ).toUnsafeFloat()
-                : 0
-            }`,
-          ),
-      }),
+  .required('Please provide an amount for your service')
+  .when('rateToken', {
+    is: (rateToken: string) => rateToken !== '',
+    then: schema =>
+      schema.moreThan(
+        selectedToken
+          ? parseFloat(
+              formatUnits(
+                BigInt(selectedToken?.minimumTransactionAmount ?? '0'),
+                Number(selectedToken?.decimals),
+              )
+            )
+          : 0,
+        `Amount must be greater than ${
+          selectedToken
+            ? parseFloat(
+                formatUnits(
+                  BigInt(selectedToken?.minimumTransactionAmount ?? '0'),
+                  Number(selectedToken?.decimals),
+                )
+              )
+            : 0
+        }`,
+      ),
+  }),
+
   });
 
   const onSubmit = async (
