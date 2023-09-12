@@ -82,7 +82,6 @@ function SingleValueForm({
           provider,
           tx,
           contractEntity,
-          null,
         );
 
         if (callback) {
