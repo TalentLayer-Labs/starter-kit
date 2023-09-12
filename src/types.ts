@@ -28,6 +28,7 @@ export type IUser = {
   userStats: IUserStats;
   image_url: string;
   delegates?: string[];
+  isAdmin?: boolean;
 };
 
 export type IUserDetails = {
