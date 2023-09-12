@@ -4,7 +4,7 @@ import { navigation, navigationAdmin } from './navigation';
 import { useContext } from 'react';
 
 function SideMenu() {
-  const { isAdmin } = useContext(StarterKitContext);
+  const { user } = useContext(StarterKitContext);
 
   return (
     <nav className='space-y-1 px-3'>
@@ -14,7 +14,7 @@ function SideMenu() {
           {item.name}
         </SideLink>
       ))}
-      {isAdmin && (
+      {user?.isAdmin && (
         <div className='pt-4'>
           <div className='border-gray-700 my-3 h-px border-t mx-3'></div>
           <h2 className='text-gray-400 ml-3 mt-6'>My platform</h2>
