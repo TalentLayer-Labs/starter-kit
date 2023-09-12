@@ -54,16 +54,7 @@ function SingleValueForm({
   const { data: signer } = useSigner({
     chainId,
   });
-  let contract: ethers.Contract;
-
-  if (!signer) {
-    return <Loading />;
-  }
-
-  if (signer) {
-    contract = new ethers.Contract(contractAddress, contractAbi, signer);
-  }
-
+  
   const onSubmit = async (
     values: IFormValuesString | IFormValuesNumber | undefined,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void; resetForm: () => void },
@@ -79,9 +70,8 @@ function SingleValueForm({
           value = hookModifyValue(value);
         }
 
+        const contract: ethers.Contract = new ethers.Contract(contractAddress, contractAbi, signer);
         const tx = await contract[contractFunctionName](contractInputs, value, []);
-
-        console.log('tx', tx);
 
         await createMultiStepsTransactionToast(
           chainId,
