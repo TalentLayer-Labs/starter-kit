@@ -13,7 +13,6 @@ import { useConfig } from '../../../hooks/useConfig';
 import TalentLayerPlatformID from '../../../contracts/ABI/TalentLayerPlatformID.json';
 import { useWeb3Modal } from '@web3modal/react';
 import SubmitButton from '../../../components/Form/SubmitButton';
-import { Container } from '../../../components/newlayout/container';
 import Steps from '../../../components/Steps';
 import Loading from '../../../components/Loading';
 
@@ -105,9 +104,13 @@ function AdminPresentation() {
   };
 
   return (
-    <Container>
-      <p className='text-xl font-medium tracking-wider'>Configuration {'/'} Presentation</p>
-      <p className='mb-6 pb-4 border-b border-gray-gray-200 font-medium'>OffChain</p>
+    <div className='max-w-7xl mx-auto text-gray-200 sm:px-4 lg:px-0'>
+      <div className=' -mx-6 -mt-6 '>
+        <div className='flex py-2 px-6 items-center border-b w-full border-gray-700 mb-8'>
+          <p className='text-2xl font-medium flex-1'>Presentation</p>
+        </div>
+      </div>
+
       <Formik
         initialValues={initialValues}
         enableReinitialize={true}
@@ -115,7 +118,7 @@ function AdminPresentation() {
         validationSchema={validationSchema}>
         {({ isSubmitting, values }) => (
           <Form>
-            <div className='w-3/4 grid grid-cols-1 gap-6 border border-gray-700 rounded-xl p-6 bg-endnight mx-auto'>
+            <div className='grid grid-cols-1 gap-6 border border-gray-700 rounded-xl p-6 bg-endnight'>
               <label className='block'>
                 <span className='text-gray-100'>Name</span>
                 <Field
@@ -173,7 +176,7 @@ function AdminPresentation() {
           </Form>
         )}
       </Formik>
-    </Container>
+    </div>
   );
 }
 
