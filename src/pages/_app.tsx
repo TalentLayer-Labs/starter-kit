@@ -6,7 +6,7 @@ import type { AppProps } from 'next/app';
 import { useEffect } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Chain, WagmiConfig, configureChains, createClient } from 'wagmi';
+import { Chain, WagmiConfig, configureChains, createConfig } from 'wagmi';
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc';
 import SEO from '../../next-seo.config';
 import { customChains } from '../chains';
@@ -19,32 +19,32 @@ import Layout from './Layout';
 const chains: Chain[] = [customChains.polygonMumbai];
 
 // Wagmi client
-const { provider } = configureChains(chains, [
+const { publicClient } = configureChains(chains, [
   jsonRpcProvider({
     rpc: chain => {
-      return { http: chain.rpcUrls.default };
+      return { http: chain.rpcUrls.default.http[0] };
     },
   }),
 ]);
-const wagmiClient = createClient({
+const wagmiConfig = createConfig({
   autoConnect: false,
   connectors: modalConnectors({ appName: 'web3Modal', chains }),
-  provider,
+  publicClient,
 });
 
 // Web3Modal Ethereum Client
-const ethereumClient = new EthereumClient(wagmiClient, chains);
+const ethereumClient = new EthereumClient(wagmiConfig, chains);
 
 function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
-    wagmiClient.autoConnect();
+    wagmiConfig.autoConnect();
   }, []);
 
   return (
     <>
       <DefaultSeo {...SEO} />
       <ToastContainer position='bottom-right' />
-      <WagmiConfig client={wagmiClient}>
+      <WagmiConfig config={wagmiConfig}>
         <StarterKitProvider>
           <XmtpContextProvider>
             <MessagingProvider>
