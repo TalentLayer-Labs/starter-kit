@@ -3,11 +3,10 @@ import { ContractInterface, ethers } from 'ethers';
 import { Field, Form, Formik } from 'formik';
 import { useProvider, useSigner } from 'wagmi';
 import * as Yup from 'yup';
-import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../utils/toast';
-import Loading from '../Loading';
-import SubmitButton from './SubmitButton';
-import { useChainId } from '../../hooks/useChainId';
 import { ObjectShape } from 'yup/lib/object';
+import { useChainId } from '../../hooks/useChainId';
+import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../utils/toast';
+import SubmitButton from './SubmitButton';
 
 interface IFormValuesNumber {
   value?: number;
@@ -54,7 +53,7 @@ function SingleValueForm({
   const { data: signer } = useSigner({
     chainId,
   });
-  
+
   const onSubmit = async (
     values: IFormValuesString | IFormValuesNumber | undefined,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void; resetForm: () => void },
@@ -83,7 +82,6 @@ function SingleValueForm({
           provider,
           tx,
           contractEntity,
-          null,
         );
 
         if (callback) {
@@ -91,7 +89,6 @@ function SingleValueForm({
         }
 
         setSubmitting(false);
-
       } catch (error) {
         showErrorTransactionToast(error);
       }

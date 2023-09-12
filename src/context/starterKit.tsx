@@ -52,12 +52,15 @@ const StarterKitProvider = ({ children }: { children: ReactNode }) => {
           ) !== -1,
       );
 
-      const platformResponse = await getPlatform(chainId, process.env.NEXT_PUBLIC_PLATFORM_ID || '');
+      const platformResponse = await getPlatform(
+        chainId,
+        process.env.NEXT_PUBLIC_PLATFORM_ID || '',
+      );
       const platform = platformResponse?.data?.data?.platform;
       const isAdmin = platform?.address === user?.address;
-      
+
       setIsAdmin(isAdmin);
-      
+
       setLoading(false);
       return true;
     } catch (err: any) {

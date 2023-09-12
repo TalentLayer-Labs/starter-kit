@@ -1,18 +1,17 @@
-import Loading from '../../../components/Loading';
+import { ethers } from 'ethers';
 import { useContext, useEffect, useState } from 'react';
-import StarterKitContext from '../../../context/starterKit';
-import UserNeedsMoreRights from '../../../components/UserNeedsMoreRights';
-import SingleValueForm from '../../../components/Form/SingleValueForm';
+import { useProvider } from 'wagmi';
 import * as Yup from 'yup';
-import { useConfig } from '../../../hooks/useConfig';
+import SingleValueForm from '../../../components/Form/SingleValueForm';
+import Loading from '../../../components/Loading';
+import Steps from '../../../components/Steps';
+import UserNeedsMoreRights from '../../../components/UserNeedsMoreRights';
+import StarterKitContext from '../../../context/starterKit';
 import TalentLayerArbitrator from '../../../contracts/ABI/TalentLayerArbitrator.json';
 import TalentLayerPlatformID from '../../../contracts/ABI/TalentLayerPlatformID.json';
-import { Container } from '../../../components/newlayout/container';
-import usePlatform from '../../../hooks/usePlatform';
-import { useProvider } from 'wagmi';
-import { ethers } from 'ethers';
 import { useChainId } from '../../../hooks/useChainId';
-import Steps from '../../../components/Steps';
+import { useConfig } from '../../../hooks/useConfig';
+import usePlatform from '../../../hooks/usePlatform';
 
 function AdminDispute() {
   const { isAdmin, user } = useContext(StarterKitContext);
@@ -65,11 +64,14 @@ function AdminDispute() {
   }
 
   return (
-    <Container>
-      <p className='text-xl font-medium tracking-wider'>Configuration {'/'} Dispute</p>
-      <p className='mb-6 pb-4 border-b border-gray-gray-200 font-medium'>OnChain</p>
+    <div className='max-w-7xl mx-auto text-gray-200 sm:px-4 lg:px-0'>
+      <div className=' -mx-6 -mt-6 '>
+        <div className='flex py-2 px-6 items-center border-b w-full border-gray-700 mb-8'>
+          <p className='text-2xl font-medium flex-1'>Dispute strategy</p>
+        </div>
+      </div>
 
-      <Container className='w-3/4 grid grid-cols-1 gap-6 border border-gray-700 rounded-xl p-6 bg-endnight'>
+      <div className='grid grid-cols-1 gap-6 border border-gray-700 rounded-xl p-6 bg-endnight'>
         <SingleValueForm
           validationDatas={{
             valueType: 'select',
@@ -122,8 +124,8 @@ function AdminDispute() {
           }}
           valueName={'Arbitration price (in Matic)'}
         />
-      </Container>
-    </Container>
+      </div>
+    </div>
   );
 }
 
