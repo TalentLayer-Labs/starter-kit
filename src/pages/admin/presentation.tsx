@@ -1,23 +1,22 @@
 import { useContext, useEffect, useState } from 'react';
-import StarterKitContext from '../../../context/starterKit';
-import UserNeedsMoreRights from '../../../components/UserNeedsMoreRights';
+import StarterKitContext from '../../context/starterKit';
+import UserNeedsMoreRights from '../../components/UserNeedsMoreRights';
 import * as Yup from 'yup';
-import usePlatform from '../../../hooks/usePlatform';
+import usePlatform from '../../hooks/usePlatform';
 import { useProvider, useSigner } from 'wagmi';
-import { useChainId } from '../../../hooks/useChainId';
-import { postToIPFS } from '../../../utils/ipfs';
-import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../../utils/toast';
+import { useChainId } from '../../hooks/useChainId';
+import { postToIPFS } from '../../utils/ipfs';
+import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../utils/toast';
 import { Field, Form, Formik } from 'formik';
 import { ethers } from 'ethers';
-import { useConfig } from '../../../hooks/useConfig';
-import TalentLayerPlatformID from '../../../contracts/ABI/TalentLayerPlatformID.json';
+import { useConfig } from '../../hooks/useConfig';
+import TalentLayerPlatformID from '../../contracts/ABI/TalentLayerPlatformID.json';
 import { useWeb3Modal } from '@web3modal/react';
-import SubmitButton from '../../../components/Form/SubmitButton';
-import Steps from '../../../components/Steps';
-import Loading from '../../../components/Loading';
+import SubmitButton from '../../components/Form/SubmitButton';
+import Steps from '../../components/Steps';
+import Loading from '../../components/Loading';
 
 interface IFormValues {
-  name: string;
   about: string;
   website: string;
   video_url: string;
@@ -29,7 +28,7 @@ const validationSchema = Yup.object({
 });
 
 function AdminPresentation() {
-  const { user, isAdmin, loading } = useContext(StarterKitContext);
+  const { user, loading } = useContext(StarterKitContext);
   const platform = usePlatform(process.env.NEXT_PUBLIC_PLATFORM_ID as string);
   const platformDescription = platform?.description;
   const chainId = useChainId();
@@ -46,12 +45,11 @@ function AdminPresentation() {
   if (!user) {
     return <Steps />;
   }
-  if (!isAdmin) {
+  if (!user.isAdmin) {
     return <UserNeedsMoreRights />;
   }
 
   const initialValues: IFormValues = {
-    name: platformDescription?.name || '',
     about: platformDescription?.about || '',
     website: platformDescription?.website || '',
     image_url: platformDescription?.image_url || '',
@@ -66,7 +64,6 @@ function AdminPresentation() {
       try {
         const cid = await postToIPFS(
           JSON.stringify({
-            name: values.name,
             about: values.about,
             website: values.website,
             video_url: values.video_url,
@@ -119,17 +116,6 @@ function AdminPresentation() {
         {({ isSubmitting, values }) => (
           <Form>
             <div className='grid grid-cols-1 gap-6 border border-gray-700 rounded-xl p-6 bg-endnight'>
-              <label className='block'>
-                <span className='text-gray-100'>Name</span>
-                <Field
-                  type='text'
-                  id='name'
-                  name='name'
-                  className='mt-1 mb-1 block w-full rounded-xl border border-gray-700 bg-midnight shadow-sm focus:ring-opacity-50'
-                  placeholder=''
-                />
-              </label>
-
               <label className='block'>
                 <span className='text-gray-100'>Website</span>
                 <Field

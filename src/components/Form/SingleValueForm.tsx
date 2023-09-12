@@ -8,19 +8,12 @@ import { useChainId } from '../../hooks/useChainId';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../utils/toast';
 import SubmitButton from './SubmitButton';
 
-interface IFormValuesNumber {
-  value?: number;
-}
-interface IFormValuesString {
-  value?: string;
-}
-
 interface validationDatasType {
   valueType: string;
   validationSchema?: Yup.ObjectSchema<ObjectShape>;
   initialValue?: number | string;
   selectOptions?: { value: string; label: string }[];
-  hookModifyValue?: (value: number | string) => number | string;
+  hookModifyValue?: (value: number | string) => number | BigInt | string;
 }
 
 interface contractParamsType {
@@ -55,12 +48,12 @@ function SingleValueForm({
   });
 
   const onSubmit = async (
-    values: IFormValuesString | IFormValuesNumber | undefined,
+    values: any,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void; resetForm: () => void },
   ) => {
     if (provider && signer && values) {
       try {
-        let value = values[valueName as keyof IFormValuesString];
+        let value = values[valueName];
         if (!value) {
           return;
         }
@@ -99,7 +92,7 @@ function SingleValueForm({
 
   return (
     <Formik
-      initialValues={{ [valueName]: initialValue || null }}
+      initialValues={{ [valueName]: initialValue }}
       validationSchema={validationSchema}
       enableReinitialize={true}
       onSubmit={onSubmit}>
