@@ -1,43 +1,37 @@
-import Loading from '../../../components/Loading';
+import Loading from '../../components/Loading';
 import { useContext, useEffect, useState } from 'react';
-import StarterKitContext from '../../../context/starterKit';
-import UserNeedsMoreRights from '../../../components/UserNeedsMoreRights';
-import SingleValueForm from '../../../components/Form/SingleValueForm';
+import StarterKitContext from '../../context/starterKit';
+import UserNeedsMoreRights from '../../components/UserNeedsMoreRights';
+import SingleValueForm from '../../components/Form/SingleValueForm';
 import * as Yup from 'yup';
-import { useConfig } from '../../../hooks/useConfig';
-import TalentLayerPlatformID from '../../../contracts/ABI/TalentLayerPlatformID.json';
-import usePlatform from '../../../hooks/usePlatform';
-import { FEE_RATE_DIVIDER } from '../../../config';
-import Steps from '../../../components/Steps';
+import { useConfig } from '../../hooks/useConfig';
+import TalentLayerPlatformID from '../../contracts/ABI/TalentLayerPlatformID.json';
+import usePlatform from '../../hooks/usePlatform';
+import { FEE_RATE_DIVIDER } from '../../config';
+import Steps from '../../components/Steps';
+import { ethers } from 'ethers';
 
 function AdminFees() {
-  const { isAdmin, user } = useContext(StarterKitContext);
+  const { user, loading } = useContext(StarterKitContext);
   const config = useConfig();
   const platform = usePlatform(process.env.NEXT_PUBLIC_PLATFORM_ID as string);
 
-  const [isLoading, setIsLoading] = useState(true);
-  const [isAdminOfThisPlatform, setIsAdminOfThisPlatform] = useState(false);
-
-  // Handle loading state
-  useEffect(() => {
-    if (isAdmin != null && user != null && platform != null && config != null) {
-      setIsAdminOfThisPlatform(platform?.address === user?.address && isAdmin);
-      setIsLoading(false);
-    }
-  }, [isAdmin, user, platform, config]);
-
-  if (isLoading) {
+  if (loading) {
     return <Loading />;
   }
   if (!user) {
     return <Steps />;
   }
-  if (!isLoading && !isAdminOfThisPlatform) {
+  if (!user.isAdmin) {
     return <UserNeedsMoreRights />;
   }
 
-  const handleFeeRates = (value: number | string) => {
-    return Number(value) * FEE_RATE_DIVIDER;
+  const transformFeeRate = (value: number | string): number => {
+    return Math.round((Number(value) * FEE_RATE_DIVIDER) / 100);
+  };
+
+  const transformFee = (value: number | string): BigInt => {
+    return ethers.utils.parseUnits(value.toString(), 'ether').toBigInt();
   };
 
   return (
@@ -52,12 +46,14 @@ function AdminFees() {
         <SingleValueForm
           validationDatas={{
             validationSchema: Yup.object({
-              'Fees (in %) on escrow for bringing the service':
-                Yup.number().required('value is required'),
+              'Fees (in %) on escrow for bringing the service': Yup.number()
+                .required('value is required')
+                .min(0)
+                .max(100),
             }),
             valueType: 'number',
-            initialValue: (platform?.originServiceFeeRate || 0) / FEE_RATE_DIVIDER,
-            hookModifyValue: handleFeeRates,
+            initialValue: ((platform?.originServiceFeeRate || 0) * 100) / FEE_RATE_DIVIDER,
+            hookModifyValue: transformFeeRate,
           }}
           contractParams={{
             contractFunctionName: 'updateOriginServiceFeeRate',
@@ -72,12 +68,15 @@ function AdminFees() {
         <SingleValueForm
           validationDatas={{
             validationSchema: Yup.object({
-              'Fees (in %) paid for validating a proposal':
-                Yup.number().required('value is required'),
+              'Fees (in %) paid for validating a proposal': Yup.number()
+                .required('value is required')
+                .min(0)
+                .max(100),
             }),
             valueType: 'number',
-            initialValue: (platform?.originValidatedProposalFeeRate || 0) / FEE_RATE_DIVIDER,
-            hookModifyValue: handleFeeRates,
+            initialValue:
+              ((platform?.originValidatedProposalFeeRate || 0) * 100) / FEE_RATE_DIVIDER,
+            hookModifyValue: transformFeeRate,
           }}
           contractParams={{
             contractFunctionName: 'updateOriginValidatedProposalFeeRate',
@@ -97,6 +96,7 @@ function AdminFees() {
             }),
             valueType: 'number',
             initialValue: Number(platform?.servicePostingFee) || 0,
+            hookModifyValue: transformFee,
           }}
           contractParams={{
             contractFunctionName: 'updateServicePostingFee',
@@ -116,6 +116,7 @@ function AdminFees() {
             }),
             valueType: 'number',
             initialValue: Number(platform?.proposalPostingFee) || 0,
+            hookModifyValue: transformFee,
           }}
           contractParams={{
             contractFunctionName: 'updateProposalPostingFee',

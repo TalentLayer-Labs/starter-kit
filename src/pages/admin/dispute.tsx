@@ -2,19 +2,19 @@ import { ethers } from 'ethers';
 import { useContext, useEffect, useState } from 'react';
 import { useProvider } from 'wagmi';
 import * as Yup from 'yup';
-import SingleValueForm from '../../../components/Form/SingleValueForm';
-import Loading from '../../../components/Loading';
-import Steps from '../../../components/Steps';
-import UserNeedsMoreRights from '../../../components/UserNeedsMoreRights';
-import StarterKitContext from '../../../context/starterKit';
-import TalentLayerArbitrator from '../../../contracts/ABI/TalentLayerArbitrator.json';
-import TalentLayerPlatformID from '../../../contracts/ABI/TalentLayerPlatformID.json';
-import { useChainId } from '../../../hooks/useChainId';
-import { useConfig } from '../../../hooks/useConfig';
-import usePlatform from '../../../hooks/usePlatform';
+import SingleValueForm from '../../components/Form/SingleValueForm';
+import Loading from '../../components/Loading';
+import Steps from '../../components/Steps';
+import UserNeedsMoreRights from '../../components/UserNeedsMoreRights';
+import StarterKitContext from '../../context/starterKit';
+import TalentLayerArbitrator from '../../contracts/ABI/TalentLayerArbitrator.json';
+import TalentLayerPlatformID from '../../contracts/ABI/TalentLayerPlatformID.json';
+import { useChainId } from '../../hooks/useChainId';
+import { useConfig } from '../../hooks/useConfig';
+import usePlatform from '../../hooks/usePlatform';
 
 function AdminDispute() {
-  const { isAdmin, user } = useContext(StarterKitContext);
+  const { user } = useContext(StarterKitContext);
   const config = useConfig();
   const platform = usePlatform(process.env.NEXT_PUBLIC_PLATFORM_ID as string);
   const chainId = useChainId();
@@ -23,25 +23,23 @@ function AdminDispute() {
   const arbitratorContract = arbitratorContractAddress
     ? new ethers.Contract(arbitratorContractAddress, TalentLayerArbitrator.abi, provider)
     : null;
+  const [isLoading, setIsLoading] = useState(true);
   const [arbitratorPrice, setArbitratorPrice] = useState<number>(-1);
   let availableArbitrators: { value: string; label: string }[] = [];
-  const [isLoading, setIsLoading] = useState(true);
-  const [isAdminOfThisPlatform, setIsAdminOfThisPlatform] = useState(false);
+
   const fetchArbitrationPrice = async () => {
     if (arbitratorContract && arbitratorContract.address !== ethers.constants.AddressZero) {
       const price = await arbitratorContract.arbitrationPrice(platform?.id);
       setArbitratorPrice(price);
+      setIsLoading(false);
     }
   };
 
-  // Handle loading state
   useEffect(() => {
-    if (isAdmin != null && user != null && platform != null && config != null) {
+    if (user?.isAdmin != null && platform != null && config != null) {
       fetchArbitrationPrice();
-      setIsAdminOfThisPlatform(platform?.address === user?.address && isAdmin);
-      setIsLoading(false);
     }
-  }, [isAdmin, user, platform, config]);
+  }, [platform, config]);
 
   if (isLoading) {
     return <Loading />;
@@ -49,7 +47,7 @@ function AdminDispute() {
   if (!user) {
     return <Steps />;
   }
-  if (!isLoading && !isAdminOfThisPlatform) {
+  if (!user.isAdmin) {
     return <UserNeedsMoreRights />;
   }
 
