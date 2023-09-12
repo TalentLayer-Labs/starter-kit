@@ -95,7 +95,9 @@ function AdminFees() {
                 Yup.number().required('value is required'),
             }),
             valueType: 'number',
-            initialValue: Number(platform?.servicePostingFee) || 0,
+            initialValue: platform?.servicePostingFee
+              ? ethers.utils.formatEther(platform?.servicePostingFee)
+              : 0,
             hookModifyValue: transformFee,
           }}
           contractParams={{
@@ -115,7 +117,9 @@ function AdminFees() {
                 Yup.number().required('value is required'),
             }),
             valueType: 'number',
-            initialValue: Number(platform?.proposalPostingFee) || 0,
+            initialValue: platform?.proposalPostingFee
+              ? ethers.utils.formatEther(platform?.proposalPostingFee)
+              : 0,
             hookModifyValue: transformFee,
           }}
           contractParams={{
