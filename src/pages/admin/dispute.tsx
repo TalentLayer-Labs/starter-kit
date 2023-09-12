@@ -14,7 +14,7 @@ import { useConfig } from '../../hooks/useConfig';
 import usePlatform from '../../hooks/usePlatform';
 
 function AdminDispute() {
-  const { user } = useContext(StarterKitContext);
+  const { user, loading } = useContext(StarterKitContext);
   const config = useConfig();
   const platform = usePlatform(process.env.NEXT_PUBLIC_PLATFORM_ID as string);
   const chainId = useChainId();
@@ -23,15 +23,14 @@ function AdminDispute() {
   const arbitratorContract = arbitratorContractAddress
     ? new ethers.Contract(arbitratorContractAddress, TalentLayerArbitrator.abi, provider)
     : null;
-  const [isLoading, setIsLoading] = useState(true);
-  const [arbitratorPrice, setArbitratorPrice] = useState<number>(-1);
+  const [arbitratorPrice, setArbitratorPrice] = useState<number>(0);
   let availableArbitrators: { value: string; label: string }[] = [];
 
   const fetchArbitrationPrice = async () => {
     if (arbitratorContract && arbitratorContract.address !== ethers.constants.AddressZero) {
       const price = await arbitratorContract.arbitrationPrice(platform?.id);
+      console.log('fetch');
       setArbitratorPrice(price);
-      setIsLoading(false);
     }
   };
 
@@ -39,9 +38,9 @@ function AdminDispute() {
     if (user?.isAdmin != null && platform != null && config != null) {
       fetchArbitrationPrice();
     }
-  }, [platform, config]);
+  }, [platform?.id]);
 
-  if (isLoading) {
+  if (loading) {
     return <Loading />;
   }
   if (!user) {
@@ -60,6 +59,10 @@ function AdminDispute() {
       { value: ethers.constants.AddressZero, label: 'None' },
     ];
   }
+
+  const transformPrice = (value: number | string): BigInt => {
+    return ethers.utils.parseUnits(value.toString(), 'ether').toBigInt();
+  };
 
   return (
     <div className='max-w-7xl mx-auto text-gray-200 sm:px-4 lg:px-0'>
@@ -111,7 +114,8 @@ function AdminDispute() {
               'Arbitration price (in Matic)': Yup.number().required('value is required'),
             }),
             valueType: 'number',
-            initialValue: arbitratorPrice,
+            initialValue: arbitratorPrice ? ethers.utils.formatEther(arbitratorPrice) : 0,
+            hookModifyValue: transformPrice,
           }}
           contractParams={{
             contractFunctionName: 'setArbitrationPrice',
