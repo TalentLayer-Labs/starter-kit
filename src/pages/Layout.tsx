@@ -17,7 +17,7 @@ function Layout({ children, className }: ContainerProps) {
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  if (router.asPath.includes('dashboard')) {
+  if (router.asPath.includes('dashboard') || router.asPath.includes('admin')) {
     // TODO: if is connect but doesn't have a group, redirect to onbaording
 
     return (
