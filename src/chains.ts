@@ -1,14 +1,6 @@
-import { chain } from 'wagmi';
 import { defineChain } from 'viem'
 
-export const customChains = {
-  ...chain,
-  polygonMumbai: {
-    ...chain.polygonMumbai,
-    rpcUrls: {
-      default: 'https://rpc.mumbai.polygon.gateway.fm/',
-    },
-  },
+export const local = {
   local: {
     id: 1337,
     name: 'localhost',

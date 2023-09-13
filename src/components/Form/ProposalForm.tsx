@@ -1,5 +1,5 @@
 import { createPublicClient, http, createWalletClient, formatUnits} from 'viem';
-import { polygonMumbai } from 'viem/chains'
+import { polygonMumbai } from '../../chains'
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { QuestionMarkCircle } from 'heroicons-react';
 import { useRouter } from 'next/router';
