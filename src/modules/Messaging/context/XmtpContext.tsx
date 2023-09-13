@@ -1,7 +1,7 @@
 import React, { createContext, ReactNode, useEffect, useMemo, useState } from 'react';
 import { Client, Conversation, DecodedMessage } from '@xmtp/xmtp-js';
 import { Signer } from 'ethers';
-import { useAccount, useSigner } from 'wagmi';
+import { useAccount, useWalletClient } from 'wagmi';
 import { buildChatMessage, CONVERSATION_PREFIX } from '../utils/messaging';
 import { XmtpChatMessage } from '../utils/types';
 import { loadKeys, storeKeys } from '../utils/keys';
@@ -30,7 +30,7 @@ export const XmtpContext = createContext<{
 
 export const XmtpContextProvider = ({ children }: { children: ReactNode }) => {
   const chainId = useChainId();
-  const { data: signer } = useSigner({
+  const { data: walletClient } = useWalletClient({
     chainId,
   });
   const { address: walletAddress } = useAccount();

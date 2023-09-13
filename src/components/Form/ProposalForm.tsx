@@ -4,8 +4,9 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { QuestionMarkCircle } from 'heroicons-react';
 import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
-import { useProvider} from 'wagmi';
+import { usePublicClient } from 'wagmi';
 import * as Yup from 'yup';
+import { ConnectPublicClient, ConnectWalletClient} from '../../client'
 import StarterKitContext from '../../context/starterKit';
 import ServiceRegistry from '../../contracts/ABI/TalentLayerService.json';
 import useAllowedTokens from '../../hooks/useAllowedTokens';
@@ -48,7 +49,7 @@ function ProposalForm({
 }) {
   const config = useConfig();
   const chainId = useChainId();
-  const provider = useProvider({ chainId });
+  const publicClient = usePublicClient({ chainId });
   const router = useRouter();
   const allowedTokenList = useAllowedTokens();
   const { isActiveDelegate } = useContext(StarterKitContext);
@@ -107,7 +108,7 @@ function ProposalForm({
     }: { setSubmitting: (isSubmitting: boolean) => void; resetForm: () => void },
   ) => {
     const token = allowedTokenList.find(token => token.address === values.rateToken);
-    if (provider && token) {
+    if (publicClient && token) {
       try {
         const parsedRateAmount = await parseRateAmount(
           values.rateAmount.toString(),
@@ -149,15 +150,8 @@ function ProposalForm({
           );
           tx = response.data.transaction;
         } else {
-          const publicClient = createPublicClient({
-            chain: polygonMumbai,
-            transport: http(),
-          });
-          
-          const walletClient = createWalletClient({
-            chain: polygonMumbai,
-            transport: http(),
-          });
+          const publicClient = ConnectPublicClient();
+          const walletClient = ConnectWalletClient();
           const [address] = await walletClient.getAddresses()
           const { request } = await publicClient.simulateContract({
             address: config.contracts.serviceRegistry,
@@ -184,6 +178,7 @@ function ProposalForm({
               ],
             account: address,
           });
+          tx = await walletClient.writeContract(request);
         }
 
         await createMultiStepsTransactionToast(
@@ -193,7 +188,7 @@ function ProposalForm({
             success: 'Congrats! Your proposal has been added',
             error: 'An error occurred while creating your proposal',
           },
-          provider,
+          publicClient,
           tx,
           'proposalRequest',
           cid,

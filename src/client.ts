@@ -1,6 +1,4 @@
 import { createWalletClient, createPublicClient, custom, http } from "viem";
-import { Chain, configureChains } from 'wagmi';
-import { jsonRpcProvider } from 'wagmi/providers/jsonRpc';
 import { polygonMumbai } from "./chains";
 
 // Viem Client
@@ -21,14 +19,3 @@ export const ConnectWalletClient = () => {
 
     return walletClient;
 }
-
-const chains: Chain[] = [polygonMumbai];
-
-// Wagmi Client
-export const { publicClient } = configureChains(chains, [
-    jsonRpcProvider({
-      rpc: chain => {
-        return { http: chain.rpcUrls.default.http[0] };
-      },
-    }),
-  ]);

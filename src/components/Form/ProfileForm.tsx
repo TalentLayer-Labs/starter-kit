@@ -1,10 +1,9 @@
 import { useWeb3Modal} from '@web3modal/react';
-import { createPublicClient, http, createWalletClient, custom} from 'viem';
-import { polygonMumbai } from '../../chains'
 import { Field, Form, Formik } from 'formik';
 import { useContext, useState } from 'react';
-import { useProvider } from 'wagmi';
+import { usePublicClient } from 'wagmi';
 import * as Yup from 'yup';
+import { ConnectPublicClient, ConnectWalletClient} from '../../client'
 import StarterKitContext from '../../context/starterKit';
 import TalentLayerID from '../../contracts/ABI/TalentLayerID.json';
 import { postToIPFS } from '../../utils/ipfs';
@@ -37,7 +36,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
   const chainId = useChainId();
   const {open: openConnectModal} = useWeb3Modal();
   const { user } = useContext(StarterKitContext);
-  const provider = useProvider({ chainId });
+  const publicClient = usePublicClient({ chainId });
   const [aiLoading, setAiLoading] = useState(false);
   const userDescription = user?.id ? useUserById(user?.id)?.description : null;
   const { isActiveDelegate } = useContext(StarterKitContext);
@@ -93,7 +92,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
     values: IFormValues,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void },
   ) => {
-    if (user && provider) { 
+    if (user && publicClient) { 
       try {
         const cid = await postToIPFS(
           JSON.stringify({
@@ -111,16 +110,8 @@ function ProfileForm({ callback }: { callback?: () => void }) {
           const response = await delegateUpdateProfileData(chainId, user.id, user.address, cid);
           tx = response.data.transaction;
         } else {
-          const publicClient = createPublicClient({
-            chain: polygonMumbai,
-            transport: http(process.env.NEXT_PUBLIC_BACKEND_RPC_URL),
-          });
-          
-        
-          const walletClient = createWalletClient({
-            chain: polygonMumbai,
-            transport:custom(window.ethereum)
-          });
+          const publicClient = ConnectPublicClient()
+          const walletClient = ConnectWalletClient()
           
           const [address] = await walletClient.getAddresses()
           console.log(address)
@@ -142,7 +133,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
             success: 'Congrats! Your profile has been updated',
             error: 'An error occurred while updating your profile',
           },
-          provider,
+          publicClient,
           tx,
           'user',
           cid,
