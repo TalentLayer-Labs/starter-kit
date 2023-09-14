@@ -6,7 +6,6 @@ import TalentLayerID from '../../contracts/ABI/TalentLayerID.json';
 import { getUserByAddress } from '../../queries/users';
 import { useChainId } from '../../hooks/useChainId';
 import { useConfig } from '../../hooks/useConfig';
-import { ConnectPublicClient, ConnectWalletClient } from '../../client';
 import { getContract } from 'viem';
 
 function DelegateModal() {
@@ -14,9 +13,7 @@ function DelegateModal() {
   const chainId = useChainId();
   const [show, setShow] = useState(false);
   const [hasPlatformAsDelegate, setHasPlatformAsDelegate] = useState(false);
-  const { data: walletClient } = useWalletClient({
-    chainId,
-  });
+  const { data: walletClient } = useWalletClient({chainId});
   const publicClient = usePublicClient({ chainId });
   const { user } = useContext(StarterKitContext);
   const delegateAddress = process.env.NEXT_PUBLIC_DELEGATE_ADDRESS as string;
@@ -41,22 +38,14 @@ function DelegateModal() {
   }, [user, show]);
 
   const onSubmit = async (validateState: boolean) => {
-    const publicClient = ConnectPublicClient();
-    const walletClient = ConnectWalletClient();
-    const [address] = await walletClient.getAddresses();
+    if (!walletClient || !publicClient || !user) {
+      return null;
+    }
     const contract = getContract({
       address: config.contracts.talentLayerId,
       abi: TalentLayerID.abi,
       walletClient,
     })
-    // const contract = new ethers.Contract(
-    //   config.contracts.talentLayerId,
-    //   TalentLayerID.abi,
-    //   walletClient!,
-    // );
-    if (!walletClient || !publicClient || !user) {
-      return null;
-    }
     await toggleDelegation(chainId, user.id, delegateAddress, publicClient, validateState, contract);
 
     setShow(false);

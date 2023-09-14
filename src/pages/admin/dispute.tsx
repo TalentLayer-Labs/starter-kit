@@ -1,6 +1,6 @@
 import { ethers } from 'ethers';
 import { useContext, useEffect, useState } from 'react';
-import { useProvider } from 'wagmi';
+import { usePublicClient } from 'wagmi';
 import * as Yup from 'yup';
 import SingleValueForm from '../../components/Form/SingleValueForm';
 import Loading from '../../components/Loading';
@@ -12,13 +12,14 @@ import TalentLayerPlatformID from '../../contracts/ABI/TalentLayerPlatformID.jso
 import { useChainId } from '../../hooks/useChainId';
 import { useConfig } from '../../hooks/useConfig';
 import usePlatform from '../../hooks/usePlatform';
+import { formatEther, parseEther } from 'viem';
 
 function AdminDispute() {
   const { user, loading } = useContext(StarterKitContext);
   const config = useConfig();
   const platform = usePlatform(process.env.NEXT_PUBLIC_PLATFORM_ID as string);
   const chainId = useChainId();
-  const provider = useProvider({ chainId });
+  const publicClient = usePublicClient({ chainId });
   const arbitratorContractAddress = platform ? platform.arbitrator : null;
   const arbitratorContract = arbitratorContractAddress
     ? new ethers.Contract(arbitratorContractAddress, TalentLayerArbitrator.abi, provider)
@@ -27,7 +28,7 @@ function AdminDispute() {
   let availableArbitrators: { value: string; label: string }[] = [];
 
   const fetchArbitrationPrice = async () => {
-    if (arbitratorContract && arbitratorContract.address !== ethers.constants.AddressZero) {
+    if (arbitratorContract && arbitratorContract.address !== "0x0000000000000000000000000000000000000000") {
       const price = await arbitratorContract.arbitrationPrice(platform?.id);
       console.log('fetch');
       setArbitratorPrice(price);
@@ -56,12 +57,12 @@ function AdminDispute() {
         value: config.contracts.talentLayerArbitrator,
         label: 'TalentLayer Arbitrator',
       },
-      { value: ethers.constants.AddressZero, label: 'None' },
+      { value: "0x0000000000000000000000000000000000000000", label: 'None' },
     ];
   }
 
   const transformPrice = (value: number | string): BigInt => {
-    return ethers.utils.parseUnits(value.toString(), 'ether').toBigInt();
+    return parseEther(value.toString())
   };
 
   return (
@@ -76,7 +77,7 @@ function AdminDispute() {
         <SingleValueForm
           validationDatas={{
             valueType: 'select',
-            initialValue: platform?.arbitrator || ethers.constants.AddressZero,
+            initialValue: platform?.arbitrator || "0x0000000000000000000000000000000000000000",
             selectOptions: availableArbitrators,
           }}
           contractParams={{
@@ -114,7 +115,7 @@ function AdminDispute() {
               'Arbitration price (in Matic)': Yup.number().required('value is required'),
             }),
             valueType: 'number',
-            initialValue: arbitratorPrice ? ethers.utils.formatEther(arbitratorPrice) : 0,
+            initialValue: arbitratorPrice ? formatEther(BigInt(arbitratorPrice)) : 0,
             hookModifyValue: transformPrice,
           }}
           contractParams={{

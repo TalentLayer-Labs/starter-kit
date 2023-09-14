@@ -3,7 +3,6 @@ import { Field, Form, Formik } from 'formik';
 import { useContext, useState } from 'react';
 import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
-import { ConnectPublicClient, ConnectWalletClient } from '../../client';
 import StarterKitContext from '../../context/starterKit';
 import TalentLayerID from '../../contracts/ABI/TalentLayerID.json';
 import { postToIPFS } from '../../utils/ipfs';
@@ -97,13 +96,6 @@ function ProfileForm({ callback }: { callback?: () => void }) {
             account: address,
           });
         }
-
-        console.log('DEBUG', {
-          tx: tx,
-          chainId,
-          cid,
-          publicClient,
-        });
 
         await createMultiStepsTransactionToast(
           chainId,

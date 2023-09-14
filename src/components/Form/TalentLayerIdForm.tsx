@@ -1,9 +1,8 @@
 import { useWeb3Modal } from '@web3modal/react';
-import { ethers } from 'ethers';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useContext } from 'react';
 import { useRouter } from 'next/router';
-import { usePublicClient, useWalletClient } from 'wagmi';
+import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
 import StarterKitContext from '../../context/starterKit';
 import TalentLayerID from '../../contracts/ABI/TalentLayerID.json';
@@ -14,7 +13,6 @@ import { HandlePrice } from './handle-price';
 import { delegateMintID } from '../request';
 import { useChainId } from '../../hooks/useChainId';
 import { useConfig } from '../../hooks/useConfig';
-import { ConnectPublicClient, ConnectWalletClient } from '../../client';
 
 interface IFormValues {
   handle: string;
@@ -29,13 +27,10 @@ function TalentLayerIdForm() {
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
   const { user, account } = useContext(StarterKitContext);
-  const { data: walletClient } = useWalletClient({
-    chainId,
-  });
-
+  const { data: walletClient } = useWalletClient({chainId});
+  const { address } = useAccount();
   const publicClient = usePublicClient({ chainId });
   const router = useRouter();
-  let tx: ethers.providers.TransactionResponse;
 
   const validationSchema = Yup.object().shape({
     handle: Yup.string()
@@ -54,18 +49,14 @@ function TalentLayerIdForm() {
   ) => {
     if (account && account.address && account.isConnected && publicClient && walletClient) {
       try {
-          const publicClient = ConnectPublicClient();
-          const walletClient = ConnectWalletClient();
-          const [address] = await walletClient.getAddresses();
-            
-          const { request } = await publicClient.simulateContract({
+          let tx;
+          const handlePrice = await walletClient.writeContract({
             address: config.contracts.talentLayerId,
             abi: TalentLayerID.abi,
             functionName: 'getHandlePrice',
             args: [submittedValues.handle],
             account: address,
           });
-          const handlePrice = await walletClient.writeContract(request);
 
         if (process.env.NEXT_PUBLIC_ACTIVE_DELEGATE_MINT === 'true') {
           const response = await delegateMintID(
@@ -76,8 +67,14 @@ function TalentLayerIdForm() {
           );
           tx = response.data.transaction;
         } else {
-          tx = await contract.mint(process.env.NEXT_PUBLIC_PLATFORM_ID, submittedValues.handle, {
-            value: handlePrice,
+          tx = await walletClient.writeContract({
+            address: config.contracts.talentLayerId,
+            abi: TalentLayerID.abi,
+            functionName: 'mint',
+            args: [process.env.NEXT_PUBLIC_PLATFORM_ID, submittedValues.handle, {
+              value: handlePrice,
+            }],
+            account: address,
           });
         }
         await createTalentLayerIdTransactionToast(

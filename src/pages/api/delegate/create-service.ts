@@ -1,14 +1,19 @@
 // pages/api/createService.ts
 import { NextApiRequest, NextApiResponse } from 'next';
 import { Contract } from 'ethers';
+
 import TalentLayerService from '../../../contracts/ABI/TalentLayerService.json';
 import { getServiceSignature } from '../../../utils/signature';
 import { getDelegationSigner, isPlatformAllowedToDelegate } from '../utils/delegate';
 import { getConfig } from '../../../config';
+import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { userId, userAddress, cid, chainId } = req.body;
   const config = getConfig(chainId);
+  const { data: walletClient } = useWalletClient({ chainId });
+  const publicClient = usePublicClient({ chainId });
+  const { address } = useAccount();
 
   // @dev : you can add here all the check you need to confirm the delagation for a user
   await isPlatformAllowedToDelegate(chainId, userAddress, res);

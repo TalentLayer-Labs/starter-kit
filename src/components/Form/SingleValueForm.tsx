@@ -1,12 +1,13 @@
 import { useWeb3Modal } from '@web3modal/react';
 import { ContractInterface, ethers } from 'ethers';
 import { Field, Form, Formik } from 'formik';
-import { useProvider, useSigner } from 'wagmi';
+import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
 import { ObjectShape } from 'yup/lib/object';
 import { useChainId } from '../../hooks/useChainId';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../utils/toast';
 import SubmitButton from './SubmitButton';
+import { getContract } from 'viem';
 
 interface validationDatasType {
   valueType: string;
@@ -42,16 +43,15 @@ function SingleValueForm({
 
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
-  const provider = useProvider({ chainId });
-  const { data: signer } = useSigner({
-    chainId,
-  });
+  const publicClient = usePublicClient({ chainId });
+  const { data: walletClient } = useWalletClient({chainId});
+  const { address } = useAccount();
 
   const onSubmit = async (
     values: any,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void; resetForm: () => void },
   ) => {
-    if (provider && signer && values) {
+    if (publicClient && walletClient && values) {
       try {
         let value = values[valueName];
         if (!value) {
@@ -62,9 +62,13 @@ function SingleValueForm({
           value = hookModifyValue(value);
         }
 
-        const contract: ethers.Contract = new ethers.Contract(contractAddress, contractAbi, signer);
-        const tx = await contract[contractFunctionName](contractInputs, value, []);
-
+        const contract = getContract({
+          address: contractAddress,
+          abi: contractAbi,
+          walletClient,
+        });
+        const tx = await contract.write[contractFunctionName](contractInputs, { value });
+        
         await createMultiStepsTransactionToast(
           chainId,
           {
@@ -72,7 +76,7 @@ function SingleValueForm({
             success: 'Congrats! Your informations has been updated',
             error: 'An error occurred while updating your informations',
           },
-          provider,
+          publicClient,
           tx,
           contractEntity,
         );

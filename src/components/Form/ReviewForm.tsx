@@ -1,7 +1,7 @@
 import { useWeb3Modal } from '@web3modal/react';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useContext } from 'react';
-import { usePublicClient, useWalletClient } from 'wagmi';
+import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
 import StarterKitContext from '../../context/starterKit';
 import TalentLayerReview from '../../contracts/ABI/TalentLayerReview.json';
@@ -12,7 +12,6 @@ import { getUserByAddress } from '../../queries/users';
 import { delegateMintReview } from '../request';
 import { useChainId } from '../../hooks/useChainId';
 import { useConfig } from '../../hooks/useConfig';
-import { ConnectPublicClient, ConnectWalletClient } from '../../client';
 
 interface IFormValues {
   content: string;
@@ -32,14 +31,13 @@ const initialValues: IFormValues = {
 function ReviewForm({ serviceId }: { serviceId: string }) {
   const config = useConfig();
   const chainId = useChainId();
-
   const { open: openConnectModal } = useWeb3Modal();
   const { user } = useContext(StarterKitContext);
   const { isActiveDelegate } = useContext(StarterKitContext);
   const publicClient = usePublicClient({ chainId });
-  const { data: walletClient } = useWalletClient({
-    chainId,
-  });
+  const { data: walletClient } = useWalletClient({chainId});
+  const { address } = useAccount();
+
 
   const onSubmit = async (
     values: IFormValues,
@@ -71,18 +69,14 @@ function ReviewForm({ serviceId }: { serviceId: string }) {
           );
           tx = response.data.transaction;
         } else {
-          const publicClient = ConnectPublicClient();
-          const walletClient = ConnectWalletClient();
-          const [address] = await walletClient.getAddresses();
           
-          const { request } = await publicClient.simulateContract({
+          tx = await walletClient.writeContract({
             address: config.contracts.talentLayerReview,
             abi: TalentLayerReview.abi,
             functionName: 'mint',
             args: [user.id, serviceId, uri, values.rating],
             account: address,
           });
-          tx = await walletClient.writeContract(request);
         }
 
         await createMultiStepsTransactionToast(

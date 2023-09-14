@@ -4,9 +4,8 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { QuestionMarkCircle } from 'heroicons-react';
 import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
-import { usePublicClient } from 'wagmi';
+import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
-import { ConnectPublicClient, ConnectWalletClient} from '../../client'
 import StarterKitContext from '../../context/starterKit';
 import ServiceRegistry from '../../contracts/ABI/TalentLayerService.json';
 import useAllowedTokens from '../../hooks/useAllowedTokens';
@@ -50,6 +49,8 @@ function ProposalForm({
   const config = useConfig();
   const chainId = useChainId();
   const publicClient = usePublicClient({ chainId });
+  const { data: walletClient } = useWalletClient({ chainId });
+  const { address } = useAccount();
   const router = useRouter();
   const allowedTokenList = useAllowedTokens();
   const { isActiveDelegate } = useContext(StarterKitContext);
@@ -108,7 +109,7 @@ function ProposalForm({
     }: { setSubmitting: (isSubmitting: boolean) => void; resetForm: () => void },
   ) => {
     const token = allowedTokenList.find(token => token.address === values.rateToken);
-    if (publicClient && token) {
+    if (publicClient && token && walletClient) {
       try {
         const parsedRateAmount = await parseRateAmount(
           values.rateAmount.toString(),
@@ -150,11 +151,7 @@ function ProposalForm({
           );
           tx = response.data.transaction;
         } else {
-          const publicClient = ConnectPublicClient();
-          const walletClient = ConnectWalletClient();
-          const [address] = await walletClient.getAddresses();
-          
-          const { request } = await publicClient.simulateContract({
+          tx = await walletClient.writeContract({
             address: config.contracts.serviceRegistry,
             abi: ServiceRegistry.abi,
             functionName: existingProposal ? 'updateProposal' : 'createProposal',
@@ -179,7 +176,6 @@ function ProposalForm({
               ],
             account: address,
           });
-          tx = await walletClient.writeContract(request);
         }
 
         await createMultiStepsTransactionToast(

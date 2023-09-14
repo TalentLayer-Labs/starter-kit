@@ -30,7 +30,6 @@ export async function getDelegationSigner(res: NextApiResponse): Promise<Wallet 
     res.status(500).json('Delegate seed phrase is not set');
     return null;
   }
-
   const signer = Wallet.fromMnemonic(delegateSeedPhrase).connect(provider);
 
   return signer;

@@ -3,7 +3,7 @@ import { formatUnits } from 'viem';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useContext, useState } from 'react';
 import { useRouter } from 'next/router';
-import { usePublicClient, useWalletClient } from 'wagmi';
+import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
 import StarterKitContext from '../../context/starterKit';
 import ServiceRegistry from '../../contracts/ABI/TalentLayerService.json';
@@ -18,7 +18,6 @@ import { SkillsInput } from './skills-input';
 import { delegateCreateService } from '../request';
 import { useChainId } from '../../hooks/useChainId';
 import { useConfig } from '../../hooks/useConfig';
-import { ConnectPublicClient, ConnectWalletClient } from '../../client';
 
 interface IFormValues {
   title: string;
@@ -42,6 +41,7 @@ function ServiceForm() {
 
   const { open: openConnectModal } = useWeb3Modal();
   const { user, account } = useContext(StarterKitContext);
+  const { address } = useAccount();
   const publiClient = usePublicClient({ chainId });
   const { data: walletClient } = useWalletClient({
     chainId,
@@ -121,12 +121,8 @@ function ServiceForm() {
         if (isActiveDelegate) {
           const response = await delegateCreateService(chainId, user.id, user.address, cid);
           tx = response.data.transaction;
-        } else {
-          const publicClient = ConnectPublicClient();
-          const walletClient = ConnectWalletClient();
-          const [address] = await walletClient.getAddresses();
-          
-          const { request } = await publicClient.simulateContract({
+        } else {        
+          tx = await walletClient.writeContract({
             address: config.contracts.serviceRegistry,
             abi: ServiceRegistry.abi,
             functionName: 'createService',
@@ -136,7 +132,6 @@ function ServiceForm() {
               signature,],
             account: address,
           });
-          tx = await walletClient.writeContract(request);
         }
 
         const newId = await createMultiStepsTransactionToast(
