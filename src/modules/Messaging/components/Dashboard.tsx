@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
-import { useSigner } from 'wagmi';
+import { useWalletClient } from 'wagmi';
 import Steps from '../../../components/Steps';
 import StarterKitContext from '../../../context/starterKit';
 import { useChainId } from '../../../hooks/useChainId';
@@ -17,7 +17,7 @@ import MessageList from './MessageList';
 function Dashboard() {
   const chainId = useChainId();
   const { account, user } = useContext(StarterKitContext);
-  const { data: signer } = useSigner({
+  const { data: walletClient } = useWalletClient({
     chainId,
   });
   const { providerState, setProviderState } = useContext(XmtpContext);
@@ -38,8 +38,8 @@ function Dashboard() {
   useStreamConversations();
 
   const handleXmtpConnect = async () => {
-    if (providerState && providerState.initClient && signer) {
-      await providerState.initClient(signer);
+    if (providerState && providerState.initClient && walletClient) {
+      await providerState.initClient(walletClient);
     }
   };
 

@@ -1,9 +1,8 @@
-import { EthereumClient, modalConnectors } from '@web3modal/ethereum';
+import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum';
 import { Web3Modal } from '@web3modal/react';
 import { DefaultSeo } from 'next-seo';
 import { ThemeProvider } from 'next-themes';
 import type { AppProps } from 'next/app';
-import { useEffect } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Chain, WagmiConfig, configureChains, createConfig } from 'wagmi';
@@ -14,32 +13,20 @@ import { XmtpContextProvider } from '../modules/Messaging/context/XmtpContext';
 import { MessagingProvider } from '../modules/Messaging/context/messging';
 import '../styles/globals.css';
 import Layout from './Layout';
-import { jsonRpcProvider } from 'wagmi/dist/providers/jsonRpc';
 
 const chains: Chain[] = [polygonMumbai];
-// Wagmi Client
-const { publicClient } = configureChains(chains, [
-    jsonRpcProvider({
-      rpc: chain => {
-        return { http: chain.rpcUrls.default.http[0] };
-      },
-    }),
-  ]);
+const projectId = `${process.env.NEXT_PUBLIC_WALLECT_CONNECT_PROJECT_ID}`;
 
+// Wagmi Client
+const { publicClient } = configureChains(chains, [w3mProvider({ projectId })]);
 const wagmiConfig = createConfig({
-  autoConnect: false,
-  connectors: modalConnectors({ appName: 'web3Modal', chains }),
+  autoConnect: true,
+  connectors: w3mConnectors({ projectId, chains }),
   publicClient,
 });
-
-// Web3Modal Ethereum Client
 const ethereumClient = new EthereumClient(wagmiConfig, chains);
 
 function MyApp({ Component, pageProps }: AppProps) {
-  useEffect(() => {
-    wagmiConfig.autoConnect();
-  }, []);
-
   return (
     <>
       <DefaultSeo {...SEO} />
@@ -56,11 +43,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             </MessagingProvider>
           </XmtpContextProvider>
         </StarterKitProvider>
-        <Web3Modal
-          projectId={`${process.env.NEXT_PUBLIC_WALLECT_CONNECT_PROJECT_ID}`}
-          ethereumClient={ethereumClient}
-          accentColor='blackWhite'
-        />
+        <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
       </WagmiConfig>
     </>
   );

@@ -59,16 +59,16 @@ export const XmtpContextProvider = ({ children }: { children: ReactNode }) => {
   const initClient = async (wallet: Signer) => {
     console.log(
       'initClient',
-      wallet && walletAddress && !providerState.client && signer ? 'true' : 'false',
+      wallet && walletAddress && !providerState.client && walletClient ? 'true' : 'false',
       walletAddress,
       providerState.client,
-      signer,
+      walletClient,
     );
-    if (walletAddress && !providerState.client && signer) {
+    if (walletAddress && !providerState.client && walletClient) {
       try {
         let keys = loadKeys(walletAddress as string);
         if (!keys) {
-          keys = await Client.getKeys(signer, {
+          keys = await Client.getKeys(walletClient, {
             env: process.env.NEXT_PUBLIC_MESSENGING_ENV as clientEnv,
           });
         }
@@ -93,9 +93,9 @@ export const XmtpContextProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const autoInit = async () => {
-      if (signer && walletAddress && !providerState.client) {
+      if (walletClient && walletAddress && !providerState.client) {
         if (loadKeys(walletAddress)) {
-          await initClient(signer);
+          await initClient(walletClient);
         }
       }
     };
@@ -104,7 +104,7 @@ export const XmtpContextProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const checkUserExistence = async (): Promise<void> => {
-      if (signer) {
+      if (walletClient) {
         const userExists = await Client.canMessage(walletAddress as string, {
           env: process.env.NEXT_PUBLIC_MESSENGING_ENV as clientEnv,
         });
@@ -112,7 +112,7 @@ export const XmtpContextProvider = ({ children }: { children: ReactNode }) => {
       }
     };
     checkUserExistence();
-  }, [signer]);
+  }, [walletClient]);
 
   useEffect(() => {
     if (!providerState.client) return;
@@ -170,7 +170,7 @@ export const XmtpContextProvider = ({ children }: { children: ReactNode }) => {
       providerState,
       setProviderState,
     };
-  }, [signer, providerState]);
+  }, [walletClient, providerState]);
 
   return <XmtpContext.Provider value={value}>{children}</XmtpContext.Provider>;
 };
