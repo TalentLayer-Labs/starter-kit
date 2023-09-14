@@ -1,4 +1,4 @@
-import { defineChain } from 'viem'
+import { defineChain } from 'viem';
 
 export const local = {
   local: {
@@ -58,8 +58,4 @@ export const polygonMumbai = defineChain({
     },
   },
   testnet: true,
-})
-
-
-
-
+});

@@ -1,7 +1,7 @@
 import { useWeb3Modal } from '@web3modal/react';
 import { Field, Form, Formik } from 'formik';
 import { useContext, useState } from 'react';
-import { usePublicClient } from 'wagmi';
+import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
 import { ConnectPublicClient, ConnectWalletClient } from '../../client';
 import StarterKitContext from '../../context/starterKit';
@@ -37,7 +37,9 @@ function ProfileForm({ callback }: { callback?: () => void }) {
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
   const { user, isActiveDelegate } = useContext(StarterKitContext);
+  const { data: walletClient } = useWalletClient({ chainId });
   const publicClient = usePublicClient({ chainId });
+  const { address } = useAccount();
   const [aiLoading, setAiLoading] = useState(false);
   const userDescription = user?.id ? useUserById(user?.id)?.description : null;
 
@@ -69,7 +71,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
     values: IFormValues,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void },
   ) => {
-    if (user && publicClient) {
+    if (user && walletClient && publicClient) {
       try {
         const cid = await postToIPFS(
           JSON.stringify({
@@ -87,19 +89,21 @@ function ProfileForm({ callback }: { callback?: () => void }) {
           const response = await delegateUpdateProfileData(chainId, user.id, user.address, cid);
           tx = response.data.transaction;
         } else {
-          const publicClient = ConnectPublicClient();
-          const walletClient = ConnectWalletClient();
-          const [address] = await walletClient.getAddresses();
-
-          const { request } = await publicClient.simulateContract({
+          tx = await walletClient.writeContract({
             address: config.contracts.talentLayerId,
             abi: TalentLayerID.abi,
             functionName: 'updateProfileData',
             args: [user.id, cid],
             account: address,
           });
-          tx = await walletClient.writeContract(request);
         }
+
+        console.log('DEBUG', {
+          tx: tx,
+          chainId,
+          cid,
+          publicClient,
+        });
 
         await createMultiStepsTransactionToast(
           chainId,

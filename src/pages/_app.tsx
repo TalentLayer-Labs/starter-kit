@@ -7,12 +7,13 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Chain, WagmiConfig, configureChains, createConfig } from 'wagmi';
 import SEO from '../../next-seo.config';
-import { polygonMumbai } from '../chains';
 import { StarterKitProvider } from '../context/starterKit';
 import { XmtpContextProvider } from '../modules/Messaging/context/XmtpContext';
 import { MessagingProvider } from '../modules/Messaging/context/messging';
 import '../styles/globals.css';
 import Layout from './Layout';
+import { useEffect } from 'react';
+import { polygonMumbai } from 'wagmi/chains';
 
 const chains: Chain[] = [polygonMumbai];
 const projectId = `${process.env.NEXT_PUBLIC_WALLECT_CONNECT_PROJECT_ID}`;
@@ -30,7 +31,6 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <DefaultSeo {...SEO} />
-      <ToastContainer position='bottom-right' />
       <WagmiConfig config={wagmiConfig}>
         <StarterKitProvider>
           <XmtpContextProvider>
@@ -42,6 +42,7 @@ function MyApp({ Component, pageProps }: AppProps) {
               </ThemeProvider>
             </MessagingProvider>
           </XmtpContextProvider>
+          <ToastContainer position='bottom-right' />
         </StarterKitProvider>
         <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
       </WagmiConfig>
