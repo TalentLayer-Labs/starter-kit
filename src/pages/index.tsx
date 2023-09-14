@@ -1280,13 +1280,7 @@ function Home() {
               viewBox='0 0 95 190'
               fill='none'
               xmlns='http://www.w3.org/2000/svg'>
-              <circle
-                cx='95'
-                cy='95'
-                r='77'
-                stroke='url(#paint0_linear_49_603)'
-                strokeWidth='36'
-              />
+              <circle cx='95' cy='95' r='77' stroke='url(#paint0_linear_49_603)' strokeWidth='36' />
               <defs>
                 <linearGradient
                   id='paint0_linear_49_603'

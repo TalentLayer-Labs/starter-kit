@@ -1,8 +1,9 @@
 import { createContext, ReactNode, useEffect, useMemo, useState } from 'react';
 import { useAccount } from 'wagmi';
-import { getUserByAddress, getUserById, getUserByIds } from '../queries/users';
-import { IAccount, IHive, IUser } from '../types';
+import { getUserByAddress } from '../queries/users';
+import { IAccount, IPlatform, IUser } from '../types';
 import { useChainId } from '../hooks/useChainId';
+import { getPlatform } from '../queries/platform';
 
 const StarterKitContext = createContext<{
   user?: IUser;
@@ -31,19 +32,26 @@ const StarterKitProvider = ({ children }: { children: ReactNode }) => {
     }
 
     try {
-      const response = await getUserByAddress(chainId, account.address);
+      const userResponse = await getUserByAddress(chainId, account.address);
 
-      if (response?.data?.data?.users?.length == 0) {
+      if (userResponse?.data?.data?.users?.length == 0) {
         return false;
       }
 
-      const currentUser = response.data.data.users[0];
-      setUser(currentUser);
+      const currentUser = userResponse.data.data.users[0];
 
+      const platformResponse = await getPlatform(
+        chainId,
+        process.env.NEXT_PUBLIC_PLATFORM_ID || '',
+      );
+      const platform = platformResponse?.data?.data?.platform;
+      currentUser.isAdmin = platform?.address === currentUser?.address;
+
+      setUser(currentUser);
       setIsActiveDelegate(
         process.env.NEXT_PUBLIC_ACTIVE_DELEGATE &&
-          response.data.data.users[0].delegates &&
-          response.data.data.users[0].delegates.indexOf(
+          userResponse.data.data.users[0].delegates &&
+          userResponse.data.data.users[0].delegates.indexOf(
             (process.env.NEXT_PUBLIC_DELEGATE_ADDRESS as string).toLowerCase(),
           ) !== -1,
       );
@@ -58,7 +66,7 @@ const StarterKitProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     fetchData();
-  }, [chainId, account.address, account.isConnected, isActiveDelegate]);
+  }, [chainId, account.address]);
 
   useEffect(() => {
     const interval = setInterval(() => {

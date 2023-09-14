@@ -1,9 +1,9 @@
-import { useWeb3Modal} from '@web3modal/react';
+import { useWeb3Modal } from '@web3modal/react';
 import { Field, Form, Formik } from 'formik';
 import { useContext, useState } from 'react';
 import { usePublicClient } from 'wagmi';
 import * as Yup from 'yup';
-import { ConnectPublicClient, ConnectWalletClient} from '../../client'
+import { ConnectPublicClient, ConnectWalletClient } from '../../client';
 import StarterKitContext from '../../context/starterKit';
 import TalentLayerID from '../../contracts/ABI/TalentLayerID.json';
 import { postToIPFS } from '../../utils/ipfs';
@@ -16,6 +16,7 @@ import { delegateUpdateProfileData } from '../request';
 import { useChainId } from '../../hooks/useChainId';
 import { useConfig } from '../../hooks/useConfig';
 import { QuestionMarkCircle } from 'heroicons-react';
+import { generatePicture } from '../../utils/ai-picture-gen';
 
 interface IFormValues {
   title?: string;
@@ -34,12 +35,11 @@ const validationSchema = Yup.object({
 function ProfileForm({ callback }: { callback?: () => void }) {
   const config = useConfig();
   const chainId = useChainId();
-  const {open: openConnectModal} = useWeb3Modal();
-  const { user } = useContext(StarterKitContext);
+  const { open: openConnectModal } = useWeb3Modal();
+  const { user, isActiveDelegate } = useContext(StarterKitContext);
   const publicClient = usePublicClient({ chainId });
   const [aiLoading, setAiLoading] = useState(false);
   const userDescription = user?.id ? useUserById(user?.id)?.description : null;
-  const { isActiveDelegate } = useContext(StarterKitContext);
 
   if (!user?.id) {
     return <Loading />;
@@ -55,44 +55,21 @@ function ProfileForm({ callback }: { callback?: () => void }) {
     skills: userDescription?.skills_raw || '',
   };
 
-  const generatePicture = async (setFieldValue: any) => {
+  const generatePictureUrl = async (e: React.FormEvent, callback: (string: string) => void) => {
+    e.preventDefault();
     setAiLoading(true);
-    const colors = ['Red', 'Orange', 'Green', 'Blue', 'Purple', 'Black', 'Yellow', 'Aqua'];
-    const themes = [
-      'ready for the future of work',
-      'working on his computer',
-      '^playing with a chinese abacus',
-      'with a blanket',
-      'with a 4 leaf clover',
-      'just happy',
-      'using a hammer',
-      'climbing',
-    ];
-    const color = colors[getRandomInt(7)];
-    const theme = themes[getRandomInt(7)];
-    const customPrompt = `A cartoon futurist raccoon ${theme} with ${color} background `;
-    const response = await fetch('/api/ai/generate-image', {
-      method: 'Post',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        prompt: customPrompt,
-      }),
-    }).then(response => response.json());
-
+    const imageUrl = await generatePicture();
+    if (imageUrl) {
+      callback(imageUrl);
+    }
     setAiLoading(false);
-    setFieldValue('image_url', response.image);
   };
-  function getRandomInt(max: number) {
-    return Math.floor(Math.random() * max);
-  }
 
   const onSubmit = async (
     values: IFormValues,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void },
   ) => {
-    if (user && publicClient) { 
+    if (user && publicClient) {
       try {
         const cid = await postToIPFS(
           JSON.stringify({
@@ -113,7 +90,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
           const publicClient = ConnectPublicClient();
           const walletClient = ConnectWalletClient();
           const [address] = await walletClient.getAddresses();
-          
+
           const { request } = await publicClient.simulateContract({
             address: config.contracts.talentLayerId,
             abi: TalentLayerID.abi,
@@ -217,10 +194,9 @@ function ProfileForm({ callback }: { callback?: () => void }) {
                   <div className='ms-auto'>
                     <button
                       disabled={aiLoading}
-                      onClick={e => {
-                        e.preventDefault();
-                        generatePicture(setFieldValue);
-                      }}
+                      onClick={e =>
+                        generatePictureUrl(e, newUrl => setFieldValue('image_url', newUrl))
+                      }
                       className='border text-white bg-gray-700 hover:bg-gray-600 border-gray-600 rounded-md h-10 w-10 p-2 relative inline-flex items-center justify-center space-x-1 font-sans text-sm font-normal leading-5 no-underline outline-none transition-all duration-300'>
                       {aiLoading ? <Loading /> : 'GO'}
                     </button>
