@@ -3,7 +3,7 @@ import { ethers } from 'ethers';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useContext } from 'react';
 import { useRouter } from 'next/router';
-import { useProvider, useSigner } from 'wagmi';
+import { usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
 import StarterKitContext from '../../context/starterKit';
 import TalentLayerID from '../../contracts/ABI/TalentLayerID.json';
@@ -28,11 +28,11 @@ function TalentLayerIdForm() {
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
   const { user, account } = useContext(StarterKitContext);
-  const { data: signer } = useSigner({
+  const { data: walletClient } = useWalletClient({
     chainId,
   });
 
-  const provider = useProvider({ chainId });
+  const publicClient = usePublicClient({ chainId });
   const router = useRouter();
   let tx: ethers.providers.TransactionResponse;
 
@@ -51,12 +51,12 @@ function TalentLayerIdForm() {
     submittedValues: IFormValues,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void },
   ) => {
-    if (account && account.address && account.isConnected && provider && signer) {
+    if (account && account.address && account.isConnected && publicClient && walletClient) {
       try {
         const contract = new ethers.Contract(
           config.contracts.talentLayerId,
           TalentLayerID.abi,
-          signer,
+          walletClient,
         );
 
         const handlePrice = await contract.getHandlePrice(submittedValues.handle);
@@ -81,7 +81,7 @@ function TalentLayerIdForm() {
             success: 'Congrats! Your Talent Layer Id is minted',
             error: 'An error occurred while creating your Talent Layer Id',
           },
-          provider,
+          publicClient,
           tx,
           account.address,
         );

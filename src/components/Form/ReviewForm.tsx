@@ -2,7 +2,7 @@ import { useWeb3Modal } from '@web3modal/react';
 import { ethers } from 'ethers';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useContext } from 'react';
-import { useProvider, useSigner } from 'wagmi';
+import { usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
 import StarterKitContext from '../../context/starterKit';
 import TalentLayerReview from '../../contracts/ABI/TalentLayerReview.json';
@@ -36,8 +36,8 @@ function ReviewForm({ serviceId }: { serviceId: string }) {
   const { open: openConnectModal } = useWeb3Modal();
   const { user } = useContext(StarterKitContext);
   const { isActiveDelegate } = useContext(StarterKitContext);
-  const provider = useProvider({ chainId });
-  const { data: signer } = useSigner({
+  const publicClient = usePublicClient({ chainId });
+  const { data: walletClient } = useWalletClient({
     chainId,
   });
 
@@ -48,7 +48,7 @@ function ReviewForm({ serviceId }: { serviceId: string }) {
       resetForm,
     }: { setSubmitting: (isSubmitting: boolean) => void; resetForm: () => void },
   ) => {
-    if (user && provider && signer) {
+    if (user && publicClient && walletClient) {
       try {
         const uri = await postToIPFS(
           JSON.stringify({
@@ -75,7 +75,7 @@ function ReviewForm({ serviceId }: { serviceId: string }) {
           const contract = new ethers.Contract(
             config.contracts.talentLayerReview,
             TalentLayerReview.abi,
-            signer,
+            walletClient,
           );
           tx = await contract.mint(user.id, serviceId, uri, values.rating);
         }
@@ -87,7 +87,7 @@ function ReviewForm({ serviceId }: { serviceId: string }) {
             success: 'Congrats! Your review has been posted',
             error: 'An error occurred while creating your review',
           },
-          provider,
+          publicClient,
           tx,
           'review',
           uri,

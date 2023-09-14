@@ -1,6 +1,6 @@
 import { ethers } from 'ethers';
 import { useContext, useEffect, useState } from 'react';
-import { useProvider, useSigner } from 'wagmi';
+import { usePublicClient, useWalletClient } from 'wagmi';
 import { toggleDelegation } from '../../contracts/toggleDelegation';
 import StarterKitContext from '../../context/starterKit';
 import TalentLayerID from '../../contracts/ABI/TalentLayerID.json';
@@ -13,10 +13,10 @@ function DelegateModal() {
   const chainId = useChainId();
   const [show, setShow] = useState(false);
   const [hasPlatformAsDelegate, setHasPlatformAsDelegate] = useState(false);
-  const { data: signer } = useSigner({
+  const { data: walletClient } = useWalletClient({
     chainId,
   });
-  const provider = useProvider({ chainId });
+  const publicClient = usePublicClient({ chainId });
   const { user } = useContext(StarterKitContext);
   const delegateAddress = process.env.NEXT_PUBLIC_DELEGATE_ADDRESS as string;
 
@@ -43,12 +43,12 @@ function DelegateModal() {
     const contract = new ethers.Contract(
       config.contracts.talentLayerId,
       TalentLayerID.abi,
-      signer!,
+      walletClient!,
     );
-    if (!signer || !provider || !user) {
+    if (!walletClient || !publicClient || !user) {
       return null;
     }
-    await toggleDelegation(chainId, user.id, delegateAddress, provider, validateState, contract);
+    await toggleDelegation(chainId, user.id, delegateAddress, publicClient, validateState, contract);
 
     setShow(false);
   };

@@ -1,6 +1,6 @@
 import { Field, Form, Formik } from 'formik';
 import { useContext, useMemo, useState } from 'react';
-import { useProvider, useSigner } from 'wagmi';
+import { usePublicClient, useWalletClient } from 'wagmi';
 import StarterKitContext from '../../context/starterKit';
 import { executePayment } from '../../contracts/executePayment';
 import { IService, IToken, ServiceStatusEnum } from '../../types';
@@ -28,14 +28,14 @@ function ReleaseForm({
 }: IReleaseFormProps) {
   const chainId = useChainId();
   const { user, isActiveDelegate } = useContext(StarterKitContext);
-  const { data: signer } = useSigner({
+  const { data: walletClient } = useWalletClient({
     chainId,
   });
-  const provider = useProvider({ chainId });
+  const publicClient = usePublicClient({ chainId });
   const [percent, setPercentage] = useState(0);
   
   const handleSubmit = async (values: any) => {
-    if (!user || !signer || !provider) {
+    if (!user || !walletClient || !publicClient) {
       return;
     }
     const percentToToken = (totalInEscrow * BigInt(percent))/ BigInt(100);
@@ -43,8 +43,8 @@ function ReleaseForm({
     await executePayment(
       chainId,
       user.address,
-      signer,
-      provider,
+      walletClient,
+      publicClient,
       user.id,
       service.transaction.id,
       percentToToken,
