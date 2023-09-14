@@ -110,11 +110,9 @@ function ProfileForm({ callback }: { callback?: () => void }) {
           const response = await delegateUpdateProfileData(chainId, user.id, user.address, cid);
           tx = response.data.transaction;
         } else {
-          const publicClient = ConnectPublicClient()
-          const walletClient = ConnectWalletClient()
-          
-          const [address] = await walletClient.getAddresses()
-          console.log(address)
+          const publicClient = ConnectPublicClient();
+          const walletClient = ConnectWalletClient();
+          const [address] = await walletClient.getAddresses();
           
           const { request } = await publicClient.simulateContract({
             address: config.contracts.talentLayerId,

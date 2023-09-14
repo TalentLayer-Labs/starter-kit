@@ -152,7 +152,8 @@ function ProposalForm({
         } else {
           const publicClient = ConnectPublicClient();
           const walletClient = ConnectWalletClient();
-          const [address] = await walletClient.getAddresses()
+          const [address] = await walletClient.getAddresses();
+          
           const { request } = await publicClient.simulateContract({
             address: config.contracts.serviceRegistry,
             abi: ServiceRegistry.abi,

@@ -14,6 +14,7 @@ import { HandlePrice } from './handle-price';
 import { delegateMintID } from '../request';
 import { useChainId } from '../../hooks/useChainId';
 import { useConfig } from '../../hooks/useConfig';
+import { ConnectPublicClient, ConnectWalletClient } from '../../client';
 
 interface IFormValues {
   handle: string;
@@ -53,13 +54,18 @@ function TalentLayerIdForm() {
   ) => {
     if (account && account.address && account.isConnected && publicClient && walletClient) {
       try {
-        const contract = new ethers.Contract(
-          config.contracts.talentLayerId,
-          TalentLayerID.abi,
-          walletClient,
-        );
-
-        const handlePrice = await contract.getHandlePrice(submittedValues.handle);
+          const publicClient = ConnectPublicClient();
+          const walletClient = ConnectWalletClient();
+          const [address] = await walletClient.getAddresses();
+            
+          const { request } = await publicClient.simulateContract({
+            address: config.contracts.talentLayerId,
+            abi: TalentLayerID.abi,
+            functionName: 'getHandlePrice',
+            args: [submittedValues.handle],
+            account: address,
+          });
+          const handlePrice = await walletClient.writeContract(request);
 
         if (process.env.NEXT_PUBLIC_ACTIVE_DELEGATE_MINT === 'true') {
           const response = await delegateMintID(

@@ -1,6 +1,5 @@
 import { useWeb3Modal } from '@web3modal/react';
 import { formatUnits } from 'viem';
-import { ethers} from 'ethers';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useContext, useState } from 'react';
 import { useRouter } from 'next/router';
@@ -19,6 +18,7 @@ import { SkillsInput } from './skills-input';
 import { delegateCreateService } from '../request';
 import { useChainId } from '../../hooks/useChainId';
 import { useConfig } from '../../hooks/useConfig';
+import { ConnectPublicClient, ConnectWalletClient } from '../../client';
 
 interface IFormValues {
   title: string;
@@ -122,18 +122,21 @@ function ServiceForm() {
           const response = await delegateCreateService(chainId, user.id, user.address, cid);
           tx = response.data.transaction;
         } else {
-          const contract = new ethers.Contract(
-            config.contracts.serviceRegistry,
-            ServiceRegistry.abi,
-            walletClient,
-          );
-
-          tx = await contract.createService(
-            user?.id,
-            process.env.NEXT_PUBLIC_PLATFORM_ID,
-            cid,
-            signature,
-          );
+          const publicClient = ConnectPublicClient();
+          const walletClient = ConnectWalletClient();
+          const [address] = await walletClient.getAddresses();
+          
+          const { request } = await publicClient.simulateContract({
+            address: config.contracts.serviceRegistry,
+            abi: ServiceRegistry.abi,
+            functionName: 'createService',
+            args: [user?.id,
+              process.env.NEXT_PUBLIC_PLATFORM_ID,
+              cid,
+              signature,],
+            account: address,
+          });
+          tx = await walletClient.writeContract(request);
         }
 
         const newId = await createMultiStepsTransactionToast(

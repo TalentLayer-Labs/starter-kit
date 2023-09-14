@@ -1,5 +1,4 @@
 import { useWeb3Modal } from '@web3modal/react';
-import { ethers } from 'ethers';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useContext } from 'react';
 import { usePublicClient, useWalletClient } from 'wagmi';
@@ -13,6 +12,7 @@ import { getUserByAddress } from '../../queries/users';
 import { delegateMintReview } from '../request';
 import { useChainId } from '../../hooks/useChainId';
 import { useConfig } from '../../hooks/useConfig';
+import { ConnectPublicClient, ConnectWalletClient } from '../../client';
 
 interface IFormValues {
   content: string;
@@ -60,7 +60,6 @@ function ReviewForm({ serviceId }: { serviceId: string }) {
         const getUser = await getUserByAddress(chainId, user.address);
         const delegateAddresses = getUser.data?.data?.users[0].delegates;
         let tx;
-
         if (isActiveDelegate) {
           const response = await delegateMintReview(
             chainId,
@@ -72,12 +71,18 @@ function ReviewForm({ serviceId }: { serviceId: string }) {
           );
           tx = response.data.transaction;
         } else {
-          const contract = new ethers.Contract(
-            config.contracts.talentLayerReview,
-            TalentLayerReview.abi,
-            walletClient,
-          );
-          tx = await contract.mint(user.id, serviceId, uri, values.rating);
+          const publicClient = ConnectPublicClient();
+          const walletClient = ConnectWalletClient();
+          const [address] = await walletClient.getAddresses();
+          
+          const { request } = await publicClient.simulateContract({
+            address: config.contracts.talentLayerReview,
+            abi: TalentLayerReview.abi,
+            functionName: 'mint',
+            args: [user.id, serviceId, uri, values.rating],
+            account: address,
+          });
+          tx = await walletClient.writeContract(request);
         }
 
         await createMultiStepsTransactionToast(

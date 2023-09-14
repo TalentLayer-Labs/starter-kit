@@ -1,4 +1,3 @@
-import { ethers } from 'ethers';
 import { useContext, useEffect, useState } from 'react';
 import { usePublicClient, useWalletClient } from 'wagmi';
 import { toggleDelegation } from '../../contracts/toggleDelegation';
@@ -7,6 +6,8 @@ import TalentLayerID from '../../contracts/ABI/TalentLayerID.json';
 import { getUserByAddress } from '../../queries/users';
 import { useChainId } from '../../hooks/useChainId';
 import { useConfig } from '../../hooks/useConfig';
+import { ConnectPublicClient, ConnectWalletClient } from '../../client';
+import { getContract } from 'viem';
 
 function DelegateModal() {
   const config = useConfig();
@@ -40,11 +41,19 @@ function DelegateModal() {
   }, [user, show]);
 
   const onSubmit = async (validateState: boolean) => {
-    const contract = new ethers.Contract(
-      config.contracts.talentLayerId,
-      TalentLayerID.abi,
-      walletClient!,
-    );
+    const publicClient = ConnectPublicClient();
+    const walletClient = ConnectWalletClient();
+    const [address] = await walletClient.getAddresses();
+    const contract = getContract({
+      address: config.contracts.talentLayerId,
+      abi: TalentLayerID.abi,
+      walletClient,
+    })
+    // const contract = new ethers.Contract(
+    //   config.contracts.talentLayerId,
+    //   TalentLayerID.abi,
+    //   walletClient!,
+    // );
     if (!walletClient || !publicClient || !user) {
       return null;
     }
