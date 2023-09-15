@@ -1,5 +1,7 @@
 import { createWalletClient, createPublicClient, custom, http } from 'viem';
 import { polygonMumbai } from './chains';
+import 'wagmi/window';
+
 
 // Viem Client
 export const ConnectPublicClient = () => {
@@ -12,10 +14,15 @@ export const ConnectPublicClient = () => {
 };
 
 export const ConnectWalletClient = () => {
-  const walletClient = createWalletClient({
-    chain: polygonMumbai,
-    transport: custom(window.ethereum),
-  });
+  if (window.ethereum) {
+    const walletClient = createWalletClient({
+      chain: polygonMumbai,
+      transport: custom(window.ethereum),
+    });
 
   return walletClient;
+  } else {
+    console.error("(window.ethereum) is not available.");
+    return null;
+  }
 };

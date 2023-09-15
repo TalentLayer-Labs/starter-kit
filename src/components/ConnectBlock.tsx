@@ -1,7 +1,7 @@
-import { ConnectButton } from '@web3modal/react';
+import { Web3Button } from '@web3modal/react';
 
 function ConnectBlock() {
-  return <ConnectButton />;
+  return <Web3Button />;
 }
 
 export default ConnectBlock;
