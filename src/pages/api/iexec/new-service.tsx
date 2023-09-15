@@ -21,8 +21,6 @@ import { useChainId } from '../../../hooks/useChainId';
  Si tous les checks passent, on envoie l'email, on persiste en db
  */
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const chainId = useChainId();
-  const mongoUri = process.env.NEXT_MONGO_URI;
   const RETRY_FACTOR = 5;
   let successCount = 0,
     errorCount = 0;
@@ -32,13 +30,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (key !== process.env.NEXT_PRIVATE_CRON_KEY) {
     return res.status(401).json({ message: 'Unauthorized' });
   }
-  // Check whether the Iexec key is valid
+  // Check whether the Iexec key is set
   const iexecPrivateKey = process.env.NEXT_PUBLIC_WEB3MAIL_PLATFORM_PRIVATE_KEY;
   if (!iexecPrivateKey) {
     return res.status(500).json('Private key is not set');
   }
 
+  // Check whether the Chain Id is provided
+  const chainId = process.env.NEXT_PUBLIC_NETWORK_ID;
+  if (!chainId) {
+    return res.status(500).json('Chain Id is not set');
+  }
+
   // Check whether the database is set
+  const mongoUri = process.env.NEXT_MONGO_URI;
   if (!mongoUri) {
     return res.status(500).json('MongoDb URI is not set');
   }
@@ -66,7 +71,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     console.log('contactList', contactList);
 
     // Check if new services are available & get their keywords
-    const response = await getNewServicesForPlatform(chainId, platformId, sinceTimestamp);
+    const response = await getNewServicesForPlatform(Number(chainId), platformId, sinceTimestamp);
     console.log('All Services', response.data.data.services);
     const services = response.data.data.services;
 
@@ -82,7 +87,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       // Check whether the user opted for the called feature
       //TODO query not tested
       const userData = await getUserWeb3mailPreferencesForNewServices(
-        chainId,
+        Number(chainId),
         platformId,
         contact.address,
         Web3mailPreferences.activeOnNewService,
@@ -101,8 +106,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         );
         if (!serviceIsInDb) {
           try {
-            // const userSkills = ['python', 'python experimental economics toolkit peet'];
-            const userSkills = userData.skills_raw?.split(',');
+            const userSkills = [
+              'python',
+              'python experimental economics toolkit peet',
+              'contract negotiation',
+            ];
+            // const userSkills = userData.skills_raw?.split(',');
             const serviceSkills = service.description?.keywords_raw?.split(',');
             // Check if the service keywords match the user keywords
             const matchingSkills = userSkills?.filter((skill: string) =>
@@ -111,6 +120,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             console.log('userSkills', userSkills);
             console.log('serviceSkills', serviceSkills);
             console.log('matchingSkills', matchingSkills);
+            if (matchingSkills?.length > 1) {
+              console.log(
+                `The skills you have which are required by this service are: ${matchingSkills.join(
+                  ', ',
+                )}`,
+              );
+            }
             if (matchingSkills?.length > 0) {
               await sendMailToAddresses(
                 `A new service matching your skills is available on TalentLayer !`,

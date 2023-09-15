@@ -3,13 +3,17 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { sendMailToAddresses } from '../../../scripts/iexec/sendMailToAddresses';
 import { getUserWeb3mailPreferences } from '../../../queries/users';
 import { IExecWeb3mail, getWeb3Provider as getMailProvider, Contact } from '@iexec/web3mail';
-import { useChainId } from '../../../hooks/useChainId';
 
 //TODO: No persisting in Db for non sent emails, as no campaign id
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const chainId = useChainId();
   let successCount = 0,
     errorCount = 0;
+
+  // Check whether the Chain Id is provided
+  const chainId = process.env.NEXT_PUBLIC_NETWORK_ID;
+  if (!chainId) {
+    return res.status(500).json('Chain Id is not set');
+  }
 
   const { emailSubject, emailContent } = req.body;
   if (!emailSubject || !emailContent) return res.status(500).json(`Missing argument`);
@@ -36,7 +40,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         // Check whether the user opted for the called feature
         //TODO query not tested
         const userData = await getUserWeb3mailPreferences(
-          chainId,
+          Number(chainId),
           platformId,
           contact.address,
           Web3mailPreferences.activeOnPlatformMarketing,

@@ -10,24 +10,28 @@ import {
   persistCronProbe,
   persistEmail,
 } from '../../../modules/Web3mail/utils/database-utils';
-import { useChainId } from '../../../hooks/useChainId';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  // @Romain - Can I use hooks in the backend ?
-  const chainId = useChainId();
-  const mongoUri = process.env.NEXT_MONGO_URI;
   const RETRY_FACTOR = 5;
   let successCount = 0,
     errorCount = 0;
 
-  // Check whether the key is valid
+  // Check whether the API key is valid
   const key = req.query.key;
   if (key !== process.env.NEXT_PRIVATE_CRON_KEY) {
     return res.status(401).json({ message: 'Unauthorized' });
   }
 
+  // Check whether the Chain Id is provided
+  const chainId = process.env.NEXT_PUBLIC_NETWORK_ID;
+  if (!chainId) {
+    return res.status(500).json('Chain Id is not set');
+  }
+
+  // Check whether the database is set
+  const mongoUri = process.env.NEXT_MONGO_URI;
   if (!mongoUri) {
-    throw new Error('MongoDb URI is not set');
+    return res.status(500).json('MongoDb URI is not set');
   }
   await mongoose.connect(mongoUri as string);
 
@@ -44,7 +48,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     EmailType.FundRelease,
   );
   try {
-    const response = await getNewPayment(chainId, platformId, sinceTimestamp);
+    const response = await getNewPayment(Number(chainId), platformId, sinceTimestamp);
     const nonSentPaymentEmails: IPayment[] = [];
 
     // Check if some entities are not already in the DB
@@ -74,7 +78,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         // Check whether the user opted for the called feature | Seller if fund release, Buyer if fund reimbursement
         //TODO query not tested
         const userData = await getUserWeb3mailPreferences(
-          chainId,
+          Number(chainId),
           platformId,
           address,
           Web3mailPreferences.activeOnFundRelease,
