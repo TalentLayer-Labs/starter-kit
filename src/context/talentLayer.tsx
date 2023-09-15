@@ -4,6 +4,7 @@ import { useChainId } from '../hooks/useChainId';
 import { getUserByAddress } from '../queries/users';
 import { IAccount, IUser } from '../types';
 import { getCompletionScores, ICompletionScores } from '../utils/profile';
+import { getPlatform } from '../queries/platform';
 
 const TalentLayerContext = createContext<{
   user?: IUser;
@@ -38,19 +39,26 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
     }
 
     try {
-      const response = await getUserByAddress(chainId, account.address);
+      const userResponse = await getUserByAddress(chainId, account.address);
 
-      if (response?.data?.data?.users?.length == 0) {
+      if (userResponse?.data?.data?.users?.length == 0) {
         return false;
       }
 
-      const currentUser = response.data.data.users[0];
-      setUser(currentUser);
+      const currentUser = userResponse.data.data.users[0];
 
+      const platformResponse = await getPlatform(
+        chainId,
+        process.env.NEXT_PUBLIC_PLATFORM_ID || '',
+      );
+      const platform = platformResponse?.data?.data?.platform;
+      currentUser.isAdmin = platform?.address === currentUser?.address;
+
+      setUser(currentUser);
       setIsActiveDelegate(
         process.env.NEXT_PUBLIC_ACTIVE_DELEGATE &&
-          response.data.data.users[0].delegates &&
-          response.data.data.users[0].delegates.indexOf(
+          userResponse.data.data.users[0].delegates &&
+          userResponse.data.data.users[0].delegates.indexOf(
             (process.env.NEXT_PUBLIC_DELEGATE_ADDRESS as string).toLowerCase(),
           ) !== -1,
       );
@@ -66,7 +74,7 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     fetchData();
-  }, [chainId, account.address, account.isConnected, isActiveDelegate]);
+  }, [chainId, account.address]);
 
   useEffect(() => {
     if (!user) return;

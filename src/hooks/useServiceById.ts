@@ -5,14 +5,14 @@ import { useChainId } from './useChainId';
 
 const useServiceById = (serviceId: string): IService | null => {
   const chainId = useChainId();
-  const [user, setUser] = useState<IService | null>(null);
+  const [service, setService] = useState<IService | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await getServiceById(chainId, serviceId);
         if (response?.data?.data?.service) {
-          setUser(response.data.data.service);
+          setService(response.data.data.service);
         }
       } catch (err: any) {
         // eslint-disable-next-line no-console
@@ -22,7 +22,7 @@ const useServiceById = (serviceId: string): IService | null => {
     fetchData();
   }, [serviceId]);
 
-  return user;
+  return service;
 };
 
 export default useServiceById;
