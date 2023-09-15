@@ -4,13 +4,12 @@ import { sendMailToAddresses } from '../../../scripts/iexec/sendMailToAddresses'
 import { getUserWeb3mailPreferences } from '../../../queries/users';
 import { IExecWeb3mail, getWeb3Provider as getMailProvider, Contact } from '@iexec/web3mail';
 
-//TODO: No persisting in Db for non sent emails, as no campaign id
+//TODO: @Romain No persisting in Db for non sent emails, as no campaign id
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const chainId = process.env.NEXT_PUBLIC_NETWORK_ID;
   let successCount = 0,
     errorCount = 0;
 
-  // Check whether the Chain Id is provided
-  const chainId = process.env.NEXT_PUBLIC_NETWORK_ID;
   if (!chainId) {
     return res.status(500).json('Chain Id is not set');
   }

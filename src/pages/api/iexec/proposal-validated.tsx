@@ -12,27 +12,25 @@ import {
 } from '../../../modules/Web3mail/utils/database-utils';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const chainId = process.env.NEXT_PUBLIC_NETWORK_ID;
+  const mongoUri = process.env.NEXT_MONGO_URI;
+  const cronSecurityKey = req.query.key;
   const RETRY_FACTOR = 5;
   let successCount = 0,
     errorCount = 0;
 
-  // Check whether the API key is valid
-  const key = req.query.key;
-  if (key !== process.env.NEXT_PRIVATE_CRON_KEY) {
+  if (cronSecurityKey !== process.env.NEXT_PRIVATE_CRON_KEY) {
     return res.status(401).json({ message: 'Unauthorized' });
   }
 
-  // Check whether the Chain Id is provided
-  const chainId = process.env.NEXT_PUBLIC_NETWORK_ID;
   if (!chainId) {
     return res.status(500).json('Chain Id is not set');
   }
 
-  // Check whether the database is set
-  const mongoUri = process.env.NEXT_MONGO_URI;
   if (!mongoUri) {
     return res.status(500).json('MongoDb URI is not set');
   }
+
   await mongoose.connect(mongoUri as string);
 
   const platformId = process.env.NEXT_PUBLIC_PLATFORM_ID;
@@ -47,7 +45,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     RETRY_FACTOR,
     EmailType.ProposalValidated,
   );
-  console.log('timestamp', sinceTimestamp);
+
   try {
     const response = await getAcceptedProposal(Number(chainId), platformId, sinceTimestamp);
     console.log('All proposals', response.data.data.proposals);

@@ -11,7 +11,6 @@ import {
 } from '../../../modules/Web3mail/utils/database-utils';
 import { Contact, IExecWeb3mail, getWeb3Provider as getMailProvider } from '@iexec/web3mail';
 import { getNewServicesForPlatform } from '../../../queries/services';
-import { useChainId } from '../../../hooks/useChainId';
 
 /** TODO A faire dans cet ordre
  get keywords - save in map => array of keywords
@@ -21,32 +20,29 @@ import { useChainId } from '../../../hooks/useChainId';
  Si tous les checks passent, on envoie l'email, on persiste en db
  */
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const iexecPrivateKey = process.env.NEXT_PUBLIC_WEB3MAIL_PLATFORM_PRIVATE_KEY;
+  const chainId = process.env.NEXT_PUBLIC_NETWORK_ID;
+  const mongoUri = process.env.NEXT_MONGO_URI;
+  const cronSecurityKey = req.query.key;
   const RETRY_FACTOR = 5;
   let successCount = 0,
     errorCount = 0;
 
-  // Check whether the API key is valid
-  const key = req.query.key;
-  if (key !== process.env.NEXT_PRIVATE_CRON_KEY) {
+  if (cronSecurityKey !== process.env.NEXT_PRIVATE_CRON_KEY) {
     return res.status(401).json({ message: 'Unauthorized' });
   }
-  // Check whether the Iexec key is set
-  const iexecPrivateKey = process.env.NEXT_PUBLIC_WEB3MAIL_PLATFORM_PRIVATE_KEY;
   if (!iexecPrivateKey) {
     return res.status(500).json('Private key is not set');
   }
 
-  // Check whether the Chain Id is provided
-  const chainId = process.env.NEXT_PUBLIC_NETWORK_ID;
   if (!chainId) {
     return res.status(500).json('Chain Id is not set');
   }
 
-  // Check whether the database is set
-  const mongoUri = process.env.NEXT_MONGO_URI;
   if (!mongoUri) {
     return res.status(500).json('MongoDb URI is not set');
   }
+
   await mongoose.connect(mongoUri as string);
 
   const platformId = process.env.NEXT_PUBLIC_PLATFORM_ID;
@@ -61,9 +57,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     RETRY_FACTOR,
     EmailType.NewService,
   );
-  console.log('timestamp', sinceTimestamp);
 
-  //TODO: Si erreur de graph ou de mongo: kill le script => err 500
+  //TODO: @Romain Si erreur de graph ou de mongo: kill le script => err 500
   try {
     const mailWeb3Provider = getMailProvider(iexecPrivateKey);
     const web3mail = new IExecWeb3mail(mailWeb3Provider);

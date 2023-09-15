@@ -4,13 +4,13 @@ import { userGaveAccessToPlatform } from '../../../modules/Web3mail/utils/iexec-
 import { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const privateKey = process.env.NEXT_PUBLIC_WEB3MAIL_PLATFORM_PRIVATE_KEY;
   const { emailSubject, emailContent } = req.body;
   let successCount = 0,
     errorCount = 0;
   if (!emailSubject || !emailContent) return res.status(500).json(`Missing argument`);
 
   console.log('Sending email to all contacts');
-  const privateKey = process.env.NEXT_PUBLIC_WEB3MAIL_PLATFORM_PRIVATE_KEY;
   if (!privateKey) {
     return res.status(500).json(`Private key is not set`);
   }
@@ -22,6 +22,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     console.log('------- All Contacts -------');
     const contactList: Contact[] = await web3mail.fetchMyContacts();
+
     for (const contact of contactList) {
       try {
         // Check whether user granted access to his email

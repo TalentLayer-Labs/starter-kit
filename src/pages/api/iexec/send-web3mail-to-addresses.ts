@@ -4,13 +4,13 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { userGaveAccessToPlatform } from '../../../modules/Web3mail/utils/iexec-utils';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const privateKey = process.env.NEXT_PUBLIC_WEB3MAIL_PLATFORM_PRIVATE_KEY;
   const { emailSubject, emailContent, addresses } = req.body;
   let successCount = 0,
     errorCount = 0;
   if (!emailSubject || !emailContent || !addresses) return res.status(500).json(`Missing argument`);
 
   console.log('Sending email to addresses');
-  const privateKey = process.env.NEXT_PUBLIC_WEB3MAIL_PLATFORM_PRIVATE_KEY;
   if (!privateKey) {
     return res.status(500).json(`Private key is not set`);
   }

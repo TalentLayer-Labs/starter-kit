@@ -9,7 +9,7 @@ export const checkProposalExistenceInDb = async (
   nonSentProposals: IProposal[],
   emailType: EmailType,
 ) => {
-  console.log('Proposal', proposal.service.buyer.address);
+  console.log(`---------------------- Proposal ${proposal.id} ----------------------`);
   try {
     const existingProposal = await Web3Mail.findOne({
       id: `${proposal.id}-${emailType}`,
@@ -28,6 +28,7 @@ export const checkPaymentExistenceInDb = async (
   nonSentPayments: IPayment[],
   emailType: EmailType,
 ) => {
+  console.log(`---------------------- Payment ${payment.id} ----------------------`);
   try {
     const existingPayment = await Web3Mail.findOne({
       id: `${payment.id}-${emailType}`,
@@ -46,6 +47,7 @@ export const checkReviewExistenceInDb = async (
   nonSentReviews: IReview[],
   emailType: EmailType,
 ) => {
+  console.log(`---------------------- Review ${review.id} ----------------------`);
   try {
     const existingReview = await Web3Mail.findOne({
       id: `${review.id}-${emailType}`,
@@ -64,7 +66,7 @@ export const checkNewServiceExistenceInDb = async (
   service: IService,
   emailType: EmailType,
 ): Promise<boolean> => {
-  console.log('---------------------- Service ----------------------', service.id);
+  console.log(`---------------------- Service ${service.id} ----------------------`);
   try {
     const existingService = await Web3Mail.findOne({
       id: `${userId}-${service.id}-${emailType}`,

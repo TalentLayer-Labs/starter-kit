@@ -12,11 +12,15 @@ export const calculateCronData = (
   let cronDuration = 0;
   if (req.query.sinceTimestamp) {
     sinceTimestamp = req.query.sinceTimestamp as string;
+    console.log('Timestamp set from query', sinceTimestamp);
   } else {
     const cronSchedule = vercel?.crons?.find(cron => cron.type == emailType)?.schedule;
-    if (!cronSchedule) {
+    if (cronSchedule) {
+      console.log('Timestamp set from cron', sinceTimestamp);
+    } else {
       throw new Error('No Cron Schedule found');
     }
+
     /** @dev: The timestamp is set to the previous cron execution minus the duration
      of the cron schedule multiplied by a retry factor, so that non sent emails
      can be sent again */
