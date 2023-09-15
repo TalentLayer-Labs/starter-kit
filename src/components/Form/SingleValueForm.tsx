@@ -44,7 +44,7 @@ function SingleValueForm({
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
   const publicClient = usePublicClient({ chainId });
-  const { data: walletClient } = useWalletClient({chainId});
+  const { data: walletClient } = useWalletClient({ chainId });
   const { address } = useAccount();
 
   const onSubmit = async (
@@ -62,13 +62,14 @@ function SingleValueForm({
           value = hookModifyValue(value);
         }
 
+        // TODO: replace with walletClient.writeContract
         const contract = getContract({
           address: contractAddress,
           abi: contractAbi,
           walletClient,
         });
         const tx = await contract.write[contractFunctionName](contractInputs, { value });
-        
+
         await createMultiStepsTransactionToast(
           chainId,
           {
