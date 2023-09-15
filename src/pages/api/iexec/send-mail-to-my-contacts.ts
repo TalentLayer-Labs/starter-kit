@@ -2,10 +2,8 @@ import { IExecWeb3mail, getWeb3Provider as getMailProvider, Contact } from '@iex
 import { IExecDataProtector, getWeb3Provider as getProtectorProvider } from '@iexec/dataprotector';
 import { userGaveAccessToPlatform } from '../../../modules/Web3mail/utils/iexec-utils';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { useChainId } from '../../../hooks/useChainId';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const chainId = useChainId();
   const { emailSubject, emailContent } = req.body;
   let successCount = 0,
     errorCount = 0;
