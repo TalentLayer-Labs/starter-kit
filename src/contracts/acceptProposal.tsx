@@ -1,4 +1,3 @@
-import { Provider } from '@wagmi/core';
 import { Contract, Signer } from 'ethers';
 import { toast } from 'react-toastify';
 import TransactionToast from '../components/TransactionToast';
@@ -6,14 +5,15 @@ import { getConfig } from '../config';
 import { showErrorTransactionToast } from '../utils/toast';
 import ERC20 from './ABI/ERC20.json';
 import TalentLayerEscrow from './ABI/TalentLayerEscrow.json';
+import { PublicClient, WalletClient } from 'viem';
 
 // TODO: need to generate this json duynamically and post it to IPFS to be use for dispute resolution
 export const metaEvidenceCid = 'QmQ2hcACF6r2Gf8PDxG4NcBdurzRUopwcaYQHNhSah6a8v';
 
 export const validateProposal = async (
   chainId: number,
-  signer: Signer,
-  provider: Provider,
+  walletClient: WalletClient,
+  publicClient: PublicClient,
   serviceId: string,
   proposalId: string,
   rateToken: string,
@@ -22,10 +22,11 @@ export const validateProposal = async (
 ): Promise<void> => {
   const config = getConfig(chainId);
 
+  // TODO: update this to write contract implemention similar than all the others like ProfileForm
   const talentLayerEscrow = new Contract(
     config.contracts.talentLayerEscrow,
     TalentLayerEscrow.abi,
-    signer,
+    walletClient,
   );
 
   try {
@@ -40,7 +41,7 @@ export const validateProposal = async (
         },
       );
 
-      const receipt1 = await toast.promise(provider.waitForTransaction(tx1.hash), {
+      const receipt1 = await toast.promise(publicClient.waitForTransaction(tx1.hash), {
         pending: {
           render() {
             return (
@@ -59,21 +60,21 @@ export const validateProposal = async (
       }
     } else {
       // Token transfer approval for escrow contract
-      const ERC20Token = new Contract(rateToken, ERC20.abi, signer);
+      const ERC20Token = new Contract(rateToken, ERC20.abi, walletClient);
 
-      const balance = await ERC20Token.balanceOf(signer.getAddress());
+      const balance = await ERC20Token.balanceOf(walletClient.getAddress());
       if (balance.lt(value)) {
         throw new Error('Insufficient balance');
       }
 
       const allowance = await ERC20Token.allowance(
-        signer.getAddress(),
+        walletClient.getAddress(),
         config.contracts.talentLayerEscrow,
       );
 
       if (allowance.lt(value)) {
         const tx1 = await ERC20Token.approve(config.contracts.talentLayerEscrow, value);
-        const receipt1 = await toast.promise(provider.waitForTransaction(tx1.hash), {
+        const receipt1 = await toast.promise(publicClient.waitForTransaction(tx1.hash), {
           pending: {
             render() {
               return (
@@ -98,7 +99,7 @@ export const validateProposal = async (
         metaEvidenceCid,
         cid,
       );
-      const receipt2 = await toast.promise(provider.waitForTransaction(tx2.hash), {
+      const receipt2 = await toast.promise(publicClient.waitForTransaction(tx2.hash), {
         pending: {
           render() {
             return (
