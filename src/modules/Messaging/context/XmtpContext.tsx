@@ -6,12 +6,13 @@ import { buildChatMessage, CONVERSATION_PREFIX } from '../utils/messaging';
 import { XmtpChatMessage } from '../utils/types';
 import { loadKeys, storeKeys } from '../utils/keys';
 import { useChainId } from '../../../hooks/useChainId';
+import { WalletClient } from 'viem';
 
 type clientEnv = 'local' | 'dev' | 'production' | undefined;
 
 interface IProviderProps {
   client: Client | undefined;
-  initClient: ((wallet: Signer) => Promise<void>) | undefined;
+  initClient: (() => Promise<void>) | undefined;
   loadingConversations: boolean;
   loadingMessages: boolean;
   conversations: Map<string, Conversation>;
@@ -56,10 +57,10 @@ export const XmtpContextProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
-  const initClient = async (wallet: Signer) => {
+  const initClient = async () => {
     console.log(
       'initClient',
-      wallet && walletAddress && !providerState.client && walletClient ? 'true' : 'false',
+      walletAddress && !providerState.client && walletClient ? 'true' : 'false',
       walletAddress,
       providerState.client,
       walletClient,
@@ -68,6 +69,7 @@ export const XmtpContextProvider = ({ children }: { children: ReactNode }) => {
       try {
         let keys = loadKeys(walletAddress as string);
         if (!keys) {
+          // @ts-ignore: xmtp-je is using ethers Signer without a getAddress function. That's the only diff so this should still work fine
           keys = await Client.getKeys(walletClient, {
             env: process.env.NEXT_PUBLIC_MESSENGING_ENV as clientEnv,
           });
@@ -95,7 +97,7 @@ export const XmtpContextProvider = ({ children }: { children: ReactNode }) => {
     const autoInit = async () => {
       if (walletClient && walletAddress && !providerState.client) {
         if (loadKeys(walletAddress)) {
-          await initClient(walletClient);
+          await initClient();
         }
       }
     };
