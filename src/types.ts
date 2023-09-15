@@ -242,3 +242,23 @@ export type IUserGain = {
   token: IToken;
   totalGain: string;
 };
+
+export enum EmailType {
+  NewProposal = 'newProposal',
+  ProposalValidated = 'proposalValidated',
+  FundRelease = 'fundRelease',
+  Review = 'review',
+  PlatformMarketing = 'platformMarketing',
+  ProtocolMarketing = 'protocolMarketing',
+  NewService = 'newService',
+}
+
+export enum Web3mailPreferences {
+  activeOnNewService = 'activeOnNewService',
+  activeOnNewProposal = 'activeOnNewProposal',
+  activeOnProposalValidated = 'activeOnProposalValidated',
+  activeOnFundRelease = 'activeOnFundRelease',
+  activeOnReview = 'activeOnReview',
+  activeOnPlatformMarketing = 'activeOnPlatformMarketing',
+  activeOnProtocolMarketing = 'activeOnProtocolMarketing',
+}

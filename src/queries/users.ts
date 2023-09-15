@@ -1,4 +1,5 @@
 import { processRequest } from '../utils/graphql';
+import { Web3mailPreferences } from '../types';
 
 // TODO: when graph is sync with last version
 // videoUrl
@@ -152,6 +153,46 @@ export const getUserByIds = (chainId: number, ids: string[]): Promise<any> => {
           title
           timezone
           skills_raw
+        }
+      }
+    }
+    `;
+  return processRequest(chainId, query);
+};
+
+export const getUserWeb3mailPreferences = (
+  chainId: number,
+  platformId: string,
+  address: string,
+  web3mailPreference: Web3mailPreferences,
+): Promise<any> => {
+  const query = `
+    {
+      user(address: "${address}, service_: {platform: "${platformId}"}) {
+        description{
+          web3mailPreferences {
+            ${web3mailPreference}
+        }
+      }
+    }
+    `;
+  return processRequest(chainId, query);
+};
+
+export const getUserWeb3mailPreferencesForNewServices = (
+  chainId: number,
+  platformId: string,
+  address: string,
+  web3mailPreference: Web3mailPreferences,
+): Promise<any> => {
+  const query = `
+    {
+      user(address: "${address}, service_: {platform: "${platformId}"}) {
+        id
+        description{
+          skills_raw
+          web3mailPreferences {
+            ${web3mailPreference}
         }
       }
     }

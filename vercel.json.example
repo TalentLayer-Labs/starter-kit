@@ -1,10 +1,10 @@
+//TODO Add explanation in readme
 {
   "rewrites":  [
     {"source": "/(.*)", "destination": "/"}
   ],
   "crons":[
     {
-      "type":"newProposal",
       "path":"/api/iexec/new-proposal?key=racoonKey",
       "schedule":"0 */1 * * *"
     },
