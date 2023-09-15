@@ -1,25 +1,26 @@
 import { useState, useEffect } from 'react';
-import { getServiceById } from '../queries/services';
 import { IService } from '../types';
 import { useChainId } from './useChainId';
+import { TalentLayerClient } from '@TalentLayer/client';
 
 const useServiceById = (serviceId: string): IService | null => {
   const chainId = useChainId();
   const [user, setUser] = useState<IService | null>(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getServiceById(chainId, serviceId);
-        if (response?.data?.data?.service) {
-          setUser(response.data.data.service);
+    const tlClient = new TalentLayerClient(chainId);
+
+    tlClient
+      .fetchServiceById(parseInt(serviceId))
+      .then(response => {
+        console.log("Service details found", response);
+        if (response?.data?.service) {
+          setUser(response?.data?.service);
         }
-      } catch (err: any) {
-        // eslint-disable-next-line no-console
+      })
+      .catch((err: any) => {
         console.error(err);
-      }
-    };
-    fetchData();
+      });
   }, [serviceId]);
 
   return user;
