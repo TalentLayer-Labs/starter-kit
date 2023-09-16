@@ -2,14 +2,10 @@ import { useContext, useEffect, useState } from 'react';
 import { usePublicClient, useWalletClient } from 'wagmi';
 import { toggleDelegation } from '../../contracts/toggleDelegation';
 import StarterKitContext from '../../context/starterKit';
-import TalentLayerID from '../../contracts/ABI/TalentLayerID.json';
 import { getUserByAddress } from '../../queries/users';
 import { useChainId } from '../../hooks/useChainId';
-import { useConfig } from '../../hooks/useConfig';
-import { getContract } from 'viem';
 
 function DelegateModal() {
-  const config = useConfig();
   const chainId = useChainId();
   const [show, setShow] = useState(false);
   const [hasPlatformAsDelegate, setHasPlatformAsDelegate] = useState(false);
@@ -41,18 +37,13 @@ function DelegateModal() {
     if (!walletClient || !publicClient || !user) {
       return null;
     }
-    const contract = getContract({
-      address: config.contracts.talentLayerId,
-      abi: TalentLayerID.abi,
-      walletClient,
-    });
     await toggleDelegation(
       chainId,
       user.id,
       delegateAddress,
       publicClient,
+      walletClient,
       validateState,
-      contract,
     );
 
     setShow(false);

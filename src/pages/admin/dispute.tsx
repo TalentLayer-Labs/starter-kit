@@ -1,4 +1,3 @@
-import { ethers } from 'ethers';
 import { useContext, useEffect, useState } from 'react';
 import { usePublicClient } from 'wagmi';
 import * as Yup from 'yup';
@@ -21,18 +20,17 @@ function AdminDispute() {
   const chainId = useChainId();
   const publicClient = usePublicClient({ chainId });
   const arbitratorContractAddress = platform ? platform.arbitrator : null;
-  const arbitratorContract = arbitratorContractAddress
-    ? new ethers.Contract(arbitratorContractAddress, TalentLayerArbitrator.abi, provider)
-    : null;
   const [arbitratorPrice, setArbitratorPrice] = useState<number>(0);
   let availableArbitrators: { value: string; label: string }[] = [];
 
   const fetchArbitrationPrice = async () => {
-    if (
-      arbitratorContract &&
-      arbitratorContract.address !== '0x0000000000000000000000000000000000000000'
-    ) {
-      const price = await arbitratorContract.arbitrationPrice(platform?.id);
+    if (arbitratorContractAddress) {
+      const price: any = await publicClient.readContract({
+        address: arbitratorContractAddress,
+        abi: TalentLayerArbitrator.abi,
+        functionName: 'arbitrationPrice',
+        args: [platform?.id],
+      });
       console.log('fetch');
       setArbitratorPrice(price);
     }
