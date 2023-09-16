@@ -1,9 +1,8 @@
-import { createPublicClient, http, createWalletClient, formatUnits} from 'viem';
-import { polygonMumbai } from '../../chains'
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { QuestionMarkCircle } from 'heroicons-react';
 import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
+import { formatUnits } from 'viem';
 import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
 import StarterKitContext from '../../context/starterKit';
@@ -13,14 +12,14 @@ import { useChainId } from '../../hooks/useChainId';
 import { useConfig } from '../../hooks/useConfig';
 import { postOpenAiRequest } from '../../modules/OpenAi/utils';
 import { IProposal, IService, IUser } from '../../types';
+import { parseRateAmount } from '../../utils/currency';
+import { postToIPFS } from '../../utils/ipfs';
 import { getProposalSignature } from '../../utils/signature';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../utils/toast';
-import { parseRateAmount } from '../../utils/web3';
 import Loading from '../Loading';
-import { delegateCreateOrUpdateProposal } from '../request';
 import ServiceItem from '../ServiceItem';
+import { delegateCreateOrUpdateProposal } from '../request';
 import SubmitButton from './SubmitButton';
-import { postToIPFS } from '../../utils/ipfs';
 
 interface IFormValues {
   about: string;
@@ -71,7 +70,9 @@ function ProposalForm({
       token => token.address === existingProposal?.rateToken.address,
     );
 
-    existingRateTokenAmount = parseFloat(formatUnits(BigInt(existingProposal.rateAmount), Number(token?.decimals)));
+    existingRateTokenAmount = parseFloat(
+      formatUnits(BigInt(existingProposal.rateAmount), Number(token?.decimals)),
+    );
   }
 
   const initialValues: IFormValues = {
@@ -156,24 +157,24 @@ function ProposalForm({
             abi: ServiceRegistry.abi,
             functionName: existingProposal ? 'updateProposal' : 'createProposal',
             args: existingProposal
-            ? [
-                user.id,
-                service.id,
-                values.rateToken,
-                parsedRateAmountString,
-                cid,
-                convertExpirationDateString,
-              ]
-            : [
-                user.id,
-                service.id,
-                values.rateToken,
-                parsedRateAmountString,
-                process.env.NEXT_PUBLIC_PLATFORM_ID,
-                cid,
-                convertExpirationDateString,
-                signature,
-              ],
+              ? [
+                  user.id,
+                  service.id,
+                  values.rateToken,
+                  parsedRateAmountString,
+                  cid,
+                  convertExpirationDateString,
+                ]
+              : [
+                  user.id,
+                  service.id,
+                  values.rateToken,
+                  parsedRateAmountString,
+                  process.env.NEXT_PUBLIC_PLATFORM_ID,
+                  cid,
+                  convertExpirationDateString,
+                  signature,
+                ],
             account: address,
           });
         }

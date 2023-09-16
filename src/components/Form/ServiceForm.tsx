@@ -9,7 +9,7 @@ import StarterKitContext from '../../context/starterKit';
 import ServiceRegistry from '../../contracts/ABI/TalentLayerService.json';
 import { postToIPFS } from '../../utils/ipfs';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../utils/toast';
-import { parseRateAmount } from '../../utils/web3';
+import { parseRateAmount } from '../../utils/currency';
 import SubmitButton from './SubmitButton';
 import useAllowedTokens from '../../hooks/useAllowedTokens';
 import { getServiceSignature } from '../../utils/signature';
@@ -58,32 +58,31 @@ function ServiceForm() {
     keywords: Yup.string().required('Please provide keywords for your service'),
     rateToken: Yup.string().required('Please select a payment token'),
     rateAmount: Yup.number()
-  .required('Please provide an amount for your service')
-  .when('rateToken', {
-    is: (rateToken: string) => rateToken !== '',
-    then: schema =>
-      schema.moreThan(
-        selectedToken
-          ? parseFloat(
-              formatUnits(
-                BigInt(selectedToken?.minimumTransactionAmount ?? '0'),
-                Number(selectedToken?.decimals),
-              )
-            )
-          : 0,
-        `Amount must be greater than ${
-          selectedToken
-            ? parseFloat(
-                formatUnits(
-                  BigInt(selectedToken?.minimumTransactionAmount ?? '0'),
-                  Number(selectedToken?.decimals),
+      .required('Please provide an amount for your service')
+      .when('rateToken', {
+        is: (rateToken: string) => rateToken !== '',
+        then: schema =>
+          schema.moreThan(
+            selectedToken
+              ? parseFloat(
+                  formatUnits(
+                    BigInt(selectedToken?.minimumTransactionAmount ?? '0'),
+                    Number(selectedToken?.decimals),
+                  ),
                 )
-              )
-            : 0
-        }`,
-      ),
-  }),
-
+              : 0,
+            `Amount must be greater than ${
+              selectedToken
+                ? parseFloat(
+                    formatUnits(
+                      BigInt(selectedToken?.minimumTransactionAmount ?? '0'),
+                      Number(selectedToken?.decimals),
+                    ),
+                  )
+                : 0
+            }`,
+          ),
+      }),
   });
 
   const onSubmit = async (
@@ -121,15 +120,12 @@ function ServiceForm() {
         if (isActiveDelegate) {
           const response = await delegateCreateService(chainId, user.id, user.address, cid);
           tx = response.data.transaction;
-        } else {        
+        } else {
           tx = await walletClient.writeContract({
             address: config.contracts.serviceRegistry,
             abi: ServiceRegistry.abi,
             functionName: 'createService',
-            args: [user?.id,
-              process.env.NEXT_PUBLIC_PLATFORM_ID,
-              cid,
-              signature,],
+            args: [user?.id, process.env.NEXT_PUBLIC_PLATFORM_ID, cid, signature],
             account: address,
           });
         }
