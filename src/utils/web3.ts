@@ -1,7 +1,7 @@
 import { Contract } from '@ethersproject/contracts';
 import { ExternalProvider, JsonRpcFetchFunc, Web3Provider } from '@ethersproject/providers';
 import { parseEther, parseUnits, formatEther, formatUnits } from 'viem'
-import { Signer } from 'ethers';
+import { WalletClient } from 'viem';
 
 import ERC20 from '../contracts/ABI/ERC20.json';
 import { ITokenFormattedValues } from '../types';
@@ -35,7 +35,7 @@ export const parseRateAmount = async (
 export const formatRateAmount = async (
   rateAmount: string,
   rateToken: string,
-  signer: Signer,
+  walletClient: WalletClient,
 ): Promise<ITokenFormattedValues> => {
   if (rateToken === '0x0000000000000000000000000000000000000000') {
     const valueInEther = formatEther(BigInt(rateAmount));
@@ -46,6 +46,7 @@ export const formatRateAmount = async (
       exactValue,
     };
   }
+  
   const ERC20Token = new Contract(rateToken, ERC20.abi, signer);
   const tokenDecimals = await getDecimal(ERC20Token);
 

@@ -1,5 +1,4 @@
 import { useWeb3Modal } from '@web3modal/react';
-import { ContractInterface, ethers } from 'ethers';
 import { Field, Form, Formik } from 'formik';
 import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
@@ -7,7 +6,7 @@ import { ObjectShape } from 'yup/lib/object';
 import { useChainId } from '../../hooks/useChainId';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../utils/toast';
 import SubmitButton from './SubmitButton';
-import { getContract } from 'viem';
+import { Abi, Address } from 'viem';
 
 interface validationDatasType {
   valueType: string;
@@ -21,8 +20,8 @@ interface contractParamsType {
   contractFunctionName: string;
   contractEntity: string;
   contractInputs: unknown;
-  contractAddress: string;
-  contractAbi: ContractInterface;
+  contractAddress: Address;
+  contractAbi: Abi;
 }
 
 function SingleValueForm({
@@ -62,13 +61,13 @@ function SingleValueForm({
           value = hookModifyValue(value);
         }
 
-        // TODO: replace with walletClient.writeContract
-        const contract = getContract({
+        const tx = await walletClient.writeContract({
           address: contractAddress,
           abi: contractAbi,
-          walletClient,
+          functionName: contractFunctionName,
+          args: [contractInputs, { value }],
+          account: address,
         });
-        const tx = await contract.write[contractFunctionName](contractInputs, { value });
 
         await createMultiStepsTransactionToast(
           chainId,

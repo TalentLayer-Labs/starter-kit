@@ -4,7 +4,7 @@ import { getConfig } from '../config';
 import { showErrorTransactionToast } from '../utils/toast';
 import ERC20 from './ABI/ERC20.json';
 import TalentLayerEscrow from './ABI/TalentLayerEscrow.json';
-import { PublicClient, WalletClient } from 'viem';
+import { Address, PublicClient, WalletClient } from 'viem';
 
 // TODO: need to generate this json duynamically and post it to IPFS to be use for dispute resolution
 export const metaEvidenceCid = 'QmQ2hcACF6r2Gf8PDxG4NcBdurzRUopwcaYQHNhSah6a8v';
@@ -15,7 +15,7 @@ export const validateProposal = async (
   publicClient: PublicClient,
   serviceId: string,
   proposalId: string,
-  rateToken: string,
+  rateToken: Address,
   cid: string,
   value: bigint,
 ): Promise<void> => {
@@ -58,7 +58,7 @@ export const validateProposal = async (
     } else {
       // Token transfer approval for escrow contract
       const balance: any = await publicClient.readContract({
-        address: `0x${rateToken}`,
+        address: rateToken,
         abi: ERC20.abi,
         functionName: 'balanceOf',
         args: [walletClient.getAddresses()]
@@ -68,7 +68,7 @@ export const validateProposal = async (
       }
       
       const allowance: any = await publicClient.readContract({
-        address: `0x${rateToken}`,
+        address: rateToken,
         abi: ERC20.abi,
         functionName: 'allowance',
         args: [walletClient.getAddresses(),

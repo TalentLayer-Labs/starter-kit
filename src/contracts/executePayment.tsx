@@ -4,7 +4,7 @@ import TalentLayerEscrow from './ABI/TalentLayerEscrow.json';
 import { showErrorTransactionToast } from '../utils/toast';
 import { delegateReleaseOrReimburse } from '../components/request';
 import { getConfig } from '../config';
-import { PublicClient, WalletClient } from 'viem';
+import { Address, PublicClient, WalletClient } from 'viem';
 
 export const executePayment = async (
   chainId: number,
@@ -19,7 +19,7 @@ export const executePayment = async (
 ): Promise<void> => {
   const config = getConfig(chainId);
   try {
-    let tx: any;
+    let tx: Address;
     if (isActiveDelegate) {
       const response = await delegateReleaseOrReimburse(
         chainId,

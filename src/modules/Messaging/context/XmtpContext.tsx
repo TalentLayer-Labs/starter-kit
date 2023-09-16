@@ -1,6 +1,5 @@
 import React, { createContext, ReactNode, useEffect, useMemo, useState } from 'react';
 import { Client, Conversation, DecodedMessage } from '@xmtp/xmtp-js';
-import { Signer } from 'ethers';
 import { useAccount, useWalletClient } from 'wagmi';
 import { buildChatMessage, CONVERSATION_PREFIX } from '../utils/messaging';
 import { XmtpChatMessage } from '../utils/types';
@@ -69,7 +68,7 @@ export const XmtpContextProvider = ({ children }: { children: ReactNode }) => {
       try {
         let keys = loadKeys(walletAddress as string);
         if (!keys) {
-          // @ts-ignore: xmtp-je is using ethers Signer without a getAddress function. That's the only diff so this should still work fine
+          // @ts-ignore
           keys = await Client.getKeys(walletClient, {
             env: process.env.NEXT_PUBLIC_MESSENGING_ENV as clientEnv,
           });

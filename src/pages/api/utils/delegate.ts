@@ -1,7 +1,7 @@
 import { NextApiResponse } from 'next';
 import { getUserByAddress } from '../../../queries/users';
-import { HDAccount, mnemonicToAccount } from 'viem/accounts'
-import { createWalletClient, custom } from 'viem';
+import { mnemonicToAccount } from 'viem/accounts'
+import { createWalletClient, http } from 'viem';
 import { polygonMumbai } from '../../../chains';
 import { WalletClient } from 'wagmi';
 
@@ -29,12 +29,12 @@ export async function isPlatformAllowedToDelegate(
 export async function getDelegationSigner(res: NextApiResponse): Promise<WalletClient | null> {
   const delegateSeedPhrase = process.env.NEXT_PRIVATE_DELEGATE_SEED_PHRASE;
 
-  if (window.ethereum && delegateSeedPhrase) {
+  if (delegateSeedPhrase) {
     const account = mnemonicToAccount(delegateSeedPhrase);
     const walletClient = createWalletClient({
       account,
       chain: polygonMumbai,
-      transport: custom(window.ethereum),
+      transport: http(),
     });
     return walletClient;
   } else {
