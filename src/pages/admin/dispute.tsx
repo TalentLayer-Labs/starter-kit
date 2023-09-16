@@ -28,7 +28,10 @@ function AdminDispute() {
   let availableArbitrators: { value: string; label: string }[] = [];
 
   const fetchArbitrationPrice = async () => {
-    if (arbitratorContract && arbitratorContract.address !== "0x0000000000000000000000000000000000000000") {
+    if (
+      arbitratorContract &&
+      arbitratorContract.address !== '0x0000000000000000000000000000000000000000'
+    ) {
       const price = await arbitratorContract.arbitrationPrice(platform?.id);
       console.log('fetch');
       setArbitratorPrice(price);
@@ -57,12 +60,12 @@ function AdminDispute() {
         value: config.contracts.talentLayerArbitrator,
         label: 'TalentLayer Arbitrator',
       },
-      { value: "0x0000000000000000000000000000000000000000", label: 'None' },
+      { value: '0x0000000000000000000000000000000000000000', label: 'None' },
     ];
   }
 
   const transformPrice = (value: number | string): BigInt => {
-    return parseEther(value.toString())
+    return parseEther(value.toString());
   };
 
   return (
@@ -77,7 +80,7 @@ function AdminDispute() {
         <SingleValueForm
           validationDatas={{
             valueType: 'select',
-            initialValue: platform?.arbitrator || "0x0000000000000000000000000000000000000000",
+            initialValue: platform?.arbitrator || '0x0000000000000000000000000000000000000000',
             selectOptions: availableArbitrators,
           }}
           contractParams={{

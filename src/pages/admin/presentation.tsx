@@ -34,7 +34,7 @@ function AdminPresentation() {
   const { open: openConnectModal } = useWeb3Modal();
   const config = useConfig();
   const publicClient = usePublicClient({ chainId });
-  const { data: walletClient } = useWalletClient({chainId});
+  const { data: walletClient } = useWalletClient({ chainId });
   const { address } = useAccount();
 
   if (loading) {
@@ -68,7 +68,7 @@ function AdminPresentation() {
             image_url: values.image_url,
           }),
         );
-        
+
         const tx = await walletClient.writeContract({
           address: config.contracts.talentLayerId,
           abi: TalentLayerPlatformID.abi,

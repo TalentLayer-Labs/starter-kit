@@ -13,7 +13,7 @@ function DelegateModal() {
   const chainId = useChainId();
   const [show, setShow] = useState(false);
   const [hasPlatformAsDelegate, setHasPlatformAsDelegate] = useState(false);
-  const { data: walletClient } = useWalletClient({chainId});
+  const { data: walletClient } = useWalletClient({ chainId });
   const publicClient = usePublicClient({ chainId });
   const { user } = useContext(StarterKitContext);
   const delegateAddress = process.env.NEXT_PUBLIC_DELEGATE_ADDRESS as string;
@@ -45,8 +45,15 @@ function DelegateModal() {
       address: config.contracts.talentLayerId,
       abi: TalentLayerID.abi,
       walletClient,
-    })
-    await toggleDelegation(chainId, user.id, delegateAddress, publicClient, validateState, contract);
+    });
+    await toggleDelegation(
+      chainId,
+      user.id,
+      delegateAddress,
+      publicClient,
+      validateState,
+      contract,
+    );
 
     setShow(false);
   };

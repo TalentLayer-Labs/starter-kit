@@ -33,12 +33,12 @@ function ReleaseForm({
   });
   const publicClient = usePublicClient({ chainId });
   const [percent, setPercentage] = useState(0);
-  
+
   const handleSubmit = async (values: any) => {
     if (!user || !walletClient || !publicClient) {
       return;
     }
-    const percentToToken = (totalInEscrow * BigInt(percent))/ BigInt(100);
+    const percentToToken = (totalInEscrow * BigInt(percent)) / BigInt(100);
 
     await executePayment(
       chainId,
@@ -70,7 +70,7 @@ function ReleaseForm({
   };
 
   const amountSelected = useMemo(() => {
-    return percent ? (totalInEscrow * BigInt(percent))/ BigInt(100) : '';
+    return percent ? (totalInEscrow * BigInt(percent)) / BigInt(100) : '';
   }, [percent]);
 
   const initialValues: IFormValues = {

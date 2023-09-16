@@ -1,4 +1,4 @@
-import { formatUnits } from 'viem'
+import { formatUnits } from 'viem';
 import { getConfig } from '../config';
 import { IToken } from '../types';
 

@@ -35,9 +35,8 @@ function ReviewForm({ serviceId }: { serviceId: string }) {
   const { user } = useContext(StarterKitContext);
   const { isActiveDelegate } = useContext(StarterKitContext);
   const publicClient = usePublicClient({ chainId });
-  const { data: walletClient } = useWalletClient({chainId});
+  const { data: walletClient } = useWalletClient({ chainId });
   const { address } = useAccount();
-
 
   const onSubmit = async (
     values: IFormValues,
@@ -69,7 +68,6 @@ function ReviewForm({ serviceId }: { serviceId: string }) {
           );
           tx = response.data.transaction;
         } else {
-          
           tx = await walletClient.writeContract({
             address: config.contracts.talentLayerReview,
             abi: TalentLayerReview.abi,

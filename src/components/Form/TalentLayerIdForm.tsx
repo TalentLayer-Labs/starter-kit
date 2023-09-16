@@ -27,7 +27,7 @@ function TalentLayerIdForm() {
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
   const { user, account } = useContext(StarterKitContext);
-  const { data: walletClient } = useWalletClient({chainId});
+  const { data: walletClient } = useWalletClient({ chainId });
   const { address } = useAccount();
   const publicClient = usePublicClient({ chainId });
   const router = useRouter();
@@ -49,14 +49,14 @@ function TalentLayerIdForm() {
   ) => {
     if (account && account.address && account.isConnected && publicClient && walletClient) {
       try {
-          let tx;
-          const handlePrice = await walletClient.writeContract({
-            address: config.contracts.talentLayerId,
-            abi: TalentLayerID.abi,
-            functionName: 'getHandlePrice',
-            args: [submittedValues.handle],
-            account: address,
-          });
+        let tx;
+        const handlePrice = await walletClient.writeContract({
+          address: config.contracts.talentLayerId,
+          abi: TalentLayerID.abi,
+          functionName: 'getHandlePrice',
+          args: [submittedValues.handle],
+          account: address,
+        });
 
         if (process.env.NEXT_PUBLIC_ACTIVE_DELEGATE_MINT === 'true') {
           const response = await delegateMintID(
@@ -71,9 +71,13 @@ function TalentLayerIdForm() {
             address: config.contracts.talentLayerId,
             abi: TalentLayerID.abi,
             functionName: 'mint',
-            args: [process.env.NEXT_PUBLIC_PLATFORM_ID, submittedValues.handle, {
-              value: handlePrice,
-            }],
+            args: [
+              process.env.NEXT_PUBLIC_PLATFORM_ID,
+              submittedValues.handle,
+              {
+                value: handlePrice,
+              },
+            ],
             account: address,
           });
         }

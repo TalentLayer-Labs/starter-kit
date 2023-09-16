@@ -18,7 +18,7 @@ function PaymentModal({ service, payments, isBuyer }: IPaymentModalProps) {
   const network = useNetwork();
 
   const totalPayments = payments.reduce((acc, payment) => {
-    return (acc + (BigInt(payment.amount)));
+    return acc + BigInt(payment.amount);
   }, BigInt('0'));
 
   const totalInEscrow = BigInt(rateAmount) - totalPayments;

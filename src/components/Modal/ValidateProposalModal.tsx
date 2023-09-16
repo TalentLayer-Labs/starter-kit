@@ -18,7 +18,8 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
   const publicClient = usePublicClient({ chainId });
   const [show, setShow] = useState(false);
   const { data: ethBalance } = useBalance({ address: account.address });
-  const isProposalUseEth: boolean = proposal.rateToken.address === '0x0000000000000000000000000000000000000000';
+  const isProposalUseEth: boolean =
+    proposal.rateToken.address === '0x0000000000000000000000000000000000000000';
   const { data: tokenBalance } = useBalance({
     address: account.address,
     enabled: !isProposalUseEth,
@@ -35,9 +36,11 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
 
   const jobRateAmount = BigInt(proposal.rateAmount);
   const protocolFee = (jobRateAmount * BigInt(protocolEscrowFeeRate)) / BigInt(FEE_RATE_DIVIDER);
-  const originServiceFee = (jobRateAmount * BigInt(originServiceFeeRate)) / BigInt(FEE_RATE_DIVIDER);
-  const originValidatedProposalFee = (jobRateAmount * BigInt(originValidatedProposalFeeRate))/ BigInt(FEE_RATE_DIVIDER);
-  const totalAmount = (jobRateAmount + originServiceFee + originValidatedProposalFee + protocolFee);
+  const originServiceFee =
+    (jobRateAmount * BigInt(originServiceFeeRate)) / BigInt(FEE_RATE_DIVIDER);
+  const originValidatedProposalFee =
+    (jobRateAmount * BigInt(originValidatedProposalFeeRate)) / BigInt(FEE_RATE_DIVIDER);
+  const totalAmount = jobRateAmount + originServiceFee + originValidatedProposalFee + protocolFee;
 
   const onSubmit = async () => {
     if (!walletClient || !publicClient) {
@@ -59,10 +62,10 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
   const hasEnoughBalance = () => {
     if (isProposalUseEth) {
       if (!ethBalance) return;
-      return (ethBalance.value >= totalAmount);
+      return ethBalance.value >= totalAmount;
     } else {
       if (!tokenBalance) return;
-      return (tokenBalance.value >= totalAmount);
+      return tokenBalance.value >= totalAmount;
     }
   };
 
