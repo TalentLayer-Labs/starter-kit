@@ -21,7 +21,7 @@ interface contractParamsType {
   contractEntity: string;
   contractInputs: unknown;
   contractAddress: Address;
-  contractAbi: Abi;
+  contractAbi: any;
 }
 
 function SingleValueForm({
