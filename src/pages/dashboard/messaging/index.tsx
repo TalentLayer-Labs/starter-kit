@@ -22,7 +22,7 @@ function MessagingIndex() {
 
   const handleXmtpConnect = async () => {
     if (providerState && providerState.initClient && walletClient) {
-      await providerState.initClient(walletClient);
+      await providerState.initClient();
     }
   };
 

@@ -32,7 +32,7 @@ const MessagingProvider = ({ children }: { children: ReactNode }) => {
   const handleRegisterToMessaging = async (): Promise<void> => {
     try {
       if (user?.address && providerState?.initClient && walletClient) {
-        await providerState.initClient(walletClient);
+        await providerState.initClient();
       }
     } catch (e) {
       console.error('Error initializing XMTP client :', e);
@@ -44,7 +44,7 @@ const MessagingProvider = ({ children }: { children: ReactNode }) => {
       //If initClient() is in the context, then we can assume that the user has not already logged in
       if (providerState.initClient) {
         try {
-          await providerState.initClient(walletClient);
+          await providerState.initClient();
         } catch (e) {
           console.error('ServiceDetail - Error initializing XMTP client: ', e);
           return;
