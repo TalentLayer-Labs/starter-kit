@@ -1,6 +1,4 @@
-import { Contract } from 'ethers';
 import { toast } from 'react-toastify';
-import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
 import TransactionToast from '../components/TransactionToast';
 import { getConfig } from '../config';
 import { showErrorTransactionToast } from '../utils/toast';
