@@ -1,5 +1,6 @@
-import { Contract, Signer } from 'ethers';
+import { Contract } from 'ethers';
 import { toast } from 'react-toastify';
+import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
 import TransactionToast from '../components/TransactionToast';
 import { getConfig } from '../config';
 import { showErrorTransactionToast } from '../utils/toast';
@@ -22,32 +23,30 @@ export const validateProposal = async (
 ): Promise<void> => {
   const config = getConfig(chainId);
 
-  // TODO: update this to write contract implemention similar than all the others like ProfileForm
-  const talentLayerEscrow = new Contract(
-    config.contracts.talentLayerEscrow,
-    TalentLayerEscrow.abi,
-    walletClient,
-  );
+  const {request} = await publicClient.simulateContract({
+        address: config.contracts.talentLayerEscrow,
+        abi: TalentLayerEscrow.abi,
+        functionName: 'createTransaction',
+        args: [parseInt(serviceId, 10),
+        parseInt(proposalId, 10),
+          metaEvidenceCid,
+          cid,
+        {
+          value,
+        },]
+  });
 
   try {
     if (rateToken === '0x0000000000000000000000000000000000000000') {
-      const tx1 = await talentLayerEscrow.createTransaction(
-        parseInt(serviceId, 10),
-        parseInt(proposalId, 10),
-        metaEvidenceCid,
-        cid,
-        {
-          value,
-        },
-      );
-
-      const receipt1 = await toast.promise(publicClient.waitForTransaction(tx1.hash), {
+  
+      const tx1 = await walletClient.writeContract(request);
+      const receipt1 = await toast.promise(publicClient.waitForTransactionReceipt({ hash: tx1 }), {
         pending: {
           render() {
             return (
               <TransactionToast
                 message='Your validation is in progress'
-                transactionHash={tx1.hash}
+                transactionHash={tx1}
               />
             );
           },
@@ -55,32 +54,45 @@ export const validateProposal = async (
         success: 'Transaction validated',
         error: 'An error occurred while validating your transaction',
       });
-      if (receipt1.status !== 1) {
+      if (receipt1.status !== "success") {
         throw new Error('Approve Transaction failed');
       }
     } else {
       // Token transfer approval for escrow contract
-      const ERC20Token = new Contract(rateToken, ERC20.abi, walletClient);
-
-      const balance = await ERC20Token.balanceOf(walletClient.getAddress());
+      const balance: any = await publicClient.readContract({
+        address: `0x${rateToken}`,
+        abi: ERC20.abi,
+        functionName: 'balanceOf',
+        args: [walletClient.getAddresses()]
+       });
       if (balance.lt(value)) {
         throw new Error('Insufficient balance');
       }
-
-      const allowance = await ERC20Token.allowance(
-        walletClient.getAddress(),
-        config.contracts.talentLayerEscrow,
-      );
-
+      
+      const allowance: any = await publicClient.readContract({
+        address: `0x${rateToken}`,
+        abi: ERC20.abi,
+        functionName: 'allowance',
+        args: [walletClient.getAddresses(),
+          config.contracts.talentLayerEscrow]
+       });
+      
       if (allowance.lt(value)) {
-        const tx1 = await ERC20Token.approve(config.contracts.talentLayerEscrow, value);
-        const receipt1 = await toast.promise(publicClient.waitForTransaction(tx1.hash), {
+        const {request} = await publicClient.simulateContract({
+          address: config.contracts.talentLayerEscrow,
+          abi: TalentLayerEscrow.abi,
+          functionName: 'approve',
+          args: [config.contracts.talentLayerEscrow, value]
+        });
+        const tx1 = await walletClient.writeContract(request);
+        
+        const receipt1 = await toast.promise(publicClient.waitForTransactionReceipt({ hash: tx1 }), {
           pending: {
             render() {
               return (
                 <TransactionToast
                   message='Your approval is in progress'
-                  transactionHash={tx1.hash}
+                  transactionHash={tx1}
                 />
               );
             },
@@ -88,24 +100,27 @@ export const validateProposal = async (
           success: 'Transaction validated',
           error: 'An error occurred while updating your profile',
         });
-        if (receipt1.status !== 1) {
+        if (receipt1.status !== "success") {
           throw new Error('Approve Transaction failed');
         }
       }
-
-      const tx2 = await talentLayerEscrow.createTransaction(
-        parseInt(serviceId, 10),
+      const {request} = await publicClient.simulateContract({
+        address: config.contracts.talentLayerEscrow,
+        abi: TalentLayerEscrow.abi,
+        functionName: 'createTransaction',
+        args: [parseInt(serviceId, 10),
         parseInt(proposalId, 10),
-        metaEvidenceCid,
-        cid,
-      );
-      const receipt2 = await toast.promise(publicClient.waitForTransaction(tx2.hash), {
+          metaEvidenceCid,
+          cid]
+      });
+      const tx2 = await walletClient.writeContract(request);
+      const receipt2 = await toast.promise(publicClient.waitForTransactionReceipt({ hash: tx2 }), {
         pending: {
           render() {
             return (
               <TransactionToast
                 message='Your validation is in progress'
-                transactionHash={tx2.hash}
+                transactionHash={tx2}
               />
             );
           },
@@ -113,7 +128,7 @@ export const validateProposal = async (
         success: 'Transaction validated',
         error: 'An error occurred while updating your profile',
       });
-      if (receipt2.status !== 1) {
+      if (receipt2.status !== "success") {
         throw new Error('Transaction failed');
       }
     }
