@@ -3,6 +3,7 @@
 import fs from 'fs';
 import { removeUnselectedModules } from './helpers.js';
 import inquirer from 'inquirer';
+import { execSync } from 'child_process';
 
 // copy the modules file
 if (!fs.existsSync(`./.modules.template`)) process.exit(0);
@@ -28,4 +29,5 @@ inquirer
     removeUnselectedModules(`.`, modules, selectedModules);
 
     fs.rmSync(`./.modules.template`);
+    execSync('npm run format');
   });

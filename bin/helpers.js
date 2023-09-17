@@ -78,7 +78,7 @@ function deleteUnselectedModuleCode(filePath, supportedModules, selectedModules)
     }
   }
   const newFileContent = usefulLines.map(i => codeLines[i]).join('\n');
-  fs.writeFileSync(filePath, newFileContent);
+  if (usefulLines.length !== codeLines.length) fs.writeFileSync(filePath, newFileContent);
 }
 
 function handleFile(filePath, supportedModules, selectedModules) {
