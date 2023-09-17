@@ -103,7 +103,6 @@ function handleDirectory(dirPath, supportedModules, selectedModules, ignoredFile
   }
   if (!requiredModules.some(moduleName => selectedModules.includes(moduleName))) {
     // delete the directory
-    console.log(dirPath);
     fs.rmSync(dirPath, { recursive: true });
   } else {
     // delete the .module files

@@ -30,4 +30,8 @@ inquirer
 
     fs.rmSync(`./.modules.template`);
     execSync('npm run format');
+    execSync('rm -r .git');
+    execSync('git init');
+    execSync('git add .');
+    execSync('git commit -m "initial commit"');
   });
