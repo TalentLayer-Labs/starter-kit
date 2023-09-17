@@ -10,7 +10,9 @@ import ServiceRegistry from '../../contracts/ABI/TalentLayerService.json';
 import useAllowedTokens from '../../hooks/useAllowedTokens';
 import { useChainId } from '../../hooks/useChainId';
 import { useConfig } from '../../hooks/useConfig';
+// MODULE_SECTION_START:ai
 import { postOpenAiRequest } from '../../modules/OpenAi/utils';
+// MODULE_SECTION_END
 import { IProposal, IService, IUser } from '../../types';
 import { getProposalSignature } from '../../utils/signature';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../utils/toast';
@@ -84,6 +86,7 @@ function ProposalForm({
     videoUrl: existingProposal?.description?.video_url || '',
   };
 
+  // MODULE_SECTION_START:ai
   const askAI = async (input: string, setFieldValue: any) => {
     setAiLoading(true);
     const context = 'I am a freelance and I need help to generate a proposal for a gig.';
@@ -102,6 +105,7 @@ function ProposalForm({
       setAiLoading(false);
     }
   };
+  // MODULE_SECTION_END
 
   const onSubmit = async (
     values: IFormValues,
@@ -219,6 +223,7 @@ function ProposalForm({
                 className='mt-1 mb-1 block w-full rounded-xl border border-gray-700 bg-midnight shadow-sm focus:ring-opacity-50'
                 placeholder=''
               />
+              {/* MODULE_SECTION_START:ai */}
               <div className='border-gray-700 bg-gray-800 relative w-full border transition-all duration-300 rounded-xl p-4'>
                 <div className='flex w-full items-center gap-3'>
                   <QuestionMarkCircle className='hidden' />
@@ -245,6 +250,7 @@ function ProposalForm({
                   </div>
                 </div>
               </div>
+              {/* MODULE_SECTION_END */}
               <span className='text-red-500'>
                 <ErrorMessage name='about' />
               </span>

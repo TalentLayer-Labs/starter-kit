@@ -1,3 +1,4 @@
+// MODULE_FILE:ai
 import { useState } from 'react';
 import { postOpenAiRequest } from '../../../modules/OpenAi/utils';
 
