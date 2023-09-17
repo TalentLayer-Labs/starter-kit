@@ -1,5 +1,5 @@
-import UserLensFeed from '../../modules/Lens/components/UserLensFeed';
-import UserLensProfile from '../../modules/Lens/components/UserLensProfile';
+import UserLensFeed from './components/UserLensFeed';
+import UserLensProfile from './components/UserLensProfile';
 import useLensUser from './hooks/useLensUsers';
 
 interface IProps {

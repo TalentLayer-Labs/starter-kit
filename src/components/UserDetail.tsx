@@ -1,7 +1,9 @@
 import { useContext } from 'react';
 import StarterKitContext from '../context/starterKit';
 import useUserById from '../hooks/useUserById';
+// MODULE_SECTION_START:poh
 import PohModule from '../modules/Poh/PohModule';
+// MODULE_SECTION_END
 import { IUser } from '../types';
 import Loading from './Loading';
 import Stars from './Stars';
@@ -34,9 +36,11 @@ function UserDetail({ user }: { user: IUser }) {
               <p className='text-gray-100 font-medium break-all'>{user?.handle}</p>
               <p className='text-gray-400 text-xs'>{userDescription?.title}</p>
             </div>
+            {/* MODULE_SECTION_START:poh */}
             <div className=''>
               <PohModule address={user.address} />
             </div>
+            {/* MODULE_SECTION_END */}
           </div>
         </div>
         <Stars rating={Number(user.rating)} numReviews={user.userStats.numReceivedReviews} />

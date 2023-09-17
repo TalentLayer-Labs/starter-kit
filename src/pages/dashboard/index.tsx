@@ -1,6 +1,8 @@
 import { useContext } from 'react';
 import Steps from '../../components/Steps';
+// MODULE_SECTION_START:sismo
 import UserBadges from '../../modules/Sismo/components/UserBadges';
+// MODULE_SECTION_END
 import UserDetail from '../../components/UserDetail';
 import UserGains from '../../components/UserGains';
 import UserPayments from '../../components/UserPayments';
@@ -38,9 +40,11 @@ function Dashboard() {
           <div className='mb-6'>
             <UserDetail user={user} />
           </div>
+          {/* MODULE_SECTION_START:sismo */}
           <div className='mb-6'>
             <UserBadges user={user} />
           </div>
+          {/* MODULE_SECTION_END */}
           <div className='mb-6'>
             <UserPayments user={user} />
           </div>

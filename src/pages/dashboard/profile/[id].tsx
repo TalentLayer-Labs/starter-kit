@@ -3,8 +3,14 @@ import Loading from '../../../components/Loading';
 import UserDetail from '../../../components/UserDetail';
 import UserServices from '../../../components/UserServices';
 import useUserById from '../../../hooks/useUserById';
+
+// MODULE_SECTION_START:lens
 import LensModule from '../../../modules/Lens/LensModule';
+// MODULE_SECTION_END
+
+// MODULE_SECTION_START:sismo
 import UserBadges from '../../../modules/Sismo/components/UserBadges';
+// MODULE_SECTION_END
 
 function Profile() {
   const router = useRouter();
@@ -28,18 +34,22 @@ function Profile() {
             <div className='mb-6'>
               <UserDetail user={user} />
             </div>
+            {/* MODULE_SECTION_START:sismo */}
             <div className='mb-6'>
               <UserBadges user={user} />
             </div>
+            {/* MODULE_SECTION_END */}
             <div className='mb-6'>
               <UserServices user={user} type='buyer' />
             </div>
             <div className='mb-6'>
               <UserServices user={user} type='seller' />
             </div>
+            {/* MODULE_SECTION_START:lens */}
             <div className='mb-6'>
               <LensModule address={user.address} />
             </div>
+            {/* MODULE_SECTION_END */}
           </div>
         </>
       )}
