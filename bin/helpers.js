@@ -5,7 +5,7 @@ const startPattern1 = /^{\/\*[\*]{0,1} MODULE_SECTION_START:(([a-zA-Z]+),)*([a-z
 const startPattern2 = /^\/\/ MODULE_SECTION_START:(([a-zA-Z]+),)*([a-zA-Z]+)+$/;
 const selectionPattern1 = /^{\/\*[\*]{0,1} MODULE_SECTION_START:([a-zA-Z,]+)+ \*\/}$/;
 const selectionPattern2 = /^\/\/ MODULE_SECTION_START:([a-zA-Z,]+)+$/;
-const endPattern1 = /^{\*[\*]{0,1} MODULE_SECTION_END \*}$/;
+const endPattern1 = /^{\/\*[\*]{0,1} MODULE_SECTION_END \*\/}$/;
 const endPattern2 = /^\/\/ MODULE_SECTION_END$/;
 
 function deleteIfUnselectedModuleFile(filePath, supportedModules, selectedModules) {
