@@ -29,9 +29,8 @@ export const validateProposal = async (
         parseInt(proposalId, 10),
           metaEvidenceCid,
           cid,
-        {
-          value,
-        },]
+        ],
+        value: value
   });
 
   try {

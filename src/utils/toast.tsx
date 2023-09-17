@@ -32,7 +32,7 @@ export const createMultiStepsTransactionToast = async (
 
   let receipt;
   try {
-    receipt = await publicClient.waitForTransactionReceipt({ hash: txHash });
+    receipt = await publicClient.waitForTransactionReceipt({ confirmations: 1, hash: txHash });
     currentStep = 2;
     toast.update(toastId, {
       render: (
