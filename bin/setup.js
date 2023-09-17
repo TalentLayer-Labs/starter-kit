@@ -25,8 +25,7 @@ inquirer
     },
   ])
   .then(({ selectedModules }) => {
-    console.log(selectedModules);
-    removeUnselectedModules(`.`, modules, moduleChoises);
+    removeUnselectedModules(`.`, modules, selectedModules);
 
     fs.rmSync(`./.modules.template`);
   });

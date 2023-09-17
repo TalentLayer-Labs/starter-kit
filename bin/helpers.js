@@ -1,9 +1,9 @@
 import fs from 'fs';
 import path from 'path';
 
-const startPattern1 = /^{\*[\*]{0,1} MODULE_SECTION_START:(([a-zA-Z]+),)*([a-zA-Z]+)+ \*}$/;
+const startPattern1 = /^{\/\*[\*]{0,1} MODULE_SECTION_START:(([a-zA-Z]+),)*([a-zA-Z]+)+ \*\/}$/;
 const startPattern2 = /^\/\/ MODULE_SECTION_START:(([a-zA-Z]+),)*([a-zA-Z]+)+$/;
-const selectionPattern1 = /^{\*[\*]{0,1} MODULE_SECTION_START:([a-zA-Z,]+)+ \*}$/;
+const selectionPattern1 = /^{\/\*[\*]{0,1} MODULE_SECTION_START:([a-zA-Z,]+)+ \*\/}$/;
 const selectionPattern2 = /^\/\/ MODULE_SECTION_START:([a-zA-Z,]+)+$/;
 const endPattern1 = /^{\*[\*]{0,1} MODULE_SECTION_END \*}$/;
 const endPattern2 = /^\/\/ MODULE_SECTION_END$/;
@@ -90,7 +90,7 @@ function handleFile(filePath, supportedModules, selectedModules) {
   deleteUnselectedModuleCode(filePath, supportedModules, selectedModules);
 }
 
-function handleDirectory(dirPath, supportedModules, selectedModules) {
+function handleDirectory(dirPath, supportedModules, selectedModules, ignoredFiles) {
   const pattern = /^.module-[a-zA-Z0-9_]+$/;
   const requiredModules = fs
     .readdirSync(dirPath)
@@ -98,7 +98,7 @@ function handleDirectory(dirPath, supportedModules, selectedModules) {
     .map(fileName => fileName.slice(8))
     .filter(moduleName => supportedModules.includes(moduleName));
   if (requiredModules.length === 0) {
-    removeUnselectedModules(dirPath, supportedModules, selectedModules);
+    removeUnselectedModules(dirPath, supportedModules, selectedModules, ignoredFiles);
     return;
   }
   if (!requiredModules.some(moduleName => selectedModules.includes(moduleName))) {
@@ -113,12 +113,28 @@ function handleDirectory(dirPath, supportedModules, selectedModules) {
   }
 }
 
-export function removeUnselectedModules(basePath, supportedModules, selectedModules) {
+export function removeUnselectedModules(
+  basePath,
+  supportedModules,
+  selectedModules,
+  ignoredFiles = [],
+) {
   const dirContents = fs.readdirSync(basePath);
+  if (dirContents.includes('.gitignore')) {
+    for (const objName of fs
+      .readFileSync(path.join(basePath, '.gitignore'))
+      .toString('utf-8')
+      .trim()
+      .split('\n')
+      .filter(name => Boolean(name))) {
+      ignoredFiles.push(objName);
+    }
+  }
   for (const obj of dirContents) {
+    if (ignoredFiles.includes(obj)) continue;
     const objPath = path.join(basePath, obj);
     if (fs.statSync(objPath).isDirectory()) {
-      handleDirectory(objPath, supportedModules, selectedModules);
+      handleDirectory(objPath, supportedModules, selectedModules, ignoredFiles);
     } else {
       handleFile(objPath, supportedModules, selectedModules);
     }
