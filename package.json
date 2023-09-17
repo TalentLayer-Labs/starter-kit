@@ -17,6 +17,7 @@
     "ethers": "^5.7.2",
     "formik": "^2.2.9",
     "heroicons-react": "^1.4.1",
+    "inquirer": "^9.2.11",
     "ipfs-http-client": "^59.0.0",
     "level-js": "^6.1.0",
     "next": "^13.3.4",
@@ -33,13 +34,15 @@
     "yup": "^0.32.11",
     "zksync-web3": "^0.14.3"
   },
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "format": "prettier --config .prettierrc 'src/**/*.{js,ts,tsx}' --write",
     "lint": "tsc --noEmit && eslint",
-    "lint:fix": "tsc --noEmit && eslint --fix"
+    "lint:fix": "tsc --noEmit && eslint --fix",
+    "setup": "node ./bin/setup.js"
   },
   "eslintConfig": {
     "extends": [
