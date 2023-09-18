@@ -6,6 +6,7 @@ import type { AppProps } from 'next/app';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Chain, WagmiConfig, configureChains, createConfig } from 'wagmi';
+import { polygonMumbai } from 'wagmi/chains';
 import SEO from '../../next-seo.config';
 import { StarterKitProvider } from '../context/starterKit';
 import { XmtpContextProvider } from '../modules/Messaging/context/XmtpContext';
@@ -13,7 +14,6 @@ import { MessagingProvider } from '../modules/Messaging/context/messging';
 import '../styles/globals.css';
 import Layout from './Layout';
 import { useEffect } from 'react';
-import { polygonMumbai } from 'wagmi/chains';
 
 const chains: Chain[] = [polygonMumbai];
 const projectId = `${process.env.NEXT_PUBLIC_WALLECT_CONNECT_PROJECT_ID}`;
