@@ -65,8 +65,8 @@ const iexec: Config = {
   tokens: {
     ['0x0000000000000000000000000000000000000000']: {
       address: '0x0000000000000000000000000000000000000000',
-      symbol: 'MATIC',
-      name: 'Matic',
+      symbol: 'RLC',
+      name: 'iExec RLC',
       decimals: 18,
     },
     '0xe62C28709E4F19Bae592a716b891A9B76bf897E4': {

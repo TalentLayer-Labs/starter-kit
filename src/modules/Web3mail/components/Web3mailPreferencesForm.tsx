@@ -1,8 +1,7 @@
-import { LockClosedIcon } from '@heroicons/react/24/outline';
 import { useWeb3Modal } from '@web3modal/react';
-import { ethers } from 'ethers';
 import { Field, Form, Formik } from 'formik';
 import { useContext } from 'react';
+import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
 import SubmitButton from '../../../components/Form/SubmitButton';
 import { Toogle } from '../../../components/Form/Toggle';
 import Loading from '../../../components/Loading';
@@ -17,7 +16,6 @@ import { postToIPFS } from '../../../utils/ipfs';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../../utils/toast';
 import Web3mailCard from './Web3mailCard';
 import Web3mailRevokeButton from './Web3mailRevokeButton';
-import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
 
 function Web3mailPreferencesForm() {
   const config = useConfig();

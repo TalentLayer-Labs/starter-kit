@@ -1,6 +1,5 @@
 import { GrantedAccess, IExecDataProtector, ProtectedData } from '@iexec/dataprotector';
 import { IExecWeb3mail } from '@iexec/web3mail';
-import { providers } from 'ethers';
 import {
   ReactNode,
   createContext,
@@ -63,10 +62,15 @@ const Web3MailProvider = ({ children }: { children: ReactNode }) => {
       // setDataProtector(new IExecDataProtector(provider as providers.ExternalProvider));
       // setWeb3mail(new IExecWeb3mail(provider as providers.ExternalProvider));
 
-      // TODO: this variable is cast as ExternalProvider but will be replace by Provider
-      const provider2 = (await account.connector?.getProvider()) as providers.ExternalProvider;
+      // TODO: cause error on runtime: Error: Unsupported ethProvider
+      const provider2 = await account.connector?.getProvider();
       setDataProtector(new IExecDataProtector(provider2));
       setWeb3mail(new IExecWeb3mail(provider2));
+
+      // const provider2 = await account.connector?.getProvider();
+      // console.log({ publicClient });
+      // setDataProtector(new IExecDataProtector(publicClient));
+      // setWeb3mail(new IExecWeb3mail(publicClient));
 
       // This work but better in our case to use account from the hook
       // const provider2 = await getAccount().connector?.getProvider();

@@ -8,15 +8,15 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Chain, WagmiConfig, configureChains, createConfig } from 'wagmi';
 import { polygonMumbai } from 'wagmi/chains';
 import SEO from '../../next-seo.config';
+import { iexec } from '../chains';
 import { TalentLayerProvider } from '../context/talentLayer';
 import { XmtpContextProvider } from '../modules/Messaging/context/XmtpContext';
 import { MessagingProvider } from '../modules/Messaging/context/messging';
+import { Web3MailProvider } from '../modules/Web3mail/context/web3mail';
 import '../styles/globals.css';
 import Layout from './Layout';
-import { useEffect } from 'react';
-import { Web3MailProvider } from '../modules/Web3mail/context/web3mail';
 
-const chains: Chain[] = [polygonMumbai];
+const chains: Chain[] = [iexec, polygonMumbai];
 const projectId = `${process.env.NEXT_PUBLIC_WALLECT_CONNECT_PROJECT_ID}`;
 
 // Wagmi Client
