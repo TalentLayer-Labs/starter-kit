@@ -1,10 +1,9 @@
 import { NextApiResponse } from 'next';
 import { getUserByAddress } from '../../../queries/users';
-import { mnemonicToAccount } from 'viem/accounts'
+import { mnemonicToAccount } from 'viem/accounts';
 import { createWalletClient, http } from 'viem';
 import { polygonMumbai } from '../../../chains';
 import { WalletClient } from 'wagmi';
-
 
 export async function isPlatformAllowedToDelegate(
   chainId: number,

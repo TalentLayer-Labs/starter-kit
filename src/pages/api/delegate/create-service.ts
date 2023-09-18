@@ -23,10 +23,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       address: config.contracts.serviceRegistry,
       abi: TalentLayerService.abi,
       functionName: 'createService',
-      args: [userId,
-        process.env.NEXT_PUBLIC_PLATFORM_ID,
-        cid,
-        signature]
+      args: [userId, process.env.NEXT_PUBLIC_PLATFORM_ID, cid, signature],
     });
 
     res.status(200).json({ transaction: transaction });

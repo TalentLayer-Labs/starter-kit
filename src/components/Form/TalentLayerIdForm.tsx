@@ -71,12 +71,9 @@ function TalentLayerIdForm() {
             address: config.contracts.talentLayerId,
             abi: TalentLayerID.abi,
             functionName: 'mint',
-            args: [
-              process.env.NEXT_PUBLIC_PLATFORM_ID,
-              submittedValues.handle,
-            ],
+            args: [process.env.NEXT_PUBLIC_PLATFORM_ID, submittedValues.handle],
             account: address,
-            value: handlePrice
+            value: handlePrice,
           });
         }
         await createTalentLayerIdTransactionToast(

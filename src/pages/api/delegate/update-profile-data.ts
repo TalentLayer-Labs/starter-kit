@@ -22,7 +22,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       address: config.contracts.talentLayerId,
       abi: TalentLayerID.abi,
       functionName: 'updateProfileData',
-      args: [userId, cid]
+      args: [userId, cid],
     });
 
     res.status(200).json({ transaction: transaction });

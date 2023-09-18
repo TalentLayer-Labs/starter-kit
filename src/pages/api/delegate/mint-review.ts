@@ -21,7 +21,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       address: config.contracts.talentLayerReview,
       abi: TalentLayerReview.abi,
       functionName: 'mint',
-      args: [userId, serviceId, uri, valuesRating]
+      args: [userId, serviceId, uri, valuesRating],
     });
 
     res.status(200).json({ transaction: transaction });

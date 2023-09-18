@@ -1,9 +1,8 @@
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../utils/toast';
-import {PublicClient, WalletClient } from 'viem';
+import { PublicClient, WalletClient } from 'viem';
 import TalentLayerID from './ABI/TalentLayerID.json';
 import { useConfig } from '../hooks/useConfig';
 import { usePublicClient } from 'wagmi';
-
 
 export const toggleDelegation = async (
   chainId: number,
@@ -13,19 +12,18 @@ export const toggleDelegation = async (
   walletClient: WalletClient,
   validateState: boolean,
 ): Promise<void> => {
-  try { 
+  try {
     let tx: any;
     let toastMessages;
     const config = useConfig();
-    
+
     if (validateState === true) {
-      
-      const {request} = await publicClient.simulateContract({
+      const { request } = await publicClient.simulateContract({
         address: config.contracts.talentLayerId,
         abi: TalentLayerID.abi,
         functionName: 'addDelegate',
-        args: [user, DelegateAddress]
-        });
+        args: [user, DelegateAddress],
+      });
       const tx = await walletClient.writeContract(request);
       toastMessages = {
         pending: 'Submitting the delegation...',
@@ -33,13 +31,12 @@ export const toggleDelegation = async (
         error: 'An error occurred while delegation process',
       };
     } else {
-      
-      const {request} = await publicClient.simulateContract({
+      const { request } = await publicClient.simulateContract({
         address: config.contracts.talentLayerId,
         abi: TalentLayerID.abi,
         functionName: 'removeDelegate',
-        args: [user, DelegateAddress]
-        });
+        args: [user, DelegateAddress],
+      });
       const tx = await walletClient.writeContract(request);
       toastMessages = {
         pending: 'Canceling the delegation...',
@@ -48,7 +45,13 @@ export const toggleDelegation = async (
       };
     }
 
-    await createMultiStepsTransactionToast(chainId, toastMessages, usePublicClient({ chainId }), tx, 'Delegation');
+    await createMultiStepsTransactionToast(
+      chainId,
+      toastMessages,
+      usePublicClient({ chainId }),
+      tx,
+      'Delegation',
+    );
   } catch (error) {
     showErrorTransactionToast(error);
   }

@@ -68,7 +68,7 @@ export const XmtpContextProvider = ({ children }: { children: ReactNode }) => {
       try {
         let keys = loadKeys(walletAddress as string);
         if (!keys) {
-          // @ts-ignore
+          // @ts-ignore: xmtp don't support viem typing yet
           keys = await Client.getKeys(walletClient, {
             env: process.env.NEXT_PUBLIC_MESSENGING_ENV as clientEnv,
           });

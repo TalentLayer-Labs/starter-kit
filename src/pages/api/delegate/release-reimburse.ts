@@ -24,14 +24,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         address: config.contracts.talentLayerEscrow,
         abi: TalentLayerEscrow.abi,
         functionName: 'release',
-        args: [profileId, transactionId, amount]
+        args: [profileId, transactionId, amount],
       });
     } else {
       transaction = await walletClient.writeContract({
         address: config.contracts.talentLayerEscrow,
         abi: TalentLayerEscrow.abi,
         functionName: 'reimburse',
-        args: [profileId, transactionId, amount]
+        args: [profileId, transactionId, amount],
       });
     }
 

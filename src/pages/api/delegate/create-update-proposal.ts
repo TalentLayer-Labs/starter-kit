@@ -35,12 +35,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         address: config.contracts.serviceRegistry,
         abi: TalentLayerService.abi,
         functionName: 'updateProposal',
-        args: [userId,
-        serviceId,
-        valuesRateToken,
-        parsedRateAmountString,
-        cid,
-        convertExpirationDateString]
+        args: [
+          userId,
+          serviceId,
+          valuesRateToken,
+          parsedRateAmountString,
+          cid,
+          convertExpirationDateString,
+        ],
       });
     } else {
       const signature = await getProposalSignature({
@@ -53,14 +55,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         address: config.contracts.serviceRegistry,
         abi: TalentLayerService.abi,
         functionName: 'createProposal',
-        args: [userId,
+        args: [
+          userId,
           serviceId,
           valuesRateToken,
           parsedRateAmountString,
           process.env.NEXT_PUBLIC_PLATFORM_ID,
           cid,
           convertExpirationDateString,
-          signature]
+          signature,
+        ],
       });
     }
 

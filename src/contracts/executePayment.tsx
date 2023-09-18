@@ -31,23 +31,22 @@ export const executePayment = async (
       );
       tx = response.data.transaction;
     } else {
-
       if (isBuyer) {
-        const {request} = await publicClient.simulateContract({
+        const { request } = await publicClient.simulateContract({
           address: config.contracts.talentLayerEscrow,
           abi: TalentLayerEscrow.abi,
           functionName: 'release',
-          args: [profileId, parseInt(transactionId, 10), amount.toString()]
-          });
-          tx = await walletClient.writeContract(request)
+          args: [profileId, parseInt(transactionId, 10), amount.toString()],
+        });
+        tx = await walletClient.writeContract(request);
       } else {
-        const {request} = await publicClient.simulateContract({
+        const { request } = await publicClient.simulateContract({
           address: config.contracts.talentLayerEscrow,
           abi: TalentLayerEscrow.abi,
           functionName: 'reimburse',
-          args: [profileId, parseInt(transactionId, 10), amount.toString()]
-          });
-          tx = await walletClient.writeContract(request)
+          args: [profileId, parseInt(transactionId, 10), amount.toString()],
+        });
+        tx = await walletClient.writeContract(request);
       }
     }
 
@@ -64,7 +63,7 @@ export const executePayment = async (
       success: isBuyer ? 'Payment release validated' : 'Payment reimbursement validated',
       error: 'An error occurred while validating your transaction',
     });
-    if (receipt.status !== "success") {
+    if (receipt.status !== 'success') {
       throw new Error('Approve Transaction failed');
     }
   } catch (error: any) {
