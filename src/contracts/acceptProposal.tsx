@@ -21,37 +21,28 @@ export const validateProposal = async (
 ): Promise<void> => {
   const config = getConfig(chainId);
 
-  const {request} = await publicClient.simulateContract({
+  try {
+    if (rateToken === '0x0000000000000000000000000000000000000000') {
+      const { request } = await publicClient.simulateContract({
         address: config.contracts.talentLayerEscrow,
         abi: TalentLayerEscrow.abi,
         functionName: 'createTransaction',
-        args: [parseInt(serviceId, 10),
-        parseInt(proposalId, 10),
-          metaEvidenceCid,
-          cid,
-        ],
-        value: value
-  });
-
-  try {
-    if (rateToken === '0x0000000000000000000000000000000000000000') {
-  
+        args: [parseInt(serviceId, 10), parseInt(proposalId, 10), metaEvidenceCid, cid],
+        value: value,
+      });
       const tx1 = await walletClient.writeContract(request);
       const receipt1 = await toast.promise(publicClient.waitForTransactionReceipt({ hash: tx1 }), {
         pending: {
           render() {
             return (
-              <TransactionToast
-                message='Your validation is in progress'
-                transactionHash={tx1}
-              />
+              <TransactionToast message='Your validation is in progress' transactionHash={tx1} />
             );
           },
         },
         success: 'Transaction validated',
         error: 'An error occurred while validating your transaction',
       });
-      if (receipt1.status !== "success") {
+      if (receipt1.status !== 'success') {
         throw new Error('Approve Transaction failed');
       }
     } else {
@@ -60,72 +51,65 @@ export const validateProposal = async (
         address: rateToken,
         abi: ERC20.abi,
         functionName: 'balanceOf',
-        args: [walletClient.getAddresses()]
-       });
+        args: [walletClient.getAddresses()],
+      });
       if (balance.lt(value)) {
         throw new Error('Insufficient balance');
       }
-      
+
       const allowance: any = await publicClient.readContract({
         address: rateToken,
         abi: ERC20.abi,
         functionName: 'allowance',
-        args: [walletClient.getAddresses(),
-          config.contracts.talentLayerEscrow]
-       });
-      
+        args: [walletClient.getAddresses(), config.contracts.talentLayerEscrow],
+      });
+
       if (allowance.lt(value)) {
-        const {request} = await publicClient.simulateContract({
+        const { request } = await publicClient.simulateContract({
           address: config.contracts.talentLayerEscrow,
           abi: TalentLayerEscrow.abi,
           functionName: 'approve',
-          args: [config.contracts.talentLayerEscrow, value]
+          args: [config.contracts.talentLayerEscrow, value],
         });
         const tx1 = await walletClient.writeContract(request);
-        
-        const receipt1 = await toast.promise(publicClient.waitForTransactionReceipt({ hash: tx1 }), {
-          pending: {
-            render() {
-              return (
-                <TransactionToast
-                  message='Your approval is in progress'
-                  transactionHash={tx1}
-                />
-              );
+
+        const receipt1 = await toast.promise(
+          publicClient.waitForTransactionReceipt({ hash: tx1 }),
+          {
+            pending: {
+              render() {
+                return (
+                  <TransactionToast message='Your approval is in progress' transactionHash={tx1} />
+                );
+              },
             },
+            success: 'Transaction validated',
+            error: 'An error occurred while updating your profile',
           },
-          success: 'Transaction validated',
-          error: 'An error occurred while updating your profile',
-        });
-        if (receipt1.status !== "success") {
+        );
+        if (receipt1.status !== 'success') {
           throw new Error('Approve Transaction failed');
         }
       }
-      const {request} = await publicClient.simulateContract({
+      const { request } = await publicClient.simulateContract({
         address: config.contracts.talentLayerEscrow,
         abi: TalentLayerEscrow.abi,
         functionName: 'createTransaction',
-        args: [parseInt(serviceId, 10),
-        parseInt(proposalId, 10),
-          metaEvidenceCid,
-          cid]
+        args: [parseInt(serviceId, 10), parseInt(proposalId, 10), metaEvidenceCid, cid],
       });
       const tx2 = await walletClient.writeContract(request);
       const receipt2 = await toast.promise(publicClient.waitForTransactionReceipt({ hash: tx2 }), {
         pending: {
           render() {
             return (
-              <TransactionToast
-                message='Your validation is in progress'
-                transactionHash={tx2}
-              />
+              <TransactionToast message='Your validation is in progress' transactionHash={tx2} />
             );
           },
         },
         success: 'Transaction validated',
         error: 'An error occurred while updating your profile',
       });
-      if (receipt2.status !== "success") {
+      if (receipt2.status !== 'success') {
         throw new Error('Transaction failed');
       }
     }
