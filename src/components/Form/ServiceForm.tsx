@@ -62,22 +62,20 @@ function ServiceForm() {
       .when('rateToken', {
         is: (rateToken: string) => rateToken !== '',
         then: schema =>
-          schema.moreThan(
+          schema.min(
             selectedToken
               ? parseFloat(
                   formatUnits(
-                    BigInt(selectedToken?.minimumTransactionAmount ?? '0'),
+                    BigInt(selectedToken?.minimumTransactionAmount ?? 0n),
                     Number(selectedToken?.decimals),
                   ),
                 )
               : 0,
-            `Amount must be greater than ${
+            `Amount must be greater or equal than ${
               selectedToken
-                ? parseFloat(
-                    formatUnits(
-                      BigInt(selectedToken?.minimumTransactionAmount ?? '0'),
-                      Number(selectedToken?.decimals),
-                    ),
+                ? formatUnits(
+                    BigInt(selectedToken?.minimumTransactionAmount ?? 0n),
+                    Number(selectedToken?.decimals),
                   )
                 : 0
             }`,
@@ -106,7 +104,6 @@ function ServiceForm() {
             title: values.title,
             about: values.about,
             keywords: values.keywords,
-            role: 'buyer',
             rateToken: values.rateToken,
             rateAmount: parsedRateAmountString,
           }),
