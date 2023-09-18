@@ -1,17 +1,17 @@
 import React, { createContext, ReactNode, useEffect, useMemo, useState } from 'react';
 import { Client, Conversation, DecodedMessage } from '@xmtp/xmtp-js';
-import { Signer } from 'ethers';
-import { useAccount, useSigner } from 'wagmi';
+import { useAccount, useWalletClient } from 'wagmi';
 import { buildChatMessage, CONVERSATION_PREFIX } from '../utils/messaging';
 import { XmtpChatMessage } from '../utils/types';
 import { loadKeys, storeKeys } from '../utils/keys';
 import { useChainId } from '../../../hooks/useChainId';
+import { WalletClient } from 'viem';
 
 type clientEnv = 'local' | 'dev' | 'production' | undefined;
 
 interface IProviderProps {
   client: Client | undefined;
-  initClient: ((wallet: Signer) => Promise<void>) | undefined;
+  initClient: (() => Promise<void>) | undefined;
   loadingConversations: boolean;
   loadingMessages: boolean;
   conversations: Map<string, Conversation>;
@@ -30,7 +30,7 @@ export const XmtpContext = createContext<{
 
 export const XmtpContextProvider = ({ children }: { children: ReactNode }) => {
   const chainId = useChainId();
-  const { data: signer } = useSigner({
+  const { data: walletClient } = useWalletClient({
     chainId,
   });
   const { address: walletAddress } = useAccount();
@@ -56,19 +56,20 @@ export const XmtpContextProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
-  const initClient = async (wallet: Signer) => {
+  const initClient = async () => {
     console.log(
       'initClient',
-      wallet && walletAddress && !providerState.client && signer ? 'true' : 'false',
+      walletAddress && !providerState.client && walletClient ? 'true' : 'false',
       walletAddress,
       providerState.client,
-      signer,
+      walletClient,
     );
-    if (walletAddress && !providerState.client && signer) {
+    if (walletAddress && !providerState.client && walletClient) {
       try {
         let keys = loadKeys(walletAddress as string);
         if (!keys) {
-          keys = await Client.getKeys(signer, {
+          // @ts-ignore: xmtp don't support viem typing yet
+          keys = await Client.getKeys(walletClient, {
             env: process.env.NEXT_PUBLIC_MESSENGING_ENV as clientEnv,
           });
         }
@@ -93,9 +94,9 @@ export const XmtpContextProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const autoInit = async () => {
-      if (signer && walletAddress && !providerState.client) {
+      if (walletClient && walletAddress && !providerState.client) {
         if (loadKeys(walletAddress)) {
-          await initClient(signer);
+          await initClient();
         }
       }
     };
@@ -104,7 +105,7 @@ export const XmtpContextProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const checkUserExistence = async (): Promise<void> => {
-      if (signer) {
+      if (walletClient) {
         const userExists = await Client.canMessage(walletAddress as string, {
           env: process.env.NEXT_PUBLIC_MESSENGING_ENV as clientEnv,
         });
@@ -112,7 +113,7 @@ export const XmtpContextProvider = ({ children }: { children: ReactNode }) => {
       }
     };
     checkUserExistence();
-  }, [signer]);
+  }, [walletClient]);
 
   useEffect(() => {
     if (!providerState.client) return;
@@ -170,7 +171,7 @@ export const XmtpContextProvider = ({ children }: { children: ReactNode }) => {
       providerState,
       setProviderState,
     };
-  }, [signer, providerState]);
+  }, [walletClient, providerState]);
 
   return <XmtpContext.Provider value={value}>{children}</XmtpContext.Provider>;
 };

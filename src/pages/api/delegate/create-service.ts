@@ -1,6 +1,5 @@
 // pages/api/createService.ts
 import { NextApiRequest, NextApiResponse } from 'next';
-import { Contract } from 'ethers';
 import TalentLayerService from '../../../contracts/ABI/TalentLayerService.json';
 import { getServiceSignature } from '../../../utils/signature';
 import { getDelegationSigner, isPlatformAllowedToDelegate } from '../utils/delegate';
@@ -14,24 +13,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   await isPlatformAllowedToDelegate(chainId, userAddress, res);
 
   try {
-    const signer = await getDelegationSigner(res);
-    if (!signer) {
+    const walletClient = await getDelegationSigner(res);
+    if (!walletClient) {
       return;
     }
 
     const signature = await getServiceSignature({ profileId: Number(userId), cid });
-    const serviceRegistryContract = new Contract(
-      config.contracts.serviceRegistry,
-      TalentLayerService.abi,
-      signer,
-    );
-
-    const transaction = await serviceRegistryContract.createService(
-      userId,
-      process.env.NEXT_PUBLIC_PLATFORM_ID,
-      cid,
-      signature,
-    );
+    const transaction = await walletClient.writeContract({
+      address: config.contracts.serviceRegistry,
+      abi: TalentLayerService.abi,
+      functionName: 'createService',
+      args: [userId, process.env.NEXT_PUBLIC_PLATFORM_ID, cid, signature],
+    });
 
     res.status(200).json({ transaction: transaction });
   } catch (error) {

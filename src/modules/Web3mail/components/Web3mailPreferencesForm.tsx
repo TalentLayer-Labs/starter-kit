@@ -3,7 +3,6 @@ import { useWeb3Modal } from '@web3modal/react';
 import { ethers } from 'ethers';
 import { Field, Form, Formik } from 'formik';
 import { useContext } from 'react';
-import { useProvider, useSigner } from 'wagmi';
 import SubmitButton from '../../../components/Form/SubmitButton';
 import { Toogle } from '../../../components/Form/Toggle';
 import Loading from '../../../components/Loading';
@@ -18,16 +17,16 @@ import { postToIPFS } from '../../../utils/ipfs';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../../utils/toast';
 import Web3mailCard from './Web3mailCard';
 import Web3mailRevokeButton from './Web3mailRevokeButton';
+import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
 
 function Web3mailPreferencesForm() {
   const config = useConfig();
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
   const { user, isActiveDelegate, refreshData } = useContext(TalentLayerContext);
-  const provider = useProvider({ chainId });
-  const { data: signer } = useSigner({
-    chainId,
-  });
+  const { data: walletClient } = useWalletClient({ chainId });
+  const { address } = useAccount();
+  const publicClient = usePublicClient({ chainId });
   const userDescription = user?.id ? useUserById(user?.id)?.description : null;
 
   if (!user?.id) {
@@ -49,7 +48,7 @@ function Web3mailPreferencesForm() {
     values: IWeb3mailPreferences,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void },
   ) => {
-    if (user && provider && signer) {
+    if (user && publicClient && walletClient) {
       try {
         const cid = await postToIPFS(
           JSON.stringify({
@@ -76,12 +75,13 @@ function Web3mailPreferencesForm() {
           const response = await delegateUpdateProfileData(chainId, user.id, user.address, cid);
           tx = response.data.transaction;
         } else {
-          const contract = new ethers.Contract(
-            config.contracts.talentLayerId,
-            TalentLayerID.abi,
-            signer,
-          );
-          tx = await contract.updateProfileData(user.id, cid);
+          tx = await walletClient.writeContract({
+            address: config.contracts.talentLayerId,
+            abi: TalentLayerID.abi,
+            functionName: 'updateProfileData',
+            args: [user.id, cid],
+            account: address,
+          });
         }
 
         await createMultiStepsTransactionToast(
@@ -91,7 +91,7 @@ function Web3mailPreferencesForm() {
             success: 'Congrats! Your preferences has been updated',
             error: 'An error occurred while updating your preferences',
           },
-          provider,
+          publicClient,
           tx,
           'user',
           cid,

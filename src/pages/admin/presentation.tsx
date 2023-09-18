@@ -1,8 +1,7 @@
 import { useWeb3Modal } from '@web3modal/react';
-import { ethers } from 'ethers';
 import { Field, Form, Formik } from 'formik';
 import { useContext } from 'react';
-import { useProvider, useSigner } from 'wagmi';
+import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
 import SubmitButton from '../../components/Form/SubmitButton';
 import Loading from '../../components/Loading';
@@ -34,10 +33,9 @@ function AdminPresentation() {
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
   const config = useConfig();
-  const provider = useProvider({ chainId });
-  const { data: signer } = useSigner({
-    chainId,
-  });
+  const publicClient = usePublicClient({ chainId });
+  const { data: walletClient } = useWalletClient({ chainId });
+  const { address } = useAccount();
 
   if (loading) {
     return <Loading />;
@@ -60,7 +58,7 @@ function AdminPresentation() {
     values: IFormValues,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void },
   ) => {
-    if (user && provider && signer) {
+    if (user && publicClient && walletClient) {
       try {
         const cid = await postToIPFS(
           JSON.stringify({
@@ -71,12 +69,13 @@ function AdminPresentation() {
           }),
         );
 
-        const contract = new ethers.Contract(
-          config.contracts.talentLayerPlatformId,
-          TalentLayerPlatformID.abi,
-          signer,
-        );
-        const tx = await contract.updateProfileData(platform?.id, cid);
+        const tx = await walletClient.writeContract({
+          address: config.contracts.talentLayerId,
+          abi: TalentLayerPlatformID.abi,
+          functionName: 'updateProfileData',
+          args: [user.id, cid],
+          account: address,
+        });
 
         await createMultiStepsTransactionToast(
           chainId,
@@ -85,7 +84,7 @@ function AdminPresentation() {
             success: 'Congrats! Your platform has been updated',
             error: 'An error occurred while updating your platform',
           },
-          provider,
+          publicClient,
           tx,
           'platform',
           cid,

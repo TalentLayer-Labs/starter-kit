@@ -5,11 +5,12 @@ import SingleValueForm from '../../components/Form/SingleValueForm';
 import Loading from '../../components/Loading';
 import Steps from '../../components/Steps';
 import UserNeedsMoreRights from '../../components/UserNeedsMoreRights';
-import { FEE_RATE_DIVIDER } from '../../config';
 import TalentLayerContext from '../../context/talentLayer';
 import TalentLayerPlatformID from '../../contracts/ABI/TalentLayerPlatformID.json';
 import { useConfig } from '../../hooks/useConfig';
 import usePlatform from '../../hooks/usePlatform';
+import { FEE_RATE_DIVIDER } from '../../config';
+import { formatEther, parseEther } from 'viem';
 
 function AdminFees() {
   const { user, loading } = useContext(TalentLayerContext);
@@ -31,7 +32,7 @@ function AdminFees() {
   };
 
   const transformFee = (value: number | string): BigInt => {
-    return ethers.utils.parseUnits(value.toString(), 'ether').toBigInt();
+    return parseEther(value.toString());
   };
 
   return (
@@ -96,7 +97,7 @@ function AdminFees() {
             }),
             valueType: 'number',
             initialValue: platform?.servicePostingFee
-              ? ethers.utils.formatEther(platform?.servicePostingFee)
+              ? formatEther(BigInt(platform?.servicePostingFee))
               : 0,
             hookModifyValue: transformFee,
           }}
@@ -118,7 +119,7 @@ function AdminFees() {
             }),
             valueType: 'number',
             initialValue: platform?.proposalPostingFee
-              ? ethers.utils.formatEther(platform?.proposalPostingFee)
+              ? formatEther(BigInt(platform?.proposalPostingFee))
               : 0,
             hookModifyValue: transformFee,
           }}

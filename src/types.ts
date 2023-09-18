@@ -1,4 +1,3 @@
-import { BigNumber } from 'ethers';
 import { Connector } from 'wagmi';
 
 export type IHive = {
@@ -279,7 +278,7 @@ export type IToken = {
   address: `0x${string}`;
   symbol: string;
   decimals: number;
-  minimumTransactionAmount?: BigNumber;
+  minimumTransactionAmount?: string;
 };
 
 export type ITokenFormattedValues = {
