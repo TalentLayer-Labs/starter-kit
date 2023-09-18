@@ -48,7 +48,7 @@ const mumbai: Config = {
 
 const iexec: Config = {
   networkId: NetworkEnum.IEXEC,
-  subgraphUrl: 'https://api.thegraph.com/subgraphs/name/talentlayer/talent-layer-mumbai',
+  subgraphUrl: 'https://thegraph-sandbox.iex.ec/subgraphs/name/users/talentLayer',
   contracts: {
     talentLayerId: '0xC51537E03f56650C63A9Feca4cCb5a039c77c822',
     serviceRegistry: '0x45E8F869Fd316741A9316f39bF09AD03Df88496f',
