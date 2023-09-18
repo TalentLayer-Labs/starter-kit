@@ -1,6 +1,9 @@
 import { NextApiResponse } from 'next';
-import { ethers, Wallet } from 'ethers';
 import { getUserByAddress } from '../../../queries/users';
+import { mnemonicToAccount } from 'viem/accounts';
+import { createWalletClient, http } from 'viem';
+import { polygonMumbai } from '../../../chains';
+import { WalletClient } from 'wagmi';
 
 export async function isPlatformAllowedToDelegate(
   chainId: number,
@@ -22,16 +25,19 @@ export async function isPlatformAllowedToDelegate(
   return true;
 }
 
-export async function getDelegationSigner(res: NextApiResponse): Promise<Wallet | null> {
-  const provider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_BACKEND_RPC_URL);
+export async function getDelegationSigner(res: NextApiResponse): Promise<WalletClient | null> {
   const delegateSeedPhrase = process.env.NEXT_PRIVATE_DELEGATE_SEED_PHRASE;
 
-  if (!delegateSeedPhrase) {
+  if (delegateSeedPhrase) {
+    const account = mnemonicToAccount(delegateSeedPhrase);
+    const walletClient = createWalletClient({
+      account,
+      chain: polygonMumbai,
+      transport: http(),
+    });
+    return walletClient;
+  } else {
     res.status(500).json('Delegate seed phrase is not set');
     return null;
   }
-
-  const signer = Wallet.fromMnemonic(delegateSeedPhrase).connect(provider);
-
-  return signer;
 }

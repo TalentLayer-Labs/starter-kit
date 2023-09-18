@@ -1,8 +1,7 @@
 import { useWeb3Modal } from '@web3modal/react';
-import { ethers } from 'ethers';
 import { Field, Form, Formik } from 'formik';
 import { useContext, useState } from 'react';
-import { useProvider, useSigner } from 'wagmi';
+import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
 import StarterKitContext from '../../context/starterKit';
 import TalentLayerID from '../../contracts/ABI/TalentLayerID.json';
@@ -37,12 +36,11 @@ function ProfileForm({ callback }: { callback?: () => void }) {
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
   const { user, isActiveDelegate } = useContext(StarterKitContext);
-  const provider = useProvider({ chainId });
+  const { data: walletClient } = useWalletClient({ chainId });
+  const publicClient = usePublicClient({ chainId });
+  const { address } = useAccount();
   const [aiLoading, setAiLoading] = useState(false);
   const userDescription = user?.id ? useUserById(user?.id)?.description : null;
-  const { data: signer } = useSigner({
-    chainId,
-  });
 
   if (!user?.id) {
     return <Loading />;
@@ -72,7 +70,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
     values: IFormValues,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void },
   ) => {
-    if (user && provider && signer) {
+    if (user && walletClient && publicClient) {
       try {
         const cid = await postToIPFS(
           JSON.stringify({
@@ -85,18 +83,18 @@ function ProfileForm({ callback }: { callback?: () => void }) {
             skills: values.skills,
           }),
         );
-
         let tx;
         if (isActiveDelegate) {
           const response = await delegateUpdateProfileData(chainId, user.id, user.address, cid);
           tx = response.data.transaction;
         } else {
-          const contract = new ethers.Contract(
-            config.contracts.talentLayerId,
-            TalentLayerID.abi,
-            signer,
-          );
-          tx = await contract.updateProfileData(user.id, cid);
+          tx = await walletClient.writeContract({
+            address: config.contracts.talentLayerId,
+            abi: TalentLayerID.abi,
+            functionName: 'updateProfileData',
+            args: [user.id, cid],
+            account: address,
+          });
         }
 
         await createMultiStepsTransactionToast(
@@ -106,7 +104,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
             success: 'Congrats! Your profile has been updated',
             error: 'An error occurred while updating your profile',
           },
-          provider,
+          publicClient,
           tx,
           'user',
           cid,

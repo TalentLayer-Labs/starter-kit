@@ -1,5 +1,4 @@
 import { useNetwork } from 'wagmi';
-import { customChains } from '../chains';
 
 export const useChainId = (): number => {
   const { chain, chains } = useNetwork();
