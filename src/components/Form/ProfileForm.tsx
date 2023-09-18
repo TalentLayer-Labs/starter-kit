@@ -193,7 +193,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
                     <button
                       disabled={aiLoading}
                       onClick={e =>
-                        generatePictureUrl(e, newUrl => setFieldValue('image_url', newUrl))
+                        generatePictureUrl(e, newUrl => setFieldValue('imageUrl', newUrl))
                       }
                       className='border text-white bg-gray-700 hover:bg-gray-600 border-gray-600 rounded-md h-10 w-10 p-2 relative inline-flex items-center justify-center space-x-1 font-sans text-sm font-normal leading-5 no-underline outline-none transition-all duration-300'>
                       {aiLoading ? <Loading /> : 'GO'}

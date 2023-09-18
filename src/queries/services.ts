@@ -50,7 +50,7 @@ const serviceQueryFields = `
 const serviceDescriptionQueryFields = `
   id
   title
-  video_url
+  videoUrl
   about
   startDate
   expectedEndDate

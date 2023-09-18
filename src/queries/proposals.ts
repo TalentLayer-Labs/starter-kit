@@ -41,7 +41,7 @@ export const getAllProposalsByServiceId = (chainId: number, id: string): Promise
           about
           expectedHours
           startDate
-          video_url
+          videoUrl
         }
         expirationDate
         platform {
@@ -86,7 +86,7 @@ export const getAllProposalsByUser = (chainId: number, id: string): Promise<any>
             about
             expectedHours
             startDate
-            video_url
+            videoUrl
           }
           expirationDate
         }
@@ -105,7 +105,7 @@ export const getProposalById = (chainId: number, id: string): Promise<any> => {
           rateAmount
           description {
             about
-            video_url
+            videoUrl
           }
           status
           expirationDate

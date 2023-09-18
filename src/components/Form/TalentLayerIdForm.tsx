@@ -68,6 +68,7 @@ function TalentLayerIdForm() {
           );
           tx = response.data.transaction;
         } else {
+          console.log({ handlePrice });
           tx = await walletClient.writeContract({
             address: config.contracts.talentLayerId,
             abi: TalentLayerID.abi,

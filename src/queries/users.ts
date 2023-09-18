@@ -61,8 +61,8 @@ export const getUserById = (chainId: number, id: string): Promise<any> => {
           country
           headline
           id
-          image_url
-          video_url
+          imageUrl
+          videoUrl
           title
           timezone
           skills_raw
@@ -94,8 +94,8 @@ export const getUserByAddress = (chainId: number, address: string): Promise<any>
           country
           headline
           id
-          image_url
-          video_url
+          imageUrl
+          videoUrl
           title
           timezone
           skills_raw
@@ -147,8 +147,8 @@ export const getUserByIds = (chainId: number, ids: string[]): Promise<any> => {
           country
           headline
           id
-          image_url
-          video_url
+          imageUrl
+          videoUrl
           title
           timezone
           skills_raw

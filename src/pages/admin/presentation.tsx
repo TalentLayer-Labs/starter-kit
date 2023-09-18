@@ -18,8 +18,8 @@ import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../
 interface IFormValues {
   about: string;
   website: string;
-  video_url: string;
-  image_url: string;
+  videoUrl: string;
+  imageUrl: string;
 }
 
 const validationSchema = Yup.object({
@@ -50,8 +50,8 @@ function AdminPresentation() {
   const initialValues: IFormValues = {
     about: platformDescription?.about || '',
     website: platformDescription?.website || '',
-    image_url: platformDescription?.image_url || '',
-    video_url: platformDescription?.video_url || '',
+    imageUrl: platformDescription?.imageUrl || '',
+    videoUrl: platformDescription?.videoUrl || '',
   };
 
   const onSubmit = async (
@@ -64,8 +64,8 @@ function AdminPresentation() {
           JSON.stringify({
             about: values.about,
             website: values.website,
-            video_url: values.video_url,
-            image_url: values.image_url,
+            videoUrl: values.videoUrl,
+            imageUrl: values.imageUrl,
           }),
         );
 
@@ -130,15 +130,15 @@ function AdminPresentation() {
                 <span className='text-gray-100'>Picture Url</span>
                 <Field
                   type='text'
-                  id='image_url'
-                  name='image_url'
+                  id='imageUrl'
+                  name='imageUrl'
                   className='mt-1 mb-1 block w-full rounded-xl border border-gray-700 bg-midnight shadow-sm focus:ring-opacity-50'
                   placeholder=''
                 />
                 <div className='border-gray-700 bg-gray-800 relative w-full border transition-all duration-300 rounded-xl p-4'>
-                  {values.image_url && (
+                  {values.imageUrl && (
                     <div className='flex items-center justify-center py-3'>
-                      <img width='300' height='300' src={values.image_url} alt='image preview' />
+                      <img width='300' height='300' src={values.imageUrl} alt='image preview' />
                     </div>
                   )}
                 </div>

@@ -141,8 +141,8 @@ export type IPlatformDescription = {
   about: string; // text
   website: string; // url
   platform: IPlatform;
-  video_url: string;
-  image_url: string;
+  videoUrl: string;
+  imageUrl: string;
 };
 
 export type IPlatformGain = {
