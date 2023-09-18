@@ -1,10 +1,10 @@
 import { getParsedEthersError, RETURN_VALUE_ERROR_CODES } from '@enzoferey/ethers-error-parser';
 import { EthersError } from '@enzoferey/ethers-error-parser/dist/types';
-import { Provider } from '@wagmi/core';
-import { Transaction } from 'ethers';
 import { toast } from 'react-toastify';
 import MultiStepsTransactionToast from '../components/MultiStepsTransactionToast';
 import { graphIsSynced, graphUserIsSynced } from '../queries/global';
+import { Client, Hash, Transaction, WalletClient } from 'viem';
+import { PublicClient } from 'wagmi';
 
 interface IMessages {
   pending: string;
@@ -15,15 +15,15 @@ interface IMessages {
 export const createMultiStepsTransactionToast = async (
   chainId: number,
   messages: IMessages,
-  provider: Provider,
-  tx: Transaction,
+  publicClient: PublicClient,
+  txHash: Hash,
   entity: string,
   newUri?: string,
 ): Promise<number | undefined> => {
   let currentStep = 1;
   const toastId = toast(
     <MultiStepsTransactionToast
-      transactionHash={tx.hash as string}
+      txHash={txHash}
       currentStep={currentStep}
       hasOffchainData={!!newUri}
     />,
@@ -32,12 +32,12 @@ export const createMultiStepsTransactionToast = async (
 
   let receipt;
   try {
-    receipt = await provider.waitForTransaction(tx.hash as string);
+    receipt = await publicClient.waitForTransactionReceipt({ confirmations: 1, hash: txHash });
     currentStep = 2;
     toast.update(toastId, {
       render: (
         <MultiStepsTransactionToast
-          transactionHash={tx.hash as string}
+          txHash={txHash}
           currentStep={currentStep}
           hasOffchainData={!!newUri}
         />
@@ -48,12 +48,7 @@ export const createMultiStepsTransactionToast = async (
       const entityId = await graphIsSynced(chainId, `${entity}s`, newUri);
       currentStep = 3;
       toast.update(toastId, {
-        render: (
-          <MultiStepsTransactionToast
-            transactionHash={tx.hash as string}
-            currentStep={currentStep}
-          />
-        ),
+        render: <MultiStepsTransactionToast txHash={txHash} currentStep={currentStep} />,
       });
 
       await graphIsSynced(chainId, `${entity}Descriptions`, newUri);
@@ -98,14 +93,14 @@ export const showErrorTransactionToast = (error: any) => {
 export const createTalentLayerIdTransactionToast = async (
   chainId: number,
   messages: IMessages,
-  provider: Provider,
-  tx: Transaction,
+  publicClient: PublicClient,
+  txHash: Hash,
   address: string,
 ): Promise<number | undefined> => {
   let currentStep = 1;
   const toastId = toast(
     <MultiStepsTransactionToast
-      transactionHash={tx.hash as string}
+      txHash={txHash}
       currentStep={currentStep}
       hasOffchainData={false}
     />,
@@ -114,12 +109,12 @@ export const createTalentLayerIdTransactionToast = async (
 
   let receipt;
   try {
-    receipt = await provider.waitForTransaction(tx.hash as string);
+    receipt = await publicClient.waitForTransactionReceipt({ hash: txHash });
     currentStep = 2;
     toast.update(toastId, {
       render: (
         <MultiStepsTransactionToast
-          transactionHash={tx.hash as string}
+          txHash={txHash}
           currentStep={currentStep}
           hasOffchainData={false}
         />

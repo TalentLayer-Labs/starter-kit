@@ -1,6 +1,5 @@
 // pages/api/createService.ts
 import { NextApiRequest, NextApiResponse } from 'next';
-import { Contract } from 'ethers';
 import { getConfig } from '../../../config';
 import TalentLayerEscrow from '../../../contracts/ABI/TalentLayerEscrow.json';
 import { getDelegationSigner, isPlatformAllowedToDelegate } from '../utils/delegate';
@@ -14,23 +13,26 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   await isPlatformAllowedToDelegate(chainId, userAddress, res);
 
   try {
-    const signer = await getDelegationSigner(res);
-
-    if (!signer) {
+    const walletClient = await getDelegationSigner(res);
+    if (!walletClient) {
       return;
     }
 
-    const talentLayerEscrow = new Contract(
-      config.contracts.talentLayerEscrow,
-      TalentLayerEscrow.abi,
-      signer,
-    );
-
     let transaction;
     if (isBuyer) {
-      transaction = await talentLayerEscrow.release(profileId, transactionId, amount);
+      transaction = await walletClient.writeContract({
+        address: config.contracts.talentLayerEscrow,
+        abi: TalentLayerEscrow.abi,
+        functionName: 'release',
+        args: [profileId, transactionId, amount],
+      });
     } else {
-      transaction = await talentLayerEscrow.reimburse(profileId, transactionId, amount);
+      transaction = await walletClient.writeContract({
+        address: config.contracts.talentLayerEscrow,
+        abi: TalentLayerEscrow.abi,
+        functionName: 'reimburse',
+        args: [profileId, transactionId, amount],
+      });
     }
 
     res.status(200).json({ transaction: transaction });

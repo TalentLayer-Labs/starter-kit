@@ -9,6 +9,7 @@ const useServices = (
   sellerId?: string,
   searchQuery?: string,
   numberPerPage?: number,
+  platformId?: string,
 ): {
   hasMoreData: boolean;
   loading: boolean;
@@ -37,7 +38,7 @@ const useServices = (
             serviceStatus,
             buyerId,
             sellerId,
-            platformId: process.env.NEXT_PUBLIC_PLATFORM_ID,
+            platformId,
             numberPerPage,
             offset,
             searchQuery,
@@ -59,7 +60,7 @@ const useServices = (
             serviceStatus,
             buyerId,
             sellerId,
-            platformId: process.env.NEXT_PUBLIC_PLATFORM_ID,
+            platformId,
             numberPerPage,
             offset,
           });

@@ -1,8 +1,7 @@
 import { useWeb3Modal } from '@web3modal/react';
-import { ethers } from 'ethers';
 import { Field, Form, Formik } from 'formik';
 import { useContext, useState } from 'react';
-import { useProvider, useSigner } from 'wagmi';
+import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
 import StarterKitContext from '../../context/starterKit';
 import TalentLayerID from '../../contracts/ABI/TalentLayerID.json';
@@ -16,6 +15,7 @@ import { delegateUpdateProfileData } from '../request';
 import { useChainId } from '../../hooks/useChainId';
 import { useConfig } from '../../hooks/useConfig';
 import { QuestionMarkCircle } from 'heroicons-react';
+import { generatePicture } from '../../utils/ai-picture-gen';
 
 interface IFormValues {
   title?: string;
@@ -35,14 +35,12 @@ function ProfileForm({ callback }: { callback?: () => void }) {
   const config = useConfig();
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
-  const { user } = useContext(StarterKitContext);
-  const provider = useProvider({ chainId });
+  const { user, isActiveDelegate } = useContext(StarterKitContext);
+  const { data: walletClient } = useWalletClient({ chainId });
+  const publicClient = usePublicClient({ chainId });
+  const { address } = useAccount();
   const [aiLoading, setAiLoading] = useState(false);
   const userDescription = user?.id ? useUserById(user?.id)?.description : null;
-  const { data: signer } = useSigner({
-    chainId,
-  });
-  const { isActiveDelegate } = useContext(StarterKitContext);
 
   if (!user?.id) {
     return <Loading />;
@@ -58,44 +56,21 @@ function ProfileForm({ callback }: { callback?: () => void }) {
     skills: userDescription?.skills_raw || '',
   };
 
-  const generatePicture = async (setFieldValue: any) => {
+  const generatePictureUrl = async (e: React.FormEvent, callback: (string: string) => void) => {
+    e.preventDefault();
     setAiLoading(true);
-    const colors = ['Red', 'Orange', 'Green', 'Blue', 'Purple', 'Black', 'Yellow', 'Aqua'];
-    const themes = [
-      'ready for the future of work',
-      'working on his computer',
-      '^playing with a chinese abacus',
-      'with a blanket',
-      'with a 4 leaf clover',
-      'just happy',
-      'using a hammer',
-      'climbing',
-    ];
-    const color = colors[getRandomInt(7)];
-    const theme = themes[getRandomInt(7)];
-    const customPrompt = `A cartoon futurist raccoon ${theme} with ${color} background `;
-    const response = await fetch('/api/ai/generate-image', {
-      method: 'Post',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        prompt: customPrompt,
-      }),
-    }).then(response => response.json());
-
+    const imageUrl = await generatePicture();
+    if (imageUrl) {
+      callback(imageUrl);
+    }
     setAiLoading(false);
-    setFieldValue('image_url', response.image);
   };
-  function getRandomInt(max: number) {
-    return Math.floor(Math.random() * max);
-  }
 
   const onSubmit = async (
     values: IFormValues,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void },
   ) => {
-    if (user && provider && signer) {
+    if (user && walletClient && publicClient) {
       try {
         const cid = await postToIPFS(
           JSON.stringify({
@@ -108,18 +83,18 @@ function ProfileForm({ callback }: { callback?: () => void }) {
             skills: values.skills,
           }),
         );
-
         let tx;
         if (isActiveDelegate) {
           const response = await delegateUpdateProfileData(chainId, user.id, user.address, cid);
           tx = response.data.transaction;
         } else {
-          const contract = new ethers.Contract(
-            config.contracts.talentLayerId,
-            TalentLayerID.abi,
-            signer,
-          );
-          tx = await contract.updateProfileData(user.id, cid);
+          tx = await walletClient.writeContract({
+            address: config.contracts.talentLayerId,
+            abi: TalentLayerID.abi,
+            functionName: 'updateProfileData',
+            args: [user.id, cid],
+            account: address,
+          });
         }
 
         await createMultiStepsTransactionToast(
@@ -129,7 +104,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
             success: 'Congrats! Your profile has been updated',
             error: 'An error occurred while updating your profile',
           },
-          provider,
+          publicClient,
           tx,
           'user',
           cid,
@@ -215,10 +190,9 @@ function ProfileForm({ callback }: { callback?: () => void }) {
                   <div className='ms-auto'>
                     <button
                       disabled={aiLoading}
-                      onClick={e => {
-                        e.preventDefault();
-                        generatePicture(setFieldValue);
-                      }}
+                      onClick={e =>
+                        generatePictureUrl(e, newUrl => setFieldValue('image_url', newUrl))
+                      }
                       className='border text-white bg-gray-700 hover:bg-gray-600 border-gray-600 rounded-md h-10 w-10 p-2 relative inline-flex items-center justify-center space-x-1 font-sans text-sm font-normal leading-5 no-underline outline-none transition-all duration-300'>
                       {aiLoading ? <Loading /> : 'GO'}
                     </button>
