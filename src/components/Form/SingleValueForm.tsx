@@ -53,7 +53,8 @@ function SingleValueForm({
     if (publicClient && walletClient && values) {
       try {
         let value = values[valueName];
-        if (!value) {
+
+        if (value === undefined) {
           return;
         }
 
@@ -65,7 +66,7 @@ function SingleValueForm({
           address: contractAddress,
           abi: contractAbi,
           functionName: contractFunctionName,
-          args: [contractInputs, { value }],
+          args: [contractInputs, value],
           account: address,
         });
 
