@@ -50,7 +50,7 @@ function TalentLayerIdForm() {
     if (account && account.address && account.isConnected && publicClient && walletClient) {
       try {
         let tx;
-        const handlePrice = await walletClient.writeContract({
+        const handlePrice: any = await publicClient.readContract({
           address: config.contracts.talentLayerId,
           abi: TalentLayerID.abi,
           functionName: 'getHandlePrice',
@@ -74,11 +74,9 @@ function TalentLayerIdForm() {
             args: [
               process.env.NEXT_PUBLIC_PLATFORM_ID,
               submittedValues.handle,
-              {
-                value: handlePrice,
-              },
             ],
             account: address,
+            value: handlePrice
           });
         }
         await createTalentLayerIdTransactionToast(
