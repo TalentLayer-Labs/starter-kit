@@ -37,8 +37,8 @@ function Layout({ children, className }: ContainerProps) {
         {account?.isConnected && user && (
           <div>
             <div className='min-h-screen overflow-hidden'>
-              <div className='grid gap-8 sm:grid-cols-12'>
-                <div className='col-span-12 sm:col-span-4'>
+              <div className='grid xl:gap-8 xl:grid-cols-12'>
+                <div className='col-span-12 xl:col-span-4 mb-4 xl:mb-0'>
                   <div className='flex w-full items-center gap-2'>
                     <div className='border-gray-700 bg-endnight relative w-full border transition-all duration-300 rounded-md flex flex-col p-6'>
                       <div className='flex items-center'>
@@ -94,7 +94,7 @@ function Layout({ children, className }: ContainerProps) {
                     </div>
                   </div>
                 </div>
-                <div className='col-span-12 sm:col-span-8'>
+                <div className='col-span-12 xl:col-span-8'>
                   <div className='pb-16 border-gray-700 relative w-full transition-all duration-300 rounded-md'>
                     <div className='border border-gray-700 rounded-xl p-6 bg-endnight'>
                       {children}
