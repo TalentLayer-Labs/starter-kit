@@ -1,28 +1,25 @@
-import { EmailType, Web3mailPreferences } from '../../../types';
+import { EmailType } from '../../../types';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { sendMailToAddresses } from '../../../scripts/iexec/sendMailToAddresses';
 import { getUserWeb3mailPreferences } from '../../../queries/users';
 import { IExecWeb3mail, getWeb3Provider as getMailProvider, Contact } from '@iexec/web3mail';
 
-//TODO: @Romain No persisting in Db for non sent emails, as no campaign id
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const chainId = process.env.NEXT_PUBLIC_NETWORK_ID;
+  const chainId = process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID;
+  const platformId = process.env.NEXT_PUBLIC_PLATFORM_ID;
+  const privateKey = process.env.NEXT_PUBLIC_WEB3MAIL_PLATFORM_PRIVATE_KEY;
+
   let successCount = 0,
     errorCount = 0;
-
   if (!chainId) {
     return res.status(500).json('Chain Id is not set');
   }
-
   const { emailSubject, emailContent } = req.body;
   if (!emailSubject || !emailContent) return res.status(500).json(`Missing argument`);
 
-  const privateKey = process.env.NEXT_PUBLIC_WEB3MAIL_PLATFORM_PRIVATE_KEY;
   if (!privateKey) {
     return res.status(500).json('Private key is not set');
   }
-
-  const platformId = process.env.NEXT_PUBLIC_PLATFORM_ID;
 
   if (!platformId) {
     return res.status(500).json('Platform Id is not set');
@@ -37,18 +34,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       for (const contact of contactList) {
         console.log(contact.address);
         // Check whether the user opted for the called feature
-        //TODO query not tested
+        //TODO loop sur les contact qui ont true en metadata
         const userData = await getUserWeb3mailPreferences(
           Number(chainId),
-          platformId,
           contact.address,
-          Web3mailPreferences.activeOnPlatformMarketing,
+          'activeOnPlatformMarketing',
         );
         if (!userData?.description?.web3mailPreferences?.activeOnPlatformMarketing) {
           console.error(`User has not opted in for the ${EmailType.PlatformMarketing} feature`);
           continue;
         }
         try {
+          //TODO Sortir ca de la loop , param = array address
           await sendMailToAddresses(`${emailSubject}`, `${emailContent}`, [contact.address], true);
           successCount++;
           console.log('Email sent');

@@ -1,7 +1,7 @@
 import { IExecWeb3mail, getWeb3Provider as getMailProvider } from '@iexec/web3mail';
 import { IExecDataProtector, getWeb3Provider as getProtectorProvider } from '@iexec/dataprotector';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { userGaveAccessToPlatform } from '../../../modules/Web3mail/utils/iexec-utils';
+import { userGaveAccessToPlatform } from '../../../modules/Web3mail/utils/data-protector';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const privateKey = process.env.NEXT_PUBLIC_WEB3MAIL_PLATFORM_PRIVATE_KEY;

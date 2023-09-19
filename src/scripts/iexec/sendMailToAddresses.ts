@@ -1,6 +1,6 @@
 import { IExecWeb3mail, getWeb3Provider as getMailProvider } from '@iexec/web3mail';
 import { IExecDataProtector, getWeb3Provider as getProtectorProvider } from '@iexec/dataprotector';
-import { userGaveAccessToPlatform } from '../../modules/Web3mail/utils/iexec-utils';
+import { userGaveAccessToPlatform } from '../../modules/Web3mail/utils/data-protector';
 
 /**
  * @dev: The parameter "throwable" will interrupt the function's loop and throw an error if set to true

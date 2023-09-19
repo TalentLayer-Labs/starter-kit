@@ -1,8 +1,7 @@
 import { IExecWeb3mail, getWeb3Provider as getMailProvider, Contact } from '@iexec/web3mail';
-import { userGaveAccessToPlatform } from '../../modules/Web3mail/utils/iexec-utils';
+import { userGaveAccessToPlatform } from '../../modules/Web3mail/utils/data-protector';
 import { IExecDataProtector, getWeb3Provider as getProtectorProvider } from '@iexec/dataprotector';
 
-// @Romain: I never had to use throwable here, do you think we should keep it?
 /**
  * @dev: The parameter "throwable" will interrupt the function's loop and throw an error if set to true
  * and simply log the error & keep iterating on all the loop's addresses if set to false.

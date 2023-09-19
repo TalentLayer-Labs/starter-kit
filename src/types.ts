@@ -47,6 +47,7 @@ export type IWeb3mailPreferences = {
   activeOnFundRelease: boolean;
   activeOnReview: boolean;
   activeOnPlatformMarketing: boolean;
+  activeOnProtocolMarketing: boolean;
 };
 
 export type IUserStats = {
@@ -313,12 +314,12 @@ export enum EmailType {
   NewService = 'newService',
 }
 
-export enum Web3mailPreferences {
-  activeOnNewService = 'activeOnNewService',
-  activeOnNewProposal = 'activeOnNewProposal',
-  activeOnProposalValidated = 'activeOnProposalValidated',
-  activeOnFundRelease = 'activeOnFundRelease',
-  activeOnReview = 'activeOnReview',
-  activeOnPlatformMarketing = 'activeOnPlatformMarketing',
-  activeOnProtocolMarketing = 'activeOnProtocolMarketing',
-}
+// export enum Web3mailPreferences {
+//   activeOnNewService = 'activeOnNewService',
+//   activeOnNewProposal = 'activeOnNewProposal',
+//   activeOnProposalValidated = 'activeOnProposalValidated',
+//   activeOnFundRelease = 'activeOnFundRelease',
+//   activeOnReview = 'activeOnReview',
+//   activeOnPlatformMarketing = 'activeOnPlatformMarketing',
+//   activeOnProtocolMarketing = 'activeOnProtocolMarketing',
+// }

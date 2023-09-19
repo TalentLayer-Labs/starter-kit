@@ -1,14 +1,14 @@
 import mongoose from 'mongoose';
-import { EmailType, IService, Web3mailPreferences } from '../../../types';
+import { EmailType, IService } from '../../../types';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { sendMailToAddresses } from '../../../scripts/iexec/sendMailToAddresses';
 import { getUserWeb3mailPreferencesForNewServices } from '../../../queries/users';
-import { calculateCronData } from '../../../modules/Web3mail/utils/cron-utils';
+import { calculateCronData } from '../../../modules/Web3mail/utils/cron';
 import {
   checkNewServiceExistenceInDb,
   persistCronProbe,
   persistEmail,
-} from '../../../modules/Web3mail/utils/database-utils';
+} from '../../../modules/Web3mail/utils/database';
 import { Contact, IExecWeb3mail, getWeb3Provider as getMailProvider } from '@iexec/web3mail';
 import { getNewServicesForPlatform } from '../../../queries/services';
 
@@ -21,8 +21,10 @@ import { getNewServicesForPlatform } from '../../../queries/services';
  */
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const iexecPrivateKey = process.env.NEXT_PUBLIC_WEB3MAIL_PLATFORM_PRIVATE_KEY;
-  const chainId = process.env.NEXT_PUBLIC_NETWORK_ID;
+  const chainId = process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID;
+  const platformId = process.env.NEXT_PUBLIC_PLATFORM_ID;
   const mongoUri = process.env.NEXT_MONGO_URI;
+
   const cronSecurityKey = req.query.key;
   const RETRY_FACTOR = 5;
   let successCount = 0,
@@ -45,8 +47,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   await mongoose.connect(mongoUri as string);
 
-  const platformId = process.env.NEXT_PUBLIC_PLATFORM_ID;
-
   if (!platformId) {
     return res.status(500).json('Platform Id is not set');
   }
@@ -58,8 +58,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     EmailType.NewService,
   );
 
-  //TODO: @Romain Si erreur de graph ou de mongo: kill le script => err 500
   try {
+    //TODO: Call graph au lieu de getchCOntact
     const mailWeb3Provider = getMailProvider(iexecPrivateKey);
     const web3mail = new IExecWeb3mail(mailWeb3Provider);
     const contactList: Contact[] = await web3mail.fetchMyContacts();
@@ -83,9 +83,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       //TODO query not tested
       const userData = await getUserWeb3mailPreferencesForNewServices(
         Number(chainId),
-        platformId,
         contact.address,
-        Web3mailPreferences.activeOnNewService,
+        'activeOnNewService',
       );
       // TODO uncomment when feature is ready
       // if (!userData.description.web3mailPreferences.activeOnNewService) {

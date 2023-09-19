@@ -1,6 +1,6 @@
 import { EmailType, IPayment, IProposal, IReview, IService } from '../../../types';
-import { Web3Mail } from '../schemas/web3mail-model';
-import { CronProbe } from '../schemas/timestamp-model';
+import { Web3Mail } from '../schemas/web3mail';
+import { CronProbe } from '../schemas/cronProbe';
 
 const getTimestampNowSeconds = () => Math.floor(new Date().getTime() / 1000);
 

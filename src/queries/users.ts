@@ -1,5 +1,5 @@
 import { processRequest } from '../utils/graphql';
-import { Web3mailPreferences } from '../types';
+import { IWeb3mailPreferences } from '../types';
 
 // TODO: when graph is sync with last version
 // videoUrl
@@ -95,8 +95,6 @@ export const getUserByAddress = (chainId: number, address: string): Promise<any>
           country
           headline
           id
-          imageUrl
-          videoUrl
           title
           timezone
           skills_raw
@@ -162,13 +160,12 @@ export const getUserByIds = (chainId: number, ids: string[]): Promise<any> => {
 
 export const getUserWeb3mailPreferences = (
   chainId: number,
-  platformId: string,
   address: string,
-  web3mailPreference: Web3mailPreferences,
+  web3mailPreference: keyof IWeb3mailPreferences,
 ): Promise<any> => {
   const query = `
     {
-      user(address: "${address}, service_: {platform: "${platformId}"}) {
+      user(address: "${address}) {
         description{
           web3mailPreferences {
             ${web3mailPreference}
@@ -181,13 +178,12 @@ export const getUserWeb3mailPreferences = (
 
 export const getUserWeb3mailPreferencesForNewServices = (
   chainId: number,
-  platformId: string,
   address: string,
-  web3mailPreference: Web3mailPreferences,
+  web3mailPreference: keyof IWeb3mailPreferences,
 ): Promise<any> => {
   const query = `
     {
-      user(address: "${address}, service_: {platform: "${platformId}"}) {
+      user(address: "${address}) {
         id
         description{
           skills_raw

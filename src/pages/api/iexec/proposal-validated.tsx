@@ -1,19 +1,21 @@
 import mongoose from 'mongoose';
 import { getAcceptedProposal } from '../../../queries/proposals';
-import { EmailType, IProposal, Web3mailPreferences } from '../../../types';
+import { EmailType, IProposal } from '../../../types';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { sendMailToAddresses } from '../../../scripts/iexec/sendMailToAddresses';
 import { getUserWeb3mailPreferences } from '../../../queries/users';
-import { calculateCronData } from '../../../modules/Web3mail/utils/cron-utils';
+import { calculateCronData } from '../../../modules/Web3mail/utils/cron';
 import {
   checkProposalExistenceInDb,
   persistCronProbe,
   persistEmail,
-} from '../../../modules/Web3mail/utils/database-utils';
+} from '../../../modules/Web3mail/utils/database';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const chainId = process.env.NEXT_PUBLIC_NETWORK_ID;
+  const chainId = process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID;
+  const platformId = process.env.NEXT_PUBLIC_PLATFORM_ID;
   const mongoUri = process.env.NEXT_MONGO_URI;
+
   const cronSecurityKey = req.query.key;
   const RETRY_FACTOR = 5;
   let successCount = 0,
@@ -32,8 +34,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   await mongoose.connect(mongoUri as string);
-
-  const platformId = process.env.NEXT_PUBLIC_PLATFORM_ID;
 
   if (!platformId) {
     throw new Error('Platform Id is not set');
@@ -66,9 +66,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         //TODO query not tested
         const userData = await getUserWeb3mailPreferences(
           Number(chainId),
-          platformId,
           proposal.service.buyer.address,
-          Web3mailPreferences.activeOnProposalValidated,
+          'activeOnProposalValidated',
         );
         if (!userData?.description?.web3mailPreferences?.activeOnProposalValidated) {
           console.error(`User has not opted in for the ${EmailType.ProposalValidated} feature`);
