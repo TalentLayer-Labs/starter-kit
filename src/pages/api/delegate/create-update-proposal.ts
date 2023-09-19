@@ -1,6 +1,5 @@
 // pages/api/createService.ts
 import { NextApiRequest, NextApiResponse } from 'next';
-import { Contract } from 'ethers';
 import { getConfig } from '../../../config';
 import TalentLayerService from '../../../contracts/ABI/TalentLayerService.json';
 import { getProposalSignature } from '../../../utils/signature';
@@ -24,29 +23,27 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   await isPlatformAllowedToDelegate(chainId, userAddress, res);
 
   try {
-    const signer = await getDelegationSigner(res);
-
-    if (!signer) {
+    const walletClient = await getDelegationSigner(res);
+    if (!walletClient) {
       return;
     }
-
-    const serviceRegistryContract = new Contract(
-      config.contracts.serviceRegistry,
-      TalentLayerService.abi,
-      signer,
-    );
 
     let transaction;
 
     if (existingProposalStatus) {
-      transaction = await serviceRegistryContract.updateProposal(
-        userId,
-        serviceId,
-        valuesRateToken,
-        parsedRateAmountString,
-        cid,
-        convertExpirationDateString,
-      );
+      transaction = await walletClient.writeContract({
+        address: config.contracts.serviceRegistry,
+        abi: TalentLayerService.abi,
+        functionName: 'updateProposal',
+        args: [
+          userId,
+          serviceId,
+          valuesRateToken,
+          parsedRateAmountString,
+          cid,
+          convertExpirationDateString,
+        ],
+      });
     } else {
       const signature = await getProposalSignature({
         profileId: Number(userId),
@@ -54,16 +51,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         serviceId: Number(serviceId),
       });
 
-      transaction = await serviceRegistryContract.createProposal(
-        userId,
-        serviceId,
-        valuesRateToken,
-        parsedRateAmountString,
-        process.env.NEXT_PUBLIC_PLATFORM_ID,
-        cid,
-        convertExpirationDateString,
-        signature,
-      );
+      transaction = await walletClient.writeContract({
+        address: config.contracts.serviceRegistry,
+        abi: TalentLayerService.abi,
+        functionName: 'createProposal',
+        args: [
+          userId,
+          serviceId,
+          valuesRateToken,
+          parsedRateAmountString,
+          process.env.NEXT_PUBLIC_PLATFORM_ID,
+          cid,
+          convertExpirationDateString,
+          signature,
+        ],
+      });
     }
 
     res.status(200).json({ transaction: transaction });

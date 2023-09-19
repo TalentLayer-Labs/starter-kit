@@ -1,5 +1,4 @@
 import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
-import { ethers } from 'ethers';
 import { useState } from 'react';
 import { renderTokenAmount } from '../../utils/conversion';
 import { IPayment, IService, PaymentTypeEnum, ServiceStatusEnum } from '../../types';
@@ -19,10 +18,10 @@ function PaymentModal({ service, payments, isBuyer }: IPaymentModalProps) {
   const network = useNetwork();
 
   const totalPayments = payments.reduce((acc, payment) => {
-    return acc.add(ethers.BigNumber.from(payment.amount));
-  }, ethers.BigNumber.from('0'));
+    return acc + BigInt(payment.amount);
+  }, BigInt('0'));
 
-  const totalInEscrow = ethers.BigNumber.from(rateAmount).sub(totalPayments);
+  const totalInEscrow = BigInt(rateAmount) - totalPayments;
 
   return (
     <>
@@ -115,14 +114,14 @@ function PaymentModal({ service, payments, isBuyer }: IPaymentModalProps) {
                   </p>
                 </div>
               </div>
-              {totalInEscrow.eq(0) && (
+              {totalInEscrow == BigInt(0) && (
                 <div className='p-4 mb-4 text-sm text-green-600 bg-green-50 rounded'>
                   All payments have been released
                 </div>
               )}
             </div>
 
-            {totalInEscrow.gt(0) && show && (
+            {totalInEscrow > 0 && show && (
               <ReleaseForm
                 totalInEscrow={totalInEscrow}
                 rateToken={rateToken}

@@ -1,4 +1,3 @@
-import { ethers } from 'ethers';
 import { IToken, NetworkEnum } from './types';
 
 export type Config = {
@@ -32,8 +31,8 @@ const mumbai: Config = {
     timeoutPayment: 3600 * 24 * 7,
   },
   tokens: {
-    [ethers.constants.AddressZero]: {
-      address: ethers.constants.AddressZero,
+    '0x0000000000000000000000000000000000000000': {
+      address: '0x0000000000000000000000000000000000000000',
       symbol: 'MATIC',
       name: 'Matic',
       decimals: 18,
@@ -49,7 +48,7 @@ const mumbai: Config = {
 
 const iexec: Config = {
   networkId: NetworkEnum.IEXEC,
-  subgraphUrl: 'https://api.thegraph.com/subgraphs/name/talentlayer/talent-layer-mumbai',
+  subgraphUrl: 'https://thegraph-sandbox.iex.ec/subgraphs/name/users/talentLayer',
   contracts: {
     talentLayerId: '0xC51537E03f56650C63A9Feca4cCb5a039c77c822',
     serviceRegistry: '0x45E8F869Fd316741A9316f39bF09AD03Df88496f',
@@ -64,10 +63,10 @@ const iexec: Config = {
     timeoutPayment: 3600 * 24 * 7,
   },
   tokens: {
-    [ethers.constants.AddressZero]: {
-      address: ethers.constants.AddressZero,
-      symbol: 'MATIC',
-      name: 'Matic',
+    ['0x0000000000000000000000000000000000000000']: {
+      address: '0x0000000000000000000000000000000000000000',
+      symbol: 'RLC',
+      name: 'iExec RLC',
       decimals: 18,
     },
     '0xe62C28709E4F19Bae592a716b891A9B76bf897E4': {
@@ -94,8 +93,8 @@ const local: Config = {
     timeoutPayment: 3600 * 24 * 7,
   },
   tokens: {
-    [ethers.constants.AddressZero]: {
-      address: ethers.constants.AddressZero,
+    '0x0000000000000000000000000000000000000000': {
+      address: '0x0000000000000000000000000000000000000000',
       symbol: 'ETH',
       name: 'ETH',
       decimals: 18,

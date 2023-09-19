@@ -1,5 +1,5 @@
-import { ethers } from 'ethers';
 import { useContext } from 'react';
+import { formatEther, parseEther } from 'viem';
 import * as Yup from 'yup';
 import SingleValueForm from '../../components/Form/SingleValueForm';
 import Loading from '../../components/Loading';
@@ -31,7 +31,7 @@ function AdminFees() {
   };
 
   const transformFee = (value: number | string): BigInt => {
-    return ethers.utils.parseUnits(value.toString(), 'ether').toBigInt();
+    return parseEther(value.toString());
   };
 
   return (
@@ -96,7 +96,7 @@ function AdminFees() {
             }),
             valueType: 'number',
             initialValue: platform?.servicePostingFee
-              ? ethers.utils.formatEther(platform?.servicePostingFee)
+              ? formatEther(BigInt(platform?.servicePostingFee))
               : 0,
             hookModifyValue: transformFee,
           }}
@@ -118,7 +118,7 @@ function AdminFees() {
             }),
             valueType: 'number',
             initialValue: platform?.proposalPostingFee
-              ? ethers.utils.formatEther(platform?.proposalPostingFee)
+              ? formatEther(BigInt(platform?.proposalPostingFee))
               : 0,
             hookModifyValue: transformFee,
           }}

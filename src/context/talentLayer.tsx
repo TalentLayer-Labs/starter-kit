@@ -42,6 +42,7 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
       const userResponse = await getUserByAddress(chainId, account.address);
 
       if (userResponse?.data?.data?.users?.length == 0) {
+        setLoading(false);
         return false;
       }
 

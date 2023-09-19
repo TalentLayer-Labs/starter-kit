@@ -1,7 +1,6 @@
 import { useWeb3Modal } from '@web3modal/react';
 import { Field, Form, Formik } from 'formik';
 import { useContext } from 'react';
-import { useProvider, useSigner } from 'wagmi';
 import * as Yup from 'yup';
 import SubmitButton from '../../../components/Form/SubmitButton';
 import Loading from '../../../components/Loading';
@@ -11,6 +10,7 @@ import { showErrorTransactionToast } from '../../../utils/toast';
 import Web3mailCard from './Web3mailCard';
 import Web3MailContext from '../context/web3mail';
 import { toast } from 'react-toastify';
+import { usePublicClient, useWalletClient } from 'wagmi';
 
 interface IFormValues {
   email: string;
@@ -20,11 +20,9 @@ function Web3mailForm() {
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
   const { user } = useContext(TalentLayerContext);
-  const provider = useProvider({ chainId });
-  const { data: signer } = useSigner({
-    chainId,
-  });
   const { protectEmailAndGrantAccess, emailIsProtected } = useContext(Web3MailContext);
+  const { data: walletClient } = useWalletClient({ chainId });
+  const publicClient = usePublicClient({ chainId });
 
   if (!user?.id) {
     return <Loading />;
@@ -44,7 +42,7 @@ function Web3mailForm() {
     values: IFormValues,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void },
   ) => {
-    if (user && provider && signer) {
+    if (user && walletClient && publicClient) {
       try {
         const promise = protectEmailAndGrantAccess(values.email);
         await toast.promise(promise, {

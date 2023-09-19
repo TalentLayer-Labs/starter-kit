@@ -1,8 +1,7 @@
 import { useWeb3Modal } from '@web3modal/react';
-import { ethers } from 'ethers';
 import { Field, Form, Formik } from 'formik';
 import { useContext } from 'react';
-import { useProvider, useSigner } from 'wagmi';
+import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
 import SubmitButton from '../../components/Form/SubmitButton';
 import Loading from '../../components/Loading';
@@ -19,8 +18,8 @@ import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../
 interface IFormValues {
   about: string;
   website: string;
-  video_url: string;
-  image_url: string;
+  videoUrl: string;
+  imageUrl: string;
 }
 
 const validationSchema = Yup.object({
@@ -34,10 +33,9 @@ function AdminPresentation() {
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
   const config = useConfig();
-  const provider = useProvider({ chainId });
-  const { data: signer } = useSigner({
-    chainId,
-  });
+  const publicClient = usePublicClient({ chainId });
+  const { data: walletClient } = useWalletClient({ chainId });
+  const { address } = useAccount();
 
   if (loading) {
     return <Loading />;
@@ -52,31 +50,32 @@ function AdminPresentation() {
   const initialValues: IFormValues = {
     about: platformDescription?.about || '',
     website: platformDescription?.website || '',
-    image_url: platformDescription?.image_url || '',
-    video_url: platformDescription?.video_url || '',
+    imageUrl: platformDescription?.imageUrl || '',
+    videoUrl: platformDescription?.videoUrl || '',
   };
 
   const onSubmit = async (
     values: IFormValues,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void },
   ) => {
-    if (user && provider && signer) {
+    if (user && publicClient && walletClient) {
       try {
         const cid = await postToIPFS(
           JSON.stringify({
             about: values.about,
             website: values.website,
-            video_url: values.video_url,
-            image_url: values.image_url,
+            videoUrl: values.videoUrl,
+            imageUrl: values.imageUrl,
           }),
         );
 
-        const contract = new ethers.Contract(
-          config.contracts.talentLayerPlatformId,
-          TalentLayerPlatformID.abi,
-          signer,
-        );
-        const tx = await contract.updateProfileData(platform?.id, cid);
+        const tx = await walletClient.writeContract({
+          address: config.contracts.talentLayerId,
+          abi: TalentLayerPlatformID.abi,
+          functionName: 'updateProfileData',
+          args: [user.id, cid],
+          account: address,
+        });
 
         await createMultiStepsTransactionToast(
           chainId,
@@ -85,7 +84,7 @@ function AdminPresentation() {
             success: 'Congrats! Your platform has been updated',
             error: 'An error occurred while updating your platform',
           },
-          provider,
+          publicClient,
           tx,
           'platform',
           cid,
@@ -131,15 +130,15 @@ function AdminPresentation() {
                 <span className='text-gray-100'>Picture Url</span>
                 <Field
                   type='text'
-                  id='image_url'
-                  name='image_url'
+                  id='imageUrl'
+                  name='imageUrl'
                   className='mt-1 mb-1 block w-full rounded-xl border border-gray-700 bg-midnight shadow-sm focus:ring-opacity-50'
                   placeholder=''
                 />
                 <div className='border-gray-700 bg-gray-800 relative w-full border transition-all duration-300 rounded-xl p-4'>
-                  {values.image_url && (
+                  {values.imageUrl && (
                     <div className='flex items-center justify-center py-3'>
-                      <img width='300' height='300' src={values.image_url} alt='image preview' />
+                      <img width='300' height='300' src={values.imageUrl} alt='image preview' />
                     </div>
                   )}
                 </div>

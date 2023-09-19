@@ -1,15 +1,16 @@
 import { useState, useEffect, useContext } from 'react';
 import { XmtpContext } from '../context/XmtpContext';
-import { useSigner } from 'wagmi';
+import { useAccount, useWalletClient } from 'wagmi';
 import { Conversation, Stream } from '@xmtp/xmtp-js';
 import { buildChatMessage, CONVERSATION_PREFIX } from '../utils/messaging';
 import { useChainId } from '../../../hooks/useChainId';
 
 const useStreamConversations = () => {
   const chainId = useChainId();
-  const { data: signer } = useSigner({
+  const { data: walletClient } = useWalletClient({
     chainId,
   });
+  const { address: walletAddress } = useAccount();
   const { providerState, setProviderState } = useContext(XmtpContext);
   const [stream, setStream] = useState<Stream<Conversation> | undefined>();
 
@@ -23,7 +24,7 @@ const useStreamConversations = () => {
       setStream(newStream);
       for await (const conversation of newStream) {
         if (
-          conversation.peerAddress !== (await signer?.getAddress()) &&
+          conversation.peerAddress !== (await walletAddress) &&
           conversation.context?.conversationId.startsWith(CONVERSATION_PREFIX)
         ) {
           //If a new conversation is detected, we get its messages

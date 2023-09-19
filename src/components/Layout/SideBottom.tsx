@@ -13,7 +13,7 @@ function SideBottom() {
             <a
               href={`https://${
                 network?.chain?.name == 'Ethereum' ? 'www' : network?.chain?.name.toLowerCase()
-              }.etherscan.io/block/${blockNumber}`}
+              }.etherscan.io/block/${Number(blockNumber)}`}
               target='_blank'
               className='text-xs font-medium text-zinc-100 flex items-center'>
               <span
@@ -28,7 +28,7 @@ function SideBottom() {
                   backgroundColor: 'rgb(118, 209, 145)',
                   transition: 'background-color 250ms ease 0s',
                 }}></span>
-              {blockNumber} -{' '}
+              {Number(blockNumber)} -{' '}
               <span className='flex'>
                 <svg
                   width={10}
