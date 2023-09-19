@@ -8,9 +8,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const chainId = process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID;
   const platformId = process.env.NEXT_PUBLIC_PLATFORM_ID;
   const privateKey = process.env.NEXT_PUBLIC_WEB3MAIL_PLATFORM_PRIVATE_KEY;
-
   let successCount = 0,
     errorCount = 0;
+
   if (!chainId) {
     return res.status(500).json('Chain Id is not set');
   }

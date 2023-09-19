@@ -11,6 +11,7 @@ import {
 } from '../../../modules/Web3mail/utils/database';
 import { Contact, IExecWeb3mail, getWeb3Provider as getMailProvider } from '@iexec/web3mail';
 import { getNewServicesForPlatform } from '../../../queries/services';
+import { prepareCronApi } from '../utils/web3mail';
 
 /** TODO A faire dans cet ordre
  get keywords - save in map => array of keywords
@@ -21,35 +22,22 @@ import { getNewServicesForPlatform } from '../../../queries/services';
  */
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const iexecPrivateKey = process.env.NEXT_PUBLIC_WEB3MAIL_PLATFORM_PRIVATE_KEY;
-  const chainId = process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID;
-  const platformId = process.env.NEXT_PUBLIC_PLATFORM_ID;
-  const mongoUri = process.env.NEXT_MONGO_URI;
+  const chainId = process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as string;
+  const platformId = process.env.NEXT_PUBLIC_PLATFORM_ID as string;
+  const mongoUri = process.env.NEXT_MONGO_URI as string;
 
-  const cronSecurityKey = req.query.key;
+  const cronSecurityKey = req.query.key as string;
   const RETRY_FACTOR = 5;
   let successCount = 0,
     errorCount = 0;
 
-  if (cronSecurityKey !== process.env.NEXT_PRIVATE_CRON_KEY) {
-    return res.status(401).json({ message: 'Unauthorized' });
-  }
+  prepareCronApi(chainId, platformId, mongoUri, cronSecurityKey, res);
+
   if (!iexecPrivateKey) {
     return res.status(500).json('Private key is not set');
   }
 
-  if (!chainId) {
-    return res.status(500).json('Chain Id is not set');
-  }
-
-  if (!mongoUri) {
-    return res.status(500).json('MongoDb URI is not set');
-  }
-
   await mongoose.connect(mongoUri as string);
-
-  if (!platformId) {
-    return res.status(500).json('Platform Id is not set');
-  }
 
   // Check whether the user provided a timestamp or if it will come from the cron config
   const { sinceTimestamp, cronDuration } = calculateCronData(

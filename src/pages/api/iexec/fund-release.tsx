@@ -10,34 +10,21 @@ import {
   persistCronProbe,
   persistEmail,
 } from '../../../modules/Web3mail/utils/database';
+import { prepareCronApi } from '../utils/web3mail';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const chainId = process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID;
-  const platformId = process.env.NEXT_PUBLIC_PLATFORM_ID;
-  const mongoUri = process.env.NEXT_MONGO_URI;
+  const chainId = process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as string;
+  const platformId = process.env.NEXT_PUBLIC_PLATFORM_ID as string;
+  const mongoUri = process.env.NEXT_MONGO_URI as string;
 
-  const cronSecurityKey = req.query.key;
+  const cronSecurityKey = req.query.key as string;
   const RETRY_FACTOR = 5;
   let successCount = 0,
     errorCount = 0;
 
-  if (cronSecurityKey !== process.env.NEXT_PRIVATE_CRON_KEY) {
-    return res.status(401).json({ message: 'Unauthorized' });
-  }
-
-  if (!chainId) {
-    return res.status(500).json('Chain Id is not set');
-  }
-
-  if (!mongoUri) {
-    return res.status(500).json('MongoDb URI is not set');
-  }
+  prepareCronApi(chainId, platformId, mongoUri, cronSecurityKey, res);
 
   await mongoose.connect(mongoUri as string);
-
-  if (!platformId) {
-    throw new Error('Platform Id is not set');
-  }
 
   // Check whether the user provided a timestamp or if it will come from the cron config
   const { sinceTimestamp, cronDuration } = calculateCronData(
