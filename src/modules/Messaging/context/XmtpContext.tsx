@@ -1,11 +1,11 @@
-import React, { createContext, ReactNode, useEffect, useMemo, useState } from 'react';
 import { Client, Conversation, DecodedMessage } from '@xmtp/xmtp-js';
+import React, { createContext, ReactNode, useEffect, useMemo, useState } from 'react';
 import { useAccount, useWalletClient } from 'wagmi';
+import { useChainId } from '../../../hooks/useChainId';
+import { useEthersWalletClient } from '../../../hooks/useEthersWalletClient';
+import { loadKeys, storeKeys } from '../utils/keys';
 import { buildChatMessage, CONVERSATION_PREFIX } from '../utils/messaging';
 import { XmtpChatMessage } from '../utils/types';
-import { loadKeys, storeKeys } from '../utils/keys';
-import { useChainId } from '../../../hooks/useChainId';
-import { WalletClient } from 'viem';
 
 type clientEnv = 'local' | 'dev' | 'production' | undefined;
 
@@ -34,6 +34,7 @@ export const XmtpContextProvider = ({ children }: { children: ReactNode }) => {
     chainId,
   });
   const { address: walletAddress } = useAccount();
+  const { data: ethersWalletClient } = useEthersWalletClient();
 
   const [providerState, setProviderState] = useState<IProviderProps>({
     client: undefined,
@@ -69,7 +70,7 @@ export const XmtpContextProvider = ({ children }: { children: ReactNode }) => {
         let keys = loadKeys(walletAddress as string);
         if (!keys) {
           // @ts-ignore: xmtp don't support viem typing yet
-          keys = await Client.getKeys(walletClient, {
+          keys = await Client.getKeys(ethersWalletClient, {
             env: process.env.NEXT_PUBLIC_MESSENGING_ENV as clientEnv,
           });
         }
