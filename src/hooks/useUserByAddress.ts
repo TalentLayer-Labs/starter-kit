@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getUserByAddress, getUserById } from '../queries/users';
+import { getUserByAddress } from '../queries/users';
 import { IUser } from '../types';
 import { useChainId } from './useChainId';
 

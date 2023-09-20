@@ -20,6 +20,7 @@ import Loading from '../Loading';
 import ServiceItem from '../ServiceItem';
 import { delegateCreateOrUpdateProposal } from '../request';
 import SubmitButton from './SubmitButton';
+import useTlClient from '../../hooks/useTlClient';
 
 interface IFormValues {
   about: string;
@@ -54,6 +55,7 @@ function ProposalForm({
   const allowedTokenList = useAllowedTokens();
   const { isActiveDelegate } = useContext(StarterKitContext);
   const [aiLoading, setAiLoading] = useState(false);
+  const tlClient = useTlClient(chainId, '2TcBxC3hzB3bMUgpD3FkxI6tt4D', '29e380e2b6b89499074b90b2b5b8ebb9');
 
   if (allowedTokenList.length === 0) {
     return <div>Loading...</div>;
@@ -123,19 +125,10 @@ function ProposalForm({
 
         const parsedRateAmountString = parsedRateAmount.toString();
 
-        const cid = await postToIPFS(
-          JSON.stringify({
-            about: values.about,
-            video_url: values.videoUrl,
-          }),
-        );
-
-        // Get platform signature
-        const signature = await getProposalSignature({
-          profileId: Number(user.id),
-          cid,
-          serviceId: Number(service.id),
-        });
+        const cid = await tlClient?.upploadProposalDataToIpfs({
+          about: values.about,
+          video_url: values.videoUrl
+        })
 
         let tx;
         if (isActiveDelegate) {
@@ -152,31 +145,27 @@ function ProposalForm({
           );
           tx = response.data.transaction;
         } else {
-          tx = await walletClient.writeContract({
-            address: config.contracts.serviceRegistry,
-            abi: ServiceRegistry.abi,
-            functionName: existingProposal ? 'updateProposal' : 'createProposal',
-            args: existingProposal
-              ? [
-                  user.id,
-                  service.id,
-                  values.rateToken,
-                  parsedRateAmountString,
-                  cid,
-                  convertExpirationDateString,
-                ]
-              : [
-                  user.id,
-                  service.id,
-                  values.rateToken,
-                  parsedRateAmountString,
-                  process.env.NEXT_PUBLIC_PLATFORM_ID,
-                  cid,
-                  convertExpirationDateString,
-                  signature,
-                ],
-            account: address,
-          });
+
+          if (existingProposal) {
+            tx = await tlClient?.updateProposal(
+              user.id,
+              service.id,
+              values.rateToken,
+              parsedRateAmountString,
+              cid,
+              convertExpirationDateString
+            )
+          } else {
+            tx = await tlClient?.createProposal(
+              user.id,
+              service.id,
+              values.rateToken,
+              parsedRateAmountString,
+              cid,
+              convertExpirationDateString,
+              4
+            )
+          }
         }
 
         await createMultiStepsTransactionToast(

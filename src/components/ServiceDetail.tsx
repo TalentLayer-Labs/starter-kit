@@ -19,7 +19,7 @@ import { useChainId } from '../hooks/useChainId';
 
 function ServiceDetail({ service }: { service: IService }) {
   const chainId = useChainId();
-  const { account, user } = useContext(StarterKitContext);
+  const { account, user, tlClient } = useContext(StarterKitContext);
   const { reviews } = useReviewsByService(service.id);
   const proposals = useProposalsByService(service.id);
   const payments = usePaymentsByService(service.id);

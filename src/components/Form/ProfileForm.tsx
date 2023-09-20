@@ -1,11 +1,10 @@
 import { useWeb3Modal } from '@web3modal/react';
 import { Field, Form, Formik } from 'formik';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
 import StarterKitContext from '../../context/starterKit';
 import TalentLayerID from '../../contracts/ABI/TalentLayerID.json';
-import { postToIPFS } from '../../utils/ipfs';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../utils/toast';
 import Loading from '../Loading';
 import SubmitButton from './SubmitButton';
@@ -16,6 +15,7 @@ import { useChainId } from '../../hooks/useChainId';
 import { useConfig } from '../../hooks/useConfig';
 import { QuestionMarkCircle } from 'heroicons-react';
 import { generatePicture } from '../../utils/ai-picture-gen';
+import { TalentLayerClient } from '@TalentLayer/client';
 
 interface IFormValues {
   title?: string;
@@ -35,12 +35,26 @@ function ProfileForm({ callback }: { callback?: () => void }) {
   const config = useConfig();
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
-  const { user, isActiveDelegate } = useContext(StarterKitContext);
+  const { user } = useContext(StarterKitContext);
   const { data: walletClient } = useWalletClient({ chainId });
   const publicClient = usePublicClient({ chainId });
   const { address } = useAccount();
   const [aiLoading, setAiLoading] = useState(false);
   const userDescription = user?.id ? useUserById(user?.id)?.description : null;
+
+  const { isActiveDelegate } = useContext(StarterKitContext);
+  const [tlClient, setTlClient] = useState<TalentLayerClient>();
+
+  useEffect(() => {
+    if (chainId) {
+      const _tlClient = new TalentLayerClient({
+        chainId,
+        infuraClientId: '2TcBxC3hzB3bMUgpD3FkxI6tt4D',
+        infuraClientSecret: '29e380e2b6b89499074b90b2b5b8ebb9',
+      });
+      setTlClient(_tlClient);
+    }
+  }, [chainId]);
 
   if (!user?.id) {
     return <Loading />;
@@ -72,29 +86,24 @@ function ProfileForm({ callback }: { callback?: () => void }) {
   ) => {
     if (user && walletClient && publicClient) {
       try {
-        const cid = await postToIPFS(
-          JSON.stringify({
-            title: values.title,
-            role: values.role,
-            image_url: values.image_url,
-            video_url: values.video_url,
-            name: values.name,
-            about: values.about,
-            skills: values.skills,
-          }),
-        );
+        const cid = await tlClient?.uploadProfileDataToIpfs({
+          title: values.title,
+          role: values.role,
+          image_url: values.image_url,
+          video_url: values.video_url,
+          name: values.name,
+          about: values.about,
+          skills: values.skills,
+        });
+
         let tx;
+        console.log("SDK consumer delegate: ", isActiveDelegate)
+
         if (isActiveDelegate) {
           const response = await delegateUpdateProfileData(chainId, user.id, user.address, cid);
           tx = response.data.transaction;
         } else {
-          tx = await walletClient.writeContract({
-            address: config.contracts.talentLayerId,
-            abi: TalentLayerID.abi,
-            functionName: 'updateProfileData',
-            args: [user.id, cid],
-            account: address,
-          });
+          tx = await tlClient?.updateProfileData(user.id, cid || "");  
         }
 
         await createMultiStepsTransactionToast(
@@ -116,6 +125,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
 
         setSubmitting(false);
       } catch (error) {
+        console.log(error);
         showErrorTransactionToast(error);
       }
     } else {
