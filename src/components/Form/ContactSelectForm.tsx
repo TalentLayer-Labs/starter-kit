@@ -8,13 +8,13 @@ import { Contact } from '@iexec/web3mail';
 interface IFormValues {
   subject: string;
   body: string;
-  contacts: string[];
+  contacts: { address: string; index: number }[];
 }
 
 const validationSchema = Yup.object({
   subject: Yup.string().required('Please provide a subject'),
   body: Yup.string().required('Please provide a body'),
-  contacts: Yup.array().min(1).of(Yup.string().required('Please provide at least one contact')),
+  contacts: Yup.array().min(1).required('Please provide at least one contact'),
 });
 export const ContactListForm = ({ contactList }: { contactList: Contact[] }) => {
   const initialValues: IFormValues = {
@@ -85,23 +85,36 @@ export const ContactListForm = ({ contactList }: { contactList: Contact[] }) => 
               </span>
             </label>
 
-            <div className={'flex flex-row space-x-10'}>
-              <label className='block flex-auto'>
-                <span className='text-gray-100'>Available Contacts</span>
-
-                <FieldArray
-                  name='contacts'
-                  render={arrayHelpers => (
+            <FieldArray
+              name='contacts'
+              render={arrayHelpers => (
+                <div className={'flex flex-row space-x-10'}>
+                  <label className='block flex-auto'>
+                    <span className='text-gray-100'>Available Contacts</span>
                     <div className={'overflow-y-auto overflow-x-visible h-24'}>
                       {contactList && contactList.length > 0 ? (
                         contactList.map((contact, index) => {
-                          const handleAddContact = () => arrayHelpers.insert(index, contact.owner);
-                          return !values.contacts.includes(contact.owner) ? (
-                            <div key={index} className={'text-gray-400'}>
+                          const handleAddContact = () => {
+                            arrayHelpers.insert(index, {
+                              address: contact.owner,
+                              index,
+                            });
+                            console.log(values.contacts);
+                          };
+                          const handleRemoveContact = () => {
+                            arrayHelpers.remove(index);
+                          };
+                          const addressAlreadyAdded = values.contacts
+                            .map(contact => contact.address)
+                            .includes(contact.owner);
+                          return (
+                            <div
+                              key={index}
+                              className={`text-gray-400 ${addressAlreadyAdded ? 'hidden' : ''}`}>
                               {contact.owner}
                               <button
                                 type='button'
-                                onClick={() => arrayHelpers.remove(index)} // remove a friend from the list
+                                onClick={handleRemoveContact} // remove a friend from the list
                               >
                                 -
                               </button>
@@ -112,35 +125,38 @@ export const ContactListForm = ({ contactList }: { contactList: Contact[] }) => 
                                 +
                               </button>
                             </div>
-                          ) : (
-                            ''
                           );
                         })
                       ) : (
                         <p>No Contacts</p>
                       )}
                     </div>
-                  )}
-                />
-                <span className='text-red-500'>
-                  <ErrorMessage name='contacts' />
-                </span>
-              </label>
-              <label className='block flex-auto '>
-                <span className='text-gray-100'>Selected Contacts</span>
-                <div className={'overflow-y-auto overflow-x-visible w-auto h-24'}>
-                  {values.contacts.length > 0 ? (
-                    values.contacts.map((contact, index) => (
-                      <div key={index} className={'text-gray-400'}>
-                        {contact}
-                      </div>
-                    ))
-                  ) : (
-                    <p>No Contacts</p>
-                  )}
+                    <span className='text-red-500'>
+                      <ErrorMessage name='contacts' />
+                    </span>
+                  </label>
+                  <label className='block flex-auto '>
+                    <span className='text-gray-100'>Selected Contacts</span>
+                    <div className={'overflow-y-auto overflow-x-visible w-auto h-24'}>
+                      {values.contacts.length > 0 ? (
+                        values.contacts.map(contact => (
+                          <div key={contact.index} className={'text-gray-400'}>
+                            {contact.address}
+                            <button
+                              type='button'
+                              onClick={() => arrayHelpers.remove(contact.index)}>
+                              -
+                            </button>
+                          </div>
+                        ))
+                      ) : (
+                        <p>No Contacts</p>
+                      )}
+                    </div>
+                  </label>
                 </div>
-              </label>
-            </div>
+              )}
+            />
 
             <SubmitButton isSubmitting={isSubmitting} label='Send' />
           </div>
