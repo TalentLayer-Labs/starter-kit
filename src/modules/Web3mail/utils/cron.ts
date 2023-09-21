@@ -16,7 +16,7 @@ export const calculateCronData = (
   req: NextApiRequest,
   RETRY_FACTOR: number,
   emailType: EmailType,
-) => {
+): { cronDuration: number; sinceTimestamp: string } => {
   let sinceTimestamp: string = '';
   let cronDuration = 0;
   if (req.query.sinceTimestamp) {

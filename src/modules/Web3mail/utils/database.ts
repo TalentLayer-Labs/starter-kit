@@ -4,82 +4,65 @@ import { CronProbe } from '../schemas/cronProbe';
 
 const getTimestampNowSeconds = () => Math.floor(new Date().getTime() / 1000);
 
-export const checkProposalExistenceInDb = async (
+export const hasProposalEmailBeenSent = async (
   proposal: IProposal,
-  nonSentProposals: IProposal[],
   emailType: EmailType,
-) => {
+): Promise<boolean> => {
   console.log(`---------------------- Proposal ${proposal.id} ----------------------`);
-  try {
-    const existingProposal = await Web3Mail.findOne({
-      id: `${proposal.id}-${emailType}`,
-    });
-    if (!existingProposal) {
-      console.error('Proposal not in DB');
-      nonSentProposals.push(proposal);
-    }
-  } catch (e) {
-    console.error(e);
+  const existingProposal = await Web3Mail.findOne({
+    id: `${proposal.id}-${emailType}`,
+  });
+  if (!existingProposal) {
+    console.log('Proposal not in DB');
+    return false;
   }
+  return true;
 };
 
-export const checkPaymentExistenceInDb = async (
+export const hasPaymentEmailBeenSent = async (
   payment: IPayment,
-  nonSentPayments: IPayment[],
   emailType: EmailType,
-) => {
+): Promise<boolean> => {
   console.log(`---------------------- Payment ${payment.id} ----------------------`);
-  try {
-    const existingPayment = await Web3Mail.findOne({
-      id: `${payment.id}-${emailType}`,
-    });
-    if (!existingPayment) {
-      console.error('Payment not in DB');
-      nonSentPayments.push(payment);
-    }
-  } catch (e) {
-    console.error(e);
+  const existingPayment = await Web3Mail.findOne({
+    id: `${payment.id}-${emailType}`,
+  });
+  if (!existingPayment) {
+    console.log('Payment not in DB');
+    return false;
   }
+  return true;
 };
 
-export const checkReviewExistenceInDb = async (
+export const hasReviewEmailBeenSent = async (
   review: IReview,
-  nonSentReviews: IReview[],
   emailType: EmailType,
-) => {
+): Promise<boolean> => {
   console.log(`---------------------- Review ${review.id} ----------------------`);
-  try {
-    const existingReview = await Web3Mail.findOne({
-      id: `${review.id}-${emailType}`,
-    });
-    if (!existingReview) {
-      console.error('Review not in DB');
-      nonSentReviews.push(review);
-    }
-  } catch (e) {
-    console.error(e);
+  const existingReview = await Web3Mail.findOne({
+    id: `${review.id}-${emailType}`,
+  });
+  if (!existingReview) {
+    console.log('Review not in DB');
+    return false;
   }
+  return true;
 };
 
-export const checkNewServiceExistenceInDb = async (
+export const hasNewServiceEmailBeenSent = async (
   userId: string,
   service: IService,
   emailType: EmailType,
 ): Promise<boolean> => {
   console.log(`---------------------- Service ${service.id} ----------------------`);
-  try {
-    const existingService = await Web3Mail.findOne({
-      id: `${userId}-${service.id}-${emailType}`,
-    });
-    if (!existingService) {
-      console.error('Service not in DB');
-      return false;
-    }
-    return true;
-  } catch (e) {
-    console.error(e);
+  const existingService = await Web3Mail.findOne({
+    id: `${userId}-${service.id}-${emailType}`,
+  });
+  if (!existingService) {
+    console.log('Service not in DB');
     return false;
   }
+  return true;
 };
 
 export const persistEmail = async (id: string, emailType: EmailType) => {
