@@ -53,7 +53,7 @@ export const ContactListForm = ({ contactList }: { contactList: Contact[] }) => 
       enableReinitialize={true}
       onSubmit={onSubmit}
       validationSchema={validationSchema}>
-      {({ isSubmitting }) => (
+      {({ isSubmitting, values }) => (
         <Form>
           <div className='grid grid-cols-1 gap-6 border border-gray-700 rounded-xl p-6 bg-endnight'>
             <label className='block'>
@@ -85,41 +85,62 @@ export const ContactListForm = ({ contactList }: { contactList: Contact[] }) => 
               </span>
             </label>
 
-            <label className='block'>
-              <span className='text-gray-100'>Contacts</span>
+            <div className={'flex flex-row space-x-10'}>
+              <label className='block flex-auto'>
+                <span className='text-gray-100'>Available Contacts</span>
 
-              <FieldArray
-                name='contacts'
-                render={arrayHelpers => (
-                  <div>
-                    {contactList && contactList.length > 0 ? (
-                      contactList.map((contact, index) => (
-                        <div key={index}>
-                          {contact.owner}
-                          <button
-                            type='button'
-                            onClick={() => arrayHelpers.remove(index)} // remove a friend from the list
-                          >
-                            -
-                          </button>
-                          <button
-                            type='button'
-                            onClick={() => arrayHelpers.insert(index, contact.address)} // insert an empty string at a position
-                          >
-                            +
-                          </button>
-                        </div>
-                      ))
-                    ) : (
-                      <p>No Contacts</p>
-                    )}
-                  </div>
-                )}
-              />
-              <span className='text-red-500'>
-                <ErrorMessage name='contacts' />
-              </span>
-            </label>
+                <FieldArray
+                  name='contacts'
+                  render={arrayHelpers => (
+                    <div className={'overflow-y-auto overflow-x-visible h-24'}>
+                      {contactList && contactList.length > 0 ? (
+                        contactList.map((contact, index) => {
+                          const handleAddContact = () => arrayHelpers.insert(index, contact.owner);
+                          return !values.contacts.includes(contact.owner) ? (
+                            <div key={index} className={'text-gray-400'}>
+                              {contact.owner}
+                              <button
+                                type='button'
+                                onClick={() => arrayHelpers.remove(index)} // remove a friend from the list
+                              >
+                                -
+                              </button>
+                              <button
+                                type='button'
+                                onClick={handleAddContact} // insert an empty string at a position
+                              >
+                                +
+                              </button>
+                            </div>
+                          ) : (
+                            ''
+                          );
+                        })
+                      ) : (
+                        <p>No Contacts</p>
+                      )}
+                    </div>
+                  )}
+                />
+                <span className='text-red-500'>
+                  <ErrorMessage name='contacts' />
+                </span>
+              </label>
+              <label className='block flex-auto '>
+                <span className='text-gray-100'>Selected Contacts</span>
+                <div className={'overflow-y-auto overflow-x-visible w-auto h-24'}>
+                  {values.contacts.length > 0 ? (
+                    values.contacts.map((contact, index) => (
+                      <div key={index} className={'text-gray-400'}>
+                        {contact}
+                      </div>
+                    ))
+                  ) : (
+                    <p>No Contacts</p>
+                  )}
+                </div>
+              </label>
+            </div>
 
             <SubmitButton isSubmitting={isSubmitting} label='Send' />
           </div>
