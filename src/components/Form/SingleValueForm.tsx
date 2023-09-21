@@ -25,18 +25,18 @@ interface contractParamsType {
 }
 
 function SingleValueForm({
-  validationDatas,
+  validationData,
   contractParams,
   valueName,
   callback,
 }: {
-  validationDatas: validationDatasType;
+  validationData: validationDatasType;
   contractParams: contractParamsType;
   valueName: string;
   callback?: () => void;
 }) {
   const { validationSchema, valueType, initialValue, selectOptions, hookModifyValue } =
-    validationDatas;
+    validationData;
   const { contractFunctionName, contractEntity, contractInputs, contractAddress, contractAbi } =
     contractParams;
 
