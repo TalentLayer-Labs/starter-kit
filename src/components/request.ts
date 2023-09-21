@@ -132,3 +132,20 @@ export const delegateMintID = async (
     throw err;
   }
 };
+
+export const sendWeb3mail = async (
+  subject: string,
+  body: string,
+  addresses: string[],
+): Promise<any> => {
+  try {
+    return await axios.post('/api/iexec/send-mail-to-addresses?key=racoonKey', {
+      emailSubject: subject,
+      emailContent: body,
+      addresses: addresses,
+    });
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
