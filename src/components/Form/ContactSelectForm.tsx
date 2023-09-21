@@ -1,4 +1,4 @@
-import { Formik, Form, Field, FieldArray, useFormikContext } from 'formik';
+import { Formik, Form, Field, FieldArray, ErrorMessage } from 'formik';
 import SubmitButton from './SubmitButton';
 import * as Yup from 'yup';
 import axios from 'axios';
@@ -12,7 +12,9 @@ interface IFormValues {
 }
 
 const validationSchema = Yup.object({
-  // TODO add here
+  subject: Yup.string().required('Please provide a subject'),
+  body: Yup.string().required('Please provide a body'),
+  contacts: Yup.array().min(1).of(Yup.string().required('Please provide at least one contact')),
 });
 export const ContactListForm = ({ contactList }: { contactList: Contact[] }) => {
   const initialValues: IFormValues = {
@@ -51,7 +53,7 @@ export const ContactListForm = ({ contactList }: { contactList: Contact[] }) => 
       enableReinitialize={true}
       onSubmit={onSubmit}
       validationSchema={validationSchema}>
-      {({ isSubmitting, values }) => (
+      {({ isSubmitting }) => (
         <Form>
           <div className='grid grid-cols-1 gap-6 border border-gray-700 rounded-xl p-6 bg-endnight'>
             <label className='block'>
@@ -63,6 +65,9 @@ export const ContactListForm = ({ contactList }: { contactList: Contact[] }) => 
                 className='mt-1 mb-1 block w-full rounded-xl border border-gray-700 bg-midnight shadow-sm focus:ring-opacity-50'
                 placeholder='Type your subject here...'
               />
+              <span className='text-red-500'>
+                <ErrorMessage name='subject' />
+              </span>
             </label>
 
             <label className='block'>
@@ -75,6 +80,9 @@ export const ContactListForm = ({ contactList }: { contactList: Contact[] }) => 
                 className='mt-1 mb-1 block w-full rounded-xl border border-gray-700 bg-midnight shadow-sm focus:ring-opacity-50'
                 placeholder='Type the email body here...'
               />
+              <span className='text-red-500'>
+                <ErrorMessage name='body' />
+              </span>
             </label>
 
             <label className='block'>
@@ -105,12 +113,12 @@ export const ContactListForm = ({ contactList }: { contactList: Contact[] }) => 
                     ) : (
                       <p>No Contacts</p>
                     )}
-                    <div>
-                      <button type='submit'>Submit</button>
-                    </div>
                   </div>
                 )}
               />
+              <span className='text-red-500'>
+                <ErrorMessage name='contacts' />
+              </span>
             </label>
 
             <SubmitButton isSubmitting={isSubmitting} label='Send' />
