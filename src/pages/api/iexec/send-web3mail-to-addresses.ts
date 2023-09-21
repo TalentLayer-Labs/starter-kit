@@ -1,14 +1,13 @@
-import { IExecWeb3mail, getWeb3Provider as getMailProvider } from '@iexec/web3mail';
-import { IExecDataProtector, getWeb3Provider as getProtectorProvider } from '@iexec/dataprotector';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { userGaveAccessToPlatform } from '../../../modules/Web3mail/utils/data-protector';
+import { generateWeb3mailProviders } from '../utils/web3mail';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const privateKey = process.env.NEXT_PUBLIC_WEB3MAIL_PLATFORM_PRIVATE_KEY;
-  const { emailSubject, emailContent, addresses } = req.body;
-  let successCount = 0,
-    errorCount = 0;
-  if (!emailSubject || !emailContent || !addresses) return res.status(500).json(`Missing argument`);
+  const { subject, body, contacts } = req.body;
+  let sentEmails = 0,
+    nonSentEmails = 0;
+  if (!subject || !body || !contacts) return res.status(500).json(`Missing argument`);
 
   console.log('Sending email to addresses');
   if (!privateKey) {
@@ -16,12 +15,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    const mailWeb3Provider = getMailProvider(privateKey);
-    const web3mail = new IExecWeb3mail(mailWeb3Provider);
-    const protectorWebProvider = getProtectorProvider(privateKey);
-    const dataProtector = new IExecDataProtector(protectorWebProvider);
+    const { dataProtector, web3mail } = generateWeb3mailProviders(privateKey);
 
-    for (const address of addresses) {
+    for (const address of contacts) {
       try {
         console.log(`------- Sending to ${address} -------`);
 
@@ -29,20 +25,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const protectedEmailAddress = await userGaveAccessToPlatform(address, dataProtector);
 
         if (!protectedEmailAddress) {
-          errorCount++;
-          console.error(`sendMailToAddresses - User ${address} did not grant access to his email`);
+          nonSentEmails++;
+          console.log(`sendMailToAddresses - User ${address} did not grant access to his email`);
           continue;
         }
 
         const mailSent = await web3mail.sendEmail({
           protectedData: protectedEmailAddress,
-          emailSubject: emailSubject,
-          emailContent: emailContent,
+          emailSubject: subject,
+          emailContent: body,
         });
-        successCount++;
+        sentEmails++;
         console.log('sent email', mailSent);
       } catch (e: any) {
-        errorCount++;
+        nonSentEmails++;
         console.error(e.message);
       }
     }
@@ -52,5 +48,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
   return res
     .status(200)
-    .json(`Web3 Emails sent - ${successCount} email successfully sent | ${errorCount} errors`);
+    .json(
+      `Web3 Emails sent - ${sentEmails} email successfully sent | ${nonSentEmails} non sent emails`,
+    );
 }

@@ -4,8 +4,8 @@ import { NextApiRequest, NextApiResponse } from 'next';
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const privateKey = process.env.NEXT_PUBLIC_WEB3MAIL_PLATFORM_PRIVATE_KEY;
   const { emailSubject, emailContent } = req.body;
-  let successCount = 0,
-    errorCount = 0;
+  let sentEmails = 0,
+    nonSentEmails = 0;
   if (!emailSubject || !emailContent) return res.status(500).json(`Missing argument`);
 
   console.log('Sending email to all contacts');
@@ -26,10 +26,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           emailSubject: emailSubject,
           emailContent: emailContent,
         });
-        successCount++;
+        sentEmails++;
         console.log('sentMail', sentMail);
       } catch (e: any) {
-        errorCount++;
+        nonSentEmails++;
         console.error(e.message);
       }
     }
@@ -39,5 +39,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
   return res
     .status(200)
-    .json(`Web3 Emails sent - ${successCount} email successfully sent | ${errorCount} errors`);
+    .json(
+      `Web3 Emails sent - ${sentEmails} email successfully sent | ${nonSentEmails} non sent emails`,
+    );
 }
