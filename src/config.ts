@@ -1,4 +1,5 @@
 import { IToken, NetworkEnum } from './types';
+import { ZERO_ADDRESS } from './utils/constant';
 
 export type Config = {
   networkId: NetworkEnum;
@@ -31,8 +32,8 @@ const mumbai: Config = {
     timeoutPayment: 3600 * 24 * 7,
   },
   tokens: {
-    '0x0000000000000000000000000000000000000000': {
-      address: '0x0000000000000000000000000000000000000000',
+    [ZERO_ADDRESS]: {
+      address: ZERO_ADDRESS,
       symbol: 'MATIC',
       name: 'Matic',
       decimals: 18,
@@ -61,8 +62,8 @@ const local: Config = {
     timeoutPayment: 3600 * 24 * 7,
   },
   tokens: {
-    '0x0000000000000000000000000000000000000000': {
-      address: '0x0000000000000000000000000000000000000000',
+    [ZERO_ADDRESS]: {
+      address: ZERO_ADDRESS,
       symbol: 'ETH',
       name: 'ETH',
       decimals: 18,
