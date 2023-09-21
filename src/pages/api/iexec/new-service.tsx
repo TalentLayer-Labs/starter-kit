@@ -1,41 +1,36 @@
 import mongoose from 'mongoose';
-import { EmailType, IService } from '../../../types';
+import { EmailType, IService, IUser } from '../../../types';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { sendMailToAddresses } from '../../../scripts/iexec/sendMailToAddresses';
-import { getUserWeb3mailPreferencesForNewServices } from '../../../queries/users';
+import { getWeb3mailUsersForNewServices } from '../../../queries/users';
 import { calculateCronData } from '../../../modules/Web3mail/utils/cron';
 import {
-  checkNewServiceExistenceInDb,
+  hasNewServiceEmailBeenSent,
   persistCronProbe,
   persistEmail,
 } from '../../../modules/Web3mail/utils/database';
-import { Contact, IExecWeb3mail, getWeb3Provider as getMailProvider } from '@iexec/web3mail';
 import { getNewServicesForPlatform } from '../../../queries/services';
-import { prepareCronApi } from '../utils/web3mail';
+import { generateWeb3mailProviders, prepareCronApi } from '../utils/web3mail';
 
 /** TODO A faire dans cet ordre
  get keywords - save in map => array of keywords
- on loop sur les contacts, premier check sur metadata
+ Fetch contact qui ont opté pour la feature, on loop sur les contacts
  2eme check sur chaque service dans la db (id = serviceid-userid-emailtype)
  3ème check sur les keywords
  Si tous les checks passent, on envoie l'email, on persiste en db
  */
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const iexecPrivateKey = process.env.NEXT_PUBLIC_WEB3MAIL_PLATFORM_PRIVATE_KEY;
   const chainId = process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as string;
   const platformId = process.env.NEXT_PUBLIC_PLATFORM_ID as string;
   const mongoUri = process.env.NEXT_MONGO_URI as string;
-
   const cronSecurityKey = req.query.key as string;
+  const privateKey = process.env.NEXT_PUBLIC_WEB3MAIL_PLATFORM_PRIVATE_KEY as string;
+
   const RETRY_FACTOR = 5;
-  let successCount = 0,
-    errorCount = 0;
+  let sentEmails = 0,
+    nonSentEmails = 0;
 
-  prepareCronApi(chainId, platformId, mongoUri, cronSecurityKey, res);
-
-  if (!iexecPrivateKey) {
-    return res.status(500).json('Private key is not set');
-  }
+  prepareCronApi(chainId, platformId, mongoUri, cronSecurityKey, privateKey, res);
 
   await mongoose.connect(mongoUri as string);
 
@@ -47,70 +42,70 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   );
 
   try {
-    //TODO: Call graph au lieu de getchCOntact
-    const mailWeb3Provider = getMailProvider(iexecPrivateKey);
-    const web3mail = new IExecWeb3mail(mailWeb3Provider);
-    const contactList: Contact[] = await web3mail.fetchMyContacts();
+    // Get all users that opted for the feature
+    const response = await getWeb3mailUsersForNewServices(Number(chainId), 'activeOnNewService');
+    const contactList: IUser[] = response.data.data.users;
     console.log('contactList', contactList);
 
+    if (contactList.length === 0) {
+      return res.status(200).json(`No User opted for this feature`);
+    }
+
     // Check if new services are available & get their keywords
-    const response = await getNewServicesForPlatform(Number(chainId), platformId, sinceTimestamp);
-    console.log('All Services', response.data.data.services);
-    const services = response.data.data.services;
+    const serviceResponse = await getNewServicesForPlatform(
+      Number(chainId),
+      platformId,
+      sinceTimestamp,
+    );
+    console.log('All Services', serviceResponse.data.data.services);
+    const services: IService[] = serviceResponse.data.data.services;
 
     if (services.length === 0) {
       return res.status(200).json(`No new services available`);
     }
 
+    const { dataProtector, web3mail } = generateWeb3mailProviders(privateKey);
+
+    // For each contact, check if an email was already sent for each new service. If not, check if skills match
     for (const contact of contactList) {
       console.log(
-        '*************************************contact*************************************',
+        '*************************************Contact*************************************',
         contact.address,
       );
-      // Check whether the user opted for the called feature
-      //TODO query not tested
-      const userData = await getUserWeb3mailPreferencesForNewServices(
-        Number(chainId),
-        contact.address,
-        'activeOnNewService',
-      );
-      // TODO uncomment when feature is ready
-      // if (!userData.description.web3mailPreferences.activeOnNewService) {
-      //   console.error(`User has not opted in for the ${EmailType.PlatformMarketing} feature`);
-      //   continue;
-      // }
-      for (const service of services as IService[]) {
-        // Check if the service is already in the DB for this user
-        const serviceIsInDb = await checkNewServiceExistenceInDb(
-          userData.id,
+      for (const service of services) {
+        // Check if a notification email has already been sent for this service
+        const emailHasBeenSent = await hasNewServiceEmailBeenSent(
+          contact.id,
           service,
           EmailType.NewService,
         );
-        if (!serviceIsInDb) {
+        if (!emailHasBeenSent) {
           try {
+            //TODO remove this for prod
             const userSkills = [
               'python',
               'python experimental economics toolkit peet',
               'contract negotiation',
             ];
-            // const userSkills = userData.skills_raw?.split(',');
+            // const userSkills = contact.skills_raw?.split(',');
             const serviceSkills = service.description?.keywords_raw?.split(',');
             // Check if the service keywords match the user keywords
             const matchingSkills = userSkills?.filter((skill: string) =>
               serviceSkills?.includes(skill),
             );
+            //TODO remove logs for prod
             console.log('userSkills', userSkills);
             console.log('serviceSkills', serviceSkills);
             console.log('matchingSkills', matchingSkills);
-            if (matchingSkills?.length > 1) {
+            if (matchingSkills?.length > 0) {
               console.log(
-                `The skills you have which are required by this service are: ${matchingSkills.join(
-                  ', ',
-                )}`,
+                `The skills ${
+                  contact.handle
+                } has which are required by this service are: ${matchingSkills.join(', ')}`,
               );
             }
             if (matchingSkills?.length > 0) {
-              await sendMailToAddresses(
+              const { successCount, errorCount } = await sendMailToAddresses(
                 `A new service matching your skills is available on TalentLayer !`,
                 `Good news, the following service: "${
                   service.description?.title
@@ -123,13 +118,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                   Be the first one to send a proposal !`,
                 [contact.address],
                 true,
+                dataProtector,
+                web3mail,
               );
-              await persistEmail(`${userData.id}-${service.id}`, EmailType.NewService);
-              successCount++;
+              await persistEmail(`${contact.id}-${service.id}`, EmailType.NewService);
               console.log('Email sent');
             }
           } catch (e: any) {
-            errorCount++;
             console.error(e.message);
           }
         }
@@ -141,10 +136,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   } finally {
     if (!req.query.sinceTimestamp) {
       // Update cron probe in db
-      persistCronProbe(EmailType.NewService, successCount, errorCount, cronDuration);
+      await persistCronProbe(EmailType.NewService, sentEmails, nonSentEmails, cronDuration);
     }
   }
   return res
     .status(200)
-    .json(`Web3 Emails sent - ${successCount} email successfully sent | ${errorCount} errors`);
+    .json(
+      `Web3 Emails sent - ${sentEmails} email successfully sent | ${nonSentEmails} non sent emails`,
+    );
 }
