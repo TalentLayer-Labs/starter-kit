@@ -148,7 +148,7 @@ export const getProposalsFromPlatformServices = (
   return processRequest(chainId, query);
 };
 
-export const getAcceptedProposal = (
+export const getAcceptedProposals = (
   chainId: number,
   id: string,
   timestamp?: string,
