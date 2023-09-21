@@ -84,7 +84,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           await sendMailToAddresses(
             `Funds ${action} for the service - ${payment.service.description?.title}`,
             `${handle} has ${action} ${payment.amount} ${payment.rateToken.symbol} for the 
-            service ${payment.service.description?.title} on TalentLayer !`,
+            service ${payment.service.description?.title} on TalentLayer !
+            
+            You can find details on this service here: ${payment.service.platform.description.website}/dashboard/services/${payment.id}`,
             [address],
             true,
             dataProtector,
@@ -92,7 +94,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           );
           await persistEmail(payment.id, EmailType.FundRelease);
           sentEmails++;
-          console.log('Email sent');
         } catch (e: any) {
           nonSentEmails++;
           console.error(e.message);

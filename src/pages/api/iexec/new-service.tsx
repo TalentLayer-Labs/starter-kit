@@ -80,32 +80,32 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           EmailType.NewService,
         );
         if (!emailHasBeenSent) {
-          try {
-            //TODO remove this for prod
-            const userSkills = [
-              'python',
-              'python experimental economics toolkit peet',
-              'contract negotiation',
-            ];
-            // const userSkills = contact.skills_raw?.split(',');
-            const serviceSkills = service.description?.keywords_raw?.split(',');
-            // Check if the service keywords match the user keywords
-            const matchingSkills = userSkills?.filter((skill: string) =>
-              serviceSkills?.includes(skill),
+          //TODO remove this for prod
+          const userSkills = [
+            'python',
+            'python experimental economics toolkit peet',
+            'contract negotiation',
+          ];
+          // const userSkills = contact.skills_raw?.split(',');
+          const serviceSkills = service.description?.keywords_raw?.split(',');
+          // Check if the service keywords match the user keywords
+          const matchingSkills = userSkills?.filter((skill: string) =>
+            serviceSkills?.includes(skill),
+          );
+          //TODO remove logs for prod
+          console.log('userSkills', userSkills);
+          console.log('serviceSkills', serviceSkills);
+          console.log('matchingSkills', matchingSkills);
+          if (matchingSkills?.length > 0) {
+            console.log(
+              `The skills ${
+                contact.handle
+              } has which are required by this service are: ${matchingSkills.join(', ')}`,
             );
-            //TODO remove logs for prod
-            console.log('userSkills', userSkills);
-            console.log('serviceSkills', serviceSkills);
-            console.log('matchingSkills', matchingSkills);
-            if (matchingSkills?.length > 0) {
-              console.log(
-                `The skills ${
-                  contact.handle
-                } has which are required by this service are: ${matchingSkills.join(', ')}`,
-              );
-            }
-            if (matchingSkills?.length > 0) {
-              const { successCount, errorCount } = await sendMailToAddresses(
+          }
+          if (matchingSkills?.length > 0) {
+            try {
+              await sendMailToAddresses(
                 `A new service matching your skills is available on TalentLayer !`,
                 `Good news, the following service: "${
                   service.description?.title
@@ -115,17 +115,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                   The skills you have which are required by this service are: ${matchingSkills.join(
                     ', ',
                   )}.
-                  Be the first one to send a proposal !`,
+                  Be the first one to send a proposal !
+                  
+                  You can find details on this service here: ${
+                    service.platform.description.website
+                  }/dashboard/services/${service.id}`,
                 [contact.address],
                 true,
                 dataProtector,
                 web3mail,
               );
               await persistEmail(`${contact.id}-${service.id}`, EmailType.NewService);
-              console.log('Email sent');
+              sentEmails++;
+            } catch (e: any) {
+              console.error(e.message);
+              nonSentEmails++;
             }
-          } catch (e: any) {
-            console.error(e.message);
           }
         }
       }

@@ -91,7 +91,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             );
             await persistEmail(proposal.id, EmailType.NewProposal);
             sentEmails++;
-            console.log('Email sent');
           } catch (e: any) {
             nonSentEmails++;
             console.error(e.message);
