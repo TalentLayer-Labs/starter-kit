@@ -30,6 +30,7 @@ export const validateProposal = async (
         functionName: 'createTransaction',
         args: [parseInt(serviceId, 10), parseInt(proposalId, 10), metaEvidenceCid, cid],
         value: value,
+        account: walletClient.account?.address,
       });
       const tx1 = await walletClient.writeContract(request);
       const receipt1 = await toast.promise(publicClient.waitForTransactionReceipt({ hash: tx1 }), {
@@ -71,6 +72,7 @@ export const validateProposal = async (
           abi: TalentLayerEscrow.abi,
           functionName: 'approve',
           args: [config.contracts.talentLayerEscrow, value],
+          account: walletClient.account?.address,
         });
         const tx1 = await walletClient.writeContract(request);
 
@@ -97,6 +99,7 @@ export const validateProposal = async (
         abi: TalentLayerEscrow.abi,
         functionName: 'createTransaction',
         args: [parseInt(serviceId, 10), parseInt(proposalId, 10), metaEvidenceCid, cid],
+        account: walletClient.account?.address,
       });
       const tx2 = await walletClient.writeContract(request);
       const receipt2 = await toast.promise(publicClient.waitForTransactionReceipt({ hash: tx2 }), {
