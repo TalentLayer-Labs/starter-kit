@@ -72,6 +72,7 @@ export const validateProposal = async (
           abi: TalentLayerEscrow.abi,
           functionName: 'approve',
           args: [config.contracts.talentLayerEscrow, value],
+          account: walletClient.account?.address,
         });
         const tx1 = await walletClient.writeContract(request);
 
