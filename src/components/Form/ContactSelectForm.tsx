@@ -4,11 +4,13 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import { showErrorTransactionToast } from '../../utils/toast';
 import { Contact } from '@iexec/web3mail';
+import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline';
+import { useState } from 'react';
 
 interface IFormValues {
   subject: string;
   body: string;
-  contacts: { address: string; index: number }[];
+  contacts: string[];
 }
 
 const validationSchema = Yup.object({
@@ -17,10 +19,31 @@ const validationSchema = Yup.object({
   contacts: Yup.array().min(1).required('Please provide at least one contact'),
 });
 export const ContactListForm = ({ contactList }: { contactList: Contact[] }) => {
+  const [allContractsAdded, setAllContractsAdded] = useState(false);
+
   const initialValues: IFormValues = {
     subject: '',
     body: '',
     contacts: [],
+  };
+
+  const handleAddOrRemoveAllContacts = (
+    event: React.MouseEvent<HTMLInputElement>,
+    arrayHelpers: any,
+    contacts: string[],
+  ) => {
+    setAllContractsAdded(!allContractsAdded);
+    event.stopPropagation();
+    event.preventDefault();
+    if (!allContractsAdded) {
+      contactList.forEach(contact => {
+        if (!contacts.includes(contact.owner)) {
+          arrayHelpers.push(contact.owner);
+        }
+      });
+    } else {
+      contacts.splice(0, contacts.length);
+    }
   };
 
   const onSubmit = async (
@@ -94,42 +117,37 @@ export const ContactListForm = ({ contactList }: { contactList: Contact[] }) => 
                     <div className={'overflow-y-auto overflow-x-visible h-24'}>
                       {contactList && contactList.length > 0 ? (
                         contactList.map((contact, index) => {
-                          const handleAddContact = () => {
-                            arrayHelpers.insert(index, {
-                              address: contact.owner,
-                              index,
-                            });
-                            console.log(values.contacts);
-                          };
-                          const handleRemoveContact = () => {
-                            arrayHelpers.remove(index);
-                          };
-                          const addressAlreadyAdded = values.contacts
-                            .map(contact => contact.address)
-                            .includes(contact.owner);
+                          const addressAlreadyAdded = values.contacts.includes(contact.owner);
                           return (
                             <div
                               key={index}
-                              className={`text-gray-400 ${addressAlreadyAdded ? 'hidden' : ''}`}>
+                              className={`text-gray-400 flex ${
+                                addressAlreadyAdded ? 'hidden' : ''
+                              }`}>
                               {contact.owner}
-                              <button
-                                type='button'
-                                onClick={handleRemoveContact} // remove a friend from the list
-                              >
-                                -
-                              </button>
-                              <button
-                                type='button'
-                                onClick={handleAddContact} // insert an empty string at a position
-                              >
-                                +
-                              </button>
+                              <span onClick={() => arrayHelpers.insert(index, contact.owner)}>
+                                <CheckCircleIcon
+                                  className={
+                                    'ml-3 h-5 w-5 items-center justify-center text-zinc-300 cursor-pointer'
+                                  }
+                                />
+                              </span>
                             </div>
                           );
                         })
                       ) : (
-                        <p>No Contacts</p>
+                        <p className={'text-gray-400 mt-2'}>No Contacts</p>
                       )}
+                    </div>
+                    <div className={'flex flew-row mt-2 center-items'}>
+                      <input
+                        type='checkbox'
+                        className='checked:bg-gray-500 cursor-pointer center-items mt-1'
+                        onClick={event => {
+                          handleAddOrRemoveAllContacts(event, arrayHelpers, values.contacts);
+                        }}
+                      />
+                      <p className={'ml-2 text-gray-400 center-items'}>Add all contacts</p>
                     </div>
                     <span className='text-red-500'>
                       <ErrorMessage name='contacts' />
@@ -139,18 +157,20 @@ export const ContactListForm = ({ contactList }: { contactList: Contact[] }) => 
                     <span className='text-gray-100'>Selected Contacts</span>
                     <div className={'overflow-y-auto overflow-x-visible w-auto h-24'}>
                       {values.contacts.length > 0 ? (
-                        values.contacts.map(contact => (
-                          <div key={contact.index} className={'text-gray-400'}>
-                            {contact.address}
-                            <button
-                              type='button'
-                              onClick={() => arrayHelpers.remove(contact.index)}>
-                              -
-                            </button>
+                        values.contacts.map((contact, index) => (
+                          <div key={index} className={'text-gray-400 flex'}>
+                            {contact}
+                            <span onClick={() => arrayHelpers.remove(index)}>
+                              <XCircleIcon
+                                className={
+                                  'ml-3 h-5 w-5 items-center justify-center text-zinc-300 cursor-pointer'
+                                }
+                              />
+                            </span>
                           </div>
                         ))
                       ) : (
-                        <p>No Contacts</p>
+                        <p className={'text-gray-400'}>No Contacts</p>
                       )}
                     </div>
                   </label>
