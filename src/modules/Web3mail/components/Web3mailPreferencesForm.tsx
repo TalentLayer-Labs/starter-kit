@@ -52,8 +52,8 @@ function Web3mailPreferencesForm() {
           JSON.stringify({
             title: userDescription?.title,
             role: userDescription?.role,
-            imageUrl: userDescription?.imageUrl,
-            videoUrl: userDescription?.videoUrl,
+            image_url: userDescription?.image_url,
+            video_url: userDescription?.video_url,
             name: userDescription?.name,
             about: userDescription?.about,
             skills: userDescription?.skills_raw,
