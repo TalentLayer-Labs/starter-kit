@@ -5,6 +5,7 @@ import { getUserByAddress } from '../queries/users';
 import { IAccount, IUser } from '../types';
 import { getCompletionScores, ICompletionScores } from '../utils/profile';
 import { getPlatform } from '../queries/platform';
+import { toast } from 'react-toastify';
 
 const TalentLayerContext = createContext<{
   user?: IUser;
@@ -57,7 +58,7 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
 
       setUser(currentUser);
       setIsActiveDelegate(
-        process.env.NEXT_PUBLIC_ACTIVE_DELEGATE &&
+        process.env.NEXT_PUBLIC_ACTIVE_DELEGATE === 'true' &&
           userResponse.data.data.users[0].delegates &&
           userResponse.data.data.users[0].delegates.indexOf(
             (process.env.NEXT_PUBLIC_DELEGATE_ADDRESS as string).toLowerCase(),
@@ -69,6 +70,16 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
       setLoading(false);
       // eslint-disable-next-line no-console
       console.error(err);
+      toast.error(`An error happened while loading you account: ${err.message}.`, {
+        position: 'bottom-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      });
       return false;
     }
   };

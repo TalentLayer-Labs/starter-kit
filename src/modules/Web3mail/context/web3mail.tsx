@@ -52,6 +52,9 @@ const Web3MailProvider = ({ children }: { children: ReactNode }) => {
    */
   useEffect(() => {
     const fetchData = async () => {
+      if (process.env.NEXT_PUBLIC_ACTIVE_WEB3MAIL == 'false') {
+        return;
+      }
       if (!account?.isConnected || dataProtector || web3mail) {
         return;
       }

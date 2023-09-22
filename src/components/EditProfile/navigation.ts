@@ -5,31 +5,38 @@ import {
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
 
-export const navigation = [
-  {
-    name: 'Your profile',
-    href: '/dashboard/profile/edit',
-    icon: UserCircleIcon,
-    current: false,
-    completitonKey: 'userDetails',
-  },
-  {
-    name: 'Trust Score',
-    href: '/dashboard/profile/edit/trust-score',
-    icon: StarIcon,
-    current: false,
-  },
-  {
-    name: 'Notifications',
-    href: '/dashboard/profile/edit/privacy',
-    icon: BellAlertIcon,
-    current: false,
-    completitonKey: 'web3mail',
-  },
-  {
-    name: 'Settings',
-    href: '/dashboard/profile/edit/settings',
-    icon: Cog6ToothIcon,
-    current: false,
-  },
-];
+export const navigation = () => {
+  const config = [
+    {
+      name: 'Your profile',
+      href: '/dashboard/profile/edit',
+      icon: UserCircleIcon,
+      current: false,
+      completitonKey: 'userDetails',
+    },
+    {
+      name: 'Trust Score',
+      href: '/dashboard/profile/edit/trust-score',
+      icon: StarIcon,
+      current: false,
+    },
+    {
+      name: 'Notifications',
+      href: '/dashboard/profile/edit/privacy',
+      icon: BellAlertIcon,
+      current: false,
+      completitonKey: 'web3mail',
+    },
+    {
+      name: 'Settings',
+      href: '/dashboard/profile/edit/settings',
+      icon: Cog6ToothIcon,
+      current: false,
+    },
+  ];
+
+  if (process.env.NEXT_PUBLIC_ACTIVE_WEB3MAIL == 'false') {
+    config.slice(1, 2);
+  }
+  return config;
+};
