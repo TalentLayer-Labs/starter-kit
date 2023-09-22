@@ -16,11 +16,16 @@ import { Web3MailProvider } from '../modules/Web3mail/context/web3mail';
 import '../styles/globals.css';
 import Layout from './Layout';
 
-const chains: Chain[] = [iexec, polygonMumbai];
+export const chains: Chain[] = [polygonMumbai, iexec];
+export const defaultChain: Chain | undefined = chains.find(
+  chain => chain.id === parseInt(process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as string),
+);
 const projectId = `${process.env.NEXT_PUBLIC_WALLECT_CONNECT_PROJECT_ID}`;
 
 // Wagmi Client
-const { publicClient } = configureChains(chains, [w3mProvider({ projectId })]);
+const { publicClient } = configureChains(chains, [w3mProvider({ projectId })], {
+  pollingInterval: 10_000,
+});
 const wagmiConfig = createConfig({
   autoConnect: true,
   connectors: w3mConnectors({ projectId, chains }),
@@ -47,7 +52,12 @@ function MyApp({ Component, pageProps }: AppProps) {
             <ToastContainer position='bottom-right' />
           </Web3MailProvider>
         </TalentLayerProvider>
-        <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
+        <Web3Modal
+          projectId={projectId}
+          ethereumClient={ethereumClient}
+          defaultChain={defaultChain}
+          chainImages={{ 134: `/images/blockchain/134.png` }}
+        />
       </WagmiConfig>
     </>
   );

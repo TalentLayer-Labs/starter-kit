@@ -1,11 +1,12 @@
 import { createContext, ReactNode, useEffect, useMemo, useState } from 'react';
-import { useAccount } from 'wagmi';
+import { useAccount, useSwitchNetwork } from 'wagmi';
 import { useChainId } from '../hooks/useChainId';
 import { getUserByAddress } from '../queries/users';
 import { IAccount, IUser } from '../types';
 import { getCompletionScores, ICompletionScores } from '../utils/profile';
 import { getPlatform } from '../queries/platform';
 import { toast } from 'react-toastify';
+import { chains, defaultChain } from '../pages/_app';
 
 const TalentLayerContext = createContext<{
   user?: IUser;
@@ -27,11 +28,21 @@ const TalentLayerContext = createContext<{
 
 const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
   const chainId = useChainId();
+  const { switchNetwork } = useSwitchNetwork();
   const [user, setUser] = useState<IUser | undefined>();
   const account = useAccount();
   const [isActiveDelegate, setIsActiveDelegate] = useState(false);
   const [loading, setLoading] = useState(true);
   const [completionScores, setCompletionScores] = useState<ICompletionScores | undefined>();
+
+  // automatically switch to the default chain is the current one is not part of the config
+  useEffect(() => {
+    if (!switchNetwork) return;
+    const chain = chains.find(chain => chain.id === chainId);
+    if (!chain && defaultChain) {
+      switchNetwork(defaultChain.id);
+    }
+  }, [chainId, switchNetwork]);
 
   const fetchData = async () => {
     if (!account.address || !account.isConnected) {
