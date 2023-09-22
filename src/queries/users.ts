@@ -190,7 +190,7 @@ export const getUsersForWeb3MailFeature = (
 ): Promise<any> => {
   const query = `
     {
-      users(where: {description_ : {web3mailPreferences: ${web3mailPreference}}, address_in: ["${addresses
+      users(where: {description_ : {web3mailPreferences_: {${web3mailPreference}: true}}, address_in: ["${addresses
     .map(a => a.toLowerCase())
     .join('","')}"]}) {
         id
