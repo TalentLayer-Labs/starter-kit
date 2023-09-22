@@ -1,27 +1,29 @@
 import { useWeb3Modal } from '@web3modal/react';
 import { Field, Form, Formik } from 'formik';
+import { QuestionMarkCircle } from 'heroicons-react';
 import { useContext, useState } from 'react';
 import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
 import TalentLayerContext from '../../context/talentLayer';
 import TalentLayerID from '../../contracts/ABI/TalentLayerID.json';
+import { useChainId } from '../../hooks/useChainId';
+import { useConfig } from '../../hooks/useConfig';
+import useUserById from '../../hooks/useUserById';
+import Web3MailContext from '../../modules/Web3mail/context/web3mail';
+import { createWeb3mailToast } from '../../modules/Web3mail/utils/toast';
+import { generatePicture } from '../../utils/ai-picture-gen';
 import { postToIPFS } from '../../utils/ipfs';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../utils/toast';
 import Loading from '../Loading';
-import SubmitButton from './SubmitButton';
-import useUserById from '../../hooks/useUserById';
-import { SkillsInput } from './skills-input';
 import { delegateUpdateProfileData } from '../request';
-import { useChainId } from '../../hooks/useChainId';
-import { useConfig } from '../../hooks/useConfig';
-import { QuestionMarkCircle } from 'heroicons-react';
-import { generatePicture } from '../../utils/ai-picture-gen';
+import SubmitButton from './SubmitButton';
+import { SkillsInput } from './skills-input';
 
 interface IFormValues {
   title?: string;
   role?: string;
-  imageUrl?: string;
-  videoUrl?: string;
+  image_url?: string;
+  video_url?: string;
   name?: string;
   about?: string;
   skills?: string;
@@ -36,6 +38,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
   const { user, isActiveDelegate, refreshData } = useContext(TalentLayerContext);
+  const { platformHasAccess } = useContext(Web3MailContext);
   const { data: walletClient } = useWalletClient({ chainId });
   const publicClient = usePublicClient({ chainId });
   const { address } = useAccount();
@@ -49,8 +52,8 @@ function ProfileForm({ callback }: { callback?: () => void }) {
   const initialValues: IFormValues = {
     title: userDescription?.title || '',
     role: userDescription?.role || '',
-    imageUrl: userDescription?.imageUrl || '',
-    videoUrl: userDescription?.videoUrl || '',
+    image_url: userDescription?.image_url || '',
+    video_url: userDescription?.video_url || '',
     name: userDescription?.name || '',
     about: userDescription?.about || '',
     skills: userDescription?.skills_raw || '',
@@ -59,9 +62,9 @@ function ProfileForm({ callback }: { callback?: () => void }) {
   const generatePictureUrl = async (e: React.FormEvent, callback: (string: string) => void) => {
     e.preventDefault();
     setAiLoading(true);
-    const imageUrl = await generatePicture();
-    if (imageUrl) {
-      callback(imageUrl);
+    const image_url = await generatePicture();
+    if (image_url) {
+      callback(image_url);
     }
     setAiLoading(false);
   };
@@ -76,8 +79,8 @@ function ProfileForm({ callback }: { callback?: () => void }) {
           JSON.stringify({
             title: values.title,
             role: values.role,
-            imageUrl: values.imageUrl,
-            videoUrl: values.videoUrl,
+            image_url: values.image_url,
+            video_url: values.video_url,
             name: values.name,
             about: values.about,
             skills: values.skills,
@@ -117,6 +120,9 @@ function ProfileForm({ callback }: { callback?: () => void }) {
 
         refreshData();
         setSubmitting(false);
+        if (process.env.NEXT_PUBLIC_ACTIVE_WEB3MAIL == 'true' && !platformHasAccess) {
+          createWeb3mailToast();
+        }
       } catch (error) {
         showErrorTransactionToast(error);
       }
@@ -173,8 +179,8 @@ function ProfileForm({ callback }: { callback?: () => void }) {
               <span className='text-gray-100'>Picture Url</span>
               <Field
                 type='text'
-                id='imageUrl'
-                name='imageUrl'
+                id='image_url'
+                name='image_url'
                 className='mt-1 mb-1 block w-full rounded-xl border border-gray-700 bg-midnight shadow-sm focus:ring-opacity-50'
                 placeholder=''
               />
@@ -193,16 +199,16 @@ function ProfileForm({ callback }: { callback?: () => void }) {
                     <button
                       disabled={aiLoading}
                       onClick={e =>
-                        generatePictureUrl(e, newUrl => setFieldValue('imageUrl', newUrl))
+                        generatePictureUrl(e, newUrl => setFieldValue('image_url', newUrl))
                       }
                       className='border text-white bg-gray-700 hover:bg-gray-600 border-gray-600 rounded-md h-10 w-10 p-2 relative inline-flex items-center justify-center space-x-1 font-sans text-sm font-normal leading-5 no-underline outline-none transition-all duration-300'>
                       {aiLoading ? <Loading /> : 'GO'}
                     </button>
                   </div>
                 </div>
-                {values.imageUrl && (
+                {values.image_url && (
                   <div className='flex items-center justify-center py-3'>
-                    <img width='300' height='300' src={values.imageUrl} alt='' />
+                    <img width='300' height='300' src={values.image_url} alt='' />
                   </div>
                 )}
               </div>
