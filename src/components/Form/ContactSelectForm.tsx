@@ -33,8 +33,6 @@ export const ContactListForm = ({ contactList }: { contactList: Contact[] }) => 
     contacts: string[],
   ) => {
     setAllContractsAdded(!allContractsAdded);
-    event.stopPropagation();
-    event.preventDefault();
     if (!allContractsAdded) {
       contactList.forEach(contact => {
         if (!contacts.includes(contact.owner)) {
@@ -112,7 +110,7 @@ export const ContactListForm = ({ contactList }: { contactList: Contact[] }) => 
               name='contacts'
               render={arrayHelpers => (
                 <div className={'flex flex-row space-x-10'}>
-                  <label className='block flex-auto'>
+                  <div className='block flex-auto'>
                     <span className='text-gray-100'>Available Contacts</span>
                     <div className={'overflow-y-auto overflow-x-visible h-24'}>
                       {contactList && contactList.length > 0 ? (
@@ -142,6 +140,7 @@ export const ContactListForm = ({ contactList }: { contactList: Contact[] }) => 
                     <div className={'flex flew-row mt-2 center-items'}>
                       <input
                         type='checkbox'
+                        checked={allContractsAdded}
                         className='checked:bg-gray-500 cursor-pointer center-items mt-1'
                         onClick={event => {
                           handleAddOrRemoveAllContacts(event, arrayHelpers, values.contacts);
@@ -152,7 +151,7 @@ export const ContactListForm = ({ contactList }: { contactList: Contact[] }) => 
                     <span className='text-red-500'>
                       <ErrorMessage name='contacts' />
                     </span>
-                  </label>
+                  </div>
                   <label className='block flex-auto '>
                     <span className='text-gray-100'>Selected Contacts</span>
                     <div className={'overflow-y-auto overflow-x-visible w-auto h-24'}>
