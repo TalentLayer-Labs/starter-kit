@@ -27,7 +27,7 @@ export const delegateUpdateProfileData = async (
   cid: string,
 ): Promise<any> => {
   try {
-    return await axios.post('/api/delegate/update-profil-data', {
+    return await axios.post('/api/delegate/update-profile-data', {
       chainId,
       userId,
       userAddress,
