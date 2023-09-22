@@ -20,7 +20,7 @@ const pointsByUserDetailsFields = {
   title: 10,
   name: 10,
   role: 10,
-  imageUrl: 10,
+  image_url: 10,
   about: 20,
   skills_raw: 20,
 };

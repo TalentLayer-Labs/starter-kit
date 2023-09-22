@@ -33,8 +33,8 @@ export type IUserDetails = {
   title: string;
   name: string;
   role?: string;
-  imageUrl?: string;
-  videoUrl?: string;
+  image_url?: string;
+  video_url?: string;
   about?: string;
   skills_raw?: string;
   web3mailPreferences?: IWeb3mailPreferences;
@@ -141,8 +141,8 @@ export type IPlatformDescription = {
   about: string; // text
   website: string; // url
   platform: IPlatform;
-  videoUrl: string;
-  imageUrl: string;
+  video_url: string;
+  image_url: string;
 };
 
 export type IPlatformGain = {
@@ -226,7 +226,7 @@ export type IProposalDetails = {
   expectedHours: string;
   service: IService;
   expirationDate: string;
-  videoUrl?: string;
+  video_url?: string;
 };
 
 export type IProposal = {

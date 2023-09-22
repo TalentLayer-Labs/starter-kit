@@ -26,8 +26,8 @@ const platformDescriptionFields = `
     about
     website
     platform
-    videoUrl
-    imageUrl
+    video_url
+    image_url
 `;
 
 export const getPlatform = (chainId: number, id: string): Promise<any> => {
