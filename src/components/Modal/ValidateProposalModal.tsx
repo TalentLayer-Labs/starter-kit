@@ -19,8 +19,7 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
   const publicClient = usePublicClient({ chainId });
   const [show, setShow] = useState(false);
   const { data: ethBalance } = useBalance({ address: account.address });
-  const isProposalUseEth: boolean =
-    proposal.rateToken.address === ZERO_ADDRESS;
+  const isProposalUseEth: boolean = proposal.rateToken.address === ZERO_ADDRESS;
   const { data: tokenBalance } = useBalance({
     address: account.address,
     enabled: !isProposalUseEth,

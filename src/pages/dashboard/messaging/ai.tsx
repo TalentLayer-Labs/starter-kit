@@ -89,7 +89,6 @@ export default function Ai() {
     setLoading(false);
 
     if (response) {
-      console.log('response', response);
       const botMessage: MessageProps = {
         text: response,
         from: Creator.Bot,

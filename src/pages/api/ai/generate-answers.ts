@@ -25,7 +25,6 @@ export default async function handler(
   if (!prompt || prompt === '') {
     //return new Response('Please send your prompt',{ status: 400 })
   }
-  console.log({ key: process.env.NEXT_PRIVATE_OPENAI_API_KEY, prompt });
 
   const aiResult = await openai.createCompletion({
     model: 'text-davinci-003',
@@ -37,8 +36,6 @@ export default async function handler(
   });
 
   const result = aiResult.data.choices[0].text?.trim() || 'sorry';
-
-  console.log({ result });
 
   res.status(200).json({ text: result });
 }

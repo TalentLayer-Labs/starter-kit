@@ -32,7 +32,6 @@ function AdminDispute() {
         functionName: 'arbitrationPrice',
         args: [platform?.id],
       });
-      console.log('fetch');
       setArbitratorPrice(price);
     }
   };
