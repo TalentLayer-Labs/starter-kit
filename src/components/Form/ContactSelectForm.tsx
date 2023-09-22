@@ -169,7 +169,7 @@ export const ContactListForm = ({ contactList }: { contactList: Contact[] }) => 
                           </div>
                         ))
                       ) : (
-                        <p className={'text-gray-400'}>No Contacts</p>
+                        <p className={'text-gray-400  mt-2'}>No Contacts</p>
                       )}
                     </div>
                   </label>
