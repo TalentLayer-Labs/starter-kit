@@ -1,19 +1,6 @@
 import { processRequest } from '../utils/graphql';
 import { IWeb3mailPreferences } from '../types';
 
-// TODO: when graph is sync with last version
-// videoUrl
-// imageUrl
-// web3mailPreferences{
-//   activeOnNewService
-//   activeOnNewProposal
-//   activeOnProposalValidated
-//   activeOnFundRelease
-//   activeOnReview
-//   activeOnPlatformMarketing
-//   activeOnProtocolMarketing
-// }
-
 export const getUsers = (
   chainId: number,
   numberPerPage?: number,
@@ -62,11 +49,20 @@ export const getUserById = (chainId: number, id: string): Promise<any> => {
           country
           headline
           id
-          imageUrl
-          videoUrl
+          image_url
+          video_url
           title
           timezone
           skills_raw
+          web3mailPreferences{
+            activeOnNewService
+            activeOnNewProposal
+            activeOnProposalValidated
+            activeOnFundRelease
+            activeOnReview
+            activeOnPlatformMarketing
+            activeOnProtocolMarketing
+          }
         }
       }
     }
@@ -95,9 +91,20 @@ export const getUserByAddress = (chainId: number, address: string): Promise<any>
           country
           headline
           id
+          image_url
+          video_url
           title
           timezone
           skills_raw
+          web3mailPreferences{
+            activeOnNewService
+            activeOnNewProposal
+            activeOnProposalValidated
+            activeOnFundRelease
+            activeOnReview
+            activeOnPlatformMarketing
+            activeOnProtocolMarketing
+          }
         }
       }
     }
@@ -146,8 +153,8 @@ export const getUserByIds = (chainId: number, ids: string[]): Promise<any> => {
           country
           headline
           id
-          imageUrl
-          videoUrl
+          image_url
+          video_url
           title
           timezone
           skills_raw

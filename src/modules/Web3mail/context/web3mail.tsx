@@ -10,6 +10,7 @@ import {
   useState,
 } from 'react';
 import TalentLayerContext from '../../../context/talentLayer';
+import { log } from '../../../utils/log';
 
 const Web3MailContext = createContext<{
   platformHasAccess: boolean;
@@ -37,7 +38,7 @@ const Web3MailProvider = ({ children }: { children: ReactNode }) => {
   const [protectedEmail, setProtectedEmail] = useState<ProtectedData | undefined>();
   const [emailGrantedAccess, setEmailGrantedAccess] = useState<GrantedAccess | undefined>();
 
-  console.log('Web3MailProvider ---- call', {
+  log('Web3MailProvider ---- call', {
     dataProtector,
     account,
     protectedEmail,
@@ -52,11 +53,14 @@ const Web3MailProvider = ({ children }: { children: ReactNode }) => {
    */
   useEffect(() => {
     const fetchData = async () => {
+      if (process.env.NEXT_PUBLIC_ACTIVE_WEB3MAIL == 'false') {
+        return;
+      }
       if (!account?.isConnected || dataProtector || web3mail) {
         return;
       }
 
-      console.log('Web3MailProvider ---- Init The dataProtector', { dataProtector, account });
+      log('Web3MailProvider ---- Init The dataProtector', { dataProtector, account });
 
       // Note: RPC error if using provider
       // setDataProtector(new IExecDataProtector(provider as providers.ExternalProvider));
@@ -68,7 +72,6 @@ const Web3MailProvider = ({ children }: { children: ReactNode }) => {
       setWeb3mail(new IExecWeb3mail(provider2));
 
       // const provider2 = await account.connector?.getProvider();
-      // console.log({ publicClient });
       // setDataProtector(new IExecDataProtector(publicClient));
       // setWeb3mail(new IExecWeb3mail(publicClient));
 
@@ -87,7 +90,7 @@ const Web3MailProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (!dataProtector || !web3mail || !account?.isConnected || isFetching) return;
 
-    console.log('Web3MailProvider ---- check if platform has access ?', {
+    log('Web3MailProvider ---- check if platform has access ?', {
       dataProtector,
       web3mail,
     });
@@ -95,7 +98,7 @@ const Web3MailProvider = ({ children }: { children: ReactNode }) => {
     setIsFetching(true);
 
     const fetchData = async () => {
-      console.log('Web3MailProvider ----  before fetching');
+      log('Web3MailProvider ----  before fetching');
       const protectedData = await dataProtector.fetchProtectedData({
         owner: account.address,
         requiredSchema: {
@@ -113,7 +116,7 @@ const Web3MailProvider = ({ children }: { children: ReactNode }) => {
       setProtectedEmail(protectedEmail);
       setEmailIsProtected(true);
 
-      console.log('Web3MailProvider ----  - before fetchGrantedAccess', protectedEmail);
+      log('Web3MailProvider ----  - before fetchGrantedAccess', protectedEmail);
       // Stuck here: WorkflowError: Failed to fetch granted access to this data: Failed to create contracts client: Missing iExec contract default address for chain 80001
       const listGrantedAccess = await dataProtector.fetchGrantedAccess({
         protectedData: protectedEmail.address,
@@ -133,7 +136,7 @@ const Web3MailProvider = ({ children }: { children: ReactNode }) => {
         return;
       }
 
-      console.log('Web3MailProvider ---- ', {
+      log('Web3MailProvider ---- ', {
         address: account,
         protectedData,
         protectedEmail,
@@ -151,7 +154,7 @@ const Web3MailProvider = ({ children }: { children: ReactNode }) => {
 
   const protectEmailAndGrantAccess = useCallback(
     async (email: string) => {
-      console.log('Web3MailProvider ---- protectEmailAndGrantAccess', {
+      log('Web3MailProvider ---- protectEmailAndGrantAccess', {
         account,
         protectedEmail,
         email,
@@ -172,11 +175,11 @@ const Web3MailProvider = ({ children }: { children: ReactNode }) => {
           },
         });
 
-        console.log('Web3MailProvider ---- protectEmailAndGrantAccess', {
+        log('Web3MailProvider ---- protectEmailAndGrantAccess', {
           newProtectedEmail,
         });
       } else {
-        console.log(
+        log(
           'Web3MailProvider ---- protectEmailAndGrantAccess --- email is already protected just need to grant',
           {
             newProtectedEmail,
@@ -192,7 +195,7 @@ const Web3MailProvider = ({ children }: { children: ReactNode }) => {
         authorizedUser: process.env.NEXT_PUBLIC_WEB3MAIL_PLATFORM_PUBLIC_KEY as string,
       });
 
-      console.log('Web3MailProvider ---- protectEmailAndGrantAccess', {
+      log('Web3MailProvider ---- protectEmailAndGrantAccess', {
         grantedAccess,
       });
 
@@ -205,7 +208,7 @@ const Web3MailProvider = ({ children }: { children: ReactNode }) => {
   );
 
   const revokeAccess = useCallback(async () => {
-    console.log('Web3MailProvider ---- revokeAccess', {
+    log('Web3MailProvider ---- revokeAccess', {
       account,
       protectedEmail,
     });
@@ -222,7 +225,7 @@ const Web3MailProvider = ({ children }: { children: ReactNode }) => {
 
     const revokeAccess = await dataProtector.revokeOneAccess(emailGrantedAccess);
 
-    console.log('Web3MailProvider ---- revokeAccess', {
+    log('Web3MailProvider ---- revokeAccess', {
       revokeAccess,
     });
 

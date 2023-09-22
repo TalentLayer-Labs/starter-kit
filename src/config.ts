@@ -1,4 +1,5 @@
 import { IToken, NetworkEnum } from './types';
+import { ZERO_ADDRESS } from './utils/constant';
 
 export type Config = {
   networkId: NetworkEnum;
@@ -31,8 +32,8 @@ const mumbai: Config = {
     timeoutPayment: 3600 * 24 * 7,
   },
   tokens: {
-    '0x0000000000000000000000000000000000000000': {
-      address: '0x0000000000000000000000000000000000000000',
+    [ZERO_ADDRESS]: {
+      address: ZERO_ADDRESS,
       symbol: 'MATIC',
       name: 'Matic',
       decimals: 18,
@@ -48,7 +49,8 @@ const mumbai: Config = {
 
 const iexec: Config = {
   networkId: NetworkEnum.IEXEC,
-  subgraphUrl: 'https://thegraph-sandbox.iex.ec/subgraphs/name/users/talentLayer',
+  // subgraphUrl: 'https://thegraph-sandbox.iex.ec/subgraphs/name/users/talentLayer',
+  subgraphUrl: 'https://api.thegraph.com/subgraphs/name/talentlayer/talent-layer-mumbai',
   contracts: {
     talentLayerId: '0xC51537E03f56650C63A9Feca4cCb5a039c77c822',
     serviceRegistry: '0x45E8F869Fd316741A9316f39bF09AD03Df88496f',
@@ -93,8 +95,8 @@ const local: Config = {
     timeoutPayment: 3600 * 24 * 7,
   },
   tokens: {
-    '0x0000000000000000000000000000000000000000': {
-      address: '0x0000000000000000000000000000000000000000',
+    [ZERO_ADDRESS]: {
+      address: ZERO_ADDRESS,
       symbol: 'ETH',
       name: 'ETH',
       decimals: 18,

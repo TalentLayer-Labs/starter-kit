@@ -9,13 +9,14 @@ function SideMenu() {
 
   return (
     <ul className='space-y-1 font-sans text-sm'>
-      {navigation.map(item => (
+      {navigation().map(item => (
         <SideLink
           key={item.name}
           href={item.href}
           isCompleted={
-            completionScores
-              ? completionScores[item.completitonKey as keyof ICompletionScores]?.percentage < 100
+            completionScores &&
+            completionScores[item.completitonKey as keyof ICompletionScores]?.percentage == 100
+              ? true
               : false
           }>
           <item.icon width={20} height={20} />

@@ -18,6 +18,8 @@ import { SkillsInput } from './skills-input';
 import { delegateCreateService } from '../request';
 import { useChainId } from '../../hooks/useChainId';
 import { useConfig } from '../../hooks/useConfig';
+import { createWeb3mailToast } from '../../modules/Web3mail/utils/toast';
+import Web3MailContext from '../../modules/Web3mail/context/web3mail';
 
 interface IFormValues {
   title: string;
@@ -41,6 +43,7 @@ function ServiceForm() {
 
   const { open: openConnectModal } = useWeb3Modal();
   const { user, account } = useContext(TalentLayerContext);
+  const { platformHasAccess } = useContext(Web3MailContext);
   const { address } = useAccount();
   const publiClient = usePublicClient({ chainId });
   const { data: walletClient } = useWalletClient({
@@ -142,6 +145,9 @@ function ServiceForm() {
         resetForm();
         if (newId) {
           router.push(`/dashboard/services/${newId}`);
+        }
+        if (process.env.NEXT_PUBLIC_ACTIVE_WEB3MAIL == 'true' && !platformHasAccess) {
+          createWeb3mailToast();
         }
       } catch (error) {
         showErrorTransactionToast(error);

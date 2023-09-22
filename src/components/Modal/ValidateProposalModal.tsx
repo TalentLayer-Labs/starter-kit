@@ -9,6 +9,7 @@ import { IAccount, IProposal } from '../../types';
 import { renderTokenAmount } from '../../utils/conversion';
 import Step from '../Step';
 import { useChainId } from '../../hooks/useChainId';
+import { ZERO_ADDRESS } from '../../utils/constant';
 
 function ValidateProposalModal({ proposal, account }: { proposal: IProposal; account: IAccount }) {
   const chainId = useChainId();
@@ -18,8 +19,7 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
   const publicClient = usePublicClient({ chainId });
   const [show, setShow] = useState(false);
   const { data: ethBalance } = useBalance({ address: account.address });
-  const isProposalUseEth: boolean =
-    proposal.rateToken.address === '0x0000000000000000000000000000000000000000';
+  const isProposalUseEth: boolean = proposal.rateToken.address === ZERO_ADDRESS;
   const { data: tokenBalance } = useBalance({
     address: account.address,
     enabled: !isProposalUseEth,
