@@ -6,7 +6,7 @@ import { useEthersWalletClient } from '../../../hooks/useEthersWalletClient';
 import { loadKeys, storeKeys } from '../utils/keys';
 import { buildChatMessage, CONVERSATION_PREFIX } from '../utils/messaging';
 import { XmtpChatMessage } from '../utils/types';
-import { log } from 'console';
+import { log } from '../../../utils/log';
 
 type clientEnv = 'local' | 'dev' | 'production' | undefined;
 
