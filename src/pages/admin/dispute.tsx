@@ -12,6 +12,7 @@ import { useChainId } from '../../hooks/useChainId';
 import { useConfig } from '../../hooks/useConfig';
 import usePlatform from '../../hooks/usePlatform';
 import { formatEther, parseEther } from 'viem';
+import { ZERO_ADDRESS } from '../../utils/constant';
 
 function AdminDispute() {
   const { user, loading } = useContext(TalentLayerContext);
@@ -58,7 +59,7 @@ function AdminDispute() {
         value: config.contracts.talentLayerArbitrator,
         label: 'TalentLayer Arbitrator',
       },
-      { value: '0x0000000000000000000000000000000000000000', label: 'None' },
+      { value: ZERO_ADDRESS, label: 'None' },
     ];
   }
 
@@ -78,7 +79,7 @@ function AdminDispute() {
         <SingleValueForm
           validationDatas={{
             valueType: 'select',
-            initialValue: platform?.arbitrator || '0x0000000000000000000000000000000000000000',
+            initialValue: platform?.arbitrator || ZERO_ADDRESS,
             selectOptions: availableArbitrators,
           }}
           contractParams={{
