@@ -180,7 +180,7 @@ const Web3MailProvider = ({ children }: { children: ReactNode }) => {
         });
       } else {
         log(
-          'Web3MailProvider ---- protectEmailAndGrantAccess --- email is already protected just need to grant',
+          'Web3MailProvider ---- protectEmailAndGrantAccess --- email is already protected just need to grant access',
           {
             newProtectedEmail,
           },
