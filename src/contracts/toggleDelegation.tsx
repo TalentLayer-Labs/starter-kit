@@ -1,5 +1,6 @@
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../utils/toast';
-import { Address, PublicClient, WalletClient } from 'viem';
+import { Address } from 'viem';
+import { PublicClient, WalletClient} from 'wagmi'
 import TalentLayerID from './ABI/TalentLayerID.json';
 
 export const toggleDelegation = async (
@@ -13,6 +14,7 @@ export const toggleDelegation = async (
   
 ): Promise<void> => {
   try {
+        
     let tx: Address;
     let toastMessages;
     if (validateState === true) {
@@ -51,6 +53,7 @@ export const toggleDelegation = async (
       publicClient,
       tx,
       'Delegation',
+      
     );
   } catch (error) {
     showErrorTransactionToast(error);

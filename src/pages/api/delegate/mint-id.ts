@@ -28,10 +28,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         userAddress,
         process.env.NEXT_PUBLIC_PLATFORM_ID,
         handle,
-        {
-          value: handlePrice,
-        },
       ],
+      value: handlePrice,
     });
 
     res.status(200).json({ transaction: transaction });
