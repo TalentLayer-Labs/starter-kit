@@ -4,10 +4,12 @@ import { toggleDelegation } from '../../contracts/toggleDelegation';
 import StarterKitContext from '../../context/starterKit';
 import { getUserByAddress } from '../../queries/users';
 import { useChainId } from '../../hooks/useChainId';
+import { useConfig } from '../../hooks/useConfig';
 
 function DelegateModal() {
   const chainId = useChainId();
   const [show, setShow] = useState(false);
+  const config = useConfig();
   const [hasPlatformAsDelegate, setHasPlatformAsDelegate] = useState(false);
   const { data: walletClient } = useWalletClient({ chainId });
   const publicClient = usePublicClient({ chainId });
@@ -34,18 +36,18 @@ function DelegateModal() {
   }, [user, show]);
 
   const onSubmit = async (validateState: boolean) => {
-    if (!walletClient || !publicClient || !user) {
-      return null;
-    }
+    if (walletClient && publicClient && user) {
+      
     await toggleDelegation(
       chainId,
       user.id,
+      config,
       delegateAddress,
       publicClient,
       walletClient,
       validateState,
     );
-
+    }
     setShow(false);
   };
 
