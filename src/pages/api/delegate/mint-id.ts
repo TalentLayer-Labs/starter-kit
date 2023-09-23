@@ -29,7 +29,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         process.env.NEXT_PUBLIC_PLATFORM_ID,
         handle,
       ],
-      value: handlePrice,
+      value: BigInt(handlePrice),
     });
 
     res.status(200).json({ transaction: transaction });
