@@ -97,7 +97,6 @@ export const getNewPayment = (chainId: number, id: string, timestamp?: string): 
             }
             description {
               title
-              website
               about
             }
           }

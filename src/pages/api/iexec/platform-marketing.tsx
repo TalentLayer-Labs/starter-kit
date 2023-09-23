@@ -42,23 +42,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       'activeOnPlatformMarketing',
     );
 
-    console.log('response', response.data);
-
     // This array has all the users that have granted access to their email to this platform and opted for the platform marketing feature
-    let users: IUser[] = [];
+    let validUsers: IUser[] = [];
 
     if (response?.data?.data?.users) {
-      users = response.data.data.users;
-      users = users.filter(
+      validUsers = response.data.data.users;
+      validUsers = validUsers.filter(
         user => user.description?.web3mailPreferences?.activeOnPlatformMarketing === true,
       );
     }
 
-    if (users.length === 0) {
+    if (validUsers.length === 0) {
       return res.status(200).json(`No User opted for this feature`);
     }
 
-    const usersAddresses = users.map(user => user.address);
+    const usersAddresses = validUsers.map(user => user.address);
     // // TODO: Remove for prod
     // const usersAddresses = [
     //   '0x89de0dd433bd1f6a4ec5dd2593f44b9dd4fad2f0',

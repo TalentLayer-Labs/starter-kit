@@ -34,6 +34,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     EmailType.FundRelease,
   );
   try {
+    //TODO add Website in description
     const response = await getNewPayment(Number(chainId), platformId, sinceTimestamp);
     const payments: IPayment[] = response.data.data.payments;
     const nonSentPaymentEmails: IPayment[] = [];
@@ -50,7 +51,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     // If some emails have not been sent yet, send a web3mail & persist in the DB that the email was sent
     if (nonSentPaymentEmails.length > 0) {
-      // Filter out users which have not opted for the feature
+      // Check whether the users opted for the called feature | Seller if fund release, Buyer if fund reimbursement
       const allAddresses = nonSentPaymentEmails.map(payment => {
         if (payment.paymentType === PaymentTypeEnum.Release) {
           return payment.service.seller.address;
@@ -59,13 +60,25 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
       });
 
-      // Check whether the users opted for the called feature | Seller if fund release, Buyer if fund reimbursement
       const response = await getUsersWeb3MailPreference(
         Number(chainId),
         allAddresses,
         'activeOnFundRelease',
       );
-      const validUsers: IUser[] = response.data.data.users;
+
+      let validUsers: IUser[] = [];
+
+      if (response?.data?.data?.users) {
+        validUsers = response.data.data.users;
+        validUsers = validUsers.filter(
+          user => user.description?.web3mailPreferences?.activeOnFundRelease === true,
+        );
+      }
+
+      if (validUsers.length === 0) {
+        return res.status(200).json(`No User opted for this feature`);
+      }
+
       const validUserAddresses: string[] = validUsers.map(user => user.address);
 
       const paymentEmailsToBeSent = nonSentPaymentEmails.filter(payment =>
@@ -75,48 +88,51 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             : payment.service.buyer.address,
         ),
       );
+
       if (paymentEmailsToBeSent.length > 0) {
-        const { dataProtector, web3mail } = generateWeb3mailProviders(privateKey);
+        return res
+          .status(200)
+          .json(
+            `New fund release detected, but no users opted for the ${EmailType.FundRelease} feature`,
+          );
+      }
 
-        for (const payment of paymentEmailsToBeSent) {
-          let handle = '',
-            action = '',
-            address = '';
-          if (payment.paymentType === PaymentTypeEnum.Release) {
-            handle = payment.service.seller.handle;
-            action = 'released';
-            address = payment.service.seller.address;
-          } else {
-            handle = payment.service.buyer.handle;
-            action = 'reimbursed';
-            address = payment.service.buyer.address;
-          }
-          console.log(`New fund ${action} email to send to ${handle} at address ${address}`);
+      const { dataProtector, web3mail } = generateWeb3mailProviders(privateKey);
 
-          try {
-            // @dev: This function needs to be throwable to avoid persisting the entity in the DB if the email is not sent
-            await sendMailToAddresses(
-              `Funds ${action} for the service - ${payment.service.description?.title}`,
-              `${handle} has ${action} ${payment.amount} ${payment.rateToken.symbol} for the 
+      for (const payment of paymentEmailsToBeSent) {
+        let handle = '',
+          action = '',
+          address = '';
+        if (payment.paymentType === PaymentTypeEnum.Release) {
+          handle = payment.service.seller.handle;
+          action = 'released';
+          address = payment.service.seller.address;
+        } else {
+          handle = payment.service.buyer.handle;
+          action = 'reimbursed';
+          address = payment.service.buyer.address;
+        }
+        console.log(`New fund ${action} email to send to ${handle} at address ${address}`);
+
+        try {
+          // @dev: This function needs to be throwable to avoid persisting the entity in the DB if the email is not sent
+          await sendMailToAddresses(
+            `Funds ${action} for the service - ${payment.service.description?.title}`,
+            `${handle} has ${action} ${payment.amount} ${payment.rateToken.symbol} for the 
             service ${payment.service.description?.title} on TalentLayer !
             
             You can find details on this service here: ${payment.service.platform.description.website}/dashboard/services/${payment.id}`,
-              [address],
-              true,
-              dataProtector,
-              web3mail,
-            );
-            await persistEmail(payment.id, EmailType.FundRelease);
-            sentEmails++;
-          } catch (e: any) {
-            nonSentEmails++;
-            console.error(e.message);
-          }
+            [address],
+            true,
+            dataProtector,
+            web3mail,
+          );
+          await persistEmail(payment.id, EmailType.FundRelease);
+          sentEmails++;
+        } catch (e: any) {
+          nonSentEmails++;
+          console.error(e.message);
         }
-      } else {
-        console.log(
-          `New fund release detected, but no users opted for the ${EmailType.FundRelease} feature`,
-        );
       }
     }
   } catch (e: any) {
