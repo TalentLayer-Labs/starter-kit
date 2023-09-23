@@ -85,7 +85,7 @@ const Web3MailProvider = ({ children }: { children: ReactNode }) => {
 
   /*
    * @what: Check if platform has access to the user email
-   * @when: Execute it only once after user is connected, and only if user switch wallet
+   * @when: Execute it only once after the user is connected, and only if the user switches wallet
    */
   useEffect(() => {
     if (!dataProtector || !web3mail || !account?.isConnected || isFetching) return;
