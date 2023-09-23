@@ -1,7 +1,7 @@
 import { IUser } from '../../../types';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { sendMailToAddresses } from '../../../scripts/iexec/sendMailToAddresses';
-import { getUsersForWeb3MailFeature } from '../../../queries/users';
+import { getUsersWeb3MailPreference } from '../../../queries/users';
 import { Contact } from '@iexec/web3mail';
 import { generateWeb3mailProviders, prepareNonCronApi } from '../utils/web3mail';
 
@@ -21,47 +21,60 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   try {
     const { dataProtector, web3mail } = generateWeb3mailProviders(privateKey);
 
-    const contactList: Contact[] = await web3mail.fetchMyContacts();
+    // const contactList: Contact[] = await web3mail.fetchMyContacts();
+    //
+    // if (contactList.length === 0) {
+    //   return res.status(200).json('No users granted access to their email');
+    // }
+    //
+    // // This array has all the addresses of the users that have granted access to their email to this platform
+    // const contactAddresses = contactList.map(contact => contact.address);
 
-    if (contactList.length === 0) {
-      return res.status(200).json('No users granted access to their email');
-    }
+    const contactAddresses = [
+      '0x89de0dd433bd1f6a4ec5dd2593f44b9dd4fad2f0',
+      '0x86a86da3e48905f0ecbf788948ada2789669ee11',
+      '0x3D0c6A35DcD9AEB46b493cd6CC9Ace84583b7aE8',
+    ];
 
-    // This array has all the addresses of the users that have granted access to their email to this platform
-    const contactAddresses = contactList.map(contact => contact.address);
-
-    // TODO: Not tested
-    const response = await getUsersForWeb3MailFeature(
+    const response = await getUsersWeb3MailPreference(
       Number(chainId),
       contactAddresses,
       'activeOnPlatformMarketing',
     );
 
+    console.log('response', response.data);
+
     // This array has all the users that have granted access to their email to this platform and opted for the platform marketing feature
-    const users: IUser[] = response.data.data.users;
+    let users: IUser[] = [];
+
+    if (response?.data?.data?.users) {
+      users = response.data.data.users;
+      users = users.filter(
+        user => user.description?.web3mailPreferences?.activeOnPlatformMarketing === true,
+      );
+    }
+
     if (users.length === 0) {
       return res.status(200).json(`No User opted for this feature`);
     }
 
-    if (users) {
-      const usersAddresses = users.map(user => user.address);
-      // // TODO: Remove for prod
-      // const usersAddresses = [
-      //   '0x89de0dd433bd1f6a4ec5dd2593f44b9dd4fad2f0',
-      //   '0x86a86da3e48905f0ecbf788948ada2789669ee11',
-      //   '0x3D0c6A35DcD9AEB46b493cd6CC9Ace84583b7aE8',
-      // ];
-      const { successCount, errorCount } = await sendMailToAddresses(
-        `${emailSubject}`,
-        `${emailContent}`,
-        usersAddresses,
-        false,
-        dataProtector,
-        web3mail,
-      );
-      sentEmails += successCount;
-      nonSentEmails += errorCount;
-    }
+    const usersAddresses = users.map(user => user.address);
+    // // TODO: Remove for prod
+    // const usersAddresses = [
+    //   '0x89de0dd433bd1f6a4ec5dd2593f44b9dd4fad2f0',
+    //   '0x86a86da3e48905f0ecbf788948ada2789669ee11',
+    //   '0x3D0c6A35DcD9AEB46b493cd6CC9Ace84583b7aE8',
+    // ];
+    const { successCount, errorCount } = await sendMailToAddresses(
+      `${emailSubject}`,
+      `${emailContent}`,
+      usersAddresses,
+      false,
+      dataProtector,
+      web3mail,
+    );
+    sentEmails += successCount;
+    nonSentEmails += errorCount;
   } catch (e: any) {
     console.error(e);
     return res.status(500).json(`Error while sending email - ${e.message}`);

@@ -3,7 +3,7 @@ import { getNewPayment } from '../../../queries/payments';
 import { EmailType, IPayment, IUser, PaymentTypeEnum } from '../../../types';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { sendMailToAddresses } from '../../../scripts/iexec/sendMailToAddresses';
-import { getUsersForWeb3MailFeature } from '../../../queries/users';
+import { getUsersWeb3MailPreference } from '../../../queries/users';
 import { calculateCronData } from '../../../modules/Web3mail/utils/cron';
 import {
   hasPaymentEmailBeenSent,
@@ -60,7 +60,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       });
 
       // Check whether the users opted for the called feature | Seller if fund release, Buyer if fund reimbursement
-      const response = await getUsersForWeb3MailFeature(
+      const response = await getUsersWeb3MailPreference(
         Number(chainId),
         allAddresses,
         'activeOnFundRelease',

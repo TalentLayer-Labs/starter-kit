@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import { EmailType, IReview, IUser } from '../../../types';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { sendMailToAddresses } from '../../../scripts/iexec/sendMailToAddresses';
-import { getUsersForWeb3MailFeature } from '../../../queries/users';
+import { getUsersWeb3MailPreference } from '../../../queries/users';
 import { calculateCronData } from '../../../modules/Web3mail/utils/cron';
 import {
   hasReviewEmailBeenSent,
@@ -48,7 +48,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (nonSentReviewEmails.length > 0) {
       // Filter out users which have not opted for the feature
       const allRevieweesAddresses = nonSentReviewEmails.map(review => review.to.address);
-      const response = await getUsersForWeb3MailFeature(
+      const response = await getUsersWeb3MailPreference(
         Number(chainId),
         allRevieweesAddresses,
         'activeOnReview',

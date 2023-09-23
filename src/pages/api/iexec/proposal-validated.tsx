@@ -3,7 +3,7 @@ import { getAcceptedProposals } from '../../../queries/proposals';
 import { EmailType, IProposal, IUser } from '../../../types';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { sendMailToAddresses } from '../../../scripts/iexec/sendMailToAddresses';
-import { getUsersForWeb3MailFeature } from '../../../queries/users';
+import { getUsersWeb3MailPreference } from '../../../queries/users';
 import { calculateCronData } from '../../../modules/Web3mail/utils/cron';
 import {
   hasProposalEmailBeenSent,
@@ -55,7 +55,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (nonSentProposalEmails.length > 0) {
       // Filter out users which have not opted for the feature
       const allSellerAddresses = nonSentProposalEmails.map(proposal => proposal.seller.address);
-      const response = await getUsersForWeb3MailFeature(
+      const response = await getUsersWeb3MailPreference(
         Number(chainId),
         allSellerAddresses,
         'activeOnProposalValidated',

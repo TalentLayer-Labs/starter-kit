@@ -183,18 +183,21 @@ export const getUserWeb3mailPreference = (
   return processRequest(chainId, query);
 };
 
-export const getUsersForWeb3MailFeature = (
+export const getUsersWeb3MailPreference = (
   chainId: number,
   addresses: string[],
   web3mailPreference: keyof IWeb3mailPreferences,
 ): Promise<any> => {
   const query = `
     {
-      users(where: {description_ : {web3mailPreferences_: {${web3mailPreference}: true}}, address_in: ["${addresses
-    .map(a => a.toLowerCase())
-    .join('","')}"]}) {
+      users(where: {address_in: ["${addresses.map(a => a.toLowerCase()).join('","')}"]}) {
         id
         address
+        description {
+          web3mailPreferences {
+            ${web3mailPreference}
+          }
+        }
       }
     }
     `;
