@@ -65,7 +65,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         allBuyerAddresses,
         'activeOnNewProposal',
       );
-      const validUsers: IUser[] = response.data.data.users;
+
+      let validUsers: IUser[] = [];
+
+      if (response?.data?.data?.users) {
+        validUsers = response.data.data.users;
+        validUsers = validUsers.filter(
+          user => user.description?.web3mailPreferences?.activeOnNewProposal === true,
+        );
+      }
+
+      if (validUsers.length === 0) {
+        return res.status(200).json(`No User opted for this feature`);
+      }
+
       const validUserAddresses: string[] = validUsers.map(user => user.address);
 
       const proposalEmailsToBeSent = nonSentProposalEmails.filter(proposal => {
@@ -73,33 +86,35 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       });
 
       if (proposalEmailsToBeSent.length > 0) {
-        const { dataProtector, web3mail } = generateWeb3mailProviders(privateKey);
+        return res
+          .status(200)
+          .json(
+            `New proposals detected, but no users opted for the ${EmailType.NewProposal} feature`,
+          );
+      }
 
-        for (const proposal of proposalEmailsToBeSent) {
-          try {
-            // @dev: This function needs to be throwable to avoid persisting the entity in the DB if the email is not sent
-            await sendMailToAddresses(
-              `You got a new proposal ! - ${proposal.description?.title}`,
-              `You just received a new proposal for the service ${proposal.service.id} you posted on TalentLayer !
+      const { dataProtector, web3mail } = generateWeb3mailProviders(privateKey);
+
+      for (const proposal of proposalEmailsToBeSent) {
+        try {
+          // @dev: This function needs to be throwable to avoid persisting the entity in the DB if the email is not sent
+          await sendMailToAddresses(
+            `You got a new proposal ! - ${proposal.description?.title}`,
+            `You just received a new proposal for the service ${proposal.service.id} you posted on TalentLayer !
               ${proposal.seller.handle} can complete your service for the following amount: ${proposal.rateAmount} : ${proposal.rateToken.symbol}.
               Here is what is proposed: ${proposal.description?.about}.
               This Proposal can be viewed at ${process.env.NEXT_PUBLIC_IPFS_BASE_URL}${proposal.id}`,
-              [proposal.service.buyer.address],
-              true,
-              dataProtector,
-              web3mail,
-            );
-            await persistEmail(proposal.id, EmailType.NewProposal);
-            sentEmails++;
-          } catch (e: any) {
-            nonSentEmails++;
-            console.error(e.message);
-          }
+            [proposal.service.buyer.address],
+            true,
+            dataProtector,
+            web3mail,
+          );
+          await persistEmail(proposal.id, EmailType.NewProposal);
+          sentEmails++;
+        } catch (e: any) {
+          nonSentEmails++;
+          console.error(e.message);
         }
-      } else {
-        console.log(
-          `New proposals detected, but no users opted for the ${EmailType.NewProposal} feature`,
-        );
       }
     }
   } catch (e: any) {

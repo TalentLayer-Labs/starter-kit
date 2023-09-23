@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { getNewPayment } from '../../../queries/payments';
+import { getNewPayments } from '../../../queries/payments';
 import { EmailType, IPayment, IUser, PaymentTypeEnum } from '../../../types';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { sendMailToAddresses } from '../../../scripts/iexec/sendMailToAddresses';
@@ -35,7 +35,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   );
   try {
     //TODO add Website in description
-    const response = await getNewPayment(Number(chainId), platformId, sinceTimestamp);
+    const response = await getNewPayments(Number(chainId), platformId, sinceTimestamp);
     const payments: IPayment[] = response.data.data.payments;
     const nonSentPaymentEmails: IPayment[] = [];
 

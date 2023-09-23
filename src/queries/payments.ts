@@ -70,7 +70,7 @@ export const getPaymentsForUser = (
   return processRequest(chainId, query);
 };
 
-export const getNewPayment = (chainId: number, id: string, timestamp?: string): Promise<any> => {
+export const getNewPayments = (chainId: number, id: string, timestamp?: string): Promise<any> => {
   const timestampCondition = timestamp ? `, createdAt_gt: "${timestamp}"` : '';
   const query = `
       {
