@@ -32,6 +32,7 @@ export const validateProposal = async (
         value: value,
         account: walletClient.account?.address,
       });
+
       const tx1 = await walletClient.writeContract(request);
       const receipt1 = await toast.promise(publicClient.waitForTransactionReceipt({ hash: tx1 }), {
         pending: {

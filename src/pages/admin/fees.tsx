@@ -1,18 +1,18 @@
-import Loading from '../../components/Loading';
-import { useContext, useEffect, useState } from 'react';
-import StarterKitContext from '../../context/starterKit';
-import UserNeedsMoreRights from '../../components/UserNeedsMoreRights';
-import SingleValueForm from '../../components/Form/SingleValueForm';
-import * as Yup from 'yup';
-import { useConfig } from '../../hooks/useConfig';
-import TalentLayerPlatformID from '../../contracts/ABI/TalentLayerPlatformID.json';
-import usePlatform from '../../hooks/usePlatform';
-import { FEE_RATE_DIVIDER } from '../../config';
-import Steps from '../../components/Steps';
+import { useContext } from 'react';
 import { formatEther, parseEther } from 'viem';
+import * as Yup from 'yup';
+import SingleValueForm from '../../components/Form/SingleValueForm';
+import Loading from '../../components/Loading';
+import Steps from '../../components/Steps';
+import UserNeedsMoreRights from '../../components/UserNeedsMoreRights';
+import { FEE_RATE_DIVIDER } from '../../config';
+import TalentLayerContext from '../../context/talentLayer';
+import TalentLayerPlatformID from '../../contracts/ABI/TalentLayerPlatformID.json';
+import { useConfig } from '../../hooks/useConfig';
+import usePlatform from '../../hooks/usePlatform';
 
 function AdminFees() {
-  const { user, loading } = useContext(StarterKitContext);
+  const { user, loading } = useContext(TalentLayerContext);
   const config = useConfig();
   const platform = usePlatform(process.env.NEXT_PUBLIC_PLATFORM_ID as string);
 

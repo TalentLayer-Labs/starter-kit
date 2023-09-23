@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import StarterKitContext from '../context/starterKit';
+import TalentLayerContext from '../context/talentLayer';
 import useUserById from '../hooks/useUserById';
 import PohModule from '../modules/Poh/PohModule';
 import { IUser } from '../types';
@@ -8,7 +8,7 @@ import Stars from './Stars';
 import DelegateModal from './Modal/DelegateModal';
 
 function UserDetail({ user }: { user: IUser }) {
-  const { user: currentUser } = useContext(StarterKitContext);
+  const { user: currentUser } = useContext(TalentLayerContext);
   const userDescription = user?.id ? useUserById(user?.id)?.description : null;
 
   if (!user?.id) {

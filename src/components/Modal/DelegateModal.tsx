@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { usePublicClient, useWalletClient } from 'wagmi';
 import { toggleDelegation } from '../../contracts/toggleDelegation';
-import StarterKitContext from '../../context/starterKit';
+import TalentLayerContext from '../../context/talentLayer';
 import { getUserByAddress } from '../../queries/users';
 import { useChainId } from '../../hooks/useChainId';
 import { useConfig } from '../../hooks/useConfig';
@@ -13,7 +13,7 @@ function DelegateModal() {
   const [hasPlatformAsDelegate, setHasPlatformAsDelegate] = useState(false);
   const { data: walletClient } = useWalletClient({ chainId });
   const publicClient = usePublicClient({ chainId });
-  const { user } = useContext(StarterKitContext);
+  const { user } = useContext(TalentLayerContext);
   const delegateAddress = process.env.NEXT_PUBLIC_DELEGATE_ADDRESS as string;
 
   if (!user) {

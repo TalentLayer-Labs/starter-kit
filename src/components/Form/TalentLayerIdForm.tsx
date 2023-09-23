@@ -4,7 +4,7 @@ import { useContext } from 'react';
 import { useRouter } from 'next/router';
 import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
-import StarterKitContext from '../../context/starterKit';
+import TalentLayerContext from '../../context/talentLayer';
 import TalentLayerID from '../../contracts/ABI/TalentLayerID.json';
 import { createTalentLayerIdTransactionToast, showErrorTransactionToast } from '../../utils/toast';
 import HelpPopover from '../HelpPopover';
@@ -13,6 +13,7 @@ import { HandlePrice } from './handle-price';
 import { delegateMintID } from '../request';
 import { useChainId } from '../../hooks/useChainId';
 import { useConfig } from '../../hooks/useConfig';
+import { NetworkEnum } from '../../types';
 
 interface IFormValues {
   handle: string;
@@ -26,7 +27,7 @@ function TalentLayerIdForm() {
   const config = useConfig();
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
-  const { user, account } = useContext(StarterKitContext);
+  const { user, account } = useContext(TalentLayerContext);
   const { data: walletClient } = useWalletClient({ chainId });
   const { address } = useAccount();
   const publicClient = usePublicClient({ chainId });
@@ -117,7 +118,9 @@ function TalentLayerIdForm() {
             </div>
 
             <div className='flex items-center'>
-              {values.handle && <HandlePrice handle={values.handle} />}
+              {values.handle && chainId != NetworkEnum.IEXEC && (
+                <HandlePrice handle={values.handle} />
+              )}
               <div>
                 <div className='sm:pl-2 sm:pr-4 sm:space-x-4 relative'>
                   <SubmitButton isSubmitting={isSubmitting} />

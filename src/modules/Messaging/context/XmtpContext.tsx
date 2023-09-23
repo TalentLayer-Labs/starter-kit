@@ -6,6 +6,7 @@ import { useEthersWalletClient } from '../../../hooks/useEthersWalletClient';
 import { loadKeys, storeKeys } from '../utils/keys';
 import { buildChatMessage, CONVERSATION_PREFIX } from '../utils/messaging';
 import { XmtpChatMessage } from '../utils/types';
+import { log } from '../../../utils/log';
 
 type clientEnv = 'local' | 'dev' | 'production' | undefined;
 
@@ -58,8 +59,8 @@ export const XmtpContextProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const initClient = async () => {
-    console.log(
-      'initClient',
+    log(
+      'XMTP initClient',
       walletAddress && !providerState.client && walletClient ? 'true' : 'false',
       walletAddress,
       providerState.client,

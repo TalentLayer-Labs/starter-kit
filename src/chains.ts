@@ -1,24 +1,27 @@
 import { defineChain } from 'viem';
 
-export const local = {
-  local: {
-    id: 1337,
-    name: 'localhost',
-    network: 'localhost',
-    nativeCurrency: {
-      decimals: 18,
-      name: 'Ethereum',
-      symbol: 'ETH',
-    },
-    rpcUrls: {
-      default: 'https://api.avax-test.network/ext/C/rpc',
-    },
-    blockExplorers: {
-      default: { name: 'testnet.snowTrace', url: 'https://testnet.snowtrace.io/' },
-    },
-    testnet: true,
+export const iexec = defineChain({
+  id: 134,
+  name: 'iExec Sidechain',
+  network: 'iexec',
+  nativeCurrency: {
+    decimals: 18,
+    name: 'xRLC',
+    symbol: 'xRLC',
   },
-};
+  rpcUrls: {
+    default: {
+      http: ['https://bellecour.iex.ec'],
+    },
+    public: {
+      http: ['https://bellecour.iex.ec'],
+    },
+  },
+  blockExplorers: {
+    default: { name: 'BlockScout', url: 'https://blockscout-bellecour.iex.ec/' },
+  },
+  testnet: false,
+});
 
 export const polygonMumbai = defineChain({
   id: 80_001,
