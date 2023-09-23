@@ -13,7 +13,7 @@ function Web3mailToast() {
             <span>
               {' '}
               Your email will never be stored in a database, with iExec web3mail, you can allow your
-              email to be used while it will never be known by us{' '}
+              email to be used without being disclosed to anyone, including us{' '}
             </span>
           </p>
           <div className='mt-3'>
