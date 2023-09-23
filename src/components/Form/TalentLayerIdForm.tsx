@@ -62,7 +62,7 @@ function TalentLayerIdForm() {
           const response = await delegateMintID(
             chainId,
             submittedValues.handle,
-            handlePrice,
+            Number(handlePrice),
             account.address,
           );
           tx = response.data.transaction;

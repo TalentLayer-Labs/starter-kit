@@ -117,7 +117,7 @@ export const delegateMintReview = async (
 export const delegateMintID = async (
   chainId: number,
   handle: string,
-  handlePrice: any,
+  handlePrice: number,
   userAddress: string,
 ): Promise<any> => {
   try {
