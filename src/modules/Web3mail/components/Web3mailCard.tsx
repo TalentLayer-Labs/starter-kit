@@ -81,7 +81,7 @@ function Web3mailCard() {
           <p className='font-heading text-xl font-semibold leading-normal mb-2 text-white opacity-90'>
             <span>
               {' '}
-              Take back the control! <span className='text-3xl'>🪄</span>
+              Take back control ! <span className='text-3xl'>🪄</span>
             </span>
           </p>
           <p className='font-alt text-sm font-normal leading-normal max-w-sm text-white opacity-70'>
