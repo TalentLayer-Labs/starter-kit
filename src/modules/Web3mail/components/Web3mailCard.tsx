@@ -87,7 +87,7 @@ function Web3mailCard() {
           <p className='font-alt text-sm font-normal leading-normal max-w-sm text-white opacity-70'>
             <span>
               {' '}
-              Your email will never be store in a database, with iExec web3mail, you can allow your
+              Your email will never be stored in a database, with iExec web3mail, you can allow your
               email to be used while it will never be known by us{' '}
             </span>
           </p>
