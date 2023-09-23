@@ -85,7 +85,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         validUserAddresses.includes(proposal.service.buyer.address);
       });
 
-      if (proposalEmailsToBeSent.length > 0) {
+      if (proposalEmailsToBeSent.length === 0) {
         return res
           .status(200)
           .json(
