@@ -3,7 +3,7 @@ import React from 'react';
 import { useState } from 'react';
 import { getSubdomain } from '../../modules/MultiDomain/domains';
 import { useDomainStatus } from '../../modules/MultiDomain/UseDomainStatus';
-import { AlertCircle, CheckCircle, XCircle } from 'lucide-react';
+import { ExclamationCircle, XCircleOutline } from 'heroicons-react';
 
 export const InlineSnippet = ({ children }: { children: string }) => {
   return (
@@ -21,24 +21,24 @@ export default function DomainConfiguration({ domain }: { domain: string }) {
 
   const subdomain = getSubdomain(domainJson.name, domainJson.apexName);
   const txtVerification =
-  (status === 'Pending Verification' &&
-  domainJson.verification.find((x: any) => x.type === 'TXT')) ||
-  null;
-  
+    (status === 'Pending Verification' &&
+      domainJson.verification.find((x: any) => x.type === 'TXT')) ||
+    null;
+
   return (
     <div className='border-t border-stone-200 px-10 pb-5 pt-7 dark:border-stone-700'>
       <div className='mb-4 flex items-center space-x-2'>
         {status === 'Pending Verification' ? (
-          <AlertCircle
+          <ExclamationCircle
             fill='#FBBF24'
             stroke='currentColor'
             className='text-white dark:text-black'
           />
         ) : (
-          <XCircle fill='#DC2626' stroke='currentColor' className='text-white dark:text-black' />
+          <XCircleOutline fill='#DC2626' stroke='currentColor' className='text-white dark:text-black' />
         )}
         <p className='text-lg font-semibold dark:text-white'>{status}</p>
-        
+
       </div>
       {txtVerification ? (
         <>
@@ -82,21 +82,19 @@ export default function DomainConfiguration({ domain }: { domain: string }) {
             <button
               type='button'
               onClick={() => setRecordType('A')}
-              className={`${
-                recordType == 'A'
-                  ? 'border-black text-black dark:border-white dark:text-white'
-                  : 'border-white text-stone-400 dark:border-black dark:text-stone-600'
-              } ease border-b-2 pb-1 text-sm transition-all duration-150`}>
+              className={`${recordType == 'A'
+                ? 'border-black text-black dark:border-white dark:text-white'
+                : 'border-white text-stone-400 dark:border-black dark:text-stone-600'
+                } ease border-b-2 pb-1 text-sm transition-all duration-150`}>
               A Record{!subdomain && ' (recommended)'}
             </button>
             <button
               type='button'
               onClick={() => setRecordType('CNAME')}
-              className={`${
-                recordType == 'CNAME'
-                  ? 'border-black text-black dark:border-white dark:text-white'
-                  : 'border-white text-stone-400 dark:border-black dark:text-stone-600'
-              } ease border-b-2 pb-1 text-sm transition-all duration-150`}>
+              className={`${recordType == 'CNAME'
+                ? 'border-black text-black dark:border-white dark:text-white'
+                : 'border-white text-stone-400 dark:border-black dark:text-stone-600'
+                } ease border-b-2 pb-1 text-sm transition-all duration-150`}>
               CNAME Record{subdomain && ' (recommended)'}
             </button>
           </div>
