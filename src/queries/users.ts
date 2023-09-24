@@ -206,11 +206,12 @@ export const getUsersWeb3MailPreference = (
 
 export const getWeb3mailUsersForNewServices = (
   chainId: number,
+  addresses: string[],
   web3mailPreference: keyof IWeb3mailPreferences,
 ): Promise<any> => {
   const query = `
     {
-      users(where: {description_ : {web3mailPreferences: ${web3mailPreference}}}) {
+      users (where: {address_in: ["${addresses.map(a => a.toLowerCase()).join('","')}"]}) {
         id
         address
         description{

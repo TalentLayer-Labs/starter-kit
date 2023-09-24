@@ -32,6 +32,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   prepareCronApi(chainId, platformId, mongoUri, cronSecurityKey, privateKey, res);
 
+  const { dataProtector, web3mail } = generateWeb3mailProviders(privateKey);
+
   await mongoose.connect(mongoUri as string);
 
   // Check whether the user provided a timestamp or if it will come from the cron config
@@ -42,12 +44,27 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   );
 
   try {
-    // Get all users that opted for the feature
-    const response = await getWeb3mailUsersForNewServices(Number(chainId), 'activeOnNewService');
-    const contactList: IUser[] = response.data.data.users;
-    console.log('contactList', contactList);
+    // Fetch all contacts who protected their email and granted access to the platform
+    const allContacts = await web3mail.fetchMyContacts();
+    const allContactsAddresses = allContacts.map(contact => contact.address);
 
-    if (contactList.length === 0) {
+    // Get all users that opted for the feature
+    const response = await getWeb3mailUsersForNewServices(
+      Number(chainId),
+      allContactsAddresses,
+      'activeOnNewService',
+    );
+
+    let validContacts: IUser[] = [];
+
+    if (!response?.data?.data?.users) {
+      validContacts = response.data.data.users;
+      validContacts = validContacts.filter(
+        user => user.description?.web3mailPreferences?.activeOnNewService === true,
+      );
+    }
+
+    if (validContacts.length === 0) {
       return res.status(200).json(`No User opted for this feature`);
     }
 
@@ -57,17 +74,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       platformId,
       sinceTimestamp,
     );
-    console.log('All Services', serviceResponse.data.data.services);
-    const services: IService[] = serviceResponse.data.data.services;
 
-    if (services.length === 0) {
+    if (!serviceResponse?.data?.data?.services) {
       return res.status(200).json(`No new services available`);
     }
 
-    const { dataProtector, web3mail } = generateWeb3mailProviders(privateKey);
+    const services: IService[] = serviceResponse.data.data.services;
 
     // For each contact, check if an email was already sent for each new service. If not, check if skills match
-    for (const contact of contactList) {
+    for (const contact of validContacts) {
       console.log(
         '*************************************Contact*************************************',
         contact.address,
