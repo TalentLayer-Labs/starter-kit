@@ -5,7 +5,7 @@ import {
   removeDomainFromVercelTeam,
   validDomainRegex,
 } from './domains';
-import { Space } from './types';
+import { CreateSpaceAction, Space } from './types';
 
 
 export const createSpace = async (data: CreateSpaceAction) => {

@@ -1,6 +1,4 @@
-'use client';
-
-import { DomainVerificationStatusProps, DomainResponse } from './types';
+import { DomainVerificationStatusProps, DomainResponse } from '../types';
 import { useQuery } from 'react-query';
 
 export function useDomainStatus({ domain }: { domain: string }) {

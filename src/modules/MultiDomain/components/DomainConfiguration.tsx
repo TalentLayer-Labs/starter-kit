@@ -1,8 +1,7 @@
-'use client';
 import React from 'react';
 import { useState } from 'react';
-import { getSubdomain } from '../../modules/MultiDomain/domains';
-import { useDomainStatus } from '../../modules/MultiDomain/UseDomainStatus';
+import { getSubdomain } from '../domains';
+import { useDomainStatus } from '../hooks/UseDomainStatus';
 import { ExclamationCircle, XCircleOutline } from 'heroicons-react';
 
 export const InlineSnippet = ({ children }: { children: string }) => {

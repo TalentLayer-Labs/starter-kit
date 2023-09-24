@@ -1,8 +1,7 @@
-'use client';
 import React, { useState } from 'react';
-import { useDomainStatus } from '../../../modules/MultiDomain/UseDomainStatus';
-import DomainConfiguration from '../../../components/Form/DomainConfiguration';
-import { CreateSpaceProps } from '../../api/domain/create-space';
+import DomainConfiguration from '../../../modules/MultiDomain/components/DomainConfiguration';
+import { useDomainStatus } from '../../../modules/MultiDomain/hooks/UseDomainStatus';
+import { CreateSpaceProps } from '../../../modules/MultiDomain/types';
 
 export default function CustomDomain() {
   const [customDomain, setCustomDomain] = useState('');
@@ -10,11 +9,7 @@ export default function CustomDomain() {
 
   const [submitCustomDomain, setSubmitCustomDomain] = useState(true);
 
-  // const { status, loading } = useDomainStatus({ domain: query.domain as string });
   const { status, loading } = useDomainStatus({ domain: "solarfund.wtf" });
-  const { status: sb, loading: lb } = useDomainStatus({ domain: "test.solarfund.wtf" });
-
-
 
   const handleCreateSpace = async () => {
     try {
