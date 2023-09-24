@@ -15,6 +15,7 @@ import { XmtpContextProvider } from '../modules/Messaging/context/XmtpContext';
 import { MessagingProvider } from '../modules/Messaging/context/messging';
 import '../styles/globals.css';
 import Layout from './Layout';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 const chains: Chain[] = [customChains.polygonMumbai];
 
@@ -35,6 +36,10 @@ const wagmiClient = createClient({
 // Web3Modal Ethereum Client
 const ethereumClient = new EthereumClient(wagmiClient, chains);
 
+// react-query client
+const queryClient = new QueryClient();
+
+
 function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
     wagmiClient.autoConnect();
@@ -42,26 +47,31 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <>
-      <DefaultSeo {...SEO} />
-      <ToastContainer position='bottom-right' />
-      <WagmiConfig client={wagmiClient}>
-        <StarterKitProvider>
-          <XmtpContextProvider>
-            <MessagingProvider>
-              <ThemeProvider enableSystem={false}>
-                <Layout>
-                  <Component {...pageProps} />
-                </Layout>
-              </ThemeProvider>
-            </MessagingProvider>
-          </XmtpContextProvider>
-        </StarterKitProvider>
-        <Web3Modal
-          projectId={`${process.env.NEXT_PUBLIC_WALLECT_CONNECT_PROJECT_ID}`}
-          ethereumClient={ethereumClient}
-          accentColor='blackWhite'
-        />
-      </WagmiConfig>
+      <QueryClientProvider client={queryClient}>
+>
+
+        <DefaultSeo {...SEO} />
+        <ToastContainer position='bottom-right' />
+        <WagmiConfig client={wagmiClient}>
+          <StarterKitProvider>
+            <XmtpContextProvider>
+              <MessagingProvider>
+                <ThemeProvider enableSystem={false}>
+                  <Layout>
+                    <Component {...pageProps} />
+                  </Layout>
+                </ThemeProvider>
+              </MessagingProvider>
+            </XmtpContextProvider>
+          </StarterKitProvider>
+          <Web3Modal
+            projectId={`${process.env.NEXT_PUBLIC_WALLECT_CONNECT_PROJECT_ID}`}
+            ethereumClient={ethereumClient}
+            accentColor='blackWhite'
+          />
+        </WagmiConfig>
+      </QueryClientProvider>
+
     </>
   );
 }

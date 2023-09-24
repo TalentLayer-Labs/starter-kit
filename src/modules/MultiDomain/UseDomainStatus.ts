@@ -1,22 +1,20 @@
 'use client';
 
-import useSWR from 'swr';
-import { fetcher } from '../../utils/fetcher';
 import { DomainVerificationStatusProps, DomainResponse } from './types';
+import { useQuery } from 'react-query';
 
 export function useDomainStatus({ domain }: { domain: string }) {
-  const { data, isValidating } = useSWR<{
+  const { data, isLoading } = useQuery<{
     status: DomainVerificationStatusProps;
     domainJson: DomainResponse & { error: { code: string; message: string } };
-  }>(`/api/domain/${domain}/verify`, fetcher, {
-    revalidateOnMount: true,
-    refreshInterval: 5000,
-    keepPreviousData: true,
-  });
-
+  }>('DomainStatus', () =>
+    fetch(`/api/domain/${domain}/verify`).then(res =>
+      res.json()
+    ), { refetchInterval: 5000, keepPreviousData: true }
+  );
   return {
     status: data?.status,
     domainJson: data?.domainJson,
-    loading: isValidating,
+    loading: isLoading,
   };
 }
