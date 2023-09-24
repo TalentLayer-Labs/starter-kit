@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { getSubdomain } from '../domains';
 import { useDomainStatus } from '../hooks/UseDomainStatus';
 import { ExclamationCircle, XCircleOutline } from 'heroicons-react';
+import { DomainVerificationStatusProps } from '../types';
 
 export const InlineSnippet = ({ children }: { children: string }) => {
   return (
@@ -16,18 +17,18 @@ export default function DomainConfiguration({ domain }: { domain: string }) {
 
   const { status, domainJson } = useDomainStatus({ domain });
 
-  if (!status || status === 'Valid Configuration' || !domainJson) return null;
+  if (!status || status === DomainVerificationStatusProps.Valid || !domainJson) return null;
 
   const subdomain = getSubdomain(domainJson.name, domainJson.apexName);
   const txtVerification =
-    (status === 'Pending Verification' &&
+    (status === DomainVerificationStatusProps.Pending &&
       domainJson.verification.find((x: any) => x.type === 'TXT')) ||
     null;
 
   return (
     <div className='border-t border-stone-200 px-10 pb-5 pt-7 border-stone-700'>
       <div className='mb-4 flex items-center space-x-2'>
-        {status === 'Pending Verification' ? (
+        {status === DomainVerificationStatusProps.Pending ? (
           <ExclamationCircle
             fill='#FBBF24'
             stroke='currentColor'
@@ -73,7 +74,7 @@ export default function DomainConfiguration({ domain }: { domain: string }) {
             setting this record.
           </p>
         </>
-      ) : status === 'Unknown Error' ? (
+      ) : status === DomainVerificationStatusProps.Error ? (
         <p className='mb-5 text-sm text-white'>{domainJson.error.message}</p>
       ) : (
         <>

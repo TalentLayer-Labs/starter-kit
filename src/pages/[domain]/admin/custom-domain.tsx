@@ -7,7 +7,7 @@ export default function CustomDomain() {
   const [customDomain, setCustomDomain] = useState('');
   const [subdomain, setSubdomain] = useState('');
 
-  const [submitCustomDomain, setSubmitCustomDomain] = useState(true);
+  const [submitCustomDomain, setSubmitCustomDomain] = useState(false);
 
   const { status, loading } = useDomainStatus({ domain: "solarfund.wtf" });
 

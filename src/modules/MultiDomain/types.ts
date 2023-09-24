@@ -1,9 +1,10 @@
-export type DomainVerificationStatusProps =
-  | 'Valid Configuration'
-  | 'Invalid Configuration'
-  | 'Pending Verification'
-  | 'Domain Not Found'
-  | 'Unknown Error';
+export enum DomainVerificationStatusProps {
+  Valid = 'Valid Configuration',
+  Invalid = 'Invalid Configuration',
+  Pending = 'Pending Verification',
+  NotFound = 'Domain Not Found',
+  Error = 'Unknown Error'
+}
 
 
 export interface CreateSpaceAction {
