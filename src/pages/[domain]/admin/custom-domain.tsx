@@ -8,7 +8,7 @@ export default function CustomDomain() {
   const [customDomain, setCustomDomain] = useState('');
   const [subdomain, setSubdomain] = useState('');
 
-  const [submitCustomDomain, setSubmitCustomDomain] = useState(false);
+  const [submitCustomDomain, setSubmitCustomDomain] = useState(true);
 
   // const { status, loading } = useDomainStatus({ domain: query.domain as string });
   const { status, loading } = useDomainStatus({ domain: "solarfund.wtf" });

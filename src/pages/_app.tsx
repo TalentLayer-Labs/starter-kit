@@ -48,8 +48,6 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <QueryClientProvider client={queryClient}>
->
-
         <DefaultSeo {...SEO} />
         <ToastContainer position='bottom-right' />
         <WagmiConfig client={wagmiClient}>
