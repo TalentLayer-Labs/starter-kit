@@ -37,7 +37,7 @@ export const navigationAdmin = [
   },
   {
     name: 'Mail',
-    href: `/admin/web3Mail`,
+    href: `/admin/web3mail`,
     icon: EnvelopeIcon,
     current: false,
   },

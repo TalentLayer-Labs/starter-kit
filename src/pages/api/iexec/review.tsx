@@ -32,10 +32,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   try {
     const response = await getNewReviews(Number(chainId), platformId, sinceTimestamp);
+
+    if (!response?.data?.data?.reviews) {
+      return res.status(200).json(`No new reviews available`);
+    }
+
+    // Check if a notification email has already been sent for these reviews
+    const reviews: IReview[] = response.data.data.reviews;
     const nonSentReviewEmails: IReview[] = [];
 
-    // Check if some entities are not already in the DB
-    const reviews: IReview[] = response.data.data.reviews;
     if (reviews.length > 0) {
       for (const review of reviews) {
         const hasBeenSent = await hasReviewEmailBeenSent(review, EmailType.Review);
@@ -44,62 +49,81 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
       }
     }
+
     // If some emails have not been sent yet, send a web3mail & persist in the DB that the email was sent
     if (nonSentReviewEmails.length > 0) {
       // Filter out users which have not opted for the feature
       const allRevieweesAddresses = nonSentReviewEmails.map(review => review.to.address);
+
       const response = await getUsersWeb3MailPreference(
         Number(chainId),
         allRevieweesAddresses,
         'activeOnReview',
       );
-      const validUsers: IUser[] = response.data.data.users;
+
+      let validUsers: IUser[] = [];
+
+      if (response?.data?.data?.users) {
+        validUsers = response.data.data.users;
+        validUsers = validUsers.filter(
+          user => user.description?.web3mailPreferences?.activeOnReview === true,
+        );
+      }
+
+      if (validUsers.length === 0) {
+        return res.status(200).json(`No User opted for this feature`);
+      }
+
       const validUserAddresses: string[] = validUsers.map(user => user.address);
 
       const reviewEmailsToBeSent = nonSentReviewEmails.filter(review => {
         validUserAddresses.includes(review.to.address);
       });
 
-      if (reviewEmailsToBeSent.length > 0) {
-        const { dataProtector, web3mail } = generateWeb3mailProviders(privateKey);
-
-        for (const review of reviewEmailsToBeSent) {
-          let fromHandle = '',
-            fromAddress = '';
-          if (review.to.address === review.service.buyer.address) {
-            fromHandle = review.service.seller.handle;
-            fromAddress = review.service.seller.address;
-          } else {
-            fromHandle = review.service.buyer.handle;
-            fromAddress = review.service.buyer.address;
-          }
-          console.log(
-            `A review with id ${review.id} was created from ${fromHandle} owning the address ${fromAddress} for the service ${review.service.id}.`,
+      if (reviewEmailsToBeSent.length === 0) {
+        return res
+          .status(200)
+          .json(
+            `New reviews detected, but no concerned users opted for the ${EmailType.Review} feature`,
           );
-          review.to.address === review.service.buyer.address
-            ? console.log('Reviewer is the seller')
-            : console.log('Reviewer is the buyer');
-          try {
-            // @dev: This function needs to be throwable to avoid persisting the entity in the DB if the email is not sent
-            await sendMailToAddresses(
-              `A review was created for the service - ${review.service.description?.title}`,
-              `${fromHandle} has left a review for the TalentLayer service ${review.service.description?.title}.
+      }
+
+      const { dataProtector, web3mail } = generateWeb3mailProviders(privateKey);
+
+      for (const review of reviewEmailsToBeSent) {
+        let fromHandle = '',
+          fromAddress = '';
+        if (review.to.address === review.service.buyer.address) {
+          fromHandle = review.service.seller.handle;
+          fromAddress = review.service.seller.address;
+        } else {
+          fromHandle = review.service.buyer.handle;
+          fromAddress = review.service.buyer.address;
+        }
+        console.log(
+          `A review with id ${review.id} was created from ${fromHandle} owning the address ${fromAddress} for the service ${review.service.id}.`,
+        );
+        review.to.address === review.service.buyer.address
+          ? console.log('Reviewer is the seller')
+          : console.log('Reviewer is the buyer');
+        try {
+          // @dev: This function needs to be throwable to avoid persisting the entity in the DB if the email is not sent
+          await sendMailToAddresses(
+            `A review was created for the service - ${review.service.description?.title}`,
+            `${fromHandle} has left a review for the TalentLayer service ${review.service.description?.title}.
             The service was rated ${review.rating}/5 stars and the following comment was left: ${review.description?.content}.
             Congratulations on completing your service and improving your TalentLayer reputation !`,
-              [review.to.address],
-              true,
-              dataProtector,
-              web3mail,
-            );
-            await persistEmail(review.id, EmailType.Review);
-            sentEmails++;
-          } catch (e: any) {
-            nonSentEmails++;
-            console.error(e.message);
-          }
+            [review.to.address],
+            true,
+            dataProtector,
+            web3mail,
+          );
+          await persistEmail(review.id, EmailType.Review);
+          sentEmails++;
+        } catch (e: any) {
+          nonSentEmails++;
+          console.error(e.message);
         }
-      } else {
-        console.log(`New reviews detected, but no users opted for the ${EmailType.Review} feature`);
       }
     }
   } catch (e: any) {

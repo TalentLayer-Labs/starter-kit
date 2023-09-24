@@ -36,11 +36,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   try {
     const response = await getAcceptedProposals(Number(chainId), platformId, sinceTimestamp);
+
+    if (!response?.data?.data?.proposals) {
+      return res.status(200).json(`No new proposals validated available`);
+    }
+
     const proposals: IProposal[] = response.data.data.proposals;
-    console.log('All proposals', proposals);
     const nonSentProposalEmails: IProposal[] = [];
 
-    // Check if a notification email has already been sent for this proposal
+    // Check if a notification email has already been sent for these proposals
     if (proposals.length > 0) {
       for (const proposal of proposals) {
         const hasBeenSent = await hasProposalEmailBeenSent(proposal, EmailType.ProposalValidated);
@@ -83,7 +87,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res
           .status(200)
           .json(
-            `New proposals validated detected, but no users opted for the ${EmailType.ProposalValidated} feature`,
+            `New proposals validated detected, but no concerned users opted for the ${EmailType.ProposalValidated} feature`,
           );
       }
 

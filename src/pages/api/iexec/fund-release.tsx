@@ -36,10 +36,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   try {
     //TODO add Website in description
     const response = await getNewPayments(Number(chainId), platformId, sinceTimestamp);
+
+    if (!response?.data?.data?.payments) {
+      return res.status(200).json(`No new payments available`);
+    }
+
     const payments: IPayment[] = response.data.data.payments;
     const nonSentPaymentEmails: IPayment[] = [];
 
-    // Check if a notification email has already been sent for this fund release
+    // Check if a notification email has already been sent for these fund releases
     if (payments.length > 0) {
       for (const payment of payments) {
         const hasBeenSent = await hasPaymentEmailBeenSent(payment, EmailType.FundRelease);
@@ -93,7 +98,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res
           .status(200)
           .json(
-            `New fund release detected, but no users opted for the ${EmailType.FundRelease} feature`,
+            `New fund release detected, but no  concerned users opted for the ${EmailType.FundRelease} feature`,
           );
       }
 

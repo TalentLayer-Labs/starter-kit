@@ -9,7 +9,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     nonSentEmails = 0;
   if (!subject || !body || !contacts) return res.status(500).json(`Missing argument`);
 
-  console.log('Sending email to addresses');
+  console.log('------- Sending email to addresses -------');
   if (!privateKey) {
     return res.status(500).json(`Private key is not set`);
   }

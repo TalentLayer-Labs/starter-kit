@@ -46,6 +46,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   try {
     // Fetch all contacts who protected their email and granted access to the platform
     const allContacts = await web3mail.fetchMyContacts();
+
+    if (!allContacts) {
+      return res.status(200).json(`No contacts granted access to their email`);
+    }
+
     const allContactsAddresses = allContacts.map(contact => contact.address);
 
     // Get all users that opted for the feature
@@ -88,7 +93,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         contact.address,
       );
       for (const service of services) {
-        // Check if a notification email has already been sent for this service
+        // Check if a notification email has already been sent for these services
         const emailHasBeenSent = await hasNewServiceEmailBeenSent(
           contact.id,
           service,
