@@ -47,7 +47,7 @@ export type IWeb3mailPreferences = {
   activeOnFundRelease: boolean;
   activeOnReview: boolean;
   activeOnPlatformMarketing: boolean;
-  activeOnProtocolMarketing: boolean;
+  activeOnProtocolMarketing?: boolean;
 };
 
 export type IUserStats = {
