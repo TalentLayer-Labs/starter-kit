@@ -61,24 +61,9 @@ const Web3MailProvider = ({ children }: { children: ReactNode }) => {
       }
 
       log('Web3MailProvider ---- Init The dataProtector', { dataProtector, account });
-
-      // Note: RPC error if using provider
-      // setDataProtector(new IExecDataProtector(provider as providers.ExternalProvider));
-      // setWeb3mail(new IExecWeb3mail(provider as providers.ExternalProvider));
-
-      // TODO: cause error on runtime: Error: Unsupported ethProvider
       const provider2 = await account.connector?.getProvider();
       setDataProtector(new IExecDataProtector(provider2));
       setWeb3mail(new IExecWeb3mail(provider2));
-
-      // const provider2 = await account.connector?.getProvider();
-      // setDataProtector(new IExecDataProtector(publicClient));
-      // setWeb3mail(new IExecWeb3mail(publicClient));
-
-      // This work but better in our case to use account from the hook
-      // const provider2 = await getAccount().connector?.getProvider();
-      // setDataProtector(new IExecDataProtector(provider2));
-      // setWeb3mail(provider2);
     };
     fetchData();
   }, [account]);
