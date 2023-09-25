@@ -56,7 +56,7 @@ const Web3MailProvider = ({ children }: { children: ReactNode }) => {
       if (process.env.NEXT_PUBLIC_ACTIVE_WEB3MAIL == 'false') {
         return;
       }
-      if (!account?.isConnected || dataProtector || web3mail) {
+      if (!(account?.status === 'connected') || dataProtector || web3mail) {
         return;
       }
 
