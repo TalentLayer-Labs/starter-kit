@@ -81,14 +81,14 @@ function Web3mailCard() {
           <p className='font-heading text-xl font-semibold leading-normal mb-2 text-white opacity-90'>
             <span>
               {' '}
-              Take back the control! <span className='text-3xl'>🪄</span>
+              Take back control ! <span className='text-3xl'>🪄</span>
             </span>
           </p>
           <p className='font-alt text-sm font-normal leading-normal max-w-sm text-white opacity-70'>
             <span>
               {' '}
-              Your email will never be store in a database, with iExec web3mail, you can allow your
-              email to be used while it will never be known by us{' '}
+              Your email will never be stored in a database, with iExec web3mail, you can allow your
+              email to be used without being disclosed to anyone, including us{' '}
             </span>
           </p>
           <div className='mt-3'>
