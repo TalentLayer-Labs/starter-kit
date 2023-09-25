@@ -44,7 +44,7 @@ function AdminFees() {
 
       <div className='grid grid-cols-1 gap-6 border border-gray-700 rounded-xl p-6 bg-endnight'>
         <SingleValueForm
-          validationDatas={{
+          validationData={{
             validationSchema: Yup.object({
               'Fees (in %) on escrow for bringing the service': Yup.number()
                 .required('value is required')
@@ -66,7 +66,7 @@ function AdminFees() {
         />
 
         <SingleValueForm
-          validationDatas={{
+          validationData={{
             validationSchema: Yup.object({
               'Fees (in %) paid for validating a proposal': Yup.number()
                 .required('value is required')
@@ -89,7 +89,7 @@ function AdminFees() {
         />
 
         <SingleValueForm
-          validationDatas={{
+          validationData={{
             validationSchema: Yup.object({
               'Fees (in Matic) asked by the platform to post a proposal on the platform':
                 Yup.number().required('value is required'),
@@ -111,7 +111,7 @@ function AdminFees() {
         />
 
         <SingleValueForm
-          validationDatas={{
+          validationData={{
             validationSchema: Yup.object({
               'Fees (in Matic) asked by the platform to post a service on the platform':
                 Yup.number().required('value is required'),
