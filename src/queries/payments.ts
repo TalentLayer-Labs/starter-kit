@@ -99,6 +99,12 @@ export const getNewPayments = (chainId: number, id: string, timestamp?: string):
               title
               about
             }
+            platform {
+              id
+              description {
+                website
+              }
+            }
           }
         }
       }
