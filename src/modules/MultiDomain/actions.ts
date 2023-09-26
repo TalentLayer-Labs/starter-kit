@@ -9,6 +9,29 @@ import {
 import { SpaceModel } from './models/SpaceModel';
 import { CreateSpaceAction, Space } from './types';
 
+export const deleteSpace = async (spaceId: string) => {
+  await connection();
+  const space = await SpaceModel.findById(spaceId).exec();
+  space.remove();
+  return {
+    message: 'Space deleted successfully',
+  };
+}
+
+export const updateSpace = async (space: Space) => {
+  try {
+    await connection();
+    await SpaceModel.updateOne({ _id: space.id }, space).exec();
+    return {
+      message: 'Space updated successfully',
+    };
+  } catch (error: any) {
+    return {
+      error: error.message,
+    };
+  }
+}
+
 
 export const createSpace = async (data: CreateSpaceAction) => {
   try {
@@ -69,13 +92,13 @@ export const updateSpaceDomain = async (space: UpdateSpaceDomain) => {
     } else if (validDomainRegex.test(space.customDomain!)) {
       // Update the MongoDB document with the new custom domain
       await SpaceModel.updateOne({ _id: space.id }, { customDomain: space.customDomain }).exec();
-
       // Add the custom domain to Vercel
       await addDomainToVercel(space.customDomain!);
 
       // null means remove the custom domain
     } else if (space.customDomain! === null) {
       // Remove the custom domain from the MongoDB document
+      console.log('Removing custom domain from MongoDB document');
       await SpaceModel.updateOne({ _id: space.id }, { customDomain: null }).exec();
     }
 

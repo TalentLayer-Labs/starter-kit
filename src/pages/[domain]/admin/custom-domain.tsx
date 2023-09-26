@@ -33,7 +33,7 @@ export default function CustomDomain() {
   const handleUpdateDomainClick = async () => {
     try {
       updateSpaceDomainMutation.mutate({
-        customDomain: "build.talentlayer.org", id: "651212378a884e001c148a5a"
+        customDomain: null, id: "651212378a884e001c148a5a"
       });
     } catch (error) {
       console.error('Error updating domain:', error);
