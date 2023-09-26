@@ -91,7 +91,7 @@ function AdminFees() {
         <SingleValueForm
           validationData={{
             validationSchema: Yup.object({
-              'Fees (in Matic) asked by the platform to post a proposal on the platform':
+              'Fees (in Matic) asked by the platform to post a service on the platform':
                 Yup.number().required('value is required'),
             }),
             valueType: 'number',
@@ -107,13 +107,13 @@ function AdminFees() {
             contractEntity: 'platform',
             contractInputs: process.env.NEXT_PUBLIC_PLATFORM_ID,
           }}
-          valueName={'Fees (in Matic) asked by the platform to post a proposal on the platform'}
+          valueName={'Fees (in Matic) asked by the platform to post a service on the platform'}
         />
 
         <SingleValueForm
           validationData={{
             validationSchema: Yup.object({
-              'Fees (in Matic) asked by the platform to post a service on the platform':
+              'Fees (in Matic) asked by the platform to post a proposal on the platform':
                 Yup.number().required('value is required'),
             }),
             valueType: 'number',
@@ -129,7 +129,7 @@ function AdminFees() {
             contractEntity: 'platform',
             contractInputs: process.env.NEXT_PUBLIC_PLATFORM_ID,
           }}
-          valueName={'Fees (in Matic) asked by the platform to post a service on the platform'}
+          valueName={'Fees (in Matic) asked by the platform to post a proposal on the platform'}
         />
       </div>
     </div>
