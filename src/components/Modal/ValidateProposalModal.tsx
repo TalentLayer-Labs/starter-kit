@@ -9,6 +9,7 @@ import { IAccount, IProposal } from '../../types';
 import { renderTokenAmount } from '../../utils/conversion';
 import Step from '../Step';
 import { useChainId } from '../../hooks/useChainId';
+import useTlClient from '../../hooks/useTlClient';
 
 function ValidateProposalModal({ proposal, account }: { proposal: IProposal; account: IAccount }) {
   const chainId = useChainId();
@@ -23,8 +24,12 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
   const { data: tokenBalance } = useBalance({
     address: account.address,
     enabled: !isProposalUseEth,
-    token: proposal.rateToken.address,
+    token: "0x3a660c72effa17a1b49cf0be91fa80c7856420ee",
   });
+
+  console.log({isProposalUseEth}, proposal.rateToken.address)
+  const tlClient = useTlClient(chainId, '2TcBxC3hzB3bMUgpD3FkxI6tt4D', '29e380e2b6b89499074b90b2b5b8ebb9');
+  
 
   const originValidatedProposalPlatformId = proposal.platform.id;
   const originServicePlatformId = proposal.service.platform.id;
@@ -43,15 +48,18 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
   const totalAmount = jobRateAmount + originServiceFee + originValidatedProposalFee + protocolFee;
 
   const onSubmit = async () => {
-    if (!walletClient || !publicClient) {
+    console.log("submitting",proposal)
+    if (!walletClient || !publicClient || !tlClient) {
       return;
     }
+
     await validateProposal(
+      tlClient,
       chainId,
       walletClient,
       publicClient,
       proposal.service.id,
-      proposal.seller.id,
+      proposal.id,
       proposal.rateToken.address,
       proposal.cid,
       totalAmount,
@@ -60,8 +68,10 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
   };
 
   const hasEnoughBalance = () => {
+    console.log("ethBalance.value ", ethBalance?.value )
     if (isProposalUseEth) {
       if (!ethBalance) return;
+      console.log("ethBalance.value ", ethBalance?.value, totalAmount, ethBalance.value >= totalAmount )
       return ethBalance.value >= totalAmount;
     } else {
       if (!tokenBalance) return;
@@ -229,7 +239,7 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
                   onClick={() => onSubmit()}
                   type='button'
                   className='hover:text-green-600 hover:bg-green-50 bg-redpraha text-white rounded-xl px-5 py-2.5 text-center'>
-                  {isProposalUseEth ? 'Validate' : 'Allow spending'}
+                  {isProposalUseEth ? 'Validate awesome' : 'Allow spending'}
                 </button>
               ) : (
                 <button

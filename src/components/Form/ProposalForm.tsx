@@ -119,18 +119,24 @@ function ProposalForm({
           values.rateToken,
           token.decimals,
         );
+        console.log({parsedRateAmount})
         const now = Math.floor(Date.now() / 1000);
         const convertExpirationDate = now + 60 * 60 * 24 * values.expirationDate;
         const convertExpirationDateString = convertExpirationDate.toString();
 
         const parsedRateAmountString = parsedRateAmount.toString();
 
-        const cid = await tlClient?.upploadProposalDataToIpfs({
+        
+        const propsalMeta = {
           about: values.about,
-          video_url: values.videoUrl
-        })
+          video_url: values.videoUrl,
+          test: "hello"
+        }
 
-        let tx;
+        let tx, cid, proposalResponse;
+
+        cid = await tlClient?.proposal?.upload(propsalMeta);
+
         if (isActiveDelegate) {
           const response = await delegateCreateOrUpdateProposal(
             chainId,
@@ -139,7 +145,7 @@ function ProposalForm({
             service.id,
             values.rateToken,
             parsedRateAmountString,
-            cid,
+            cid || '',
             convertExpirationDateString,
             existingProposal?.status,
           );
@@ -147,25 +153,27 @@ function ProposalForm({
         } else {
 
           if (existingProposal) {
-            tx = await tlClient?.updateProposal(
+            proposalResponse = await tlClient?.proposal.update(
+              propsalMeta,
               user.id,
               service.id,
               values.rateToken,
               parsedRateAmountString,
-              cid,
               convertExpirationDateString
             )
           } else {
-            tx = await tlClient?.createProposal(
+            proposalResponse = await tlClient?.proposal.create(
+              propsalMeta,
               user.id,
               service.id,
               values.rateToken,
               parsedRateAmountString,
-              cid,
-              convertExpirationDateString,
-              4
+              convertExpirationDateString
             )
           }
+          tx = proposalResponse?.tx;
+          cid = proposalResponse?.cid
+          
         }
 
         await createMultiStepsTransactionToast(
@@ -177,7 +185,7 @@ function ProposalForm({
           },
           publicClient,
           tx,
-          'proposalRequest',
+          'proposal',
           cid,
         );
         setSubmitting(false);

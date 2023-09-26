@@ -11,6 +11,7 @@ const useTlClient = (chainId: number, infuraClientId: string, infuraClientSecret
                 chainId,
                 infuraClientId,
                 infuraClientSecret,
+                platformId: 4
             });
             setTlClient(_tlClient);
         }

@@ -13,6 +13,7 @@ import { HandlePrice } from './handle-price';
 import { delegateMintID } from '../request';
 import { useChainId } from '../../hooks/useChainId';
 import { useConfig } from '../../hooks/useConfig';
+import useTlClient from '../../hooks/useTlClient';
 
 interface IFormValues {
   handle: string;
@@ -31,6 +32,7 @@ function TalentLayerIdForm() {
   const { address } = useAccount();
   const publicClient = usePublicClient({ chainId });
   const router = useRouter();
+  const tlClient = useTlClient(chainId, '2TcBxC3hzB3bMUgpD3FkxI6tt4D', '29e380e2b6b89499074b90b2b5b8ebb9');
 
   const validationSchema = Yup.object().shape({
     handle: Yup.string()
@@ -67,14 +69,17 @@ function TalentLayerIdForm() {
           );
           tx = response.data.transaction;
         } else {
-          tx = await walletClient.writeContract({
-            address: config.contracts.talentLayerId,
-            abi: TalentLayerID.abi,
-            functionName: 'mint',
-            args: [process.env.NEXT_PUBLIC_PLATFORM_ID, submittedValues.handle],
-            account: address,
-            value: handlePrice,
-          });
+          if (tlClient) {
+            tx = await tlClient.profile.create(submittedValues.handle);
+          }
+          // tx = await walletClient.writeContract({
+          //   address: config.contracts.talentLayerId,
+          //   abi: TalentLayerID.abi,
+          //   functionName: 'mint',
+          //   args: [process.env.NEXT_PUBLIC_PLATFORM_ID, submittedValues.handle],
+          //   account: address,
+          //   value: handlePrice,
+          // });
         }
         await createTalentLayerIdTransactionToast(
           chainId,

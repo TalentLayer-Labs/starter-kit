@@ -6,6 +6,7 @@ import { executePayment } from '../../contracts/executePayment';
 import { IService, IToken, ServiceStatusEnum } from '../../types';
 import { renderTokenAmount } from '../../utils/conversion';
 import { useChainId } from '../../hooks/useChainId';
+import useTlClient from '../../hooks/useTlClient';
 
 interface IFormValues {
   percentField: string;
@@ -32,6 +33,8 @@ function ReleaseForm({
     chainId,
   });
   const publicClient = usePublicClient({ chainId });
+  const tlClient = useTlClient(chainId, '2TcBxC3hzB3bMUgpD3FkxI6tt4D', '29e380e2b6b89499074b90b2b5b8ebb9');
+
   const [percent, setPercentage] = useState(0);
 
   const handleSubmit = async (values: any) => {
@@ -40,17 +43,22 @@ function ReleaseForm({
     }
     const percentToToken = (totalInEscrow * BigInt(percent)) / BigInt(100);
 
-    await executePayment(
-      chainId,
-      user.address,
-      walletClient,
-      publicClient,
-      user.id,
-      service.transaction.id,
-      percentToToken,
-      isBuyer,
-      isActiveDelegate,
-    );
+    if (tlClient) {
+      await executePayment(
+        chainId,
+        user.address,
+        walletClient,
+        publicClient,
+        user.id,
+        service.transaction.id,
+        percentToToken,
+        isBuyer,
+        isActiveDelegate,
+        tlClient,
+        service.id
+      );
+    }
+    
     closeModal();
   };
 

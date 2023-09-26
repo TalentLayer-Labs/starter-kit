@@ -5,6 +5,7 @@ import { showErrorTransactionToast } from '../utils/toast';
 import { delegateReleaseOrReimburse } from '../components/request';
 import { getConfig } from '../config';
 import { Address, PublicClient, WalletClient } from 'viem';
+import { TalentLayerClient } from '@TalentLayer/client';
 
 export const executePayment = async (
   chainId: number,
@@ -16,6 +17,8 @@ export const executePayment = async (
   amount: bigint,
   isBuyer: boolean,
   isActiveDelegate: boolean,
+  tlClient: TalentLayerClient,
+  serviceId: string
 ): Promise<void> => {
   const config = getConfig(chainId);
   try {
@@ -32,23 +35,12 @@ export const executePayment = async (
       tx = response.data.transaction;
     } else {
       if (isBuyer) {
-        const { request } = await publicClient.simulateContract({
-          address: config.contracts.talentLayerEscrow,
-          abi: TalentLayerEscrow.abi,
-          functionName: 'release',
-          args: [profileId, parseInt(transactionId, 10), amount.toString()],
-        });
-        tx = await walletClient.writeContract(request);
+        tx = await tlClient.escrow.release(serviceId, amount, parseInt(profileId));
       } else {
-        const { request } = await publicClient.simulateContract({
-          address: config.contracts.talentLayerEscrow,
-          abi: TalentLayerEscrow.abi,
-          functionName: 'reimburse',
-          args: [profileId, parseInt(transactionId, 10), amount.toString()],
-        });
-        tx = await walletClient.writeContract(request);
+        tx = await tlClient.escrow.reimburse(serviceId, amount, parseInt(profileId));
       }
     }
+    console.log("Starter kit: tx", tx);
 
     const message = isBuyer
       ? 'Your payment release is in progress'

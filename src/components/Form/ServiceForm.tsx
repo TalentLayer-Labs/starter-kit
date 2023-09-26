@@ -18,6 +18,7 @@ import { SkillsInput } from './skills-input';
 import { delegateCreateService } from '../request';
 import { useChainId } from '../../hooks/useChainId';
 import { useConfig } from '../../hooks/useConfig';
+import useTlClient from '../../hooks/useTlClient';
 
 interface IFormValues {
   title: string;
@@ -51,6 +52,8 @@ function ServiceForm() {
   const allowedTokenList = useAllowedTokens();
   const [selectedToken, setSelectedToken] = useState<IToken>();
   const { isActiveDelegate } = useContext(StarterKitContext);
+
+  const tlClient = useTlClient(chainId, '2TcBxC3hzB3bMUgpD3FkxI6tt4D', '29e380e2b6b89499074b90b2b5b8ebb9');
 
   const validationSchema = Yup.object({
     title: Yup.string().required('Please provide a title for your service'),
@@ -98,32 +101,41 @@ function ServiceForm() {
           token.decimals,
         );
         const parsedRateAmountString = parsedRateAmount.toString();
-        const cid = await postToIPFS(
-          JSON.stringify({
+
+        let tx, cid;
+
+        cid = await tlClient?.service?.updloadServiceDataToIpfs(
+          {
             title: values.title,
             about: values.about,
             keywords: values.keywords,
             rateToken: values.rateToken,
             rateAmount: parsedRateAmountString,
-          }),
+          },
         );
-
-        // Get platform signature
-        const signature = await getServiceSignature({ profileId: Number(user?.id), cid });
-
-        let tx;
 
         if (isActiveDelegate) {
           const response = await delegateCreateService(chainId, user.id, user.address, cid);
           tx = response.data.transaction;
         } else {
-          tx = await walletClient.writeContract({
-            address: config.contracts.serviceRegistry,
-            abi: ServiceRegistry.abi,
-            functionName: 'createService',
-            args: [user?.id, process.env.NEXT_PUBLIC_PLATFORM_ID, cid, signature],
-            account: address,
-          });
+
+          if (tlClient) {
+            console.log("Starter kit: creating new service")
+            const serviceResponse = await tlClient.service.create({
+              title: values.title,
+              about: values.about,
+              keywords: values.keywords,
+              rateToken: values.rateToken,
+              rateAmount: parsedRateAmountString
+            }, user.id, 4);
+  
+            cid = serviceResponse.cid;
+            tx = serviceResponse.tx;
+            console.log({serviceResponse})
+          } else {
+            throw new Error('TL client not initialised');
+          }
+
         }
 
         const newId = await createMultiStepsTransactionToast(

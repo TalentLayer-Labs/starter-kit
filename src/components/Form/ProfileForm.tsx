@@ -51,6 +51,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
         chainId,
         infuraClientId: '2TcBxC3hzB3bMUgpD3FkxI6tt4D',
         infuraClientSecret: '29e380e2b6b89499074b90b2b5b8ebb9',
+        platformId: 4
       });
       setTlClient(_tlClient);
     }
@@ -86,7 +87,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
   ) => {
     if (user && walletClient && publicClient) {
       try {
-        const cid = await tlClient?.uploadProfileDataToIpfs({
+        let cid = await tlClient?.profile.upload({
           title: values.title,
           role: values.role,
           image_url: values.image_url,
@@ -103,7 +104,21 @@ function ProfileForm({ callback }: { callback?: () => void }) {
           const response = await delegateUpdateProfileData(chainId, user.id, user.address, cid);
           tx = response.data.transaction;
         } else {
-          tx = await tlClient?.updateProfileData(user.id, cid || "");  
+          const res = await tlClient?.profile.update(
+            {
+              title: values.title,
+              role: values.role,
+              image_url: values.image_url,
+              video_url: values.video_url,
+              name: values.name,
+              about: values.about,
+              skills: values.skills,
+            },
+            user.id
+          );  
+
+           tx = res?.tx || "";
+           cid = res?.cid || "";
         }
 
         await createMultiStepsTransactionToast(

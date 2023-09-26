@@ -5,11 +5,13 @@ import { showErrorTransactionToast } from '../utils/toast';
 import ERC20 from './ABI/ERC20.json';
 import TalentLayerEscrow from './ABI/TalentLayerEscrow.json';
 import { Address, PublicClient, WalletClient } from 'viem';
+import { TalentLayerClient } from '@TalentLayer/client';
 
 // TODO: need to generate this json duynamically and post it to IPFS to be use for dispute resolution
 export const metaEvidenceCid = 'QmQ2hcACF6r2Gf8PDxG4NcBdurzRUopwcaYQHNhSah6a8v';
 
 export const validateProposal = async (
+  tlClient: TalentLayerClient,
   chainId: number,
   walletClient: WalletClient,
   publicClient: PublicClient,
@@ -20,17 +22,20 @@ export const validateProposal = async (
   value: bigint,
 ): Promise<void> => {
   const config = getConfig(chainId);
+  console.log("rateToken: ", rateToken);
+  const _balance: any = await tlClient.erc20.balanceOf(rateToken);
+  console.log("rateToken: ", rateToken)
+  // const _allowance: any = await tlClient.erc20.checkAllowance(rateToken)
 
+  console.log({_balance})
   try {
     if (rateToken === '0x0000000000000000000000000000000000000000') {
-      const { request } = await publicClient.simulateContract({
-        address: config.contracts.talentLayerEscrow,
-        abi: TalentLayerEscrow.abi,
-        functionName: 'createTransaction',
-        args: [parseInt(serviceId, 10), parseInt(proposalId, 10), metaEvidenceCid, cid],
-        value: value,
-      });
-      const tx1 = await walletClient.writeContract(request);
+
+
+      let tx1, cid1;
+      console.log("proposalId: ", proposalId, {value})
+      const {tx} = await tlClient.escrow.approve(serviceId, proposalId, metaEvidenceCid, value)
+      tx1 = tx;
       const receipt1 = await toast.promise(publicClient.waitForTransactionReceipt({ hash: tx1 }), {
         pending: {
           render() {
@@ -47,31 +52,36 @@ export const validateProposal = async (
       }
     } else {
       // Token transfer approval for escrow contract
-      const balance: any = await publicClient.readContract({
-        address: rateToken,
-        abi: ERC20.abi,
-        functionName: 'balanceOf',
-        args: [walletClient.getAddresses()],
-      });
-      if (balance.lt(value)) {
-        throw new Error('Insufficient balance');
-      }
+      const _balance: any = await tlClient.erc20.balanceOf(rateToken);
+      const balance: any = await tlClient.erc20.balanceOf(rateToken);
+      // if (balance.lt(value)) {
+      //   throw new Error('Insufficient balance');
+      // }
+
+      const [_address] = await walletClient.getAddresses();
 
       const allowance: any = await publicClient.readContract({
         address: rateToken,
         abi: ERC20.abi,
         functionName: 'allowance',
-        args: [walletClient.getAddresses(), config.contracts.talentLayerEscrow],
+        args: [_address, config.contracts.talentLayerEscrow],
       });
 
-      if (allowance.lt(value)) {
-        const { request } = await publicClient.simulateContract({
-          address: config.contracts.talentLayerEscrow,
-          abi: TalentLayerEscrow.abi,
-          functionName: 'approve',
-          args: [config.contracts.talentLayerEscrow, value],
-        });
-        const tx1 = await walletClient.writeContract(request);
+      
+      console.log("Starter kit: allowed",allowance, value,  allowance < value);
+      if (allowance < value) {
+        console.log("Starter kit: approval required", );
+        // const { request } = await publicClient.simulateContract({
+        //   address: config.contracts.talentLayerEscrow,
+        //   abi: TalentLayerEscrow.abi,
+        //   functionName: 'approve',
+        //   args: [config.contracts.talentLayerEscrow, value],
+        // });
+        // const tx1 = await walletClient.writeContract(request);
+
+        const tx1 = await tlClient.erc20.approve(rateToken, value);
+
+        console.log("Starter kit: asking for approval", { tx1 });
 
         const receipt1 = await toast.promise(
           publicClient.waitForTransactionReceipt({ hash: tx1 }),
@@ -91,13 +101,14 @@ export const validateProposal = async (
           throw new Error('Approve Transaction failed');
         }
       }
-      const { request } = await publicClient.simulateContract({
-        address: config.contracts.talentLayerEscrow,
-        abi: TalentLayerEscrow.abi,
-        functionName: 'createTransaction',
-        args: [parseInt(serviceId, 10), parseInt(proposalId, 10), metaEvidenceCid, cid],
-      });
-      const tx2 = await walletClient.writeContract(request);
+      // const { request } = await publicClient.simulateContract({
+      //   address: config.contracts.talentLayerEscrow,
+      //   abi: TalentLayerEscrow.abi,
+      //   functionName: 'createTransaction',
+      //   args: [parseInt(serviceId, 10), parseInt(proposalId, 10), metaEvidenceCid, cid],
+      // });
+      // const tx2 = await walletClient.writeContract(request);
+      const { tx: tx2 } = await tlClient.escrow.approve(serviceId, proposalId, metaEvidenceCid);
       const receipt2 = await toast.promise(publicClient.waitForTransactionReceipt({ hash: tx2 }), {
         pending: {
           render() {
