@@ -23,7 +23,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     // const contactList: Contact[] = await web3mail.fetchMyContacts();
     //
-    // if (contactList.length === 0) {
+    // if (!contactList || contactList.length === 0) {
     //   return res.status(200).json('No users granted access to their email');
     // }
     //
@@ -45,14 +45,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // This array has all the users that have granted access to their email to this platform and opted for the platform marketing feature
     let validUsers: IUser[] = [];
 
-    if (response?.data?.data?.users) {
+    if (response?.data?.data?.users && response.data.data.users.length > 0) {
       validUsers = response.data.data.users;
-      validUsers = validUsers.filter(
-        user => user.description?.web3mailPreferences?.activeOnPlatformMarketing === true,
-      );
-    }
-
-    if (validUsers.length === 0) {
+    } else {
       return res.status(200).json(`No User opted for this feature`);
     }
 

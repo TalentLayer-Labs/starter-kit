@@ -190,13 +190,14 @@ export const getUsersWeb3MailPreference = (
 ): Promise<any> => {
   const query = `
     {
-      users(where: {address_in: ["${addresses.map(a => a.toLowerCase()).join('","')}"]}) {
-        id
-        address
-        description {
-          web3mailPreferences {
-            ${web3mailPreference}
-          }
+      userDescriptions(
+        where: {user_: {address_in: ["${addresses
+          .map(a => a.toLowerCase())
+          .join('","')}"]}, web3mailPreferences_: {${web3mailPreference}: true}}
+      ) {
+        user {
+          id
+          address
         }
       }
     }
@@ -211,14 +212,15 @@ export const getWeb3mailUsersForNewServices = (
 ): Promise<any> => {
   const query = `
     {
-      users (where: {address_in: ["${addresses.map(a => a.toLowerCase()).join('","')}"]}) {
-        id
-        address
-        description{
-          skills_raw
-          web3mailPreferences {
-            ${web3mailPreference}
-          }
+      userDescriptions(
+        where: {user_: {address_in: ["${addresses
+          .map(a => a.toLowerCase())
+          .join('","')}"]}, web3mailPreferences_: {${web3mailPreference}: true}}
+      ) {
+        skills_raw
+        user {
+          id
+          address
         }
       }
     }

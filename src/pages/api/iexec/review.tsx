@@ -33,7 +33,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   try {
     const response = await getNewReviews(Number(chainId), platformId, sinceTimestamp);
 
-    if (!response?.data?.data?.reviews) {
+    if (!response?.data?.data?.reviews || response.data.data.reviews.length === 0) {
       return res.status(200).json(`No new reviews available`);
     }
 
@@ -63,14 +63,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       let validUsers: IUser[] = [];
 
-      if (response?.data?.data?.users) {
+      if (response?.data?.data?.users && response.data.data.users.length > 0) {
         validUsers = response.data.data.users;
-        validUsers = validUsers.filter(
-          user => user.description?.web3mailPreferences?.activeOnReview === true,
-        );
-      }
-
-      if (validUsers.length === 0) {
+      } else {
         return res.status(200).json(`No User opted for this feature`);
       }
 

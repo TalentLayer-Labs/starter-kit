@@ -37,7 +37,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     //TODO add Website in description
     const response = await getNewPayments(Number(chainId), platformId, sinceTimestamp);
 
-    if (!response?.data?.data?.payments) {
+    if (!response?.data?.data?.payments || response.data.data.payments.length === 0) {
       return res.status(200).json(`No new payments available`);
     }
 
@@ -73,14 +73,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       let validUsers: IUser[] = [];
 
-      if (response?.data?.data?.users) {
+      if (response?.data?.data?.users && response.data.data.users.length > 0) {
         validUsers = response.data.data.users;
-        validUsers = validUsers.filter(
-          user => user.description?.web3mailPreferences?.activeOnFundRelease === true,
-        );
-      }
-
-      if (validUsers.length === 0) {
+      } else {
         return res.status(200).json(`No User opted for this feature`);
       }
 

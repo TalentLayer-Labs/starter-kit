@@ -37,7 +37,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   try {
     const response = await getAcceptedProposals(Number(chainId), platformId, sinceTimestamp);
 
-    if (!response?.data?.data?.proposals) {
+    if (!response?.data?.data?.proposals || response.data.data.proposals.length === 0) {
       return res.status(200).json(`No new proposals validated available`);
     }
 
@@ -66,14 +66,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       let validUsers: IUser[] = response.data.data.users;
 
-      if (response?.data?.data?.users) {
+      if (response?.data?.data?.users && response.data.data.users.length > 0) {
         validUsers = response.data.data.users;
-        validUsers = validUsers.filter(
-          user => user.description?.web3mailPreferences?.activeOnProposalValidated === true,
-        );
-      }
-
-      if (validUsers.length === 0) {
+      } else {
         return res.status(200).json(`No User opted for this feature`);
       }
 

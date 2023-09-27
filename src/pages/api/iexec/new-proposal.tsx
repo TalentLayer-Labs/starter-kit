@@ -41,7 +41,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       sinceTimestamp,
     );
 
-    if (!response?.data?.data?.proposals) {
+    if (!response?.data?.data?.proposals || response.data.data.proposals.length === 0) {
       return res.status(200).json(`No new proposals available`);
     }
 
@@ -74,12 +74,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       if (response?.data?.data?.users) {
         validUsers = response.data.data.users;
-        validUsers = validUsers.filter(
-          user => user.description?.web3mailPreferences?.activeOnNewProposal === true,
-        );
-      }
-
-      if (validUsers.length === 0) {
+      } else {
         return res.status(200).json(`No User opted for this feature`);
       }
 

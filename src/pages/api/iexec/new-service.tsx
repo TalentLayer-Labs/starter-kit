@@ -47,7 +47,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // Fetch all contacts who protected their email and granted access to the platform
     const allContacts = await web3mail.fetchMyContacts();
 
-    if (!allContacts) {
+    if (!allContacts || allContacts.length === 0) {
       return res.status(200).json(`No contacts granted access to their email`);
     }
 
@@ -62,14 +62,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     let validContacts: IUser[] = [];
 
-    if (!response?.data?.data?.users) {
+    if (response?.data?.data?.users && response.data.data.users.length > 0) {
       validContacts = response.data.data.users;
-      validContacts = validContacts.filter(
-        user => user.description?.web3mailPreferences?.activeOnNewService === true,
-      );
-    }
-
-    if (validContacts.length === 0) {
+    } else {
       return res.status(200).json(`No User opted for this feature`);
     }
 
