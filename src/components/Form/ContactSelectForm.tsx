@@ -6,6 +6,7 @@ import { showErrorTransactionToast } from '../../utils/toast';
 import { Contact } from '@iexec/web3mail';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 interface IFormValues {
   subject: string;
@@ -53,10 +54,15 @@ export const ContactListForm = ({ contactList }: { contactList: Contact[] }) => 
     try {
       setSubmitting(true);
 
-      await axios.post('/api/iexec/send-web3mail-to-addresses', {
+      const promise = axios.post('/api/iexec/send-web3mail-to-addresses', {
         subject: values.subject,
         body: values.body,
         contacts: values.contacts,
+      });
+      await toast.promise(promise, {
+        pending: 'Your emails are being sent...',
+        success: 'Emails sent !',
+        error: 'An error occurred while sending emails',
       });
 
       setSubmitting(false);
