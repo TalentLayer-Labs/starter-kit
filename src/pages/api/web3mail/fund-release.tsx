@@ -121,7 +121,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             `${handle} has ${action} ${payment.amount} ${payment.rateToken.symbol} for the 
             service ${payment.service.description?.title} on TalentLayer !
             
-            You can find details on this service here: ${payment.service.platform.description.website}/dashboard/services/${payment.id}`,
+            You can find details on this service here: ${payment.service.platform.description.website}/dashboard/services/${payment.service.id}`,
             [address],
             true,
             dataProtector,

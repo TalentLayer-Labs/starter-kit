@@ -15,6 +15,7 @@ import { MessagingProvider } from '../modules/Messaging/context/messging';
 import { Web3MailProvider } from '../modules/Web3mail/context/web3mail';
 import '../styles/globals.css';
 import Layout from './Layout';
+import { NetworkEnum } from '../types';
 
 export const chains: Chain[] = [polygonMumbai, iexec];
 export const defaultChain: Chain | undefined = chains.find(
@@ -56,7 +57,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           projectId={projectId}
           ethereumClient={ethereumClient}
           defaultChain={defaultChain}
-          chainImages={{ 134: `/images/blockchain/134.png` }}
+          chainImages={{ [NetworkEnum.IEXEC]: `/images/blockchain/${[NetworkEnum.IEXEC]}.png` }}
         />
       </WagmiConfig>
     </>
