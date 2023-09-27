@@ -12,7 +12,7 @@ function EditTrustScore() {
               {' '}
               Gain trust in the network
               <br />
-              Certified your existing web3 reputation with blockchain
+              Certifiy your existing web3 reputation with blockchain
               <br />
               Preserve your privacy
               <br />
