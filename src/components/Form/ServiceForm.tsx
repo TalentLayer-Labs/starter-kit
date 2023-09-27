@@ -56,7 +56,7 @@ function ServiceForm() {
   
   const platform = usePlatform(process.env.NEXT_PUBLIC_PLATFORM_ID as string);
   const servicePostingFee = platform?.servicePostingFee || 0;
-  const servicePostingFeeFormat = servicePostingFee ? formatEther(BigInt(servicePostingFee)) : 0;
+  const servicePostingFeeFormat = servicePostingFee ? Number(formatEther(BigInt(servicePostingFee))) : 0;
 
   const validationSchema = Yup.object({
     title: Yup.string().required('Please provide a title for your service'),
@@ -215,6 +215,8 @@ function ServiceForm() {
                 <span className='text-red-500 mt-2'>
                   <ErrorMessage name='rateAmount' />
                 </span>
+                {servicePostingFeeFormat !== 0 && (
+                <span className='text-gray-100'>Fee for posting a service: {servicePostingFeeFormat} MATIC</span>)}
               </label>
               <label className='block'>
                 <span className='text-gray-100'>Token</span>
@@ -239,7 +241,6 @@ function ServiceForm() {
                 <span className='text-red-500'>
                   <ErrorMessage name='rateToken' />
                 </span>
-                <span>Service fee is {servicePostingFeeFormat}</span>
               </label>
             </div>
 

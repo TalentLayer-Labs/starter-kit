@@ -61,7 +61,7 @@ function ProposalForm({
   
   const platform = usePlatform(process.env.NEXT_PUBLIC_PLATFORM_ID as string);
   const proposalFee = platform?.proposalPostingFee || 0;
-  const proposalFeeFormat = proposalFee ? formatEther(BigInt(proposalFee)) : 0;
+  const proposalFeeFormat = proposalFee ? Number(formatEther(BigInt(proposalFee))) : 0;
 
   if (allowedTokenList.length === 0) {
     return <div>Loading...</div>;
@@ -321,9 +321,9 @@ function ProposalForm({
               <span className='text-red-500'>
                 <ErrorMessage name='video_url' />
               </span>
-              <span>Proposal fee is {proposalFeeFormat}</span>
             </label>
-
+            {proposalFeeFormat !== 0 && !existingProposal && (
+                <span className='text-gray-100'>Fee for making a proposal: {proposalFeeFormat} MATIC</span>)}
             <SubmitButton isSubmitting={isSubmitting} label='Post' />
           </div>
         </Form>
