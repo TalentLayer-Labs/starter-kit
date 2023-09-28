@@ -19,7 +19,6 @@ const buildVercelConfigFile = () => {
   }
 
   const filename = './vercel.json';
-  console.log('fs.existsSync(filename)', fs.existsSync(filename));
 
   if (!fs.existsSync(filename)) {
     console.log('No vercel.json file found');
