@@ -23,6 +23,7 @@ import ServiceItem from '../ServiceItem';
 import { delegateCreateOrUpdateProposal } from '../request';
 import SubmitButton from './SubmitButton';
 import usePlatform from '../../hooks/usePlatform';
+import { chains } from '../../pages/_app';
 
 interface IFormValues {
   about: string;
@@ -59,9 +60,10 @@ function ProposalForm({
   const { platformHasAccess } = useContext(Web3MailContext);
   const [aiLoading, setAiLoading] = useState(false);
   
+  const currentChain = chains.find(chain => chain.id === chainId);
   const platform = usePlatform(process.env.NEXT_PUBLIC_PLATFORM_ID as string);
-  const proposalFee = platform?.proposalPostingFee || 0;
-  const proposalFeeFormat = proposalFee ? Number(formatEther(BigInt(proposalFee))) : 0;
+  const proposalPostingFee = platform?.proposalPostingFee || 0;
+  const proposalPostingFeeFormat = proposalPostingFee ? Number(formatUnits(BigInt(proposalPostingFee),Number(currentChain?.nativeCurrency.decimals))) : 0;
 
   if (allowedTokenList.length === 0) {
     return <div>Loading...</div>;
@@ -184,7 +186,7 @@ function ProposalForm({
                   signature,
                 ],
             account: address,
-            value: existingProposal ? 0n : BigInt(proposalFee)
+            value: existingProposal ? 0n : BigInt(proposalPostingFee)
           });
         }
 
@@ -322,8 +324,8 @@ function ProposalForm({
                 <ErrorMessage name='video_url' />
               </span>
             </label>
-            {proposalFeeFormat !== 0 && !existingProposal && (
-                <span className='text-gray-100'>Fee for making a proposal: {proposalFeeFormat} MATIC</span>)}
+            {proposalPostingFeeFormat !== 0 && !existingProposal && (
+                <span className='text-gray-100'>Fee for making a proposal: {proposalPostingFeeFormat} {currentChain?.nativeCurrency.symbol}</span>)}
             <SubmitButton isSubmitting={isSubmitting} label='Post' />
           </div>
         </Form>

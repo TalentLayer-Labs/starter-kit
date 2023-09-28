@@ -21,6 +21,7 @@ import { useConfig } from '../../hooks/useConfig';
 import { createWeb3mailToast } from '../../modules/Web3mail/utils/toast';
 import Web3MailContext from '../../modules/Web3mail/context/web3mail';
 import usePlatform from '../../hooks/usePlatform';
+import { chains } from '../../pages/_app';
 
 interface IFormValues {
   title: string;
@@ -53,10 +54,10 @@ function ServiceForm() {
   const [selectedToken, setSelectedToken] = useState<IToken>();
   const { isActiveDelegate } = useContext(TalentLayerContext);
 
-  
+  const currentChain = chains.find(chain => chain.id === chainId);
   const platform = usePlatform(process.env.NEXT_PUBLIC_PLATFORM_ID as string);
   const servicePostingFee = platform?.servicePostingFee || 0;
-  const servicePostingFeeFormat = servicePostingFee ? Number(formatEther(BigInt(servicePostingFee))) : 0;
+  const servicePostingFeeFormat = servicePostingFee ? Number(formatUnits(BigInt(servicePostingFee),Number(currentChain?.nativeCurrency?.decimals))) : 0;
 
   const validationSchema = Yup.object({
     title: Yup.string().required('Please provide a title for your service'),
@@ -216,7 +217,7 @@ function ServiceForm() {
                   <ErrorMessage name='rateAmount' />
                 </span>
                 {servicePostingFeeFormat !== 0 && (
-                <span className='text-gray-100'>Fee for posting a service: {servicePostingFeeFormat} MATIC</span>)}
+                <span className='text-gray-100'>Fee for posting a service: {servicePostingFeeFormat} {currentChain?.nativeCurrency.symbol}</span>)}
               </label>
               <label className='block'>
                 <span className='text-gray-100'>Token</span>
