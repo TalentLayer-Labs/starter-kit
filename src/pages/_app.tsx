@@ -39,35 +39,40 @@ const queryClient = new QueryClient();
 
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return (
-    <>
-      <QueryClientProvider client={queryClient}>
-        <DefaultSeo {...SEO} />
-        <WagmiConfig config={wagmiConfig}>
-          <TalentLayerProvider>
-            <Web3MailProvider>
-              <XmtpContextProvider>
-                <MessagingProvider>
-                  <ThemeProvider enableSystem={false}>
-                    <Layout>
-                      <Component {...pageProps} />
-                    </Layout>
-                  </ThemeProvider>
-                </MessagingProvider>
-              </XmtpContextProvider>
-              <ToastContainer position='bottom-right' />
-            </Web3MailProvider>
-          </TalentLayerProvider>
-          <Web3Modal
-            projectId={projectId}
-            ethereumClient={ethereumClient}
-            defaultChain={defaultChain}
-            chainImages={{ 134: `/images/blockchain/134.png` }}
-          />
-        </WagmiConfig>
-      </QueryClientProvider>
-    </>
-  );
-}
+  useEffect(() => {
+    wagmiClient.autoConnect();
+  }, []);
 
-export default MyApp;
+  function MyApp({ Component, pageProps }: AppProps) {
+    return (
+      <>
+        <QueryClientProvider client={queryClient}>
+          <DefaultSeo {...SEO} />
+          <WagmiConfig config={wagmiConfig}>
+            <TalentLayerProvider>
+              <Web3MailProvider>
+                <XmtpContextProvider>
+                  <MessagingProvider>
+                    <ThemeProvider enableSystem={false}>
+                      <Layout>
+                        <Component {...pageProps} />
+                      </Layout>
+                    </ThemeProvider>
+                  </MessagingProvider>
+                </XmtpContextProvider>
+                <ToastContainer position='bottom-right' />
+              </Web3MailProvider>
+            </TalentLayerProvider>
+            <Web3Modal
+              projectId={projectId}
+              ethereumClient={ethereumClient}
+              defaultChain={defaultChain}
+              chainImages={{ 134: `/images/blockchain/134.png` }}
+            />
+          </WagmiConfig>
+        </QueryClientProvider >
+      </>
+    );
+  }
+
+  export default MyApp;
