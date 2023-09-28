@@ -17,7 +17,6 @@ function Layout({ children, className }: ContainerProps) {
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // TODO: this needs to get fixed the root layout renders everytime. that means its hard to expclude the other admin page. as /[domain]/admin. then loads again as just /admin.
   if (router.asPath.includes('dashboard') || router.asPath.startsWith('admin')) {
     // TODO: if is connect but doesn't have a group, redirect to onbaording
 

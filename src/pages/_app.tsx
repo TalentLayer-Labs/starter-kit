@@ -15,6 +15,7 @@ import { MessagingProvider } from '../modules/Messaging/context/messging';
 import { Web3MailProvider } from '../modules/Web3mail/context/web3mail';
 import '../styles/globals.css';
 import Layout from './Layout';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 export const chains: Chain[] = [polygonMumbai, iexec];
 export const defaultChain: Chain | undefined = chains.find(
@@ -33,32 +34,38 @@ const wagmiConfig = createConfig({
 });
 const ethereumClient = new EthereumClient(wagmiConfig, chains);
 
+// react-query client
+const queryClient = new QueryClient();
+
+
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
-      <DefaultSeo {...SEO} />
-      <WagmiConfig config={wagmiConfig}>
-        <TalentLayerProvider>
-          <Web3MailProvider>
-            <XmtpContextProvider>
-              <MessagingProvider>
-                <ThemeProvider enableSystem={false}>
-                  <Layout>
-                    <Component {...pageProps} />
-                  </Layout>
-                </ThemeProvider>
-              </MessagingProvider>
-            </XmtpContextProvider>
-            <ToastContainer position='bottom-right' />
-          </Web3MailProvider>
-        </TalentLayerProvider>
-        <Web3Modal
-          projectId={projectId}
-          ethereumClient={ethereumClient}
-          defaultChain={defaultChain}
-          chainImages={{ 134: `/images/blockchain/134.png` }}
-        />
-      </WagmiConfig>
+      <QueryClientProvider client={queryClient}>
+        <DefaultSeo {...SEO} />
+        <WagmiConfig config={wagmiConfig}>
+          <TalentLayerProvider>
+            <Web3MailProvider>
+              <XmtpContextProvider>
+                <MessagingProvider>
+                  <ThemeProvider enableSystem={false}>
+                    <Layout>
+                      <Component {...pageProps} />
+                    </Layout>
+                  </ThemeProvider>
+                </MessagingProvider>
+              </XmtpContextProvider>
+              <ToastContainer position='bottom-right' />
+            </Web3MailProvider>
+          </TalentLayerProvider>
+          <Web3Modal
+            projectId={projectId}
+            ethereumClient={ethereumClient}
+            defaultChain={defaultChain}
+            chainImages={{ 134: `/images/blockchain/134.png` }}
+          />
+        </WagmiConfig>
+      </QueryClientProvider>
     </>
   );
 }

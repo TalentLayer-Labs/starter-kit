@@ -1,11 +1,11 @@
 import React from 'react';
 
-export default function GigPage() {
+export default function WorkPage() {
   return (
     <div>
-      Gig page
+      Work Page
       <br />
-      detailed gig{' '}
+      detailed Work page
     </div>
   );
 }
