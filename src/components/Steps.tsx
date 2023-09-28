@@ -1,11 +1,11 @@
 import { useContext } from 'react';
-import StarterKitContext from '../context/starterKit';
+import TalentLayerContext from '../context/talentLayer';
 import ConnectBlock from './ConnectBlock';
 import Loading from './Loading';
 import TalentLayerIdForm from './Form/TalentLayerIdForm';
 
 function Steps() {
-  const { account, loading, user } = useContext(StarterKitContext);
+  const { account, loading, user } = useContext(TalentLayerContext);
 
   if (loading) {
     return <Loading />;

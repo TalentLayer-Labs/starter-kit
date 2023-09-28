@@ -1,12 +1,22 @@
 import { Menu, Transition } from '@headlessui/react';
-import { Fragment } from 'react';
+import Image from 'next/image';
+import { Fragment, useEffect, useState } from 'react';
 import { useNetwork } from 'wagmi';
 import NetworkLink from './NetworkLink';
-import Image from 'next/image';
 
 function NetworkSwitch() {
   const network = useNetwork();
   const { chains } = network;
+  const [loading, setLoading] = useState(true);
+
+  // Tips to prevent nextJs error: Hydration failed because the initial UI does not match what was rendered on the server.
+  useEffect(() => {
+    setLoading(false);
+  }, []);
+
+  if (loading) {
+    return null;
+  }
 
   if (network?.chain === undefined) {
     return null;
@@ -21,8 +31,8 @@ function NetworkSwitch() {
           width={28}
           height={28}
           className='h-7 w-7 rounded-full'
-          src='/images/blockchain/mumbai.png'
-          alt='mumbai icon'
+          src={`/images/blockchain/${network.chain?.id}.png`}
+          alt={`${network.chain?.name}  icon`}
         />
       </Menu.Button>
       <Transition

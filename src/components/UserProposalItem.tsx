@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { useRouter } from 'next/router';
-import StarterKitContext from '../context/starterKit';
+import TalentLayerContext from '../context/talentLayer';
 import { renderTokenAmount } from '../utils/conversion';
 import { IProposal, ProposalStatusEnum } from '../types';
 import { formatDate } from '../utils/dates';
@@ -9,7 +9,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 function UserProposalItem({ proposal }: { proposal: IProposal }) {
-  const { user } = useContext(StarterKitContext);
+  const { user } = useContext(TalentLayerContext);
   const service = useServiceById(proposal.service.id);
 
   if (!service) {

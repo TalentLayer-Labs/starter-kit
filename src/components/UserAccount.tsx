@@ -1,10 +1,20 @@
 import { Menu, Transition } from '@headlessui/react';
-import { Fragment, useContext } from 'react';
-import StarterKitContext from '../context/starterKit';
+import { Fragment, useContext, useEffect, useState } from 'react';
+import TalentLayerContext from '../context/talentLayer';
 import UserSubMenu from './UserSubMenu';
 
 function UserAccount() {
-  const { account, user } = useContext(StarterKitContext);
+  const { account, user } = useContext(TalentLayerContext);
+  const [loading, setLoading] = useState(true);
+
+  // Tips to prevent nextJs error: Hydration failed because the initial UI does not match what was rendered on the server.
+  useEffect(() => {
+    setLoading(false);
+  }, []);
+
+  if (loading) {
+    return null;
+  }
 
   return (
     <div className='flex justify-between'>

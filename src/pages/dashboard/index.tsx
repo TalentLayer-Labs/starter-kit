@@ -6,12 +6,12 @@ import UserGains from '../../components/UserGains';
 import UserPayments from '../../components/UserPayments';
 import UserProposals from '../../components/UserProposals';
 import UserServices from '../../components/UserServices';
-import StarterKitContext from '../../context/starterKit';
+import TalentLayerContext from '../../context/talentLayer';
 import Link from 'next/link';
 import { PencilSquareIcon } from '@heroicons/react/24/outline';
 
 function Dashboard() {
-  const { account, user } = useContext(StarterKitContext);
+  const { account, user } = useContext(TalentLayerContext);
 
   if (!user) {
     return <Steps />;
@@ -19,8 +19,8 @@ function Dashboard() {
 
   return (
     <div className='max-w-7xl mx-auto text-gray-200 sm:px-4 lg:px-0'>
-      <div className=' -mx-6 -mt-6 '>
-        <div className='flex py-2 px-6 items-center border-b w-full border-gray-700 mb-8'>
+      <div className='-mx-6 -mt-6 sm:mx-0 sm:mt-0'>
+        <div className='flex py-2 px-6 sm:px-0 items-center border-b w-full border-gray-700 mb-8'>
           <p className='text-2xl font-medium flex-1'>
             Your <span className='text-gray-100 ml-1'> dashboard </span>
           </p>

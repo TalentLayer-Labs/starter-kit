@@ -1,17 +1,18 @@
-import React, { createContext, ReactNode, useEffect, useMemo, useState } from 'react';
 import { Client, Conversation, DecodedMessage } from '@xmtp/xmtp-js';
-import { Signer } from 'ethers';
-import { useAccount, useSigner } from 'wagmi';
+import React, { createContext, ReactNode, useEffect, useMemo, useState } from 'react';
+import { useAccount, useWalletClient } from 'wagmi';
+import { useChainId } from '../../../hooks/useChainId';
+import { useEthersWalletClient } from '../../../hooks/useEthersWalletClient';
+import { loadKeys, storeKeys } from '../utils/keys';
 import { buildChatMessage, CONVERSATION_PREFIX } from '../utils/messaging';
 import { XmtpChatMessage } from '../utils/types';
-import { loadKeys, storeKeys } from '../utils/keys';
-import { useChainId } from '../../../hooks/useChainId';
+import { log } from '../../../utils/log';
 
 type clientEnv = 'local' | 'dev' | 'production' | undefined;
 
 interface IProviderProps {
   client: Client | undefined;
-  initClient: ((wallet: Signer) => Promise<void>) | undefined;
+  initClient: (() => Promise<void>) | undefined;
   loadingConversations: boolean;
   loadingMessages: boolean;
   conversations: Map<string, Conversation>;
@@ -30,10 +31,11 @@ export const XmtpContext = createContext<{
 
 export const XmtpContextProvider = ({ children }: { children: ReactNode }) => {
   const chainId = useChainId();
-  const { data: signer } = useSigner({
+  const { data: walletClient } = useWalletClient({
     chainId,
   });
   const { address: walletAddress } = useAccount();
+  const { data: ethersWalletClient } = useEthersWalletClient();
 
   const [providerState, setProviderState] = useState<IProviderProps>({
     client: undefined,
@@ -56,19 +58,20 @@ export const XmtpContextProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
-  const initClient = async (wallet: Signer) => {
-    console.log(
-      'initClient',
-      wallet && walletAddress && !providerState.client && signer ? 'true' : 'false',
+  const initClient = async () => {
+    log(
+      'XMTP initClient',
+      walletAddress && !providerState.client && walletClient ? 'true' : 'false',
       walletAddress,
       providerState.client,
-      signer,
+      walletClient,
     );
-    if (walletAddress && !providerState.client && signer) {
+    if (walletAddress && !providerState.client && walletClient) {
       try {
         let keys = loadKeys(walletAddress as string);
         if (!keys) {
-          keys = await Client.getKeys(signer, {
+          // @ts-ignore: xmtp don't support viem typing yet
+          keys = await Client.getKeys(ethersWalletClient, {
             env: process.env.NEXT_PUBLIC_MESSENGING_ENV as clientEnv,
           });
         }
@@ -93,9 +96,9 @@ export const XmtpContextProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const autoInit = async () => {
-      if (signer && walletAddress && !providerState.client) {
+      if (walletClient && walletAddress && !providerState.client) {
         if (loadKeys(walletAddress)) {
-          await initClient(signer);
+          await initClient();
         }
       }
     };
@@ -104,7 +107,7 @@ export const XmtpContextProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const checkUserExistence = async (): Promise<void> => {
-      if (signer) {
+      if (walletClient) {
         const userExists = await Client.canMessage(walletAddress as string, {
           env: process.env.NEXT_PUBLIC_MESSENGING_ENV as clientEnv,
         });
@@ -112,7 +115,7 @@ export const XmtpContextProvider = ({ children }: { children: ReactNode }) => {
       }
     };
     checkUserExistence();
-  }, [signer]);
+  }, [walletClient]);
 
   useEffect(() => {
     if (!providerState.client) return;
@@ -170,7 +173,7 @@ export const XmtpContextProvider = ({ children }: { children: ReactNode }) => {
       providerState,
       setProviderState,
     };
-  }, [signer, providerState]);
+  }, [walletClient, providerState]);
 
   return <XmtpContext.Provider value={value}>{children}</XmtpContext.Provider>;
 };

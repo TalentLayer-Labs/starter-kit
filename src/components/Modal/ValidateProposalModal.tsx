@@ -1,7 +1,6 @@
-import { ethers } from 'ethers';
 import { Check, X } from 'heroicons-react';
 import { useState } from 'react';
-import { useBalance, useProvider, useSigner } from 'wagmi';
+import { useBalance, usePublicClient, useWalletClient } from 'wagmi';
 import { FEE_RATE_DIVIDER } from '../../config';
 import { validateProposal } from '../../contracts/acceptProposal';
 import useFees from '../../hooks/useFees';
@@ -10,16 +9,17 @@ import { IAccount, IProposal } from '../../types';
 import { renderTokenAmount } from '../../utils/conversion';
 import Step from '../Step';
 import { useChainId } from '../../hooks/useChainId';
+import { ZERO_ADDRESS } from '../../utils/constant';
 
 function ValidateProposalModal({ proposal, account }: { proposal: IProposal; account: IAccount }) {
   const chainId = useChainId();
-  const { data: signer } = useSigner({
+  const { data: walletClient } = useWalletClient({
     chainId,
   });
-  const provider = useProvider({ chainId });
+  const publicClient = usePublicClient({ chainId });
   const [show, setShow] = useState(false);
   const { data: ethBalance } = useBalance({ address: account.address });
-  const isProposalUseEth: boolean = proposal.rateToken.address === ethers.constants.AddressZero;
+  const isProposalUseEth: boolean = proposal.rateToken.address === ZERO_ADDRESS;
   const { data: tokenBalance } = useBalance({
     address: account.address,
     enabled: !isProposalUseEth,
@@ -34,25 +34,22 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
     originValidatedProposalPlatformId,
   );
 
-  const jobRateAmount = ethers.BigNumber.from(proposal.rateAmount);
-  const protocolFee = jobRateAmount.mul(protocolEscrowFeeRate).div(FEE_RATE_DIVIDER);
-  const originServiceFee = jobRateAmount.mul(originServiceFeeRate).div(FEE_RATE_DIVIDER);
-  const originValidatedProposalFee = jobRateAmount
-    .mul(originValidatedProposalFeeRate)
-    .div(FEE_RATE_DIVIDER);
-  const totalAmount = jobRateAmount
-    .add(originServiceFee)
-    .add(originValidatedProposalFee)
-    .add(protocolFee);
+  const jobRateAmount = BigInt(proposal.rateAmount);
+  const protocolFee = (jobRateAmount * BigInt(protocolEscrowFeeRate)) / BigInt(FEE_RATE_DIVIDER);
+  const originServiceFee =
+    (jobRateAmount * BigInt(originServiceFeeRate)) / BigInt(FEE_RATE_DIVIDER);
+  const originValidatedProposalFee =
+    (jobRateAmount * BigInt(originValidatedProposalFeeRate)) / BigInt(FEE_RATE_DIVIDER);
+  const totalAmount = jobRateAmount + originServiceFee + originValidatedProposalFee + protocolFee;
 
   const onSubmit = async () => {
-    if (!signer || !provider) {
+    if (!walletClient || !publicClient) {
       return;
     }
     await validateProposal(
       chainId,
-      signer,
-      provider,
+      walletClient,
+      publicClient,
       proposal.service.id,
       proposal.seller.id,
       proposal.rateToken.address,
@@ -65,10 +62,10 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
   const hasEnoughBalance = () => {
     if (isProposalUseEth) {
       if (!ethBalance) return;
-      return ethBalance.value.gte(totalAmount);
+      return ethBalance.value >= totalAmount;
     } else {
       if (!tokenBalance) return;
-      return tokenBalance.value.gte(totalAmount);
+      return tokenBalance.value >= totalAmount;
     }
   };
 
@@ -210,11 +207,11 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
                       <p className=''>
                         <span
                           className={`block ${
-                            (isProposalUseEth && hasEnoughBalance()) || ethBalance.value.gt(0)
+                            (isProposalUseEth && hasEnoughBalance()) || ethBalance.value > 0
                               ? 'bg-redpraha'
                               : 'bg-red-500'
                           } p-1 text-xs font-medium text-white rounded-full`}>
-                          {(isProposalUseEth && hasEnoughBalance()) || ethBalance.value.gt(0) ? (
+                          {(isProposalUseEth && hasEnoughBalance()) || ethBalance.value > 0 ? (
                             <Check className='w-4 h-4' />
                           ) : (
                             <X className='w-4 h-4' />

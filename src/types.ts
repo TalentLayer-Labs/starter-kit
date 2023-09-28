@@ -1,4 +1,3 @@
-import { BigNumber } from 'ethers';
 import { Connector } from 'wagmi';
 
 export type IHive = {
@@ -26,7 +25,6 @@ export type IUser = {
   rating: string;
   description?: IUserDetails;
   userStats: IUserStats;
-  image_url: string;
   delegates?: string[];
   isAdmin?: boolean;
 };
@@ -34,20 +32,30 @@ export type IUser = {
 export type IUserDetails = {
   title: string;
   name: string;
-  role: string;
-  image_url: string;
+  role?: string;
+  image_url?: string;
   video_url?: string;
-  about: string;
-  skills_raw: string;
+  about?: string;
+  skills_raw?: string;
+  web3mailPreferences?: IWeb3mailPreferences;
+};
+
+export type IWeb3mailPreferences = {
+  activeOnNewService: boolean;
+  activeOnNewProposal: boolean;
+  activeOnProposalValidated: boolean;
+  activeOnFundRelease: boolean;
+  activeOnReview: boolean;
+  activeOnPlatformMarketing: boolean;
 };
 
 export type IUserStats = {
   numReceivedReviews: number;
-  numGivenReviews: number;
-  numCreatedServices: number;
-  numFinishedServicesAsBuyer: number;
-  numCreatedProposals: number;
-  numFinishedServicesAsSeller: number;
+  numGivenReviews?: number;
+  numCreatedServices?: number;
+  numFinishedServicesAsBuyer?: number;
+  numCreatedProposals?: number;
+  numFinishedServicesAsSeller?: number;
 };
 
 export type IAccount = {
@@ -218,7 +226,7 @@ export type IProposalDetails = {
   expectedHours: string;
   service: IService;
   expirationDate: string;
-  video_url: string;
+  video_url?: string;
 };
 
 export type IProposal = {
@@ -262,6 +270,7 @@ export enum PaymentTypeEnum {
 export enum NetworkEnum {
   LOCAL = 1337,
   MUMBAI = 80001,
+  IEXEC = 134,
 }
 
 export type IToken = {
@@ -269,7 +278,7 @@ export type IToken = {
   address: `0x${string}`;
   symbol: string;
   decimals: number;
-  minimumTransactionAmount?: BigNumber;
+  minimumTransactionAmount?: string;
 };
 
 export type ITokenFormattedValues = {

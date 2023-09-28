@@ -1,15 +1,15 @@
 import { useWeb3Modal } from '@web3modal/react';
-import { BigNumberish, ethers, FixedNumber, Signer, Wallet } from 'ethers';
+import { formatUnits } from 'viem';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useContext, useState } from 'react';
 import { useRouter } from 'next/router';
-import { useProvider, useSigner } from 'wagmi';
+import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
-import StarterKitContext from '../../context/starterKit';
+import TalentLayerContext from '../../context/talentLayer';
 import ServiceRegistry from '../../contracts/ABI/TalentLayerService.json';
 import { postToIPFS } from '../../utils/ipfs';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../utils/toast';
-import { parseRateAmount } from '../../utils/web3';
+import { parseRateAmount } from '../../utils/currency';
 import SubmitButton from './SubmitButton';
 import useAllowedTokens from '../../hooks/useAllowedTokens';
 import { getServiceSignature } from '../../utils/signature';
@@ -18,6 +18,8 @@ import { SkillsInput } from './skills-input';
 import { delegateCreateService } from '../request';
 import { useChainId } from '../../hooks/useChainId';
 import { useConfig } from '../../hooks/useConfig';
+import { createWeb3mailToast } from '../../modules/Web3mail/utils/toast';
+import Web3MailContext from '../../modules/Web3mail/context/web3mail';
 
 interface IFormValues {
   title: string;
@@ -40,44 +42,43 @@ function ServiceForm() {
   const chainId = useChainId();
 
   const { open: openConnectModal } = useWeb3Modal();
-  const { user, account } = useContext(StarterKitContext);
-  const provider = useProvider({ chainId });
-  const { data: signer } = useSigner({
+  const { user, account } = useContext(TalentLayerContext);
+  const { platformHasAccess } = useContext(Web3MailContext);
+  const { address } = useAccount();
+  const publiClient = usePublicClient({ chainId });
+  const { data: walletClient } = useWalletClient({
     chainId,
   });
 
   const router = useRouter();
   const allowedTokenList = useAllowedTokens();
   const [selectedToken, setSelectedToken] = useState<IToken>();
-  const { isActiveDelegate } = useContext(StarterKitContext);
+  const { isActiveDelegate } = useContext(TalentLayerContext);
 
   const validationSchema = Yup.object({
     title: Yup.string().required('Please provide a title for your service'),
     about: Yup.string().required('Please provide a description of your service'),
-    keywords: Yup.string().required('Please provide keywords for your service'),
     rateToken: Yup.string().required('Please select a payment token'),
     rateAmount: Yup.number()
       .required('Please provide an amount for your service')
       .when('rateToken', {
         is: (rateToken: string) => rateToken !== '',
         then: schema =>
-          schema.moreThan(
+          schema.min(
             selectedToken
-              ? FixedNumber.from(
-                  ethers.utils.formatUnits(
-                    selectedToken?.minimumTransactionAmount as BigNumberish,
-                    selectedToken?.decimals,
+              ? parseFloat(
+                  formatUnits(
+                    BigInt(selectedToken?.minimumTransactionAmount ?? 0n),
+                    Number(selectedToken?.decimals),
                   ),
-                ).toUnsafeFloat()
+                )
               : 0,
-            `Amount must be greater than ${
+            `Amount must be greater or equal than ${
               selectedToken
-                ? FixedNumber.from(
-                    ethers.utils.formatUnits(
-                      selectedToken?.minimumTransactionAmount as BigNumberish,
-                      selectedToken?.decimals,
-                    ),
-                  ).toUnsafeFloat()
+                ? formatUnits(
+                    BigInt(selectedToken?.minimumTransactionAmount ?? 0n),
+                    Number(selectedToken?.decimals),
+                  )
                 : 0
             }`,
           ),
@@ -92,7 +93,7 @@ function ServiceForm() {
     }: { setSubmitting: (isSubmitting: boolean) => void; resetForm: () => void },
   ) => {
     const token = allowedTokenList.find(token => token.address === values.rateToken);
-    if (account?.isConnected === true && provider && signer && token && user) {
+    if (account?.isConnected === true && publiClient && walletClient && token && user) {
       try {
         const parsedRateAmount = await parseRateAmount(
           values.rateAmount.toString(),
@@ -105,7 +106,6 @@ function ServiceForm() {
             title: values.title,
             about: values.about,
             keywords: values.keywords,
-            role: 'buyer',
             rateToken: values.rateToken,
             rateAmount: parsedRateAmountString,
           }),
@@ -120,18 +120,13 @@ function ServiceForm() {
           const response = await delegateCreateService(chainId, user.id, user.address, cid);
           tx = response.data.transaction;
         } else {
-          const contract = new ethers.Contract(
-            config.contracts.serviceRegistry,
-            ServiceRegistry.abi,
-            signer,
-          );
-
-          tx = await contract.createService(
-            user?.id,
-            process.env.NEXT_PUBLIC_PLATFORM_ID,
-            cid,
-            signature,
-          );
+          tx = await walletClient.writeContract({
+            address: config.contracts.serviceRegistry,
+            abi: ServiceRegistry.abi,
+            functionName: 'createService',
+            args: [user?.id, process.env.NEXT_PUBLIC_PLATFORM_ID, cid, signature],
+            account: address,
+          });
         }
 
         const newId = await createMultiStepsTransactionToast(
@@ -141,7 +136,7 @@ function ServiceForm() {
             success: 'Congrats! Your job has been added',
             error: 'An error occurred while creating your job',
           },
-          provider,
+          publiClient,
           tx,
           'service',
           cid,
@@ -150,6 +145,9 @@ function ServiceForm() {
         resetForm();
         if (newId) {
           router.push(`/dashboard/services/${newId}`);
+        }
+        if (process.env.NEXT_PUBLIC_ACTIVE_WEB3MAIL == 'true' && !platformHasAccess) {
+          createWeb3mailToast();
         }
       } catch (error) {
         showErrorTransactionToast(error);

@@ -1,10 +1,9 @@
 import { useWeb3Modal } from '@web3modal/react';
-import { ethers } from 'ethers';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useContext } from 'react';
-import { useProvider, useSigner } from 'wagmi';
+import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
-import StarterKitContext from '../../context/starterKit';
+import TalentLayerContext from '../../context/talentLayer';
 import TalentLayerReview from '../../contracts/ABI/TalentLayerReview.json';
 import { postToIPFS } from '../../utils/ipfs';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../utils/toast';
@@ -32,14 +31,12 @@ const initialValues: IFormValues = {
 function ReviewForm({ serviceId }: { serviceId: string }) {
   const config = useConfig();
   const chainId = useChainId();
-
   const { open: openConnectModal } = useWeb3Modal();
-  const { user } = useContext(StarterKitContext);
-  const { isActiveDelegate } = useContext(StarterKitContext);
-  const provider = useProvider({ chainId });
-  const { data: signer } = useSigner({
-    chainId,
-  });
+  const { user } = useContext(TalentLayerContext);
+  const { isActiveDelegate } = useContext(TalentLayerContext);
+  const publicClient = usePublicClient({ chainId });
+  const { data: walletClient } = useWalletClient({ chainId });
+  const { address } = useAccount();
 
   const onSubmit = async (
     values: IFormValues,
@@ -48,7 +45,7 @@ function ReviewForm({ serviceId }: { serviceId: string }) {
       resetForm,
     }: { setSubmitting: (isSubmitting: boolean) => void; resetForm: () => void },
   ) => {
-    if (user && provider && signer) {
+    if (user && publicClient && walletClient) {
       try {
         const uri = await postToIPFS(
           JSON.stringify({
@@ -60,7 +57,6 @@ function ReviewForm({ serviceId }: { serviceId: string }) {
         const getUser = await getUserByAddress(chainId, user.address);
         const delegateAddresses = getUser.data?.data?.users[0].delegates;
         let tx;
-
         if (isActiveDelegate) {
           const response = await delegateMintReview(
             chainId,
@@ -72,12 +68,13 @@ function ReviewForm({ serviceId }: { serviceId: string }) {
           );
           tx = response.data.transaction;
         } else {
-          const contract = new ethers.Contract(
-            config.contracts.talentLayerReview,
-            TalentLayerReview.abi,
-            signer,
-          );
-          tx = await contract.mint(user.id, serviceId, uri, values.rating);
+          tx = await walletClient.writeContract({
+            address: config.contracts.talentLayerReview,
+            abi: TalentLayerReview.abi,
+            functionName: 'mint',
+            args: [user.id, serviceId, uri, values.rating],
+            account: address,
+          });
         }
 
         await createMultiStepsTransactionToast(
@@ -87,7 +84,7 @@ function ReviewForm({ serviceId }: { serviceId: string }) {
             success: 'Congrats! Your review has been posted',
             error: 'An error occurred while creating your review',
           },
-          provider,
+          publicClient,
           tx,
           'review',
           uri,

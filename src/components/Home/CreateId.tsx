@@ -1,9 +1,9 @@
 import { useContext } from 'react';
-import StarterKitContext from '../../context/starterKit';
+import TalentLayerContext from '../../context/talentLayer';
 import TalentLayerIdForm from '../Form/TalentLayerIdForm';
 
 function CreateId() {
-  const { user } = useContext(StarterKitContext);
+  const { user } = useContext(TalentLayerContext);
 
   if (user) {
     return null;

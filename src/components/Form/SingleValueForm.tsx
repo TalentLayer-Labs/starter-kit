@@ -1,14 +1,14 @@
 import { useWeb3Modal } from '@web3modal/react';
-import { ContractInterface, ethers } from 'ethers';
 import { Field, Form, Formik } from 'formik';
-import { useProvider, useSigner } from 'wagmi';
+import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
 import { ObjectShape } from 'yup/lib/object';
 import { useChainId } from '../../hooks/useChainId';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../utils/toast';
 import SubmitButton from './SubmitButton';
+import { Abi, Address } from 'viem';
 
-interface validationDatasType {
+interface validationDataType {
   valueType: string;
   validationSchema?: Yup.ObjectSchema<ObjectShape>;
   initialValue?: number | string;
@@ -20,41 +20,41 @@ interface contractParamsType {
   contractFunctionName: string;
   contractEntity: string;
   contractInputs: unknown;
-  contractAddress: string;
-  contractAbi: ContractInterface;
+  contractAddress: Address;
+  contractAbi: any;
 }
 
 function SingleValueForm({
-  validationDatas,
+  validationData,
   contractParams,
   valueName,
   callback,
 }: {
-  validationDatas: validationDatasType;
+  validationData: validationDataType;
   contractParams: contractParamsType;
   valueName: string;
   callback?: () => void;
 }) {
   const { validationSchema, valueType, initialValue, selectOptions, hookModifyValue } =
-    validationDatas;
+    validationData;
   const { contractFunctionName, contractEntity, contractInputs, contractAddress, contractAbi } =
     contractParams;
 
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
-  const provider = useProvider({ chainId });
-  const { data: signer } = useSigner({
-    chainId,
-  });
+  const publicClient = usePublicClient({ chainId });
+  const { data: walletClient } = useWalletClient({ chainId });
+  const { address } = useAccount();
 
   const onSubmit = async (
     values: any,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void; resetForm: () => void },
   ) => {
-    if (provider && signer && values) {
+    if (publicClient && walletClient && values) {
       try {
         let value = values[valueName];
-        if (!value) {
+
+        if (value === undefined) {
           return;
         }
 
@@ -62,8 +62,13 @@ function SingleValueForm({
           value = hookModifyValue(value);
         }
 
-        const contract: ethers.Contract = new ethers.Contract(contractAddress, contractAbi, signer);
-        const tx = await contract[contractFunctionName](contractInputs, value, []);
+        const tx = await walletClient.writeContract({
+          address: contractAddress,
+          abi: contractAbi,
+          functionName: contractFunctionName,
+          args: [contractInputs, value],
+          account: address,
+        });
 
         await createMultiStepsTransactionToast(
           chainId,
@@ -72,7 +77,7 @@ function SingleValueForm({
             success: 'Congrats! Your informations has been updated',
             error: 'An error occurred while updating your informations',
           },
-          provider,
+          publicClient,
           tx,
           contractEntity,
         );

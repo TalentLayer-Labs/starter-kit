@@ -1,6 +1,5 @@
 // pages/api/createService.ts
 import { NextApiRequest, NextApiResponse } from 'next';
-import { Contract } from 'ethers';
 import { getConfig } from '../../../config';
 import TalentLayerID from '../../../contracts/ABI/TalentLayerID.json';
 import { getDelegationSigner } from '../utils/delegate';
@@ -17,21 +16,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return null;
     }
 
-    const signer = await getDelegationSigner(res);
-
-    if (!signer) {
+    const walletClient = await getDelegationSigner(res);
+    if (!walletClient) {
       return;
     }
-
-    const talentLayerID = new Contract(config.contracts.talentLayerId, TalentLayerID.abi, signer);
-    const transaction = await talentLayerID.mintForAddress(
-      userAddress,
-      process.env.NEXT_PUBLIC_PLATFORM_ID,
-      handle,
-      {
-        value: handlePrice,
-      },
-    );
+    const transaction = await walletClient.writeContract({
+      address: config.contracts.talentLayerId,
+      abi: TalentLayerID.abi,
+      functionName: 'mintForAddress',
+      args: [
+        userAddress,
+        process.env.NEXT_PUBLIC_PLATFORM_ID,
+        handle,
+      ],
+      value: BigInt(handlePrice),
+    });
 
     res.status(200).json({ transaction: transaction });
   } catch (error) {

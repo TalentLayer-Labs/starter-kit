@@ -1,13 +1,14 @@
 import { useCallback } from 'react';
 import ToastStep from './ToastStep';
 import { useNetwork } from 'wagmi';
+import { Hash } from 'viem';
 
 function MultiStepsTransactionToast({
-  transactionHash,
+  txHash,
   currentStep,
   hasOffchainData = true,
 }: {
-  transactionHash: string;
+  txHash: Hash;
   currentStep: number;
   hasOffchainData?: boolean;
 }) {
@@ -17,13 +18,13 @@ function MultiStepsTransactionToast({
       <a
         className='flex flex-col text-sm font-normal w-full pt-2'
         target='_blank'
-        href={`${network.chain?.blockExplorers?.default.url}/tx/${transactionHash}`}>
+        href={`${network.chain?.blockExplorers?.default.url}/tx/${txHash}`}>
         <span className='inline-flex full-w justify-center w-full px-2 py-1.5 text-xs font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-xl hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 '>
           Follow on {network.chain?.blockExplorers?.default.name}
         </span>
       </a>
     );
-  }, [transactionHash]);
+  }, [txHash]);
 
   const steps = [
     {
