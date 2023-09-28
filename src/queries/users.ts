@@ -53,6 +53,15 @@ export const getUserById = (chainId: number, id: string): Promise<any> => {
           title
           timezone
           skills_raw
+          web3mailPreferences{
+            activeOnNewService
+            activeOnNewProposal
+            activeOnProposalValidated
+            activeOnFundRelease
+            activeOnReview
+            activeOnPlatformMarketing
+            activeOnProtocolMarketing
+          }
         }
       }
     }
@@ -86,6 +95,15 @@ export const getUserByAddress = (chainId: number, address: string): Promise<any>
           title
           timezone
           skills_raw
+          web3mailPreferences{
+            activeOnNewService
+            activeOnNewProposal
+            activeOnProposalValidated
+            activeOnFundRelease
+            activeOnReview
+            activeOnPlatformMarketing
+            activeOnProtocolMarketing
+          }
         }
       }
     }

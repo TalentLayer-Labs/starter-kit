@@ -5,16 +5,17 @@ import SingleValueForm from '../../components/Form/SingleValueForm';
 import Loading from '../../components/Loading';
 import Steps from '../../components/Steps';
 import UserNeedsMoreRights from '../../components/UserNeedsMoreRights';
-import StarterKitContext from '../../context/starterKit';
+import TalentLayerContext from '../../context/talentLayer';
 import TalentLayerArbitrator from '../../contracts/ABI/TalentLayerArbitrator.json';
 import TalentLayerPlatformID from '../../contracts/ABI/TalentLayerPlatformID.json';
 import { useChainId } from '../../hooks/useChainId';
 import { useConfig } from '../../hooks/useConfig';
 import usePlatform from '../../hooks/usePlatform';
 import { formatEther, parseEther } from 'viem';
+import { ZERO_ADDRESS } from '../../utils/constant';
 
 function AdminDispute() {
-  const { user, loading } = useContext(StarterKitContext);
+  const { user, loading } = useContext(TalentLayerContext);
   const config = useConfig();
   const platform = usePlatform(process.env.NEXT_PUBLIC_PLATFORM_ID as string);
   const chainId = useChainId();
@@ -31,7 +32,6 @@ function AdminDispute() {
         functionName: 'arbitrationPrice',
         args: [platform?.id],
       });
-      console.log('fetch');
       setArbitratorPrice(price);
     }
   };
@@ -58,7 +58,7 @@ function AdminDispute() {
         value: config.contracts.talentLayerArbitrator,
         label: 'TalentLayer Arbitrator',
       },
-      { value: '0x0000000000000000000000000000000000000000', label: 'None' },
+      { value: ZERO_ADDRESS, label: 'None' },
     ];
   }
 
@@ -78,7 +78,7 @@ function AdminDispute() {
         <SingleValueForm
           validationDatas={{
             valueType: 'select',
-            initialValue: platform?.arbitrator || '0x0000000000000000000000000000000000000000',
+            initialValue: platform?.arbitrator || ZERO_ADDRESS,
             selectOptions: availableArbitrators,
           }}
           contractParams={{

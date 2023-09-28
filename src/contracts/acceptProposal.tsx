@@ -3,9 +3,9 @@ import TransactionToast from '../components/TransactionToast';
 import { getConfig } from '../config';
 import { showErrorTransactionToast } from '../utils/toast';
 import ERC20 from './ABI/ERC20.json';
-import TalentLayerEscrow from './ABI/TalentLayerEscrow.json';
 import { Address, PublicClient, WalletClient } from 'viem';
 import { TalentLayerClient } from '@TalentLayer/client';
+import { ZERO_ADDRESS } from '../utils/constant';
 
 // TODO: need to generate this json duynamically and post it to IPFS to be use for dispute resolution
 export const metaEvidenceCid = 'QmQ2hcACF6r2Gf8PDxG4NcBdurzRUopwcaYQHNhSah6a8v';
@@ -29,7 +29,7 @@ export const validateProposal = async (
 
   console.log({_balance})
   try {
-    if (rateToken === '0x0000000000000000000000000000000000000000') {
+    if (rateToken === ZERO_ADDRESS) {
 
 
       let tx1, cid1;

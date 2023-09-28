@@ -5,12 +5,14 @@ import { useContext, useState } from 'react';
 import { formatUnits } from 'viem';
 import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
-import StarterKitContext from '../../context/starterKit';
+import TalentLayerContext from '../../context/talentLayer';
 import ServiceRegistry from '../../contracts/ABI/TalentLayerService.json';
 import useAllowedTokens from '../../hooks/useAllowedTokens';
 import { useChainId } from '../../hooks/useChainId';
 import { useConfig } from '../../hooks/useConfig';
 import { postOpenAiRequest } from '../../modules/OpenAi/utils';
+import Web3MailContext from '../../modules/Web3mail/context/web3mail';
+import { createWeb3mailToast } from '../../modules/Web3mail/utils/toast';
 import { IProposal, IService, IUser } from '../../types';
 import { parseRateAmount } from '../../utils/currency';
 import { postToIPFS } from '../../utils/ipfs';
@@ -27,7 +29,7 @@ interface IFormValues {
   rateToken: string;
   rateAmount: number;
   expirationDate: number;
-  videoUrl: string;
+  video_url: string;
 }
 
 const validationSchema = Yup.object({
@@ -53,7 +55,8 @@ function ProposalForm({
   const { address } = useAccount();
   const router = useRouter();
   const allowedTokenList = useAllowedTokens();
-  const { isActiveDelegate } = useContext(StarterKitContext);
+  const { isActiveDelegate } = useContext(TalentLayerContext);
+  const { platformHasAccess } = useContext(Web3MailContext);
   const [aiLoading, setAiLoading] = useState(false);
   const tlClient = useTlClient(chainId, '2TcBxC3hzB3bMUgpD3FkxI6tt4D', '29e380e2b6b89499074b90b2b5b8ebb9');
 
@@ -82,7 +85,7 @@ function ProposalForm({
     rateToken: existingProposal?.rateToken.address || '',
     rateAmount: existingRateTokenAmount || 0,
     expirationDate: existingExpirationDate || 15,
-    videoUrl: existingProposal?.description?.video_url || '',
+    video_url: existingProposal?.description?.video_url || '',
   };
 
   const askAI = async (input: string, setFieldValue: any) => {
@@ -129,7 +132,7 @@ function ProposalForm({
         
         const propsalMeta = {
           about: values.about,
-          video_url: values.videoUrl,
+          video_url: values.video_url,
           test: "hello"
         }
 
@@ -191,6 +194,9 @@ function ProposalForm({
         setSubmitting(false);
         resetForm();
         router.push(`/dashboard`);
+        if (process.env.NEXT_PUBLIC_ACTIVE_WEB3MAIL == 'true' && !platformHasAccess) {
+          createWeb3mailToast();
+        }
       } catch (error) {
         showErrorTransactionToast(error);
       }
@@ -298,13 +304,13 @@ function ProposalForm({
               <span className='text-gray-100'>Video URL (optional)</span>
               <Field
                 type='text'
-                id='videoUrl'
-                name='videoUrl'
+                id='video_url'
+                name='video_url'
                 className='mt-1 mb-2 block w-full rounded-xl border border-gray-700 bg-midnight shadow-sm focus:ring-opacity-50'
                 placeholder='Enter  video URL'
               />
               <span className='text-red-500'>
-                <ErrorMessage name='videoUrl' />
+                <ErrorMessage name='video_url' />
               </span>
             </label>
 

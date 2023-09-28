@@ -1,29 +1,48 @@
 import { createContext, ReactNode, useEffect, useMemo, useState } from 'react';
-import { useAccount } from 'wagmi';
-import { getUserByAddress } from '../queries/users';
-import { IAccount, IPlatform, IUser } from '../types';
+import { useAccount, useSwitchNetwork } from 'wagmi';
 import { useChainId } from '../hooks/useChainId';
+import { getUserByAddress } from '../queries/users';
+import { IAccount, IUser } from '../types';
+import { getCompletionScores, ICompletionScores } from '../utils/profile';
 import { getPlatform } from '../queries/platform';
+import { toast } from 'react-toastify';
+import { chains, defaultChain } from '../pages/_app';
 
-const StarterKitContext = createContext<{
+const TalentLayerContext = createContext<{
   user?: IUser;
   account?: IAccount;
   isActiveDelegate: boolean;
-  refreshData?: () => void;
+  refreshData: () => Promise<boolean>;
   loading: boolean;
+  completionScores?: ICompletionScores;
 }>({
   user: undefined,
   account: undefined,
   isActiveDelegate: false,
+  refreshData: async () => {
+    return false;
+  },
   loading: true,
+  completionScores: undefined,
 });
 
-const StarterKitProvider = ({ children }: { children: ReactNode }) => {
+const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
   const chainId = useChainId();
+  const { switchNetwork } = useSwitchNetwork();
   const [user, setUser] = useState<IUser | undefined>();
   const account = useAccount();
   const [isActiveDelegate, setIsActiveDelegate] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [completionScores, setCompletionScores] = useState<ICompletionScores | undefined>();
+
+  // automatically switch to the default chain is the current one is not part of the config
+  useEffect(() => {
+    if (!switchNetwork) return;
+    const chain = chains.find(chain => chain.id === chainId);
+    if (!chain && defaultChain) {
+      switchNetwork(defaultChain.id);
+    }
+  }, [chainId, switchNetwork]);
 
   const fetchData = async () => {
     if (!account.address || !account.isConnected) {
@@ -35,6 +54,7 @@ const StarterKitProvider = ({ children }: { children: ReactNode }) => {
       const userResponse = await getUserByAddress(chainId, account.address);
 
       if (userResponse?.data?.data?.users?.length == 0) {
+        setLoading(false);
         return false;
       }
 
@@ -49,7 +69,7 @@ const StarterKitProvider = ({ children }: { children: ReactNode }) => {
 
       setUser(currentUser);
       setIsActiveDelegate(
-        process.env.NEXT_PUBLIC_ACTIVE_DELEGATE &&
+        process.env.NEXT_PUBLIC_ACTIVE_DELEGATE === 'true' &&
           userResponse.data.data.users[0].delegates &&
           userResponse.data.data.users[0].delegates.indexOf(
             (process.env.NEXT_PUBLIC_DELEGATE_ADDRESS as string).toLowerCase(),
@@ -61,6 +81,17 @@ const StarterKitProvider = ({ children }: { children: ReactNode }) => {
       setLoading(false);
       // eslint-disable-next-line no-console
       console.error(err);
+      toast.error(`An error happened while loading you account: ${err.message}.`, {
+        position: 'bottom-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      });
+      return false;
     }
   };
 
@@ -69,13 +100,10 @@ const StarterKitProvider = ({ children }: { children: ReactNode }) => {
   }, [chainId, account.address]);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      fetchData();
-    }, 4000);
-    return () => {
-      clearInterval(interval);
-    };
-  }, [fetchData]);
+    if (!user) return;
+    const completionScores = getCompletionScores(user);
+    setCompletionScores(completionScores);
+  }, [user]);
 
   const value = useMemo(() => {
     return {
@@ -84,12 +112,13 @@ const StarterKitProvider = ({ children }: { children: ReactNode }) => {
       isActiveDelegate,
       refreshData: fetchData,
       loading,
+      completionScores,
     };
-  }, [account.address, user?.id, isActiveDelegate, loading]);
+  }, [account.address, user?.id, isActiveDelegate, loading, completionScores]);
 
-  return <StarterKitContext.Provider value={value}>{children}</StarterKitContext.Provider>;
+  return <TalentLayerContext.Provider value={value}>{children}</TalentLayerContext.Provider>;
 };
 
-export { StarterKitProvider };
+export { TalentLayerProvider };
 
-export default StarterKitContext;
+export default TalentLayerContext;

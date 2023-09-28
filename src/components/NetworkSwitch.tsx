@@ -31,8 +31,8 @@ function NetworkSwitch() {
           width={28}
           height={28}
           className='h-7 w-7 rounded-full'
-          src='/images/blockchain/mumbai.png'
-          alt='mumbai icon'
+          src={`/images/blockchain/${network.chain?.id}.png`}
+          alt={`${network.chain?.name}  icon`}
         />
       </Menu.Button>
       <Transition

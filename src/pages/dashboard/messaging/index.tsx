@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { useWalletClient } from 'wagmi';
 import Steps from '../../../components/Steps';
-import StarterKitContext from '../../../context/starterKit';
+import TalentLayerContext from '../../../context/talentLayer';
 import { useChainId } from '../../../hooks/useChainId';
 import ConversationList from '../../../modules/Messaging/components/ConversationList';
 import SearchModal from '../../../modules/Messaging/components/SearchModal';
@@ -11,7 +11,7 @@ import useStreamConversations from '../../../modules/Messaging/hooks/useStreamCo
 
 function MessagingIndex() {
   const chainId = useChainId();
-  const { account, user } = useContext(StarterKitContext);
+  const { account, user } = useContext(TalentLayerContext);
   const { data: walletClient } = useWalletClient({
     chainId,
   });
@@ -43,9 +43,9 @@ function MessagingIndex() {
         </div>
       )}
       {providerState?.client && (
-        <div className='-mx-6 -mt-6'>
+        <div className='-mx-6 -mt-6 sm:mx-0 sm:mt-0'>
           <div className='flex flex-row text-white'>
-            <div className='flex py-2 px-6 items-center border-b w-full border-gray-700'>
+            <div className='flex py-2 px-6 sm:px-0 items-center border-b w-full border-gray-700'>
               <>
                 <p className='text-2xl font-medium flex-1'>Chats</p>
 

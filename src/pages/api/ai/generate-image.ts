@@ -24,12 +24,5 @@ export default async function handler(
     prompt: req.body.prompt || 'Future raccoon',
   });
 
-  if (result) {
-    // Print the first image's uri
-    console.log(result?.data?.images[0].uri);
-  }
-
-  console.log(result);
-
   res.status(200).json({ image: result?.data?.images[0].uri || 'test' });
 }

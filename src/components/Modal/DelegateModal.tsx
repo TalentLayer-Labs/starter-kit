@@ -1,17 +1,19 @@
 import { useContext, useEffect, useState } from 'react';
 import { usePublicClient, useWalletClient } from 'wagmi';
 import { toggleDelegation } from '../../contracts/toggleDelegation';
-import StarterKitContext from '../../context/starterKit';
+import TalentLayerContext from '../../context/talentLayer';
 import { getUserByAddress } from '../../queries/users';
 import { useChainId } from '../../hooks/useChainId';
+import { useConfig } from '../../hooks/useConfig';
 
 function DelegateModal() {
   const chainId = useChainId();
   const [show, setShow] = useState(false);
+  const config = useConfig();
   const [hasPlatformAsDelegate, setHasPlatformAsDelegate] = useState(false);
   const { data: walletClient } = useWalletClient({ chainId });
   const publicClient = usePublicClient({ chainId });
-  const { user } = useContext(StarterKitContext);
+  const { user } = useContext(TalentLayerContext);
   const delegateAddress = process.env.NEXT_PUBLIC_DELEGATE_ADDRESS as string;
 
   if (!user) {
@@ -34,18 +36,18 @@ function DelegateModal() {
   }, [user, show]);
 
   const onSubmit = async (validateState: boolean) => {
-    if (!walletClient || !publicClient || !user) {
-      return null;
-    }
+    if (walletClient && publicClient && user) {
+      
     await toggleDelegation(
       chainId,
       user.id,
+      config,
       delegateAddress,
       publicClient,
       walletClient,
       validateState,
     );
-
+    }
     setShow(false);
   };
 

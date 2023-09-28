@@ -1,13 +1,13 @@
 import Link from 'next/link';
 import { useContext } from 'react';
-import StarterKitContext from '../context/starterKit';
+import TalentLayerContext from '../context/talentLayer';
 import useUserById from '../hooks/useUserById';
 import { IUser } from '../types';
 import Loading from './Loading';
 import Stars from './Stars';
 
 function UserItem({ user }: { user: IUser }) {
-  const { user: currentUser } = useContext(StarterKitContext);
+  const { user: currentUser } = useContext(TalentLayerContext);
   const userDescription = user?.id ? useUserById(user?.id)?.description : null;
 
   if (!user?.id) {

@@ -5,7 +5,7 @@ import { useContext, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
-import StarterKitContext from '../../context/starterKit';
+import TalentLayerContext from '../../context/talentLayer';
 import ServiceRegistry from '../../contracts/ABI/TalentLayerService.json';
 import { postToIPFS } from '../../utils/ipfs';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../utils/toast';
@@ -18,6 +18,8 @@ import { SkillsInput } from './skills-input';
 import { delegateCreateService } from '../request';
 import { useChainId } from '../../hooks/useChainId';
 import { useConfig } from '../../hooks/useConfig';
+import { createWeb3mailToast } from '../../modules/Web3mail/utils/toast';
+import Web3MailContext from '../../modules/Web3mail/context/web3mail';
 import useTlClient from '../../hooks/useTlClient';
 
 interface IFormValues {
@@ -41,7 +43,8 @@ function ServiceForm() {
   const chainId = useChainId();
 
   const { open: openConnectModal } = useWeb3Modal();
-  const { user, account } = useContext(StarterKitContext);
+  const { user, account } = useContext(TalentLayerContext);
+  const { platformHasAccess } = useContext(Web3MailContext);
   const { address } = useAccount();
   const publiClient = usePublicClient({ chainId });
   const { data: walletClient } = useWalletClient({
@@ -51,7 +54,7 @@ function ServiceForm() {
   const router = useRouter();
   const allowedTokenList = useAllowedTokens();
   const [selectedToken, setSelectedToken] = useState<IToken>();
-  const { isActiveDelegate } = useContext(StarterKitContext);
+  const { isActiveDelegate } = useContext(TalentLayerContext);
 
   const tlClient = useTlClient(chainId, '2TcBxC3hzB3bMUgpD3FkxI6tt4D', '29e380e2b6b89499074b90b2b5b8ebb9');
 
@@ -154,6 +157,9 @@ function ServiceForm() {
         resetForm();
         if (newId) {
           router.push(`/dashboard/services/${newId}`);
+        }
+        if (process.env.NEXT_PUBLIC_ACTIVE_WEB3MAIL == 'true' && !platformHasAccess) {
+          createWeb3mailToast();
         }
       } catch (error) {
         showErrorTransactionToast(error);

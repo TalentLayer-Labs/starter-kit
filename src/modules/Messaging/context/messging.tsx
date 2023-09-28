@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { createContext, ReactNode, useContext, useMemo } from 'react';
 import { getAddress } from 'viem';
 import { useWalletClient } from 'wagmi';
-import StarterKitContext from '../../../context/starterKit';
+import TalentLayerContext from '../../../context/talentLayer';
 import { useChainId } from '../../../hooks/useChainId';
 import { XmtpContext } from './XmtpContext';
 
@@ -18,7 +18,7 @@ const MessagingContext = createContext<{
 
 const MessagingProvider = ({ children }: { children: ReactNode }) => {
   const chainId = useChainId();
-  const { user } = useContext(StarterKitContext);
+  const { user } = useContext(TalentLayerContext);
   const { providerState } = useContext(XmtpContext);
   const { data: walletClient } = useWalletClient({
     chainId,

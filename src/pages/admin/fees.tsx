@@ -1,18 +1,18 @@
-import Loading from '../../components/Loading';
-import { useContext, useEffect, useState } from 'react';
-import StarterKitContext from '../../context/starterKit';
-import UserNeedsMoreRights from '../../components/UserNeedsMoreRights';
-import SingleValueForm from '../../components/Form/SingleValueForm';
-import * as Yup from 'yup';
-import { useConfig } from '../../hooks/useConfig';
-import TalentLayerPlatformID from '../../contracts/ABI/TalentLayerPlatformID.json';
-import usePlatform from '../../hooks/usePlatform';
-import { FEE_RATE_DIVIDER } from '../../config';
-import Steps from '../../components/Steps';
+import { useContext } from 'react';
 import { formatEther, parseEther } from 'viem';
+import * as Yup from 'yup';
+import SingleValueForm from '../../components/Form/SingleValueForm';
+import Loading from '../../components/Loading';
+import Steps from '../../components/Steps';
+import UserNeedsMoreRights from '../../components/UserNeedsMoreRights';
+import { FEE_RATE_DIVIDER } from '../../config';
+import TalentLayerContext from '../../context/talentLayer';
+import TalentLayerPlatformID from '../../contracts/ABI/TalentLayerPlatformID.json';
+import { useConfig } from '../../hooks/useConfig';
+import usePlatform from '../../hooks/usePlatform';
 
 function AdminFees() {
-  const { user, loading } = useContext(StarterKitContext);
+  const { user, loading } = useContext(TalentLayerContext);
   const config = useConfig();
   const platform = usePlatform(process.env.NEXT_PUBLIC_PLATFORM_ID as string);
 
@@ -44,7 +44,7 @@ function AdminFees() {
 
       <div className='grid grid-cols-1 gap-6 border border-gray-700 rounded-xl p-6 bg-endnight'>
         <SingleValueForm
-          validationDatas={{
+          validationData={{
             validationSchema: Yup.object({
               'Fees (in %) on escrow for bringing the service': Yup.number()
                 .required('value is required')
@@ -66,7 +66,7 @@ function AdminFees() {
         />
 
         <SingleValueForm
-          validationDatas={{
+          validationData={{
             validationSchema: Yup.object({
               'Fees (in %) paid for validating a proposal': Yup.number()
                 .required('value is required')
@@ -89,7 +89,7 @@ function AdminFees() {
         />
 
         <SingleValueForm
-          validationDatas={{
+          validationData={{
             validationSchema: Yup.object({
               'Fees (in Matic) asked by the platform to post a proposal on the platform':
                 Yup.number().required('value is required'),
@@ -111,7 +111,7 @@ function AdminFees() {
         />
 
         <SingleValueForm
-          validationDatas={{
+          validationData={{
             validationSchema: Yup.object({
               'Fees (in Matic) asked by the platform to post a service on the platform':
                 Yup.number().required('value is required'),
