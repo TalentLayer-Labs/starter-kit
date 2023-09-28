@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
-import { useSigner } from 'wagmi';
+import { useWalletClient } from 'wagmi';
 import Steps from '../../../components/Steps';
-import StarterKitContext from '../../../context/starterKit';
+import TalentLayerContext from '../../../context/talentLayer';
 import { useChainId } from '../../../hooks/useChainId';
 import useUserByAddress from '../../../hooks/useUserByAddress';
 import { XmtpContext } from '../context/XmtpContext';
@@ -16,8 +16,8 @@ import MessageList from './MessageList';
 
 function Dashboard() {
   const chainId = useChainId();
-  const { account, user } = useContext(StarterKitContext);
-  const { data: signer } = useSigner({
+  const { account, user } = useContext(TalentLayerContext);
+  const { data: walletClient } = useWalletClient({
     chainId,
   });
   const { providerState, setProviderState } = useContext(XmtpContext);
@@ -38,8 +38,8 @@ function Dashboard() {
   useStreamConversations();
 
   const handleXmtpConnect = async () => {
-    if (providerState && providerState.initClient && signer) {
-      await providerState.initClient(signer);
+    if (providerState && providerState.initClient && walletClient) {
+      await providerState.initClient();
     }
   };
 
@@ -124,7 +124,7 @@ function Dashboard() {
         </div>
       )}
       {providerState?.client && (
-        <div className='-mx-6 -mt-6'>
+        <div className='-mx-6 -mt-6 sm:mx-0 sm:mt-0'>
           <CardHeader peerAddress={selectedConversationPeerAddress} />
           <div className='flex flex-row'>
             {providerState?.client && selectedConversationPeerAddress && (

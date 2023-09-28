@@ -1,27 +1,25 @@
-import { Provider } from '@wagmi/core';
-import { BigNumber, Contract, Signer, ethers } from 'ethers';
 import { toast } from 'react-toastify';
 import TransactionToast from '../components/TransactionToast';
 import TalentLayerEscrow from './ABI/TalentLayerEscrow.json';
 import { showErrorTransactionToast } from '../utils/toast';
 import { delegateReleaseOrReimburse } from '../components/request';
 import { getConfig } from '../config';
+import { Address, PublicClient, WalletClient } from 'viem';
 
 export const executePayment = async (
   chainId: number,
   userAddress: string,
-  signer: Signer,
-  provider: Provider,
+  walletClient: WalletClient,
+  publicClient: PublicClient,
   profileId: string,
   transactionId: string,
-  amount: BigNumber,
+  amount: bigint,
   isBuyer: boolean,
   isActiveDelegate: boolean,
 ): Promise<void> => {
   const config = getConfig(chainId);
   try {
-    let tx: ethers.providers.TransactionResponse;
-
+    let tx: Address;
     if (isActiveDelegate) {
       const response = await delegateReleaseOrReimburse(
         chainId,
@@ -33,34 +31,40 @@ export const executePayment = async (
       );
       tx = response.data.transaction;
     } else {
-      const talentLayerEscrow = new Contract(
-        config.contracts.talentLayerEscrow,
-        TalentLayerEscrow.abi,
-        signer,
-      );
-      tx = isBuyer
-        ? await talentLayerEscrow.release(profileId, parseInt(transactionId, 10), amount.toString())
-        : await talentLayerEscrow.reimburse(
-            profileId,
-            parseInt(transactionId, 10),
-            amount.toString(),
-          );
+      if (isBuyer) {
+        const { request } = await publicClient.simulateContract({
+          address: config.contracts.talentLayerEscrow,
+          abi: TalentLayerEscrow.abi,
+          functionName: 'release',
+          args: [profileId, parseInt(transactionId, 10), amount.toString()],
+          account: walletClient.account?.address,
+        });
+        tx = await walletClient.writeContract(request);
+      } else {
+        const { request } = await publicClient.simulateContract({
+          address: config.contracts.talentLayerEscrow,
+          abi: TalentLayerEscrow.abi,
+          functionName: 'reimburse',
+          args: [profileId, parseInt(transactionId, 10), amount.toString()],
+        });
+        tx = await walletClient.writeContract(request);
+      }
     }
 
     const message = isBuyer
       ? 'Your payment release is in progress'
       : 'Your payment reimbursement is in progress';
 
-    const receipt = await toast.promise(provider.waitForTransaction(tx.hash), {
+    const receipt = await toast.promise(publicClient.waitForTransactionReceipt({ hash: tx }), {
       pending: {
         render() {
-          return <TransactionToast message={message} transactionHash={tx.hash} />;
+          return <TransactionToast message={message} transactionHash={tx} />;
         },
       },
       success: isBuyer ? 'Payment release validated' : 'Payment reimbursement validated',
       error: 'An error occurred while validating your transaction',
     });
-    if (receipt.status !== 1) {
+    if (receipt.status !== 'success') {
       throw new Error('Approve Transaction failed');
     }
   } catch (error: any) {

@@ -1,35 +1,37 @@
-import { ethers } from 'ethers';
 import { useContext, useEffect, useState } from 'react';
-import { useProvider } from 'wagmi';
+import { usePublicClient } from 'wagmi';
 import * as Yup from 'yup';
 import SingleValueForm from '../../components/Form/SingleValueForm';
 import Loading from '../../components/Loading';
 import Steps from '../../components/Steps';
 import UserNeedsMoreRights from '../../components/UserNeedsMoreRights';
-import StarterKitContext from '../../context/starterKit';
+import TalentLayerContext from '../../context/talentLayer';
 import TalentLayerArbitrator from '../../contracts/ABI/TalentLayerArbitrator.json';
 import TalentLayerPlatformID from '../../contracts/ABI/TalentLayerPlatformID.json';
 import { useChainId } from '../../hooks/useChainId';
 import { useConfig } from '../../hooks/useConfig';
 import usePlatform from '../../hooks/usePlatform';
+import { formatEther, parseEther } from 'viem';
+import { ZERO_ADDRESS } from '../../utils/constant';
 
 function AdminDispute() {
-  const { user, loading } = useContext(StarterKitContext);
+  const { user, loading } = useContext(TalentLayerContext);
   const config = useConfig();
   const platform = usePlatform(process.env.NEXT_PUBLIC_PLATFORM_ID as string);
   const chainId = useChainId();
-  const provider = useProvider({ chainId });
+  const publicClient = usePublicClient({ chainId });
   const arbitratorContractAddress = platform ? platform.arbitrator : null;
-  const arbitratorContract = arbitratorContractAddress
-    ? new ethers.Contract(arbitratorContractAddress, TalentLayerArbitrator.abi, provider)
-    : null;
   const [arbitratorPrice, setArbitratorPrice] = useState<number>(0);
   let availableArbitrators: { value: string; label: string }[] = [];
 
   const fetchArbitrationPrice = async () => {
-    if (arbitratorContract && arbitratorContract.address !== ethers.constants.AddressZero) {
-      const price = await arbitratorContract.arbitrationPrice(platform?.id);
-      console.log('fetch');
+    if (arbitratorContractAddress) {
+      const price: any = await publicClient.readContract({
+        address: arbitratorContractAddress,
+        abi: TalentLayerArbitrator.abi,
+        functionName: 'arbitrationPrice',
+        args: [platform?.id],
+      });
       setArbitratorPrice(price);
     }
   };
@@ -56,12 +58,12 @@ function AdminDispute() {
         value: config.contracts.talentLayerArbitrator,
         label: 'TalentLayer Arbitrator',
       },
-      { value: ethers.constants.AddressZero, label: 'None' },
+      { value: ZERO_ADDRESS, label: 'None' },
     ];
   }
 
   const transformPrice = (value: number | string): BigInt => {
-    return ethers.utils.parseUnits(value.toString(), 'ether').toBigInt();
+    return parseEther(value.toString());
   };
 
   return (
@@ -76,7 +78,7 @@ function AdminDispute() {
         <SingleValueForm
           validationDatas={{
             valueType: 'select',
-            initialValue: platform?.arbitrator || ethers.constants.AddressZero,
+            initialValue: platform?.arbitrator || ZERO_ADDRESS,
             selectOptions: availableArbitrators,
           }}
           contractParams={{
@@ -114,7 +116,7 @@ function AdminDispute() {
               'Arbitration price (in Matic)': Yup.number().required('value is required'),
             }),
             valueType: 'number',
-            initialValue: arbitratorPrice ? ethers.utils.formatEther(arbitratorPrice) : 0,
+            initialValue: arbitratorPrice ? formatEther(BigInt(arbitratorPrice)) : 0,
             hookModifyValue: transformPrice,
           }}
           contractParams={{

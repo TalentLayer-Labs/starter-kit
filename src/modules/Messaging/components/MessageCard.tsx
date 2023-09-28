@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import Loading from '../../../components/Loading';
-import StarterKitContext from '../../../context/starterKit';
+import TalentLayerContext from '../../../context/talentLayer';
 import { shortenString } from '../../../utils';
 import { formatDateDivider } from '../../../utils/dates';
 import { formatDateTime } from '../utils/messaging';
@@ -20,7 +20,7 @@ const formatMessage = (message: string) => {
 };
 
 const MessageCard = ({ message, dateHasChanged }: IMessageCardProps) => {
-  const { account } = useContext(StarterKitContext);
+  const { account } = useContext(TalentLayerContext);
 
   const isSender = message.from.toLowerCase() === account?.address?.toLowerCase();
 

@@ -1,19 +1,18 @@
 import { useContext } from 'react';
-import { useSigner } from 'wagmi';
+import { useWalletClient } from 'wagmi';
 import Steps from '../../../components/Steps';
-import StarterKitContext from '../../../context/starterKit';
+import TalentLayerContext from '../../../context/talentLayer';
 import { useChainId } from '../../../hooks/useChainId';
-import CardHeader from '../../../modules/Messaging/components/CardHeader';
 import ConversationList from '../../../modules/Messaging/components/ConversationList';
-import { XmtpContext } from '../../../modules/Messaging/context/XmtpContext';
-import useStreamConversations from '../../../modules/Messaging/hooks/useStreamConversations';
 import SearchModal from '../../../modules/Messaging/components/SearchModal';
 import ShareModal from '../../../modules/Messaging/components/ShareModal';
+import { XmtpContext } from '../../../modules/Messaging/context/XmtpContext';
+import useStreamConversations from '../../../modules/Messaging/hooks/useStreamConversations';
 
 function MessagingIndex() {
   const chainId = useChainId();
-  const { account, user } = useContext(StarterKitContext);
-  const { data: signer } = useSigner({
+  const { account, user } = useContext(TalentLayerContext);
+  const { data: walletClient } = useWalletClient({
     chainId,
   });
   const { providerState } = useContext(XmtpContext);
@@ -22,8 +21,8 @@ function MessagingIndex() {
   useStreamConversations();
 
   const handleXmtpConnect = async () => {
-    if (providerState && providerState.initClient && signer) {
-      await providerState.initClient(signer);
+    if (providerState && providerState.initClient && walletClient) {
+      await providerState.initClient();
     }
   };
 
@@ -44,9 +43,9 @@ function MessagingIndex() {
         </div>
       )}
       {providerState?.client && (
-        <div className='-mx-6 -mt-6'>
+        <div className='-mx-6 -mt-6 sm:mx-0 sm:mt-0'>
           <div className='flex flex-row text-white'>
-            <div className='flex py-2 px-6 items-center border-b w-full border-gray-700'>
+            <div className='flex py-2 px-6 sm:px-0 items-center border-b w-full border-gray-700'>
               <>
                 <p className='text-2xl font-medium flex-1'>Chats</p>
 

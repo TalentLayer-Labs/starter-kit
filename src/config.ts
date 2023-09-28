@@ -1,5 +1,5 @@
-import { ethers } from 'ethers';
 import { IToken, NetworkEnum } from './types';
+import { ZERO_ADDRESS } from './utils/constant';
 
 export type Config = {
   networkId: NetworkEnum;
@@ -32,8 +32,8 @@ const mumbai: Config = {
     timeoutPayment: 3600 * 24 * 7,
   },
   tokens: {
-    [ethers.constants.AddressZero]: {
-      address: ethers.constants.AddressZero,
+    [ZERO_ADDRESS]: {
+      address: ZERO_ADDRESS,
       symbol: 'MATIC',
       name: 'Matic',
       decimals: 18,
@@ -43,6 +43,39 @@ const mumbai: Config = {
       symbol: 'USDC',
       name: 'USDC Stablecoin',
       decimals: 6,
+    },
+  },
+};
+
+const iexec: Config = {
+  networkId: NetworkEnum.IEXEC,
+  // subgraphUrl: 'https://thegraph-sandbox.iex.ec/subgraphs/name/users/talentLayer',
+  subgraphUrl: 'https://api.thegraph.com/subgraphs/name/talentlayer/talent-layer-mumbai',
+  contracts: {
+    talentLayerId: '0xC51537E03f56650C63A9Feca4cCb5a039c77c822',
+    serviceRegistry: '0x45E8F869Fd316741A9316f39bF09AD03Df88496f',
+    talentLayerReview: '0x6A5BF452108DA389B7B38284E871f538671Ad375',
+    talentLayerEscrow: '0x7A534501a6e63448EBC691f27B27B76d4F9b7E17',
+    talentLayerPlatformId: '0x05D8A2E01EB06c284ECBae607A2d0c2BE946Bf49',
+    talentLayerArbitrator: '0x24cEd045b50cF811862B1c33dC6B1fbC8358F521',
+  },
+  escrowConfig: {
+    adminFee: '0',
+    adminWallet: '0x2E6f7222d4d7A71B05E7C35389d23C3dB400851f',
+    timeoutPayment: 3600 * 24 * 7,
+  },
+  tokens: {
+    ['0x0000000000000000000000000000000000000000']: {
+      address: '0x0000000000000000000000000000000000000000',
+      symbol: 'RLC',
+      name: 'iExec RLC',
+      decimals: 18,
+    },
+    '0xe62C28709E4F19Bae592a716b891A9B76bf897E4': {
+      address: '0xe62C28709E4F19Bae592a716b891A9B76bf897E4',
+      symbol: 'SERC20',
+      name: 'SimpleERC20',
+      decimals: 18,
     },
   },
 };
@@ -62,8 +95,8 @@ const local: Config = {
     timeoutPayment: 3600 * 24 * 7,
   },
   tokens: {
-    [ethers.constants.AddressZero]: {
-      address: ethers.constants.AddressZero,
+    [ZERO_ADDRESS]: {
+      address: ZERO_ADDRESS,
       symbol: 'ETH',
       name: 'ETH',
       decimals: 18,
@@ -80,6 +113,7 @@ const local: Config = {
 const chains: { [networkId in NetworkEnum]: Config } = {
   [NetworkEnum.LOCAL]: local,
   [NetworkEnum.MUMBAI]: mumbai,
+  [NetworkEnum.IEXEC]: iexec,
 };
 
 export const getConfig = (networkId: NetworkEnum) => chains[networkId];

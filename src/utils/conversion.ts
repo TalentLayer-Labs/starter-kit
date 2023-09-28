@@ -1,9 +1,9 @@
-import { ethers } from 'ethers';
+import { formatUnits } from 'viem';
 import { getConfig } from '../config';
 import { IToken } from '../types';
 
 export const renderTokenAmount = (token: IToken, value: string): string => {
-  const formattedValue = ethers.utils.formatUnits(value, token.decimals);
+  const formattedValue = formatUnits(BigInt(value), token.decimals);
   return `${formattedValue} ${token.symbol}`;
 };
 
@@ -18,6 +18,6 @@ export const renderTokenAmountFromConfig = (
     return null;
   }
   const symbol = config.tokens[tokenAddress].symbol;
-  const formattedValue = ethers.utils.formatUnits(value, config.tokens[tokenAddress].decimals);
+  const formattedValue = formatUnits(BigInt(value), config.tokens[tokenAddress].decimals);
   return `${formattedValue} ${symbol}`;
 };

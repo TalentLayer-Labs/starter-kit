@@ -3,7 +3,7 @@ import { useContext } from 'react';
 import ProposalForm from '../../../../components/Form/ProposalForm';
 import Loading from '../../../../components/Loading';
 import Steps from '../../../../components/Steps';
-import StarterKitContext from '../../../../context/starterKit';
+import TalentLayerContext from '../../../../context/talentLayer';
 import useProposalById from '../../../../hooks/useProposalById';
 import useServiceById from '../../../../hooks/useServiceById';
 import ConnectButton from '../../../../modules/Messaging/components/ConnectButton';
@@ -11,7 +11,7 @@ import MessagingContext from '../../../../modules/Messaging/context/messging';
 import { ProposalStatusEnum, ServiceStatusEnum } from '../../../../types';
 
 function CreateOrEditProposal() {
-  const { account, user } = useContext(StarterKitContext);
+  const { account, user } = useContext(TalentLayerContext);
   const { userExists } = useContext(MessagingContext);
   const router = useRouter();
   const { id } = router.query;
@@ -28,8 +28,8 @@ function CreateOrEditProposal() {
 
   return (
     <div className='max-w-7xl mx-auto text-gray-200 sm:px-4 lg:px-0'>
-      <div className=' -mx-6 -mt-6 '>
-        <p className='flex py-2 px-6 items-center text-2xl font-medium tracking-wider mb-8 border-b w-full border-gray-700 md:px-8 '>
+      <div className='-mx-6 -mt-6 sm:mx-0 sm:mt-0'>
+        <p className='flex py-2 px-6 sm:px-0 items-center text-2xl font-medium tracking-wider mb-8 border-b w-full border-gray-700 md:px-8 '>
           {existingProposal &&
           existingProposal.status === ProposalStatusEnum.Pending &&
           service.status === ServiceStatusEnum.Opened ? (

@@ -1,8 +1,7 @@
-import { BigNumber } from 'ethers';
 import { Field, Form, Formik } from 'formik';
 import { useContext, useMemo, useState } from 'react';
-import { useProvider, useSigner } from 'wagmi';
-import StarterKitContext from '../../context/starterKit';
+import { usePublicClient, useWalletClient } from 'wagmi';
+import TalentLayerContext from '../../context/talentLayer';
 import { executePayment } from '../../contracts/executePayment';
 import { IService, IToken, ServiceStatusEnum } from '../../types';
 import { renderTokenAmount } from '../../utils/conversion';
@@ -13,7 +12,7 @@ interface IFormValues {
 }
 
 interface IReleaseFormProps {
-  totalInEscrow: BigNumber;
+  totalInEscrow: bigint;
   rateToken: IToken;
   service: IService;
   isBuyer: boolean;
@@ -28,24 +27,24 @@ function ReleaseForm({
   isBuyer,
 }: IReleaseFormProps) {
   const chainId = useChainId();
-  const { user, isActiveDelegate } = useContext(StarterKitContext);
-  const { data: signer } = useSigner({
+  const { user, isActiveDelegate } = useContext(TalentLayerContext);
+  const { data: walletClient } = useWalletClient({
     chainId,
   });
-  const provider = useProvider({ chainId });
+  const publicClient = usePublicClient({ chainId });
   const [percent, setPercentage] = useState(0);
 
   const handleSubmit = async (values: any) => {
-    if (!user || !signer || !provider) {
+    if (!user || !walletClient || !publicClient) {
       return;
     }
-    const percentToToken = totalInEscrow.mul(percent).div(100);
+    const percentToToken = (totalInEscrow * BigInt(percent)) / BigInt(100);
 
     await executePayment(
       chainId,
       user.address,
-      signer,
-      provider,
+      walletClient,
+      publicClient,
       user.id,
       service.transaction.id,
       percentToToken,
@@ -71,7 +70,7 @@ function ReleaseForm({
   };
 
   const amountSelected = useMemo(() => {
-    return percent ? totalInEscrow.mul(percent).div(100) : '';
+    return percent ? (totalInEscrow * BigInt(percent)) / BigInt(100) : '';
   }, [percent]);
 
   const initialValues: IFormValues = {
@@ -128,7 +127,7 @@ function ReleaseForm({
               }
             </div>
             <div className='flex items-center pt-6 space-x-2 rounded-b border-redpraha '>
-              {totalInEscrow.gt(0) && (
+              {totalInEscrow > 0 && (
                 <button
                   type='submit'
                   className=' hover:bg-endnight hover:text-white bg-redpraha text-midnight px-5 py-2 rounded'>

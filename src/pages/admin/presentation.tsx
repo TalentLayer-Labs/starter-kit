@@ -1,20 +1,19 @@
-import { useContext, useEffect, useState } from 'react';
-import StarterKitContext from '../../context/starterKit';
-import UserNeedsMoreRights from '../../components/UserNeedsMoreRights';
+import { useWeb3Modal } from '@web3modal/react';
+import { Field, Form, Formik } from 'formik';
+import { useContext } from 'react';
+import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
-import usePlatform from '../../hooks/usePlatform';
-import { useProvider, useSigner } from 'wagmi';
+import SubmitButton from '../../components/Form/SubmitButton';
+import Loading from '../../components/Loading';
+import Steps from '../../components/Steps';
+import UserNeedsMoreRights from '../../components/UserNeedsMoreRights';
+import TalentLayerContext from '../../context/talentLayer';
+import TalentLayerPlatformID from '../../contracts/ABI/TalentLayerPlatformID.json';
 import { useChainId } from '../../hooks/useChainId';
+import { useConfig } from '../../hooks/useConfig';
+import usePlatform from '../../hooks/usePlatform';
 import { postToIPFS } from '../../utils/ipfs';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../utils/toast';
-import { Field, Form, Formik } from 'formik';
-import { ethers } from 'ethers';
-import { useConfig } from '../../hooks/useConfig';
-import TalentLayerPlatformID from '../../contracts/ABI/TalentLayerPlatformID.json';
-import { useWeb3Modal } from '@web3modal/react';
-import SubmitButton from '../../components/Form/SubmitButton';
-import Steps from '../../components/Steps';
-import Loading from '../../components/Loading';
 
 interface IFormValues {
   about: string;
@@ -28,16 +27,15 @@ const validationSchema = Yup.object({
 });
 
 function AdminPresentation() {
-  const { user, loading } = useContext(StarterKitContext);
+  const { user, loading } = useContext(TalentLayerContext);
   const platform = usePlatform(process.env.NEXT_PUBLIC_PLATFORM_ID as string);
   const platformDescription = platform?.description;
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
   const config = useConfig();
-  const provider = useProvider({ chainId });
-  const { data: signer } = useSigner({
-    chainId,
-  });
+  const publicClient = usePublicClient({ chainId });
+  const { data: walletClient } = useWalletClient({ chainId });
+  const { address } = useAccount();
 
   if (loading) {
     return <Loading />;
@@ -60,7 +58,7 @@ function AdminPresentation() {
     values: IFormValues,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void },
   ) => {
-    if (user && provider && signer) {
+    if (user && publicClient && walletClient) {
       try {
         const cid = await postToIPFS(
           JSON.stringify({
@@ -71,12 +69,13 @@ function AdminPresentation() {
           }),
         );
 
-        const contract = new ethers.Contract(
-          config.contracts.talentLayerPlatformId,
-          TalentLayerPlatformID.abi,
-          signer,
-        );
-        const tx = await contract.updateProfileData(platform?.id, cid);
+        const tx = await walletClient.writeContract({
+          address: config.contracts.talentLayerId,
+          abi: TalentLayerPlatformID.abi,
+          functionName: 'updateProfileData',
+          args: [user.id, cid],
+          account: address,
+        });
 
         await createMultiStepsTransactionToast(
           chainId,
@@ -85,7 +84,7 @@ function AdminPresentation() {
             success: 'Congrats! Your platform has been updated',
             error: 'An error occurred while updating your platform',
           },
-          provider,
+          publicClient,
           tx,
           'platform',
           cid,

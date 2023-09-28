@@ -1,22 +1,23 @@
 import { useWeb3Modal } from '@web3modal/react';
-import { ethers } from 'ethers';
 import { Field, Form, Formik } from 'formik';
+import { QuestionMarkCircle } from 'heroicons-react';
 import { useContext, useState } from 'react';
-import { useProvider, useSigner } from 'wagmi';
+import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
-import StarterKitContext from '../../context/starterKit';
+import TalentLayerContext from '../../context/talentLayer';
 import TalentLayerID from '../../contracts/ABI/TalentLayerID.json';
+import { useChainId } from '../../hooks/useChainId';
+import { useConfig } from '../../hooks/useConfig';
+import useUserById from '../../hooks/useUserById';
+import Web3MailContext from '../../modules/Web3mail/context/web3mail';
+import { createWeb3mailToast } from '../../modules/Web3mail/utils/toast';
+import { generatePicture } from '../../utils/ai-picture-gen';
 import { postToIPFS } from '../../utils/ipfs';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../utils/toast';
 import Loading from '../Loading';
-import SubmitButton from './SubmitButton';
-import useUserById from '../../hooks/useUserById';
-import { SkillsInput } from './skills-input';
 import { delegateUpdateProfileData } from '../request';
-import { useChainId } from '../../hooks/useChainId';
-import { useConfig } from '../../hooks/useConfig';
-import { QuestionMarkCircle } from 'heroicons-react';
-import { generatePicture } from '../../utils/ai-picture-gen';
+import SubmitButton from './SubmitButton';
+import { SkillsInput } from './skills-input';
 
 interface IFormValues {
   title?: string;
@@ -36,13 +37,13 @@ function ProfileForm({ callback }: { callback?: () => void }) {
   const config = useConfig();
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
-  const { user, isActiveDelegate } = useContext(StarterKitContext);
-  const provider = useProvider({ chainId });
+  const { user, isActiveDelegate, refreshData } = useContext(TalentLayerContext);
+  const { platformHasAccess } = useContext(Web3MailContext);
+  const { data: walletClient } = useWalletClient({ chainId });
+  const publicClient = usePublicClient({ chainId });
+  const { address } = useAccount();
   const [aiLoading, setAiLoading] = useState(false);
   const userDescription = user?.id ? useUserById(user?.id)?.description : null;
-  const { data: signer } = useSigner({
-    chainId,
-  });
 
   if (!user?.id) {
     return <Loading />;
@@ -61,9 +62,9 @@ function ProfileForm({ callback }: { callback?: () => void }) {
   const generatePictureUrl = async (e: React.FormEvent, callback: (string: string) => void) => {
     e.preventDefault();
     setAiLoading(true);
-    const imageUrl = await generatePicture();
-    if (imageUrl) {
-      callback(imageUrl);
+    const image_url = await generatePicture();
+    if (image_url) {
+      callback(image_url);
     }
     setAiLoading(false);
   };
@@ -72,7 +73,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
     values: IFormValues,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void },
   ) => {
-    if (user && provider && signer) {
+    if (user && walletClient && publicClient) {
       try {
         const cid = await postToIPFS(
           JSON.stringify({
@@ -83,20 +84,21 @@ function ProfileForm({ callback }: { callback?: () => void }) {
             name: values.name,
             about: values.about,
             skills: values.skills,
+            web3mailPreferences: user.description?.web3mailPreferences,
           }),
         );
-
         let tx;
         if (isActiveDelegate) {
           const response = await delegateUpdateProfileData(chainId, user.id, user.address, cid);
           tx = response.data.transaction;
         } else {
-          const contract = new ethers.Contract(
-            config.contracts.talentLayerId,
-            TalentLayerID.abi,
-            signer,
-          );
-          tx = await contract.updateProfileData(user.id, cid);
+          tx = await walletClient.writeContract({
+            address: config.contracts.talentLayerId,
+            abi: TalentLayerID.abi,
+            functionName: 'updateProfileData',
+            args: [user.id, cid],
+            account: address,
+          });
         }
 
         await createMultiStepsTransactionToast(
@@ -106,7 +108,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
             success: 'Congrats! Your profile has been updated',
             error: 'An error occurred while updating your profile',
           },
-          provider,
+          publicClient,
           tx,
           'user',
           cid,
@@ -116,7 +118,11 @@ function ProfileForm({ callback }: { callback?: () => void }) {
           callback();
         }
 
+        refreshData();
         setSubmitting(false);
+        if (process.env.NEXT_PUBLIC_ACTIVE_WEB3MAIL == 'true' && !platformHasAccess) {
+          createWeb3mailToast();
+        }
       } catch (error) {
         showErrorTransactionToast(error);
       }
@@ -133,7 +139,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
       validationSchema={validationSchema}>
       {({ isSubmitting, setFieldValue, values }) => (
         <Form>
-          <div className='grid grid-cols-1 gap-6 border border-gray-700 rounded-xl p-6 bg-endnight'>
+          <div className='grid grid-cols-1 gap-6'>
             <label className='block'>
               <span className='text-gray-100'>Title</span>
               <Field

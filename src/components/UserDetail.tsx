@@ -1,13 +1,14 @@
 import { useContext } from 'react';
-import StarterKitContext from '../context/starterKit';
+import TalentLayerContext from '../context/talentLayer';
 import useUserById from '../hooks/useUserById';
 import PohModule from '../modules/Poh/PohModule';
 import { IUser } from '../types';
 import Loading from './Loading';
 import Stars from './Stars';
+import DelegateModal from './Modal/DelegateModal';
 
 function UserDetail({ user }: { user: IUser }) {
-  const { user: currentUser } = useContext(StarterKitContext);
+  const { user: currentUser } = useContext(TalentLayerContext);
   const userDescription = user?.id ? useUserById(user?.id)?.description : null;
 
   if (!user?.id) {
@@ -60,18 +61,18 @@ function UserDetail({ user }: { user: IUser }) {
         )}
       </div>
 
-      {/* {currentUser?.id === user.id && (
+      {currentUser?.id === user.id && process.env.NEXT_PUBLIC_ACTIVE_DELEGATE === 'true' && (
         <div className=' border-t border-gray-700 pt-4 w-full mt-4'>
           <div className='flex flex-row gap-4 justify-end items-center'>
-            <Link
+            {/* <Link
               className='text-zinc-600 bg-zinc-50 hover:bg-zinc-500 hover:text-white px-3 py-2 rounded text-sm'
               href={`/dashboard/profile/incomes`}>
               Your incomes
-            </Link>
+            </Link> */}
             <DelegateModal />
           </div>
         </div>
-      )} */}
+      )}
     </div>
   );
 }

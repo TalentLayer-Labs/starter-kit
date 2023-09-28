@@ -1,10 +1,10 @@
-import { ethers } from 'ethers';
 import { useRouter } from 'next/router';
 import { createContext, ReactNode, useContext, useMemo } from 'react';
-import { useSigner } from 'wagmi';
-import StarterKitContext from '../../../context/starterKit';
-import { XmtpContext } from './XmtpContext';
+import { getAddress } from 'viem';
+import { useWalletClient } from 'wagmi';
+import TalentLayerContext from '../../../context/talentLayer';
 import { useChainId } from '../../../hooks/useChainId';
+import { XmtpContext } from './XmtpContext';
 
 const MessagingContext = createContext<{
   userExists: () => boolean;
@@ -18,9 +18,9 @@ const MessagingContext = createContext<{
 
 const MessagingProvider = ({ children }: { children: ReactNode }) => {
   const chainId = useChainId();
-  const { user } = useContext(StarterKitContext);
+  const { user } = useContext(TalentLayerContext);
   const { providerState } = useContext(XmtpContext);
-  const { data: signer } = useSigner({
+  const { data: walletClient } = useWalletClient({
     chainId,
   });
   const router = useRouter();
@@ -31,8 +31,8 @@ const MessagingProvider = ({ children }: { children: ReactNode }) => {
 
   const handleRegisterToMessaging = async (): Promise<void> => {
     try {
-      if (user?.address && providerState?.initClient && signer) {
-        await providerState.initClient(signer);
+      if (user?.address && providerState?.initClient && walletClient) {
+        await providerState.initClient();
       }
     } catch (e) {
       console.error('Error initializing XMTP client :', e);
@@ -40,17 +40,17 @@ const MessagingProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const handleMessageUser = async (userAddress: string): Promise<void> => {
-    if (signer && providerState) {
+    if (walletClient && providerState) {
       //If initClient() is in the context, then we can assume that the user has not already logged in
       if (providerState.initClient) {
         try {
-          await providerState.initClient(signer);
+          await providerState.initClient();
         } catch (e) {
           console.error('ServiceDetail - Error initializing XMTP client: ', e);
           return;
         }
       }
-      const buyerAddress = ethers.utils.getAddress(userAddress);
+      const buyerAddress = getAddress(userAddress);
       router.push(`/dashboard/messaging/${buyerAddress}`);
     }
   };

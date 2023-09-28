@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useContext } from 'react';
-import StarterKitContext from '../context/starterKit';
+import TalentLayerContext from '../context/talentLayer';
 import usePaymentsByService from '../hooks/usePaymentsByService';
 import useProposalsByService from '../hooks/useProposalsByService';
 import useReviewsByService from '../hooks/useReviewsByService';
@@ -19,7 +19,7 @@ import { useChainId } from '../hooks/useChainId';
 
 function ServiceDetail({ service }: { service: IService }) {
   const chainId = useChainId();
-  const { account, user } = useContext(StarterKitContext);
+  const { account, user } = useContext(TalentLayerContext);
   const { reviews } = useReviewsByService(service.id);
   const proposals = useProposalsByService(service.id);
   const payments = usePaymentsByService(service.id);

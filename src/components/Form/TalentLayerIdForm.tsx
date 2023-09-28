@@ -1,11 +1,10 @@
 import { useWeb3Modal } from '@web3modal/react';
-import { ethers } from 'ethers';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useContext } from 'react';
 import { useRouter } from 'next/router';
-import { useProvider, useSigner } from 'wagmi';
+import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
-import StarterKitContext from '../../context/starterKit';
+import TalentLayerContext from '../../context/talentLayer';
 import TalentLayerID from '../../contracts/ABI/TalentLayerID.json';
 import { createTalentLayerIdTransactionToast, showErrorTransactionToast } from '../../utils/toast';
 import HelpPopover from '../HelpPopover';
@@ -14,6 +13,7 @@ import { HandlePrice } from './handle-price';
 import { delegateMintID } from '../request';
 import { useChainId } from '../../hooks/useChainId';
 import { useConfig } from '../../hooks/useConfig';
+import { NetworkEnum } from '../../types';
 
 interface IFormValues {
   handle: string;
@@ -27,14 +27,11 @@ function TalentLayerIdForm() {
   const config = useConfig();
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
-  const { user, account } = useContext(StarterKitContext);
-  const { data: signer } = useSigner({
-    chainId,
-  });
-
-  const provider = useProvider({ chainId });
+  const { user, account } = useContext(TalentLayerContext);
+  const { data: walletClient } = useWalletClient({ chainId });
+  const { address } = useAccount();
+  const publicClient = usePublicClient({ chainId });
   const router = useRouter();
-  let tx: ethers.providers.TransactionResponse;
 
   const validationSchema = Yup.object().shape({
     handle: Yup.string()
@@ -51,26 +48,32 @@ function TalentLayerIdForm() {
     submittedValues: IFormValues,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void },
   ) => {
-    if (account && account.address && account.isConnected && provider && signer) {
+    if (account && account.address && account.isConnected && publicClient && walletClient) {
       try {
-        const contract = new ethers.Contract(
-          config.contracts.talentLayerId,
-          TalentLayerID.abi,
-          signer,
-        );
-
-        const handlePrice = await contract.getHandlePrice(submittedValues.handle);
+        let tx;
+        const handlePrice: any = await publicClient.readContract({
+          address: config.contracts.talentLayerId,
+          abi: TalentLayerID.abi,
+          functionName: 'getHandlePrice',
+          args: [submittedValues.handle],
+          account: address,
+        });
 
         if (process.env.NEXT_PUBLIC_ACTIVE_DELEGATE_MINT === 'true') {
           const response = await delegateMintID(
             chainId,
             submittedValues.handle,
-            handlePrice,
+            String(handlePrice),
             account.address,
           );
           tx = response.data.transaction;
         } else {
-          tx = await contract.mint(process.env.NEXT_PUBLIC_PLATFORM_ID, submittedValues.handle, {
+          tx = await walletClient.writeContract({
+            address: config.contracts.talentLayerId,
+            abi: TalentLayerID.abi,
+            functionName: 'mint',
+            args: [process.env.NEXT_PUBLIC_PLATFORM_ID, submittedValues.handle],
+            account: address,
             value: handlePrice,
           });
         }
@@ -81,7 +84,7 @@ function TalentLayerIdForm() {
             success: 'Congrats! Your Talent Layer Id is minted',
             error: 'An error occurred while creating your Talent Layer Id',
           },
-          provider,
+          publicClient,
           tx,
           account.address,
         );
@@ -115,7 +118,9 @@ function TalentLayerIdForm() {
             </div>
 
             <div className='flex items-center'>
-              {values.handle && <HandlePrice handle={values.handle} />}
+              {values.handle && chainId != NetworkEnum.IEXEC && (
+                <HandlePrice handle={values.handle} />
+              )}
               <div>
                 <div className='sm:pl-2 sm:pr-4 sm:space-x-4 relative'>
                   <SubmitButton isSubmitting={isSubmitting} />
