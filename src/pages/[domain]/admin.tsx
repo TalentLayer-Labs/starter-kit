@@ -9,7 +9,7 @@ import { generateSubdomainPrefix } from '../../../modules/MultiDomain/utils';
 import { useDeleteSpaceMutation } from '../../../modules/MultiDomain/hooks/UseDeleteSpaceMutation';
 import { useUpdateSpace } from '../../../modules/MultiDomain/hooks/UseUpdateSpace';
 
-export default function CustomDomain() {
+export default function AdminDashboard() {
   const [customDomain, setCustomDomain] = useState("solarfund.wtf");
 
   const { status, loading } = useDomainStatus({ domain: "solarfund.wtf" });
