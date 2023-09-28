@@ -1,3 +1,17 @@
+export interface UpdateSpace {
+  subDomain: string,
+  name: string | undefined,
+  primaryColor: string | undefined,
+  secondaryColor: string | undefined,
+  owners: string[] | undefined,
+  status: string | undefined,
+}
+
+export interface UpdateSpaceDomain {
+  subDomain: string,
+  customDomain: string
+}
+
 export enum DomainVerificationStatusProps {
   Valid = 'Valid Configuration',
   Invalid = 'Invalid Configuration',

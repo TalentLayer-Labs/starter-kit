@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import { connection } from '../../mongo/mongodb';
 import {
   addDomainToVercel,
@@ -7,21 +8,27 @@ import {
   validDomainRegex,
 } from './domains';
 import { SpaceModel } from './models/SpaceModel';
-import { CreateSpaceAction, Space } from './types';
+import { CreateSpaceAction, Space, UpdateSpace, UpdateSpaceDomain } from './types';
 
-export const deleteSpace = async (spaceId: string) => {
+export const deleteSpace = async (subDomain: string) => {
   await connection();
-  const space = await SpaceModel.findById(spaceId).exec();
-  space.remove();
+  const space = await SpaceModel.deleteOne({ subDomain: subDomain })
+  console.log(space, "space deleted")
+  if (space.deletedCount === 0) {
+    return {
+      error: 'Space not found',
+    };
+  }
   return {
     message: 'Space deleted successfully',
   };
 }
 
-export const updateSpace = async (space: Space) => {
+
+export const updateSpace = async (space: UpdateSpace) => {
   try {
     await connection();
-    await SpaceModel.updateOne({ _id: space.id }, space).exec();
+    await SpaceModel.updateOne({ subDomain: space.subDomain }, space).exec();
     return {
       message: 'Space updated successfully',
     };
@@ -47,6 +54,7 @@ export const createSpace = async (data: CreateSpaceAction) => {
     }
 
     const newSpace = new SpaceModel({
+      _id: new mongoose.Types.ObjectId(),
       name: data.name,
       subDomain: data.subDomain,
       customDomain: "null",
@@ -73,11 +81,6 @@ export const createSpace = async (data: CreateSpaceAction) => {
 }
 
 // TODO! createSpace, can be used for the onboarding workflow maybe for the creating the subdomain & deleteSpace
-export interface UpdateSpaceDomain {
-  id: string,
-  customDomain: string
-}
-
 export const updateSpaceDomain = async (space: UpdateSpaceDomain) => {
   try {
     await connection();
@@ -91,19 +94,29 @@ export const updateSpaceDomain = async (space: UpdateSpaceDomain) => {
       // if the custom domain is valid, we need to store it and add it to Vercel
     } else if (validDomainRegex.test(space.customDomain!)) {
       // Update the MongoDB document with the new custom domain
-      await SpaceModel.updateOne({ _id: space.id }, { customDomain: space.customDomain }).exec();
+      // await SpaceModel.updateOne({ _id: new mongoose.Types.ObjectId(space.id) }, { customDomain: space.customDomain }).exec();
+      const entity = await SpaceModel.findOne({ subDomain: space.subDomain })
+      entity.customDomain = space.customDomain;
+      entity.save();
+
+
       // Add the custom domain to Vercel
       await addDomainToVercel(space.customDomain!);
 
       // null means remove the custom domain
-    } else if (space.customDomain! === null) {
+    } else if (space.customDomain! === "") {
       // Remove the custom domain from the MongoDB document
       console.log('Removing custom domain from MongoDB document');
-      await SpaceModel.updateOne({ _id: space.id }, { customDomain: null }).exec();
+      // await SpaceModel.updateOne({ _id: new mongoose.Types.ObjectId(space.id) }, { customDomain: "asd.de" }).exec();
+
+      const entity = await SpaceModel.findOne({ subDomain: space.subDomain })
+      entity.customDomain = "";
+      entity.save();
     }
 
     // Get the current custom domain from the MongoDB document
-    const currentSpace = await SpaceModel.findById(space.id).exec();
+    // const currentSpace = await SpaceModel.findById(new mongoose.Types.ObjectId(space.id)).exec();
+    const currentSpace = await SpaceModel.findOne({ subDomain: space.subDomain })
     const currentDomain = currentSpace?.customDomain || '';
 
     // If the site had a different customDomain before, we need to remove it from Vercel
