@@ -107,7 +107,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             `A review was created for the service - ${review.service.description?.title}`,
             `${fromHandle} has left a review for the TalentLayer service ${review.service.description?.title}.
             The service was rated ${review.rating}/5 stars and the following comment was left: ${review.description?.content}.
-            Congratulations on completing your service and improving your TalentLayer reputation !`,
+            Congratulations on completing your service and improving your TalentLayer reputation !
+            
+            You can find details on this review here: ${review.service.platform.description?.website}/dashboard/services/${review.service.id}`,
             [review.to.address],
             true,
             dataProtector,

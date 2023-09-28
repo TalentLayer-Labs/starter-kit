@@ -39,6 +39,13 @@ export const getNewReviews = (chainId: number, id: string, timestamp?: string): 
             content
           }
           service {
+            id
+            platform {
+              id
+              description {
+                website
+              }
+            }
             buyer {
               address
               handle

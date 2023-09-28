@@ -102,7 +102,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             `You just received a new proposal for the service ${proposal.service.id} you posted on TalentLayer !
               ${proposal.seller.handle} can complete your service for the following amount: ${proposal.rateAmount} : ${proposal.rateToken.symbol}.
               Here is what is proposed: ${proposal.description?.about}.
-              This Proposal can be viewed at: ${proposal.service.platform.description.website}/dashboard/services/${proposal.service.id}`,
+              
+              This Proposal can be viewed at: ${proposal.service.platform.description?.website}/dashboard/services/${proposal.service.id}`,
             [proposal.service.buyer.address],
             true,
             dataProtector,

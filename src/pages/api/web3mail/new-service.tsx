@@ -133,7 +133,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                   Be the first one to send a proposal !
                   
                   You can find details on this service here: ${
-                    service.platform.description.website
+                    service.platform.description?.website
                   }/dashboard/services/${service.id}`,
                 [contact.address],
                 true,

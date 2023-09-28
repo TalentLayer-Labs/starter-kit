@@ -176,6 +176,12 @@ export const getAcceptedProposals = (
             buyer {
               address
             }
+            platform {
+              id
+              description {
+                website
+              }
+            }
           }
           seller {
             address

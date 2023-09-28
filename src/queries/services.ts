@@ -149,6 +149,12 @@ export const getNewServicesForPlatform = (
           where: {status: Opened, platform: "${id}" ${timestampCondition}}
         ) {
           id
+          platform {
+            id
+            description {
+              website
+            }
+          }
           description {
             keywords_raw
             keywords {

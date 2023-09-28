@@ -96,7 +96,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             `The proposal you made for the service ${proposal.service.id} you posted on TalentLayer got accepted by ${proposal.service.buyer} !
               The following amount was agreed: ${proposal.rateAmount} : ${proposal.rateToken.symbol}. 
               For the following work to be provided: ${proposal.description?.about}.
-              This Proposal can be viewed at ${process.env.NEXT_PUBLIC_IPFS_BASE_URL}${proposal.id}`,
+              
+              This Proposal can be viewed at ${proposal.service.platform.description?.website}${proposal.id}`,
             [proposal.seller.address],
             true,
             dataProtector,
