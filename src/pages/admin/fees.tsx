@@ -19,7 +19,6 @@ function AdminFees() {
   const config = useConfig();
   const platform = usePlatform(process.env.NEXT_PUBLIC_PLATFORM_ID as string);
   const currentChain = chains.find(chain => chain.id === chainId);
-  console.log(currentChain?.nativeCurrency.symbol)
 
 
   if (loading) {
