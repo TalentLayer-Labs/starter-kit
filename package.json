@@ -39,7 +39,6 @@
   "scripts": {
     "dev": "next dev",
     "build": "npm run build-cron && next build",
-    "prepare": "build-cron",
     "build-cron": "ts-node buildVercelConfigFile.ts",
     "start": "next start",
     "format": "prettier --config .prettierrc 'src/**/*.{js,ts,tsx}' --write",
