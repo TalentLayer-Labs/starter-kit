@@ -5,7 +5,7 @@ import TalentLayerContext from '../../../context/talentLayer';
 import { useChainId } from '../../../hooks/useChainId';
 import ConversationList from '../../../modules/Messaging/components/ConversationList';
 import SearchModal from '../../../modules/Messaging/components/SearchModal';
-import ShareModal from '../../../modules/Messaging/components/ShareModal';
+import ShareModal from '../../../modules/Messaging/components/ShareModal.1';
 import { XmtpContext } from '../../../modules/Messaging/context/XmtpContext';
 import useStreamConversations from '../../../modules/Messaging/hooks/useStreamConversations';
 

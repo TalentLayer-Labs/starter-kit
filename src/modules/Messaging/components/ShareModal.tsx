@@ -1,8 +1,8 @@
 import { ClipboardDocumentIcon, QrCodeIcon } from '@heroicons/react/24/outline';
 import { QRCodeSVG } from 'qrcode.react';
 import { useContext, useState } from 'react';
-import { toast } from 'react-toastify';
 import TalentLayerContext from '../../../context/talentLayer';
+import { handleCopyClick } from '../../../utils/copyClickHandler';
 
 function ShareModal() {
   const [show, setShow] = useState(false);
@@ -10,18 +10,6 @@ function ShareModal() {
 
   const shareLink = `${window.location.origin}/dashboard/messaging/${account?.address}`;
 
-  const handleCopyClick = () => {
-    navigator.clipboard.writeText(shareLink);
-    toast('Link copied', {
-      position: 'bottom-right',
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      progress: undefined,
-      theme: 'dark',
-    });
-  };
 
   return (
     <>
@@ -34,9 +22,8 @@ function ShareModal() {
       </button>
 
       <div
-        className={`${
-          !show ? 'hidden' : ''
-        } overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal h-full bg-black/90 flex flex-col items-center justify-center`}>
+        className={`${!show ? 'hidden' : ''
+          } overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal h-full bg-black/90 flex flex-col items-center justify-center`}>
         <div className='relative w-full max-w-2xl h-auto'>
           <div className='relative bg-endnightshadow '>
             <div className='fixed top-0 right-0'>
@@ -72,7 +59,9 @@ function ShareModal() {
               </div>
               <p className='mt-10'>or</p>
               <a
-                onClick={handleCopyClick}
+                onClick={() => {
+                  handleCopyClick(shareLink)
+                }}
                 className='flex p-3 bg-endnight border-endnight rounded-xl justify-between mt-10 text-redpraha'>
                 Copy a share link
                 <ClipboardDocumentIcon className='ml-2 h-5 w-5' />

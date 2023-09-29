@@ -2,8 +2,10 @@ import React from 'react';
 import { useState } from 'react';
 import { getSubdomain } from '../domains';
 import { useDomainStatus } from '../hooks/UseDomainStatus';
-import { ExclamationCircle, XCircleOutline } from 'heroicons-react';
+import { CheckCircle, ExclamationCircle, XCircleOutline } from 'heroicons-react';
 import { DomainVerificationStatusProps } from '../types';
+import { ClipboardDocumentListIcon } from '@heroicons/react/24/outline';
+import { handleCopyClick } from '../../../utils/copyClickHandler';
 
 export const InlineSnippet = ({ children }: { children: string }) => {
   return (
@@ -17,13 +19,24 @@ export default function DomainConfiguration({ domain }: { domain: string }) {
 
   const { status, domainJson } = useDomainStatus({ domain });
 
-  if (!status || status === DomainVerificationStatusProps.Valid || !domainJson) return null;
+  if (!status || !domainJson) return null;
 
   const subdomain = getSubdomain(domainJson.name, domainJson.apexName);
   const txtVerification =
     (status === DomainVerificationStatusProps.Pending &&
       domainJson.verification.find((x: any) => x.type === 'TXT')) ||
     null;
+
+  if (status === DomainVerificationStatusProps.Valid) return (
+    <div className='mb-4 flex items-center space-x-2'>
+      <CheckCircle
+        fill='#32CD32'
+        stroke='currentColor'
+        className='text-white text-black'
+      />
+      <p className='text-lg font-semibold text-white'>{status}</p>
+    </div>
+  )
 
   return (
     <div className='border-t border-stone-200 px-10 pb-5 pt-7 border-stone-700'>
@@ -65,9 +78,18 @@ export default function DomainConfiguration({ domain }: { domain: string }) {
               <p className='text-sm font-bold'>Value</p>
               <p className='mt-2 text-sm'>
                 <span className='text-ellipsis'>{txtVerification.value}</span>
+                <button
+                  onClick={() => {
+                    handleCopyClick(txtVerification.value)
+                  }}
+                  className='ml-2'
+                >
+                  <ClipboardDocumentListIcon className='h-5 w-5 text-indigo-500' />
+                </button>
               </p>
             </div>
           </div>
+
           <p className='text-sm text-stone-400'>
             Warning: if you are using this domain for another site, setting this TXT record will
             transfer domain ownership away from that site and break it. Please exercise caution when
