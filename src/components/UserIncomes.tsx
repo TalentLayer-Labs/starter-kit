@@ -4,6 +4,7 @@ import { renderTokenAmount } from '../utils/conversion';
 import { formatStringCompleteDate } from '../utils/dates';
 import usePaymentsForUser from '../hooks/usePaymentsForUser';
 import { useNetwork } from 'wagmi';
+import { mkConfig, generateCsv, download } from "export-to-csv";
 
 function UserIncomes({ id }: { id: string }) {
   const ROW_SIZE = 50;
@@ -18,6 +19,22 @@ function UserIncomes({ id }: { id: string }) {
     endDate,
   );
 
+  const csvConfig = mkConfig({ useKeysAsHeaders: true,filename: "TL-Income" });
+  
+  const handleExportToCsv = () => {
+    const csvContent = generateCsv(csvConfig)(payments.map(payment => ({
+      'Amount': renderTokenAmount(payment.rateToken, payment.amount),
+      'Date': formatStringCompleteDate(payment.createdAt),
+      'Token': payment.rateToken.symbol,
+      'Service': `Service n°${payment.service.id}`,
+      'Transaction Information': `${network.chain?.blockExplorers?.default.url}/tx/${payment.transactionHash}`
+    })));
+    
+    download(csvConfig)(csvContent);
+  };
+
+
+  
   return (
     <>
       <div className='pb-10'>
@@ -121,6 +138,16 @@ function UserIncomes({ id }: { id: string }) {
               </div>
             )}
           </div>
+        </div>
+      )}
+      {payments && payments.length > 0 && (
+        <div className='pb-5'>
+          <button
+            type='button'
+            className='px-5 py-2 border border-zinc-600 rounded-full text-zinc-600 hover:text-white hover:bg-midnight'
+            onClick={handleExportToCsv}>
+            Export to CSV
+          </button>
         </div>
       )}
     </>
