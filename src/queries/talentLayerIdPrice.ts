@@ -6,7 +6,8 @@ export const getUserMintFee = (
   const query = `
   {
     protocols {
-      userMintFee
+      userMintFee,
+      shortHandlesMaxPrice
     }
   }
     `;

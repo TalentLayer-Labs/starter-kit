@@ -2,9 +2,11 @@ import { useEffect, useState } from 'react';
 import { useChainId } from './useChainId';
 import { getUserMintFee } from '../queries/talentLayerIdPrice';
 
-const userMintFee = () => {
+
+const useMintFee = () => {
   const chainId = useChainId();
   const [mintFee, setMintFee] = useState(0);
+  const [shortHandlesMaxPrice, setShortHandlesMaxPrice] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -14,6 +16,7 @@ const userMintFee = () => {
 
         if (data) {
           setMintFee(data.protocols[0].userMintFee);
+          setShortHandlesMaxPrice(data.protocols[0].shortHandlesMaxPrice);
         }
 
       } catch (err: any) {
@@ -24,7 +27,7 @@ const userMintFee = () => {
     fetchData();
   }, [chainId]);
 
-  return mintFee;
+  return { mintFee, shortHandlesMaxPrice };
 };
 
-export default userMintFee;
+export default useMintFee;
