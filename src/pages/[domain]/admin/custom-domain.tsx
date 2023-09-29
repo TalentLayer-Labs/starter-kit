@@ -1,7 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react';
+import SpaceContext from '../../../modules/MultiDomain/context/SpaceContext';
 
-export default function custom-domain() {
+export default function CustomDomain() {
+  const { space, loading } = useContext(SpaceContext);
+
   return (
-    <div>custom-domain</div>
-  )
+    <div>
+      <p>Space name: {space?.name}</p>
+      <p>{loading}</p>
+    </div>)
 }

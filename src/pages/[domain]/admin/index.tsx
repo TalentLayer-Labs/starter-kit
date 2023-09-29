@@ -6,8 +6,8 @@ import { useMutation, useQueryClient } from 'react-query';
 import { useCreateSpaceMutation } from '../../../modules/MultiDomain/hooks/UseCreateSpaceMutation';
 import { useUpdateSpaceDomain } from '../../../modules/MultiDomain/hooks/UseUpdateSpaceDomain';
 import { generateSubdomainPrefix } from '../../../modules/MultiDomain/utils';
-import { useDeleteSpaceMutation } from '../../../modules/MultiDomain/hooks/UseDeleteSpaceMutation';
 import { useUpdateSpace } from '../../../modules/MultiDomain/hooks/UseUpdateSpace';
+import { useDeleteSpaceMutation } from '../../../modules/MultiDomain/hooks/UseDeleteSpaceMutation';
 
 export default function AdminDashboard() {
   const [customDomain, setCustomDomain] = useState("solarfund.wtf");
@@ -16,7 +16,7 @@ export default function AdminDashboard() {
   const queryClient = useQueryClient();
 
   // ----------------- create space -----------------
-  const [createSpace, setCreateSpace] = useState<CreateSpaceProps>({ name: "testingFR", subDomain: "testing", primaryColor: "green", secondaryColor: "white" });
+  const [createSpace, setCreateSpace] = useState<CreateSpaceProps>({ name: "testingFR", subdomain: "testing", primaryColor: "green", secondaryColor: "white" });
   const [createSpaceResponse, setCreateSpaceResponse] = useState("No response yet");
   const createSpaceMutation = useCreateSpaceMutation();
   const handleCreateSpace = async () => {
@@ -35,7 +35,7 @@ export default function AdminDashboard() {
   const handleUpdateDomainClick = async () => {
     try {
       updateSpaceDomainMutation.mutate({
-        customDomain: "creedscode.cc", subDomain: "testing.solarfund.wtf"
+        customDomain: "creedscode.cc", subdomain: "testing.solarfund.wtf"
       });
     } catch (error) {
       console.error('Error updating domain:', error);
@@ -48,8 +48,8 @@ export default function AdminDashboard() {
   } = useDeleteSpaceMutation();
 
   const handleDeleteClick = () => {
-    const subDomain = 'testing.solarfund.wtf'; // Replace with the ID of the space to delete
-    deleteSpace(subDomain);
+    const subdomain = 'testing.solarfund.wtf'; // Replace with the ID of the space to delete
+    deleteSpace(subdomain);
   };
 
 
@@ -64,7 +64,7 @@ export default function AdminDashboard() {
 
 
   // ----------------- update space -----------------
-  const [spaceUpdateData, setSpaceUpdateData] = useState({ subDomain: '', name: '' });
+  const [spaceUpdateData, setSpaceUpdateData] = useState({ subdomain: '', name: '' });
   const updateSpaceMutation = useUpdateSpace();
 
   const handleUpdateInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -95,7 +95,7 @@ export default function AdminDashboard() {
       <form onSubmit={handleUpdateSubmit}>
         <label>
           ID:
-          <input type="text" name="subDomain" value={spaceUpdateData.subDomain} onChange={handleUpdateInputChange} />
+          <input type="text" name="subdomain" value={spaceUpdateData.subdomain} onChange={handleUpdateInputChange} />
         </label>
         <label>
           Name:

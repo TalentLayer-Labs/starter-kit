@@ -5,7 +5,7 @@ export function useUpdateSpace() {
   const queryClient = useQueryClient();
 
   const updateSpaceDomainMutation = useMutation<void, Error, UpdateSpace>(
-    (updateSpaceData) =>
+    (updateSpaceData: UpdateSpace) =>
       fetch('/api/domain/update-space', {
         method: 'PUT',
         body: JSON.stringify(updateSpaceData),
@@ -20,9 +20,9 @@ export function useUpdateSpace() {
         }
       }),
     {
-      onSuccess: () => {
-        queryClient.invalidateQueries('spaces');
-      },
+      // onSuccess: (e) => {
+      //   queryClient.invalidateQueries([`spaces-${data.subdomain}`]);
+      // },
     }
   );
 
