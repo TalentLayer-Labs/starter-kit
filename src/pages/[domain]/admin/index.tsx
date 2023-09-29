@@ -8,6 +8,7 @@ import { useUpdateSpaceDomain } from '../../../modules/MultiDomain/hooks/UseUpda
 import { generateSubdomainPrefix } from '../../../modules/MultiDomain/utils';
 import { useUpdateSpace } from '../../../modules/MultiDomain/hooks/UseUpdateSpace';
 import { useDeleteSpaceMutation } from '../../../modules/MultiDomain/hooks/UseDeleteSpaceMutation';
+import Link from 'next/link';
 
 export default function AdminDashboard() {
   const [customDomain, setCustomDomain] = useState("solarfund.wtf");
@@ -29,18 +30,6 @@ export default function AdminDashboard() {
     }
   };
 
-
-  // ----------------- update domain -----------------
-  const updateSpaceDomainMutation = useUpdateSpaceDomain();
-  const handleUpdateDomainClick = async () => {
-    try {
-      updateSpaceDomainMutation.mutate({
-        customDomain: "creedscode.cc", subdomain: "testing.solarfund.wtf"
-      });
-    } catch (error) {
-      console.error('Error updating domain:', error);
-    }
-  }
 
 
   // ----------------- delete space -----------------
@@ -80,8 +69,11 @@ export default function AdminDashboard() {
 
   return (
     <div>
-      <h1>Custom Domain Form</h1>
-      <form onSubmit={handleUpdateDomainClick}>
+      <h1>Admin</h1>
+      <Link href="/admin/custom-domain">
+        Go to domain settings
+      </Link>
+      {/* <form onSubmit={handleUpdateDomainClick}>
         <label htmlFor='customDomain'>Enter your own domain:</label>
         <input
           type='text'
@@ -126,7 +118,7 @@ export default function AdminDashboard() {
         {isLoadingDelete ? 'Deleting...' : 'Delete Space'}
       </button>
 
-      <DomainConfiguration domain={customDomain} />
+      <DomainConfiguration domain={customDomain} /> */}
 
     </div>
   );

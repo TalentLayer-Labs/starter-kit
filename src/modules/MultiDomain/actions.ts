@@ -93,6 +93,12 @@ export const getSpaceByDomain = async (domain: string) => {
       return spaceDomain;
     }
 
+    if (!spaceSubdomain && !spaceDomain) {
+      return {
+        error: 'Space not found',
+      };
+    }
+
   } catch (error: any) {
     return {
       error: error.message,

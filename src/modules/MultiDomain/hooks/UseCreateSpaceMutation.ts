@@ -4,8 +4,8 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 export function useCreateSpaceMutation() {
   const queryClient = useQueryClient();
 
-  return useMutation(
-    (createSpace): Promise<CreateSpaceProps> =>
+  return useMutation<void, Error, CreateSpaceProps>(
+    (createSpace) =>
       fetch('/api/domain/create-space', {
         method: 'POST',
         body: JSON.stringify(createSpace),

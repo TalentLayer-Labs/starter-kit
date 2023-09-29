@@ -5,3 +5,4 @@ export function generateSubdomainPrefix(name: string): string {
   const subdomainPrefix = alphanumericName.toLowerCase().substring(0, 63);
   return subdomainPrefix;
 }
+
