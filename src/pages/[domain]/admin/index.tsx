@@ -11,10 +11,6 @@ import { useDeleteSpaceMutation } from '../../../modules/MultiDomain/hooks/UseDe
 import Link from 'next/link';
 
 export default function AdminDashboard() {
-  const [customDomain, setCustomDomain] = useState("solarfund.wtf");
-
-  const { status, loading } = useDomainStatus({ domain: "solarfund.wtf" });
-  const queryClient = useQueryClient();
 
   // ----------------- create space -----------------
   const [createSpace, setCreateSpace] = useState<CreateSpaceProps>({ name: "testingFR", subdomain: "testing", primaryColor: "green", secondaryColor: "white" });
@@ -37,7 +33,7 @@ export default function AdminDashboard() {
   } = useDeleteSpaceMutation();
 
   const handleDeleteClick = () => {
-    const subdomain = 'testing.solarfund.wtf'; // Replace with the ID of the space to delete
+    const subdomain = 'urls'; // Replace with the ID of the space to delete
     deleteSpace(subdomain);
   };
 

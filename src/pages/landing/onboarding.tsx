@@ -12,7 +12,7 @@ export default function Onboarding() {
     e.preventDefault();
     try {
       const subdomainPrefix = generateSubdomainPrefix(createSpace.name);
-      const subdomain = `${subdomainPrefix}.localhost:3000`;
+      const subdomain = `${subdomainPrefix}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
       const result = await createSpaceMutation.mutateAsync({ ...createSpace, subdomain });
       setCreateSpaceResponse(`${result.name} space got created` || 'No response yet');
       window.location.href = `http://${subdomain}/admin`;
@@ -32,7 +32,7 @@ export default function Onboarding() {
   };
 
   const subdomainPrefix = generateSubdomainPrefix(createSpace.name);
-  const subdomain = `${subdomainPrefix}.localhost:3000`;
+  const subdomain = `${subdomainPrefix}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
 
   return (
     <div>
