@@ -2,10 +2,15 @@ import React, { useContext, useEffect, useState } from 'react';
 import SpaceContext from '../../../modules/MultiDomain/context/SpaceContext';
 import { useUpdateSpaceDomain } from '../../../modules/MultiDomain/hooks/UseUpdateSpaceDomain';
 import DomainConfiguration from '../../../modules/MultiDomain/components/DomainConfiguration';
+import { GetServerSideProps } from 'next';
+import { useGetSpace } from '../../../modules/MultiDomain/hooks/UseGetSpace';
 
-export default function CustomDomain() {
+export default function CustomDomain(props) {
   const { space, loading } = useContext(SpaceContext);
   const [customDomain, setCustomDomain] = useState('');
+
+  console.log(props, "fuck me ");
+
 
   useEffect(() => {
     if (space?.customDomain) {
@@ -36,4 +41,27 @@ export default function CustomDomain() {
       <DomainConfiguration domain={customDomain} />
     </div>
   );
+}
+
+export async function getServerSideProps({ params }: any) {
+  const domain = params.domain;
+  let space;
+  console.log("for", domain)
+  try {
+    const res = await fetch(`http://localhost:3000/api/domain/${domain}/get-space`);
+    space = await res.json();
+    console.log("space", space)
+    if (!space.subdomain) {
+      return { notFound: true };
+    }
+  } catch (error) {
+    console.error('An error occurred:', error);
+    return { notFound: true };
+  }
+
+  return {
+    props: {
+      space
+    }
+  }
 }
