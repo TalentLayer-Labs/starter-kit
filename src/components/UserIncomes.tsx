@@ -5,6 +5,7 @@ import { formatStringCompleteDate } from '../utils/dates';
 import usePaymentsForUser from '../hooks/usePaymentsForUser';
 import { useNetwork } from 'wagmi';
 import { mkConfig, generateCsv, download } from "export-to-csv";
+import { formatUnits } from 'viem';
 
 function UserIncomes({ id }: { id: string }) {
   const ROW_SIZE = 50;
@@ -23,8 +24,8 @@ function UserIncomes({ id }: { id: string }) {
   
   const handleExportToCsv = () => {
     const csvContent = generateCsv(csvConfig)(payments.map(payment => ({
-      'Amount': renderTokenAmount(payment.rateToken, payment.amount),
       'Date': formatStringCompleteDate(payment.createdAt),
+      'Amount': formatUnits(BigInt(payment.amount), payment.rateToken.decimals),
       'Token': payment.rateToken.symbol,
       'Service': `Service n°${payment.service.id}`,
       'Transaction Information': `${network.chain?.blockExplorers?.default.url}/tx/${payment.transactionHash}`
