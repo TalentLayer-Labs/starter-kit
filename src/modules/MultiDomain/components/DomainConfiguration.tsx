@@ -6,6 +6,7 @@ import { CheckCircle, ExclamationCircle, XCircleOutline } from 'heroicons-react'
 import { DomainVerificationStatusProps } from '../types';
 import { ClipboardDocumentListIcon } from '@heroicons/react/24/outline';
 import { handleCopyClick } from '../../../utils/copyClickHandler';
+import { getDomainPrefix } from '../utils';
 
 export const InlineSnippet = ({ children }: { children: string }) => {
   return (
@@ -28,13 +29,15 @@ export default function DomainConfiguration({ domain }: { domain: string }) {
     null;
 
   if (status === DomainVerificationStatusProps.Valid) return (
-    <div className='mb-4 flex items-center space-x-2'>
-      <CheckCircle
-        fill='#32CD32'
-        stroke='currentColor'
-        className='text-white text-black'
-      />
-      <p className='text-lg font-semibold text-white'>{status}</p>
+    <div className='border-t border-stone-200 px-10 pb-5 pt-7 border-stone-700'>
+      <div className='mb-4 flex items-center space-x-2'>
+        <CheckCircle
+          fill='#32CD32'
+          stroke='currentColor'
+          className='text-white text-black'
+        />
+        <p className='text-lg font-semibold text-white'>{status}</p>
+      </div>
     </div>
   )
 
@@ -67,12 +70,7 @@ export default function DomainConfiguration({ domain }: { domain: string }) {
             </div>
             <div>
               <p className='text-sm font-bold'>Name</p>
-              <p className='mt-2 text-sm'>
-                {txtVerification.domain.slice(
-                  0,
-                  txtVerification.domain.length - domainJson.apexName.length - 1,
-                )}
-              </p>
+              <p className='mt-2 text-sm'>{getDomainPrefix(txtVerification.domain, domainJson.apexName)}</p>
             </div>
             <div>
               <p className='text-sm font-bold'>Value</p>
@@ -162,3 +160,4 @@ export default function DomainConfiguration({ domain }: { domain: string }) {
     </div>
   );
 }
+

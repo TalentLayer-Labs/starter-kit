@@ -6,3 +6,9 @@ export function generateSubdomainPrefix(name: string): string {
   return subdomainPrefix;
 }
 
+export function getDomainPrefix(domain: string, apexName: string): React.ReactNode {
+  return domain.slice(
+    0,
+    domain.length - apexName.length - 1
+  );
+}
