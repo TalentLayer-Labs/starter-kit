@@ -4,20 +4,18 @@ import { getUserMintFee } from '../queries/talentLayerIdPrice';
 
 const userMintFee = () => {
   const chainId = useChainId();
-  const [fees, setFees] = useState({userMintFeeRate: 0});
+  const [mintFee, setMintFee] = useState(0);
 
   useEffect(() => {
-    const fees ={userMintFeeRate: 0};
     const fetchData = async () => {
       try {
         const response = await getUserMintFee(chainId);
         const data = response.data.data;
 
         if (data) {
-          fees.userMintFeeRate = data.protocols[0].getUserMintFee;
+          setMintFee(data.protocols[0].userMintFee);
         }
 
-        setFees(fees);
       } catch (err: any) {
         // eslint-disable-next-line no-console
         console.error(err);
@@ -26,7 +24,7 @@ const userMintFee = () => {
     fetchData();
   }, [chainId]);
 
-  return fees;
+  return mintFee;
 };
 
 export default userMintFee;

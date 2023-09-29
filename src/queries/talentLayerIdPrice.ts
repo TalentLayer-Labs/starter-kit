@@ -6,7 +6,7 @@ export const getUserMintFee = (
   const query = `
   {
     protocols {
-      userMintFeeRate
+      userMintFee
     }
   }
     `;
