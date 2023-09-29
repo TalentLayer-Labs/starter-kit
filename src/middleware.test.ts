@@ -1,11 +1,6 @@
 import { config } from "./middleware";
 
 test('middleware config matcher test', () => {
-  // const config = {
-  //   matcher: [
-  //     '/((?!api/|_next/|_static/|_vercel|[\\w-]+\\.\\w+).*)',
-  //   ],
-  // };
 
   // Test assertion 1: Check if /api routes are excluded
   expect('/api/some-route').not.toMatch(config.matcher[0]);
@@ -19,6 +14,6 @@ test('middleware config matcher test', () => {
   // Test assertion 4: Check if root files inside /public are excluded
   expect('/favicon.ico').not.toMatch(config.matcher[0]);
 
-  // Test assertion 5: Check if other paths are matched
+  // Check if other paths are matched
   expect('/some-route').not.toMatch(config.matcher[0]);
 });
