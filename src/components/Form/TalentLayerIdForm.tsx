@@ -14,7 +14,7 @@ import { delegateMintID } from '../request';
 import { useChainId } from '../../hooks/useChainId';
 import { useConfig } from '../../hooks/useConfig';
 import { NetworkEnum } from '../../types';
-import { useHandlePriceCalculator } from '../../hooks/useHandlePriceCalculator';
+import useMintFee from '../../hooks/useMintFee';
 
 interface IFormValues {
   handle: string;
@@ -33,6 +33,7 @@ function TalentLayerIdForm() {
   const { address } = useAccount();
   const publicClient = usePublicClient({ chainId });
   const router = useRouter();
+  const { mintFee, shortHandlesMaxPrice } = useMintFee();
 
   const validationSchema = Yup.object().shape({
     handle: Yup.string()
@@ -45,7 +46,7 @@ function TalentLayerIdForm() {
       }),
   });
 
-  
+    
   const onSubmit = async (
     submittedValues: IFormValues,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void },
@@ -53,8 +54,9 @@ function TalentLayerIdForm() {
     if (account && account.address && account.isConnected && publicClient && walletClient) {
       try {
         let tx; 
-        
-        const handlePrice = useHandlePriceCalculator({ handle: submittedValues.handle });
+        const length = submittedValues.handle.length;
+        const handlePrice = length > 4 ? mintFee : shortHandlesMaxPrice / Math.pow(2, length - 1);
+
 
         if (process.env.NEXT_PUBLIC_ACTIVE_DELEGATE_MINT === 'true') {
           const response = await delegateMintID(
