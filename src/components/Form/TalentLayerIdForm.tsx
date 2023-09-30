@@ -14,6 +14,7 @@ import { delegateMintID } from '../request';
 import { useChainId } from '../../hooks/useChainId';
 import { useConfig } from '../../hooks/useConfig';
 import { NetworkEnum } from '../../types';
+import useMintFee from '../../hooks/useMintFee';
 
 interface IFormValues {
   handle: string;
@@ -32,6 +33,7 @@ function TalentLayerIdForm() {
   const { address } = useAccount();
   const publicClient = usePublicClient({ chainId });
   const router = useRouter();
+  const { calculateMintFee } = useMintFee();
 
   const validationSchema = Yup.object().shape({
     handle: Yup.string()
@@ -51,13 +53,7 @@ function TalentLayerIdForm() {
     if (account && account.address && account.isConnected && publicClient && walletClient) {
       try {
         let tx;
-        const handlePrice: any = await publicClient.readContract({
-          address: config.contracts.talentLayerId,
-          abi: TalentLayerID.abi,
-          functionName: 'getHandlePrice',
-          args: [submittedValues.handle],
-          account: address,
-        });
+        const handlePrice = calculateMintFee(submittedValues.handle);
 
         if (process.env.NEXT_PUBLIC_ACTIVE_DELEGATE_MINT === 'true') {
           const response = await delegateMintID(
@@ -74,7 +70,7 @@ function TalentLayerIdForm() {
             functionName: 'mint',
             args: [process.env.NEXT_PUBLIC_PLATFORM_ID, submittedValues.handle],
             account: address,
-            value: handlePrice,
+            value: BigInt(handlePrice),
           });
         }
         await createTalentLayerIdTransactionToast(

@@ -48,7 +48,7 @@ function ServiceForm() {
   const { platformHasAccess } = useContext(Web3MailContext);
   const { address } = useAccount();
   const publiClient = usePublicClient({ chainId });
-  const { data: walletClient } = useWalletClient({chainId});
+  const { data: walletClient } = useWalletClient({ chainId });
   const router = useRouter();
   const allowedTokenList = useAllowedTokens();
   const [selectedToken, setSelectedToken] = useState<IToken>();
@@ -57,7 +57,9 @@ function ServiceForm() {
   const currentChain = chains.find(chain => chain.id === chainId);
   const platform = usePlatform(process.env.NEXT_PUBLIC_PLATFORM_ID as string);
   const servicePostingFee = platform?.servicePostingFee || 0;
-  const servicePostingFeeFormat = servicePostingFee ? Number(formatUnits(BigInt(servicePostingFee),Number(currentChain?.nativeCurrency?.decimals))) : 0;
+  const servicePostingFeeFormat = servicePostingFee
+    ? Number(formatUnits(BigInt(servicePostingFee), Number(currentChain?.nativeCurrency?.decimals)))
+    : 0;
 
   const validationSchema = Yup.object({
     title: Yup.string().required('Please provide a title for your service'),
@@ -130,7 +132,7 @@ function ServiceForm() {
             functionName: 'createService',
             args: [user?.id, process.env.NEXT_PUBLIC_PLATFORM_ID, cid, signature],
             account: address,
-            value: BigInt(servicePostingFee)
+            value: BigInt(servicePostingFee),
           });
         }
 
@@ -217,7 +219,11 @@ function ServiceForm() {
                   <ErrorMessage name='rateAmount' />
                 </span>
                 {servicePostingFeeFormat !== 0 && (
-                <span className='text-gray-100'>Fee for posting a service: {servicePostingFeeFormat} {currentChain?.nativeCurrency.symbol}</span>)}
+                  <span className='text-gray-100'>
+                    Fee for posting a service: {servicePostingFeeFormat}{' '}
+                    {currentChain?.nativeCurrency.symbol}
+                  </span>
+                )}
               </label>
               <label className='block'>
                 <span className='text-gray-100'>Token</span>

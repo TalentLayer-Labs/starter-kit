@@ -59,11 +59,13 @@ function ProposalForm({
   const { isActiveDelegate } = useContext(TalentLayerContext);
   const { platformHasAccess } = useContext(Web3MailContext);
   const [aiLoading, setAiLoading] = useState(false);
-  
+
   const currentChain = chains.find(chain => chain.id === chainId);
   const platform = usePlatform(process.env.NEXT_PUBLIC_PLATFORM_ID as string);
   const proposalPostingFee = platform?.proposalPostingFee || 0;
-  const proposalPostingFeeFormat = proposalPostingFee ? Number(formatUnits(BigInt(proposalPostingFee),Number(currentChain?.nativeCurrency.decimals))) : 0;
+  const proposalPostingFeeFormat = proposalPostingFee
+    ? Number(formatUnits(BigInt(proposalPostingFee), Number(currentChain?.nativeCurrency.decimals)))
+    : 0;
 
   if (allowedTokenList.length === 0) {
     return <div>Loading...</div>;
@@ -186,7 +188,7 @@ function ProposalForm({
                   signature,
                 ],
             account: address,
-            value: existingProposal ? 0n : BigInt(proposalPostingFee)
+            value: existingProposal ? 0n : BigInt(proposalPostingFee),
           });
         }
 
@@ -325,7 +327,11 @@ function ProposalForm({
               </span>
             </label>
             {proposalPostingFeeFormat !== 0 && !existingProposal && (
-                <span className='text-gray-100'>Fee for making a proposal: {proposalPostingFeeFormat} {currentChain?.nativeCurrency.symbol}</span>)}
+              <span className='text-gray-100'>
+                Fee for making a proposal: {proposalPostingFeeFormat}{' '}
+                {currentChain?.nativeCurrency.symbol}
+              </span>
+            )}
             <SubmitButton isSubmitting={isSubmitting} label='Post' />
           </div>
         </Form>
