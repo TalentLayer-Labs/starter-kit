@@ -45,20 +45,20 @@ function MyApp({ Component, pageProps }: AppProps) {
         <DefaultSeo {...SEO} />
         <WagmiConfig config={wagmiConfig}>
           <TalentLayerProvider>
-            <Web3MailProvider>
-              <XmtpContextProvider>
-                <MessagingProvider>
-                  <ThemeProvider enableSystem={false}>
-                    <Layout>
-                      <SpaceProvider>
+            <SpaceProvider>
+              <Web3MailProvider>
+                <XmtpContextProvider>
+                  <MessagingProvider>
+                    <ThemeProvider enableSystem={false}>
+                      <Layout>
                         <Component {...pageProps} />
-                      </SpaceProvider>
-                    </Layout>
-                  </ThemeProvider>
-                </MessagingProvider>
-              </XmtpContextProvider>
-              <ToastContainer position='bottom-right' />
-            </Web3MailProvider>
+                      </Layout>
+                    </ThemeProvider>
+                  </MessagingProvider>
+                </XmtpContextProvider>
+                <ToastContainer position='bottom-right' />
+              </Web3MailProvider>
+            </SpaceProvider>
           </TalentLayerProvider>
           <Web3Modal
             projectId={projectId}
