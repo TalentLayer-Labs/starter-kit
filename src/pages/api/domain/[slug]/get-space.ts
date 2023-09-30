@@ -11,7 +11,11 @@ import { getSpaceByDomain } from '../../../../modules/MultiDomain/actions';
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
   const { slug: domain } = req.query
 
-  const result = await getSpaceByDomain(domain);
+  if (!domain) {
+    return res.status(500).json({ error: "No domain provided." })
+  }
+
+  const result = await getSpaceByDomain(domain as string);
 
   return res.json(result);
 }

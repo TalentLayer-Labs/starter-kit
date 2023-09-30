@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { updateSpace, updateSpaceDomain } from '../../../modules/MultiDomain/actions';
+import { updateSpace } from '../../../modules/MultiDomain/actions';
 import { UpdateSpace } from '../../../modules/MultiDomain/types';
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {

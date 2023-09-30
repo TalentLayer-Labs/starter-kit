@@ -8,7 +8,7 @@ export function useGetSpace({ domain }: { domain: string }) {
     ), { refetchInterval: 5000, keepPreviousData: true }
   );
   return {
-    space: data,
+    space: data?.space,
     loading: isLoading,
   };
 }

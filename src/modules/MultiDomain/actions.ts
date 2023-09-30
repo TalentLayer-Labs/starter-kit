@@ -8,7 +8,7 @@ import {
   validDomainRegex,
 } from './domains';
 import { SpaceModel } from './models/SpaceModel';
-import { CreateSpaceAction, GetDomain, Space, UpdateSpace, UpdateSpaceDomain } from './types';
+import { CreateSpaceAction, Space, UpdateSpace, UpdateSpaceDomain } from './types';
 
 export const deleteSpace = async (subdomain: string) => {
   await connection();
@@ -107,7 +107,7 @@ export const getSpaceByDomain = async (domain: string) => {
 }
 
 // TODO! createSpace, can be used for the onboarding workflow maybe for the creating the subdomain & deleteSpace
-export const updateSpaceDomain = async (space: UpdateSpaceDomain) => {
+export const updateDomain = async (space: UpdateSpaceDomain) => {
   try {
     await connection();
     let response;

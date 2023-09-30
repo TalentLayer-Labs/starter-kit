@@ -5,12 +5,9 @@ import DomainConfiguration from '../../../modules/MultiDomain/components/DomainC
 import { GetServerSideProps } from 'next';
 import { useGetSpace } from '../../../modules/MultiDomain/hooks/UseGetSpace';
 
-export default function CustomDomain(props) {
+export default function CustomDomain() {
   const { space, loading } = useContext(SpaceContext);
   const [customDomain, setCustomDomain] = useState('');
-
-  console.log(props, "fuck me ");
-
 
   useEffect(() => {
     if (space?.customDomain) {

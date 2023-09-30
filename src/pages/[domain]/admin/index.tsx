@@ -15,18 +15,16 @@ export default function AdminDashboard() {
   // ----------------- create space -----------------
   const [createSpace, setCreateSpace] = useState<CreateSpaceProps>({ name: "testingFR", subdomain: "testing", primaryColor: "green", secondaryColor: "white" });
   const [createSpaceResponse, setCreateSpaceResponse] = useState("No response yet");
-  const createSpaceMutation = useCreateSpaceMutation();
+  const { data: createdSpace, mutateAsync: createSpaceAsync } = useCreateSpaceMutation();
   const handleCreateSpace = async () => {
     try {
-      const result = await createSpaceMutation.mutateAsync(createSpace);
-      setCreateSpaceResponse(`${result.name} space got created` || 'No response yet');
+      await createSpaceAsync(createSpace);
+      setCreateSpaceResponse(`${createdSpace?.name} space got created` || 'No response yet');
     } catch (error) {
       console.error('Error creating space:', error);
       setCreateSpaceResponse('Failed to create space');
     }
   };
-
-
 
   // ----------------- delete space -----------------
   const { mutate: deleteSpace, isLoading: isLoadingDelete

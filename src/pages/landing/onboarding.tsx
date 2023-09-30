@@ -6,15 +6,15 @@ import { generateSubdomainPrefix } from '../../modules/MultiDomain/utils';
 export default function Onboarding() {
   const [createSpace, setCreateSpace] = useState<CreateSpaceProps>({ name: "", subdomain: "", primaryColor: "", secondaryColor: "" });
   const [createSpaceResponse, setCreateSpaceResponse] = useState("No response yet");
-  const createSpaceMutation = useCreateSpaceMutation();
+  const { data: createdSpace, mutateAsync: createSpaceAsync } = useCreateSpaceMutation();
 
   const handleCreateSpace = async (e: any) => {
     e.preventDefault();
     try {
       const subdomainPrefix = generateSubdomainPrefix(createSpace.name);
       const subdomain = `${subdomainPrefix}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
-      const result = await createSpaceMutation.mutateAsync({ ...createSpace, subdomain });
-      setCreateSpaceResponse(`${result.name} space got created` || 'No response yet');
+      await createSpaceAsync({ ...createSpace, subdomain });
+      setCreateSpaceResponse(`${createSpace.name} space got created` || 'No response yet');
       window.location.href = `http://${subdomain}/admin`;
 
     } catch (error) {

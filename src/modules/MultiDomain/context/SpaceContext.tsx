@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { useGetSpace } from '../hooks/UseGetSpace';
 
 const SpaceContext = createContext<{
-  space?: Space;
+  space?: Space | undefined;
   loading: boolean;
   spaceNotFound: boolean;
 }>({

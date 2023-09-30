@@ -1,12 +1,13 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { UpdateSpaceDomain, updateSpaceDomain } from '../../../modules/MultiDomain/actions';
+import { UpdateSpaceDomain } from '../../../modules/MultiDomain/types';
+import { updateDomain } from '../../../modules/MultiDomain/actions';
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'PUT') {
     const body: UpdateSpaceDomain = req.body;
     console.log('Received data:', body);
 
-    const result = await updateSpaceDomain(body);
+    const result = await updateDomain(body);
 
     if (result?.error) {
       res.status(400).json({ error: result.error });
