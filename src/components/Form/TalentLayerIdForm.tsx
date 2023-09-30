@@ -33,7 +33,7 @@ function TalentLayerIdForm() {
   const { address } = useAccount();
   const publicClient = usePublicClient({ chainId });
   const router = useRouter();
-  const { mintFee, shortHandlesMaxPrice } = useMintFee();
+  const { calculateMintFee } = useMintFee();
 
   const validationSchema = Yup.object().shape({
     handle: Yup.string()
@@ -46,17 +46,14 @@ function TalentLayerIdForm() {
       }),
   });
 
-    
   const onSubmit = async (
     submittedValues: IFormValues,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void },
   ) => {
     if (account && account.address && account.isConnected && publicClient && walletClient) {
       try {
-        let tx; 
-        const length = submittedValues.handle.length;
-        const handlePrice = length > 4 ? mintFee : shortHandlesMaxPrice / Math.pow(2, length - 1);
-
+        let tx;
+        const handlePrice = calculateMintFee(submittedValues.handle);
 
         if (process.env.NEXT_PUBLIC_ACTIVE_DELEGATE_MINT === 'true') {
           const response = await delegateMintID(
