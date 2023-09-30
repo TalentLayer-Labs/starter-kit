@@ -4,7 +4,7 @@ import { renderTokenAmount } from '../utils/conversion';
 import { formatStringCompleteDate } from '../utils/dates';
 import usePaymentsForUser from '../hooks/usePaymentsForUser';
 import { useNetwork } from 'wagmi';
-import { mkConfig, generateCsv, download } from "export-to-csv";
+import { mkConfig, generateCsv, download } from 'export-to-csv';
 import { formatUnits } from 'viem';
 
 function UserIncomes({ id }: { id: string }) {
@@ -20,22 +20,22 @@ function UserIncomes({ id }: { id: string }) {
     endDate,
   );
 
-  const csvConfig = mkConfig({ useKeysAsHeaders: true,filename: "TL-Income" });
-  
+  const csvConfig = mkConfig({ useKeysAsHeaders: true, filename: 'TL-Income' });
+
   const handleExportToCsv = () => {
-    const csvContent = generateCsv(csvConfig)(payments.map(payment => ({
-      'Date': formatStringCompleteDate(payment.createdAt),
-      'Amount': formatUnits(BigInt(payment.amount), payment.rateToken.decimals),
-      'Token': payment.rateToken.symbol,
-      'Service': `Service n°${payment.service.id}`,
-      'Transaction Information': `${network.chain?.blockExplorers?.default.url}/tx/${payment.transactionHash}`
-    })));
+    const csvContent = generateCsv(csvConfig)(
+      payments.map(payment => ({
+        Date: formatStringCompleteDate(payment.createdAt),
+        Amount: formatUnits(BigInt(payment.amount), payment.rateToken.decimals),
+        Token: payment.rateToken.symbol,
+        Service: `Service n°${payment.service.id}`,
+        'Transaction Information': `${network.chain?.blockExplorers?.default.url}/tx/${payment.transactionHash}`,
+      })),
+    );
 
     download(csvConfig)(csvContent);
   };
 
-
-  
   return (
     <>
       <div className='pb-10'>
@@ -79,7 +79,7 @@ function UserIncomes({ id }: { id: string }) {
             onClick={handleExportToCsv}>
             Export to CSV
           </button>
-      )}
+        )}
       </div>
       {!payments || payments.length === 0 ? (
         <p className='text-2xl font-medium tracking-wider mb-8'>No incomes found</p>
@@ -114,7 +114,7 @@ function UserIncomes({ id }: { id: string }) {
                           Service n°{payment.service.id}{' '}
                         </a>
                       </td>
-                      <td className=' p-2 text-center text-blue-500 border-b border-gray-500' >
+                      <td className=' p-2 text-center text-blue-500 border-b border-gray-500'>
                         {network.chain?.id === 137 || network.chain?.id === 80001 ? (
                           <a
                             target='_blank'

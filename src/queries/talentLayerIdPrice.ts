@@ -1,8 +1,6 @@
 import { processRequest } from '../utils/graphql';
 
-export const getUserMintFee = (
-  chainId: number,
-): Promise<any> => {
+export const getUserMintFee = (chainId: number): Promise<any> => {
   const query = `
   {
     protocols {

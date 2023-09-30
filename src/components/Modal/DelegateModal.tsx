@@ -37,16 +37,15 @@ function DelegateModal() {
 
   const onSubmit = async (validateState: boolean) => {
     if (walletClient && publicClient && user) {
-      
-    await toggleDelegation(
-      chainId,
-      user.id,
-      config,
-      delegateAddress,
-      publicClient,
-      walletClient,
-      validateState,
-    );
+      await toggleDelegation(
+        chainId,
+        user.id,
+        config,
+        delegateAddress,
+        publicClient,
+        walletClient,
+        validateState,
+      );
     }
     setShow(false);
   };
