@@ -45,7 +45,7 @@ export async function getServerSideProps({ params }: any) {
   let space;
   console.log("for", domain)
   try {
-    const res = await fetch(`http://localhost:3000/api/domain/${domain}/get-space`);
+    const res = await fetch(`https://${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/api/domain/${domain}/get-space`);
     space = await res.json();
     console.log("space", space)
     if (!space.subdomain) {
