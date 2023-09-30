@@ -76,7 +76,7 @@ function AdminDispute() {
 
       <div className='grid grid-cols-1 gap-6 border border-gray-700 rounded-xl p-6 bg-endnight'>
         <SingleValueForm
-          validationDatas={{
+          validationData={{
             valueType: 'select',
             initialValue: platform?.arbitrator || ZERO_ADDRESS,
             selectOptions: availableArbitrators,
@@ -93,7 +93,7 @@ function AdminDispute() {
         />
 
         <SingleValueForm
-          validationDatas={{
+          validationData={{
             validationSchema: Yup.object({
               'Arbitration fee timeout (in seconds)': Yup.number().required('value is required'),
             }),
@@ -111,7 +111,7 @@ function AdminDispute() {
         />
 
         <SingleValueForm
-          validationDatas={{
+          validationData={{
             validationSchema: Yup.object({
               'Arbitration price (in Matic)': Yup.number().required('value is required'),
             }),
