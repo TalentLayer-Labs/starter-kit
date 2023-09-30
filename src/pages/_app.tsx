@@ -67,7 +67,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             chainImages={{ 134: `/images/blockchain/134.png` }}
           />
         </WagmiConfig>
-      </QueryClientProvider>
+      </QueryClientProvider >
     </>
   );
 }

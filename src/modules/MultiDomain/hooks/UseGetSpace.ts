@@ -7,8 +7,9 @@ export function useGetSpace({ domain }: { domain: string }) {
       res.json()
     ), { refetchInterval: 5000, keepPreviousData: true }
   );
+
   return {
-    space: data?.space,
+    space: data,
     loading: isLoading,
   };
 }

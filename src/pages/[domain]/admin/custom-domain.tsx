@@ -4,6 +4,7 @@ import { useUpdateSpaceDomain } from '../../../modules/MultiDomain/hooks/UseUpda
 import DomainConfiguration from '../../../modules/MultiDomain/components/DomainConfiguration';
 import { GetServerSideProps } from 'next';
 import { useGetSpace } from '../../../modules/MultiDomain/hooks/UseGetSpace';
+import { getSpaceByDomain } from '../../../modules/MultiDomain/actions';
 
 export default function CustomDomain() {
   const { space, loading } = useContext(SpaceContext);
@@ -13,7 +14,7 @@ export default function CustomDomain() {
     if (space?.customDomain) {
       setCustomDomain(space.customDomain);
     }
-  }, [space]);
+  }, [space, loading])
 
   const updateSpaceDomainMutation = useUpdateSpaceDomain();
   const handleUpdateDomainClick = async () => {
@@ -26,6 +27,7 @@ export default function CustomDomain() {
     }
   }
 
+  if (loading) return (<div>loading...</div>)
   return (
     <div>
       <p>Space name: {space?.name}</p>
@@ -43,12 +45,10 @@ export default function CustomDomain() {
 export async function getServerSideProps({ params }: any) {
   const domain = params.domain;
   let space;
-  console.log("for", domain)
   try {
-    const res = await fetch(`https://${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/api/domain/${domain}/get-space`);
-    space = await res.json();
-    console.log("space", space)
-    if (!space.subdomain) {
+    const res = await getSpaceByDomain(domain as string);
+    space = JSON.stringify(res)
+    if (res.error) {
       return { notFound: true };
     }
   } catch (error) {

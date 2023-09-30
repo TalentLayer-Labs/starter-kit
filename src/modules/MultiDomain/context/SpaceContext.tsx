@@ -28,9 +28,7 @@ const SpaceProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     fetchData();
-  }, [space, spaceNotFound]);
-
-
+  }, [space, spaceNotFound, query, domain]);
 
   const value = useMemo(() => {
     return {
