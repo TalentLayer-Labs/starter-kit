@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useChainId } from './useChainId';
-import { getUserMintFee } from '../queries/talentLayerIdPrice';
+import { getUserMintFee } from '../queries/protocols';
 
 const useMintFee = () => {
   const chainId = useChainId();
