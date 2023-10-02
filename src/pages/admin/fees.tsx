@@ -28,16 +28,6 @@ function AdminFees() {
     return <UserNeedsMoreRights />;
   }
 
-  const transformFeeRate = (value: number | string): number => {
-    console.log("testing hook: ", Math.round((Number(value) * FEE_RATE_DIVIDER) / 100))
-    return Number(value);
-  };
-
-  const transformFee = (value: number | string): BigInt => {
-    console.log("kit: parse ether", parseEther(value.toString()));
-    return parseEther(value.toString());
-  };
-
   return (
     <div className='max-w-7xl mx-auto text-gray-200 sm:px-4 lg:px-0'>
       <div className=' -mx-6 -mt-6 '>
@@ -57,7 +47,6 @@ function AdminFees() {
             }),
             valueType: 'number',
             initialValue: ((platform?.originServiceFeeRate || 0) * 100) / FEE_RATE_DIVIDER,
-            hookModifyValue: transformFeeRate,
           }}
           contractParams={{
             contractFunctionName: 'updateOriginServiceFeeRate',
@@ -80,7 +69,6 @@ function AdminFees() {
             valueType: 'number',
             initialValue:
               ((platform?.originValidatedProposalFeeRate || 0) * 100) / FEE_RATE_DIVIDER,
-            hookModifyValue: transformFeeRate,
           }}
           contractParams={{
             contractFunctionName: 'updateOriginValidatedProposalFeeRate',
@@ -102,7 +90,6 @@ function AdminFees() {
             initialValue: platform?.servicePostingFee
               ? formatEther(BigInt(platform?.servicePostingFee))
               : 0,
-            // hookModifyValue: transformFee,
           }}
           contractParams={{
             contractFunctionName: 'updateServicePostingFee',
@@ -124,7 +111,6 @@ function AdminFees() {
             initialValue: platform?.proposalPostingFee
               ? formatEther(BigInt(platform?.proposalPostingFee))
               : 0,
-            // hookModifyValue: transformFee,
           }}
           contractParams={{
             contractFunctionName: 'updateProposalPostingFee',

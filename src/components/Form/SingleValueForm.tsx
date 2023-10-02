@@ -1,12 +1,12 @@
 import { useWeb3Modal } from '@web3modal/react';
 import { Field, Form, Formik } from 'formik';
-import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
+import { usePublicClient } from 'wagmi';
 import * as Yup from 'yup';
 import { ObjectShape } from 'yup/lib/object';
 import { useChainId } from '../../hooks/useChainId';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../utils/toast';
 import SubmitButton from './SubmitButton';
-import { Abi, Address } from 'viem';
+import { Address } from 'viem';
 import useTlClient from '../../hooks/useTlClient';
 
 interface validationDataType {
@@ -36,24 +36,19 @@ function SingleValueForm({
   valueName: string;
   callback?: () => void;
 }) {
-  const { validationSchema, valueType, initialValue, selectOptions, hookModifyValue } =
-    validationData;
-  const { contractFunctionName, contractEntity, contractInputs, contractAddress, contractAbi } =
-    contractParams;
+  const { validationSchema, valueType, initialValue, selectOptions } = validationData;
+  const { contractFunctionName, contractEntity } = contractParams;
 
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
   const publicClient = usePublicClient({ chainId });
-  const { data: walletClient } = useWalletClient({ chainId });
-  const { address } = useAccount();
   const tlClient = useTlClient(chainId, '2TcBxC3hzB3bMUgpD3FkxI6tt4D', '29e380e2b6b89499074b90b2b5b8ebb9');
 
   const onSubmit = async (
     values: any,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void; resetForm: () => void },
   ) => {
-    console.log("values: ", values);
-    if (publicClient && walletClient && values && tlClient) {
+    if (publicClient && values && tlClient) {
       try {
         let value = values[valueName];
 
@@ -61,23 +56,8 @@ function SingleValueForm({
           return;
         }
 
-        if (hookModifyValue) {
-          value = hookModifyValue(value);
-        }
-
-        // const tx = await walletClient.writeContract({
-        //   address: contractAddress,
-        //   abi: contractAbi,
-        //   functionName: contractFunctionName,
-        //   args: [contractInputs, value],
-        //   account: address,
-        // });
-
-
         //  @ts-ignore
-        const tx = await tlClient.platform.setArbitrator(value);
-
-        console.log("KIT: tx", tx);
+        const tx = await tlClient[contractEntity][contractFunctionName](value);
 
         await createMultiStepsTransactionToast(
           chainId,
@@ -141,4 +121,3 @@ function SingleValueForm({
 }
 
 export default SingleValueForm;
-// TODO: fix the integration of sdk in this form
