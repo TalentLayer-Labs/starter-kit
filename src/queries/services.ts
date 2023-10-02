@@ -62,7 +62,6 @@ const serviceDescriptionQueryFields = `
   }
 `;
 
-// DONE
 const getFilteredServiceCondition = (params: IProps) => {
   let condition = ', where: {';
   condition += params.serviceStatus ? `status: "${params.serviceStatus}"` : '';
@@ -73,7 +72,6 @@ const getFilteredServiceCondition = (params: IProps) => {
   return condition === ', where: {}' ? '' : condition;
 };
 
-// DONE
 const getFilteredServiceDescriptionCondition = (params: IProps) => {
   let condition = ', where: {';
   condition += params.serviceStatus ? `service_: {status:"${params.serviceStatus}"}` : '';
@@ -84,7 +82,6 @@ const getFilteredServiceDescriptionCondition = (params: IProps) => {
   return condition === ', where: {}' ? '' : condition;
 };
 
-// DONE
 export const getServices = (chainId: number, params: IProps): Promise<any> => {
   const pagination = params.numberPerPage
     ? 'first: ' + params.numberPerPage + ', skip: ' + params.offset
@@ -104,7 +101,6 @@ export const getServices = (chainId: number, params: IProps): Promise<any> => {
   return processRequest(chainId, query);
 };
 
-// DONE
 export const searchServices = (chainId: number, params: IProps): Promise<any> => {
   const pagination = params.numberPerPage
     ? 'first: ' + params.numberPerPage + ' skip: ' + params.offset
@@ -126,7 +122,6 @@ export const searchServices = (chainId: number, params: IProps): Promise<any> =>
   return processRequest(chainId, query);
 };
 
-// DONE
 export const getServiceById = (chainId: number, id: string): Promise<any> => {
   const query = `
     {

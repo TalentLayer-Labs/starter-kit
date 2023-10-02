@@ -73,14 +73,7 @@ function TalentLayerIdForm() {
           if (tlClient) {
             tx = await tlClient.profile.create(submittedValues.handle);
           }
-          // tx = await walletClient.writeContract({
-          //   address: config.contracts.talentLayerId,
-          //   abi: TalentLayerID.abi,
-          //   functionName: 'mint',
-          //   args: [process.env.NEXT_PUBLIC_PLATFORM_ID, submittedValues.handle],
-          //   account: address,
-          //   value: handlePrice,
-          // });
+
         }
         await createTalentLayerIdTransactionToast(
           chainId,

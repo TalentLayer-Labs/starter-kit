@@ -4,7 +4,6 @@ import { useContext } from 'react';
 import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
 import TalentLayerContext from '../../context/talentLayer';
-import TalentLayerReview from '../../contracts/ABI/TalentLayerReview.json';
 import { postToIPFS } from '../../utils/ipfs';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../utils/toast';
 import SubmitButton from './SubmitButton';
@@ -83,13 +82,6 @@ function ReviewForm({ serviceId }: { serviceId: string }) {
              )
              tx = res.tx;
           }
-          // tx = await walletClient.writeContract({
-          //   address: config.contracts.talentLayerReview,
-          //   abi: TalentLayerReview.abi,
-          //   functionName: 'mint',
-          //   args: [user.id, serviceId, uri, values.rating],
-          //   account: address,
-          // });
         }
 
         await createMultiStepsTransactionToast(

@@ -4,7 +4,6 @@ import { useChainId } from '../hooks/useChainId';
 import { getUserByAddress } from '../queries/users';
 import { IAccount, IUser } from '../types';
 import { getCompletionScores, ICompletionScores } from '../utils/profile';
-import { getPlatform } from '../queries/platform';
 import { toast } from 'react-toastify';
 import { chains, defaultChain } from '../pages/_app';
 import useTlClient from '../hooks/useTlClient';
