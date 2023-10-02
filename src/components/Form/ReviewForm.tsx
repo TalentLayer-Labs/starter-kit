@@ -11,7 +11,7 @@ import { getUserByAddress } from '../../queries/users';
 import { delegateMintReview } from '../request';
 import { useChainId } from '../../hooks/useChainId';
 import { useConfig } from '../../hooks/useConfig';
-import useTlClient from '../../hooks/useTlClient';
+import useTalentLayerClient from '../../hooks/useTalentLayerClient';
 
 interface IFormValues {
   content: string;
@@ -37,7 +37,7 @@ function ReviewForm({ serviceId }: { serviceId: string }) {
   const publicClient = usePublicClient({ chainId });
   const { data: walletClient } = useWalletClient({ chainId });
   const { address } = useAccount();
-  const tlClient = useTlClient(chainId, '2TcBxC3hzB3bMUgpD3FkxI6tt4D', '29e380e2b6b89499074b90b2b5b8ebb9');
+  const tlClient = useTalentLayerClient(chainId, '2TcBxC3hzB3bMUgpD3FkxI6tt4D', '29e380e2b6b89499074b90b2b5b8ebb9');
 
   const onSubmit = async (
     values: IFormValues,

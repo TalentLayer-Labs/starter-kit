@@ -12,7 +12,7 @@ import { useConfig } from '../../hooks/useConfig';
 import usePlatform from '../../hooks/usePlatform';
 import { formatEther } from 'viem';
 import { ZERO_ADDRESS } from '../../utils/constant';
-import useTlClient from '../../hooks/useTlClient';
+import useTalentLayerClient from '../../hooks/useTalentLayerClient';
 
 function AdminDispute() {
   const { user, loading } = useContext(TalentLayerContext);
@@ -21,7 +21,7 @@ function AdminDispute() {
   const chainId = useChainId();
   const [arbitratorPrice, setArbitratorPrice] = useState<number>(0);
   let availableArbitrators: { value: string; label: string }[] = [];
-  const tlClient = useTlClient(chainId, '2TcBxC3hzB3bMUgpD3FkxI6tt4D', '29e380e2b6b89499074b90b2b5b8ebb9');
+  const tlClient = useTalentLayerClient(chainId, '2TcBxC3hzB3bMUgpD3FkxI6tt4D', '29e380e2b6b89499074b90b2b5b8ebb9');
 
   const fetchArbitrationPrice = async () => {
     if (tlClient) {

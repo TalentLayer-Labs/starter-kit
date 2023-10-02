@@ -2,7 +2,7 @@ import { TalentLayerClient } from "@TalentLayer/client";
 import { useEffect, useState } from "react";
 
 
-const useTlClient = (chainId: number, infuraClientId: string, infuraClientSecret: string) => {
+const useTalentLayerClient = (chainId: number, infuraClientId: string, infuraClientSecret: string) => {
     const [tlClient, setTlClient] = useState<TalentLayerClient>();
 
     useEffect(() => {
@@ -20,4 +20,4 @@ const useTlClient = (chainId: number, infuraClientId: string, infuraClientSecret
     return tlClient;
 }
 
-export default useTlClient;
+export default useTalentLayerClient;

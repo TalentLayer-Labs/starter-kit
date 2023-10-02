@@ -13,7 +13,7 @@ import { HandlePrice } from './handle-price';
 import { delegateMintID } from '../request';
 import { useChainId } from '../../hooks/useChainId';
 import { useConfig } from '../../hooks/useConfig';
-import useTlClient from '../../hooks/useTlClient';
+import useTalentLayerClient from '../../hooks/useTalentLayerClient';
 import { NetworkEnum } from '../../types';
 
 interface IFormValues {
@@ -33,7 +33,7 @@ function TalentLayerIdForm() {
   const { address } = useAccount();
   const publicClient = usePublicClient({ chainId });
   const router = useRouter();
-  const tlClient = useTlClient(chainId, '2TcBxC3hzB3bMUgpD3FkxI6tt4D', '29e380e2b6b89499074b90b2b5b8ebb9');
+  const tlClient = useTalentLayerClient(chainId, '2TcBxC3hzB3bMUgpD3FkxI6tt4D', '29e380e2b6b89499074b90b2b5b8ebb9');
 
   const validationSchema = Yup.object().shape({
     handle: Yup.string()

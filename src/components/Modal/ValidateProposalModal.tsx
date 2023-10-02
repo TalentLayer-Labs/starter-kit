@@ -9,7 +9,7 @@ import { IAccount, IProposal } from '../../types';
 import { renderTokenAmount } from '../../utils/conversion';
 import Step from '../Step';
 import { useChainId } from '../../hooks/useChainId';
-import useTlClient from '../../hooks/useTlClient';
+import useTalentLayerClient from '../../hooks/useTalentLayerClient';
 import { ZERO_ADDRESS } from '../../utils/constant';
 
 function ValidateProposalModal({ proposal, account }: { proposal: IProposal; account: IAccount }) {
@@ -28,7 +28,7 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
   });
 
   console.log({isProposalUseEth}, proposal.rateToken.address)
-  const tlClient = useTlClient(chainId, '2TcBxC3hzB3bMUgpD3FkxI6tt4D', '29e380e2b6b89499074b90b2b5b8ebb9');
+  const tlClient = useTalentLayerClient(chainId, '2TcBxC3hzB3bMUgpD3FkxI6tt4D', '29e380e2b6b89499074b90b2b5b8ebb9');
   
 
   const originValidatedProposalPlatformId = proposal.platform.id;

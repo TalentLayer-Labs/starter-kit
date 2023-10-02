@@ -22,7 +22,7 @@ import Loading from '../Loading';
 import ServiceItem from '../ServiceItem';
 import { delegateCreateOrUpdateProposal } from '../request';
 import SubmitButton from './SubmitButton';
-import useTlClient from '../../hooks/useTlClient';
+import useTalentLayerClient from '../../hooks/useTalentLayerClient';
 
 interface IFormValues {
   about: string;
@@ -58,7 +58,7 @@ function ProposalForm({
   const { isActiveDelegate } = useContext(TalentLayerContext);
   const { platformHasAccess } = useContext(Web3MailContext);
   const [aiLoading, setAiLoading] = useState(false);
-  const tlClient = useTlClient(chainId, '2TcBxC3hzB3bMUgpD3FkxI6tt4D', '29e380e2b6b89499074b90b2b5b8ebb9');
+  const tlClient = useTalentLayerClient(chainId, '2TcBxC3hzB3bMUgpD3FkxI6tt4D', '29e380e2b6b89499074b90b2b5b8ebb9');
 
   if (allowedTokenList.length === 0) {
     return <div>Loading...</div>;
