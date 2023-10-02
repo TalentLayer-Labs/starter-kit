@@ -18,7 +18,7 @@ import Loading from '../Loading';
 import { delegateUpdateProfileData } from '../request';
 import SubmitButton from './SubmitButton';
 import { SkillsInput } from './skills-input';
-import { TalentLayerClient } from '@TalentLayer/client';
+import useTalentLayerClient from '../../hooks/useTalentLayerClient';
 
 interface IFormValues {
   title?: string;
@@ -45,19 +45,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
   const { address } = useAccount();
   const [aiLoading, setAiLoading] = useState(false);
   const userDescription = user?.id ? useUserById(user?.id)?.description : null;
-  const [tlClient, setTlClient] = useState<TalentLayerClient>();
-
-  useEffect(() => {
-    if (chainId) {
-      const _tlClient = new TalentLayerClient({
-        chainId,
-        infuraClientId: '2TcBxC3hzB3bMUgpD3FkxI6tt4D',
-        infuraClientSecret: '29e380e2b6b89499074b90b2b5b8ebb9',
-        platformId: 4
-      });
-      setTlClient(_tlClient);
-    }
-  }, [chainId]);
+  const tlClient = useTalentLayerClient();
 
   if (!user?.id) {
     return <Loading />;

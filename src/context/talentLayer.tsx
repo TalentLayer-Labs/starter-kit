@@ -6,7 +6,7 @@ import { IAccount, IUser } from '../types';
 import { getCompletionScores, ICompletionScores } from '../utils/profile';
 import { toast } from 'react-toastify';
 import { chains, defaultChain } from '../pages/_app';
-import useTalentLayerClient from '../hooks/useTalentLayerClient';
+import { TalentLayerClient } from '@TalentLayer/client';
 
 const TalentLayerContext = createContext<{
   user?: IUser;
@@ -15,6 +15,7 @@ const TalentLayerContext = createContext<{
   refreshData: () => Promise<boolean>;
   loading: boolean;
   completionScores?: ICompletionScores;
+  talentLayerClient?: TalentLayerClient;
 }>({
   user: undefined,
   account: undefined,
@@ -34,7 +35,7 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
   const [isActiveDelegate, setIsActiveDelegate] = useState(false);
   const [loading, setLoading] = useState(true);
   const [completionScores, setCompletionScores] = useState<ICompletionScores | undefined>();
-  const tlClient = useTalentLayerClient(chainId, '2TcBxC3hzB3bMUgpD3FkxI6tt4D', '29e380e2b6b89499074b90b2b5b8ebb9');
+  const [talentLayerClient, setTalentLayerClient] = useState<TalentLayerClient>();
 
   // automatically switch to the default chain is the current one is not part of the config
   useEffect(() => {
@@ -43,10 +44,19 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
     if (!chain && defaultChain) {
       switchNetwork(defaultChain.id);
     }
+    if (chainId) {
+      const tlClient = new TalentLayerClient({
+        chainId,
+        infuraClientId: (process.env.NEXT_PUBLIC_INFURA_ID as string),
+        infuraClientSecret: (process.env.NEXT_PUBLIC_INFURA_SECRET as string),
+        platformId: 25
+    })
+      setTalentLayerClient(tlClient);
+    }
   }, [chainId, switchNetwork]);
 
   const fetchData = async () => {
-    if (!account.address || !account.isConnected || !tlClient) {
+    if (!account.address || !account.isConnected || !talentLayerClient) {
       setLoading(false);
       return false;
     }
@@ -61,15 +71,11 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
 
       const currentUser = userResponse.data.data.users[0];
 
-      if (tlClient) {
-        const _platform = await tlClient.platform.getOne("4");
-        console.log("starter kit: platform", _platform);
-        
+      if (talentLayerClient) {
+        const platform = await talentLayerClient.platform.getOne((process.env.NEXT_PUBLIC_PLATFORM_ID as string));;
+        currentUser.isAdmin = platform?.address === currentUser?.address;
       }
-
-      const platform = await tlClient.platform.getOne((process.env.NEXT_PUBLIC_PLATFORM_ID as string));;
-      currentUser.isAdmin = platform?.address === currentUser?.address;
-
+      
       setUser(currentUser);
       setIsActiveDelegate(
         process.env.NEXT_PUBLIC_ACTIVE_DELEGATE === 'true' &&
@@ -100,7 +106,7 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     fetchData();
-  }, [chainId, account.address, tlClient]);
+  }, [chainId, account.address, talentLayerClient]);
 
   useEffect(() => {
     if (!user) return;
@@ -116,8 +122,9 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
       refreshData: fetchData,
       loading,
       completionScores,
+      talentLayerClient
     };
-  }, [account.address, user?.id, isActiveDelegate, loading, completionScores]);
+  }, [account.address, user?.id, isActiveDelegate, loading, completionScores, talentLayerClient]);
 
   return <TalentLayerContext.Provider value={value}>{children}</TalentLayerContext.Provider>;
 };

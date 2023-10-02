@@ -1,7 +1,7 @@
 import { useWeb3Modal } from '@web3modal/react';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useContext } from 'react';
-import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
+import { usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
 import TalentLayerContext from '../../context/talentLayer';
 import { postToIPFS } from '../../utils/ipfs';
@@ -10,7 +10,6 @@ import SubmitButton from './SubmitButton';
 import { getUserByAddress } from '../../queries/users';
 import { delegateMintReview } from '../request';
 import { useChainId } from '../../hooks/useChainId';
-import { useConfig } from '../../hooks/useConfig';
 import useTalentLayerClient from '../../hooks/useTalentLayerClient';
 
 interface IFormValues {
@@ -29,15 +28,13 @@ const initialValues: IFormValues = {
 };
 
 function ReviewForm({ serviceId }: { serviceId: string }) {
-  const config = useConfig();
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
   const { user } = useContext(TalentLayerContext);
   const { isActiveDelegate } = useContext(TalentLayerContext);
   const publicClient = usePublicClient({ chainId });
   const { data: walletClient } = useWalletClient({ chainId });
-  const { address } = useAccount();
-  const tlClient = useTalentLayerClient(chainId, '2TcBxC3hzB3bMUgpD3FkxI6tt4D', '29e380e2b6b89499074b90b2b5b8ebb9');
+  const tlClient = useTalentLayerClient();
 
   const onSubmit = async (
     values: IFormValues,

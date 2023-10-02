@@ -42,7 +42,7 @@ function SingleValueForm({
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
   const publicClient = usePublicClient({ chainId });
-  const tlClient = useTalentLayerClient(chainId, '2TcBxC3hzB3bMUgpD3FkxI6tt4D', '29e380e2b6b89499074b90b2b5b8ebb9');
+  const tlClient = useTalentLayerClient();
 
   const onSubmit = async (
     values: any,

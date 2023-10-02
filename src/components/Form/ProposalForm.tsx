@@ -6,7 +6,6 @@ import { formatUnits } from 'viem';
 import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
 import TalentLayerContext from '../../context/talentLayer';
-import ServiceRegistry from '../../contracts/ABI/TalentLayerService.json';
 import useAllowedTokens from '../../hooks/useAllowedTokens';
 import { useChainId } from '../../hooks/useChainId';
 import { useConfig } from '../../hooks/useConfig';
@@ -15,8 +14,6 @@ import Web3MailContext from '../../modules/Web3mail/context/web3mail';
 import { createWeb3mailToast } from '../../modules/Web3mail/utils/toast';
 import { IProposal, IService, IUser } from '../../types';
 import { parseRateAmount } from '../../utils/currency';
-import { postToIPFS } from '../../utils/ipfs';
-import { getProposalSignature } from '../../utils/signature';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../utils/toast';
 import Loading from '../Loading';
 import ServiceItem from '../ServiceItem';
@@ -48,17 +45,15 @@ function ProposalForm({
   service: IService;
   existingProposal?: IProposal;
 }) {
-  const config = useConfig();
   const chainId = useChainId();
   const publicClient = usePublicClient({ chainId });
   const { data: walletClient } = useWalletClient({ chainId });
-  const { address } = useAccount();
   const router = useRouter();
   const allowedTokenList = useAllowedTokens();
   const { isActiveDelegate } = useContext(TalentLayerContext);
   const { platformHasAccess } = useContext(Web3MailContext);
   const [aiLoading, setAiLoading] = useState(false);
-  const tlClient = useTalentLayerClient(chainId, '2TcBxC3hzB3bMUgpD3FkxI6tt4D', '29e380e2b6b89499074b90b2b5b8ebb9');
+  const tlClient = useTalentLayerClient();
 
   if (allowedTokenList.length === 0) {
     return <div>Loading...</div>;

@@ -18,16 +18,13 @@ function AdminDispute() {
   const { user, loading } = useContext(TalentLayerContext);
   const config = useConfig();
   const platform = usePlatform(process.env.NEXT_PUBLIC_PLATFORM_ID as string);
-  const chainId = useChainId();
   const [arbitratorPrice, setArbitratorPrice] = useState<number>(0);
   let availableArbitrators: { value: string; label: string }[] = [];
-  const tlClient = useTalentLayerClient(chainId, '2TcBxC3hzB3bMUgpD3FkxI6tt4D', '29e380e2b6b89499074b90b2b5b8ebb9');
+  const tlClient = useTalentLayerClient();
 
   const fetchArbitrationPrice = async () => {
     if (tlClient) {
-      console.log("Starter kit: price before");
       const _price = await tlClient.disputes.getArbitrationPrice();
-      console.log("Starter kit: price", _price);
       setArbitratorPrice(_price);
     }
   };

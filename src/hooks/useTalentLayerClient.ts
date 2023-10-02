@@ -1,23 +1,12 @@
 import { TalentLayerClient } from "@TalentLayer/client";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import TalentLayerContext from "../context/talentLayer";
 
 
-const useTalentLayerClient = (chainId: number, infuraClientId: string, infuraClientSecret: string) => {
-    const [tlClient, setTlClient] = useState<TalentLayerClient>();
+const useTalentLayerClient = () => {
+    const talentLayerContext = useContext(TalentLayerContext);
 
-    useEffect(() => {
-        if (chainId) {
-            const _tlClient = new TalentLayerClient({
-                chainId,
-                infuraClientId,
-                infuraClientSecret,
-                platformId: 25
-            });
-            setTlClient(_tlClient);
-        }
-    }, [chainId]);
-
-    return tlClient;
+    return talentLayerContext.talentLayerClient;
 }
 
 export default useTalentLayerClient;

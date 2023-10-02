@@ -1,7 +1,7 @@
 import { useWeb3Modal } from '@web3modal/react';
 import { Field, Form, Formik } from 'formik';
 import { useContext } from 'react';
-import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
+import { usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
 import SubmitButton from '../../components/Form/SubmitButton';
 import Loading from '../../components/Loading';
@@ -9,7 +9,6 @@ import Steps from '../../components/Steps';
 import UserNeedsMoreRights from '../../components/UserNeedsMoreRights';
 import TalentLayerContext from '../../context/talentLayer';
 import { useChainId } from '../../hooks/useChainId';
-import { useConfig } from '../../hooks/useConfig';
 import usePlatform from '../../hooks/usePlatform';
 import useTalentLayerClient from '../../hooks/useTalentLayerClient';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../utils/toast';
@@ -31,11 +30,9 @@ function AdminPresentation() {
   const platformDescription = platform?.description;
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
-  const config = useConfig();
   const publicClient = usePublicClient({ chainId });
   const { data: walletClient } = useWalletClient({ chainId });
-  const { address } = useAccount();
-  const tlClient = useTalentLayerClient(chainId, '2TcBxC3hzB3bMUgpD3FkxI6tt4D', '29e380e2b6b89499074b90b2b5b8ebb9');
+  const tlClient = useTalentLayerClient();
 
   if (loading) {
     return <Loading />;

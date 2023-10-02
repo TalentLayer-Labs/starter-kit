@@ -3,21 +3,17 @@ import { formatUnits } from 'viem';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useContext, useState } from 'react';
 import { useRouter } from 'next/router';
-import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
+import { usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
 import TalentLayerContext from '../../context/talentLayer';
-import ServiceRegistry from '../../contracts/ABI/TalentLayerService.json';
-import { postToIPFS } from '../../utils/ipfs';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../utils/toast';
 import { parseRateAmount } from '../../utils/currency';
 import SubmitButton from './SubmitButton';
 import useAllowedTokens from '../../hooks/useAllowedTokens';
-import { getServiceSignature } from '../../utils/signature';
 import { IToken } from '../../types';
 import { SkillsInput } from './skills-input';
 import { delegateCreateService } from '../request';
 import { useChainId } from '../../hooks/useChainId';
-import { useConfig } from '../../hooks/useConfig';
 import { createWeb3mailToast } from '../../modules/Web3mail/utils/toast';
 import Web3MailContext from '../../modules/Web3mail/context/web3mail';
 import useTalentLayerClient from '../../hooks/useTalentLayerClient';
@@ -39,13 +35,11 @@ const initialValues: IFormValues = {
 };
 
 function ServiceForm() {
-  const config = useConfig();
   const chainId = useChainId();
 
   const { open: openConnectModal } = useWeb3Modal();
   const { user, account } = useContext(TalentLayerContext);
   const { platformHasAccess } = useContext(Web3MailContext);
-  const { address } = useAccount();
   const publiClient = usePublicClient({ chainId });
   const { data: walletClient } = useWalletClient({
     chainId,
@@ -55,8 +49,7 @@ function ServiceForm() {
   const allowedTokenList = useAllowedTokens();
   const [selectedToken, setSelectedToken] = useState<IToken>();
   const { isActiveDelegate } = useContext(TalentLayerContext);
-
-  const tlClient = useTalentLayerClient(chainId, '2TcBxC3hzB3bMUgpD3FkxI6tt4D', '29e380e2b6b89499074b90b2b5b8ebb9');
+  const tlClient = useTalentLayerClient();
 
   const validationSchema = Yup.object({
     title: Yup.string().required('Please provide a title for your service'),
