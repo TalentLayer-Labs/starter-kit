@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import { getNewPayments } from '../../../queries/payments';
-import { EmailType, IPayment, IUser, PaymentTypeEnum } from '../../../types';
+import { EmailType, IPayment, IUser, NotificationApiUri, PaymentTypeEnum } from '../../../types';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { sendMailToAddresses } from '../../../scripts/iexec/sendMailToAddresses';
 import { getUsersWeb3MailPreference } from '../../../queries/users';
@@ -31,7 +31,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const { sinceTimestamp, cronDuration } = calculateCronData(
     req,
     RETRY_FACTOR,
-    EmailType.FundRelease,
+    NotificationApiUri.FundRelease,
   );
   try {
     const response = await getNewPayments(Number(chainId), platformId, sinceTimestamp);

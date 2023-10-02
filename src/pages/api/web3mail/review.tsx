@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { EmailType, IReview, IUser } from '../../../types';
+import { EmailType, IReview, IUser, NotificationApiUri } from '../../../types';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { sendMailToAddresses } from '../../../scripts/iexec/sendMailToAddresses';
 import { getUsersWeb3MailPreference } from '../../../queries/users';
@@ -28,7 +28,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   await mongoose.connect(mongoUri as string);
 
   // Check whether the user provided a timestamp or if it will come from the cron config
-  const { sinceTimestamp, cronDuration } = calculateCronData(req, RETRY_FACTOR, EmailType.Review);
+  const { sinceTimestamp, cronDuration } = calculateCronData(
+    req,
+    RETRY_FACTOR,
+    NotificationApiUri.Review,
+  );
 
   try {
     const response = await getNewReviews(Number(chainId), platformId, sinceTimestamp);

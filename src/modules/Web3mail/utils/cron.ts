@@ -1,5 +1,5 @@
 import { NextApiRequest } from 'next';
-import { EmailType } from '../../../types';
+import { NotificationApiUri } from '../../../types';
 import * as vercel from '../../../../vercel.json';
 import { parseExpression } from 'cron-parser';
 
@@ -15,7 +15,7 @@ import { parseExpression } from 'cron-parser';
 export const calculateCronData = (
   req: NextApiRequest,
   RETRY_FACTOR: number,
-  emailType: EmailType,
+  apiUri: NotificationApiUri,
 ): { cronDuration: number; sinceTimestamp: string } => {
   let sinceTimestamp: string = '';
   let cronDuration = 0;
@@ -23,9 +23,9 @@ export const calculateCronData = (
     sinceTimestamp = req.query.sinceTimestamp as string;
     console.log('Timestamp set from query', sinceTimestamp);
   } else {
-    const cronSchedule = vercel?.crons?.find(cron => cron.type == emailType)?.schedule;
+    const cronSchedule = vercel?.crons?.find(cron => cron.path.includes(apiUri))?.schedule;
     if (cronSchedule) {
-      console.log('Timestamp set from cron');
+      console.log('Timestamp set from cron', cronSchedule);
     } else {
       throw new Error('No vercel.json configured');
     }

@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { EmailType, IService, IUser } from '../../../types';
+import { EmailType, IService, IUser, NotificationApiUri } from '../../../types';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { sendMailToAddresses } from '../../../scripts/iexec/sendMailToAddresses';
 import { getWeb3mailUsersForNewServices } from '../../../queries/users';
@@ -40,7 +40,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const { sinceTimestamp, cronDuration } = calculateCronData(
     req,
     RETRY_FACTOR,
-    EmailType.NewService,
+    NotificationApiUri.NewService,
   );
 
   try {

@@ -314,12 +314,10 @@ export enum EmailType {
   NewService = 'newService',
 }
 
-// export enum Web3mailPreferences {
-//   activeOnNewService = 'activeOnNewService',
-//   activeOnNewProposal = 'activeOnNewProposal',
-//   activeOnProposalValidated = 'activeOnProposalValidated',
-//   activeOnFundRelease = 'activeOnFundRelease',
-//   activeOnReview = 'activeOnReview',
-//   activeOnPlatformMarketing = 'activeOnPlatformMarketing',
-//   activeOnProtocolMarketing = 'activeOnProtocolMarketing',
-// }
+export enum NotificationApiUri {
+  NewProposal = 'new-proposal',
+  ProposalValidated = 'proposal-validated',
+  FundRelease = 'fund-release',
+  Review = 'review',
+  NewService = 'new-service',
+}
