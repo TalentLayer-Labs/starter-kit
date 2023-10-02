@@ -112,9 +112,9 @@ export const updateDomain = async (space: UpdateSpaceDomain) => {
     await connection();
     let response;
 
-    if (space.customDomain.includes('builders.space')) {
+    if (space.customDomain.includes('builder.place')) {
       return {
-        error: 'Cannot use builders.space subdomain as your custom domain',
+        error: 'Cannot use builder.place subdomain as your custom domain',
       };
 
       // if the custom domain is valid, we need to store it and add it to Vercel
