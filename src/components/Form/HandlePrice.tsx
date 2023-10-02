@@ -8,8 +8,8 @@ import useMintFee from '../../hooks/useMintFee';
 export function HandlePrice({ handle }: { handle: string }) {
   const [price, setPrice] = useState(0);
   const chainId = useChainId();
-  const currentChain = chains.find(chain => chain.id === chainId);
   const { calculateMintFee } = useMintFee();
+  const currentChain = chains.find(chain => chain.id === chainId);
 
   useEffect(() => {
     const newPrice = calculateMintFee(handle);

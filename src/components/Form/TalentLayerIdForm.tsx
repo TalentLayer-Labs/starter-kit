@@ -9,7 +9,7 @@ import TalentLayerID from '../../contracts/ABI/TalentLayerID.json';
 import { createTalentLayerIdTransactionToast, showErrorTransactionToast } from '../../utils/toast';
 import HelpPopover from '../HelpPopover';
 import SubmitButton from './SubmitButton';
-import { HandlePrice } from './handle-price';
+import { HandlePrice } from './HandlePrice';
 import { delegateMintID } from '../request';
 import { useChainId } from '../../hooks/useChainId';
 import { useConfig } from '../../hooks/useConfig';
