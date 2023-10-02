@@ -7,6 +7,7 @@ import { getCompletionScores, ICompletionScores } from '../utils/profile';
 import { getPlatform } from '../queries/platform';
 import { toast } from 'react-toastify';
 import { chains, defaultChain } from '../pages/_app';
+import useTlClient from '../hooks/useTlClient';
 
 const TalentLayerContext = createContext<{
   user?: IUser;
@@ -34,6 +35,7 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
   const [isActiveDelegate, setIsActiveDelegate] = useState(false);
   const [loading, setLoading] = useState(true);
   const [completionScores, setCompletionScores] = useState<ICompletionScores | undefined>();
+  const tlClient = useTlClient(chainId, '2TcBxC3hzB3bMUgpD3FkxI6tt4D', '29e380e2b6b89499074b90b2b5b8ebb9');
 
   // automatically switch to the default chain is the current one is not part of the config
   useEffect(() => {
@@ -45,7 +47,7 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
   }, [chainId, switchNetwork]);
 
   const fetchData = async () => {
-    if (!account.address || !account.isConnected) {
+    if (!account.address || !account.isConnected || !tlClient) {
       setLoading(false);
       return false;
     }
@@ -60,11 +62,13 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
 
       const currentUser = userResponse.data.data.users[0];
 
-      const platformResponse = await getPlatform(
-        chainId,
-        process.env.NEXT_PUBLIC_PLATFORM_ID || '',
-      );
-      const platform = platformResponse?.data?.data?.platform;
+      if (tlClient) {
+        const _platform = await tlClient.platform.getOne("4");
+        console.log("starter kit: platform", _platform);
+        
+      }
+
+      const platform = await tlClient.platform.getOne((process.env.NEXT_PUBLIC_PLATFORM_ID as string));;
       currentUser.isAdmin = platform?.address === currentUser?.address;
 
       setUser(currentUser);
@@ -97,7 +101,7 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     fetchData();
-  }, [chainId, account.address]);
+  }, [chainId, account.address, tlClient]);
 
   useEffect(() => {
     if (!user) return;

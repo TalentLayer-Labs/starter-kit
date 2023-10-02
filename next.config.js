@@ -32,7 +32,7 @@ module.exports = withPWA({
             resource.request = 'readable-stream';
             break;
           default:
-            throw new Error(`Not found ${mod}`);
+            break;
         }
       }),
     );

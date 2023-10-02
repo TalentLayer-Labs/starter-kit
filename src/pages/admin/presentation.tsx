@@ -12,6 +12,7 @@ import TalentLayerPlatformID from '../../contracts/ABI/TalentLayerPlatformID.jso
 import { useChainId } from '../../hooks/useChainId';
 import { useConfig } from '../../hooks/useConfig';
 import usePlatform from '../../hooks/usePlatform';
+import useTlClient from '../../hooks/useTlClient';
 import { postToIPFS } from '../../utils/ipfs';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../utils/toast';
 
@@ -36,6 +37,7 @@ function AdminPresentation() {
   const publicClient = usePublicClient({ chainId });
   const { data: walletClient } = useWalletClient({ chainId });
   const { address } = useAccount();
+  const tlClient = useTlClient(chainId, '2TcBxC3hzB3bMUgpD3FkxI6tt4D', '29e380e2b6b89499074b90b2b5b8ebb9');
 
   if (loading) {
     return <Loading />;
@@ -58,24 +60,31 @@ function AdminPresentation() {
     values: IFormValues,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void },
   ) => {
-    if (user && publicClient && walletClient) {
+    if (user && publicClient && walletClient && tlClient) {
       try {
-        const cid = await postToIPFS(
-          JSON.stringify({
-            about: values.about,
-            website: values.website,
-            video_url: values.video_url,
-            image_url: values.image_url,
-          }),
-        );
+        // const cid = await postToIPFS(
+        //   JSON.stringify({
+        //     about: values.about,
+        //     website: values.website,
+        //     video_url: values.video_url,
+        //     image_url: values.image_url,
+        //   }),
+        // );
 
-        const tx = await walletClient.writeContract({
-          address: config.contracts.talentLayerId,
-          abi: TalentLayerPlatformID.abi,
-          functionName: 'updateProfileData',
-          args: [user.id, cid],
-          account: address,
-        });
+        // const tx = await walletClient.writeContract({
+        //   address: config.contracts.talentLayerId,
+        //   abi: TalentLayerPlatformID.abi,
+        //   functionName: 'updateProfileData',
+        //   args: [user.id, cid],
+        //   account: address,
+        // });
+
+        const {tx, cid} = await tlClient.platform.update({
+          about: values.about,
+          website: values.website,
+          video_url: values.video_url,
+          image_url: values.image_url,
+        }, user.id)
 
         await createMultiStepsTransactionToast(
           chainId,

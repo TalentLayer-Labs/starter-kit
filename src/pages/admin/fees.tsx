@@ -16,6 +16,8 @@ function AdminFees() {
   const config = useConfig();
   const platform = usePlatform(process.env.NEXT_PUBLIC_PLATFORM_ID as string);
 
+  console.log(platform?.originServiceFeeRate, platform);
+  
   if (loading) {
     return <Loading />;
   }
@@ -27,10 +29,12 @@ function AdminFees() {
   }
 
   const transformFeeRate = (value: number | string): number => {
-    return Math.round((Number(value) * FEE_RATE_DIVIDER) / 100);
+    console.log("testing hook: ", Math.round((Number(value) * FEE_RATE_DIVIDER) / 100))
+    return Number(value);
   };
 
   const transformFee = (value: number | string): BigInt => {
+    console.log("kit: parse ether", parseEther(value.toString()));
     return parseEther(value.toString());
   };
 
@@ -98,7 +102,7 @@ function AdminFees() {
             initialValue: platform?.servicePostingFee
               ? formatEther(BigInt(platform?.servicePostingFee))
               : 0,
-            hookModifyValue: transformFee,
+            // hookModifyValue: transformFee,
           }}
           contractParams={{
             contractFunctionName: 'updateServicePostingFee',
@@ -120,7 +124,7 @@ function AdminFees() {
             initialValue: platform?.proposalPostingFee
               ? formatEther(BigInt(platform?.proposalPostingFee))
               : 0,
-            hookModifyValue: transformFee,
+            // hookModifyValue: transformFee,
           }}
           contractParams={{
             contractFunctionName: 'updateProposalPostingFee',

@@ -13,6 +13,7 @@ import { useConfig } from '../../hooks/useConfig';
 import usePlatform from '../../hooks/usePlatform';
 import { formatEther, parseEther } from 'viem';
 import { ZERO_ADDRESS } from '../../utils/constant';
+import useTlClient from '../../hooks/useTlClient';
 
 function AdminDispute() {
   const { user, loading } = useContext(TalentLayerContext);
@@ -23,16 +24,26 @@ function AdminDispute() {
   const arbitratorContractAddress = platform ? platform.arbitrator : null;
   const [arbitratorPrice, setArbitratorPrice] = useState<number>(0);
   let availableArbitrators: { value: string; label: string }[] = [];
+  const tlClient = useTlClient(chainId, '2TcBxC3hzB3bMUgpD3FkxI6tt4D', '29e380e2b6b89499074b90b2b5b8ebb9');
 
+  console.log("Starter kit: platform", {platform})
   const fetchArbitrationPrice = async () => {
-    if (arbitratorContractAddress) {
+    console.log("Starter kit: arbitratorContractAddress", arbitratorContractAddress);
+    if (arbitratorContractAddress && arbitratorContractAddress !== ZERO_ADDRESS) {
       const price: any = await publicClient.readContract({
         address: arbitratorContractAddress,
         abi: TalentLayerArbitrator.abi,
         functionName: 'arbitrationPrice',
-        args: [platform?.id],
+        args: [25],
       });
-      setArbitratorPrice(price);
+      // setArbitratorPrice(price);
+    }
+    console.log("starter kit: tlClient", tlClient)
+    if (tlClient) {
+      console.log("Starter kit: price before");
+      const _price = await tlClient.disputes.getArbitrationPrice();
+      console.log("Starter kit: price", typeof _price);
+      setArbitratorPrice(_price);
     }
   };
 
@@ -40,7 +51,7 @@ function AdminDispute() {
     if (user?.isAdmin != null && platform != null && config != null) {
       fetchArbitrationPrice();
     }
-  }, [platform?.id]);
+  }, [platform?.id, tlClient, user, platform, config]);
 
   if (loading) {
     return <Loading />;
@@ -76,7 +87,7 @@ function AdminDispute() {
 
       <div className='grid grid-cols-1 gap-6 border border-gray-700 rounded-xl p-6 bg-endnight'>
         <SingleValueForm
-          validationDatas={{
+          validationData={{
             valueType: 'select',
             initialValue: platform?.arbitrator || ZERO_ADDRESS,
             selectOptions: availableArbitrators,
@@ -93,7 +104,7 @@ function AdminDispute() {
         />
 
         <SingleValueForm
-          validationDatas={{
+          validationData={{
             validationSchema: Yup.object({
               'Arbitration fee timeout (in seconds)': Yup.number().required('value is required'),
             }),
@@ -111,13 +122,13 @@ function AdminDispute() {
         />
 
         <SingleValueForm
-          validationDatas={{
+          validationData={{
             validationSchema: Yup.object({
               'Arbitration price (in Matic)': Yup.number().required('value is required'),
             }),
             valueType: 'number',
             initialValue: arbitratorPrice ? formatEther(BigInt(arbitratorPrice)) : 0,
-            hookModifyValue: transformPrice,
+            // hookModifyValue: transformPrice,
           }}
           contractParams={{
             contractFunctionName: 'setArbitrationPrice',

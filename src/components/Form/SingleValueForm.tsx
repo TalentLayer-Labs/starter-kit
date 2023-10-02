@@ -7,6 +7,7 @@ import { useChainId } from '../../hooks/useChainId';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../utils/toast';
 import SubmitButton from './SubmitButton';
 import { Abi, Address } from 'viem';
+import useTlClient from '../../hooks/useTlClient';
 
 interface validationDataType {
   valueType: string;
@@ -45,12 +46,14 @@ function SingleValueForm({
   const publicClient = usePublicClient({ chainId });
   const { data: walletClient } = useWalletClient({ chainId });
   const { address } = useAccount();
+  const tlClient = useTlClient(chainId, '2TcBxC3hzB3bMUgpD3FkxI6tt4D', '29e380e2b6b89499074b90b2b5b8ebb9');
 
   const onSubmit = async (
     values: any,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void; resetForm: () => void },
   ) => {
-    if (publicClient && walletClient && values) {
+    console.log("values: ", values);
+    if (publicClient && walletClient && values && tlClient) {
       try {
         let value = values[valueName];
 
@@ -62,13 +65,19 @@ function SingleValueForm({
           value = hookModifyValue(value);
         }
 
-        const tx = await walletClient.writeContract({
-          address: contractAddress,
-          abi: contractAbi,
-          functionName: contractFunctionName,
-          args: [contractInputs, value],
-          account: address,
-        });
+        // const tx = await walletClient.writeContract({
+        //   address: contractAddress,
+        //   abi: contractAbi,
+        //   functionName: contractFunctionName,
+        //   args: [contractInputs, value],
+        //   account: address,
+        // });
+
+
+        //  @ts-ignore
+        const tx = await tlClient.platform.setArbitrator(value);
+
+        console.log("KIT: tx", tx);
 
         await createMultiStepsTransactionToast(
           chainId,
@@ -132,3 +141,4 @@ function SingleValueForm({
 }
 
 export default SingleValueForm;
+// TODO: fix the integration of sdk in this form
