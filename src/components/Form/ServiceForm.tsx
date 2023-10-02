@@ -123,7 +123,7 @@ function ServiceForm() {
               keywords: values.keywords,
               rateToken: values.rateToken,
               rateAmount: parsedRateAmountString
-            }, user.id, 4);
+            }, user.id, parseInt((process.env.NEXT_PUBLIC_PLATFORM_ID as string)));
   
             cid = serviceResponse.cid;
             tx = serviceResponse.tx;
