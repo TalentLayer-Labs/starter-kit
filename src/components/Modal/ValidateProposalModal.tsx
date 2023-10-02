@@ -24,7 +24,7 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
   const { data: tokenBalance } = useBalance({
     address: account.address,
     enabled: !isProposalUseEth,
-    token: "0x3a660c72effa17a1b49cf0be91fa80c7856420ee",
+    token: proposal.rateToken.address,
   });
 
   console.log({isProposalUseEth}, proposal.rateToken.address)
@@ -48,7 +48,6 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
   const totalAmount = jobRateAmount + originServiceFee + originValidatedProposalFee + protocolFee;
 
   const onSubmit = async () => {
-    console.log("submitting",proposal)
     if (!walletClient || !publicClient || !tlClient) {
       return;
     }
@@ -61,17 +60,14 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
       proposal.service.id,
       proposal.id,
       proposal.rateToken.address,
-      proposal.cid,
       totalAmount,
     );
     setShow(false);
   };
 
   const hasEnoughBalance = () => {
-    console.log("ethBalance.value ", ethBalance?.value )
     if (isProposalUseEth) {
       if (!ethBalance) return;
-      console.log("ethBalance.value ", ethBalance?.value, totalAmount, ethBalance.value >= totalAmount )
       return ethBalance.value >= totalAmount;
     } else {
       if (!tokenBalance) return;

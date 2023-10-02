@@ -8,12 +8,10 @@ import Loading from '../../components/Loading';
 import Steps from '../../components/Steps';
 import UserNeedsMoreRights from '../../components/UserNeedsMoreRights';
 import TalentLayerContext from '../../context/talentLayer';
-import TalentLayerPlatformID from '../../contracts/ABI/TalentLayerPlatformID.json';
 import { useChainId } from '../../hooks/useChainId';
 import { useConfig } from '../../hooks/useConfig';
 import usePlatform from '../../hooks/usePlatform';
 import useTlClient from '../../hooks/useTlClient';
-import { postToIPFS } from '../../utils/ipfs';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../utils/toast';
 
 interface IFormValues {
@@ -62,29 +60,13 @@ function AdminPresentation() {
   ) => {
     if (user && publicClient && walletClient && tlClient) {
       try {
-        // const cid = await postToIPFS(
-        //   JSON.stringify({
-        //     about: values.about,
-        //     website: values.website,
-        //     video_url: values.video_url,
-        //     image_url: values.image_url,
-        //   }),
-        // );
-
-        // const tx = await walletClient.writeContract({
-        //   address: config.contracts.talentLayerId,
-        //   abi: TalentLayerPlatformID.abi,
-        //   functionName: 'updateProfileData',
-        //   args: [user.id, cid],
-        //   account: address,
-        // });
 
         const {tx, cid} = await tlClient.platform.update({
           about: values.about,
           website: values.website,
           video_url: values.video_url,
           image_url: values.image_url,
-        }, user.id)
+        })
 
         await createMultiStepsTransactionToast(
           chainId,

@@ -18,21 +18,18 @@ export const validateProposal = async (
   serviceId: string,
   proposalId: string,
   rateToken: Address,
-  cid: string,
   value: bigint,
 ): Promise<void> => {
   const config = getConfig(chainId);
-  console.log("rateToken: ", rateToken);
-  const _balance: any = await tlClient.erc20.balanceOf(rateToken);
-  console.log("rateToken: ", rateToken)
-  // const _allowance: any = await tlClient.erc20.checkAllowance(rateToken)
 
+  const _balance: any = await tlClient.erc20.balanceOf(rateToken);
+  
   console.log({_balance})
   try {
     if (rateToken === ZERO_ADDRESS) {
 
 
-      let tx1, cid1;
+      let tx1: string;
       console.log("proposalId: ", proposalId, {value})
       const {tx} = await tlClient.escrow.approve(serviceId, proposalId, metaEvidenceCid, value)
       tx1 = tx;
@@ -51,12 +48,6 @@ export const validateProposal = async (
         throw new Error('Approve Transaction failed');
       }
     } else {
-      // Token transfer approval for escrow contract
-      const _balance: any = await tlClient.erc20.balanceOf(rateToken);
-      const balance: any = await tlClient.erc20.balanceOf(rateToken);
-      // if (balance.lt(value)) {
-      //   throw new Error('Insufficient balance');
-      // }
 
       const [_address] = await walletClient.getAddresses();
 
@@ -67,21 +58,9 @@ export const validateProposal = async (
         args: [_address, config.contracts.talentLayerEscrow],
       });
 
-      
-      console.log("Starter kit: allowed",allowance, value,  allowance < value);
       if (allowance < value) {
-        console.log("Starter kit: approval required", );
-        // const { request } = await publicClient.simulateContract({
-        //   address: config.contracts.talentLayerEscrow,
-        //   abi: TalentLayerEscrow.abi,
-        //   functionName: 'approve',
-        //   args: [config.contracts.talentLayerEscrow, value],
-        // });
-        // const tx1 = await walletClient.writeContract(request);
 
         const tx1 = await tlClient.erc20.approve(rateToken, value);
-
-        console.log("Starter kit: asking for approval", { tx1 });
 
         const receipt1 = await toast.promise(
           publicClient.waitForTransactionReceipt({ hash: tx1 }),
@@ -101,13 +80,7 @@ export const validateProposal = async (
           throw new Error('Approve Transaction failed');
         }
       }
-      // const { request } = await publicClient.simulateContract({
-      //   address: config.contracts.talentLayerEscrow,
-      //   abi: TalentLayerEscrow.abi,
-      //   functionName: 'createTransaction',
-      //   args: [parseInt(serviceId, 10), parseInt(proposalId, 10), metaEvidenceCid, cid],
-      // });
-      // const tx2 = await walletClient.writeContract(request);
+
       const { tx: tx2 } = await tlClient.escrow.approve(serviceId, proposalId, metaEvidenceCid);
       const receipt2 = await toast.promise(publicClient.waitForTransactionReceipt({ hash: tx2 }), {
         pending: {
