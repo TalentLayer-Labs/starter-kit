@@ -44,7 +44,7 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
     if (!chain && defaultChain) {
       switchNetwork(defaultChain.id);
     }
-    if (chainId) {
+    if (chainId && account.address) {
       const tlClient = new TalentLayerClient({
         chainId,
         infuraClientId: (process.env.NEXT_PUBLIC_INFURA_ID as string),
@@ -53,7 +53,7 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
     })
       setTalentLayerClient(tlClient);
     }
-  }, [chainId, switchNetwork]);
+  }, [chainId, switchNetwork, account.address]);
 
   const fetchData = async () => {
     if (!account.address || !account.isConnected || !talentLayerClient) {
