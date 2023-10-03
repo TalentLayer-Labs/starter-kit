@@ -5,27 +5,22 @@
   ],
   "crons":[
     {
-      "type":"newProposal",
       "path":"/api/web3mail/new-proposal?key=racoonKey",
       "schedule":"0 */1 * * *"
     },
     {
-      "type":"proposalValidated",
       "path":"/api/web3mail/proposal-validated?key=racoonKey",
       "schedule":"0 */1 * * *"
     },
     {
-      "type":"fundRelease",
       "path":"/api/web3mail/fund-release?key=racoonKey",
       "schedule":"0 */1 * * *"
     },
     {
-      "type":"review",
       "path":"/api/web3mail/review?key=racoonKey",
       "schedule":"0 */1 * * *"
     },
     {
-      "type":"newService",
       "path":"/api/web3mail/new-service?key=racoonKey",
       "schedule":"0 7 * * *"
     }
