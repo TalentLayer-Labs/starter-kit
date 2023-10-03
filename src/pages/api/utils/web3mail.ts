@@ -10,7 +10,7 @@ export const prepareCronApi = (
   privateKey: string | undefined,
   res: NextApiResponse,
 ) => {
-  if (cronSecurityKey !== process.env.NEXT_PRIVATE_CRON_KEY) {
+  if (!(cronSecurityKey == `Bearer ${process.env.CRON_SECRET}`)) {
     return res.status(401).json({ message: 'Unauthorized' });
   }
 

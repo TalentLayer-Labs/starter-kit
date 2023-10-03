@@ -8,7 +8,7 @@ import { generateWeb3mailProviders, prepareNonCronApi } from '../utils/web3mail'
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const chainId = process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID;
   const platformId = process.env.NEXT_PUBLIC_PLATFORM_ID;
-  const securityKey = req.query.key as string;
+  const securityKey = req.headers.authorization as string;
   const privateKey = process.env.NEXT_PUBLIC_WEB3MAIL_PLATFORM_PRIVATE_KEY as string;
 
   let sentEmails = 0,
@@ -21,20 +21,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   try {
     const { dataProtector, web3mail } = generateWeb3mailProviders(privateKey);
 
-    // const contactList: Contact[] = await web3mail.fetchMyContacts();
-    //
-    // if (!contactList || contactList.length === 0) {
-    //   return res.status(200).json('No users granted access to their email');
-    // }
-    //
-    // // This array has all the addresses of the users that have granted access to their email to this platform
-    // const contactAddresses = contactList.map(contact => contact.address);
+    const contactList: Contact[] = await web3mail.fetchMyContacts();
 
-    const contactAddresses = [
-      '0x89de0dd433bd1f6a4ec5dd2593f44b9dd4fad2f0',
-      '0x86a86da3e48905f0ecbf788948ada2789669ee11',
-      '0x3D0c6A35DcD9AEB46b493cd6CC9Ace84583b7aE8',
-    ];
+    if (!contactList || contactList.length === 0) {
+      return res.status(200).json('No users granted access to their email');
+    }
+
+    // This array has all the addresses of the users that have granted access to their email to this platform
+    const contactAddresses = contactList.map(contact => contact.address);
 
     const response = await getUsersWeb3MailPreference(
       Number(chainId),
@@ -52,12 +46,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     const usersAddresses = validUsers.map(user => user.address);
-    // // TODO: Remove for prod
-    // const usersAddresses = [
-    //   '0x89de0dd433bd1f6a4ec5dd2593f44b9dd4fad2f0',
-    //   '0x86a86da3e48905f0ecbf788948ada2789669ee11',
-    //   '0x3D0c6A35DcD9AEB46b493cd6CC9Ace84583b7aE8',
-    // ];
+
     const { successCount, errorCount } = await sendMailToAddresses(
       `${emailSubject}`,
       `${emailContent}`,
