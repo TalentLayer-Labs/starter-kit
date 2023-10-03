@@ -8,7 +8,6 @@ const useFilteredServices = (
   sellerId?: string,
   searchQuery?: string,
   numberPerPage?: number,
-  platformId?: string,
 ): {
   hasMoreData: boolean;
   loading: boolean;
@@ -39,7 +38,6 @@ const useFilteredServices = (
           numberPerPage,
           offset,
           searchQuery,
-          platformId
         );
 
         newServices = response?.data?.services;
