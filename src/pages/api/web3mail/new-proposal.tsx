@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import { getProposalsFromPlatformServices } from '../../../queries/proposals';
-import { EmailType, IProposal, IUser, NotificationApiUri } from '../../../types';
+import { EmailType, IProposal, IUserDetails, NotificationApiUri } from '../../../types';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { sendMailToAddresses } from '../../../scripts/iexec/sendMailToAddresses';
 import { getUsersWeb3MailPreference } from '../../../queries/users';
@@ -70,15 +70,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         'activeOnNewProposal',
       );
 
-      let validUsers: IUser[] = [];
+      let validUsers: IUserDetails[] = [];
 
-      if (response?.data?.data?.users) {
-        validUsers = response.data.data.users;
+      if (response?.data?.data?.userDescriptions) {
+        validUsers = response.data.data.userDescriptions;
+        // Only select the latest version of each user metaData
+        validUsers = validUsers.filter(
+          userDetails => userDetails.user?.description?.id === userDetails.id,
+        );
       } else {
         return res.status(200).json(`No User opted for this feature`);
       }
 
-      const validUserAddresses: string[] = validUsers.map(user => user.address);
+      const validUserAddresses: string[] = validUsers.map(userDetails => userDetails.user.address);
 
       const proposalEmailsToBeSent = nonSentProposalEmails.filter(proposal => {
         validUserAddresses.includes(proposal.service.buyer.address);

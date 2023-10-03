@@ -193,6 +193,7 @@ const Web3MailProvider = ({ children }: { children: ReactNode }) => {
           : newProtectedEmail?.address) as string,
         authorizedApp: process.env.NEXT_PUBLIC_WEB3MAIL_APP_ADDRESS as string,
         authorizedUser: process.env.NEXT_PUBLIC_WEB3MAIL_PLATFORM_PUBLIC_KEY as string,
+        numberOfAccess: 99999999999,
       });
 
       log('Web3MailProvider ---- protectEmailAndGrantAccess', {

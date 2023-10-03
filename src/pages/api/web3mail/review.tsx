@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { EmailType, IReview, IUser, NotificationApiUri } from '../../../types';
+import { EmailType, IReview, IUserDetails, NotificationApiUri } from '../../../types';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { sendMailToAddresses } from '../../../scripts/iexec/sendMailToAddresses';
 import { getUsersWeb3MailPreference } from '../../../queries/users';
@@ -65,15 +65,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         'activeOnReview',
       );
 
-      let validUsers: IUser[] = [];
+      let validUsers: IUserDetails[] = [];
 
-      if (response?.data?.data?.users && response.data.data.users.length > 0) {
-        validUsers = response.data.data.users;
+      if (
+        response?.data?.data?.userDescriptions &&
+        response.data.data.userDescriptions.length > 0
+      ) {
+        validUsers = response.data.data.userDescriptions;
+        // Only select the latest version of each user metaData
+        validUsers = validUsers.filter(
+          userDetails => userDetails.user?.description?.id === userDetails.id,
+        );
       } else {
         return res.status(200).json(`No User opted for this feature`);
       }
 
-      const validUserAddresses: string[] = validUsers.map(user => user.address);
+      const validUserAddresses: string[] = validUsers.map(userDetails => userDetails.user.address);
 
       const reviewEmailsToBeSent = nonSentReviewEmails.filter(review => {
         validUserAddresses.includes(review.to.address);

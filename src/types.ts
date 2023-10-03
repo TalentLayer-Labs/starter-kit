@@ -30,6 +30,7 @@ export type IUser = {
 };
 
 export type IUserDetails = {
+  id: string;
   title: string;
   name: string;
   role?: string;
@@ -37,6 +38,7 @@ export type IUserDetails = {
   video_url?: string;
   about?: string;
   skills_raw?: string;
+  user: IUser;
   web3mailPreferences?: IWeb3mailPreferences;
 };
 

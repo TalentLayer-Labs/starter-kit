@@ -1,4 +1,4 @@
-import { IUser } from '../../../types';
+import { IUserDetails } from '../../../types';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { sendMailToAddresses } from '../../../scripts/iexec/sendMailToAddresses';
 import { getUsersWeb3MailPreference } from '../../../queries/users';
@@ -18,6 +18,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   const { emailSubject, emailContent } = req.body;
   if (!emailSubject || !emailContent) return res.status(500).json(`Missing argument`);
+
   try {
     const { dataProtector, web3mail } = generateWeb3mailProviders(privateKey);
 
@@ -28,7 +29,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     // This array has all the addresses of the users that have granted access to their email to this platform
-    const contactAddresses = contactList.map(contact => contact.address);
+    const contactAddresses = contactList.map(contact => contact.owner);
 
     const response = await getUsersWeb3MailPreference(
       Number(chainId),
@@ -37,15 +38,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     );
 
     // This array has all the users that have granted access to their email to this platform and opted for the platform marketing feature
-    let validUsers: IUser[] = [];
+    let validUsers: IUserDetails[] = [];
 
-    if (response?.data?.data?.users && response.data.data.users.length > 0) {
-      validUsers = response.data.data.users;
+    if (response?.data?.data?.userDescriptions && response.data.data.userDescriptions.length > 0) {
+      validUsers = response.data.data.userDescriptions;
+      // Only select the latest version of each user metaData
+      validUsers = validUsers.filter(
+        userDetails => userDetails.user?.description?.id === userDetails.id,
+      );
     } else {
       return res.status(200).json(`No User opted for this feature`);
     }
 
-    const usersAddresses = validUsers.map(user => user.address);
+    const usersAddresses = validUsers.map(userDetails => userDetails.user.address);
 
     const { successCount, errorCount } = await sendMailToAddresses(
       `${emailSubject}`,

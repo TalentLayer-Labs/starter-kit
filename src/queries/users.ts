@@ -195,9 +195,13 @@ export const getUsersWeb3MailPreference = (
           .map(a => a.toLowerCase())
           .join('","')}"]}, web3mailPreferences_: {${web3mailPreference}: true}}
       ) {
+        id
         user {
           id
           address
+          description {
+            id
+          }
         }
       }
     }
@@ -217,10 +221,14 @@ export const getWeb3mailUsersForNewServices = (
           .map(a => a.toLowerCase())
           .join('","')}"]}, web3mailPreferences_: {${web3mailPreference}: true}}
       ) {
+        id
         skills_raw
         user {
           id
           address
+          description {
+            id
+          }
         }
       }
     }
