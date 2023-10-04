@@ -74,23 +74,22 @@ const getFilteredServiceCondition = (params: IProps) => {
   let keywordFilter = '';
 
   // Filter by keyword
-  // This code filters the list of keywords to only those that are included in the keyword list.
+  // This code filters the list of keywords to exclude those that are included in the keyword list.
 
   if (params.keywordList && params.keywordList.length > 0) {
     keywordFilter = params.keywordList
-      .map(keyword => `{keywords_raw_contains: "${keyword}"}`)
+      .map(keyword => `{keywords_raw_not_contains: "${keyword}"}`)
       .join(', ');
   }
-
   // Prepare description_ filter
   let descriptionCondition = '';
   if (params.searchQuery) {
-    descriptionCondition += `{keywords_raw_contains: "${params.searchQuery}"}`;
+    descriptionCondition += `{keywords_raw_not_contains: "${params.searchQuery}"}`;
   }
   if (keywordFilter) {
     descriptionCondition = descriptionCondition
-      ? `{ and: [ { or: [${keywordFilter}]}, ${descriptionCondition} ] }`
-      : `{ or: [${keywordFilter}]}`;
+      ? `{ and: [ { and: [${keywordFilter}]}, ${descriptionCondition} ] }`
+      : `{ and: [${keywordFilter}]}`;
   }
 
   if (descriptionCondition) {
