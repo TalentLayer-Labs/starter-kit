@@ -46,6 +46,7 @@ export const executePayment = async (
           abi: TalentLayerEscrow.abi,
           functionName: 'reimburse',
           args: [profileId, parseInt(transactionId, 10), amount.toString()],
+          account: walletClient.account?.address,
         });
         tx = await walletClient.writeContract(request);
       }
