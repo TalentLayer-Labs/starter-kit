@@ -2,11 +2,9 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { getServices } from '../../../queries/services';
 import keywordFilter from './filter.json';
 import { ServiceStatusEnum } from '../../../types';
-// import { useChainId } from 'wagmi';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const query = req.query;
-  // const chainId = useChainId();
   // @dev : here you can add the filter logic
   let keywordList = keywordFilter.keywords;
 
@@ -17,6 +15,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const offset = Number(query.offset);
   const searchQuery = query.searchQuery as string;
   const platformId = query.platformId as string;
+  const chainId = Number(query.chainId)
   
   try {
     

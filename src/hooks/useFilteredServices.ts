@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { IService, ServiceStatusEnum } from '../types';
 import { getFilteredServicesByKeywords } from '../pages/api/services/request';
+import { useChainId } from 'wagmi';
 
 const useFilteredServices = (
   serviceStatus?: ServiceStatusEnum,
@@ -19,6 +20,7 @@ const useFilteredServices = (
   const [hasMoreData, setHasMoreData] = useState(true);
   const [loading, setLoading] = useState(false);
   const [offset, setOffset] = useState(0);
+  const chainId = useChainId();
 
   useEffect(() => {
     setServices([]);
@@ -39,7 +41,8 @@ const useFilteredServices = (
           numberPerPage,
           offset,
           searchQuery,
-          platformId
+          platformId,
+          chainId
         );
 
         newServices = response?.data?.services;
