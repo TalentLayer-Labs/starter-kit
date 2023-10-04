@@ -54,9 +54,9 @@ export const validateProposal = async (
         address: rateToken,
         abi: ERC20.abi,
         functionName: 'balanceOf',
-        args: [walletClient.getAddresses()],
+        args: [walletClient.account?.address],
       });
-      if (balance.lt(value)) {
+      if (balance < value) {
         throw new Error('Insufficient balance');
       }
 
@@ -64,13 +64,12 @@ export const validateProposal = async (
         address: rateToken,
         abi: ERC20.abi,
         functionName: 'allowance',
-        args: [walletClient.getAddresses(), config.contracts.talentLayerEscrow],
+        args: [walletClient.account?.address, config.contracts.talentLayerEscrow],
       });
-
-      if (allowance.lt(value)) {
+      if (allowance < value) {
         const { request } = await publicClient.simulateContract({
-          address: config.contracts.talentLayerEscrow,
-          abi: TalentLayerEscrow.abi,
+          address: rateToken,
+          abi: ERC20.abi,
           functionName: 'approve',
           args: [config.contracts.talentLayerEscrow, value],
           account: walletClient.account?.address,
