@@ -19,7 +19,7 @@ function Services() {
     undefined,
     searchQuery?.toLocaleLowerCase(),
     PAGE_SIZE,
-    // process.env.NEXT_PUBLIC_PLATFORM_ID,
+    process.env.NEXT_PUBLIC_PLATFORM_ID,
   );
 
   return (

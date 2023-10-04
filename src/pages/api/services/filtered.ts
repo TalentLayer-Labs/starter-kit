@@ -16,6 +16,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const numberPerPage = Number(query.numberPerPage);
   const offset = Number(query.offset);
   const searchQuery = query.searchQuery as string;
+  const platformId = query.platformId as string;
   
   try {
     
@@ -27,6 +28,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       offset,
       keywordList,
       searchQuery,
+      platformId
     });
 
     const filteredServices = response?.data?.data?.services;
