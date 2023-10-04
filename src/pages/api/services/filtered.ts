@@ -19,7 +19,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   
   try {
     
-    let response = await getServices(80001, {
+    let response = await getServices(chainId, {
       serviceStatus,
       buyerId,
       sellerId,
