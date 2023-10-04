@@ -8,7 +8,7 @@ import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../
 import SubmitButton from './SubmitButton';
 import { Abi, Address } from 'viem';
 
-interface validationDatasType {
+interface validationDataType {
   valueType: string;
   validationSchema?: Yup.ObjectSchema<ObjectShape>;
   initialValue?: number | string;
@@ -30,7 +30,7 @@ function SingleValueForm({
   valueName,
   callback,
 }: {
-  validationData: validationDatasType;
+  validationData: validationDataType;
   contractParams: contractParamsType;
   valueName: string;
   callback?: () => void;

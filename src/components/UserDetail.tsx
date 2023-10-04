@@ -6,6 +6,7 @@ import { IUser } from '../types';
 import Loading from './Loading';
 import Stars from './Stars';
 import DelegateModal from './Modal/DelegateModal';
+import Link from 'next/link';
 
 function UserDetail({ user }: { user: IUser }) {
   const { user: currentUser } = useContext(TalentLayerContext);
@@ -61,15 +62,15 @@ function UserDetail({ user }: { user: IUser }) {
         )}
       </div>
 
-      {currentUser?.id === user.id && process.env.NEXT_PUBLIC_ACTIVE_DELEGATE === 'true' && (
+      {currentUser?.id === user.id && (
         <div className=' border-t border-gray-700 pt-4 w-full mt-4'>
           <div className='flex flex-row gap-4 justify-end items-center'>
-            {/* <Link
+            <Link
               className='text-zinc-600 bg-zinc-50 hover:bg-zinc-500 hover:text-white px-3 py-2 rounded text-sm'
               href={`/dashboard/profile/incomes`}>
               Your incomes
-            </Link> */}
-            <DelegateModal />
+            </Link>
+            {process.env.NEXT_PUBLIC_ACTIVE_DELEGATE === 'true' && <DelegateModal />}
           </div>
         </div>
       )}

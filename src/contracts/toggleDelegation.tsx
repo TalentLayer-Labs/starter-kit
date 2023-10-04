@@ -1,6 +1,6 @@
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../utils/toast';
 import { Address } from 'viem';
-import { PublicClient, WalletClient} from 'wagmi'
+import { PublicClient, WalletClient } from 'wagmi';
 import TalentLayerID from './ABI/TalentLayerID.json';
 
 export const toggleDelegation = async (
@@ -11,10 +11,8 @@ export const toggleDelegation = async (
   publicClient: PublicClient,
   walletClient: WalletClient,
   validateState: boolean,
-  
 ): Promise<void> => {
   try {
-        
     let tx: Address;
     let toastMessages;
     if (validateState === true) {
@@ -38,7 +36,7 @@ export const toggleDelegation = async (
         functionName: 'removeDelegate',
         args: [user, DelegateAddress],
         account: walletClient.account?.address,
-      }); 
+      });
       tx = await walletClient.writeContract(request);
       toastMessages = {
         pending: 'Canceling the delegation...',
@@ -46,15 +44,8 @@ export const toggleDelegation = async (
         error: 'An error occurred while canceling the delegation',
       };
     }
-    
-    await createMultiStepsTransactionToast(
-      chainId,
-      toastMessages,
-      publicClient,
-      tx,
-      'Delegation',
-      
-    );
+
+    await createMultiStepsTransactionToast(chainId, toastMessages, publicClient, tx, 'Delegation');
   } catch (error) {
     showErrorTransactionToast(error);
   }
