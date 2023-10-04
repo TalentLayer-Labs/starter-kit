@@ -47,9 +47,13 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
     if (chainId && account.address) {
       const tlClient = new TalentLayerClient({
         chainId,
-        infuraClientId: (process.env.NEXT_PUBLIC_INFURA_ID as string),
-        infuraClientSecret: (process.env.NEXT_PUBLIC_INFURA_SECRET as string),
-        platformId: 25
+        ipfsConfig: {
+          clientId: (process.env.NEXT_PUBLIC_INFURA_ID as string),
+          clientSecret: (process.env.NEXT_PUBLIC_INFURA_SECRET as string),
+          baseUrl: (process.env.NEXT_PUBLIC_IPFS_WRITE_URL as string)
+        },
+        platformId: (parseInt(process.env.NEXT_PUBLIC_PLATFORM_ID as string)),
+        signatureUrl: (process.env.NEXT_PUBLIC_SIGNATURE_API_URL as string)
     })
       setTalentLayerClient(tlClient);
     }

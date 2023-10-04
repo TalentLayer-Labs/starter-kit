@@ -24,8 +24,15 @@ function AdminDispute() {
 
   const fetchArbitrationPrice = async () => {
     if (tlClient) {
-      const _price = await tlClient.disputes.getArbitrationPrice();
-      setArbitratorPrice(_price);
+      try {
+        const _price = await tlClient.disputes.getArbitrationCost();
+        console.log("Starter kit: _price", _price);
+        setArbitratorPrice(_price);
+      } catch (e) {
+        console.error(e);
+        setArbitratorPrice(0)
+      }
+      
     }
   };
 
@@ -71,7 +78,7 @@ function AdminDispute() {
             selectOptions: availableArbitrators,
           }}
           contractParams={{
-            contractFunctionName: 'setArbitrator',
+            contractFunctionName: 'updateArbitrator',
             contractAddress: config.contracts.talentLayerPlatformId,
             contractAbi: TalentLayerPlatformID.abi,
             contractEntity: 'platform',
