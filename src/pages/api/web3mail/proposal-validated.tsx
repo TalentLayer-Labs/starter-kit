@@ -47,7 +47,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // Check if a notification email has already been sent for these proposals
     if (proposals.length > 0) {
       for (const proposal of proposals) {
-        const hasBeenSent = await hasProposalEmailBeenSent(proposal, EmailType.ProposalValidated);
+        const hasBeenSent = await hasProposalEmailBeenSent(proposal);
         if (!hasBeenSent) {
           nonSentProposalEmails.push(proposal);
         }
@@ -55,67 +55,69 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     // If some emails have not been sent yet, send a web3mail & persist in the DB that the email was sent
-    if (nonSentProposalEmails.length > 0) {
-      // Filter out users which have not opted for the feature
-      const allSellerAddresses = nonSentProposalEmails.map(proposal => proposal.seller.address);
-      const response = await getUsersWeb3MailPreference(
-        Number(chainId),
-        allSellerAddresses,
-        'activeOnProposalValidated',
+    if (nonSentProposalEmails.length == 0) {
+      return res.status(200).json(`All new proposals notifications already sent`);
+    }
+    // Filter out users which have not opted for the feature
+    const allSellerAddresses = nonSentProposalEmails.map(proposal => proposal.seller.address);
+    const notificationResponse = await getUsersWeb3MailPreference(
+      Number(chainId),
+      allSellerAddresses,
+      'activeOnProposalValidated',
+    );
+
+    let validUsers: IUserDetails[] = [];
+
+    if (
+      notificationResponse?.data?.data?.userDescriptions &&
+      notificationResponse.data.data.userDescriptions.length > 0
+    ) {
+      validUsers = notificationResponse.data.data.userDescriptions;
+      // Only select the latest version of each user metaData
+      validUsers = validUsers.filter(
+        userDetails => userDetails.user?.description?.id === userDetails.id,
       );
+    } else {
+      return res.status(200).json(`No User opted for this feature`);
+    }
 
-      let validUsers: IUserDetails[] = [];
+    const validUserAddresses: string[] = validUsers.map(userDetails => userDetails.user.address);
 
-      if (
-        response?.data?.data?.userDescriptions &&
-        response.data.data.userDescriptions.length > 0
-      ) {
-        validUsers = response.data.data.userDescriptions;
-        // Only select the latest version of each user metaData
-        validUsers = validUsers.filter(
-          userDetails => userDetails.user?.description?.id === userDetails.id,
+    const proposalEmailsToBeSent = nonSentProposalEmails.filter(proposal => {
+      validUserAddresses.includes(proposal.seller.address);
+    });
+
+    if (proposalEmailsToBeSent.length === 0) {
+      return res
+        .status(200)
+        .json(
+          `New proposals validated detected, but no concerned users opted for the ${EmailType.ProposalValidated} feature`,
         );
-      } else {
-        return res.status(200).json(`No User opted for this feature`);
-      }
+    }
 
-      const validUserAddresses: string[] = validUsers.map(userDetails => userDetails.user.address);
+    const { dataProtector, web3mail } = generateWeb3mailProviders(privateKey);
 
-      const proposalEmailsToBeSent = nonSentProposalEmails.filter(proposal => {
-        validUserAddresses.includes(proposal.seller.address);
-      });
-
-      if (proposalEmailsToBeSent.length === 0) {
-        return res
-          .status(200)
-          .json(
-            `New proposals validated detected, but no concerned users opted for the ${EmailType.ProposalValidated} feature`,
-          );
-      }
-
-      const { dataProtector, web3mail } = generateWeb3mailProviders(privateKey);
-
-      for (const proposal of proposalEmailsToBeSent) {
-        try {
-          // @dev: This function needs to be throwable to avoid persisting the proposal in the DB if the email is not sent
-          await sendMailToAddresses(
-            `Your proposal got accepted ! - ${proposal.description?.title}`,
-            `The proposal you made for the service ${proposal.service.id} you posted on TalentLayer got accepted by ${proposal.service.buyer} !
+    for (const proposal of proposalEmailsToBeSent) {
+      try {
+        // @dev: This function needs to be throwable to avoid persisting the proposal in the DB if the email is not sent
+        await sendMailToAddresses(
+          `Your proposal got accepted ! - ${proposal.description?.title}`,
+          `The proposal you made for the service ${proposal.service.id} you posted on TalentLayer got accepted by ${proposal.service.buyer} !
               The following amount was agreed: ${proposal.rateAmount} : ${proposal.rateToken.symbol}. 
               For the following work to be provided: ${proposal.description?.about}.
               
               This Proposal can be viewed at ${proposal.service.platform.description?.website}${proposal.id}`,
-            [proposal.seller.address],
-            true,
-            dataProtector,
-            web3mail,
-          );
-          await persistEmail(proposal.id, EmailType.ProposalValidated);
-          sentEmails++;
-        } catch (e: any) {
-          nonSentEmails++;
-          console.error(e.message);
-        }
+          [proposal.seller.address],
+          true,
+          dataProtector,
+          web3mail,
+        );
+        await persistEmail(proposal.id, EmailType.ProposalValidated);
+        console.log('Notification recorded in Database');
+        sentEmails++;
+      } catch (e: any) {
+        nonSentEmails++;
+        console.error(e.message);
       }
     }
   } catch (e: any) {

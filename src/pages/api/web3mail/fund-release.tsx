@@ -52,7 +52,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // Check if a notification email has already been sent for these fund releases
     if (payments.length > 0) {
       for (const payment of payments) {
-        const hasBeenSent = await hasPaymentEmailBeenSent(payment, EmailType.FundRelease);
+        const hasBeenSent = await hasPaymentEmailBeenSent(payment);
         if (!hasBeenSent) {
           nonSentPaymentEmails.push(payment);
         }
@@ -60,91 +60,100 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     // If some emails have not been sent yet, send a web3mail & persist in the DB that the email was sent
-    if (nonSentPaymentEmails.length > 0) {
-      // Check whether the users opted for the called feature | Seller if fund release, Buyer if fund reimbursement
-      const allAddresses = nonSentPaymentEmails.map(payment => {
-        if (payment.paymentType === PaymentTypeEnum.Release) {
-          return payment.service.seller.address;
-        } else {
-          return payment.service.buyer.address;
-        }
-      });
+    if (nonSentPaymentEmails.length == 0) {
+      return res.status(200).json(`All new fund release notifications already sent`);
+    }
 
-      const response = await getUsersWeb3MailPreference(
-        Number(chainId),
-        allAddresses,
-        'activeOnFundRelease',
-      );
-
-      let validUsers: IUserDetails[] = [];
-
-      if (
-        response?.data?.data?.userDescriptions &&
-        response.data.data.userDescriptions.length > 0
-      ) {
-        validUsers = response.data.data.userDescriptions;
-        // Only select the latest version of each user metaData
-        validUsers = validUsers.filter(
-          userDetails => userDetails.user?.description?.id === userDetails.id,
-        );
+    console.log('nonSentPaymentEmails', nonSentPaymentEmails);
+    // Check whether the users opted for the called feature | Seller if fund release, Buyer if fund reimbursement
+    const allAddresses = nonSentPaymentEmails.map(payment => {
+      if (payment.paymentType === PaymentTypeEnum.Release) {
+        return payment.service.seller.address;
       } else {
-        return res.status(200).json(`No User opted for this feature`);
+        return payment.service.buyer.address;
       }
+    });
+    console.log('allAddresses', allAddresses);
 
-      const validUserAddresses: string[] = validUsers.map(userDetails => userDetails.user.address);
+    const notificationResponse = await getUsersWeb3MailPreference(
+      Number(chainId),
+      allAddresses,
+      'activeOnFundRelease',
+    );
 
-      const paymentEmailsToBeSent = nonSentPaymentEmails.filter(payment =>
-        validUserAddresses.includes(
-          payment.paymentType === PaymentTypeEnum.Release
-            ? payment.service.seller.address
-            : payment.service.buyer.address,
-        ),
+    let validUsers: IUserDetails[] = [];
+
+    if (
+      notificationResponse?.data?.data?.userDescriptions &&
+      notificationResponse.data.data.userDescriptions.length > 0
+    ) {
+      validUsers = notificationResponse.data.data.userDescriptions;
+      console.log('validUsers before', validUsers);
+      // Only select the latest version of each user metaData
+      validUsers = validUsers.filter(
+        userDetails => userDetails.user?.description?.id === userDetails.id,
       );
+      console.log('validUsers after', validUsers);
+    } else {
+      return res.status(200).json(`No User opted for this feature`);
+    }
 
-      if (paymentEmailsToBeSent.length > 0) {
-        return res
-          .status(200)
-          .json(
-            `New fund release detected, but no  concerned users opted for the ${EmailType.FundRelease} feature`,
-          );
+    const validUserAddresses: string[] = validUsers.map(userDetails => userDetails.user.address);
+    console.log('validUserAddresses', validUserAddresses);
+    console.log('paymentEmailsToBeSent before', nonSentPaymentEmails);
+    const paymentEmailsToBeSent = nonSentPaymentEmails.filter(payment =>
+      validUserAddresses.includes(
+        payment.paymentType === PaymentTypeEnum.Release
+          ? payment.service.seller.address
+          : payment.service.buyer.address,
+      ),
+    );
+    console.log('paymentEmailsToBeSent after', nonSentPaymentEmails);
+
+    if (paymentEmailsToBeSent.length === 0) {
+      return res
+        .status(200)
+        .json(
+          `New fund release detected, but no  concerned users opted for the ${EmailType.FundRelease} feature`,
+        );
+    }
+
+    const { dataProtector, web3mail } = generateWeb3mailProviders(privateKey);
+
+    for (const payment of paymentEmailsToBeSent) {
+      let handle = '',
+        action = '',
+        address = '';
+      if (payment.paymentType === PaymentTypeEnum.Release) {
+        handle = payment.service.seller.handle;
+        action = 'released';
+        address = payment.service.seller.address;
+      } else {
+        handle = payment.service.buyer.handle;
+        action = 'reimbursed';
+        address = payment.service.buyer.address;
       }
+      console.log(`New fund ${action} email to send to ${handle} at address ${address}`);
 
-      const { dataProtector, web3mail } = generateWeb3mailProviders(privateKey);
-
-      for (const payment of paymentEmailsToBeSent) {
-        let handle = '',
-          action = '',
-          address = '';
-        if (payment.paymentType === PaymentTypeEnum.Release) {
-          handle = payment.service.seller.handle;
-          action = 'released';
-          address = payment.service.seller.address;
-        } else {
-          handle = payment.service.buyer.handle;
-          action = 'reimbursed';
-          address = payment.service.buyer.address;
-        }
-        console.log(`New fund ${action} email to send to ${handle} at address ${address}`);
-
-        try {
-          // @dev: This function needs to be throwable to avoid persisting the entity in the DB if the email is not sent
-          await sendMailToAddresses(
-            `Funds ${action} for the service - ${payment.service.description?.title}`,
-            `${handle} has ${action} ${payment.amount} ${payment.rateToken.symbol} for the 
+      try {
+        // @dev: This function needs to be throwable to avoid persisting the entity in the DB if the email is not sent
+        await sendMailToAddresses(
+          `Funds ${action} for the service - ${payment.service.description?.title}`,
+          `${handle} has ${action} ${payment.amount} ${payment.rateToken.symbol} for the 
             service ${payment.service.description?.title} on TalentLayer !
             
             You can find details on this payment here: ${payment.service.platform.description?.website}/dashboard/services/${payment.service.id}`,
-            [address],
-            true,
-            dataProtector,
-            web3mail,
-          );
-          await persistEmail(payment.id, EmailType.FundRelease);
-          sentEmails++;
-        } catch (e: any) {
-          nonSentEmails++;
-          console.error(e.message);
-        }
+          [address],
+          true,
+          dataProtector,
+          web3mail,
+        );
+        await persistEmail(payment.id, EmailType.FundRelease);
+        console.log('Notification recorded in Database');
+        sentEmails++;
+      } catch (e: any) {
+        nonSentEmails++;
+        console.error(e.message);
       }
     }
   } catch (e: any) {

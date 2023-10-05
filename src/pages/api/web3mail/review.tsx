@@ -47,7 +47,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     if (reviews.length > 0) {
       for (const review of reviews) {
-        const hasBeenSent = await hasReviewEmailBeenSent(review, EmailType.Review);
+        const hasBeenSent = await hasReviewEmailBeenSent(review);
         if (!hasBeenSent) {
           nonSentReviewEmails.push(review);
         }
@@ -55,83 +55,85 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     // If some emails have not been sent yet, send a web3mail & persist in the DB that the email was sent
-    if (nonSentReviewEmails.length > 0) {
-      // Filter out users which have not opted for the feature
-      const allRevieweesAddresses = nonSentReviewEmails.map(review => review.to.address);
+    if (nonSentReviewEmails.length == 0) {
+      return res.status(200).json(`All review notifications already sent`);
+    }
+    // Filter out users which have not opted for the feature
+    const allRevieweesAddresses = nonSentReviewEmails.map(review => review.to.address);
 
-      const response = await getUsersWeb3MailPreference(
-        Number(chainId),
-        allRevieweesAddresses,
-        'activeOnReview',
+    const notificationResponse = await getUsersWeb3MailPreference(
+      Number(chainId),
+      allRevieweesAddresses,
+      'activeOnReview',
+    );
+
+    let validUsers: IUserDetails[] = [];
+
+    if (
+      notificationResponse?.data?.data?.userDescriptions &&
+      notificationResponse.data.data.userDescriptions.length > 0
+    ) {
+      validUsers = notificationResponse.data.data.userDescriptions;
+      // Only select the latest version of each user metaData
+      validUsers = validUsers.filter(
+        userDetails => userDetails.user?.description?.id === userDetails.id,
       );
+    } else {
+      return res.status(200).json(`No User opted for this feature`);
+    }
 
-      let validUsers: IUserDetails[] = [];
+    const validUserAddresses: string[] = validUsers.map(userDetails => userDetails.user.address);
 
-      if (
-        response?.data?.data?.userDescriptions &&
-        response.data.data.userDescriptions.length > 0
-      ) {
-        validUsers = response.data.data.userDescriptions;
-        // Only select the latest version of each user metaData
-        validUsers = validUsers.filter(
-          userDetails => userDetails.user?.description?.id === userDetails.id,
+    const reviewEmailsToBeSent = nonSentReviewEmails.filter(review => {
+      validUserAddresses.includes(review.to.address);
+    });
+
+    if (reviewEmailsToBeSent.length === 0) {
+      return res
+        .status(200)
+        .json(
+          `New reviews detected, but no concerned users opted for the ${EmailType.Review} feature`,
         );
+    }
+
+    const { dataProtector, web3mail } = generateWeb3mailProviders(privateKey);
+
+    for (const review of reviewEmailsToBeSent) {
+      let fromHandle = '',
+        fromAddress = '';
+      if (review.to.address === review.service.buyer.address) {
+        fromHandle = review.service.seller.handle;
+        fromAddress = review.service.seller.address;
       } else {
-        return res.status(200).json(`No User opted for this feature`);
+        fromHandle = review.service.buyer.handle;
+        fromAddress = review.service.buyer.address;
       }
-
-      const validUserAddresses: string[] = validUsers.map(userDetails => userDetails.user.address);
-
-      const reviewEmailsToBeSent = nonSentReviewEmails.filter(review => {
-        validUserAddresses.includes(review.to.address);
-      });
-
-      if (reviewEmailsToBeSent.length === 0) {
-        return res
-          .status(200)
-          .json(
-            `New reviews detected, but no concerned users opted for the ${EmailType.Review} feature`,
-          );
-      }
-
-      const { dataProtector, web3mail } = generateWeb3mailProviders(privateKey);
-
-      for (const review of reviewEmailsToBeSent) {
-        let fromHandle = '',
-          fromAddress = '';
-        if (review.to.address === review.service.buyer.address) {
-          fromHandle = review.service.seller.handle;
-          fromAddress = review.service.seller.address;
-        } else {
-          fromHandle = review.service.buyer.handle;
-          fromAddress = review.service.buyer.address;
-        }
-        console.log(
-          `A review with id ${review.id} was created from ${fromHandle} owning the address ${fromAddress} for the service ${review.service.id}.`,
-        );
-        review.to.address === review.service.buyer.address
-          ? console.log('Reviewer is the seller')
-          : console.log('Reviewer is the buyer');
-        try {
-          // @dev: This function needs to be throwable to avoid persisting the entity in the DB if the email is not sent
-          await sendMailToAddresses(
-            `A review was created for the service - ${review.service.description?.title}`,
-            `${fromHandle} has left a review for the TalentLayer service ${review.service.description?.title}.
+      console.log(
+        `A review with id ${review.id} was created from ${fromHandle} owning the address ${fromAddress} for the service ${review.service.id}.`,
+      );
+      review.to.address === review.service.buyer.address
+        ? console.log('Reviewer is the seller')
+        : console.log('Reviewer is the buyer');
+      try {
+        // @dev: This function needs to be throwable to avoid persisting the entity in the DB if the email is not sent
+        await sendMailToAddresses(
+          `A review was created for the service - ${review.service.description?.title}`,
+          `${fromHandle} has left a review for the TalentLayer service ${review.service.description?.title}.
             The service was rated ${review.rating}/5 stars and the following comment was left: ${review.description?.content}.
             Congratulations on completing your service and improving your TalentLayer reputation !
             
             You can find details on this review here: ${review.service.platform.description?.website}/dashboard/services/${review.service.id}`,
-            [review.to.address],
-            true,
-            dataProtector,
-            web3mail,
-          );
-          await persistEmail(review.id, EmailType.Review);
-          sentEmails++;
-        } catch (e: any) {
-          nonSentEmails++;
-          console.error(e.message);
-        }
+          [review.to.address],
+          true,
+          dataProtector,
+          web3mail,
+        );
+        await persistEmail(review.id, EmailType.Review);
+        console.log('Notification recorded in Database');
+        sentEmails++;
+      } catch (e: any) {
+        nonSentEmails++;
+        console.error(e.message);
       }
     }
   } catch (e: any) {

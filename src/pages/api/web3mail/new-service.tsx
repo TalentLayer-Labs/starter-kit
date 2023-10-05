@@ -27,6 +27,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   const { dataProtector, web3mail } = generateWeb3mailProviders(privateKey);
 
+  await mongoose.disconnect();
   await mongoose.connect(mongoUri as string);
 
   // Check whether the user provided a timestamp or if it will come from the cron config
@@ -39,12 +40,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   try {
     // Fetch all contacts who protected their email and granted access to the platform
     const allContacts = await web3mail.fetchMyContacts();
+    console.log('allContacts', allContacts);
 
     if (!allContacts || allContacts.length === 0) {
       return res.status(200).json(`No contacts granted access to their email`);
     }
 
-    const allContactsAddresses = allContacts.map(contact => contact.address);
+    const allContactsAddresses = allContacts.map(contact => contact.owner);
+    // const allContactsAddresses = [
+    //   '0x1ab1655fb5bb0212ec2e5d05628415fc2c1ad9c7',
+    //   '0x812c44b6661aa519aa590b7de43d8f1cf5f6d038',
+    //   '0x3d0c6a35dcd9aeb46b493cd6cc9ace84583b7ae8',
+    // ];
 
     // Get all users that opted for the feature
     const response = await getWeb3mailUsersForNewServices(
@@ -52,14 +59,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       allContactsAddresses,
       'activeOnNewService',
     );
-
     let validContacts: IUserDetails[] = [];
 
     if (response?.data?.data?.userDescriptions && response.data.data.userDescriptions.length > 0) {
       validContacts = response.data.data.userDescriptions;
       // Only select the latest version of each user metaData
       validContacts = validContacts.filter(contact => contact.user?.description?.id === contact.id);
-      console.log('validContacts', validContacts);
     } else {
       return res.status(200).json(`No User opted for this feature`);
     }
@@ -85,11 +90,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       );
       for (const service of services) {
         // Check if a notification email has already been sent for these services
-        const emailHasBeenSent = await hasNewServiceEmailBeenSent(
-          contact.user.id,
-          service,
-          EmailType.NewService,
-        );
+        const emailHasBeenSent = await hasNewServiceEmailBeenSent(contact.user.id, service);
         if (!emailHasBeenSent) {
           const userSkills = contact.skills_raw?.split(',');
           const serviceSkills = service.description?.keywords_raw?.split(',');
@@ -116,10 +117,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                   service.description?.title
                 }" was recently posted by ${service.buyer.handle} and you are a good match for it.
                   Here is what is proposed: ${service.description?.about}.
-                  You can go check it out here: PLATFORM_URL/${service.id}.
+                  
                   The skills you have which are required by this service are: ${matchingSkills.join(
                     ', ',
                   )}.
+                  
                   Be the first one to send a proposal !
 
                   You can find details on this service here: ${
@@ -131,6 +133,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 web3mail,
               );
               await persistEmail(`${contact.user.id}-${service.id}`, EmailType.NewService);
+              console.log('Notification recorded in Database');
               sentEmails++;
             } catch (e: any) {
               console.error(e.message);
