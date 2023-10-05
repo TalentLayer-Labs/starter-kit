@@ -78,7 +78,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(200).json(`No User opted for this feature`);
     }
 
-    const validUserAddresses = getValidUsers(notificationResponse.data.data.userDescriptions, res);
+    const validUserAddresses = getValidUsers(notificationResponse.data.data.userDescriptions);
 
     const proposalEmailsToBeSent = nonSentProposalEmails.filter(proposal => {
       validUserAddresses.includes(proposal.service.buyer.address);

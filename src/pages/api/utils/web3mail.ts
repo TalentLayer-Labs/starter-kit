@@ -1,6 +1,7 @@
 import { NextApiResponse } from 'next';
 import { IExecWeb3mail, getWeb3Provider as getMailProvider } from '@iexec/web3mail';
 import { IExecDataProtector, getWeb3Provider as getProtectorProvider } from '@iexec/dataprotector';
+import { IUserDetails } from '../../../types';
 
 export const prepareCronApi = (
   chainId: string | undefined,
@@ -63,4 +64,12 @@ export const generateWeb3mailProviders = (
   const protectorWebProvider = getProtectorProvider(privateKey);
   const dataProtector = new IExecDataProtector(protectorWebProvider);
   return { dataProtector, web3mail };
+};
+
+export const getValidUsers = (userDescriptions: IUserDetails[]): string[] => {
+  // Only select the latest version of each user metaData
+  const validUsers = userDescriptions.filter(
+    userDetails => userDetails.user?.description?.id === userDetails.id,
+  );
+  return validUsers.map(userDetails => userDetails.user.address);
 };
