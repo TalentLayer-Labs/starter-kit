@@ -13,7 +13,7 @@ export const hasEmailBeenSent = async (id: string, emailType: EmailType): Promis
     console.log('Notification not in DB');
     return false;
   }
-  console.log('Notification not sent yet');
+  console.log('Notification already sent');
   return true;
 };
 
