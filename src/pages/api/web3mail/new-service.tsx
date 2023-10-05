@@ -59,6 +59,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       allContactsAddresses,
       'activeOnNewService',
     );
+
     let validContacts: IUserDetails[] = [];
 
     if (response?.data?.data?.userDescriptions && response.data.data.userDescriptions.length > 0) {

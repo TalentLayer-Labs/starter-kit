@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import { getAcceptedProposals } from '../../../queries/proposals';
-import { EmailType, IProposal, IUserDetails, NotificationApiUri } from '../../../types';
+import { EmailType, IProposal, NotificationApiUri } from '../../../types';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { sendMailToAddresses } from '../../../scripts/iexec/sendMailToAddresses';
 import { getUsersWeb3MailPreference } from '../../../queries/users';
@@ -10,7 +10,7 @@ import {
   persistCronProbe,
   persistEmail,
 } from '../../../modules/Web3mail/utils/database';
-import { generateWeb3mailProviders, prepareCronApi } from '../utils/web3mail';
+import { generateWeb3mailProviders, getValidUsers, prepareCronApi } from '../utils/web3mail';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const chainId = process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as string;
@@ -66,22 +66,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       'activeOnProposalValidated',
     );
 
-    let validUsers: IUserDetails[] = [];
-
     if (
-      notificationResponse?.data?.data?.userDescriptions &&
-      notificationResponse.data.data.userDescriptions.length > 0
+      !notificationResponse?.data?.data?.userDescriptions ||
+      notificationResponse.data.data.userDescriptions.length === 0
     ) {
-      validUsers = notificationResponse.data.data.userDescriptions;
-      // Only select the latest version of each user metaData
-      validUsers = validUsers.filter(
-        userDetails => userDetails.user?.description?.id === userDetails.id,
-      );
-    } else {
       return res.status(200).json(`No User opted for this feature`);
     }
 
-    const validUserAddresses: string[] = validUsers.map(userDetails => userDetails.user.address);
+    const validUserAddresses = getValidUsers(notificationResponse.data.data.userDescriptions, res);
 
     const proposalEmailsToBeSent = nonSentProposalEmails.filter(proposal => {
       validUserAddresses.includes(proposal.seller.address);

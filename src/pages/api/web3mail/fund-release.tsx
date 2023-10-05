@@ -1,12 +1,6 @@
 import mongoose from 'mongoose';
 import { getNewPayments } from '../../../queries/payments';
-import {
-  EmailType,
-  IPayment,
-  IUserDetails,
-  NotificationApiUri,
-  PaymentTypeEnum,
-} from '../../../types';
+import { EmailType, IPayment, NotificationApiUri, PaymentTypeEnum } from '../../../types';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { sendMailToAddresses } from '../../../scripts/iexec/sendMailToAddresses';
 import { getUsersWeb3MailPreference } from '../../../queries/users';
@@ -16,7 +10,7 @@ import {
   persistCronProbe,
   persistEmail,
 } from '../../../modules/Web3mail/utils/database';
-import { generateWeb3mailProviders, prepareCronApi } from '../utils/web3mail';
+import { generateWeb3mailProviders, getValidUsers, prepareCronApi } from '../utils/web3mail';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const chainId = process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as string;
@@ -64,7 +58,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(200).json(`All new fund release notifications already sent`);
     }
 
-    console.log('nonSentPaymentEmails', nonSentPaymentEmails);
     // Check whether the users opted for the called feature | Seller if fund release, Buyer if fund reimbursement
     const allAddresses = nonSentPaymentEmails.map(payment => {
       if (payment.paymentType === PaymentTypeEnum.Release) {
@@ -73,7 +66,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return payment.service.buyer.address;
       }
     });
-    console.log('allAddresses', allAddresses);
 
     const notificationResponse = await getUsersWeb3MailPreference(
       Number(chainId),
@@ -81,26 +73,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       'activeOnFundRelease',
     );
 
-    let validUsers: IUserDetails[] = [];
-
     if (
-      notificationResponse?.data?.data?.userDescriptions &&
-      notificationResponse.data.data.userDescriptions.length > 0
+      !notificationResponse?.data?.data?.userDescriptions ||
+      notificationResponse.data.data.userDescriptions.length === 0
     ) {
-      validUsers = notificationResponse.data.data.userDescriptions;
-      console.log('validUsers before', validUsers);
-      // Only select the latest version of each user metaData
-      validUsers = validUsers.filter(
-        userDetails => userDetails.user?.description?.id === userDetails.id,
-      );
-      console.log('validUsers after', validUsers);
-    } else {
       return res.status(200).json(`No User opted for this feature`);
     }
 
-    const validUserAddresses: string[] = validUsers.map(userDetails => userDetails.user.address);
-    console.log('validUserAddresses', validUserAddresses);
-    console.log('paymentEmailsToBeSent before', nonSentPaymentEmails);
+    const validUserAddresses = getValidUsers(notificationResponse.data.data.userDescriptions, res);
+
     const paymentEmailsToBeSent = nonSentPaymentEmails.filter(payment =>
       validUserAddresses.includes(
         payment.paymentType === PaymentTypeEnum.Release
@@ -108,7 +89,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           : payment.service.buyer.address,
       ),
     );
-    console.log('paymentEmailsToBeSent after', nonSentPaymentEmails);
 
     if (paymentEmailsToBeSent.length === 0) {
       return res
