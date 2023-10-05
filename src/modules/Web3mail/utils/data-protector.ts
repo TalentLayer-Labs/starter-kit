@@ -24,8 +24,7 @@ export const userGaveAccessToPlatform = async (
     },
   });
 
-  const protectedEmail = protectedData.find(item => item.name === 'TalentLayer email');
-
+  const protectedEmail = protectedData.find(item => item.name === 'Untitled');
   if (!protectedEmail) {
     console.warn(`Web3MailProvider ----  - User ${userAddress} has no protected email`);
     return null;
