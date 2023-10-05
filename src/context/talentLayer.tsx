@@ -53,7 +53,7 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
           baseUrl: (process.env.NEXT_PUBLIC_IPFS_WRITE_URL as string)
         },
         platformId: (parseInt(process.env.NEXT_PUBLIC_PLATFORM_ID as string)),
-        signatureUrl: (process.env.NEXT_PUBLIC_SIGNATURE_API_URL as string)
+        signatureApiUrl: (process.env.NEXT_PUBLIC_SIGNATURE_API_URL as string)
     })
       setTalentLayerClient(tlClient);
     }
