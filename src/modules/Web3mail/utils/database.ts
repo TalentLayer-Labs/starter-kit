@@ -1,58 +1,16 @@
-import { EmailType, IPayment, IProposal, IReview, IService } from '../../../types';
+import { EmailType } from '../../../types';
 import { Web3Mail } from '../schemas/web3mail';
 import { CronProbe } from '../schemas/cronProbe';
 
 const getTimestampNowSeconds = () => Math.floor(new Date().getTime() / 1000);
 
-export const hasProposalEmailBeenSent = async (proposal: IProposal): Promise<boolean> => {
-  console.log(`---------------------- Proposal ${proposal.id} ----------------------`);
+export const hasEmailBeenSent = async (id: string, emailType: EmailType): Promise<boolean> => {
+  console.log(`---------------------- ${emailType} ${id} ----------------------`);
   const existingProposal = await Web3Mail.findOne({
-    id: `${proposal.id}-${EmailType.NewProposal}`,
+    id: `${id}-${emailType}`,
   });
   if (!existingProposal) {
-    console.log('Proposal not in DB');
-    return false;
-  }
-  console.log('Notification not sent yet');
-  return true;
-};
-
-export const hasPaymentEmailBeenSent = async (payment: IPayment): Promise<boolean> => {
-  console.log(`---------------------- Payment ${payment.id} ----------------------`);
-  const existingPayment = await Web3Mail.findOne({
-    id: `${payment.id}-${EmailType.FundRelease}`,
-  });
-  if (!existingPayment) {
-    console.log('Payment not in DB');
-    return false;
-  }
-  console.log('Notification not sent yet');
-  return true;
-};
-
-export const hasReviewEmailBeenSent = async (review: IReview): Promise<boolean> => {
-  console.log(`---------------------- Review ${review.id} ----------------------`);
-  const existingReview = await Web3Mail.findOne({
-    id: `${review.id}-${EmailType.Review}`,
-  });
-  if (!existingReview) {
-    console.log('Review not in DB');
-    return false;
-  }
-  console.log('Notification not sent yet');
-  return true;
-};
-
-export const hasNewServiceEmailBeenSent = async (
-  userId: string,
-  service: IService,
-): Promise<boolean> => {
-  console.log(`---------------------- Service ${service.id} ----------------------`);
-  const existingService = await Web3Mail.findOne({
-    id: `${userId}-${service.id}-${EmailType.NewService}`,
-  });
-  if (!existingService) {
-    console.log('Service not in DB');
+    console.log('Notification not in DB');
     return false;
   }
   console.log('Notification not sent yet');

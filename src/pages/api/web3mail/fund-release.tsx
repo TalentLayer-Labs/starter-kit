@@ -12,7 +12,7 @@ import { sendMailToAddresses } from '../../../scripts/iexec/sendMailToAddresses'
 import { getUsersWeb3MailPreference } from '../../../queries/users';
 import { calculateCronData } from '../../../modules/Web3mail/utils/cron';
 import {
-  hasPaymentEmailBeenSent,
+  hasEmailBeenSent,
   persistCronProbe,
   persistEmail,
 } from '../../../modules/Web3mail/utils/database';
@@ -52,7 +52,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // Check if a notification email has already been sent for these fund releases
     if (payments.length > 0) {
       for (const payment of payments) {
-        const hasBeenSent = await hasPaymentEmailBeenSent(payment);
+        const hasBeenSent = await hasEmailBeenSent(payment.id, EmailType.FundRelease);
         if (!hasBeenSent) {
           nonSentPaymentEmails.push(payment);
         }

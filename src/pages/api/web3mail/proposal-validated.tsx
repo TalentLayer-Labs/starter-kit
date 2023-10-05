@@ -6,7 +6,7 @@ import { sendMailToAddresses } from '../../../scripts/iexec/sendMailToAddresses'
 import { getUsersWeb3MailPreference } from '../../../queries/users';
 import { calculateCronData } from '../../../modules/Web3mail/utils/cron';
 import {
-  hasProposalEmailBeenSent,
+  hasEmailBeenSent,
   persistCronProbe,
   persistEmail,
 } from '../../../modules/Web3mail/utils/database';
@@ -47,7 +47,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // Check if a notification email has already been sent for these proposals
     if (proposals.length > 0) {
       for (const proposal of proposals) {
-        const hasBeenSent = await hasProposalEmailBeenSent(proposal);
+        const hasBeenSent = await hasEmailBeenSent(proposal.id, EmailType.ProposalValidated);
         if (!hasBeenSent) {
           nonSentProposalEmails.push(proposal);
         }

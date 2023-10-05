@@ -5,7 +5,7 @@ import { sendMailToAddresses } from '../../../scripts/iexec/sendMailToAddresses'
 import { getWeb3mailUsersForNewServices } from '../../../queries/users';
 import { calculateCronData } from '../../../modules/Web3mail/utils/cron';
 import {
-  hasNewServiceEmailBeenSent,
+  hasEmailBeenSent,
   persistCronProbe,
   persistEmail,
 } from '../../../modules/Web3mail/utils/database';
@@ -90,7 +90,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       );
       for (const service of services) {
         // Check if a notification email has already been sent for these services
-        const emailHasBeenSent = await hasNewServiceEmailBeenSent(contact.user.id, service);
+        const emailHasBeenSent = await hasEmailBeenSent(
+          `${contact.user.id}-${service.id}`,
+          EmailType.NewService,
+        );
         if (!emailHasBeenSent) {
           const userSkills = contact.skills_raw?.split(',');
           const serviceSkills = service.description?.keywords_raw?.split(',');

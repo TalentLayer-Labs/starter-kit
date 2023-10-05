@@ -5,7 +5,7 @@ import { sendMailToAddresses } from '../../../scripts/iexec/sendMailToAddresses'
 import { getUsersWeb3MailPreference } from '../../../queries/users';
 import { calculateCronData } from '../../../modules/Web3mail/utils/cron';
 import {
-  hasReviewEmailBeenSent,
+  hasEmailBeenSent,
   persistCronProbe,
   persistEmail,
 } from '../../../modules/Web3mail/utils/database';
@@ -47,7 +47,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     if (reviews.length > 0) {
       for (const review of reviews) {
-        const hasBeenSent = await hasReviewEmailBeenSent(review);
+        const hasBeenSent = await hasEmailBeenSent(review.id, EmailType.Review);
         if (!hasBeenSent) {
           nonSentReviewEmails.push(review);
         }
