@@ -73,7 +73,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     let validUsers: IUserDetails[] = [];
 
-    if (notificationResponse?.data?.data?.userDescriptions) {
+    if (
+      notificationResponse?.data?.data?.userDescriptions &&
+      notificationResponse.data.data.userDescriptions.length > 0
+    ) {
       validUsers = notificationResponse.data.data.userDescriptions;
       // Only select the latest version of each user metaData
       validUsers = validUsers.filter(
