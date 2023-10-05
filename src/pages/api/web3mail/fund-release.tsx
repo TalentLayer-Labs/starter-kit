@@ -121,29 +121,34 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const { dataProtector, web3mail } = generateWeb3mailProviders(privateKey);
 
     for (const payment of paymentEmailsToBeSent) {
-      let handle = '',
+      let senderHandle = '',
+        receiverHandle = '',
         action = '',
-        address = '';
+        receiverAddress = '';
       if (payment.paymentType === PaymentTypeEnum.Release) {
-        handle = payment.service.seller.handle;
+        senderHandle = payment.service.buyer.handle;
+        receiverHandle = payment.service.seller.handle;
         action = 'released';
-        address = payment.service.seller.address;
+        receiverAddress = payment.service.seller.address;
       } else {
-        handle = payment.service.buyer.handle;
+        senderHandle = payment.service.seller.handle;
+        receiverHandle = payment.service.buyer.handle;
         action = 'reimbursed';
-        address = payment.service.buyer.address;
+        receiverAddress = payment.service.buyer.address;
       }
-      console.log(`New fund ${action} email to send to ${handle} at address ${address}`);
+      console.log(
+        `New fund ${action} email to send to ${senderHandle} at address ${receiverAddress}`,
+      );
 
       try {
         // @dev: This function needs to be throwable to avoid persisting the entity in the DB if the email is not sent
         await sendMailToAddresses(
           `Funds ${action} for the service - ${payment.service.description?.title}`,
-          `${handle} has ${action} ${payment.amount} ${payment.rateToken.symbol} for the 
+          `${senderHandle} has ${action} ${payment.amount} ${payment.rateToken.symbol} for the 
             service ${payment.service.description?.title} on TalentLayer !
             
             You can find details on this payment here: ${payment.service.platform.description?.website}/dashboard/services/${payment.service.id}`,
-          [address],
+          [receiverAddress],
           true,
           dataProtector,
           web3mail,
