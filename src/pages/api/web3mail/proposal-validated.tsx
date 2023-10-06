@@ -75,9 +75,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     const validUserAddresses = getValidUsers(notificationResponse.data.data.userDescriptions);
 
-    const proposalEmailsToBeSent = nonSentProposalEmails.filter(proposal => {
-      validUserAddresses.includes(proposal.seller.address);
-    });
+    const proposalEmailsToBeSent = nonSentProposalEmails.filter(proposal =>
+      validUserAddresses.includes(proposal.seller.address),
+    );
 
     if (proposalEmailsToBeSent.length === 0) {
       return res
