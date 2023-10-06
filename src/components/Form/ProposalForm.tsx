@@ -126,7 +126,6 @@ function ProposalForm({
           values.rateToken,
           token.decimals,
         );
-        console.log({parsedRateAmount})
         const now = Math.floor(Date.now() / 1000);
         const convertExpirationDate = now + 60 * 60 * 24 * values.expirationDate;
         const convertExpirationDateString = convertExpirationDate.toString();

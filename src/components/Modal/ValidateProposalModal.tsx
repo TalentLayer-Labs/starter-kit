@@ -27,7 +27,6 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
     token: proposal.rateToken.address,
   });
 
-  console.log({isProposalUseEth}, proposal.rateToken.address)
   const talentLayerClient = useTalentLayerClient();
   
 

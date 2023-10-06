@@ -26,7 +26,6 @@ function AdminDispute() {
     if (talentLayerClient) {
       try {
         const _price = await talentLayerClient.disputes.getArbitrationCost();
-        console.log("Starter kit: _price", _price);
         setArbitratorPrice(_price);
       } catch (e) {
         console.error(e);

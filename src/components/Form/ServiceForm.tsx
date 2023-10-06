@@ -122,7 +122,6 @@ function ServiceForm() {
         } else {
 
           if (talentLayerClient) {
-            console.log("Starter kit: creating new service")
             const serviceResponse = await talentLayerClient.service.create({
               title: values.title,
               about: values.about,
@@ -133,7 +132,6 @@ function ServiceForm() {
   
             cid = serviceResponse.cid;
             tx = serviceResponse.tx;
-            console.log({serviceResponse})
           } else {
             throw new Error('TL client not initialised');
           }

@@ -14,7 +14,6 @@ const useServiceById = (serviceId: string): IService | null => {
       talentLayerClient
         .service.getOne(serviceId)
         .then(response => {
-          console.log('Service details found', response);
           if (response) {
             setService(response);
           }

@@ -41,7 +41,6 @@ export const executePayment = async (
         tx = await talentLayerClient.escrow.reimburse(serviceId, amount, parseInt(profileId));
       }
     }
-    console.log("Starter kit: tx", tx);
 
     const message = isBuyer
       ? 'Your payment release is in progress'

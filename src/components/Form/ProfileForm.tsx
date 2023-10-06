@@ -75,9 +75,9 @@ function ProfileForm({ callback }: { callback?: () => void }) {
     values: IFormValues,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void },
   ) => {
-    if (user && walletClient && publicClient) {
+    if (user && walletClient && publicClient && talentLayerClient) {
       try {
-        let cid = await talentLayerClient?.profile.upload({
+        let cid = await talentLayerClient.profile.upload({
           title: values.title,
           role: values.role,
           image_url: values.image_url,
@@ -88,10 +88,9 @@ function ProfileForm({ callback }: { callback?: () => void }) {
         });
 
         let tx;
-        console.log("SDK consumer delegate: ", isActiveDelegate)
 
         if (isActiveDelegate) {
-          const response = await delegateUpdateProfileData(chainId, user.id, user.address, cid || '');
+          const response = await delegateUpdateProfileData(chainId, user.id, user.address, cid);
           tx = response.data.transaction;
         } else {
           const res = await talentLayerClient?.profile.update(
@@ -107,8 +106,8 @@ function ProfileForm({ callback }: { callback?: () => void }) {
             user.id
           );  
 
-           tx = res?.tx || "";
-           cid = res?.cid || "";
+           tx = res.tx;
+           cid = res.cid;
         }
 
         await createMultiStepsTransactionToast(

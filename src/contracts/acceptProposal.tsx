@@ -26,7 +26,6 @@ export const validateProposal = async (
 
 
       let tx1: string;
-      console.log("proposalId: ", proposalId, {value})
       const {tx} = await talentLayerClient.escrow.approve(serviceId, proposalId, metaEvidenceCid, value)
       tx1 = tx;
       const receipt1 = await toast.promise(publicClient.waitForTransactionReceipt({ hash: tx1 }), {

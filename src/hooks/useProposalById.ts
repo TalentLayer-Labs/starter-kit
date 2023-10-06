@@ -13,7 +13,6 @@ const useProposalById = (id?: string | undefined): IProposal | undefined => {
         try {
           const response = await getProposalById(chainId, id);
           if (response?.data?.data?.proposals[0]) {
-            console.log("proposal details: ", response.data.data.proposals[0]);
             setProposal(response.data.data.proposals[0]);
           }
         } catch (error: any) {
