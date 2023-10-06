@@ -134,18 +134,17 @@ function ProposalForm({
         const parsedRateAmountString = parsedRateAmount.toString();
 
         
-        const propsalMeta = {
+        const proposal = {
           about: values.about,
           video_url: values.video_url,
-          test: "hello"
         }
 
         let tx, cid, proposalResponse;
 
-        cid = await talentLayerClient?.proposal?.upload(propsalMeta);
+        cid = await talentLayerClient?.proposal?.upload(proposal);
 
         if (isActiveDelegate) {
-          const response = await delegateCreateOrUpdateProposal(
+          const proposalResponse = await delegateCreateOrUpdateProposal(
             chainId,
             user.id,
             user.address,
@@ -156,12 +155,12 @@ function ProposalForm({
             convertExpirationDateString,
             existingProposal?.status,
           );
-          tx = response.data.transaction;
+          tx = proposalResponse.data.transaction;
         } else {
 
           if (existingProposal) {
             proposalResponse = await talentLayerClient?.proposal.update(
-              propsalMeta,
+              proposal,
               user.id,
               service.id,
               values.rateToken,
@@ -170,7 +169,7 @@ function ProposalForm({
             )
           } else {
             proposalResponse = await talentLayerClient?.proposal.create(
-              propsalMeta,
+              proposal,
               user.id,
               service.id,
               values.rateToken,

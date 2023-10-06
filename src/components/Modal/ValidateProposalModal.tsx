@@ -235,7 +235,7 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
                   onClick={() => onSubmit()}
                   type='button'
                   className='hover:text-green-600 hover:bg-green-50 bg-redpraha text-white rounded-xl px-5 py-2.5 text-center'>
-                  {isProposalUseEth ? 'Validate awesome' : 'Allow spending'}
+                  {isProposalUseEth ? 'Validate' : 'Allow spending'}
                 </button>
               ) : (
                 <button
