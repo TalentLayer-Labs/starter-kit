@@ -76,9 +76,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     const validUserAddresses = getValidUsers(notificationResponse.data.data.userDescriptions);
 
-    const reviewEmailsToBeSent = nonSentReviewEmails.filter(review => {
-      validUserAddresses.includes(review.to.address);
-    });
+    const reviewEmailsToBeSent = nonSentReviewEmails.filter(review =>
+      validUserAddresses.includes(review.to.address),
+    );
 
     if (reviewEmailsToBeSent.length === 0) {
       return res
