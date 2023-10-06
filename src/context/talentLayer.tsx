@@ -6,7 +6,7 @@ import { IAccount, IUser } from '../types';
 import { getCompletionScores, ICompletionScores } from '../utils/profile';
 import { toast } from 'react-toastify';
 import { chains, defaultChain } from '../pages/_app';
-import { TalentLayerClient } from '@TalentLayer/client';
+import { TalentLayerClient } from '@talentlayer/client';
 
 const TalentLayerContext = createContext<{
   user?: IUser;

@@ -1,4 +1,4 @@
-import { TalentLayerClient } from "@TalentLayer/client";
+
 import { useContext, useEffect, useState } from "react";
 import TalentLayerContext from "../context/talentLayer";
 

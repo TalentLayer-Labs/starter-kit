@@ -2,10 +2,9 @@ import { toast } from 'react-toastify';
 import TransactionToast from '../components/TransactionToast';
 import { getConfig } from '../config';
 import { showErrorTransactionToast } from '../utils/toast';
-import ERC20 from './ABI/ERC20.json';
 import { Address, PublicClient, WalletClient } from 'viem';
-import { TalentLayerClient } from '@TalentLayer/client';
 import { ZERO_ADDRESS } from '../utils/constant';
+import { TalentLayerClient } from '@talentlayer/client';
 
 // TODO: need to generate this json duynamically and post it to IPFS to be use for dispute resolution
 export const metaEvidenceCid = 'QmQ2hcACF6r2Gf8PDxG4NcBdurzRUopwcaYQHNhSah6a8v';

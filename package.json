@@ -9,6 +9,7 @@
     "@iexec/dataprotector": "0.1.1-nightly-39c70d6ed67ca78afc10185ff839f0fbdcf77100",
     "@iexec/web3mail": "0.1.1",
     "@leap-ai/sdk": "^0.0.119",
+    "@talentlayer/client": "^0.1.0",
     "@types/node": "^16.18.0",
     "@types/react": "^18.0.23",
     "@types/react-dom": "^18.0.7",

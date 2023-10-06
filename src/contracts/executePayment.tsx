@@ -5,7 +5,8 @@ import { showErrorTransactionToast } from '../utils/toast';
 import { delegateReleaseOrReimburse } from '../components/request';
 import { getConfig } from '../config';
 import { Address, PublicClient, WalletClient } from 'viem';
-import { TalentLayerClient } from '@TalentLayer/client';
+import { TalentLayerClient } from '@talentlayer/client';
+
 
 export const executePayment = async (
   chainId: number,
