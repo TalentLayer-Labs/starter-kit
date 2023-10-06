@@ -1,18 +1,16 @@
 import { useWeb3Modal } from '@web3modal/react';
 import { Field, Form, Formik } from 'formik';
 import { QuestionMarkCircle } from 'heroicons-react';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
 import TalentLayerContext from '../../context/talentLayer';
-import TalentLayerID from '../../contracts/ABI/TalentLayerID.json';
 import { useChainId } from '../../hooks/useChainId';
 import { useConfig } from '../../hooks/useConfig';
 import useUserById from '../../hooks/useUserById';
 import Web3MailContext from '../../modules/Web3mail/context/web3mail';
 import { createWeb3mailToast } from '../../modules/Web3mail/utils/toast';
 import { generatePicture } from '../../utils/ai-picture-gen';
-import { postToIPFS } from '../../utils/ipfs';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../utils/toast';
 import Loading from '../Loading';
 import { delegateUpdateProfileData } from '../request';
@@ -77,7 +75,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
   ) => {
     if (user && walletClient && publicClient && talentLayerClient) {
       try {
-        let cid = await talentLayerClient.profile.upload({
+        const profile = {
           title: values.title,
           role: values.role,
           image_url: values.image_url,
@@ -85,7 +83,11 @@ function ProfileForm({ callback }: { callback?: () => void }) {
           name: values.name,
           about: values.about,
           skills: values.skills,
-        });
+          web3mailPreferences: user.description?.web3mailPreferences,
+        }
+
+        let cid = await talentLayerClient.profile.upload(profile);
+        console.log("starter kit: profile cid", cid, profile);
 
         let tx;
 
@@ -94,15 +96,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
           tx = response.data.transaction;
         } else {
           const res = await talentLayerClient?.profile.update(
-            {
-              title: values.title,
-              role: values.role,
-              image_url: values.image_url,
-              video_url: values.video_url,
-              name: values.name,
-              about: values.about,
-              skills: values.skills,
-            },
+            profile,
             user.id
           );  
 

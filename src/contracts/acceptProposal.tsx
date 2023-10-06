@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify';
 import TransactionToast from '../components/TransactionToast';
 import { showErrorTransactionToast } from '../utils/toast';
-import { Address, PublicClient, WalletClient } from 'viem';
+import { Address, PublicClient } from 'viem';
 import { ZERO_ADDRESS } from '../utils/constant';
 import { TalentLayerClient } from '@talentlayer/client';
 
@@ -13,16 +13,14 @@ export const validateProposal = async (
   publicClient: PublicClient,
   serviceId: string,
   proposalId: string,
-  rateToken: Address,
-  value: bigint,
+  rateToken: Address
 ): Promise<void> => {
 
   try {
     if (rateToken === ZERO_ADDRESS) {
 
-
       let tx1: string;
-      const {tx} = await talentLayerClient.escrow.approve(serviceId, proposalId, metaEvidenceCid, value)
+      const {tx} = await talentLayerClient.escrow.approve(serviceId, proposalId, metaEvidenceCid);
       tx1 = tx;
       const receipt1 = await toast.promise(publicClient.waitForTransactionReceipt({ hash: tx1 }), {
         pending: {

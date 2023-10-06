@@ -1,5 +1,5 @@
 
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import TalentLayerContext from "../context/talentLayer";
 
 

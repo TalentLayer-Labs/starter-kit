@@ -57,7 +57,6 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
       proposal.service.id,
       proposal.id,
       proposal.rateToken.address,
-      totalAmount,
     );
     setShow(false);
   };
