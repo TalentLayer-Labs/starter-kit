@@ -4,6 +4,8 @@ import { renderTokenAmount } from '../utils/conversion';
 import { formatStringCompleteDate } from '../utils/dates';
 import usePaymentsForUser from '../hooks/usePaymentsForUser';
 import { useNetwork } from 'wagmi';
+import { mkConfig, generateCsv, download } from 'export-to-csv';
+import { formatUnits } from 'viem';
 
 function UserIncomes({ id }: { id: string }) {
   const ROW_SIZE = 50;
@@ -18,6 +20,22 @@ function UserIncomes({ id }: { id: string }) {
     endDate,
   );
 
+  const csvConfig = mkConfig({ useKeysAsHeaders: true, filename: 'TL-Income' });
+
+  const handleExportToCsv = () => {
+    const csvContent = generateCsv(csvConfig)(
+      payments.map(payment => ({
+        Date: formatStringCompleteDate(payment.createdAt),
+        Amount: formatUnits(BigInt(payment.amount), payment.rateToken.decimals),
+        Token: payment.rateToken.symbol,
+        Service: `Service n°${payment.service.id}`,
+        'Transaction Information': `${network.chain?.blockExplorers?.default.url}/tx/${payment.transactionHash}`,
+      })),
+    );
+
+    download(csvConfig)(csvContent);
+  };
+
   return (
     <>
       <div className='pb-10'>
@@ -25,6 +43,7 @@ function UserIncomes({ id }: { id: string }) {
           Start date:{' '}
         </label>
         <input
+          className='rounded-lg border border-gray-500 px-2 py-1 bg-gray-600'
           type='date'
           id='start'
           name='start'
@@ -36,6 +55,7 @@ function UserIncomes({ id }: { id: string }) {
             End date:{' '}
           </label>
           <input
+            className='rounded-lg border border-gray-500 px-2 py-1 bg-gray-600'
             type='date'
             id='end'
             name='end'
@@ -52,41 +72,49 @@ function UserIncomes({ id }: { id: string }) {
           }}>
           Clear Dates
         </button>
+        {payments && payments.length > 0 && (
+          <button
+            type='button'
+            className='ml-4 px-3 py-1 border border-gray-400 rounded-xl text-gray-600 hover:bg-gray-200 '
+            onClick={handleExportToCsv}>
+            Export to CSV
+          </button>
+        )}
       </div>
       {!payments || payments.length === 0 ? (
         <p className='text-2xl font-medium tracking-wider mb-8'>No incomes found</p>
       ) : (
         <div>
-          <div className=''>
-            <table className='p-4 border border-redpraha w-full table-fixed'>
+          <div className='rounded overflow-hidden bg-gray-700'>
+            <table className='p-4  w-full table-fixed'>
               <thead>
                 <tr>
-                  <th className='border border-redpraha p-2'>Amount</th>
-                  <th className='border border-redpraha p-2'>Date</th>
-                  <th className='border border-redpraha p-2'>Token</th>
-                  <th className='border border-redpraha p-2'>Service</th>
-                  <th className='border border-redpraha p-2'>Transaction information</th>
+                  <th className='bg-gray-600 border-r border-gray-500 p-2'>Amount</th>
+                  <th className='bg-gray-600 border-r border-gray-500 p-2'>Date</th>
+                  <th className='bg-gray-600 border-r border-gray-500 p-2'>Token</th>
+                  <th className='bg-gray-600 border-r border-gray-500 p-2'>Service</th>
+                  <th className='bg-gray-600 p-2'>Transaction information</th>
                 </tr>
               </thead>
               <tbody>
                 {payments.map((payment, i) => {
                   return (
                     <tr key={i}>
-                      <td className='border border-redpraha p-2 font-bold'>
+                      <td className=' p-2 text-center font-bold border-r border-b border-gray-500'>
                         {renderTokenAmount(payment.rateToken, payment.amount)}
                       </td>
-                      <td className='border border-redpraha p-2 text-gray-500'>
+                      <td className=' p-2 text-center text-gray-300 border-r border-b border-gray-500'>
                         {formatStringCompleteDate(payment.createdAt)}
                       </td>
-                      <td className='border border-redpraha p-2 text-gray-500'>
+                      <td className=' p-2 text-center text-gray-300 border-r border-b border-gray-500'>
                         {payment.rateToken.symbol}
                       </td>
-                      <td className='border border-redpraha p-2 text-blue-500'>
+                      <td className=' p-2 text-center text-blue-500 border-r border-b border-gray-500'>
                         <a target='_blank' href={`/dashboard/services/${payment.service.id}`}>
                           Service n°{payment.service.id}{' '}
                         </a>
                       </td>
-                      <td className='border border-redpraha p-2 text-blue-500'>
+                      <td className=' p-2 text-center text-blue-500 border-b border-gray-500'>
                         {network.chain?.id === 137 || network.chain?.id === 80001 ? (
                           <a
                             target='_blank'

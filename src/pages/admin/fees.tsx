@@ -10,11 +10,15 @@ import TalentLayerContext from '../../context/talentLayer';
 import TalentLayerPlatformID from '../../contracts/ABI/TalentLayerPlatformID.json';
 import { useConfig } from '../../hooks/useConfig';
 import usePlatform from '../../hooks/usePlatform';
+import { chains } from '../_app';
+import { useChainId } from 'wagmi';
 
 function AdminFees() {
+  const chainId = useChainId();
   const { user, loading } = useContext(TalentLayerContext);
   const config = useConfig();
   const platform = usePlatform(process.env.NEXT_PUBLIC_PLATFORM_ID as string);
+  const currentChain = chains.find(chain => chain.id === chainId);
 
   console.log(platform?.originServiceFeeRate, platform);
   
@@ -83,7 +87,7 @@ function AdminFees() {
         <SingleValueForm
           validationData={{
             validationSchema: Yup.object({
-              'Fees (in Matic) asked by the platform to post a proposal on the platform':
+              [`Fees (in ${currentChain?.nativeCurrency.symbol}) asked by the platform to post a service on the platform`]:
                 Yup.number().required('value is required'),
             }),
             valueType: 'number',
@@ -98,13 +102,13 @@ function AdminFees() {
             contractEntity: 'platform',
             contractInputs: process.env.NEXT_PUBLIC_PLATFORM_ID,
           }}
-          valueName={'Fees (in Matic) asked by the platform to post a proposal on the platform'}
+          valueName={`Fees (in ${currentChain?.nativeCurrency.symbol}) asked by the platform to post a service on the platform`}
         />
 
         <SingleValueForm
           validationData={{
             validationSchema: Yup.object({
-              'Fees (in Matic) asked by the platform to post a service on the platform':
+              [`Fees (in ${currentChain?.nativeCurrency.symbol}) asked by the platform to post a proposal on the platform`]:
                 Yup.number().required('value is required'),
             }),
             valueType: 'number',
@@ -119,7 +123,7 @@ function AdminFees() {
             contractEntity: 'platform',
             contractInputs: process.env.NEXT_PUBLIC_PLATFORM_ID,
           }}
-          valueName={'Fees (in Matic) asked by the platform to post a service on the platform'}
+          valueName={`Fees (in ${currentChain?.nativeCurrency.symbol}) asked by the platform to post a proposal on the platform`}
         />
       </div>
     </div>

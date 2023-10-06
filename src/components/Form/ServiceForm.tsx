@@ -1,5 +1,5 @@
 import { useWeb3Modal } from '@web3modal/react';
-import { formatUnits } from 'viem';
+import { formatEther, formatUnits } from 'viem';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useContext, useState } from 'react';
 import { useRouter } from 'next/router';
@@ -17,6 +17,8 @@ import { useChainId } from '../../hooks/useChainId';
 import { createWeb3mailToast } from '../../modules/Web3mail/utils/toast';
 import Web3MailContext from '../../modules/Web3mail/context/web3mail';
 import useTalentLayerClient from '../../hooks/useTalentLayerClient';
+import usePlatform from '../../hooks/usePlatform';
+import { chains } from '../../pages/_app';
 
 interface IFormValues {
   title: string;
@@ -41,15 +43,19 @@ function ServiceForm() {
   const { user, account } = useContext(TalentLayerContext);
   const { platformHasAccess } = useContext(Web3MailContext);
   const publiClient = usePublicClient({ chainId });
-  const { data: walletClient } = useWalletClient({
-    chainId,
-  });
-
+  const { data: walletClient } = useWalletClient({ chainId });
   const router = useRouter();
   const allowedTokenList = useAllowedTokens();
   const [selectedToken, setSelectedToken] = useState<IToken>();
   const { isActiveDelegate } = useContext(TalentLayerContext);
   const tlClient = useTalentLayerClient();
+
+  const currentChain = chains.find(chain => chain.id === chainId);
+  const platform = usePlatform(process.env.NEXT_PUBLIC_PLATFORM_ID as string);
+  const servicePostingFee = platform?.servicePostingFee || 0;
+  const servicePostingFeeFormat = servicePostingFee
+    ? Number(formatUnits(BigInt(servicePostingFee), Number(currentChain?.nativeCurrency?.decimals)))
+    : 0;
 
   const validationSchema = Yup.object({
     title: Yup.string().required('Please provide a title for your service'),
@@ -111,7 +117,7 @@ function ServiceForm() {
         );
 
         if (isActiveDelegate) {
-          const response = await delegateCreateService(chainId, user.id, user.address, cid);
+          const response = await delegateCreateService(chainId, user.id, user.address, cid|| '');
           tx = response.data.transaction;
         } else {
 
@@ -216,6 +222,12 @@ function ServiceForm() {
                 <span className='text-red-500 mt-2'>
                   <ErrorMessage name='rateAmount' />
                 </span>
+                {servicePostingFeeFormat !== 0 && (
+                  <span className='text-gray-100'>
+                    Fee for posting a service: {servicePostingFeeFormat}{' '}
+                    {currentChain?.nativeCurrency.symbol}
+                  </span>
+                )}
               </label>
               <label className='block'>
                 <span className='text-gray-100'>Token</span>

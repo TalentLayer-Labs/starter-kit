@@ -2,7 +2,7 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { QuestionMarkCircle } from 'heroicons-react';
 import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
-import { formatUnits } from 'viem';
+import { formatEther, formatUnits } from 'viem';
 import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
 import TalentLayerContext from '../../context/talentLayer';
@@ -20,6 +20,8 @@ import ServiceItem from '../ServiceItem';
 import { delegateCreateOrUpdateProposal } from '../request';
 import SubmitButton from './SubmitButton';
 import useTalentLayerClient from '../../hooks/useTalentLayerClient';
+import usePlatform from '../../hooks/usePlatform';
+import { chains } from '../../pages/_app';
 
 interface IFormValues {
   about: string;
@@ -54,6 +56,13 @@ function ProposalForm({
   const { platformHasAccess } = useContext(Web3MailContext);
   const [aiLoading, setAiLoading] = useState(false);
   const tlClient = useTalentLayerClient();
+
+  const currentChain = chains.find(chain => chain.id === chainId);
+  const platform = usePlatform(process.env.NEXT_PUBLIC_PLATFORM_ID as string);
+  const proposalPostingFee = platform?.proposalPostingFee || 0;
+  const proposalPostingFeeFormat = proposalPostingFee
+    ? Number(formatUnits(BigInt(proposalPostingFee), Number(currentChain?.nativeCurrency.decimals)))
+    : 0;
 
   if (allowedTokenList.length === 0) {
     return <div>Loading...</div>;
@@ -308,7 +317,12 @@ function ProposalForm({
                 <ErrorMessage name='video_url' />
               </span>
             </label>
-
+            {proposalPostingFeeFormat !== 0 && !existingProposal && (
+              <span className='text-gray-100'>
+                Fee for making a proposal: {proposalPostingFeeFormat}{' '}
+                {currentChain?.nativeCurrency.symbol}
+              </span>
+            )}
             <SubmitButton isSubmitting={isSubmitting} label='Post' />
           </div>
         </Form>

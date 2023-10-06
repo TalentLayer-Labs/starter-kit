@@ -186,7 +186,7 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
               <div className='flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 space-y-6'>
                 <h3 className='text-xl font-semibold leading-5 text-gray-800'>Your balances</h3>
                 <div className='flex justify-center items-center w-full space-y-4 flex-col'>
-                  {tokenBalance && (
+                  {!isProposalUseEth && tokenBalance && (
                     <div className='flex justify-between w-full'>
                       <p className='text-base leading-4 text-gray-800'>
                         {tokenBalance.formatted} {tokenBalance.symbol}
@@ -205,7 +205,7 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
                       </p>
                     </div>
                   )}
-                  {ethBalance && (
+                  {isProposalUseEth && ethBalance && (
                     <div className='flex justify-between w-full'>
                       <p className='text-base leading-4 text-gray-800'>
                         {ethBalance.formatted} ETH
