@@ -237,6 +237,7 @@ export type IProposal = {
   cid: string;
   status: ProposalStatusEnum;
   seller: IUser;
+  buyer: IUser;
   rateToken: IToken;
   rateAmount: string;
   service: IService;
