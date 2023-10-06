@@ -6,12 +6,12 @@ import useTalentLayerClient from './useTalentLayerClient';
 const useServiceById = (serviceId: string): IService | null => {
   const chainId = useChainId();
   const [service, setService] = useState<IService | null>(null);
-  const tlClient = useTalentLayerClient();
+  const talentLayerClient = useTalentLayerClient();
 
   useEffect(() => {
-    if (chainId && tlClient) {
+    if (chainId && talentLayerClient) {
 
-      tlClient
+      talentLayerClient
         .service.getOne(serviceId)
         .then(response => {
           console.log('Service details found', response);
@@ -24,7 +24,7 @@ const useServiceById = (serviceId: string): IService | null => {
         });
     }
 
-  }, [serviceId, chainId, tlClient]);
+  }, [serviceId, chainId, talentLayerClient]);
 
   return service;
 };

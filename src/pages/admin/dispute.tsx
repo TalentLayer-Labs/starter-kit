@@ -20,12 +20,12 @@ function AdminDispute() {
   const platform = usePlatform(process.env.NEXT_PUBLIC_PLATFORM_ID as string);
   const [arbitratorPrice, setArbitratorPrice] = useState<number>(0);
   let availableArbitrators: { value: string; label: string }[] = [];
-  const tlClient = useTalentLayerClient();
+  const talentLayerClient = useTalentLayerClient();
 
   const fetchArbitrationPrice = async () => {
-    if (tlClient) {
+    if (talentLayerClient) {
       try {
-        const _price = await tlClient.disputes.getArbitrationCost();
+        const _price = await talentLayerClient.disputes.getArbitrationCost();
         console.log("Starter kit: _price", _price);
         setArbitratorPrice(_price);
       } catch (e) {
@@ -40,7 +40,7 @@ function AdminDispute() {
     if (user?.isAdmin != null && platform != null && config != null) {
       fetchArbitrationPrice();
     }
-  }, [platform?.id, tlClient, user, platform, config]);
+  }, [platform?.id, talentLayerClient, user, platform, config]);
 
   if (loading) {
     return <Loading />;

@@ -33,7 +33,7 @@ function ReleaseForm({
     chainId,
   });
   const publicClient = usePublicClient({ chainId });
-  const tlClient = useTalentLayerClient();
+  const talentLayerClient = useTalentLayerClient();
 
   const [percent, setPercentage] = useState(0);
 
@@ -43,7 +43,7 @@ function ReleaseForm({
     }
     const percentToToken = (totalInEscrow * BigInt(percent)) / BigInt(100);
 
-    if (tlClient) {
+    if (talentLayerClient) {
       await executePayment(
         chainId,
         user.address,
@@ -54,7 +54,7 @@ function ReleaseForm({
         percentToToken,
         isBuyer,
         isActiveDelegate,
-        tlClient,
+        talentLayerClient,
         service.id
       );
     }

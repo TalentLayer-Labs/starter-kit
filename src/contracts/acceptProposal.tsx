@@ -10,7 +10,7 @@ import { TalentLayerClient } from '@talentlayer/client';
 export const metaEvidenceCid = 'QmQ2hcACF6r2Gf8PDxG4NcBdurzRUopwcaYQHNhSah6a8v';
 
 export const validateProposal = async (
-  tlClient: TalentLayerClient,
+  talentLayerClient: TalentLayerClient,
   chainId: number,
   walletClient: WalletClient,
   publicClient: PublicClient,
@@ -27,7 +27,7 @@ export const validateProposal = async (
 
       let tx1: string;
       console.log("proposalId: ", proposalId, {value})
-      const {tx} = await tlClient.escrow.approve(serviceId, proposalId, metaEvidenceCid, value)
+      const {tx} = await talentLayerClient.escrow.approve(serviceId, proposalId, metaEvidenceCid, value)
       tx1 = tx;
       const receipt1 = await toast.promise(publicClient.waitForTransactionReceipt({ hash: tx1 }), {
         pending: {
@@ -45,7 +45,7 @@ export const validateProposal = async (
       }
     } else {
 
-      const { tx: tx2 } = await tlClient.escrow.approve(serviceId, proposalId, metaEvidenceCid);
+      const { tx: tx2 } = await talentLayerClient.escrow.approve(serviceId, proposalId, metaEvidenceCid);
       const receipt2 = await toast.promise(publicClient.waitForTransactionReceipt({ hash: tx2 }), {
         pending: {
           render() {

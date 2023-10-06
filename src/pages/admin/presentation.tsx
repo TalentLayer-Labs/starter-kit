@@ -32,7 +32,7 @@ function AdminPresentation() {
   const { open: openConnectModal } = useWeb3Modal();
   const publicClient = usePublicClient({ chainId });
   const { data: walletClient } = useWalletClient({ chainId });
-  const tlClient = useTalentLayerClient();
+  const talentLayerClient = useTalentLayerClient();
 
   if (loading) {
     return <Loading />;
@@ -55,10 +55,10 @@ function AdminPresentation() {
     values: IFormValues,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void },
   ) => {
-    if (user && publicClient && walletClient && tlClient) {
+    if (user && publicClient && walletClient && talentLayerClient) {
       try {
 
-        const {tx, cid} = await tlClient.platform.update({
+        const {tx, cid} = await talentLayerClient.platform.update({
           about: values.about,
           website: values.website,
           video_url: values.video_url,

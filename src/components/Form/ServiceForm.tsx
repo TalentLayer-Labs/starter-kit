@@ -48,7 +48,7 @@ function ServiceForm() {
   const allowedTokenList = useAllowedTokens();
   const [selectedToken, setSelectedToken] = useState<IToken>();
   const { isActiveDelegate } = useContext(TalentLayerContext);
-  const tlClient = useTalentLayerClient();
+  const talentLayerClient = useTalentLayerClient();
 
   const currentChain = chains.find(chain => chain.id === chainId);
   const platform = usePlatform(process.env.NEXT_PUBLIC_PLATFORM_ID as string);
@@ -106,7 +106,7 @@ function ServiceForm() {
 
         let tx, cid;
 
-        cid = await tlClient?.service?.updloadServiceDataToIpfs(
+        cid = await talentLayerClient?.service?.updloadServiceDataToIpfs(
           {
             title: values.title,
             about: values.about,
@@ -121,9 +121,9 @@ function ServiceForm() {
           tx = response.data.transaction;
         } else {
 
-          if (tlClient) {
+          if (talentLayerClient) {
             console.log("Starter kit: creating new service")
-            const serviceResponse = await tlClient.service.create({
+            const serviceResponse = await talentLayerClient.service.create({
               title: values.title,
               about: values.about,
               keywords: values.keywords,

@@ -45,7 +45,7 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
       switchNetwork(defaultChain.id);
     }
     if (chainId && account.address) {
-      const tlClient = new TalentLayerClient({
+      const talentLayerClient = new TalentLayerClient({
         chainId,
         ipfsConfig: {
           clientId: (process.env.NEXT_PUBLIC_INFURA_ID as string),
@@ -55,7 +55,7 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
         platformId: (parseInt(process.env.NEXT_PUBLIC_PLATFORM_ID as string)),
         signatureApiUrl: (process.env.NEXT_PUBLIC_SIGNATURE_API_URL as string)
     })
-      setTalentLayerClient(tlClient);
+      setTalentLayerClient(talentLayerClient);
     }
   }, [chainId, switchNetwork, account.address]);
 

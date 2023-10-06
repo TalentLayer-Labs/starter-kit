@@ -55,7 +55,7 @@ function ProposalForm({
   const { isActiveDelegate } = useContext(TalentLayerContext);
   const { platformHasAccess } = useContext(Web3MailContext);
   const [aiLoading, setAiLoading] = useState(false);
-  const tlClient = useTalentLayerClient();
+  const talentLayerClient = useTalentLayerClient();
 
   const currentChain = chains.find(chain => chain.id === chainId);
   const platform = usePlatform(process.env.NEXT_PUBLIC_PLATFORM_ID as string);
@@ -142,7 +142,7 @@ function ProposalForm({
 
         let tx, cid, proposalResponse;
 
-        cid = await tlClient?.proposal?.upload(propsalMeta);
+        cid = await talentLayerClient?.proposal?.upload(propsalMeta);
 
         if (isActiveDelegate) {
           const response = await delegateCreateOrUpdateProposal(
@@ -160,7 +160,7 @@ function ProposalForm({
         } else {
 
           if (existingProposal) {
-            proposalResponse = await tlClient?.proposal.update(
+            proposalResponse = await talentLayerClient?.proposal.update(
               propsalMeta,
               user.id,
               service.id,
@@ -169,7 +169,7 @@ function ProposalForm({
               convertExpirationDateString
             )
           } else {
-            proposalResponse = await tlClient?.proposal.create(
+            proposalResponse = await talentLayerClient?.proposal.create(
               propsalMeta,
               user.id,
               service.id,

@@ -18,7 +18,7 @@ export const executePayment = async (
   amount: bigint,
   isBuyer: boolean,
   isActiveDelegate: boolean,
-  tlClient: TalentLayerClient,
+  talentLayerClient: TalentLayerClient,
   serviceId: string
 ): Promise<void> => {
   const config = getConfig(chainId);
@@ -36,9 +36,9 @@ export const executePayment = async (
       tx = response.data.transaction;
     } else {
       if (isBuyer) {
-        tx = await tlClient.escrow.release(serviceId, amount, parseInt(profileId));
+        tx = await talentLayerClient.escrow.release(serviceId, amount, parseInt(profileId));
       } else {
-        tx = await tlClient.escrow.reimburse(serviceId, amount, parseInt(profileId));
+        tx = await talentLayerClient.escrow.reimburse(serviceId, amount, parseInt(profileId));
       }
     }
     console.log("Starter kit: tx", tx);

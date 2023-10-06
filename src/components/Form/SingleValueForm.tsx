@@ -42,13 +42,13 @@ function SingleValueForm({
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
   const publicClient = usePublicClient({ chainId });
-  const tlClient = useTalentLayerClient();
+  const talentLayerClient = useTalentLayerClient();
 
   const onSubmit = async (
     values: any,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void; resetForm: () => void },
   ) => {
-    if (publicClient && values && tlClient) {
+    if (publicClient && values && talentLayerClient) {
       try {
         let value = values[valueName];
 
@@ -57,7 +57,7 @@ function SingleValueForm({
         }
 
         //  @ts-ignore
-        const tx = await tlClient[contractEntity][contractFunctionName](value);
+        const tx = await talentLayerClient[contractEntity][contractFunctionName](value);
 
         await createMultiStepsTransactionToast(
           chainId,

@@ -28,7 +28,7 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
   });
 
   console.log({isProposalUseEth}, proposal.rateToken.address)
-  const tlClient = useTalentLayerClient();
+  const talentLayerClient = useTalentLayerClient();
   
 
   const originValidatedProposalPlatformId = proposal.platform.id;
@@ -48,12 +48,12 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
   const totalAmount = jobRateAmount + originServiceFee + originValidatedProposalFee + protocolFee;
 
   const onSubmit = async () => {
-    if (!walletClient || !publicClient || !tlClient) {
+    if (!walletClient || !publicClient || !talentLayerClient) {
       return;
     }
 
     await validateProposal(
-      tlClient,
+      talentLayerClient,
       chainId,
       walletClient,
       publicClient,

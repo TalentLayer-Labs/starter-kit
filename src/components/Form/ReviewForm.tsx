@@ -34,7 +34,7 @@ function ReviewForm({ serviceId }: { serviceId: string }) {
   const { isActiveDelegate } = useContext(TalentLayerContext);
   const publicClient = usePublicClient({ chainId });
   const { data: walletClient } = useWalletClient({ chainId });
-  const tlClient = useTalentLayerClient();
+  const talentLayerClient = useTalentLayerClient();
 
   const onSubmit = async (
     values: IFormValues,
@@ -67,9 +67,8 @@ function ReviewForm({ serviceId }: { serviceId: string }) {
           tx = response.data.transaction;
         } else {
 
-          if (tlClient) {
-            console.log("Starter kit: creating review")
-            const res = await tlClient.review.create(
+          if (talentLayerClient) {
+            const res = await talentLayerClient.review.create(
               {
                 rating: values.rating,
                 content: values.content

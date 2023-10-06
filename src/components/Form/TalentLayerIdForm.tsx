@@ -34,7 +34,7 @@ function TalentLayerIdForm() {
   const { address } = useAccount();
   const publicClient = usePublicClient({ chainId });
   const router = useRouter();
-  const tlClient = useTalentLayerClient();
+  const talentLayerClient = useTalentLayerClient();
   const { calculateMintFee } = useMintFee();
 
   const validationSchema = Yup.object().shape({
@@ -66,8 +66,8 @@ function TalentLayerIdForm() {
           );
           tx = response.data.transaction;
         } else {
-          if (tlClient) {
-            tx = await tlClient.profile.create(submittedValues.handle);
+          if (talentLayerClient) {
+            tx = await talentLayerClient.profile.create(submittedValues.handle);
           }
 
         }

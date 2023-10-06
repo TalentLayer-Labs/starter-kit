@@ -45,7 +45,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
   const { address } = useAccount();
   const [aiLoading, setAiLoading] = useState(false);
   const userDescription = user?.id ? useUserById(user?.id)?.description : null;
-  const tlClient = useTalentLayerClient();
+  const talentLayerClient = useTalentLayerClient();
 
   if (!user?.id) {
     return <Loading />;
@@ -77,7 +77,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
   ) => {
     if (user && walletClient && publicClient) {
       try {
-        let cid = await tlClient?.profile.upload({
+        let cid = await talentLayerClient?.profile.upload({
           title: values.title,
           role: values.role,
           image_url: values.image_url,
@@ -91,10 +91,10 @@ function ProfileForm({ callback }: { callback?: () => void }) {
         console.log("SDK consumer delegate: ", isActiveDelegate)
 
         if (isActiveDelegate) {
-          const response = await delegateUpdateProfileData(chainId, user.id, user.address, cid);
+          const response = await delegateUpdateProfileData(chainId, user.id, user.address, cid || '');
           tx = response.data.transaction;
         } else {
-          const res = await tlClient?.profile.update(
+          const res = await talentLayerClient?.profile.update(
             {
               title: values.title,
               role: values.role,
