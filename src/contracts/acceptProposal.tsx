@@ -1,6 +1,5 @@
 import { toast } from 'react-toastify';
 import TransactionToast from '../components/TransactionToast';
-import { getConfig } from '../config';
 import { showErrorTransactionToast } from '../utils/toast';
 import { Address, PublicClient, WalletClient } from 'viem';
 import { ZERO_ADDRESS } from '../utils/constant';
@@ -11,15 +10,12 @@ export const metaEvidenceCid = 'QmQ2hcACF6r2Gf8PDxG4NcBdurzRUopwcaYQHNhSah6a8v';
 
 export const validateProposal = async (
   talentLayerClient: TalentLayerClient,
-  chainId: number,
-  walletClient: WalletClient,
   publicClient: PublicClient,
   serviceId: string,
   proposalId: string,
   rateToken: Address,
   value: bigint,
 ): Promise<void> => {
-  const config = getConfig(chainId);
 
   try {
     if (rateToken === ZERO_ADDRESS) {

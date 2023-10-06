@@ -95,7 +95,7 @@ function ServiceForm() {
     }: { setSubmitting: (isSubmitting: boolean) => void; resetForm: () => void },
   ) => {
     const token = allowedTokenList.find(token => token.address === values.rateToken);
-    if (account?.isConnected === true && publiClient && walletClient && token && user) {
+    if (account?.isConnected === true && publiClient && walletClient && token && user && talentLayerClient) {
       try {
         const parsedRateAmount = await parseRateAmount(
           values.rateAmount.toString(),
@@ -106,7 +106,7 @@ function ServiceForm() {
 
         let tx, cid;
 
-        cid = await talentLayerClient?.service?.updloadServiceDataToIpfs(
+        cid = await talentLayerClient.service.updloadServiceDataToIpfs(
           {
             title: values.title,
             about: values.about,
@@ -117,7 +117,7 @@ function ServiceForm() {
         );
 
         if (isActiveDelegate) {
-          const response = await delegateCreateService(chainId, user.id, user.address, cid|| '');
+          const response = await delegateCreateService(chainId, user.id, user.address, cid);
           tx = response.data.transaction;
         } else {
 

@@ -53,8 +53,6 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
 
     await validateProposal(
       talentLayerClient,
-      chainId,
-      walletClient,
       publicClient,
       proposal.service.id,
       proposal.id,
