@@ -26,7 +26,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         if (!protectedEmailAddress) {
           nonSentEmails++;
-          console.log(`sendMailToAddresses - User ${address} did not grant access to his email`);
           continue;
         }
 

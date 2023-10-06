@@ -8,7 +8,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     nonSentEmails = 0;
   if (!emailSubject || !emailContent) return res.status(500).json(`Missing argument`);
 
-  console.log('Sending email to all contacts');
+  console.log('------- Sending email to all contacts -------');
   if (!privateKey) {
     return res.status(500).json(`Private key is not set`);
   }
@@ -20,6 +20,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const contactList: Contact[] = await web3mail.fetchMyContacts();
 
     for (const contact of contactList) {
+      console.log(`------- Sending to ${contact.address} -------`);
+
       try {
         const sentMail = await web3mail.sendEmail({
           protectedData: contact.address,

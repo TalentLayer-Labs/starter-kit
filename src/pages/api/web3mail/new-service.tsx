@@ -40,18 +40,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   try {
     // Fetch all contacts who protected their email and granted access to the platform
     const allContacts = await web3mail.fetchMyContacts();
-    console.log('allContacts', allContacts);
 
     if (!allContacts || allContacts.length === 0) {
       return res.status(200).json(`No contacts granted access to their email`);
     }
 
     const allContactsAddresses = allContacts.map(contact => contact.owner);
-    // const allContactsAddresses = [
-    //   '0x1ab1655fb5bb0212ec2e5d05628415fc2c1ad9c7',
-    //   '0x812c44b6661aa519aa590b7de43d8f1cf5f6d038',
-    //   '0x3d0c6a35dcd9aeb46b493cd6cc9ace84583b7ae8',
-    // ];
 
     // Get all users that opted for the feature
     const response = await getWeb3mailUsersForNewServices(
@@ -102,18 +96,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           const matchingSkills = userSkills?.filter((skill: string) =>
             serviceSkills?.includes(skill),
           );
-          //TODO remove logs for prod
-          console.log('userSkills', userSkills);
-          console.log('serviceSkills', serviceSkills);
-          console.log('matchingSkills', matchingSkills);
-          if (matchingSkills && matchingSkills.length > 0) {
+
+          if (matchingSkills && matchingSkills?.length > 0) {
             console.log(
               `The skills ${
                 contact.user.handle
               } has which are required by this service are: ${matchingSkills.join(', ')}`,
             );
-          }
-          if (matchingSkills && matchingSkills?.length > 0) {
             try {
               await sendMailToAddresses(
                 `A new service matching your skills is available on TalentLayer !`,
