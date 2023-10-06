@@ -7,6 +7,7 @@ import { Contact } from '@iexec/web3mail';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
+import Loading from '../Loading';
 
 interface IFormValues {
   subject: string;
@@ -19,7 +20,13 @@ const validationSchema = Yup.object({
   body: Yup.string().required('Please provide a body'),
   contacts: Yup.array().min(1).required('Please provide at least one contact'),
 });
-export const ContactListForm = ({ contactList }: { contactList: Contact[] }) => {
+export const ContactListForm = ({
+  contactList,
+  contactsLoaded,
+}: {
+  contactList: Contact[];
+  contactsLoaded: boolean;
+}) => {
   const [allContractsAdded, setAllContractsAdded] = useState(false);
 
   const initialValues: IFormValues = {
@@ -49,12 +56,11 @@ export const ContactListForm = ({ contactList }: { contactList: Contact[] }) => 
     values: IFormValues,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void },
   ) => {
-    console.log(values);
     // if (user && provider && signer) {
     try {
       setSubmitting(true);
 
-      const promise = axios.post('/api/iexec/send-web3mail-to-addresses', {
+      const promise = axios.post('/api/web3mail/send-web3mail-to-addresses', {
         subject: values.subject,
         body: values.body,
         contacts: values.contacts,
@@ -119,29 +125,35 @@ export const ContactListForm = ({ contactList }: { contactList: Contact[] }) => 
                   <div className='block flex-auto'>
                     <span className='text-gray-100'>Available Contacts</span>
                     <div className={'overflow-y-auto overflow-x-visible h-24'}>
-                      {contactList && contactList.length > 0 ? (
-                        contactList.map((contact, index) => {
-                          const addressAlreadyAdded = values.contacts.includes(contact.owner);
-                          return (
-                            <div
-                              key={index}
-                              className={`text-gray-400 flex ${
-                                addressAlreadyAdded ? 'hidden' : ''
-                              }`}>
-                              {contact.owner}
-                              <span onClick={() => arrayHelpers.insert(index, contact.owner)}>
-                                <CheckCircleIcon
-                                  className={
-                                    'ml-3 h-5 w-5 items-center justify-center text-zinc-300 cursor-pointer'
-                                  }
-                                />
-                              </span>
-                            </div>
-                          );
-                        })
-                      ) : (
-                        <p className={'text-gray-400 mt-2'}>No Contacts</p>
+                      {!contactsLoaded && (
+                        <div className={'flex flex-row'}>
+                          <Loading />
+                          <p className={'flex text-gray-400 justify-center mt-2 ml-4'}>
+                            Loading Contacts...
+                          </p>
+                        </div>
                       )}
+                      {contactsLoaded && contactList && contactList.length > 0
+                        ? contactList.map((contact, index) => {
+                            const addressAlreadyAdded = values.contacts.includes(contact.owner);
+                            return (
+                              <div
+                                key={index}
+                                className={`text-gray-400 flex ${
+                                  addressAlreadyAdded ? 'hidden' : ''
+                                }`}>
+                                {contact.owner}
+                                <span onClick={() => arrayHelpers.insert(index, contact.owner)}>
+                                  <CheckCircleIcon
+                                    className={
+                                      'ml-3 h-5 w-5 items-center justify-center text-zinc-300 cursor-pointer'
+                                    }
+                                  />
+                                </span>
+                              </div>
+                            );
+                          })
+                        : contactsLoaded && <p className={'text-gray-400 mt-2'}>No Contacts</p>}
                     </div>
                     <div className={'flex flew-row mt-2 center-items'}>
                       <input

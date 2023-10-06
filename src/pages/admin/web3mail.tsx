@@ -3,7 +3,6 @@ import { useContext } from 'react';
 import Loading from '../../components/Loading';
 import Steps from '../../components/Steps';
 import TalentLayerContext from '../../context/talentLayer';
-import { Contact } from '@iexec/web3mail';
 import useFetchMyContacts from '../../modules/Web3mail/hooks/useFetchMyContacts';
 import { ContactListForm } from '../../components/Form/ContactSelectForm';
 import UserNeedsMoreRights from '../../components/UserNeedsMoreRights';
@@ -11,7 +10,7 @@ import UserNeedsMoreRights from '../../components/UserNeedsMoreRights';
 function Web3mail() {
   const { user, loading } = useContext(TalentLayerContext);
   const { open: openConnectModal } = useWeb3Modal();
-  const contactList: Contact[] = useFetchMyContacts();
+  const { contacts: contactList, contactsLoaded } = useFetchMyContacts();
 
   if (loading) {
     return <Loading />;
@@ -30,7 +29,7 @@ function Web3mail() {
           <p className='text-2xl font-medium flex-1'>Send a Web3Mail</p>
         </div>
       </div>
-      <ContactListForm contactList={contactList} />
+      <ContactListForm contactList={contactList} contactsLoaded={contactsLoaded} />
     </div>
   );
 }

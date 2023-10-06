@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { IExecWeb3mail, getWeb3Provider as getMailProvider, Contact } from '@iexec/web3mail';
 
-const useFetchMyContacts = (): Contact[] => {
+const useFetchMyContacts = (): { contacts: Contact[]; contactsLoaded: boolean } => {
   const [contacts, setContacts] = useState<Contact[]>([]);
+  const [contactsLoaded, setContactsLoaded] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -18,12 +19,14 @@ const useFetchMyContacts = (): Contact[] => {
       } catch (error: any) {
         // eslint-disable-next-line no-console
         console.error(error);
+      } finally {
+        setContactsLoaded(true);
       }
     };
     fetchData();
   }, []);
 
-  return contacts;
+  return { contacts, contactsLoaded };
 };
 
 export default useFetchMyContacts;
