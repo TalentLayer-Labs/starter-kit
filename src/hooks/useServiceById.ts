@@ -1,26 +1,29 @@
 import { useState, useEffect } from 'react';
-import { getServiceById } from '../queries/services';
 import { IService } from '../types';
 import { useChainId } from './useChainId';
+import useTalentLayerClient from './useTalentLayerClient';
 
 const useServiceById = (serviceId: string): IService | null => {
   const chainId = useChainId();
   const [service, setService] = useState<IService | null>(null);
+  const talentLayerClient = useTalentLayerClient();
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getServiceById(chainId, serviceId);
-        if (response?.data?.data?.service) {
-          setService(response.data.data.service);
-        }
-      } catch (err: any) {
-        // eslint-disable-next-line no-console
-        console.error(err);
-      }
-    };
-    fetchData();
-  }, [serviceId]);
+    if (chainId && talentLayerClient) {
+
+      talentLayerClient
+        .service.getOne(serviceId)
+        .then(response => {
+          if (response) {
+            setService(response);
+          }
+        })
+        .catch((err: any) => {
+          console.error(err);
+        });
+    }
+
+  }, [serviceId, chainId, talentLayerClient]);
 
   return service;
 };

@@ -19,7 +19,7 @@ function AdminFees() {
   const config = useConfig();
   const platform = usePlatform(process.env.NEXT_PUBLIC_PLATFORM_ID as string);
   const currentChain = chains.find(chain => chain.id === chainId);
-
+  
   if (loading) {
     return <Loading />;
   }
@@ -29,14 +29,6 @@ function AdminFees() {
   if (!user.isAdmin) {
     return <UserNeedsMoreRights />;
   }
-
-  const transformFeeRate = (value: number | string): number => {
-    return Math.round((Number(value) * FEE_RATE_DIVIDER) / 100);
-  };
-
-  const transformFee = (value: number | string): BigInt => {
-    return parseEther(value.toString());
-  };
 
   return (
     <div className='max-w-7xl mx-auto text-gray-200 sm:px-4 lg:px-0'>
@@ -57,7 +49,6 @@ function AdminFees() {
             }),
             valueType: 'number',
             initialValue: ((platform?.originServiceFeeRate || 0) * 100) / FEE_RATE_DIVIDER,
-            hookModifyValue: transformFeeRate,
           }}
           contractParams={{
             contractFunctionName: 'updateOriginServiceFeeRate',
@@ -80,7 +71,6 @@ function AdminFees() {
             valueType: 'number',
             initialValue:
               ((platform?.originValidatedProposalFeeRate || 0) * 100) / FEE_RATE_DIVIDER,
-            hookModifyValue: transformFeeRate,
           }}
           contractParams={{
             contractFunctionName: 'updateOriginValidatedProposalFeeRate',
@@ -102,7 +92,6 @@ function AdminFees() {
             initialValue: platform?.servicePostingFee
               ? formatEther(BigInt(platform?.servicePostingFee))
               : 0,
-            hookModifyValue: transformFee,
           }}
           contractParams={{
             contractFunctionName: 'updateServicePostingFee',
@@ -124,7 +113,6 @@ function AdminFees() {
             initialValue: platform?.proposalPostingFee
               ? formatEther(BigInt(platform?.proposalPostingFee))
               : 0,
-            hookModifyValue: transformFee,
           }}
           contractParams={{
             contractFunctionName: 'updateProposalPostingFee',

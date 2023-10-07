@@ -1,11 +1,12 @@
 import { Field, Form, Formik } from 'formik';
 import { useContext, useMemo, useState } from 'react';
-import { usePublicClient, useWalletClient } from 'wagmi';
+import { usePublicClient } from 'wagmi';
 import TalentLayerContext from '../../context/talentLayer';
 import { executePayment } from '../../contracts/executePayment';
 import { IService, IToken, ServiceStatusEnum } from '../../types';
 import { renderTokenAmount } from '../../utils/conversion';
 import { useChainId } from '../../hooks/useChainId';
+import useTalentLayerClient from '../../hooks/useTalentLayerClient';
 
 interface IFormValues {
   percentField: string;
@@ -28,29 +29,32 @@ function ReleaseForm({
 }: IReleaseFormProps) {
   const chainId = useChainId();
   const { user, isActiveDelegate } = useContext(TalentLayerContext);
-  const { data: walletClient } = useWalletClient({
-    chainId,
-  });
   const publicClient = usePublicClient({ chainId });
+  const talentLayerClient = useTalentLayerClient();
+
   const [percent, setPercentage] = useState(0);
 
-  const handleSubmit = async (values: any) => {
-    if (!user || !walletClient || !publicClient) {
+  const handleSubmit = async () => {
+    if (!user || !publicClient) {
       return;
     }
     const percentToToken = (totalInEscrow * BigInt(percent)) / BigInt(100);
 
-    await executePayment(
-      chainId,
-      user.address,
-      walletClient,
-      publicClient,
-      user.id,
-      service.transaction.id,
-      percentToToken,
-      isBuyer,
-      isActiveDelegate,
-    );
+    if (talentLayerClient) {
+      await executePayment(
+        chainId,
+        user.address,
+        publicClient,
+        user.id,
+        service.transaction.id,
+        percentToToken,
+        isBuyer,
+        isActiveDelegate,
+        talentLayerClient,
+        service.id
+      );
+    }
+    
     closeModal();
   };
 
