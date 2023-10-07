@@ -17,14 +17,12 @@ export const validateProposal = async (
 ): Promise<void> => {
   try {
     if (rateToken === ZERO_ADDRESS) {
-      let tx1: string;
       const { tx } = await talentLayerClient.escrow.approve(serviceId, proposalId, metaEvidenceCid);
-      tx1 = tx;
-      const receipt1 = await toast.promise(publicClient.waitForTransactionReceipt({ hash: tx1 }), {
+      const receipt1 = await toast.promise(publicClient.waitForTransactionReceipt({ hash: tx }), {
         pending: {
           render() {
             return (
-              <TransactionToast message='Your validation is in progress' transactionHash={tx1} />
+              <TransactionToast message='Your validation is in progress' transactionHash={tx} />
             );
           },
         },
