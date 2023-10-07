@@ -87,10 +87,8 @@ function ProfileForm({ callback }: { callback?: () => void }) {
         }
 
         let cid = await talentLayerClient.profile.upload(profile);
-        console.log("starter kit: profile cid", cid, profile);
 
         let tx;
-
         if (isActiveDelegate) {
           const response = await delegateUpdateProfileData(chainId, user.id, user.address, cid);
           tx = response.data.transaction;
