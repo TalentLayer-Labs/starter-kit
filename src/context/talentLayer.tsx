@@ -75,10 +75,8 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
 
       const currentUser = userResponse.data.data.users[0];
 
-      if (talentLayerClient) {
-        const platform = await talentLayerClient.platform.getOne((process.env.NEXT_PUBLIC_PLATFORM_ID as string));;
-        currentUser.isAdmin = platform?.address === currentUser?.address;
-      }
+      const platform = await talentLayerClient.platform.getOne((process.env.NEXT_PUBLIC_PLATFORM_ID as string));;
+      currentUser.isAdmin = platform?.address === currentUser?.address;    
       
       setUser(currentUser);
       setIsActiveDelegate(
