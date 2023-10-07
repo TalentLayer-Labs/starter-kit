@@ -69,7 +69,6 @@ function TalentLayerIdForm() {
           if (talentLayerClient) {
             tx = await talentLayerClient.profile.create(submittedValues.handle);
           }
-
         }
         await createTalentLayerIdTransactionToast(
           chainId,

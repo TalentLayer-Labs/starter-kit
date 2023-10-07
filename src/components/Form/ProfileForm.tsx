@@ -84,7 +84,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
           about: values.about,
           skills: values.skills,
           web3mailPreferences: user.description?.web3mailPreferences,
-        }
+        };
 
         let cid = await talentLayerClient.profile.upload(profile);
 
@@ -93,13 +93,10 @@ function ProfileForm({ callback }: { callback?: () => void }) {
           const response = await delegateUpdateProfileData(chainId, user.id, user.address, cid);
           tx = response.data.transaction;
         } else {
-          const res = await talentLayerClient?.profile.update(
-            profile,
-            user.id
-          );  
+          const res = await talentLayerClient?.profile.update(profile, user.id);
 
-           tx = res.tx;
-           cid = res.cid;
+          tx = res.tx;
+          cid = res.cid;
         }
 
         await createMultiStepsTransactionToast(

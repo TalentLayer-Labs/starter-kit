@@ -5,7 +5,6 @@ import { delegateReleaseOrReimburse } from '../components/request';
 import { Address, PublicClient } from 'viem';
 import { TalentLayerClient } from '@talentlayer/client';
 
-
 export const executePayment = async (
   chainId: number,
   userAddress: string,
@@ -16,7 +15,7 @@ export const executePayment = async (
   isBuyer: boolean,
   isActiveDelegate: boolean,
   talentLayerClient: TalentLayerClient,
-  serviceId: string
+  serviceId: string,
 ): Promise<void> => {
   try {
     let tx: Address;

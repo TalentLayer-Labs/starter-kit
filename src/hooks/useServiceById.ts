@@ -10,9 +10,8 @@ const useServiceById = (serviceId: string): IService | null => {
 
   useEffect(() => {
     if (chainId && talentLayerClient) {
-
-      talentLayerClient
-        .service.getOne(serviceId)
+      talentLayerClient.service
+        .getOne(serviceId)
         .then(response => {
           if (response) {
             setService(response);
@@ -22,7 +21,6 @@ const useServiceById = (serviceId: string): IService | null => {
           console.error(err);
         });
     }
-
   }, [serviceId, chainId, talentLayerClient]);
 
   return service;

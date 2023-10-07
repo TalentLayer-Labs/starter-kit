@@ -95,7 +95,14 @@ function ServiceForm() {
     }: { setSubmitting: (isSubmitting: boolean) => void; resetForm: () => void },
   ) => {
     const token = allowedTokenList.find(token => token.address === values.rateToken);
-    if (account?.isConnected === true && publiClient && walletClient && token && user && talentLayerClient) {
+    if (
+      account?.isConnected === true &&
+      publiClient &&
+      walletClient &&
+      token &&
+      user &&
+      talentLayerClient
+    ) {
       try {
         const parsedRateAmount = await parseRateAmount(
           values.rateAmount.toString(),
@@ -106,36 +113,36 @@ function ServiceForm() {
 
         let tx, cid;
 
-        cid = await talentLayerClient.service.updloadServiceDataToIpfs(
-          {
-            title: values.title,
-            about: values.about,
-            keywords: values.keywords,
-            rateToken: values.rateToken,
-            rateAmount: parsedRateAmountString,
-          },
-        );
+        cid = await talentLayerClient.service.updloadServiceDataToIpfs({
+          title: values.title,
+          about: values.about,
+          keywords: values.keywords,
+          rateToken: values.rateToken,
+          rateAmount: parsedRateAmountString,
+        });
 
         if (isActiveDelegate) {
           const response = await delegateCreateService(chainId, user.id, user.address, cid);
           tx = response.data.transaction;
         } else {
-
           if (talentLayerClient) {
-            const serviceResponse = await talentLayerClient.service.create({
-              title: values.title,
-              about: values.about,
-              keywords: values.keywords,
-              rateToken: values.rateToken,
-              rateAmount: parsedRateAmountString
-            }, user.id, parseInt((process.env.NEXT_PUBLIC_PLATFORM_ID as string)));
-  
+            const serviceResponse = await talentLayerClient.service.create(
+              {
+                title: values.title,
+                about: values.about,
+                keywords: values.keywords,
+                rateToken: values.rateToken,
+                rateAmount: parsedRateAmountString,
+              },
+              user.id,
+              parseInt(process.env.NEXT_PUBLIC_PLATFORM_ID as string),
+            );
+
             cid = serviceResponse.cid;
             tx = serviceResponse.tx;
           } else {
             throw new Error('TL client not initialised');
           }
-
         }
 
         const newId = await createMultiStepsTransactionToast(

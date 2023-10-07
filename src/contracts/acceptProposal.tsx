@@ -13,14 +13,12 @@ export const validateProposal = async (
   publicClient: PublicClient,
   serviceId: string,
   proposalId: string,
-  rateToken: Address
+  rateToken: Address,
 ): Promise<void> => {
-
   try {
     if (rateToken === ZERO_ADDRESS) {
-
       let tx1: string;
-      const {tx} = await talentLayerClient.escrow.approve(serviceId, proposalId, metaEvidenceCid);
+      const { tx } = await talentLayerClient.escrow.approve(serviceId, proposalId, metaEvidenceCid);
       tx1 = tx;
       const receipt1 = await toast.promise(publicClient.waitForTransactionReceipt({ hash: tx1 }), {
         pending: {
@@ -37,8 +35,11 @@ export const validateProposal = async (
         throw new Error('Approve Transaction failed');
       }
     } else {
-
-      const { tx: tx2 } = await talentLayerClient.escrow.approve(serviceId, proposalId, metaEvidenceCid);
+      const { tx: tx2 } = await talentLayerClient.escrow.approve(
+        serviceId,
+        proposalId,
+        metaEvidenceCid,
+      );
       const receipt2 = await toast.promise(publicClient.waitForTransactionReceipt({ hash: tx2 }), {
         pending: {
           render() {

@@ -57,13 +57,12 @@ function AdminPresentation() {
   ) => {
     if (user && publicClient && walletClient && talentLayerClient) {
       try {
-
-        const {tx, cid} = await talentLayerClient.platform.update({
+        const { tx, cid } = await talentLayerClient.platform.update({
           about: values.about,
           website: values.website,
           video_url: values.video_url,
           image_url: values.image_url,
-        })
+        });
 
         await createMultiStepsTransactionToast(
           chainId,

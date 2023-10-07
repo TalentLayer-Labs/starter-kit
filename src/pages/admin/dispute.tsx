@@ -29,9 +29,8 @@ function AdminDispute() {
         setArbitratorPrice(_price);
       } catch (e) {
         console.error(e);
-        setArbitratorPrice(0)
+        setArbitratorPrice(0);
       }
-      
     }
   };
 

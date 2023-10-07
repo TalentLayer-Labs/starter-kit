@@ -66,17 +66,16 @@ function ReviewForm({ serviceId }: { serviceId: string }) {
           );
           tx = response.data.transaction;
         } else {
-
           if (talentLayerClient) {
             const res = await talentLayerClient.review.create(
               {
                 rating: values.rating,
-                content: values.content
+                content: values.content,
               },
               serviceId,
-              user.id
-             )
-             tx = res.tx;
+              user.id,
+            );
+            tx = res.tx;
           }
         }
 

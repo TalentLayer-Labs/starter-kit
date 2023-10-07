@@ -48,13 +48,13 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
       const talentLayerClient = new TalentLayerClient({
         chainId,
         ipfsConfig: {
-          clientId: (process.env.NEXT_PUBLIC_INFURA_ID as string),
-          clientSecret: (process.env.NEXT_PUBLIC_INFURA_SECRET as string),
-          baseUrl: (process.env.NEXT_PUBLIC_IPFS_WRITE_URL as string)
+          clientId: process.env.NEXT_PUBLIC_INFURA_ID as string,
+          clientSecret: process.env.NEXT_PUBLIC_INFURA_SECRET as string,
+          baseUrl: process.env.NEXT_PUBLIC_IPFS_WRITE_URL as string,
         },
-        platformId: (parseInt(process.env.NEXT_PUBLIC_PLATFORM_ID as string)),
-        signatureApiUrl: (process.env.NEXT_PUBLIC_SIGNATURE_API_URL as string)
-    })
+        platformId: parseInt(process.env.NEXT_PUBLIC_PLATFORM_ID as string),
+        signatureApiUrl: process.env.NEXT_PUBLIC_SIGNATURE_API_URL as string,
+      });
       setTalentLayerClient(talentLayerClient);
     }
   }, [chainId, switchNetwork, account.address]);
@@ -75,9 +75,11 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
 
       const currentUser = userResponse.data.data.users[0];
 
-      const platform = await talentLayerClient.platform.getOne((process.env.NEXT_PUBLIC_PLATFORM_ID as string));;
-      currentUser.isAdmin = platform?.address === currentUser?.address;    
-      
+      const platform = await talentLayerClient.platform.getOne(
+        process.env.NEXT_PUBLIC_PLATFORM_ID as string,
+      );
+      currentUser.isAdmin = platform?.address === currentUser?.address;
+
       setUser(currentUser);
       setIsActiveDelegate(
         process.env.NEXT_PUBLIC_ACTIVE_DELEGATE === 'true' &&
@@ -124,7 +126,7 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
       refreshData: fetchData,
       loading,
       completionScores,
-      talentLayerClient
+      talentLayerClient,
     };
   }, [account.address, user?.id, isActiveDelegate, loading, completionScores, talentLayerClient]);
 

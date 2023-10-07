@@ -28,7 +28,6 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
   });
 
   const talentLayerClient = useTalentLayerClient();
-  
 
   const originValidatedProposalPlatformId = proposal.platform.id;
   const originServicePlatformId = proposal.service.platform.id;

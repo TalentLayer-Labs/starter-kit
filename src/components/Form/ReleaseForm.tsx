@@ -51,10 +51,10 @@ function ReleaseForm({
         isBuyer,
         isActiveDelegate,
         talentLayerClient,
-        service.id
+        service.id,
       );
     }
-    
+
     closeModal();
   };
 
@@ -134,7 +134,7 @@ function ReleaseForm({
               {totalInEscrow > 0 && (
                 <button
                   type='submit'
-                  className=' hover:bg-endnight hover:text-white bg-redpraha text-midnight px-5 py-2 rounded'>
+                  className=' hover:bg-endnight text-white bg-redpraha px-5 py-2 rounded-xl'>
                   {isBuyer ? 'Release the selected amount' : 'Reimburse the selected amount'}
                 </button>
               )}

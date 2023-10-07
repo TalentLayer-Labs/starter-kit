@@ -132,11 +132,10 @@ function ProposalForm({
 
         const parsedRateAmountString = parsedRateAmount.toString();
 
-        
         const proposal = {
           about: values.about,
           video_url: values.video_url,
-        }
+        };
 
         let tx, cid, proposalResponse;
 
@@ -156,7 +155,6 @@ function ProposalForm({
           );
           tx = proposalResponse.data.transaction;
         } else {
-
           if (existingProposal) {
             proposalResponse = await talentLayerClient?.proposal.update(
               proposal,
@@ -164,8 +162,8 @@ function ProposalForm({
               service.id,
               values.rateToken,
               parsedRateAmountString,
-              convertExpirationDateString
-            )
+              convertExpirationDateString,
+            );
           } else {
             proposalResponse = await talentLayerClient?.proposal.create(
               proposal,
@@ -173,12 +171,11 @@ function ProposalForm({
               service.id,
               values.rateToken,
               parsedRateAmountString,
-              convertExpirationDateString
-            )
+              convertExpirationDateString,
+            );
           }
           tx = proposalResponse?.tx;
-          cid = proposalResponse?.cid
-          
+          cid = proposalResponse?.cid;
         }
 
         await createMultiStepsTransactionToast(
