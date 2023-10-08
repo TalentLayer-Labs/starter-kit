@@ -22,6 +22,7 @@ import SubmitButton from './SubmitButton';
 import useTalentLayerClient from '../../hooks/useTalentLayerClient';
 import usePlatform from '../../hooks/usePlatform';
 import { chains } from '../../pages/_app';
+import MetaEvidenceModal from '../../modules/Disputes/components/MetaEvidenceModal';
 
 interface IFormValues {
   about: string;
@@ -56,6 +57,7 @@ function ProposalForm({
   const { platformHasAccess } = useContext(Web3MailContext);
   const [aiLoading, setAiLoading] = useState(false);
   const talentLayerClient = useTalentLayerClient();
+  const [conditionsValidated, setConditionsValidated] = useState(false);
 
   const currentChain = chains.find(chain => chain.id === chainId);
   const platform = usePlatform(process.env.NEXT_PUBLIC_PLATFORM_ID as string);
@@ -318,7 +320,21 @@ function ProposalForm({
                 {currentChain?.nativeCurrency.symbol}
               </span>
             )}
-            <SubmitButton isSubmitting={isSubmitting} label='Post' />
+            <div className='flex-col items-center mb-4'>
+              <MetaEvidenceModal
+                conditionsValidated={conditionsValidated}
+                setConditionsValidated={setConditionsValidated}
+                serviceData={service}
+                proposalData={values}
+                token={allowedTokenList.filter(token => token.address === values.rateToken)[0]}
+                seller={user}
+              />
+              <SubmitButton
+                isSubmitting={isSubmitting}
+                disabled={!conditionsValidated}
+                label='Post'
+              />
+            </div>
           </div>
         </Form>
       )}

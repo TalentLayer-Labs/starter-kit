@@ -4,9 +4,11 @@ import { useAccount } from 'wagmi';
 function SubmitButton({
   isSubmitting,
   label = 'Create',
+  disabled = false,
 }: {
   isSubmitting: boolean;
   label?: string;
+  disabled?: boolean;
 }) {
   const { isConnected } = useAccount();
   const { open: openConnectModal } = useWeb3Modal();
@@ -36,7 +38,14 @@ function SubmitButton({
           Loading...
         </button>
       ) : isConnected ? (
-        <button type='submit' className='grow px-5 py-2 rounded-xl bg-redpraha text-white'>
+        <button
+          type='submit'
+          disabled={disabled}
+          className={`px-5 py-2 border rounded-md ${
+            disabled
+              ? 'text-gray-400 bg-gray-200'
+              : 'hover:text-indigo-600 hover:bg-white border-indigo-600 text-white bg-indigo-700'
+          }`}>
           {label}
         </button>
       ) : (
