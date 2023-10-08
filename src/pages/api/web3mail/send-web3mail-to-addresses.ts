@@ -1,17 +1,28 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { userGaveAccessToPlatform } from '../../../modules/Web3mail/utils/data-protector';
 import { generateWeb3mailProviders } from '../utils/web3mail';
+import { recoverMessageAddress } from 'viem';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const privateKey = process.env.NEXT_PUBLIC_WEB3MAIL_PLATFORM_PRIVATE_KEY;
-  const { subject, body, contacts } = req.body;
+  const { subject, body, contacts, signature } = req.body;
   let sentEmails = 0,
     nonSentEmails = 0;
-  if (!subject || !body || !contacts) return res.status(500).json(`Missing argument`);
+  if (!subject || !body || !contacts || !signature) return res.status(500).json(`Missing argument`);
 
   console.log('------- Sending email to addresses -------');
   if (!privateKey) {
     return res.status(500).json(`Private key is not set`);
+  }
+
+  // Check whether the address which provided the signature is the owner of the platform
+  const address = await recoverMessageAddress({
+    message: 'Iexec Web3mail',
+    signature,
+  });
+
+  if (address !== process.env.NEXT_PUBLIC_WEB3MAIL_PLATFORM_ADDRESS) {
+    return res.status(401).json(`Unauthorized`);
   }
 
   try {

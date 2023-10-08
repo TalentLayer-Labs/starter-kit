@@ -8,6 +8,9 @@ import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import Loading from '../Loading';
+import { useChainId } from '../../hooks/useChainId';
+import { useAccount, useWalletClient } from 'wagmi';
+import { useWeb3Modal } from '@web3modal/react';
 
 interface IFormValues {
   subject: string;
@@ -27,6 +30,11 @@ export const ContactListForm = ({
   contactList: Contact[];
   contactsLoaded: boolean;
 }) => {
+  const chainId = useChainId();
+  const { data: walletClient } = useWalletClient({ chainId });
+  const { address } = useAccount();
+  const { open: openConnectModal } = useWeb3Modal();
+
   const [allContractsAdded, setAllContractsAdded] = useState(false);
 
   const initialValues: IFormValues = {
@@ -56,28 +64,38 @@ export const ContactListForm = ({
     values: IFormValues,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void },
   ) => {
-    // if (user && provider && signer) {
-    try {
-      setSubmitting(true);
+    if (walletClient && address) {
+      try {
+        setSubmitting(true);
 
-      const promise = axios.post('/api/web3mail/send-web3mail-to-addresses', {
-        subject: values.subject,
-        body: values.body,
-        contacts: values.contacts,
-      });
-      await toast.promise(promise, {
-        pending: 'Your emails are being sent...',
-        success: 'Emails sent !',
-        error: 'An error occurred while sending emails',
-      });
+        /**
+         * @dev Sign message to prove ownership of the address
+         */
+        const signature = await walletClient.signMessage({
+          account: address,
+          message: 'Iexec Web3mail',
+        });
 
-      setSubmitting(false);
-    } catch (error) {
-      showErrorTransactionToast(error);
+        const promise = axios.post('/api/web3mail/send-web3mail-to-addresses', {
+          subject: values.subject,
+          body: values.body,
+          contacts: values.contacts,
+          signature: signature,
+        });
+
+        await toast.promise(promise, {
+          pending: 'Your emails are being sent...',
+          success: 'Emails sent !',
+          error: 'An error occurred while sending emails',
+        });
+
+        setSubmitting(false);
+      } catch (error) {
+        showErrorTransactionToast(error);
+      }
+    } else {
+      openConnectModal();
     }
-    // } else {
-    //   openConnectModal();
-    // }
   };
 
   return (
