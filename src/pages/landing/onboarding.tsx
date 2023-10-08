@@ -1,75 +1,7 @@
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { QuestionMarkCircle } from 'heroicons-react';
-import router from 'next/router';
-import * as Yup from 'yup';
-import Loading from '../../components/Loading';
-import ServiceItem from '../../components/ServiceItem';
-import { generateSubdomainPrefix } from '../../modules/MultiDomain/utils';
-import { useCreateSpaceMutation } from '../../modules/MultiDomain/hooks/UseCreateSpaceMutation';
-
-// interface IFormValues {
-//   newDomain: string;
-// }
-
-// const validationSchema = Yup.object({
-//   newDomain: Yup.string().required('title is required'),
-// });
-
-// export default function Onboarding() {
-//   const [createSpace, setCreateSpace] = useState<CreateSpaceProps>({ name: "", subdomain: "", primaryColor: "", secondaryColor: "" });
-//   const [createSpaceResponse, setCreateSpaceResponse] = useState("No response yet");
-//   const { data: createdSpace, mutateAsync: createSpaceAsync } = useCreateSpaceMutation();
-
-//   const handleCreateSpace = async () => {
-//     try {
-//       const subdomainPrefix = generateSubdomainPrefix(createSpace.name);
-//       const subdomain = `${subdomainPrefix}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
-//       await createSpaceAsync({ ...createSpace, subdomain });
-//       setCreateSpaceResponse(`${createSpace.name} space got created` || 'No response yet');
-//       window.location.href = `${window.location.protocol}//${subdomain}/admin`;
-//     } catch (error) {
-//       console.error('Error creating space:', error);
-//       setCreateSpaceResponse('Failed to create space');
-//     }
-//   };
-
-//   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-//     const { name, value } = event.target;
-//     setCreateSpace(prevState => ({
-//       ...prevState,
-//       [name]: value
-//     }));
-//   };
-
-//   const subdomainPrefix = generateSubdomainPrefix(createSpace.name);
-//   const subdomain = `${subdomainPrefix}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
-
-//   return (
-//     <div>
-//       <label>
-//         Name:
-//         <input type="text" name="name" value={createSpace.name} onChange={handleInputChange} />
-//       </label>
-//       <label>
-//         Subdomain:
-//         <input type="text" name="subdomain" value={subdomain} disabled />
-//       </label>
-//       <label>
-//         Primary Color:
-//         <input type="text" name="primaryColor" value={createSpace.primaryColor} onChange={handleInputChange} />
-//       </label>
-//       <label>
-//         Secondary Color:
-//         <input type="text" name="secondaryColor" value={createSpace.secondaryColor} onChange={handleInputChange} />
-//       </label>
-//       <button onClick={handleCreateSpace}>Create Space</button>
-//       <p>{createSpaceResponse}</p>
-
-//     </div>
-//   )
-// }
-
-
+import * as Yup from 'yup'
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import { useCreateSpaceMutation } from "../../modules/MultiDomain/hooks/UseCreateSpaceMutation";
+import { generateSubdomainPrefix } from "../../modules/MultiDomain/utils";
 
 interface IFormValues {
   name: string
