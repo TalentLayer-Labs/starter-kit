@@ -14,6 +14,8 @@ import { useChainId } from '../../hooks/useChainId';
 import useTalentLayerClient from '../../hooks/useTalentLayerClient';
 import { NetworkEnum } from '../../types';
 import useMintFee from '../../hooks/useMintFee';
+import { createWeb3mailToast } from '../../modules/Web3mail/utils/toast';
+import Web3MailContext from '../../modules/Web3mail/context/web3mail';
 
 interface IFormValues {
   handle: string;
@@ -26,7 +28,8 @@ const initialValues: IFormValues = {
 function TalentLayerIdForm() {
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
-  const { account } = useContext(TalentLayerContext);
+  const { account, refreshData } = useContext(TalentLayerContext);
+  const { platformHasAccess } = useContext(Web3MailContext);
   const { data: walletClient } = useWalletClient({ chainId });
   const publicClient = usePublicClient({ chainId });
   const router = useRouter();
@@ -79,8 +82,10 @@ function TalentLayerIdForm() {
         );
 
         setSubmitting(false);
-        // TODO: add a refresh function on TL context and call it here rather than hard refresh
-        router.reload();
+        if (process.env.NEXT_PUBLIC_ACTIVE_WEB3MAIL == 'true' && !platformHasAccess) {
+          createWeb3mailToast();
+        }
+        refreshData();
       } catch (error: any) {
         showErrorTransactionToast(error);
       }
