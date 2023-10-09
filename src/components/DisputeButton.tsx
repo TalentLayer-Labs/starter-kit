@@ -1,8 +1,8 @@
 import { ITransaction, IUser, TransactionStatusEnum } from '../types';
 import { arbitrationFeeTimeout, payArbitrationFee } from '../contracts/disputes';
-import { useProvider, useSigner } from 'wagmi';
+import { usePublicClient, useWalletClient } from 'wagmi';
 import { useRouter } from 'next/router';
-import { BigNumber } from 'ethers';
+import { useChainId } from '../hooks/useChainId';
 
 function DisputeButton({
   user,
@@ -14,13 +14,12 @@ function DisputeButton({
   user: IUser;
   transaction: ITransaction;
   disabled: boolean;
-  arbitrationFee: BigNumber;
+  arbitrationFee: bigint;
   content?: string;
 }) {
-  const { data: signer } = useSigner({
-    chainId: parseInt(process.env.NEXT_PUBLIC_NETWORK_ID as string),
-  });
-  const provider = useProvider({ chainId: parseInt(process.env.NEXT_PUBLIC_NETWORK_ID as string) });
+  const chainId = useChainId();
+  const { data: walletClient } = useWalletClient({ chainId });
+  const publicClient = usePublicClient({ chainId });
   const router = useRouter();
   const transactionId = transaction?.id;
 
@@ -47,13 +46,13 @@ function DisputeButton({
   const disputeResolved = transaction.status === TransactionStatusEnum.Resolved;
 
   const payFee = () => {
-    if (signer && arbitrationFee) {
-      return payArbitrationFee(signer, provider, arbitrationFee, isSender, transactionId, router);
+    if (walletClient && arbitrationFee) {
+      return payArbitrationFee(walletClient, publicClient, arbitrationFee, isSender, transactionId, router);
     }
   };
   const timeout = () => {
-    if (signer) {
-      return arbitrationFeeTimeout(signer, provider, transactionId, router);
+    if (walletClient) {
+      return arbitrationFeeTimeout(walletClient, publicClient, transactionId, router);
     }
   };
 
