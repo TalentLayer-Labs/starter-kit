@@ -2,22 +2,20 @@ import { useWeb3Modal } from '@web3modal/react';
 import { Field, Form, Formik } from 'formik';
 import { QuestionMarkCircle } from 'heroicons-react';
 import { useContext, useState } from 'react';
-import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
+import { usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
 import TalentLayerContext from '../../context/talentLayer';
-import TalentLayerID from '../../contracts/ABI/TalentLayerID.json';
 import { useChainId } from '../../hooks/useChainId';
-import { useConfig } from '../../hooks/useConfig';
 import useUserById from '../../hooks/useUserById';
 import Web3MailContext from '../../modules/Web3mail/context/web3mail';
 import { createWeb3mailToast } from '../../modules/Web3mail/utils/toast';
 import { generatePicture } from '../../utils/ai-picture-gen';
-import { postToIPFS } from '../../utils/ipfs';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../utils/toast';
 import Loading from '../Loading';
 import { delegateUpdateProfileData } from '../request';
 import SubmitButton from './SubmitButton';
 import { SkillsInput } from './skills-input';
+import useTalentLayerClient from '../../hooks/useTalentLayerClient';
 
 interface IFormValues {
   title?: string;
@@ -34,16 +32,15 @@ const validationSchema = Yup.object({
 });
 
 function ProfileForm({ callback }: { callback?: () => void }) {
-  const config = useConfig();
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
   const { user, isActiveDelegate, refreshData } = useContext(TalentLayerContext);
   const { platformHasAccess } = useContext(Web3MailContext);
   const { data: walletClient } = useWalletClient({ chainId });
   const publicClient = usePublicClient({ chainId });
-  const { address } = useAccount();
   const [aiLoading, setAiLoading] = useState(false);
   const userDescription = user?.id ? useUserById(user?.id)?.description : null;
+  const talentLayerClient = useTalentLayerClient();
 
   if (!user?.id) {
     return <Loading />;
@@ -73,32 +70,30 @@ function ProfileForm({ callback }: { callback?: () => void }) {
     values: IFormValues,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void },
   ) => {
-    if (user && walletClient && publicClient) {
+    if (user && walletClient && publicClient && talentLayerClient) {
       try {
-        const cid = await postToIPFS(
-          JSON.stringify({
-            title: values.title,
-            role: values.role,
-            image_url: values.image_url,
-            video_url: values.video_url,
-            name: values.name,
-            about: values.about,
-            skills: values.skills,
-            web3mailPreferences: user.description?.web3mailPreferences,
-          }),
-        );
+        const profile = {
+          title: values.title,
+          role: values.role,
+          image_url: values.image_url,
+          video_url: values.video_url,
+          name: values.name,
+          about: values.about,
+          skills: values.skills,
+          web3mailPreferences: user.description?.web3mailPreferences,
+        };
+
+        let cid = await talentLayerClient.profile.upload(profile);
+
         let tx;
         if (isActiveDelegate) {
           const response = await delegateUpdateProfileData(chainId, user.id, user.address, cid);
           tx = response.data.transaction;
         } else {
-          tx = await walletClient.writeContract({
-            address: config.contracts.talentLayerId,
-            abi: TalentLayerID.abi,
-            functionName: 'updateProfileData',
-            args: [user.id, cid],
-            account: address,
-          });
+          const res = await talentLayerClient?.profile.update(profile, user.id);
+
+          tx = res.tx;
+          cid = res.cid;
         }
 
         await createMultiStepsTransactionToast(
@@ -124,6 +119,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
           createWeb3mailToast();
         }
       } catch (error) {
+        console.log(error);
         showErrorTransactionToast(error);
       }
     } else {

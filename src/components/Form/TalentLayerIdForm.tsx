@@ -2,17 +2,16 @@ import { useWeb3Modal } from '@web3modal/react';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useContext } from 'react';
 import { useRouter } from 'next/router';
-import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
+import { usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
 import TalentLayerContext from '../../context/talentLayer';
-import TalentLayerID from '../../contracts/ABI/TalentLayerID.json';
 import { createTalentLayerIdTransactionToast, showErrorTransactionToast } from '../../utils/toast';
 import HelpPopover from '../HelpPopover';
 import SubmitButton from './SubmitButton';
 import { HandlePrice } from './HandlePrice';
 import { delegateMintID } from '../request';
 import { useChainId } from '../../hooks/useChainId';
-import { useConfig } from '../../hooks/useConfig';
+import useTalentLayerClient from '../../hooks/useTalentLayerClient';
 import { NetworkEnum } from '../../types';
 import useMintFee from '../../hooks/useMintFee';
 
@@ -25,14 +24,13 @@ const initialValues: IFormValues = {
 };
 
 function TalentLayerIdForm() {
-  const config = useConfig();
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
-  const { user, account } = useContext(TalentLayerContext);
+  const { account } = useContext(TalentLayerContext);
   const { data: walletClient } = useWalletClient({ chainId });
-  const { address } = useAccount();
   const publicClient = usePublicClient({ chainId });
   const router = useRouter();
+  const talentLayerClient = useTalentLayerClient();
   const { calculateMintFee } = useMintFee();
 
   const validationSchema = Yup.object().shape({
@@ -64,14 +62,9 @@ function TalentLayerIdForm() {
           );
           tx = response.data.transaction;
         } else {
-          tx = await walletClient.writeContract({
-            address: config.contracts.talentLayerId,
-            abi: TalentLayerID.abi,
-            functionName: 'mint',
-            args: [process.env.NEXT_PUBLIC_PLATFORM_ID, submittedValues.handle],
-            account: address,
-            value: BigInt(handlePrice),
-          });
+          if (talentLayerClient) {
+            tx = await talentLayerClient.profile.create(submittedValues.handle);
+          }
         }
         await createTalentLayerIdTransactionToast(
           chainId,

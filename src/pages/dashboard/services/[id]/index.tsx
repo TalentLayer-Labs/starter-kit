@@ -1,8 +1,7 @@
 import { useRouter } from 'next/router';
-import Back from '../../../components/Back';
-import Loading from '../../../components/Loading';
-import ServiceDetail from '../../../components/ServiceDetail';
-import useServiceById from '../../../hooks/useServiceById';
+import Loading from '../../../../components/Loading';
+import ServiceDetail from '../../../../components/ServiceDetail';
+import useServiceById from '../../../../hooks/useServiceById';
 
 function Service() {
   const router = useRouter();

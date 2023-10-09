@@ -9,6 +9,7 @@ import { IAccount, IProposal } from '../../types';
 import { renderTokenAmount } from '../../utils/conversion';
 import Step from '../Step';
 import { useChainId } from '../../hooks/useChainId';
+import useTalentLayerClient from '../../hooks/useTalentLayerClient';
 import { ZERO_ADDRESS } from '../../utils/constant';
 
 function ValidateProposalModal({ proposal, account }: { proposal: IProposal; account: IAccount }) {
@@ -25,6 +26,8 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
     enabled: !isProposalUseEth,
     token: proposal.rateToken.address,
   });
+
+  const talentLayerClient = useTalentLayerClient();
 
   const originValidatedProposalPlatformId = proposal.platform.id;
   const originServicePlatformId = proposal.service.platform.id;
@@ -43,18 +46,16 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
   const totalAmount = jobRateAmount + originServiceFee + originValidatedProposalFee + protocolFee;
 
   const onSubmit = async () => {
-    if (!walletClient || !publicClient) {
+    if (!walletClient || !publicClient || !talentLayerClient) {
       return;
     }
+
     await validateProposal(
-      chainId,
-      walletClient,
+      talentLayerClient,
       publicClient,
       proposal.service.id,
-      proposal.seller.id,
+      proposal.id,
       proposal.rateToken.address,
-      proposal.cid,
-      totalAmount,
     );
     setShow(false);
   };
