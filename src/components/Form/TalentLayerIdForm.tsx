@@ -1,21 +1,22 @@
 import { useWeb3Modal } from '@web3modal/react';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
-import { useContext } from 'react';
 import { useRouter } from 'next/router';
+import { useContext } from 'react';
 import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
 import TalentLayerContext from '../../context/talentLayer';
-import TalentLayerID from '../../contracts/ABI/TalentLayerID.json';
-import { createTalentLayerIdTransactionToast, showErrorTransactionToast } from '../../utils/toast';
-import HelpPopover from '../HelpPopover';
-import SubmitButton from './SubmitButton';
-import { HandlePrice } from './HandlePrice';
-import { delegateMintID } from '../request';
 import { useChainId } from '../../hooks/useChainId';
 import { useConfig } from '../../hooks/useConfig';
+import useMintFee from '../../hooks/useMintFee';
 import useTalentLayerClient from '../../hooks/useTalentLayerClient';
 import { NetworkEnum } from '../../types';
-import useMintFee from '../../hooks/useMintFee';
+import { createTalentLayerIdTransactionToast, showErrorTransactionToast } from '../../utils/toast';
+import HelpPopover from '../HelpPopover';
+import { delegateMintID } from '../request';
+import { HandlePrice } from './HandlePrice';
+import SubmitButton from './SubmitButton';
+import Web3MailContext from '../../modules/Web3mail/context/web3mail';
+import { createWeb3mailToast } from '../../modules/Web3mail/utils/toast';
 
 interface IFormValues {
   handle: string;
@@ -26,12 +27,11 @@ const initialValues: IFormValues = {
 };
 
 function TalentLayerIdForm() {
-  const config = useConfig();
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
+  const { platformHasAccess } = useContext(Web3MailContext);
   const { account } = useContext(TalentLayerContext);
   const { data: walletClient } = useWalletClient({ chainId });
-  const { address } = useAccount();
   const publicClient = usePublicClient({ chainId });
   const router = useRouter();
   const talentLayerClient = useTalentLayerClient();
@@ -85,6 +85,10 @@ function TalentLayerIdForm() {
         setSubmitting(false);
         // TODO: add a refresh function on TL context and call it here rather than hard refresh
         router.reload();
+
+        if (process.env.NEXT_PUBLIC_ACTIVE_WEB3MAIL == 'true' && !platformHasAccess) {
+          createWeb3mailToast();
+        }
       } catch (error: any) {
         showErrorTransactionToast(error);
       }
