@@ -16,7 +16,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   // Check whether the address which provided the signature is the owner of the platform
   const address = await recoverMessageAddress({
-    message: 'Iexec Web3mail',
+    message: emailSubject,
     signature,
   });
 

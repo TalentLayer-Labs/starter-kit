@@ -73,7 +73,7 @@ export const ContactListForm = ({
          */
         const signature = await walletClient.signMessage({
           account: address,
-          message: 'Iexec Web3mail',
+          message: values.subject,
         });
 
         const promise = axios.post('/api/web3mail/send-web3mail-to-addresses', {
