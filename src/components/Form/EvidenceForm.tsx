@@ -111,7 +111,7 @@ function EvidenceForm({ transactionId }: { transactionId: string }) {
               <label className='flex flex-col'>
                 <FileDropper setFileSelected={setFileSelected} fileSelected={fileSelected} />
 
-                <Field type='hidden' id='file' name='file' />
+                <Field type='hidden' id='file' name='file' value='' />
                 <span className='text-red-500'>
                   <ErrorMessage name='file' />
                 </span>

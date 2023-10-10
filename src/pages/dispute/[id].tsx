@@ -8,10 +8,10 @@ import { TransactionStatusEnum } from '../../types';
 import useTransactionsById from '../../hooks/useTransactionsById';
 import DisputeButton from '../../components/DisputeButton';
 import useArbitrationCost from '../../hooks/useArbitrationCost';
-import { ethers } from 'ethers';
 import Steps from '../../components/Steps';
 import DisputeStatusCard from '../../modules/Disputes/components/DisputeStatusCard';
 import EvidenceDetails from '../../modules/Disputes/components/EvidenceDetails';
+import { ZERO_ADDRESS } from '../../utils/constant';
 
 function Dispute() {
   const router = useRouter();
@@ -29,14 +29,11 @@ function Dispute() {
   if (!user) {
     return <Steps />;
   }
-
   return (
     <div className='max-w-7xl mx-auto text-gray-900 sm:px-4 lg:px-0'>
       <p className='text-5xl font-medium tracking-wider mb-8'>
-        Raise <span className='text-indigo-600'>a dispute</span>
+        <span className='text-indigo-600'>Raise a dispute</span>
       </p>
-
-      
       {account?.isConnected &&
       user?.id !== proposal?.service.buyer.id &&
       user?.id !== proposal?.seller.id ? (
@@ -45,7 +42,7 @@ function Dispute() {
         </div>
       ) : account?.isConnected &&
         transaction &&
-        (!transaction?.arbitrator || transaction?.arbitrator === ethers.constants.AddressZero) ? (
+        (!transaction?.arbitrator || transaction?.arbitrator === ZERO_ADDRESS) ? (
         <div className={'p-8'}>
           <h2 className='mb-2 text-xl text-gray-900'>
             Your platform has not implemented an arbitrator, you cannot raise a dispute yet :(
