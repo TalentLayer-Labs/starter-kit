@@ -20,7 +20,7 @@ export const getEscrowContract = (walletClient: WalletClient) => {
 export const payArbitrationFee = async (
   walletClient: WalletClient,
   publicClient: PublicClient,
-  arbitrationFee: bigint,
+  arbitrationFee: BigInt,
   isSender: boolean,
   transactionId: string,
   router: NextRouter,

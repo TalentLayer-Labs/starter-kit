@@ -1,6 +1,6 @@
 import { processRequest } from '../utils/graphql';
 
-export const getTransactionById = (id: string): Promise<any> => {
+export const getTransactionById = (chainId:number, id: string): Promise<any> => {
   const query = `
       {
         transactions (where: {id: "${id}"}) {
@@ -40,5 +40,5 @@ export const getTransactionById = (id: string): Promise<any> => {
         }
       }
     `;
-  return processRequest(query);
+  return processRequest(chainId, query);
 };

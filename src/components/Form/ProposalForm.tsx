@@ -29,7 +29,7 @@ interface IFormValues {
   rateToken: string;
   rateAmount: number;
   expirationDate: number;
-  video_url: string;
+  videoUrl: string;
 }
 
 const validationSchema = Yup.object({
@@ -91,7 +91,7 @@ function ProposalForm({
     rateToken: existingProposal?.rateToken.address || '',
     rateAmount: existingRateTokenAmount || 0,
     expirationDate: existingExpirationDate || 15,
-    video_url: existingProposal?.description?.video_url || '',
+    videoUrl: existingProposal?.description?.video_url || '',
   };
 
   const askAI = async (input: string, setFieldValue: any) => {
@@ -136,7 +136,7 @@ function ProposalForm({
 
         const proposal = {
           about: values.about,
-          video_url: values.video_url,
+          video_url: values.videoUrl,
         };
 
         let tx, cid, proposalResponse;

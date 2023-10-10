@@ -83,8 +83,8 @@ export type ITransaction = {
   arbitrationFeeTimeout: number;
   amount: number;
   disputeId: number;
-  arbitrator: string;
-  // arbitrator: `0x${string}`;
+  // arbitrator: string;
+  arbitrator: `0x${string}`;
   ruling: number;
   evidences: IEvidence[];
 };

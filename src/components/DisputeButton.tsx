@@ -14,7 +14,7 @@ function DisputeButton({
   user: IUser;
   transaction: ITransaction;
   disabled: boolean;
-  arbitrationFee: bigint;
+  arbitrationFee: BigInt;
   content?: string;
 }) {
   const chainId = useChainId();

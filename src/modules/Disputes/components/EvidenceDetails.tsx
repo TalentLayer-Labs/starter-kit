@@ -25,7 +25,7 @@ function EvidenceDetails({
         title={'Buyer evidences: '}
       />
       <Evidences evidences={sellerEvidences} title={'Seller evidences: '} />
-      {transaction.receiver && proposal.service && proposal.description && (
+      {transaction.receiver && proposal.service && proposal.description && proposal.description.video_url && (
         <p className={'text-sm text-gray-500 mt-4'}>
           <strong>Meta evidence:</strong>
           <MetaEvidenceModal

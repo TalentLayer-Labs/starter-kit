@@ -135,15 +135,14 @@ function ServiceDetail({ service }: { service: IService }) {
                   service.status !== ServiceStatusEnum.Opened &&
                   validatedProposal &&
                   service.transaction.arbitrator !== ZERO_ADDRESS && (
-                    <button
-                      onClick={() => push(`/dispute/${validatedProposal.id}`)}
+                    <Link
+                      href={`/dispute/${validatedProposal.id}`}
                       className='block hover:text-white rounded-lg px-5 py-2.5 text-center text-red-600 bg-red-50 hover:bg-red-500'
-                      type='button'
                       data-modal-toggle='defaultModal'>
                       {service.transaction.status === TransactionStatusEnum.NoDispute
                         ? 'Raise dispute'
                         : 'View dispute'}
-                    </button>
+                    </Link>
             )}
           </div>
         </div>

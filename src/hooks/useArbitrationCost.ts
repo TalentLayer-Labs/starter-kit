@@ -1,26 +1,23 @@
 import { useState, useEffect } from 'react';
-import { BigNumber, Contract, ethers } from 'ethers';
 import TalentLayerArbitrator from '../contracts/ABI/TalentLayerArbitrator.json';
-import { useSigner } from 'wagmi';
+import { useChainId, usePublicClient } from 'wagmi';
+import { ZERO_ADDRESS } from '../utils/constant';
+import { Address } from 'viem';
 
-const useArbitrationCost = (arbitratorAddress: string | undefined): BigNumber | null => {
-  const [arbitrationCost, setArbitrationCost] = useState<BigNumber | null>(null);
-  const { data: signer } = useSigner({
-    chainId: parseInt(process.env.NEXT_PUBLIC_NETWORK_ID as string),
-  });
-
+const useArbitrationCost = (arbitratorAddress: Address | undefined): BigInt | null => {
+  const [arbitrationCost, setArbitrationCost] = useState<BigInt | null>(null);
+  const chainId = useChainId();
+  const publicClient = usePublicClient({ chainId });
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (signer && arbitratorAddress && arbitratorAddress !== ethers.constants.AddressZero) {
-          const talentLayerArbitrator = new Contract(
-            arbitratorAddress,
-            TalentLayerArbitrator.abi,
-            signer,
-          );
-          const response = await talentLayerArbitrator.arbitrationPrice(
-            process.env.NEXT_PUBLIC_PLATFORM_ID,
-          );
+        if (publicClient && arbitratorAddress && arbitratorAddress !== ZERO_ADDRESS) {
+          const response: any = await publicClient.readContract({
+            address: arbitratorAddress,
+            abi: TalentLayerArbitrator.abi,
+            functionName: 'arbitrationPrice',
+            args: [process.env.NEXT_PUBLIC_PLATFORM_ID],
+          });
           if (response) {
             setArbitrationCost(response);
           }
