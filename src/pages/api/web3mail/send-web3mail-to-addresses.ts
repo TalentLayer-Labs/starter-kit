@@ -2,9 +2,11 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { userGaveAccessToPlatform } from '../../../modules/Web3mail/utils/data-protector';
 import { generateWeb3mailProviders } from '../utils/web3mail';
 import { recoverMessageAddress } from 'viem';
+import { getPlatformId } from '../../../queries/platform';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const privateKey = process.env.NEXT_PUBLIC_WEB3MAIL_PLATFORM_PRIVATE_KEY;
+  const chainId = process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as string;
   const { subject, body, contacts, signature } = req.body;
   let sentEmails = 0,
     nonSentEmails = 0;
@@ -21,7 +23,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     signature,
   });
 
-  if (address !== process.env.NEXT_PUBLIC_WEB3MAIL_PLATFORM_ADDRESS) {
+  const response = await getPlatformId(Number(chainId), address);
+  const platFormId = response.data?.data?.platforms[0]?.id;
+
+  if (platFormId && platFormId !== process.env.NEXT_PUBLIC_PLATFORM_ID) {
     return res.status(401).json(`Unauthorized`);
   }
 
