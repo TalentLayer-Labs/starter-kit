@@ -164,7 +164,7 @@ export const getAcceptedProposals = (
       {
         proposals(
           orderBy: updatedAt
-          where: {status: Validated, service_: {platform: "${id}"} ${timestampCondition}}
+          where: {status: Validated, platform: "${id}" ${timestampCondition}}
         ) {
           id
           rateAmount
