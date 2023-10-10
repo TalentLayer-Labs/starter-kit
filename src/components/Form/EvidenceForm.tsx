@@ -9,7 +9,8 @@ import { generateEvidence } from '../../modules/Disputes/utils/dispute';
 import TalentLayerContext from '../../context/talentLayer';
 import { useWeb3Modal } from '@web3modal/react';
 import { submitEvidence } from '../../contracts/disputes';
-import { useProvider, useSigner } from 'wagmi';
+import { usePublicClient, useWalletClient } from 'wagmi';
+import { useChainId } from '../../hooks/useChainId';
 
 interface IFormValues {
   title: string;
@@ -31,10 +32,9 @@ const initialValues: IFormValues = {
 
 function EvidenceForm({ transactionId }: { transactionId: string }) {
   const { account, user } = useContext(TalentLayerContext);
-  const provider = useProvider({ chainId: parseInt(process.env.NEXT_PUBLIC_NETWORK_ID as string) });
-  const { data: signer } = useSigner({
-    chainId: parseInt(process.env.NEXT_PUBLIC_NETWORK_ID as string),
-  });
+  const chainId = useChainId();
+  const { data: walletClient } = useWalletClient({ chainId });
+  const publicClient = usePublicClient({ chainId });
   const { open: openConnectModal } = useWeb3Modal();
   const [fileSelected, setFileSelected] = useState<File>();
 
@@ -45,7 +45,7 @@ function EvidenceForm({ transactionId }: { transactionId: string }) {
       resetForm,
     }: { setSubmitting: (isSubmitting: boolean) => void; resetForm: () => void },
   ) => {
-    if (account?.isConnected === true && provider && signer && user?.id) {
+    if (account?.isConnected === true && publicClient && walletClient && user?.id) {
       try {
         const fileExtension = values.file?.name.split('.').pop();
         if (!values.file) return;
@@ -60,7 +60,7 @@ function EvidenceForm({ transactionId }: { transactionId: string }) {
         );
         const evidenceCid = await postToIPFS(JSON.stringify(evidence));
 
-        await submitEvidence(signer, provider, user?.id, transactionId, evidenceCid);
+        await submitEvidence(walletClient, publicClient, user?.id, transactionId, evidenceCid);
         setSubmitting(false);
         resetForm();
         setFileSelected(undefined);

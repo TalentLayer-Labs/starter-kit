@@ -1,6 +1,5 @@
 import { Dispatch, SetStateAction, useState } from 'react';
 import { IService, IToken, IUser } from '../../../types';
-import { formatRateAmount } from '../../../utils/web3';
 
 interface ProposalData {
   about: string;
