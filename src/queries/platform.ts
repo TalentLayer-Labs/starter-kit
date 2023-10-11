@@ -57,3 +57,14 @@ export const getPlatformsByOwner = (chainId: number, addressOwner: string): Prom
     `;
   return processRequest(chainId, query);
 };
+
+export const getPlatformId = (chainId: number, address: string): Promise<any> => {
+  const query = `
+    {
+      platforms(where: {address: "${address}"}) {
+        id
+      }
+    }
+    `;
+  return processRequest(chainId, query);
+};
