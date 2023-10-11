@@ -4,6 +4,8 @@ import { sendMailToAddresses } from '../../../scripts/iexec/sendMailToAddresses'
 import { getUsersWeb3MailPreference } from '../../../queries/users';
 import { Contact } from '@iexec/web3mail';
 import { generateWeb3mailProviders, prepareNonCronApi } from '../utils/web3mail';
+import { recoverMessageAddress } from 'viem';
+import { getPlatformId } from '../../../queries/platform';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const chainId = process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID;
@@ -16,10 +18,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   prepareNonCronApi(chainId, platformId, securityKey, privateKey, res);
 
-  const { emailSubject, emailContent } = req.body;
-  if (!emailSubject || !emailContent) return res.status(500).json(`Missing argument`);
+  const { emailSubject, emailContent, signature } = req.body;
+  if (!emailSubject || !emailContent || !signature) return res.status(500).json(`Missing argument`);
 
   try {
+    // Check whether the address which provided the signature is the owner of the platform
+    const address = await recoverMessageAddress({
+      message: emailSubject,
+      signature,
+    });
+
+    const platformResponse = await getPlatformId(Number(chainId), address);
+    const platformId: string | undefined = platformResponse.data?.data?.platforms[0].id;
+
+    if (platformId && platformId !== process.env.NEXT_PUBLIC_PLATFORM_ID) {
+      return res.status(401).json(`Unauthorized`);
+    }
+
     const { dataProtector, web3mail } = generateWeb3mailProviders(privateKey);
 
     const contactList: Contact[] = await web3mail.fetchMyContacts();
