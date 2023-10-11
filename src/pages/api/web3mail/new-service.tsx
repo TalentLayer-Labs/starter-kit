@@ -54,12 +54,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       'activeOnNewService',
     );
 
-    let validContacts: IUserDetails[] = [];
+    let validUsers: IUserDetails[] = [];
 
     if (response?.data?.data?.userDescriptions && response.data.data.userDescriptions.length > 0) {
-      validContacts = response.data.data.userDescriptions;
+      validUsers = response.data.data.userDescriptions;
       // Only select the latest version of each user metaData
-      validContacts = validContacts.filter(contact => contact.user?.description?.id === contact.id);
+      validUsers = validUsers.filter(contact => contact.user?.description?.id === contact.id);
     } else {
       return res.status(200).json(`No User opted for this feature`);
     }
@@ -78,7 +78,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const services: IService[] = serviceResponse.data.data.services;
 
     // For each contact, check if an email was already sent for each new service. If not, check if skills match
-    for (const contact of validContacts) {
+    for (const contact of validUsers) {
       console.log(
         '*************************************Contact*************************************',
         contact.user.address,
