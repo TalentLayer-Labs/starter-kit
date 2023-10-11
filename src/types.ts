@@ -71,7 +71,31 @@ export type IAccount = {
 // TODO: add the rest of the fields
 export type ITransaction = {
   id: string;
+  sender: IUser;
+  receiver: IUser;
+  token: IToken;
+  status: TransactionStatusEnum;
+  senderFee: number;
+  receiverFee: number;
+  lastInteraction: number;
+  senderFeePaidAt: number;
+  receiverFeePaidAt: number;
+  arbitrationFeeTimeout: number;
+  amount: number;
+  disputeId: number;
+  // arbitrator: string;
+  arbitrator: `0x${string}`;
+  ruling: number;
+  evidences: IEvidence[];
 };
+
+export enum TransactionStatusEnum {
+  NoDispute = 'NoDispute',
+  WaitingSender = 'WaitingSender',
+  WaitingReceiver = 'WaitingReceiver',
+  DisputeCreated = 'DisputeCreated',
+  Resolved = 'Resolved',
+}
 
 export type IService = {
   id: string;
@@ -88,6 +112,7 @@ export type IService = {
   proposals: IProposal[];
   validatedProposal: IProposal[];
   description?: IServiceDetails;
+  
 };
 
 export type IFeeType = {
@@ -301,4 +326,20 @@ export type IUserGain = {
   user: IUser;
   token: IToken;
   totalGain: string;
+};
+
+export type IEvidence = {
+  id: string;
+  transaction: ITransaction;
+  createdAt: string;
+  party: IUser;
+  cid: string;
+  description?: IEvidenceDetails;
+};
+
+export type IEvidenceDetails = {
+  name: string;
+  fileTypeExtension: string;
+  description: string;
+  fileHash: string;
 };

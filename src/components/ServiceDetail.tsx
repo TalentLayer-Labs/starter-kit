@@ -6,7 +6,7 @@ import usePaymentsByService from '../hooks/usePaymentsByService';
 import useProposalsByService from '../hooks/useProposalsByService';
 import useReviewsByService from '../hooks/useReviewsByService';
 import ContactButton from '../modules/Messaging/components/ContactButton';
-import { IService, ProposalStatusEnum, ServiceStatusEnum } from '../types';
+import { IService, ProposalStatusEnum, ServiceStatusEnum, TransactionStatusEnum  } from '../types';
 import { renderTokenAmountFromConfig } from '../utils/conversion';
 import { formatDate } from '../utils/dates';
 import PaymentModal from './Modal/PaymentModal';
@@ -16,6 +16,7 @@ import ReviewItem from './ReviewItem';
 import ServiceStatus from './ServiceStatus';
 import Stars from './Stars';
 import { useChainId } from '../hooks/useChainId';
+import { ZERO_ADDRESS } from '../utils/constant';
 
 function ServiceDetail({ service }: { service: IService }) {
   const chainId = useChainId();
@@ -101,7 +102,7 @@ function ServiceDetail({ service }: { service: IService }) {
                 ))}
               </p>
             </div>
-          </div>
+          </div>  
 
           <div className='flex flex-row gap-4 items-center border-t border-gray-700 pt-4'>
             {!isBuyer && service.status == ServiceStatusEnum.Opened && (
@@ -129,6 +130,19 @@ function ServiceDetail({ service }: { service: IService }) {
               )}
             {account && (isBuyer || isSeller) && service.status !== ServiceStatusEnum.Opened && (
               <PaymentModal service={service} payments={payments} isBuyer={isBuyer} />
+            )}
+            {account &&
+                  service.status !== ServiceStatusEnum.Opened &&
+                  validatedProposal &&
+                  service.transaction.arbitrator !== ZERO_ADDRESS && (
+                    <Link
+                      href={`/dispute/${validatedProposal.id}`}
+                      className='block hover:text-white rounded-lg px-5 py-2.5 text-center text-red-600 bg-red-50 hover:bg-red-500'
+                      data-modal-toggle='defaultModal'>
+                      {service.transaction.status === TransactionStatusEnum.NoDispute
+                        ? 'Raise dispute'
+                        : 'View dispute'}
+                    </Link>
             )}
           </div>
         </div>

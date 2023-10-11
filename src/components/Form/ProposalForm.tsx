@@ -22,13 +22,14 @@ import SubmitButton from './SubmitButton';
 import useTalentLayerClient from '../../hooks/useTalentLayerClient';
 import usePlatform from '../../hooks/usePlatform';
 import { chains } from '../../pages/_app';
+import MetaEvidenceModal from '../../modules/Disputes/components/MetaEvidenceModal';
 
 interface IFormValues {
   about: string;
   rateToken: string;
   rateAmount: number;
   expirationDate: number;
-  video_url: string;
+  videoUrl: string;
 }
 
 const validationSchema = Yup.object({
@@ -56,6 +57,7 @@ function ProposalForm({
   const { platformHasAccess } = useContext(Web3MailContext);
   const [aiLoading, setAiLoading] = useState(false);
   const talentLayerClient = useTalentLayerClient();
+  const [conditionsValidated, setConditionsValidated] = useState(false);
 
   const currentChain = chains.find(chain => chain.id === chainId);
   const platform = usePlatform(process.env.NEXT_PUBLIC_PLATFORM_ID as string);
@@ -89,7 +91,7 @@ function ProposalForm({
     rateToken: existingProposal?.rateToken.address || '',
     rateAmount: existingRateTokenAmount || 0,
     expirationDate: existingExpirationDate || 15,
-    video_url: existingProposal?.description?.video_url || '',
+    videoUrl: existingProposal?.description?.video_url || '',
   };
 
   const askAI = async (input: string, setFieldValue: any) => {
@@ -134,7 +136,7 @@ function ProposalForm({
 
         const proposal = {
           about: values.about,
-          video_url: values.video_url,
+          video_url: values.videoUrl,
         };
 
         let tx, cid, proposalResponse;
@@ -318,7 +320,21 @@ function ProposalForm({
                 {currentChain?.nativeCurrency.symbol}
               </span>
             )}
-            <SubmitButton isSubmitting={isSubmitting} label='Post' />
+            <div className='flex-col items-center mb-4'>
+              <MetaEvidenceModal
+                conditionsValidated={conditionsValidated}
+                setConditionsValidated={setConditionsValidated}
+                serviceData={service}
+                proposalData={values}
+                token={allowedTokenList.filter(token => token.address === values.rateToken)[0]}
+                seller={user}
+              />
+              <SubmitButton
+                isSubmitting={isSubmitting}
+                disabled={!conditionsValidated}
+                label='Post'
+              />
+            </div>
           </div>
         </Form>
       )}

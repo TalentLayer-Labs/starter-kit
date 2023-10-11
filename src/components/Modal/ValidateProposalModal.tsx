@@ -5,14 +5,24 @@ import { FEE_RATE_DIVIDER } from '../../config';
 import { validateProposal } from '../../contracts/acceptProposal';
 import useFees from '../../hooks/useFees';
 import ContactButton from '../../modules/Messaging/components/ContactButton';
-import { IAccount, IProposal } from '../../types';
+import { IAccount, IProposal, IService } from '../../types';
 import { renderTokenAmount } from '../../utils/conversion';
 import Step from '../Step';
 import { useChainId } from '../../hooks/useChainId';
 import useTalentLayerClient from '../../hooks/useTalentLayerClient';
 import { ZERO_ADDRESS } from '../../utils/constant';
+import { postToIPFS } from '../../utils/ipfs';
+import { generateMetaEvidence } from '../../modules/Disputes/utils/dispute';
 
-function ValidateProposalModal({ proposal, account }: { proposal: IProposal; account: IAccount }) {
+function ValidateProposalModal({
+  proposal,
+  service,
+  account,
+}: {
+  proposal: IProposal;
+  service: IService;
+  account: IAccount;
+}) {
   const chainId = useChainId();
   const { data: walletClient } = useWalletClient({
     chainId,
@@ -50,12 +60,27 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
       return;
     }
 
+    const metaEvidence = generateMetaEvidence(
+      service.description?.about || '',
+      proposal.description?.about || '',
+      service.buyer.handle,
+      proposal.seller.handle,
+      proposal.rateToken.address,
+      proposal.rateToken.symbol,
+      proposal.rateAmount,
+      service.description?.title || '',
+      service.description?.startDate,
+      service.description?.expectedEndDate,
+    );
+    const metaEvidenceCid = await postToIPFS(JSON.stringify(metaEvidence));
+
     await validateProposal(
       talentLayerClient,
       publicClient,
       proposal.service.id,
       proposal.id,
       proposal.rateToken.address,
+      metaEvidenceCid,
     );
     setShow(false);
   };
@@ -203,16 +228,14 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
                   {isProposalUseEth && ethBalance && (
                     <div className='flex justify-between w-full'>
                       <p className='text-base leading-4 text-gray-800'>
-                        {ethBalance.formatted} ETH
+                        {ethBalance.formatted} MATIC
                       </p>
                       <p className=''>
                         <span
                           className={`block ${
-                            (isProposalUseEth && hasEnoughBalance()) || ethBalance.value > 0
-                              ? 'bg-redpraha'
-                              : 'bg-red-500'
+                            isProposalUseEth && hasEnoughBalance() ? 'bg-green-500' : 'bg-red-500'
                           } p-1 text-xs font-medium text-white rounded-full`}>
-                          {(isProposalUseEth && hasEnoughBalance()) || ethBalance.value > 0 ? (
+                          {isProposalUseEth && hasEnoughBalance() ? (
                             <Check className='w-4 h-4' />
                           ) : (
                             <X className='w-4 h-4' />
