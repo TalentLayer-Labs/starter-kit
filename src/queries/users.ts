@@ -226,6 +226,7 @@ export const getWeb3mailUsersForNewServices = (
         user {
           id
           address
+          handle
           description {
             id
           }
