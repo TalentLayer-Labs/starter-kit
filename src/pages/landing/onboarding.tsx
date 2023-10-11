@@ -8,7 +8,7 @@ function onboarding() {
   const { data: createdSpace, mutateAsync: createSpaceAsync } = useCreateSpaceMutation();
   const [name, setName] = useState("");
 
-  const onSubmit = async (
+  const sendDomain = async (
   ) => {
     const subdomainPrefix = generateSubdomainPrefix(name);
     const subdomain = `${subdomainPrefix}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
@@ -29,7 +29,7 @@ function onboarding() {
           />
         </label>
       </div>
-      <button onClick={onSubmit}>Go</button>
+      <button onClick={sendDomain}>Go</button>
     </>
   );
 }
