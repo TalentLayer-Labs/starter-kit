@@ -1,25 +1,24 @@
 import { useWeb3Modal } from '@web3modal/react';
-import { formatUnits } from 'viem';
+import { formatEther, formatUnits } from 'viem';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useContext, useState } from 'react';
 import { useRouter } from 'next/router';
-import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
+import { usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
 import TalentLayerContext from '../../context/talentLayer';
-import ServiceRegistry from '../../contracts/ABI/TalentLayerService.json';
-import { postToIPFS } from '../../utils/ipfs';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../utils/toast';
 import { parseRateAmount } from '../../utils/currency';
 import SubmitButton from './SubmitButton';
 import useAllowedTokens from '../../hooks/useAllowedTokens';
-import { getServiceSignature } from '../../utils/signature';
 import { IToken } from '../../types';
 import { SkillsInput } from './skills-input';
 import { delegateCreateService } from '../request';
 import { useChainId } from '../../hooks/useChainId';
-import { useConfig } from '../../hooks/useConfig';
 import { createWeb3mailToast } from '../../modules/Web3mail/utils/toast';
 import Web3MailContext from '../../modules/Web3mail/context/web3mail';
+import useTalentLayerClient from '../../hooks/useTalentLayerClient';
+import usePlatform from '../../hooks/usePlatform';
+import { chains } from '../../pages/_app';
 
 interface IFormValues {
   title: string;
@@ -38,22 +37,25 @@ const initialValues: IFormValues = {
 };
 
 function ServiceForm() {
-  const config = useConfig();
   const chainId = useChainId();
 
   const { open: openConnectModal } = useWeb3Modal();
   const { user, account } = useContext(TalentLayerContext);
   const { platformHasAccess } = useContext(Web3MailContext);
-  const { address } = useAccount();
   const publiClient = usePublicClient({ chainId });
-  const { data: walletClient } = useWalletClient({
-    chainId,
-  });
-
+  const { data: walletClient } = useWalletClient({ chainId });
   const router = useRouter();
   const allowedTokenList = useAllowedTokens();
   const [selectedToken, setSelectedToken] = useState<IToken>();
   const { isActiveDelegate } = useContext(TalentLayerContext);
+  const talentLayerClient = useTalentLayerClient();
+
+  const currentChain = chains.find(chain => chain.id === chainId);
+  const platform = usePlatform(process.env.NEXT_PUBLIC_PLATFORM_ID as string);
+  const servicePostingFee = platform?.servicePostingFee || 0;
+  const servicePostingFeeFormat = servicePostingFee
+    ? Number(formatUnits(BigInt(servicePostingFee), Number(currentChain?.nativeCurrency?.decimals)))
+    : 0;
 
   const validationSchema = Yup.object({
     title: Yup.string().required('Please provide a title for your service'),
@@ -93,7 +95,14 @@ function ServiceForm() {
     }: { setSubmitting: (isSubmitting: boolean) => void; resetForm: () => void },
   ) => {
     const token = allowedTokenList.find(token => token.address === values.rateToken);
-    if (account?.isConnected === true && publiClient && walletClient && token && user) {
+    if (
+      account?.isConnected === true &&
+      publiClient &&
+      walletClient &&
+      token &&
+      user &&
+      talentLayerClient
+    ) {
       try {
         const parsedRateAmount = await parseRateAmount(
           values.rateAmount.toString(),
@@ -101,32 +110,39 @@ function ServiceForm() {
           token.decimals,
         );
         const parsedRateAmountString = parsedRateAmount.toString();
-        const cid = await postToIPFS(
-          JSON.stringify({
-            title: values.title,
-            about: values.about,
-            keywords: values.keywords,
-            rateToken: values.rateToken,
-            rateAmount: parsedRateAmountString,
-          }),
-        );
 
-        // Get platform signature
-        const signature = await getServiceSignature({ profileId: Number(user?.id), cid });
+        let tx, cid;
 
-        let tx;
+        cid = await talentLayerClient.service.updloadServiceDataToIpfs({
+          title: values.title,
+          about: values.about,
+          keywords: values.keywords,
+          rateToken: values.rateToken,
+          rateAmount: parsedRateAmountString,
+        });
 
         if (isActiveDelegate) {
           const response = await delegateCreateService(chainId, user.id, user.address, cid);
           tx = response.data.transaction;
         } else {
-          tx = await walletClient.writeContract({
-            address: config.contracts.serviceRegistry,
-            abi: ServiceRegistry.abi,
-            functionName: 'createService',
-            args: [user?.id, process.env.NEXT_PUBLIC_PLATFORM_ID, cid, signature],
-            account: address,
-          });
+          if (talentLayerClient) {
+            const serviceResponse = await talentLayerClient.service.create(
+              {
+                title: values.title,
+                about: values.about,
+                keywords: values.keywords,
+                rateToken: values.rateToken,
+                rateAmount: parsedRateAmountString,
+              },
+              user.id,
+              parseInt(process.env.NEXT_PUBLIC_PLATFORM_ID as string),
+            );
+
+            cid = serviceResponse.cid;
+            tx = serviceResponse.tx;
+          } else {
+            throw new Error('TL client not initialised');
+          }
         }
 
         const newId = await createMultiStepsTransactionToast(
@@ -211,6 +227,12 @@ function ServiceForm() {
                 <span className='text-red-500 mt-2'>
                   <ErrorMessage name='rateAmount' />
                 </span>
+                {servicePostingFeeFormat !== 0 && (
+                  <span className='text-gray-100'>
+                    Fee for posting a service: {servicePostingFeeFormat}{' '}
+                    {currentChain?.nativeCurrency.symbol}
+                  </span>
+                )}
               </label>
               <label className='block'>
                 <span className='text-gray-100'>Token</span>

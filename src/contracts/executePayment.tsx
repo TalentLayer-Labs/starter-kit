@@ -1,23 +1,22 @@
 import { toast } from 'react-toastify';
 import TransactionToast from '../components/TransactionToast';
-import TalentLayerEscrow from './ABI/TalentLayerEscrow.json';
 import { showErrorTransactionToast } from '../utils/toast';
 import { delegateReleaseOrReimburse } from '../components/request';
-import { getConfig } from '../config';
-import { Address, PublicClient, WalletClient } from 'viem';
+import { Address, PublicClient } from 'viem';
+import { TalentLayerClient } from '@talentlayer/client';
 
 export const executePayment = async (
   chainId: number,
   userAddress: string,
-  walletClient: WalletClient,
   publicClient: PublicClient,
   profileId: string,
   transactionId: string,
   amount: bigint,
   isBuyer: boolean,
   isActiveDelegate: boolean,
+  talentLayerClient: TalentLayerClient,
+  serviceId: string,
 ): Promise<void> => {
-  const config = getConfig(chainId);
   try {
     let tx: Address;
     if (isActiveDelegate) {
@@ -32,22 +31,9 @@ export const executePayment = async (
       tx = response.data.transaction;
     } else {
       if (isBuyer) {
-        const { request } = await publicClient.simulateContract({
-          address: config.contracts.talentLayerEscrow,
-          abi: TalentLayerEscrow.abi,
-          functionName: 'release',
-          args: [profileId, parseInt(transactionId, 10), amount.toString()],
-          account: walletClient.account?.address,
-        });
-        tx = await walletClient.writeContract(request);
+        tx = await talentLayerClient.escrow.release(serviceId, amount, parseInt(profileId));
       } else {
-        const { request } = await publicClient.simulateContract({
-          address: config.contracts.talentLayerEscrow,
-          abi: TalentLayerEscrow.abi,
-          functionName: 'reimburse',
-          args: [profileId, parseInt(transactionId, 10), amount.toString()],
-        });
-        tx = await walletClient.writeContract(request);
+        tx = await talentLayerClient.escrow.reimburse(serviceId, amount, parseInt(profileId));
       }
     }
 

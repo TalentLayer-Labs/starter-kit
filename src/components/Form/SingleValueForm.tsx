@@ -1,12 +1,13 @@
 import { useWeb3Modal } from '@web3modal/react';
 import { Field, Form, Formik } from 'formik';
-import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
+import { usePublicClient } from 'wagmi';
 import * as Yup from 'yup';
 import { ObjectShape } from 'yup/lib/object';
 import { useChainId } from '../../hooks/useChainId';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../utils/toast';
 import SubmitButton from './SubmitButton';
-import { Abi, Address } from 'viem';
+import { Address } from 'viem';
+import useTalentLayerClient from '../../hooks/useTalentLayerClient';
 
 interface validationDataType {
   valueType: string;
@@ -35,22 +36,19 @@ function SingleValueForm({
   valueName: string;
   callback?: () => void;
 }) {
-  const { validationSchema, valueType, initialValue, selectOptions, hookModifyValue } =
-    validationData;
-  const { contractFunctionName, contractEntity, contractInputs, contractAddress, contractAbi } =
-    contractParams;
+  const { validationSchema, valueType, initialValue, selectOptions } = validationData;
+  const { contractFunctionName, contractEntity } = contractParams;
 
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
   const publicClient = usePublicClient({ chainId });
-  const { data: walletClient } = useWalletClient({ chainId });
-  const { address } = useAccount();
+  const talentLayerClient = useTalentLayerClient();
 
   const onSubmit = async (
     values: any,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void; resetForm: () => void },
   ) => {
-    if (publicClient && walletClient && values) {
+    if (publicClient && values && talentLayerClient) {
       try {
         let value = values[valueName];
 
@@ -58,17 +56,8 @@ function SingleValueForm({
           return;
         }
 
-        if (hookModifyValue) {
-          value = hookModifyValue(value);
-        }
-
-        const tx = await walletClient.writeContract({
-          address: contractAddress,
-          abi: contractAbi,
-          functionName: contractFunctionName,
-          args: [contractInputs, value],
-          account: address,
-        });
+        //  @ts-ignore
+        const tx = await talentLayerClient[contractEntity][contractFunctionName](value);
 
         await createMultiStepsTransactionToast(
           chainId,
