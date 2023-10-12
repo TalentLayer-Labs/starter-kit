@@ -2,11 +2,10 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { QuestionMarkCircle } from 'heroicons-react';
 import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
-import { formatUnits } from 'viem';
+import { formatEther, formatUnits } from 'viem';
 import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
 import TalentLayerContext from '../../context/talentLayer';
-import ServiceRegistry from '../../contracts/ABI/TalentLayerService.json';
 import useAllowedTokens from '../../hooks/useAllowedTokens';
 import { useChainId } from '../../hooks/useChainId';
 import { useConfig } from '../../hooks/useConfig';
@@ -15,13 +14,14 @@ import Web3MailContext from '../../modules/Web3mail/context/web3mail';
 import { createWeb3mailToast } from '../../modules/Web3mail/utils/toast';
 import { IProposal, IService, IUser } from '../../types';
 import { parseRateAmount } from '../../utils/currency';
-import { postToIPFS } from '../../utils/ipfs';
-import { getProposalSignature } from '../../utils/signature';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../utils/toast';
 import Loading from '../Loading';
 import ServiceItem from '../ServiceItem';
 import { delegateCreateOrUpdateProposal } from '../request';
 import SubmitButton from './SubmitButton';
+import useTalentLayerClient from '../../hooks/useTalentLayerClient';
+import usePlatform from '../../hooks/usePlatform';
+import { chains } from '../../pages/_app';
 
 interface IFormValues {
   about: string;
@@ -47,16 +47,22 @@ function ProposalForm({
   service: IService;
   existingProposal?: IProposal;
 }) {
-  const config = useConfig();
   const chainId = useChainId();
   const publicClient = usePublicClient({ chainId });
   const { data: walletClient } = useWalletClient({ chainId });
-  const { address } = useAccount();
   const router = useRouter();
   const allowedTokenList = useAllowedTokens();
   const { isActiveDelegate } = useContext(TalentLayerContext);
   const { platformHasAccess } = useContext(Web3MailContext);
   const [aiLoading, setAiLoading] = useState(false);
+  const talentLayerClient = useTalentLayerClient();
+
+  const currentChain = chains.find(chain => chain.id === chainId);
+  const platform = usePlatform(process.env.NEXT_PUBLIC_PLATFORM_ID as string);
+  const proposalPostingFee = platform?.proposalPostingFee || 0;
+  const proposalPostingFeeFormat = proposalPostingFee
+    ? Number(formatUnits(BigInt(proposalPostingFee), Number(currentChain?.nativeCurrency.decimals)))
+    : 0;
 
   if (allowedTokenList.length === 0) {
     return <div>Loading...</div>;
@@ -126,60 +132,50 @@ function ProposalForm({
 
         const parsedRateAmountString = parsedRateAmount.toString();
 
-        const cid = await postToIPFS(
-          JSON.stringify({
-            about: values.about,
-            video_url: values.video_url,
-          }),
-        );
+        const proposal = {
+          about: values.about,
+          video_url: values.video_url,
+        };
 
-        // Get platform signature
-        const signature = await getProposalSignature({
-          profileId: Number(user.id),
-          cid,
-          serviceId: Number(service.id),
-        });
+        let tx, cid, proposalResponse;
 
-        let tx;
+        cid = await talentLayerClient?.proposal?.upload(proposal);
+
         if (isActiveDelegate) {
-          const response = await delegateCreateOrUpdateProposal(
+          const proposalResponse = await delegateCreateOrUpdateProposal(
             chainId,
             user.id,
             user.address,
             service.id,
             values.rateToken,
             parsedRateAmountString,
-            cid,
+            cid || '',
             convertExpirationDateString,
             existingProposal?.status,
           );
-          tx = response.data.transaction;
+          tx = proposalResponse.data.transaction;
         } else {
-          tx = await walletClient.writeContract({
-            address: config.contracts.serviceRegistry,
-            abi: ServiceRegistry.abi,
-            functionName: existingProposal ? 'updateProposal' : 'createProposal',
-            args: existingProposal
-              ? [
-                  user.id,
-                  service.id,
-                  values.rateToken,
-                  parsedRateAmountString,
-                  cid,
-                  convertExpirationDateString,
-                ]
-              : [
-                  user.id,
-                  service.id,
-                  values.rateToken,
-                  parsedRateAmountString,
-                  process.env.NEXT_PUBLIC_PLATFORM_ID,
-                  cid,
-                  convertExpirationDateString,
-                  signature,
-                ],
-            account: address,
-          });
+          if (existingProposal) {
+            proposalResponse = await talentLayerClient?.proposal.update(
+              proposal,
+              user.id,
+              service.id,
+              values.rateToken,
+              parsedRateAmountString,
+              convertExpirationDateString,
+            );
+          } else {
+            proposalResponse = await talentLayerClient?.proposal.create(
+              proposal,
+              user.id,
+              service.id,
+              values.rateToken,
+              parsedRateAmountString,
+              convertExpirationDateString,
+            );
+          }
+          tx = proposalResponse?.tx;
+          cid = proposalResponse?.cid;
         }
 
         await createMultiStepsTransactionToast(
@@ -316,7 +312,12 @@ function ProposalForm({
                 <ErrorMessage name='video_url' />
               </span>
             </label>
-
+            {proposalPostingFeeFormat !== 0 && !existingProposal && (
+              <span className='text-gray-100'>
+                Fee for making a proposal: {proposalPostingFeeFormat}{' '}
+                {currentChain?.nativeCurrency.symbol}
+              </span>
+            )}
             <SubmitButton isSubmitting={isSubmitting} label='Post' />
           </div>
         </Form>

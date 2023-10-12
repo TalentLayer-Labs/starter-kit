@@ -9,6 +9,7 @@ import { IAccount, IProposal } from '../../types';
 import { renderTokenAmount } from '../../utils/conversion';
 import Step from '../Step';
 import { useChainId } from '../../hooks/useChainId';
+import useTalentLayerClient from '../../hooks/useTalentLayerClient';
 import { ZERO_ADDRESS } from '../../utils/constant';
 
 function ValidateProposalModal({ proposal, account }: { proposal: IProposal; account: IAccount }) {
@@ -25,6 +26,8 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
     enabled: !isProposalUseEth,
     token: proposal.rateToken.address,
   });
+
+  const talentLayerClient = useTalentLayerClient();
 
   const originValidatedProposalPlatformId = proposal.platform.id;
   const originServicePlatformId = proposal.service.platform.id;
@@ -43,18 +46,16 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
   const totalAmount = jobRateAmount + originServiceFee + originValidatedProposalFee + protocolFee;
 
   const onSubmit = async () => {
-    if (!walletClient || !publicClient) {
+    if (!walletClient || !publicClient || !talentLayerClient) {
       return;
     }
+
     await validateProposal(
-      chainId,
-      walletClient,
+      talentLayerClient,
       publicClient,
       proposal.service.id,
-      proposal.seller.id,
+      proposal.id,
       proposal.rateToken.address,
-      proposal.cid,
-      totalAmount,
     );
     setShow(false);
   };
@@ -180,7 +181,7 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
               <div className='flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 space-y-6'>
                 <h3 className='text-xl font-semibold leading-5 text-gray-800'>Your balances</h3>
                 <div className='flex justify-center items-center w-full space-y-4 flex-col'>
-                  {tokenBalance && (
+                  {!isProposalUseEth && tokenBalance && (
                     <div className='flex justify-between w-full'>
                       <p className='text-base leading-4 text-gray-800'>
                         {tokenBalance.formatted} {tokenBalance.symbol}
@@ -199,7 +200,7 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
                       </p>
                     </div>
                   )}
-                  {ethBalance && (
+                  {isProposalUseEth && ethBalance && (
                     <div className='flex justify-between w-full'>
                       <p className='text-base leading-4 text-gray-800'>
                         {ethBalance.formatted} ETH

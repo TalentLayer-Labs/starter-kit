@@ -20,23 +20,6 @@ module.exports = withPWA({
       use: [{ loader: '@svgr/webpack', options: { icon: true } }],
     });
 
-    config.plugins.push(
-      // polyfill 'node:buffer' and 'node:stream' used by file-type
-      new webpack.NormalModuleReplacementPlugin(/node:/, resource => {
-        const mod = resource.request.replace(/^node:/, '');
-        switch (mod) {
-          case 'buffer':
-            resource.request = 'buffer';
-            break;
-          case 'stream':
-            resource.request = 'readable-stream';
-            break;
-          default:
-            throw new Error(`Not found ${mod}`);
-        }
-      }),
-    );
-
     return config;
   },
   ...nextConfig,

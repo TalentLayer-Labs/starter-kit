@@ -127,7 +127,7 @@ function ServiceDetail({ service }: { service: IService }) {
                   userToReview={isBuyer ? service.seller : service.buyer}
                 />
               )}
-            {account && service.status !== ServiceStatusEnum.Opened && (
+            {account && (isBuyer || isSeller) && service.status !== ServiceStatusEnum.Opened && (
               <PaymentModal service={service} payments={payments} isBuyer={isBuyer} />
             )}
           </div>

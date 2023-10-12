@@ -1,18 +1,16 @@
 import { useWeb3Modal } from '@web3modal/react';
 import { Field, Form, Formik } from 'formik';
 import { useContext } from 'react';
-import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
+import { usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
 import SubmitButton from '../../components/Form/SubmitButton';
 import Loading from '../../components/Loading';
 import Steps from '../../components/Steps';
 import UserNeedsMoreRights from '../../components/UserNeedsMoreRights';
 import TalentLayerContext from '../../context/talentLayer';
-import TalentLayerPlatformID from '../../contracts/ABI/TalentLayerPlatformID.json';
 import { useChainId } from '../../hooks/useChainId';
-import { useConfig } from '../../hooks/useConfig';
 import usePlatform from '../../hooks/usePlatform';
-import { postToIPFS } from '../../utils/ipfs';
+import useTalentLayerClient from '../../hooks/useTalentLayerClient';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../utils/toast';
 
 interface IFormValues {
@@ -32,10 +30,9 @@ function AdminPresentation() {
   const platformDescription = platform?.description;
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
-  const config = useConfig();
   const publicClient = usePublicClient({ chainId });
   const { data: walletClient } = useWalletClient({ chainId });
-  const { address } = useAccount();
+  const talentLayerClient = useTalentLayerClient();
 
   if (loading) {
     return <Loading />;
@@ -58,23 +55,13 @@ function AdminPresentation() {
     values: IFormValues,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void },
   ) => {
-    if (user && publicClient && walletClient) {
+    if (user && publicClient && walletClient && talentLayerClient) {
       try {
-        const cid = await postToIPFS(
-          JSON.stringify({
-            about: values.about,
-            website: values.website,
-            video_url: values.video_url,
-            image_url: values.image_url,
-          }),
-        );
-
-        const tx = await walletClient.writeContract({
-          address: config.contracts.talentLayerId,
-          abi: TalentLayerPlatformID.abi,
-          functionName: 'updateProfileData',
-          args: [user.id, cid],
-          account: address,
+        const { tx, cid } = await talentLayerClient.platform.update({
+          about: values.about,
+          website: values.website,
+          video_url: values.video_url,
+          image_url: values.image_url,
         });
 
         await createMultiStepsTransactionToast(

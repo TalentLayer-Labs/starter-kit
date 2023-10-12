@@ -1,19 +1,22 @@
 import { useWeb3Modal } from '@web3modal/react';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
-import { useContext } from 'react';
 import { useRouter } from 'next/router';
+import { useContext } from 'react';
 import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
 import TalentLayerContext from '../../context/talentLayer';
-import TalentLayerID from '../../contracts/ABI/TalentLayerID.json';
-import { createTalentLayerIdTransactionToast, showErrorTransactionToast } from '../../utils/toast';
-import HelpPopover from '../HelpPopover';
-import SubmitButton from './SubmitButton';
-import { HandlePrice } from './handle-price';
-import { delegateMintID } from '../request';
 import { useChainId } from '../../hooks/useChainId';
 import { useConfig } from '../../hooks/useConfig';
+import useMintFee from '../../hooks/useMintFee';
+import useTalentLayerClient from '../../hooks/useTalentLayerClient';
 import { NetworkEnum } from '../../types';
+import { createTalentLayerIdTransactionToast, showErrorTransactionToast } from '../../utils/toast';
+import HelpPopover from '../HelpPopover';
+import { delegateMintID } from '../request';
+import { HandlePrice } from './HandlePrice';
+import SubmitButton from './SubmitButton';
+import Web3MailContext from '../../modules/Web3mail/context/web3mail';
+import { createWeb3mailToast } from '../../modules/Web3mail/utils/toast';
 
 interface IFormValues {
   handle: string;
@@ -24,14 +27,15 @@ const initialValues: IFormValues = {
 };
 
 function TalentLayerIdForm() {
-  const config = useConfig();
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
-  const { user, account } = useContext(TalentLayerContext);
+  const { platformHasAccess } = useContext(Web3MailContext);
+  const { account } = useContext(TalentLayerContext);
   const { data: walletClient } = useWalletClient({ chainId });
-  const { address } = useAccount();
   const publicClient = usePublicClient({ chainId });
   const router = useRouter();
+  const talentLayerClient = useTalentLayerClient();
+  const { calculateMintFee } = useMintFee();
 
   const validationSchema = Yup.object().shape({
     handle: Yup.string()
@@ -51,13 +55,7 @@ function TalentLayerIdForm() {
     if (account && account.address && account.isConnected && publicClient && walletClient) {
       try {
         let tx;
-        const handlePrice: any = await publicClient.readContract({
-          address: config.contracts.talentLayerId,
-          abi: TalentLayerID.abi,
-          functionName: 'getHandlePrice',
-          args: [submittedValues.handle],
-          account: address,
-        });
+        const handlePrice = calculateMintFee(submittedValues.handle);
 
         if (process.env.NEXT_PUBLIC_ACTIVE_DELEGATE_MINT === 'true') {
           const response = await delegateMintID(
@@ -68,14 +66,9 @@ function TalentLayerIdForm() {
           );
           tx = response.data.transaction;
         } else {
-          tx = await walletClient.writeContract({
-            address: config.contracts.talentLayerId,
-            abi: TalentLayerID.abi,
-            functionName: 'mint',
-            args: [process.env.NEXT_PUBLIC_PLATFORM_ID, submittedValues.handle],
-            account: address,
-            value: handlePrice,
-          });
+          if (talentLayerClient) {
+            tx = await talentLayerClient.profile.create(submittedValues.handle);
+          }
         }
         await createTalentLayerIdTransactionToast(
           chainId,
@@ -92,6 +85,10 @@ function TalentLayerIdForm() {
         setSubmitting(false);
         // TODO: add a refresh function on TL context and call it here rather than hard refresh
         router.reload();
+
+        if (process.env.NEXT_PUBLIC_ACTIVE_WEB3MAIL == 'true' && !platformHasAccess) {
+          createWeb3mailToast();
+        }
       } catch (error: any) {
         showErrorTransactionToast(error);
       }

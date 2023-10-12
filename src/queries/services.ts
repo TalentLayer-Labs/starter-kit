@@ -88,7 +88,7 @@ export const getServices = (chainId: number, params: IProps): Promise<any> => {
     : '';
   const query = `
     {
-      services(orderBy: id, orderDirection: desc ${pagination} ${getFilteredServiceCondition(
+      services(orderBy: createdAt, orderDirection: desc ${pagination} ${getFilteredServiceCondition(
     params,
   )}) {
         ${serviceQueryFields}
