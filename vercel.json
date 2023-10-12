@@ -1,0 +1,27 @@
+{
+  "rewrites":  [
+    {"source": "/(.*)", "destination": "/"}
+  ],
+  "crons":[
+    {
+      "path":"/api/web3mail/new-proposal",
+      "schedule":"0 */1 * * *"
+    },
+    {
+      "path":"/api/web3mail/proposal-validated",
+      "schedule":"0 */1 * * *"
+    },
+    {
+      "path":"/api/web3mail/fund-release",
+      "schedule":"0 */1 * * *"
+    },
+    {
+      "path":"/api/web3mail/review",
+      "schedule":"0 */1 * * *"
+    },
+    {
+      "path":"/api/web3mail/new-service",
+      "schedule":"0 7 * * *"
+    }
+  ]
+}
