@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from 'react-query';
-import { UpdateSpaceDomain } from '../actions';
+import { UpdateSpaceDomain } from '../types';
 
 export function useUpdateSpaceDomain() {
   const queryClient = useQueryClient();

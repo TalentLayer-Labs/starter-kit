@@ -5,7 +5,7 @@ var space = new Schema({
   name: {
     type: String,
   },
-  subDomain: {
+  subdomain: {
     type: String,
   },
   customDomain: {

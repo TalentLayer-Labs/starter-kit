@@ -1,5 +1,5 @@
 export interface UpdateSpace {
-  subDomain: string,
+  subdomain: string,
   name: string | undefined,
   primaryColor: string | undefined,
   secondaryColor: string | undefined,
@@ -8,7 +8,7 @@ export interface UpdateSpace {
 }
 
 export interface UpdateSpaceDomain {
-  subDomain: string,
+  subdomain: string,
   customDomain: string
 }
 
@@ -23,7 +23,7 @@ export enum DomainVerificationStatusProps {
 
 export interface CreateSpaceAction {
   name: string,
-  subDomain: string,
+  subdomain: string,
   primaryColor: string,
   secondaryColor: string,
   owners: string[],
@@ -31,11 +31,10 @@ export interface CreateSpaceAction {
 
 export interface CreateSpaceProps {
   name: string,
-  subDomain: string,
+  subdomain: string,
   primaryColor: string,
   secondaryColor: string,
 }
-
 
 export type Space = {
   id: Number;

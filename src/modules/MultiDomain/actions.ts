@@ -10,9 +10,9 @@ import {
 import { SpaceModel } from './models/SpaceModel';
 import { CreateSpaceAction, Space, UpdateSpace, UpdateSpaceDomain } from './types';
 
-export const deleteSpace = async (subDomain: string) => {
+export const deleteSpace = async (subdomain: string) => {
   await connection();
-  const space = await SpaceModel.deleteOne({ subDomain: subDomain })
+  const space = await SpaceModel.deleteOne({ subdomain: subdomain })
   console.log(space, "space deleted")
   if (space.deletedCount === 0) {
     return {
@@ -28,7 +28,7 @@ export const deleteSpace = async (subDomain: string) => {
 export const updateSpace = async (space: UpdateSpace) => {
   try {
     await connection();
-    await SpaceModel.updateOne({ subDomain: space.subDomain }, space).exec();
+    await SpaceModel.updateOne({ subdomain: space.subdomain }, space).exec();
     return {
       message: 'Space updated successfully',
     };
@@ -44,7 +44,7 @@ export const createSpace = async (data: CreateSpaceAction) => {
   try {
     await connection();
 
-    const space = await SpaceModel.findOne({ subDomain: data.subDomain });
+    const space = await SpaceModel.findOne({ subdomain: data.subdomain });
     console.log(space)
     if (space) {
       console.log('Space already exists');
@@ -56,7 +56,7 @@ export const createSpace = async (data: CreateSpaceAction) => {
     const newSpace = new SpaceModel({
       _id: new mongoose.Types.ObjectId(),
       name: data.name,
-      subDomain: data.subDomain,
+      subdomain: data.subdomain,
       customDomain: "null",
       logo: "a",
       cover: "a",
@@ -80,22 +80,48 @@ export const createSpace = async (data: CreateSpaceAction) => {
   }
 }
 
+export const getSpaceByDomain = async (domain: string) => {
+  try {
+    await connection();
+
+    const spaceSubdomain = await SpaceModel.findOne({ subdomain: domain });
+    const spaceDomain = await SpaceModel.findOne({ customDomain: domain });
+
+    if (spaceSubdomain) {
+      return spaceSubdomain;
+    } else if (spaceDomain) {
+      return spaceDomain;
+    }
+
+    if (!spaceSubdomain && !spaceDomain) {
+      return {
+        error: 'Space not found',
+      };
+    }
+
+  } catch (error: any) {
+    return {
+      error: error.message,
+    };
+  }
+}
+
 // TODO! createSpace, can be used for the onboarding workflow maybe for the creating the subdomain & deleteSpace
-export const updateSpaceDomain = async (space: UpdateSpaceDomain) => {
+export const updateDomain = async (space: UpdateSpaceDomain) => {
   try {
     await connection();
     let response;
 
-    if (space.customDomain.includes('builders.space')) {
+    if (space.customDomain.includes('builder.place')) {
       return {
-        error: 'Cannot use builders.space subdomain as your custom domain',
+        error: 'Cannot use builder.place subdomain as your custom domain',
       };
 
       // if the custom domain is valid, we need to store it and add it to Vercel
     } else if (validDomainRegex.test(space.customDomain!)) {
       // Update the MongoDB document with the new custom domain
       // await SpaceModel.updateOne({ _id: new mongoose.Types.ObjectId(space.id) }, { customDomain: space.customDomain }).exec();
-      const entity = await SpaceModel.findOne({ subDomain: space.subDomain })
+      const entity = await SpaceModel.findOne({ subdomain: space.subdomain })
       entity.customDomain = space.customDomain;
       entity.save();
 
@@ -109,14 +135,14 @@ export const updateSpaceDomain = async (space: UpdateSpaceDomain) => {
       console.log('Removing custom domain from MongoDB document');
       // await SpaceModel.updateOne({ _id: new mongoose.Types.ObjectId(space.id) }, { customDomain: "asd.de" }).exec();
 
-      const entity = await SpaceModel.findOne({ subDomain: space.subDomain })
+      const entity = await SpaceModel.findOne({ subdomain: space.subdomain })
       entity.customDomain = "";
       entity.save();
     }
 
     // Get the current custom domain from the MongoDB document
     // const currentSpace = await SpaceModel.findById(new mongoose.Types.ObjectId(space.id)).exec();
-    const currentSpace = await SpaceModel.findOne({ subDomain: space.subDomain })
+    const currentSpace = await SpaceModel.findOne({ subdomain: space.subdomain })
     const currentDomain = currentSpace?.customDomain || '';
 
     // If the site had a different customDomain before, we need to remove it from Vercel

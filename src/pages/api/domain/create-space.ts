@@ -8,7 +8,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     const body: CreateSpaceProps = req.body;
     console.log('Received data:', body);
 
-    const result = await createSpace({ ...body, owners: [requestInitiator], subDomain: `${body.subDomain}.solarfund.wtf` })
+    const result = await createSpace({ ...body, owners: [requestInitiator], subdomain: `${body.subdomain}` })
 
     if (result.message) {
       res.status(200).json({ message: result.message });

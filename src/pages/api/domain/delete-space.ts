@@ -3,10 +3,10 @@ import { deleteSpace } from '../../../modules/MultiDomain/actions';
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'DELETE') {
-    const { subDomain } = req.query;
-    console.log('Received space:', subDomain);
+    const { subdomain } = req.query;
+    console.log('Received space:', subdomain);
 
-    const result = await deleteSpace(subDomain as string);
+    const result = await deleteSpace(subdomain as string);
 
     if (result.message) {
       res.status(200).json({ message: result.message });

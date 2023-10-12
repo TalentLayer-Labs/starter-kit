@@ -1,11 +1,11 @@
-import { DomainVerificationStatusProps, DomainResponse, CreateSpaceProps } from '../types';
+import { DomainVerificationStatusProps, DomainResponse, CreateSpaceProps, Space } from '../types';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 export function useCreateSpaceMutation() {
   const queryClient = useQueryClient();
 
-  return useMutation(
-    (createSpace): Promise<CreateSpaceProps> =>
+  return useMutation<Space, Error, CreateSpaceProps>(
+    (createSpace) =>
       fetch('/api/domain/create-space', {
         method: 'POST',
         body: JSON.stringify(createSpace),

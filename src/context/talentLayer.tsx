@@ -83,10 +83,10 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
       setUser(currentUser);
       setIsActiveDelegate(
         process.env.NEXT_PUBLIC_ACTIVE_DELEGATE === 'true' &&
-          userResponse.data.data.users[0].delegates &&
-          userResponse.data.data.users[0].delegates.indexOf(
-            (process.env.NEXT_PUBLIC_DELEGATE_ADDRESS as string).toLowerCase(),
-          ) !== -1,
+        userResponse.data.data.users[0].delegates &&
+        userResponse.data.data.users[0].delegates.indexOf(
+          (process.env.NEXT_PUBLIC_DELEGATE_ADDRESS as string).toLowerCase(),
+        ) !== -1,
       );
       setLoading(false);
       return true;

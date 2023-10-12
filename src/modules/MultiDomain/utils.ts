@@ -5,3 +5,10 @@ export function generateSubdomainPrefix(name: string): string {
   const subdomainPrefix = alphanumericName.toLowerCase().substring(0, 63);
   return subdomainPrefix;
 }
+
+export function getDomainPrefix(domain: string, apexName: string): React.ReactNode {
+  return domain.slice(
+    0,
+    domain.length - apexName.length - 1
+  );
+}
