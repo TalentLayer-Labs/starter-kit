@@ -132,6 +132,9 @@ export const getProposalsFromPlatformServices = (
           rateToken {
             symbol
           }
+          description {
+            about
+          }
           service {
             id
             buyer {
