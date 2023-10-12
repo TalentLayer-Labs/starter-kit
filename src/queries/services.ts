@@ -170,6 +170,7 @@ export const getNewServicesForPlatform = (
           }
           buyer {
             address
+            handle
           }
         }
       }
