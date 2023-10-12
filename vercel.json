@@ -21,7 +21,7 @@
     },
     {
       "path":"/api/web3mail/new-service",
-      "schedule":"0 7 * * *"
+      "schedule":"0 */1 * * *"
     }
   ]
 }
