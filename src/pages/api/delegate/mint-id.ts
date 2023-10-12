@@ -24,11 +24,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       address: config.contracts.talentLayerId,
       abi: TalentLayerID.abi,
       functionName: 'mintForAddress',
-      args: [
-        userAddress,
-        process.env.NEXT_PUBLIC_PLATFORM_ID,
-        handle,
-      ],
+      args: [userAddress, process.env.NEXT_PUBLIC_PLATFORM_ID, handle],
       value: BigInt(handlePrice),
     });
 

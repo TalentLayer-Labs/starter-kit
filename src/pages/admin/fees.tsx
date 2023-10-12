@@ -10,11 +10,15 @@ import TalentLayerContext from '../../context/talentLayer';
 import TalentLayerPlatformID from '../../contracts/ABI/TalentLayerPlatformID.json';
 import { useConfig } from '../../hooks/useConfig';
 import usePlatform from '../../hooks/usePlatform';
+import { chains } from '../_app';
+import { useChainId } from 'wagmi';
 
 function AdminFees() {
+  const chainId = useChainId();
   const { user, loading } = useContext(TalentLayerContext);
   const config = useConfig();
   const platform = usePlatform(process.env.NEXT_PUBLIC_PLATFORM_ID as string);
+  const currentChain = chains.find(chain => chain.id === chainId);
 
   if (loading) {
     return <Loading />;
@@ -25,14 +29,6 @@ function AdminFees() {
   if (!user.isAdmin) {
     return <UserNeedsMoreRights />;
   }
-
-  const transformFeeRate = (value: number | string): number => {
-    return Math.round((Number(value) * FEE_RATE_DIVIDER) / 100);
-  };
-
-  const transformFee = (value: number | string): BigInt => {
-    return parseEther(value.toString());
-  };
 
   return (
     <div className='max-w-7xl mx-auto text-gray-200 sm:px-4 lg:px-0'>
@@ -53,7 +49,6 @@ function AdminFees() {
             }),
             valueType: 'number',
             initialValue: ((platform?.originServiceFeeRate || 0) * 100) / FEE_RATE_DIVIDER,
-            hookModifyValue: transformFeeRate,
           }}
           contractParams={{
             contractFunctionName: 'updateOriginServiceFeeRate',
@@ -76,7 +71,6 @@ function AdminFees() {
             valueType: 'number',
             initialValue:
               ((platform?.originValidatedProposalFeeRate || 0) * 100) / FEE_RATE_DIVIDER,
-            hookModifyValue: transformFeeRate,
           }}
           contractParams={{
             contractFunctionName: 'updateOriginValidatedProposalFeeRate',
@@ -91,14 +85,13 @@ function AdminFees() {
         <SingleValueForm
           validationData={{
             validationSchema: Yup.object({
-              'Fees (in Matic) asked by the platform to post a proposal on the platform':
+              [`Fees (in ${currentChain?.nativeCurrency.symbol}) asked by the platform to post a service on the platform`]:
                 Yup.number().required('value is required'),
             }),
             valueType: 'number',
             initialValue: platform?.servicePostingFee
               ? formatEther(BigInt(platform?.servicePostingFee))
               : 0,
-            hookModifyValue: transformFee,
           }}
           contractParams={{
             contractFunctionName: 'updateServicePostingFee',
@@ -107,20 +100,19 @@ function AdminFees() {
             contractEntity: 'platform',
             contractInputs: process.env.NEXT_PUBLIC_PLATFORM_ID,
           }}
-          valueName={'Fees (in Matic) asked by the platform to post a proposal on the platform'}
+          valueName={`Fees (in ${currentChain?.nativeCurrency.symbol}) asked by the platform to post a service on the platform`}
         />
 
         <SingleValueForm
           validationData={{
             validationSchema: Yup.object({
-              'Fees (in Matic) asked by the platform to post a service on the platform':
+              [`Fees (in ${currentChain?.nativeCurrency.symbol}) asked by the platform to post a proposal on the platform`]:
                 Yup.number().required('value is required'),
             }),
             valueType: 'number',
             initialValue: platform?.proposalPostingFee
               ? formatEther(BigInt(platform?.proposalPostingFee))
               : 0,
-            hookModifyValue: transformFee,
           }}
           contractParams={{
             contractFunctionName: 'updateProposalPostingFee',
@@ -129,7 +121,7 @@ function AdminFees() {
             contractEntity: 'platform',
             contractInputs: process.env.NEXT_PUBLIC_PLATFORM_ID,
           }}
-          valueName={'Fees (in Matic) asked by the platform to post a service on the platform'}
+          valueName={`Fees (in ${currentChain?.nativeCurrency.symbol}) asked by the platform to post a proposal on the platform`}
         />
       </div>
     </div>
