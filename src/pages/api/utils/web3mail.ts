@@ -4,6 +4,7 @@ import { IExecDataProtector, getWeb3Provider as getProtectorProvider } from '@ie
 import { IUserDetails } from '../../../types';
 
 export const prepareCronApi = (
+  isWeb3mailActive: string | undefined,
   chainId: string | undefined,
   platformId: string | undefined,
   mongoUri: string | undefined,
@@ -11,6 +12,10 @@ export const prepareCronApi = (
   privateKey: string | undefined,
   res: NextApiResponse,
 ) => {
+  if (isWeb3mailActive !== 'true') {
+    return res.status(500).json({ message: 'Web3mail not activated' });
+  }
+
   if (!(cronSecurityKey == `Bearer ${process.env.CRON_SECRET}`)) {
     return res.status(401).json({ message: 'Unauthorized' });
   }
@@ -33,12 +38,17 @@ export const prepareCronApi = (
 };
 
 export const prepareNonCronApi = (
+  isWeb3mailActive: string | undefined,
   chainId: string | undefined,
   platformId: string | undefined,
   securityKey: string | undefined,
   privateKey: string | undefined,
   res: NextApiResponse,
 ) => {
+  if (isWeb3mailActive !== 'true') {
+    return res.status(500).json({ message: 'Web3mail not activated' });
+  }
+
   if (securityKey !== process.env.NEXT_PRIVATE_CRON_KEY) {
     return res.status(401).json({ message: 'Unauthorized' });
   }

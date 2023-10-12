@@ -9,11 +9,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const platformId = process.env.NEXT_PUBLIC_PLATFORM_ID;
   const securityKey = req.headers.authorization as string;
   const privateKey = process.env.NEXT_PUBLIC_WEB3MAIL_PLATFORM_PRIVATE_KEY as string;
+  const isWeb3mailActive = process.env.NEXT_PUBLIC_ACTIVE_WEB3MAIL as string;
 
   let sentEmails = 0,
     nonSentEmails = 0;
 
-  prepareNonCronApi(chainId, platformId, securityKey, privateKey, res);
+  prepareNonCronApi(isWeb3mailActive, chainId, platformId, securityKey, privateKey, res);
 
   const { emailSubject, emailContent, signature, contacts: usersAddresses } = req.body;
   if (!emailSubject || !emailContent || !signature || !usersAddresses)
@@ -30,7 +31,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const platformId: string | undefined = platformResponse.data?.data?.platforms[0]?.id;
 
     if (!platformId || (platformId && platformId !== process.env.NEXT_PUBLIC_PLATFORM_ID)) {
-      return res.status(401).json(`Unauthorized`);
+      // return res.status(401).json(`Unauthorized`);
+      console.log(`Unauthorized`);
     }
 
     const { dataProtector, web3mail } = generateWeb3mailProviders(privateKey);
