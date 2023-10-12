@@ -1,8 +1,5 @@
-import { IUserDetails } from '../../../types';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { sendMailToAddresses } from '../../../scripts/iexec/sendMailToAddresses';
-import { getUsersWeb3MailPreference } from '../../../queries/users';
-import { Contact } from '@iexec/web3mail';
 import { generateWeb3mailProviders, prepareNonCronApi } from '../utils/web3mail';
 import { recoverMessageAddress } from 'viem';
 import { getPlatformId } from '../../../queries/platform';
@@ -18,8 +15,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   prepareNonCronApi(chainId, platformId, securityKey, privateKey, res);
 
-  const { emailSubject, emailContent, signature, contacts } = req.body;
-  if (!emailSubject || !emailContent || !signature) return res.status(500).json(`Missing argument`);
+  const { emailSubject, emailContent, signature, contacts: usersAddresses } = req.body;
+  if (!emailSubject || !emailContent || !signature || !usersAddresses)
+    return res.status(500).json(`Missing argument`);
 
   try {
     // Check whether the address which provided the signature is the owner of the platform
@@ -36,44 +34,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     const { dataProtector, web3mail } = generateWeb3mailProviders(privateKey);
-    let usersAddresses = [];
-
-    //TODO on garde toute la logique du filtre ici ?
-    if (!contacts) {
-      const contactList: Contact[] = await web3mail.fetchMyContacts();
-
-      if (!contactList || contactList.length === 0) {
-        return res.status(200).json('No users granted access to their email');
-      }
-
-      // This array has all the addresses of the users that have granted access to their email to this platform
-      const contactAddresses = contactList.map(contact => contact.owner);
-
-      const response = await getUsersWeb3MailPreference(
-        Number(chainId),
-        contactAddresses,
-        'activeOnPlatformMarketing',
-      );
-
-      // This array has all the users that have granted access to their email to this platform and opted for the platform marketing feature
-      let validUsers: IUserDetails[] = [];
-
-      if (
-        response?.data?.data?.userDescriptions &&
-        response.data.data.userDescriptions.length > 0
-      ) {
-        validUsers = response.data.data.userDescriptions;
-        // Only select the latest version of each user metaData
-        validUsers = validUsers.filter(
-          userDetails => userDetails.user?.description?.id === userDetails.id,
-        );
-      } else {
-        return res.status(200).json(`No User opted for this feature`);
-      }
-      usersAddresses = validUsers.map(userDetails => userDetails.user.address);
-    } else {
-      usersAddresses = contacts;
-    }
 
     const { successCount, errorCount } = await sendMailToAddresses(
       `${emailSubject}`,
