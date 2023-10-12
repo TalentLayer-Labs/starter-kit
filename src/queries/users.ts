@@ -199,6 +199,7 @@ export const getUsersWeb3MailPreference = (
         user {
           id
           address
+          handle
           description {
             id
           }

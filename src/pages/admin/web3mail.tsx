@@ -9,7 +9,6 @@ import UserNeedsMoreRights from '../../components/UserNeedsMoreRights';
 
 function Web3mail() {
   const { user, loading } = useContext(TalentLayerContext);
-  const { open: openConnectModal } = useWeb3Modal();
   const { contacts: contactList, contactsLoaded } = useFetchMyContacts();
 
   if (loading) {
@@ -29,7 +28,7 @@ function Web3mail() {
           <p className='text-2xl font-medium flex-1'>Send a Web3Mail</p>
         </div>
       </div>
-      <ContactListForm contactList={contactList} contactsLoaded={contactsLoaded} />
+      <ContactListForm userDetailList={contactList} usersLoaded={contactsLoaded} />
     </div>
   );
 }

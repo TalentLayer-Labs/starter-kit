@@ -25,7 +25,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const response = await getPlatformId(Number(chainId), address);
   const platformId: string | undefined = response.data?.data?.platforms[0].id;
 
-  if (platformId && platformId !== process.env.NEXT_PUBLIC_PLATFORM_ID) {
+  if (!platformId || (platformId && platformId !== process.env.NEXT_PUBLIC_PLATFORM_ID)) {
     return res.status(401).json(`Unauthorized`);
   }
 

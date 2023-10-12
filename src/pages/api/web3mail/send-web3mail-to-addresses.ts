@@ -7,10 +7,11 @@ import { getPlatformId } from '../../../queries/platform';
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const privateKey = process.env.NEXT_PUBLIC_WEB3MAIL_PLATFORM_PRIVATE_KEY;
   const chainId = process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as string;
-  const { subject, body, contacts, signature } = req.body;
+  const { emailSubject, emailContent, contacts, signature } = req.body;
   let sentEmails = 0,
     nonSentEmails = 0;
-  if (!subject || !body || !contacts || !signature) return res.status(500).json(`Missing argument`);
+  if (!emailSubject || !emailContent || !contacts || !signature)
+    return res.status(500).json(`Missing argument`);
 
   console.log('------- Sending email to addresses -------');
   if (!privateKey) {
@@ -19,14 +20,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   // Check whether the address which provided the signature is the owner of the platform
   const address = await recoverMessageAddress({
-    message: subject,
+    message: emailSubject,
     signature,
   });
 
   const response = await getPlatformId(Number(chainId), address);
-  const platFormId: string | undefined = response.data?.data?.platforms[0]?.id;
+  const platformId: string | undefined = response.data?.data?.platforms[0]?.id;
 
-  if (platFormId && platFormId !== process.env.NEXT_PUBLIC_PLATFORM_ID) {
+  if (!platformId || (platformId && platformId !== process.env.NEXT_PUBLIC_PLATFORM_ID)) {
     return res.status(401).json(`Unauthorized`);
   }
 
@@ -47,8 +48,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         const mailSent = await web3mail.sendEmail({
           protectedData: protectedEmailAddress,
-          emailSubject: subject,
-          emailContent: body,
+          emailSubject: emailSubject,
+          emailContent: emailContent,
         });
         sentEmails++;
         console.log('sent email', mailSent);
