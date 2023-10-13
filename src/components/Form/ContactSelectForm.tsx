@@ -86,9 +86,13 @@ export const ContactListForm = ({
         });
 
         await toast.promise(promise, {
-          pending: 'Your emails are being sent...',
-          success: 'Emails sent !',
-          error: 'An error occurred while sending emails',
+          pending: `${
+            userAddresses.length === 1 ? `Your email is` : `Your emails are`
+          } being sent...`,
+          success: `${userAddresses.length === 1 ? `Email ` : `Emails `} sent !`,
+          error: `An error occurred while sending your ${
+            userAddresses.length === 1 ? `emails` : `email`
+          } `,
         });
 
         setSubmitting(false);
