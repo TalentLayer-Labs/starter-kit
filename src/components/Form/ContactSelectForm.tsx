@@ -21,7 +21,7 @@ interface IFormValues {
 const validationSchema = Yup.object({
   subject: Yup.string().required('Please provide a subject'),
   body: Yup.string().required('Please provide a body'),
-  users: Yup.array().min(1).required('Please provide at least one user'),
+  users: Yup.array().min(1).required('Please select at least one user'),
 });
 export const ContactListForm = ({
   userDetailList,
