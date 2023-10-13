@@ -94,7 +94,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       try {
         // @dev: This function needs to be throwable to avoid persisting the proposal in the DB if the email is not sent
         await sendMailToAddresses(
-          `Your proposal got accepted ! - ${proposal.description?.title}`,
+          `
+          Hi ${proposal.seller.handle} !
+          
+          Your proposal got accepted ! - ${proposal.description?.title}`,
           `The proposal you made for the service ${proposal.service.id} you posted on TalentLayer got accepted by ${proposal.service.buyer} !
               The following amount was agreed: ${proposal.rateAmount} : ${proposal.rateToken.symbol}. 
               For the following work to be provided: ${proposal.description?.about}.
@@ -120,6 +123,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (!req.query.sinceTimestamp) {
       // Update cron probe in db
       await persistCronProbe(EmailType.ProposalValidated, sentEmails, nonSentEmails, cronDuration);
+      console.log(`Cron probe updated in DB`);
+      console.log(
+        `Web3 Emails sent - ${sentEmails} email successfully sent | ${nonSentEmails} non sent emails`,
+      );
     }
   }
   return res

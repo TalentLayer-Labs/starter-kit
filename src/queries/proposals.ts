@@ -139,6 +139,7 @@ export const getProposalsFromPlatformServices = (
             id
             buyer {
               address
+              handle
             }
             platform {
               id

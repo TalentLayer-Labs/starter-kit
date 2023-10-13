@@ -106,7 +106,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             );
             try {
               await sendMailToAddresses(
-                `A new service matching your skills is available on TalentLayer !`,
+                `
+                Hi ${contact.user.handle} !
+                
+                A new service matching your skills is available on TalentLayer !`,
                 `Good news, the following service: "${
                   service.description?.title
                 }" was recently posted by ${service.buyer.handle} and you are a good match for it.
@@ -144,6 +147,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (!req.query.sinceTimestamp) {
       // Update cron probe in db
       await persistCronProbe(EmailType.NewService, sentEmails, nonSentEmails, cronDuration);
+      console.log(`Cron probe updated in DB`);
+      console.log(
+        `Web3 Emails sent - ${sentEmails} email successfully sent | ${nonSentEmails} non sent emails`,
+      );
     }
   }
   return res
