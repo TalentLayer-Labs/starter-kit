@@ -52,7 +52,6 @@ function ReviewForm({ serviceId }: { serviceId: string }) {
           }),
         );
 
-        //TODO Missing somethign here ?
         const getUser = await getUserByAddress(chainId, user.address);
         const delegateAddresses = getUser.data?.data?.users[0].delegates;
         let tx;
