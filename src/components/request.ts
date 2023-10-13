@@ -151,36 +151,3 @@ export const sendPlatformMarketingWeb3mail = async (
     throw err;
   }
 };
-
-export const activateCron = async (): Promise<any> => {
-  try {
-    // return await axios.post('/api/web3mail/platform-marketing', {
-    //   emailSubject: 'Coucou',
-    //   emailContent: 'Ca va ?',
-    // });
-    // return await axios.post('/api/web3mail/review?key=racoonKey');
-    // return await axios.post(
-    //   '/api/web3mail/new-service?sinceTimestamp=1688189019',
-    //   {},
-    //   { headers: { Authorization: `Bearer racoonKey` } },
-    // );
-    // return await axios.post(
-    //   '/api/web3mail/fund-release?sinceTimestamp=1',
-    //   {},
-    //   { headers: { Authorization: `Bearer racoonKey` } },
-    // );
-    return await axios.post(
-      '/api/web3mail/new-proposal?key=racoonKey&sinceTimestamp=1',
-      {},
-      { headers: { Authorization: `Bearer racoonKey` } },
-    );
-    // return await axios.post(
-    //   '/api/web3mail/review?sinceTimestamp=1688189019',
-    //   {},
-    //   { headers: { Authorization: `Bearer racoonKey` } },
-    // );
-  } catch (err) {
-    console.error(err);
-    throw err;
-  }
-};
