@@ -1,4 +1,3 @@
-import { useWeb3Modal } from '@web3modal/react';
 import { useContext } from 'react';
 import Loading from '../../components/Loading';
 import Steps from '../../components/Steps';
