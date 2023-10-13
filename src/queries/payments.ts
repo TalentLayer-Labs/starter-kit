@@ -84,6 +84,7 @@ export const getNewPayments = (chainId: number, id: string, timestamp?: string):
           paymentType
           rateToken {
             symbol
+            address
           }
           service {
             id

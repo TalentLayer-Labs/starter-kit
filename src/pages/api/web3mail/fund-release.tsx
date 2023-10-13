@@ -11,6 +11,7 @@ import {
   persistEmail,
 } from '../../../modules/Web3mail/utils/database';
 import { generateWeb3mailProviders, getValidUsers, prepareCronApi } from '../utils/web3mail';
+import { renderTokenAmount } from '../../../utils/conversion';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const chainId = process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as string;
@@ -117,6 +118,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         action = 'reimbursed';
         receiverAddress = payment.service.buyer.address;
       }
+
       console.log(
         `New fund ${action} email to send to ${senderHandle} at address ${receiverAddress}`,
       );
@@ -128,10 +130,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           Hi ${receiverHandle} !
           
           Funds ${action} for the service - ${payment.service.description?.title}`,
-          `${senderHandle} has ${action} ${payment.amount} ${payment.rateToken.symbol} for the 
+          `${senderHandle} has ${action} ${renderTokenAmount(payment.rateToken, payment.amount)} ${
+            payment.amount
+          } ${payment.rateToken.symbol} for the 
             service ${payment.service.description?.title} on TalentLayer !
             
-            You can find details on this payment here: ${payment.service.platform.description?.website}/dashboard/services/${payment.service.id}`,
+            You can find details on this payment here: ${
+              payment.service.platform.description?.website
+            }/dashboard/services/${payment.service.id}`,
           [receiverAddress],
           true,
           dataProtector,
@@ -153,10 +159,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       // Update cron probe in db
       await persistCronProbe(EmailType.FundRelease, sentEmails, nonSentEmails, cronDuration);
       console.log(`Cron probe updated in DB`);
-      console.log(
-        `Web3 Emails sent - ${sentEmails} email successfully sent | ${nonSentEmails} non sent emails`,
-      );
     }
+    console.log(
+      `Web3 Emails sent - ${sentEmails} email successfully sent | ${nonSentEmails} non sent emails`,
+    );
   }
   return res
     .status(200)

@@ -11,6 +11,7 @@ import {
   persistEmail,
 } from '../../../modules/Web3mail/utils/database';
 import { generateWeb3mailProviders, getValidUsers, prepareCronApi } from '../utils/web3mail';
+import { renderTokenAmount } from '../../../utils/conversion';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const chainId = process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as string;
@@ -103,11 +104,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           Hi ${proposal.service.buyer.handle} !
           
           You got a new proposal !`,
-          `You just received a new proposal for the service ${proposal.service.id} you posted on TalentLayer !
-              ${proposal.seller.handle} can complete your service for the following amount: ${proposal.rateAmount} : ${proposal.rateToken.symbol}.
-              Here is what is proposed: ${proposal.description?.about}.
-              
-              This Proposal can be viewed at: ${proposal.service.platform.description?.website}/dashboard/services/${proposal.service.id}`,
+          `You just received a new proposal for the service ${
+            proposal.service.id
+          } you posted on TalentLayer !
+          ${
+            proposal.seller.handle
+          } can complete your service for the following amount: ${renderTokenAmount(
+            proposal.rateToken,
+            proposal.rateAmount,
+          )}.
+          
+          Here is what is proposed: ${proposal.description?.about}.
+          
+          This Proposal can be viewed at: ${
+            proposal.service.platform.description?.website
+          }/dashboard/services/${proposal.service.id}`,
           [proposal.service.buyer.address],
           true,
           dataProtector,
@@ -129,10 +140,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       // Update cron probe in db
       await persistCronProbe(EmailType.NewProposal, sentEmails, nonSentEmails, cronDuration);
       console.log(`Cron probe updated in DB`);
-      console.log(
-        `Web3 Emails sent - ${sentEmails} email successfully sent | ${nonSentEmails} non sent emails`,
-      );
     }
+    console.log(
+      `Web3 Emails sent - ${sentEmails} email successfully sent | ${nonSentEmails} non sent emails`,
+    );
   }
   return res
     .status(200)
