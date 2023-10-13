@@ -16,7 +16,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   prepareNonCronApi(isWeb3mailActive, chainId, platformId, securityKey, privateKey, res);
 
-  const { emailSubject, emailContent, signature, contacts: usersAddresses } = req.body;
+  const { emailSubject, emailContent, signature, usersAddresses } = req.body;
   if (!emailSubject || !emailContent || !signature || !usersAddresses)
     return res.status(500).json(`Missing argument`);
 
@@ -49,6 +49,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   } catch (e: any) {
     console.error(e);
     return res.status(500).json(`Error while sending email - ${e.message}`);
+  } finally {
+    console.log(
+      `Web3 Emails sent - ${sentEmails} email successfully sent | ${nonSentEmails} non sent emails`,
+    );
   }
   return res
     .status(200)

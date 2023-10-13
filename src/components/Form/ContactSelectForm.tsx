@@ -11,6 +11,7 @@ import { useChainId } from '../../hooks/useChainId';
 import { useAccount, useWalletClient } from 'wagmi';
 import { useWeb3Modal } from '@web3modal/react';
 import { IUserDetails } from '../../types';
+import { sendPlatformMarketingWeb3mail } from '../request';
 
 interface IFormValues {
   subject: string;
@@ -78,12 +79,12 @@ export const ContactListForm = ({
 
         const userAddresses = values.users.map(user => user.user.address);
 
-        const promise = axios.post('/api/web3mail/platform-marketing', {
-          emailSubject: values.subject,
-          emailContent: values.body,
-          contacts: userAddresses,
-          signature: signature,
-        });
+        const promise = sendPlatformMarketingWeb3mail(
+          values.subject,
+          values.body,
+          userAddresses,
+          signature,
+        );
 
         await toast.promise(promise, {
           pending: `${

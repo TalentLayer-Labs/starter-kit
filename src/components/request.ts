@@ -133,17 +133,52 @@ export const delegateMintID = async (
   }
 };
 
-export const sendWeb3mail = async (
-  subject: string,
-  body: string,
-  addresses: string[],
+export const sendPlatformMarketingWeb3mail = async (
+  emailSubject: string,
+  emailContent: string,
+  usersAddresses: string[],
+  signature: string,
 ): Promise<any> => {
   try {
-    return await axios.post('/api/web3mail/send-mail-to-addresses', {
-      emailSubject: subject,
-      emailContent: body,
-      addresses: addresses,
+    return await axios.post('/api/web3mail/platform-marketing', {
+      emailSubject: emailSubject,
+      emailContent: emailContent,
+      usersAddresses: usersAddresses,
+      signature: signature,
     });
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
+export const activateCron = async (): Promise<any> => {
+  try {
+    // return await axios.post('/api/web3mail/platform-marketing', {
+    //   emailSubject: 'Coucou',
+    //   emailContent: 'Ca va ?',
+    // });
+    // return await axios.post('/api/web3mail/review?key=racoonKey');
+    // return await axios.post(
+    //   '/api/web3mail/new-service?sinceTimestamp=1688189019',
+    //   {},
+    //   { headers: { Authorization: `Bearer racoonKey` } },
+    // );
+    // return await axios.post(
+    //   '/api/web3mail/fund-release?sinceTimestamp=1',
+    //   {},
+    //   { headers: { Authorization: `Bearer racoonKey` } },
+    // );
+    return await axios.post(
+      '/api/web3mail/new-proposal?key=racoonKey&sinceTimestamp=1',
+      {},
+      { headers: { Authorization: `Bearer racoonKey` } },
+    );
+    // return await axios.post(
+    //   '/api/web3mail/review?sinceTimestamp=1688189019',
+    //   {},
+    //   { headers: { Authorization: `Bearer racoonKey` } },
+    // );
   } catch (err) {
     console.error(err);
     throw err;
