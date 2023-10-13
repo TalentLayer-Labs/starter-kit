@@ -12,8 +12,8 @@ function Web3mailToast() {
           <p className='font-alt text-sm font-normal leading-normal max-w-sm opacity-70'>
             <span>
               {' '}
-              Your email will never be stored in a database, with iExec web3mail, you can allow your
-              email to be used without being disclosed to anyone, including us{' '}
+              Your email will never visible to our platform or to TalentLayer, with iExec web3mail,
+              you can allow your email to be used without being disclosed to anyone{' '}
             </span>
           </p>
           <div className='mt-3'>
