@@ -87,8 +87,9 @@ function Web3mailCard() {
           <p className='font-alt text-sm font-normal leading-normal max-w-sm text-white opacity-70'>
             <span>
               {' '}
-              Your email will never be stored in a database, with iExec web3mail, you can allow your
-              email to be used without being disclosed to anyone, including us{' '}
+              Your email will never be stored in a database by us, with iExec web3mail, you can
+              allow your email to be used without being disclosed. Only email sender provider,
+              Mailjet, will see it but without any link with your wallet.
             </span>
           </p>
           <div className='mt-3'>

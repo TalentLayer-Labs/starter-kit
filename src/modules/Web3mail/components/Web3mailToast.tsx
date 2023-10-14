@@ -13,7 +13,7 @@ function Web3mailToast() {
             <span>
               {' '}
               Your email will never visible to our platform or to TalentLayer, with iExec web3mail,
-              you can allow your email to be used without being disclosed to anyone{' '}
+              you can allow your email to be used without being disclosed{' '}
             </span>
           </p>
           <div className='mt-3'>
