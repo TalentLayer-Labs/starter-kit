@@ -49,4 +49,4 @@ Web3mail is a decentralized email service built by IExec which allows a platform
 
 **Iexec Documentation:** [Read here.](https://tools.docs.iex.ec/tools/dataprotector)
 
-**Technical TalentLayer integration documentation:** [Read here.](https://app.gitbook.com/o/uoAYI2Mv1g6UqAhiHLVU/s/LxwTmt3MOuMIlBTH8NKY/~/changes/155/third-party-modules/iexec-web3-mail-and-notifications#1.-introduction)
+**Technical TalentLayer integration documentation:** [Read here.](https://docs.talentlayer.org/third-party-modules/iexec-web3mail)
