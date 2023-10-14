@@ -69,3 +69,46 @@ export const getPaymentsForUser = (
     `;
   return processRequest(chainId, query);
 };
+
+export const getNewPayments = (chainId: number, id: string, timestamp?: string): Promise<any> => {
+  const timestampCondition = timestamp ? `, createdAt_gt: "${timestamp}"` : '';
+  const query = `
+      {
+        payments(
+          orderBy: createdAt
+          where: {service_: {platform: "${id}"} ${timestampCondition}}
+        ) {
+          id
+          amount
+          createdAt
+          paymentType
+          rateToken {
+            symbol
+            address
+          }
+          service {
+            id
+            buyer {
+              address
+              handle
+            }
+            seller {
+              address
+              handle
+            }
+            description {
+              title
+              about
+            }
+            platform {
+              id
+              description {
+                website
+              }
+            }
+          }
+        }
+      }
+    `;
+  return processRequest(chainId, query);
+};

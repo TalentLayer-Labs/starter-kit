@@ -48,7 +48,7 @@ function Web3mailForm() {
         await toast.promise(promise, {
           pending: 'Pending transactions, follow instructions in your wallet',
           success: 'Access granted succefully',
-          error: 'An error occurred while granted access',
+          error: 'An error occurred while granting access',
         });
         setSubmitting(false);
       } catch (error) {

@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { formatEther, parseEther } from 'viem';
+import { formatEther } from 'viem';
 import * as Yup from 'yup';
 import SingleValueForm from '../../components/Form/SingleValueForm';
 import Loading from '../../components/Loading';

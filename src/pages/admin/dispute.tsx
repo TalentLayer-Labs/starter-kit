@@ -7,7 +7,6 @@ import UserNeedsMoreRights from '../../components/UserNeedsMoreRights';
 import TalentLayerContext from '../../context/talentLayer';
 import TalentLayerArbitrator from '../../contracts/ABI/TalentLayerArbitrator.json';
 import TalentLayerPlatformID from '../../contracts/ABI/TalentLayerPlatformID.json';
-import { useChainId } from '../../hooks/useChainId';
 import { useConfig } from '../../hooks/useConfig';
 import usePlatform from '../../hooks/usePlatform';
 import { formatEther } from 'viem';

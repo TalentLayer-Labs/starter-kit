@@ -135,3 +135,45 @@ export const getServiceById = (chainId: number, id: string): Promise<any> => {
     `;
   return processRequest(chainId, query);
 };
+
+export const getNewServicesForPlatform = (
+  chainId: number,
+  id: string,
+  timestamp?: string,
+): Promise<any> => {
+  const timestampCondition = timestamp ? `, updatedAt_gt: "${timestamp}"` : '';
+  const query = `
+      {
+        services(
+          orderBy: updatedAt
+          where: {status: Opened, platform: "${id}" ${timestampCondition}}
+        ) {
+          id
+          platform {
+            id
+            description {
+              website
+            }
+          }
+          description {
+            keywords_raw
+            keywords {
+              id
+            }
+            about
+            rateAmount
+            rateToken {
+              symbol
+            }
+            startDate
+            title
+          }
+          buyer {
+            address
+            handle
+          }
+        }
+      }
+    `;
+  return processRequest(chainId, query);
+};

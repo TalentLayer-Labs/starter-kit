@@ -1,5 +1,5 @@
 import { useWeb3Modal } from '@web3modal/react';
-import { formatEther, formatUnits } from 'viem';
+import { formatUnits } from 'viem';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useContext, useState } from 'react';
 import { useRouter } from 'next/router';

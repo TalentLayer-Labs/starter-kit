@@ -1,12 +1,10 @@
 import { useWeb3Modal } from '@web3modal/react';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
-import { useRouter } from 'next/router';
 import { useContext } from 'react';
-import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
+import { usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
 import TalentLayerContext from '../../context/talentLayer';
 import { useChainId } from '../../hooks/useChainId';
-import { useConfig } from '../../hooks/useConfig';
 import useMintFee from '../../hooks/useMintFee';
 import useTalentLayerClient from '../../hooks/useTalentLayerClient';
 import { NetworkEnum } from '../../types';
@@ -30,10 +28,9 @@ function TalentLayerIdForm() {
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
   const { platformHasAccess } = useContext(Web3MailContext);
-  const { account } = useContext(TalentLayerContext);
+  const { account, refreshData } = useContext(TalentLayerContext);
   const { data: walletClient } = useWalletClient({ chainId });
   const publicClient = usePublicClient({ chainId });
-  const router = useRouter();
   const talentLayerClient = useTalentLayerClient();
   const { calculateMintFee } = useMintFee();
 
@@ -83,8 +80,7 @@ function TalentLayerIdForm() {
         );
 
         setSubmitting(false);
-        // TODO: add a refresh function on TL context and call it here rather than hard refresh
-        router.reload();
+        refreshData();
 
         if (process.env.NEXT_PUBLIC_ACTIVE_WEB3MAIL == 'true' && !platformHasAccess) {
           createWeb3mailToast();
