@@ -83,10 +83,10 @@ export const createSpace = async (data: CreateSpaceAction) => {
 export const getSpaceByDomain = async (domain: string) => {
   try {
     await connection();
-
+    console.log("getting space ", domain)
     const spaceSubdomain = await SpaceModel.findOne({ subdomain: domain });
     const spaceDomain = await SpaceModel.findOne({ customDomain: domain });
-
+    console.log("fetched spaces, ", spaceSubdomain, spaceDomain)
     if (spaceSubdomain) {
       return spaceSubdomain;
     } else if (spaceDomain) {
@@ -109,24 +109,31 @@ export const getSpaceByDomain = async (domain: string) => {
 // TODO! createSpace, can be used for the onboarding workflow maybe for the creating the subdomain & deleteSpace
 export const updateDomain = async (space: UpdateSpaceDomain) => {
   try {
+    console.log("Update Domain invoke, ", space)
     await connection();
     let response;
 
     if (space.customDomain.includes('builder.place')) {
+      console.log("Domain contains builder.place")
       return {
         error: 'Cannot use builder.place subdomain as your custom domain',
       };
 
       // if the custom domain is valid, we need to store it and add it to Vercel
     } else if (validDomainRegex.test(space.customDomain!)) {
+      console.log("Custom Domain is valid")
       // Update the MongoDB document with the new custom domain
       // await SpaceModel.updateOne({ _id: new mongoose.Types.ObjectId(space.id) }, { customDomain: space.customDomain }).exec();
+      console.log("Searching subdomain, ", space.subdomain)
       const entity = await SpaceModel.findOne({ subdomain: space.subdomain })
+      console.log("Search result", space.subdomain)
       entity.customDomain = space.customDomain;
       entity.save();
 
 
       // Add the custom domain to Vercel
+      console.log("Adding domain to vercel");
+
       await addDomainToVercel(space.customDomain!);
 
       // null means remove the custom domain

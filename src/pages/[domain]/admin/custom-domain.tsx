@@ -2,11 +2,15 @@ import React, { useContext, useEffect, useState } from 'react';
 import SpaceContext from '../../../modules/MultiDomain/context/SpaceContext';
 import { useUpdateSpaceDomain } from '../../../modules/MultiDomain/hooks/UseUpdateSpaceDomain';
 import DomainConfiguration from '../../../modules/MultiDomain/components/DomainConfiguration';
-import { GetServerSideProps } from 'next';
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { useGetSpace } from '../../../modules/MultiDomain/hooks/UseGetSpace';
 import { getSpaceByDomain } from '../../../modules/MultiDomain/actions';
+import Error from 'next/error';
 
-export default function CustomDomain() {
+export default function CustomDomain(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  console.log("Parsed props ", props);
+  if (!props.found) return <Error statusCode={404} />
+
   const { space, loading } = useContext(SpaceContext);
   const [customDomain, setCustomDomain] = useState('');
 
@@ -27,7 +31,6 @@ export default function CustomDomain() {
     }
   }
 
-  if (loading) return (<div>loading...</div>)
   return (
     <div>
       <p>Space name: {space?.name}</p>
@@ -43,22 +46,27 @@ export default function CustomDomain() {
 }
 
 export async function getServerSideProps({ params }: any) {
+  console.log("serverProps", params)
   const domain = params.domain;
   let space;
+  let found = false;
+
   try {
-    const res = await getSpaceByDomain(domain as string);
-    space = JSON.stringify(res)
-    if (res.error) {
-      return { notFound: true };
+    space = await getSpaceByDomain(domain as string);
+    if (space?.error) {
+      found = false;
+    } else {
+      found = true
     }
   } catch (error) {
     console.error('An error occurred:', error);
-    return { notFound: true };
+    found = false;
   }
-
+  const serilizedSpace = JSON.parse(JSON.stringify(space));
   return {
     props: {
-      space
+      space: serilizedSpace,
+      found
     }
   }
 }
