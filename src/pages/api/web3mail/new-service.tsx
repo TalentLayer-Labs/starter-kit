@@ -110,20 +110,51 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 Hi ${contact.user.handle} !
                 
                 A new service matching your skills is available on TalentLayer !`,
-                `Good news, the following service: "${
-                  service.description?.title
-                }" was recently posted by ${service.buyer.handle} and you are a good match for it.
-                  Here is what is proposed: ${service.description?.about}.
-                  
-                  The skills you have which are required by this service are: ${matchingSkills.join(
-                    ', ',
-                  )}.
-                  
-                  Be the first one to send a proposal !
-
-                  You can find details on this service here: ${
-                    service.platform.description?.website
-                  }/dashboard/services/${service.id}`,
+                `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Service Matching Your Skills</title>
+</head>
+<body>
+    <table cellpadding="0" cellspacing="0" width="100%" bgcolor="#f0f0f0">
+        <tr>
+            <td align="center" style="padding: 40px 0;">
+                <table cellpadding="0" cellspacing="0" width="600" style="background-color: #ffffff; border-radius: 5px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
+                    <tr>
+                        <td style="padding: 40px; text-align: center;">
+                            <h1 style="font-size: 24px; margin: 0;">New Service Matching Your Skills</h1>
+                            <p style="font-size: 16px; margin: 20px 0;">Hi ${
+                              contact.user.handle
+                            }!</p>
+                            <p style="font-size: 16px; margin: 20px 0;">A new service matching your skills is available on TalentLayer!</p>
+                            <p style="font-size: 16px; margin: 20px 0;">Good news, the following service: "${
+                              service.description?.title
+                            }" was recently posted by ${
+                  service.buyer.handle
+                } and you are a good match for it.</p>
+                            <p style="font-size: 16px; margin: 20px 0;">Here is what is proposed: ${
+                              service.description?.about
+                            }.</p>
+                            <p style="font-size: 16px; margin: 20px 0;">The skills you have which are required by this service are: ${matchingSkills.join(
+                              ', ',
+                            )}.</p>
+                            <p style="font-size: 16px; margin: 20px 0;">Be the first one to send a proposal!</p>
+                            <p style="font-size: 16px; margin: 20px 0;">You can find details on this service <a href="${
+                              service.platform.description?.website
+                            }/dashboard/services/${
+                  service.id
+                }" style="text-decoration: none; color: #007bff;">here</a>.</p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
+`,
                 [contact.user.address],
                 true,
                 dataProtector,
