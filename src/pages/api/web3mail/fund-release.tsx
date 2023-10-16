@@ -130,14 +130,44 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           Hi ${receiverHandle} !
           
           Funds ${action} for the service - ${payment.service.description?.title}`,
-          `${senderHandle} has ${action} ${renderTokenAmount(payment.rateToken, payment.amount)} ${
-            payment.amount
-          } ${payment.rateToken.symbol} for the 
-            service ${payment.service.description?.title} on TalentLayer !
-            
-            You can find details on this payment here: ${
-              payment.service.platform.description?.website
-            }/dashboard/services/${payment.service.id}`,
+          `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Notification</title>
+</head>
+<body>
+    <table cellpadding="0" cellspacing="0" width="100%" bgcolor="#f0f0f0">
+        <tr>
+            <td align="center" style="padding: 40px 0;">
+                <table cellpadding="0" cellspacing="0" width="600" style="background-color: #ffffff; border-radius: 5px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
+                    <tr>
+                        <td style="padding: 40px; text-align: center;">
+                            <h1 style="font-size: 24px; margin: 0;">Payment Notification</h1>
+                            <p style="font-size: 16px; margin: 20px 0;">Hi ${receiverHandle}!</p>
+                            <p style="font-size: 16px; margin: 20px 0;">Funds ${action} for the service - ${
+            payment.service.description?.title
+          }</p>
+                            <p style="font-size: 16px; margin: 20px 0;">${senderHandle} has ${action} ${renderTokenAmount(
+            payment.rateToken,
+            payment.amount,
+          )} ${payment.amount} ${payment.rateToken.symbol} for the service ${
+            payment.service.description?.title
+          } on TalentLayer!</p>
+                            <p style="font-size: 16px; margin: 20px 0;">You can find details on this payment <a href="${
+                              payment.service.platform.description?.website
+                            }/dashboard/services/${
+            payment.service.id
+          }" style="text-decoration: none; color: #007bff;">here</a>.</p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>`,
           [receiverAddress],
           true,
           dataProtector,
