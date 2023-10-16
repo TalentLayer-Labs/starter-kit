@@ -151,3 +151,12 @@ export const sendPlatformMarketingWeb3mail = async (
     throw err;
   }
 };
+
+export const fetchMyContacts = async (): Promise<any> => {
+  try {
+    return await axios.post('/api/web3mail/fetch-my-contacts');
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};

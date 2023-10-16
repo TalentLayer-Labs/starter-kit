@@ -3,6 +3,7 @@ import { IExecWeb3mail, getWeb3Provider as getMailProvider, Contact } from '@iex
 import { getUsersWeb3MailPreference } from '../../../queries/users';
 import { IUserDetails } from '../../../types';
 import { useChainId } from '../../../hooks/useChainId';
+import { fetchMyContacts } from '../../../components/request';
 
 const useFetchMyContacts = (): { contacts: IUserDetails[]; contactsLoaded: boolean } => {
   const [contacts, setContacts] = useState<IUserDetails[]>([]);
@@ -13,10 +14,8 @@ const useFetchMyContacts = (): { contacts: IUserDetails[]; contactsLoaded: boole
     const fetchData = async () => {
       if (chainId) {
         try {
-          const privateKey = process.env.NEXT_PRIVATE_WEB3MAIL_PLATFORM_PRIVATE_KEY;
-          const mailWeb3Provider = getMailProvider(privateKey as string);
-          const web3mail = new IExecWeb3mail(mailWeb3Provider);
-          const contactList: Contact[] = await web3mail.fetchMyContacts();
+          const response = await fetchMyContacts();
+          const contactList: Contact[] = response?.data?.data;
 
           if (contactList && contactList.length > 0) {
             // This array has all the addresses of the users that have granted access to their email to this platform
