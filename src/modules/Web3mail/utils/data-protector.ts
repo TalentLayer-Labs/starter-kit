@@ -4,7 +4,7 @@ export const userGaveAccessToPlatform = async (
   userAddress: string,
   providedDataProtector?: IExecDataProtector,
 ): Promise<string | null> => {
-  const privateKey = process.env.NEXT_PRIVATE_WEB3MAIL_PLATFORM_PRIVATE_KEY;
+  const privateKey = process.env.NEXT_WEB3MAIL_PLATFORM_PRIVATE_KEY;
   if (!privateKey) {
     throw new Error('Private key is not set');
   }
