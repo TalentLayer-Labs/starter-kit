@@ -16,7 +16,7 @@ export const sendMailToAddresses = async (
   providedWeb3mail?: IExecWeb3mail,
 ): Promise<{ successCount: number; errorCount: number }> => {
   console.log('Sending email to addresses');
-  const privateKey = process.env.NEXT_PRIVATE_WEB3MAIL_PLATFORM_PRIVATE_KEY;
+  const privateKey = process.env.NEXT_WEB3MAIL_PLATFORM_PRIVATE_KEY;
   if (!privateKey) {
     throw new Error('Private key is not set');
   }
