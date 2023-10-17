@@ -17,7 +17,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const platformId = process.env.NEXT_PUBLIC_PLATFORM_ID as string;
   const mongoUri = process.env.NEXT_MONGO_URI as string;
   const cronSecurityKey = req.headers.authorization as string;
-  const privateKey = process.env.NEXT_PUBLIC_WEB3MAIL_PLATFORM_PRIVATE_KEY as string;
+  const privateKey = process.env.NEXT_PRIVATE_WEB3MAIL_PLATFORM_PRIVATE_KEY as string;
   const isWeb3mailActive = process.env.NEXT_PUBLIC_ACTIVE_WEB3MAIL as string;
 
   const RETRY_FACTOR = 5;

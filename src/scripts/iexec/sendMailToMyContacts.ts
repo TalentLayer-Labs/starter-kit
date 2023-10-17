@@ -12,7 +12,7 @@ export const sendMailToMyContacts = async (
   throwable = false,
 ) => {
   console.log('Sending email to all contacts');
-  const privateKey = process.env.NEXT_PUBLIC_WEB3MAIL_PLATFORM_PRIVATE_KEY;
+  const privateKey = process.env.NEXT_PRIVATE_WEB3MAIL_PLATFORM_PRIVATE_KEY;
   if (!privateKey) {
     throw new Error('Private key is not set');
   }
@@ -42,6 +42,8 @@ export const sendMailToMyContacts = async (
           protectedData: contact.address,
           emailSubject: emailSubject,
           emailContent: emailContent,
+          contentType: 'text/html',
+          senderName: 'Racoon Corp',
         });
         console.log('sentMail', sentMail);
       } catch (e) {
