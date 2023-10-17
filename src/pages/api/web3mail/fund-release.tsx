@@ -10,14 +10,10 @@ import {
   persistCronProbe,
   persistEmail,
 } from '../../../modules/Web3mail/utils/database';
-import {
-  EmptyError,
-  generateWeb3mailProviders,
-  getValidUsers,
-  prepareCronApi,
-  renderWeb3mail,
-} from '../utils/web3mail';
+import { generateWeb3mailProviders, getValidUsers, prepareCronApi } from '../utils/web3mail';
 import { renderTokenAmount } from '../../../utils/conversion';
+
+export const maxDuration = 300;
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const chainId = process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as string;
@@ -142,8 +138,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         );
         // @dev: This function needs to be throwable to avoid persisting the entity in the DB if the email is not sent
         await sendMailToAddresses(
-          `
-          Funds ${action} for the service - ${payment.service.description?.title}`,
+          `Funds ${action} for the service - ${payment.service.description?.title}`,
           email,
           [receiverAddress],
           true,
