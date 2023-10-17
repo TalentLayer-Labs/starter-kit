@@ -3,6 +3,13 @@ import { IExecWeb3mail, getWeb3Provider as getMailProvider } from '@iexec/web3ma
 import { IExecDataProtector, getWeb3Provider as getProtectorProvider } from '@iexec/dataprotector';
 import { IUserDetails } from '../../../types';
 
+export class EmptyError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'EmptyError';
+  }
+}
+
 export const prepareCronApi = (
   isWeb3mailActive: string | undefined,
   chainId: string | undefined,
