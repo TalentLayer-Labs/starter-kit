@@ -128,6 +128,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 `,
           [proposal.seller.address],
           true,
+          proposal.service.platform.name,
           dataProtector,
           web3mail,
         );

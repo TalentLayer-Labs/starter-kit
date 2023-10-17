@@ -157,6 +157,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 `,
                 [contact.user.address],
                 true,
+                service.platform.name,
                 dataProtector,
                 web3mail,
               );

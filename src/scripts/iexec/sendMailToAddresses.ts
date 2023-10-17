@@ -12,6 +12,7 @@ export const sendMailToAddresses = async (
   emailContent: string,
   addresses: string[],
   throwable = false,
+  platformName: string,
   providedDataProtector?: IExecDataProtector,
   providedWeb3mail?: IExecWeb3mail,
 ): Promise<{ successCount: number; errorCount: number }> => {
@@ -59,7 +60,7 @@ export const sendMailToAddresses = async (
           emailSubject: emailSubject,
           emailContent: emailContent,
           contentType: 'text/html',
-          senderName: 'Racoon Corp',
+          senderName: platformName,
         });
         sentCount++;
         console.log('sent email', mailSent);

@@ -63,6 +63,7 @@ export const getPlatformId = (chainId: number, address: string): Promise<any> =>
     {
       platforms(where: {address: "${address}"}) {
         id
+        name
       }
     }
     `;

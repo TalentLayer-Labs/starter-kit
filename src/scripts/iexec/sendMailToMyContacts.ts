@@ -9,6 +9,7 @@ import { IExecDataProtector, getWeb3Provider as getProtectorProvider } from '@ie
 export const sendMailToMyContacts = async (
   emailSubject: string,
   emailContent: string,
+  platformName: string,
   throwable = false,
 ) => {
   console.log('Sending email to all contacts');
@@ -43,7 +44,7 @@ export const sendMailToMyContacts = async (
           emailSubject: emailSubject,
           emailContent: emailContent,
           contentType: 'text/html',
-          senderName: 'Racoon Corp',
+          senderName: platformName,
         });
         console.log('sentMail', sentMail);
       } catch (e) {

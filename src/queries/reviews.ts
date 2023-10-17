@@ -42,6 +42,7 @@ export const getNewReviews = (chainId: number, id: string, timestamp?: string): 
             id
             platform {
               id
+              name
               description {
                 website
               }

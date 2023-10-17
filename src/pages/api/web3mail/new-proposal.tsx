@@ -121,6 +121,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           }/dashboard/services/${proposal.service.id}`,
           [proposal.service.buyer.address],
           true,
+          proposal.service.platform.name,
           dataProtector,
           web3mail,
         );

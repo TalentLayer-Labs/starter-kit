@@ -180,6 +180,7 @@ export const getNewServicesForPlatform = (
           id
           platform {
             id
+            name
             description {
               website
             }

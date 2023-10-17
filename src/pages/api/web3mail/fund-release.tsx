@@ -170,6 +170,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 </html>`,
           [receiverAddress],
           true,
+          payment.service.platform.name,
           dataProtector,
           web3mail,
         );

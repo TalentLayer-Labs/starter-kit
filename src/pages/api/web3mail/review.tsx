@@ -121,6 +121,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             You can find details on this review here: ${review.service.platform.description?.website}/dashboard/services/${review.service.id}`,
           [review.to.address],
           true,
+          review.service.platform.name,
           dataProtector,
           web3mail,
         );

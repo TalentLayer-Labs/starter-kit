@@ -143,6 +143,7 @@ export const getProposalsFromPlatformServices = (
             }
             platform {
               id
+              name
               description {
                 website
               }
@@ -182,6 +183,7 @@ export const getAcceptedProposals = (
             }
             platform {
               id
+              name
               description {
                 website
               }
