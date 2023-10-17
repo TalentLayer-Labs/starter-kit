@@ -11,6 +11,7 @@ import {
   persistEmail,
 } from '../../../modules/Web3mail/utils/database';
 import {
+  EmptyError,
   generateWeb3mailProviders,
   getValidUsers,
   prepareCronApi,
@@ -40,11 +41,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     NotificationApiUri.ProposalValidated,
   );
 
+  let status = 200;
   try {
     const response = await getAcceptedProposals(Number(chainId), platformId, sinceTimestamp);
 
     if (!response?.data?.data?.proposals || response.data.data.proposals.length === 0) {
-      return res.status(200).json(`No new proposals validated available`);
+      throw new EmptyError(`No new proposals validated available`);
     }
 
     const proposals: IProposal[] = response.data.data.proposals;
@@ -62,7 +64,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     // If some emails have not been sent yet, send a web3mail & persist in the DB that the email was sent
     if (nonSentProposalEmails.length == 0) {
-      return res.status(200).json(`All new proposals notifications already sent`);
+      throw new EmptyError(`All new proposals notifications already sent`);
     }
     // Filter out users which have not opted for the feature
     const allSellerAddresses = nonSentProposalEmails.map(proposal => proposal.seller.address);
@@ -76,7 +78,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       !notificationResponse?.data?.data?.userDescriptions ||
       notificationResponse.data.data.userDescriptions.length === 0
     ) {
-      return res.status(200).json(`No User opted for this feature`);
+      throw new EmptyError(`No User opted for this feature`);
     }
 
     const validUserAddresses = getValidUsers(notificationResponse.data.data.userDescriptions);
@@ -86,11 +88,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     );
 
     if (proposalEmailsToBeSent.length === 0) {
-      return res
-        .status(200)
-        .json(
-          `New proposals validated detected, but no concerned users opted for the ${EmailType.ProposalValidated} feature`,
-        );
+      throw new EmptyError(
+        `New proposals validated detected, but no concerned users opted for the `,
+      );
     }
 
     const { dataProtector, web3mail } = generateWeb3mailProviders(privateKey);
@@ -124,8 +124,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
     }
   } catch (e: any) {
-    console.error(e.message);
-    return res.status(500).json(`Error while sending email - ${e.message}`);
+    if (e instanceof EmptyError) {
+      console.warn(e.message);
+    } else {
+      console.error(e.message);
+      status = 500;
+    }
   } finally {
     if (!req.query.sinceTimestamp) {
       // Update cron probe in db
@@ -137,7 +141,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     );
   }
   return res
-    .status(200)
+    .status(status)
     .json(
       `Web3 Emails sent - ${sentEmails} email successfully sent | ${nonSentEmails} non sent emails`,
     );
