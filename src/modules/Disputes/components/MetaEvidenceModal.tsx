@@ -100,8 +100,8 @@ function MetaEvidenceModal({
                 of the service in escrow.
               </p>
               <p className='italic text-center text-gray-900'>
-                The platform {serviceData.platform.name} has chosen as arbitrator for potential
-                dispute resolutions: {serviceData.platform.arbitrator} Please review carefully the
+                The platform {serviceData.platform?.name} has chosen as arbitrator for potential
+                dispute resolutions: {serviceData.platform?.arbitrator} Please review carefully the
                 service & proposal conditions & details, as they will set a context to potential
                 future disputes, should any arise.
               </p>
