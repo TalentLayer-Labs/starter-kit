@@ -10,7 +10,13 @@ import {
   persistEmail,
 } from '../../../modules/Web3mail/utils/database';
 import { getNewReviews } from '../../../queries/reviews';
-import { generateWeb3mailProviders, getValidUsers, prepareCronApi } from '../utils/web3mail';
+import {
+  EmptyError,
+  generateWeb3mailProviders,
+  getValidUsers,
+  prepareCronApi,
+} from '../utils/web3mail';
+import { renderWeb3mail } from '../utils/generateWeb3Mail';
 
 export const maxDuration = 300;
 
@@ -19,7 +25,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const platformId = process.env.NEXT_PUBLIC_PLATFORM_ID as string;
   const mongoUri = process.env.NEXT_MONGO_URI as string;
   const cronSecurityKey = req.headers.authorization as string;
-  const privateKey = process.env.NEXT_PUBLIC_WEB3MAIL_PLATFORM_PRIVATE_KEY as string;
+  const privateKey = process.env.NEXT_WEB3MAIL_PLATFORM_PRIVATE_KEY as string;
   const isWeb3mailActive = process.env.NEXT_PUBLIC_ACTIVE_WEB3MAIL as string;
 
   const RETRY_FACTOR = 5;
@@ -37,11 +43,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     NotificationApiUri.Review,
   );
 
+  let status = 200;
   try {
     const response = await getNewReviews(Number(chainId), platformId, sinceTimestamp);
 
     if (!response?.data?.data?.reviews || response.data.data.reviews.length === 0) {
-      return res.status(200).json(`No new reviews available`);
+      throw new EmptyError(`No new reviews available`);
     }
 
     // Check if a notification email has already been sent for these reviews
@@ -59,7 +66,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     // If some emails have not been sent yet, send a web3mail & persist in the DB that the email was sent
     if (nonSentReviewEmails.length == 0) {
-      return res.status(200).json(`All review notifications already sent`);
+      throw new EmptyError(`All review notifications already sent`);
     }
     // Filter out users which have not opted for the feature
     const allRevieweesAddresses = nonSentReviewEmails.map(review => review.to.address);
@@ -74,7 +81,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       !notificationResponse?.data?.data?.userDescriptions ||
       notificationResponse.data.data.userDescriptions.length === 0
     ) {
-      return res.status(200).json(`No User opted for this feature`);
+      throw new EmptyError(`No User opted for this feature`);
     }
 
     const validUserAddresses = getValidUsers(notificationResponse.data.data.userDescriptions);
@@ -84,11 +91,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     );
 
     if (reviewEmailsToBeSent.length === 0) {
-      return res
-        .status(200)
-        .json(
-          `New reviews detected, but no concerned users opted for the ${EmailType.Review} feature`,
-        );
+      throw new EmptyError(
+        `New reviews detected, but no concerned users opted for the ${EmailType.Review} feature`,
+      );
     }
 
     const { dataProtector, web3mail } = generateWeb3mailProviders(privateKey);
@@ -104,25 +109,28 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         fromAddress = review.service.buyer.address;
       }
       console.log(
-        `A review with id ${review.id} was created from ${fromHandle} owning the address ${fromAddress} for the service ${review.service.id}.`,
+        `A review with id ${review.id} was created from ${fromHandle} owning the address ${fromAddress} for the gig ${review.service.id}!`,
       );
       review.to.address === review.service.buyer.address
         ? console.log('Reviewer is the seller')
         : console.log('Reviewer is the buyer');
       try {
+        const email = renderWeb3mail(
+          ` A review was created for the gig - ${review.service.description?.title}!`,
+          review.to.handle,
+          `${fromHandle} has left a review for the gig ${review.service.description?.title}.
+            The gig was rated ${review.rating}/5 stars and the following comment was left: ${review.description?.content}.
+            Congratulations on completing your gig and improving your reputation !`,
+          `${review.service.platform.description?.website}/dashboard/services/${review.service.id}`,
+          `Go to review detail`,
+        );
         // @dev: This function needs to be throwable to avoid persisting the entity in the DB if the email is not sent
         await sendMailToAddresses(
-          `
-          Hi ${review.to.handle} !
-          
-          A review was created for the service - ${review.service.description?.title}`,
-          `${fromHandle} has left a review for the TalentLayer service ${review.service.description?.title}.
-            The service was rated ${review.rating}/5 stars and the following comment was left: ${review.description?.content}.
-            Congratulations on completing your service and improving your TalentLayer reputation !
-            
-            You can find details on this review here: ${review.service.platform.description?.website}/dashboard/services/${review.service.id}`,
+          `A review was created for the gig - ${review.service.description?.title}`,
+          email,
           [review.to.address],
           true,
+          review.service.platform.name,
           dataProtector,
           web3mail,
         );
@@ -135,8 +143,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
     }
   } catch (e: any) {
-    console.error(e.message);
-    return res.status(500).json(`Error while sending email - ${e.message}`);
+    if (e instanceof EmptyError) {
+      console.warn(e.message);
+    } else {
+      console.error(e.message);
+      status = 500;
+    }
   } finally {
     if (!req.query.sinceTimestamp) {
       // Update cron probe in db
@@ -148,7 +160,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     );
   }
   return res
-    .status(200)
+    .status(status)
     .json(
       `Web3 Emails sent - ${sentEmails} email successfully sent | ${nonSentEmails} non sent emails`,
     );

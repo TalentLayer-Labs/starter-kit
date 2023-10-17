@@ -102,6 +102,7 @@ export const getNewPayments = (chainId: number, id: string, timestamp?: string):
             }
             platform {
               id
+              name
               description {
                 website
               }

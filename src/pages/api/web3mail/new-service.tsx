@@ -10,7 +10,8 @@ import {
   persistEmail,
 } from '../../../modules/Web3mail/utils/database';
 import { getNewServicesForPlatform } from '../../../queries/services';
-import { generateWeb3mailProviders, prepareCronApi } from '../utils/web3mail';
+import { EmptyError, generateWeb3mailProviders, prepareCronApi } from '../utils/web3mail';
+import { renderWeb3mail } from '../utils/generateWeb3Mail';
 
 export const maxDuration = 300;
 
@@ -19,7 +20,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const platformId = process.env.NEXT_PUBLIC_PLATFORM_ID as string;
   const mongoUri = process.env.NEXT_MONGO_URI as string;
   const cronSecurityKey = req.headers.authorization as string;
-  const privateKey = process.env.NEXT_PUBLIC_WEB3MAIL_PLATFORM_PRIVATE_KEY as string;
+  const privateKey = process.env.NEXT_WEB3MAIL_PLATFORM_PRIVATE_KEY as string;
   const isWeb3mailActive = process.env.NEXT_PUBLIC_ACTIVE_WEB3MAIL as string;
 
   const RETRY_FACTOR = 5;
@@ -40,12 +41,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     NotificationApiUri.NewService,
   );
 
+  let status = 200;
   try {
     // Fetch all contacts who protected their email and granted access to the platform
     const allContacts = await web3mail.fetchMyContacts();
 
     if (!allContacts || allContacts.length === 0) {
-      return res.status(200).json(`No contacts granted access to their email`);
+      throw new EmptyError(`No contacts granted access to their email`);
     }
 
     const allContactsAddresses = allContacts.map(contact => contact.owner);
@@ -64,7 +66,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       // Only select the latest version of each user metaData
       validUsers = validUsers.filter(contact => contact.user?.description?.id === contact.id);
     } else {
-      return res.status(200).json(`No User opted for this feature`);
+      throw new EmptyError(`No User opted for this feature`);
     }
 
     // Check if new services are available & get their keywords
@@ -75,7 +77,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     );
 
     if (!serviceResponse?.data?.data?.services) {
-      return res.status(200).json(`No new services available`);
+      throw new EmptyError(`No new services available`);
     }
 
     const services: IService[] = serviceResponse.data.data.services;
@@ -104,30 +106,32 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             console.log(
               `The skills ${
                 contact.user.handle
-              } has which are required by this service are: ${matchingSkills.join(', ')}`,
+              } has which are required by this gig are: ${matchingSkills.join(', ')}`,
             );
             try {
-              await sendMailToAddresses(
-                `
-                Hi ${contact.user.handle} !
-                
-                A new service matching your skills is available on TalentLayer !`,
-                `Good news, the following service: "${
+              const email = renderWeb3mail(
+                `A new gig matching your skills is available on StarterKit!`,
+                `Good news, the following gig: "${
                   service.description?.title
                 }" was recently posted by ${service.buyer.handle} and you are a good match for it.
                   Here is what is proposed: ${service.description?.about}.
                   
-                  The skills you have which are required by this service are: ${matchingSkills.join(
+                  The skills you have which are required by this gig are: ${matchingSkills.join(
                     ', ',
                   )}.
                   
-                  Be the first one to send a proposal !
-
-                  You can find details on this service here: ${
-                    service.platform.description?.website
-                  }/dashboard/services/${service.id}`,
+                  Be the first one to send a proposal !`,
+                contact.user.handle,
+                `${service.platform.description?.website}/dashboard/services/${service.id}`,
+                `Go to gig detail`,
+              );
+              // @dev: This function needs to be throwable to avoid persisting the entity in the DB if the email is not sent
+              await sendMailToAddresses(
+                `A new gig matching your skills is available on StarterKit !`,
+                email,
                 [contact.user.address],
                 true,
+                service.platform.name,
                 dataProtector,
                 web3mail,
               );
@@ -143,8 +147,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
     }
   } catch (e: any) {
-    console.error(e);
-    return res.status(500).json(`Error while sending email - ${e.message}`);
+    if (e instanceof EmptyError) {
+      console.warn(e.message);
+    } else {
+      console.error(e.message);
+      status = 500;
+    }
   } finally {
     if (!req.query.sinceTimestamp) {
       // Update cron probe in db
@@ -156,7 +164,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     );
   }
   return res
-    .status(200)
+    .status(status)
     .json(
       `Web3 Emails sent - ${sentEmails} email successfully sent | ${nonSentEmails} non sent emails`,
     );
