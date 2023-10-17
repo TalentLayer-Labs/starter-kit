@@ -17,6 +17,7 @@ import {
   prepareCronApi,
 } from '../utils/web3mail';
 import { renderTokenAmount } from '../../../utils/conversion';
+import { renderWeb3mail } from '../utils/generateWeb3Mail';
 
 export const maxDuration = 300;
 
@@ -130,23 +131,27 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         `New fund ${action} email to send to ${senderHandle} at address ${receiverAddress}`,
       );
 
+      const email = renderWeb3mail(
+        `Funds released!`,
+        `Funds ${action} for the gig - ${
+          payment.service.description?.title
+        }. ${senderHandle} has ${action} ${renderTokenAmount(payment.rateToken, payment.amount)} ${
+          payment.amount
+        } ${payment.rateToken.symbol} for the gig ${
+          payment.service.description?.title
+        } on StarterKit !`,
+        receiverHandle,
+        `${payment.service.platform.description?.website}/dashboard/services/${payment.service.id}`,
+        `Go to payment detail`,
+      );
       try {
         // @dev: This function needs to be throwable to avoid persisting the entity in the DB if the email is not sent
         await sendMailToAddresses(
-          `
-          Hi ${receiverHandle} !
-          
-          Funds ${action} for the service - ${payment.service.description?.title}`,
-          `${senderHandle} has ${action} ${renderTokenAmount(payment.rateToken, payment.amount)} ${
-            payment.amount
-          } ${payment.rateToken.symbol} for the 
-            service ${payment.service.description?.title} on TalentLayer !
-            
-            You can find details on this payment here: ${
-              payment.service.platform.description?.website
-            }/dashboard/services/${payment.service.id}`,
+          `Funds ${action} for the gig - ${payment.service.description?.title}`,
+          email,
           [receiverAddress],
           true,
+          payment.service.platform.name,
           dataProtector,
           web3mail,
         );

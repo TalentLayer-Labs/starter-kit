@@ -12,11 +12,12 @@ export const sendMailToAddresses = async (
   emailContent: string,
   addresses: string[],
   throwable = false,
+  platformName: string,
   providedDataProtector?: IExecDataProtector,
   providedWeb3mail?: IExecWeb3mail,
 ): Promise<{ successCount: number; errorCount: number }> => {
   console.log('Sending email to addresses');
-  const privateKey = process.env.NEXT_PUBLIC_WEB3MAIL_PLATFORM_PRIVATE_KEY;
+  const privateKey = process.env.NEXT_WEB3MAIL_PLATFORM_PRIVATE_KEY;
   if (!privateKey) {
     throw new Error('Private key is not set');
   }
@@ -58,6 +59,8 @@ export const sendMailToAddresses = async (
           protectedData: protectedEmailAddress,
           emailSubject: emailSubject,
           emailContent: emailContent,
+          contentType: 'text/html',
+          senderName: platformName,
         });
         sentCount++;
         console.log('sent email', mailSent);
