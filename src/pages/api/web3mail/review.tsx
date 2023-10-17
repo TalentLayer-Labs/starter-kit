@@ -18,7 +18,9 @@ import {
 } from '../utils/web3mail';
 import { renderWeb3mail } from '../utils/generateWeb3Mail';
 
-export const maxDuration = 300;
+export const config = {
+  maxDuration: 300, // 5 minutes.
+};
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const chainId = process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as string;
