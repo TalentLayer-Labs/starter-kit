@@ -2,6 +2,8 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { generateWeb3mailProviders } from '../utils/web3mail';
 import { Contact } from '@iexec/web3mail';
 
+export const maxDuration = 60;
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const chainId = process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as string;
   const privateKey = process.env.NEXT_WEB3MAIL_PLATFORM_PRIVATE_KEY as string;
