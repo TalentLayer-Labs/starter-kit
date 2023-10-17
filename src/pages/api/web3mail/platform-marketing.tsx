@@ -1,12 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { sendMailToAddresses } from '../../../scripts/iexec/sendMailToAddresses';
-import {
-  generateWeb3mailProviders,
-  prepareNonCronApi,
-  renderMarketingWeb3mail,
-} from '../utils/web3mail';
+import { generateWeb3mailProviders, prepareNonCronApi } from '../utils/web3mail';
 import { recoverMessageAddress } from 'viem';
 import { getPlatformId } from '../../../queries/platform';
+import { renderWeb3mail } from '../utils/generateWeb3Mail';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const chainId = process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID;
@@ -37,7 +34,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(401).json(`Unauthorized`);
     }
 
-    const email = renderMarketingWeb3mail(emailSubject, emailContent);
+    const email = renderWeb3mail(emailSubject, emailContent);
 
     const { dataProtector, web3mail } = generateWeb3mailProviders(privateKey);
 

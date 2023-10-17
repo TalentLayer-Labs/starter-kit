@@ -10,12 +10,8 @@ import {
   persistEmail,
 } from '../../../modules/Web3mail/utils/database';
 import { getNewServicesForPlatform } from '../../../queries/services';
-import {
-  EmptyError,
-  generateWeb3mailProviders,
-  prepareCronApi,
-  renderWeb3mail,
-} from '../utils/web3mail';
+import { EmptyError, generateWeb3mailProviders, prepareCronApi } from '../utils/web3mail';
+import { renderWeb3mail } from '../utils/generateWeb3Mail';
 
 export const maxDuration = 300;
 
@@ -115,7 +111,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             try {
               const email = renderWeb3mail(
                 `A new service matching your skills is available on TalentLayer !`,
-                contact.user.handle,
                 `Good news, the following service: "${
                   service.description?.title
                 }" was recently posted by ${service.buyer.handle} and you are a good match for it.
@@ -126,7 +121,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                   )}.
                   
                   Be the first one to send a proposal !`,
+                contact.user.handle,
                 `${service.platform.description?.website}/dashboard/services/${service.id}`,
+                `Go to service detail`,
               );
               // @dev: This function needs to be throwable to avoid persisting the entity in the DB if the email is not sent
               await sendMailToAddresses(

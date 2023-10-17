@@ -15,8 +15,8 @@ import {
   generateWeb3mailProviders,
   getValidUsers,
   prepareCronApi,
-  renderWeb3mail,
 } from '../utils/web3mail';
+import { renderWeb3mail } from '../utils/generateWeb3Mail';
 
 export const maxDuration = 300;
 
@@ -101,11 +101,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       try {
         const email = renderWeb3mail(
           `Your proposal got accepted !`,
-          proposal.seller.handle,
           `The proposal you made for the service ${proposal.service.id} you posted on TalentLayer got accepted by ${proposal.service.buyer} !
               The following amount was agreed: ${proposal.rateAmount} : ${proposal.rateToken.symbol}. 
               For the following work to be provided: ${proposal.description?.about}.`,
+          proposal.seller.handle,
           `${proposal.service.platform.description?.website}/dashboard/services/${proposal.service.id}`,
+          `Go to proposal detail`,
         );
         // @dev: This function needs to be throwable to avoid persisting the proposal in the DB if the email is not sent
         await sendMailToAddresses(

@@ -15,8 +15,8 @@ import {
   generateWeb3mailProviders,
   getValidUsers,
   prepareCronApi,
-  renderWeb3mail,
 } from '../utils/web3mail';
+import { renderWeb3mail } from '../utils/generateWeb3Mail';
 
 export const maxDuration = 300;
 
@@ -122,6 +122,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             The service was rated ${review.rating}/5 stars and the following comment was left: ${review.description?.content}.
             Congratulations on completing your service and improving your TalentLayer reputation !`,
           `${review.service.platform.description?.website}/dashboard/services/${review.service.id}`,
+          `Go to review detail`,
         );
         // @dev: This function needs to be throwable to avoid persisting the entity in the DB if the email is not sent
         await sendMailToAddresses(
