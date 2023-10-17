@@ -11,6 +11,7 @@ import {
 } from '../../../modules/Web3mail/utils/database';
 import { getNewReviews } from '../../../queries/reviews';
 import {
+  EmptyError,
   generateWeb3mailProviders,
   getValidUsers,
   prepareCronApi,
@@ -40,11 +41,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     NotificationApiUri.Review,
   );
 
+  let status = 200;
   try {
     const response = await getNewReviews(Number(chainId), platformId, sinceTimestamp);
 
     if (!response?.data?.data?.reviews || response.data.data.reviews.length === 0) {
-      return res.status(200).json(`No new reviews available`);
+      throw new EmptyError(`No new reviews available`);
     }
 
     // Check if a notification email has already been sent for these reviews
@@ -62,7 +64,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     // If some emails have not been sent yet, send a web3mail & persist in the DB that the email was sent
     if (nonSentReviewEmails.length == 0) {
-      return res.status(200).json(`All review notifications already sent`);
+      throw new EmptyError(`All review notifications already sent`);
     }
     // Filter out users which have not opted for the feature
     const allRevieweesAddresses = nonSentReviewEmails.map(review => review.to.address);
@@ -77,7 +79,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       !notificationResponse?.data?.data?.userDescriptions ||
       notificationResponse.data.data.userDescriptions.length === 0
     ) {
-      return res.status(200).json(`No User opted for this feature`);
+      throw new EmptyError(`No User opted for this feature`);
     }
 
     const validUserAddresses = getValidUsers(notificationResponse.data.data.userDescriptions);
@@ -87,11 +89,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     );
 
     if (reviewEmailsToBeSent.length === 0) {
-      return res
-        .status(200)
-        .json(
-          `New reviews detected, but no concerned users opted for the ${EmailType.Review} feature`,
-        );
+      throw new EmptyError(
+        `New reviews detected, but no concerned users opted for the ${EmailType.Review} feature`,
+      );
     }
 
     const { dataProtector, web3mail } = generateWeb3mailProviders(privateKey);
@@ -140,8 +140,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
     }
   } catch (e: any) {
-    console.error(e.message);
-    return res.status(500).json(`Error while sending email - ${e.message}`);
+    if (e instanceof EmptyError) {
+      console.warn(e.message);
+    } else {
+      console.error(e.message);
+      status = 500;
+    }
   } finally {
     if (!req.query.sinceTimestamp) {
       // Update cron probe in db
@@ -153,7 +157,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     );
   }
   return res
-    .status(200)
+    .status(status)
     .json(
       `Web3 Emails sent - ${sentEmails} email successfully sent | ${nonSentEmails} non sent emails`,
     );
