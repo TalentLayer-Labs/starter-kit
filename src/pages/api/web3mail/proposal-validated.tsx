@@ -10,7 +10,12 @@ import {
   persistCronProbe,
   persistEmail,
 } from '../../../modules/Web3mail/utils/database';
-import { generateWeb3mailProviders, getValidUsers, prepareCronApi } from '../utils/web3mail';
+import {
+  generateWeb3mailProviders,
+  getValidUsers,
+  prepareCronApi,
+  renderWeb3mail,
+} from '../utils/web3mail';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const chainId = process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as string;
@@ -92,40 +97,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     for (const proposal of proposalEmailsToBeSent) {
       try {
+        const email = renderWeb3mail(
+          `Your proposal got accepted !`,
+          proposal.seller.handle,
+          `The proposal you made for the service ${proposal.service.id} you posted on TalentLayer got accepted by ${proposal.service.buyer} !
+              The following amount was agreed: ${proposal.rateAmount} : ${proposal.rateToken.symbol}. 
+              For the following work to be provided: ${proposal.description?.about}.`,
+          `${proposal.service.platform.description?.website}/dashboard/services/${proposal.service.id}/proposal?id=${proposal.id}`,
+        );
         // @dev: This function needs to be throwable to avoid persisting the proposal in the DB if the email is not sent
         await sendMailToAddresses(
-          `
-          Hi ${proposal.seller.handle} !
-          
-          Your proposal got accepted ! - ${proposal.description?.title}`,
-          `<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proposal Accepted Notification</title>
-</head>
-<body>
-    <table cellpadding="0" cellspacing="0" width="100%" bgcolor="#f0f0f0">
-        <tr>
-            <td align="center" style="padding: 40px 0;">
-                <table cellpadding="0" cellspacing="0" width="600" style="background-color: #ffffff; border-radius: 5px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
-                    <tr>
-                        <td style="padding: 40px; text-align: center;">
-                            <h1 style="font-size: 24px; margin: 0;">Proposal Accepted Notification</h1>
-                            <p style="font-size: 16px; margin: 20px 0;">The proposal you made for the service ${proposal.service.id} you posted on TalentLayer got accepted by ${proposal.service.buyer}!</p>
-                            <p style="font-size: 16px; margin: 20px 0;">The following amount was agreed: ${proposal.rateAmount} : ${proposal.rateToken.symbol}.</p>
-                            <p style="font-size: 16px; margin: 20px 0;">For the following work to be provided: ${proposal.description?.about}.</p>
-                            <p style="font-size: 16px; margin: 20px 0;">This Proposal can be viewed <a href="${proposal.service.platform.description?.website}${proposal.id}" style="text-decoration: none; color: #007bff;">here</a>.</p>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
-</body>
-</html>
-`,
+          `Your proposal got accepted !`,
+          email,
           [proposal.seller.address],
           true,
           proposal.service.platform.name,
