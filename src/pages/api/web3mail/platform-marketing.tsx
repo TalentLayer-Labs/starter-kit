@@ -5,6 +5,10 @@ import { recoverMessageAddress } from 'viem';
 import { getPlatformId } from '../../../queries/platform';
 import { renderWeb3mail } from '../utils/generateWeb3Mail';
 
+export const config = {
+  maxDuration: 300, // 5 minutes.
+};
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const chainId = process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID;
   const platformId = process.env.NEXT_PUBLIC_PLATFORM_ID;
