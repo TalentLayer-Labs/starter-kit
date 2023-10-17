@@ -10,7 +10,12 @@ import {
   persistEmail,
 } from '../../../modules/Web3mail/utils/database';
 import { getNewServicesForPlatform } from '../../../queries/services';
-import { generateWeb3mailProviders, prepareCronApi, renderWeb3mail } from '../utils/web3mail';
+import {
+  EmptyError,
+  generateWeb3mailProviders,
+  prepareCronApi,
+  renderWeb3mail,
+} from '../utils/web3mail';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const chainId = process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as string;
@@ -38,12 +43,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     NotificationApiUri.NewService,
   );
 
+  let status = 200;
   try {
     // Fetch all contacts who protected their email and granted access to the platform
     const allContacts = await web3mail.fetchMyContacts();
 
     if (!allContacts || allContacts.length === 0) {
-      return res.status(200).json(`No contacts granted access to their email`);
+      throw new EmptyError(`No contacts granted access to their email`);
     }
 
     const allContactsAddresses = allContacts.map(contact => contact.owner);
@@ -62,7 +68,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       // Only select the latest version of each user metaData
       validUsers = validUsers.filter(contact => contact.user?.description?.id === contact.id);
     } else {
-      return res.status(200).json(`No User opted for this feature`);
+      throw new EmptyError(`No User opted for this feature`);
     }
 
     // Check if new services are available & get their keywords
@@ -73,7 +79,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     );
 
     if (!serviceResponse?.data?.data?.services) {
-      return res.status(200).json(`No new services available`);
+      throw new EmptyError(`No new services available`);
     }
 
     const services: IService[] = serviceResponse.data.data.services;
@@ -158,8 +164,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
     }
   } catch (e: any) {
-    console.error(e);
-    return res.status(500).json(`Error while sending email - ${e.message}`);
+    if (e instanceof EmptyError) {
+      console.warn(e.message);
+    } else {
+      console.error(e.message);
+      status = 500;
+    }
   } finally {
     if (!req.query.sinceTimestamp) {
       // Update cron probe in db
@@ -171,7 +181,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     );
   }
   return res
-    .status(200)
+    .status(status)
     .json(
       `Web3 Emails sent - ${sentEmails} email successfully sent | ${nonSentEmails} non sent emails`,
     );
