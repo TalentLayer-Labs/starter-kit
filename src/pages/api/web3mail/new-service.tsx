@@ -12,6 +12,8 @@ import {
 import { getNewServicesForPlatform } from '../../../queries/services';
 import { generateWeb3mailProviders, prepareCronApi } from '../utils/web3mail';
 
+export const maxDuration = 300;
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const chainId = process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as string;
   const platformId = process.env.NEXT_PUBLIC_PLATFORM_ID as string;

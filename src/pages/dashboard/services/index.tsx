@@ -2,17 +2,17 @@ import { useRouter } from 'next/router';
 import SearchServiceButton from '../../../components/Form/SearchServiceButton';
 import Loading from '../../../components/Loading';
 import ServiceItem from '../../../components/ServiceItem';
-import useServices from '../../../hooks/useServices';
 import { IService, ServiceStatusEnum } from '../../../types';
 import Link from 'next/link';
 import { PlusCircleIcon } from '@heroicons/react/24/outline';
+import useFilteredServices from '../../../hooks/useFilteredServices';
 
 function Services() {
   const PAGE_SIZE = 30;
   const router = useRouter();
   const query = router.query;
   const searchQuery = query.search as string;
-  const { hasMoreData, services, loading, loadMore } = useServices(
+  const { hasMoreData, services, loading, loadMore } = useFilteredServices(
     ServiceStatusEnum.Opened,
     undefined,
     undefined,
