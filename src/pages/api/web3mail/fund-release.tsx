@@ -15,6 +15,7 @@ import {
   generateWeb3mailProviders,
   getValidUsers,
   prepareCronApi,
+  renderWeb3mail,
 } from '../utils/web3mail';
 import { renderTokenAmount } from '../../../utils/conversion';
 
@@ -129,20 +130,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       );
 
       try {
+        const email = renderWeb3mail(
+          `Funds ${action} for the service - ${payment.service.description?.title}`,
+          receiverHandle,
+          `${senderHandle} has ${action} ${renderTokenAmount(payment.rateToken, payment.amount)} ${
+            payment.amount
+          } ${payment.rateToken.symbol} for the service ${
+            payment.service.description?.title
+          } on TalentLayer !`,
+          `${payment.service.platform.description?.website}/dashboard/services/${payment.service.id}`,
+        );
         // @dev: This function needs to be throwable to avoid persisting the entity in the DB if the email is not sent
         await sendMailToAddresses(
           `
-          Hi ${receiverHandle} !
-          
           Funds ${action} for the service - ${payment.service.description?.title}`,
-          `${senderHandle} has ${action} ${renderTokenAmount(payment.rateToken, payment.amount)} ${
-            payment.amount
-          } ${payment.rateToken.symbol} for the 
-            service ${payment.service.description?.title} on TalentLayer !
-            
-            You can find details on this payment here: ${
-              payment.service.platform.description?.website
-            }/dashboard/services/${payment.service.id}`,
+          email,
           [receiverAddress],
           true,
           payment.service.platform.name,
