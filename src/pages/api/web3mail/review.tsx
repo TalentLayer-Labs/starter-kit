@@ -10,7 +10,12 @@ import {
   persistEmail,
 } from '../../../modules/Web3mail/utils/database';
 import { getNewReviews } from '../../../queries/reviews';
-import { generateWeb3mailProviders, getValidUsers, prepareCronApi } from '../utils/web3mail';
+import {
+  generateWeb3mailProviders,
+  getValidUsers,
+  prepareCronApi,
+  renderWeb3mail,
+} from '../utils/web3mail';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const chainId = process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as string;
@@ -108,17 +113,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         ? console.log('Reviewer is the seller')
         : console.log('Reviewer is the buyer');
       try {
-        // @dev: This function needs to be throwable to avoid persisting the entity in the DB if the email is not sent
-        await sendMailToAddresses(
-          `
-          Hi ${review.to.handle} !
-          
-          A review was created for the service - ${review.service.description?.title}`,
+        const email = renderWeb3mail(
+          ` A review was created for the service - ${review.service.description?.title}`,
+          review.to.handle,
           `${fromHandle} has left a review for the TalentLayer service ${review.service.description?.title}.
             The service was rated ${review.rating}/5 stars and the following comment was left: ${review.description?.content}.
-            Congratulations on completing your service and improving your TalentLayer reputation !
-            
-            You can find details on this review here: ${review.service.platform.description?.website}/dashboard/services/${review.service.id}`,
+            Congratulations on completing your service and improving your TalentLayer reputation !`,
+          `${review.service.platform.description?.website}/dashboard/services/${review.service.id}`,
+        );
+        // @dev: This function needs to be throwable to avoid persisting the entity in the DB if the email is not sent
+        await sendMailToAddresses(
+          `A review was created for the service - ${review.service.description?.title}`,
+          email,
           [review.to.address],
           true,
           review.service.platform.name,
