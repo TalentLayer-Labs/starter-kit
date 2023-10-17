@@ -10,7 +10,12 @@ import {
   persistCronProbe,
   persistEmail,
 } from '../../../modules/Web3mail/utils/database';
-import { generateWeb3mailProviders, getValidUsers, prepareCronApi } from '../utils/web3mail';
+import {
+  EmptyError,
+  generateWeb3mailProviders,
+  getValidUsers,
+  prepareCronApi,
+} from '../utils/web3mail';
 import { renderTokenAmount } from '../../../utils/conversion';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -35,11 +40,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     RETRY_FACTOR,
     NotificationApiUri.FundRelease,
   );
+
+  let status = 200;
   try {
     const response = await getNewPayments(Number(chainId), platformId, sinceTimestamp);
 
     if (!response?.data?.data?.payments || response.data.data.payments.length === 0) {
-      return res.status(200).json(`No new payments available`);
+      throw new EmptyError('No new payments available');
     }
 
     const payments: IPayment[] = response.data.data.payments;
@@ -57,7 +64,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     // If some emails have not been sent yet, send a web3mail & persist in the DB that the email was sent
     if (nonSentPaymentEmails.length == 0) {
-      return res.status(200).json(`All new fund release notifications already sent`);
+      throw new EmptyError('All new fund release notifications already sent');
     }
 
     // Check whether the users opted for the called feature | Seller if fund release, Buyer if fund reimbursement
@@ -79,7 +86,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       !notificationResponse?.data?.data?.userDescriptions ||
       notificationResponse.data.data.userDescriptions.length === 0
     ) {
-      return res.status(200).json(`No User opted for this feature`);
+      throw new EmptyError('No User opted for this feature');
     }
 
     const validUserAddresses = getValidUsers(notificationResponse.data.data.userDescriptions);
@@ -93,11 +100,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     );
 
     if (paymentEmailsToBeSent.length === 0) {
-      return res
-        .status(200)
-        .json(
-          `New fund release detected, but no  concerned users opted for the ${EmailType.FundRelease} feature`,
-        );
+      throw new EmptyError(
+        `New fund release detected, but no  concerned users opted for the ${EmailType.FundRelease} feature`,
+      );
     }
 
     const { dataProtector, web3mail } = generateWeb3mailProviders(privateKey);
@@ -152,8 +157,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
     }
   } catch (e: any) {
-    console.error(e.message);
-    return res.status(500).json(`Error while sending email - ${e.message}`);
+    if (e instanceof EmptyError) {
+      console.warn(e.message);
+    } else {
+      console.error(e.message);
+      status = 500;
+    }
   } finally {
     if (!req.query.sinceTimestamp) {
       // Update cron probe in db
@@ -165,7 +174,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     );
   }
   return res
-    .status(200)
+    .status(status)
     .json(
       `Web3 Emails sent - ${sentEmails} email successfully sent | ${nonSentEmails} non sent emails`,
     );
