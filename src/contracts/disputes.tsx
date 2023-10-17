@@ -6,17 +6,15 @@ import { createMultiStepsTransactionToast } from '../utils/toast';
 import { getContract } from 'viem';
 import { PublicClient, WalletClient } from 'wagmi';
 import { useConfig } from '../hooks/useConfig';
-import { useChainId } from '../hooks/useChainId';
+import { Config } from '../config';
 
-export const getEscrowContract = (walletClient: WalletClient) => {
-  const config = useConfig();
+export const getEscrowContract = (walletClient: WalletClient,config: Config) => {
   return getContract({
     address: config.contracts.talentLayerEscrow,
     abi: TalentLayerEscrow.abi,
     walletClient
   });
 };
-
 export const payArbitrationFee = async (
   walletClient: WalletClient,
   publicClient: PublicClient,
@@ -24,9 +22,10 @@ export const payArbitrationFee = async (
   isSender: boolean,
   transactionId: string,
   router: NextRouter,
+  config: Config
 ) => {
   if (walletClient) {
-    const contract = getEscrowContract(walletClient);
+    const contract = getEscrowContract(walletClient,config);
     try {
       const tx = isSender
         ? await contract.write.payArbitrationFeeBySender([transactionId], { value: arbitrationFee })
@@ -56,9 +55,10 @@ export const arbitrationFeeTimeout = async (
   publicClient: PublicClient,
   transactionId: string,
   router: NextRouter,
+  config: Config
 ) => {
   if (walletClient) {
-    const contract = getEscrowContract(walletClient);
+    const contract = getEscrowContract(walletClient,config);
     try {
       const tx = await contract.write.arbitrationFeeTimeout([transactionId]);
       const receipt = await toast.promise(publicClient.waitForTransactionReceipt({ hash: tx }), {
@@ -86,9 +86,10 @@ export const submitEvidence = async (
   userId: string,
   transactionId: string,
   evidenceCid: string,
+  chainId: number,
+  config: Config
 ) => {
-  const chainId = useChainId();
-  const contract = getEscrowContract(walletClient);
+  const contract = getEscrowContract(walletClient,config);
   const tx = await contract.write.submitEvidence([userId, transactionId, evidenceCid]);
   await createMultiStepsTransactionToast(
     chainId,

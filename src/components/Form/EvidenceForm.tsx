@@ -11,6 +11,7 @@ import { useWeb3Modal } from '@web3modal/react';
 import { submitEvidence } from '../../contracts/disputes';
 import { usePublicClient, useWalletClient } from 'wagmi';
 import { useChainId } from '../../hooks/useChainId';
+import { useConfig } from '../../hooks/useConfig';
 
 interface IFormValues {
   title: string;
@@ -37,6 +38,7 @@ function EvidenceForm({ transactionId }: { transactionId: string }) {
   const publicClient = usePublicClient({ chainId });
   const { open: openConnectModal } = useWeb3Modal();
   const [fileSelected, setFileSelected] = useState<File>();
+  const config = useConfig();
 
   const onSubmit = async (
     values: IFormValues,
@@ -60,7 +62,7 @@ function EvidenceForm({ transactionId }: { transactionId: string }) {
         );
         const evidenceCid = await postToIPFS(JSON.stringify(evidence));
 
-        await submitEvidence(walletClient, publicClient, user?.id, transactionId, evidenceCid);
+        await submitEvidence(walletClient, publicClient, user?.id, transactionId, evidenceCid, chainId,config);
         setSubmitting(false);
         resetForm();
         setFileSelected(undefined);

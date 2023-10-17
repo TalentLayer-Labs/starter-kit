@@ -3,6 +3,7 @@ import { arbitrationFeeTimeout, payArbitrationFee } from '../contracts/disputes'
 import { usePublicClient, useWalletClient } from 'wagmi';
 import { useRouter } from 'next/router';
 import { useChainId } from '../hooks/useChainId';
+import { useConfig } from '../hooks/useConfig';
 
 function DisputeButton({
   user,
@@ -22,6 +23,7 @@ function DisputeButton({
   const publicClient = usePublicClient({ chainId });
   const router = useRouter();
   const transactionId = transaction?.id;
+  const config = useConfig();
 
   const isSender = !!user && !!transaction && user.id === transaction.sender.id;
 
@@ -47,12 +49,12 @@ function DisputeButton({
 
   const payFee = () => {
     if (walletClient && arbitrationFee) {
-      return payArbitrationFee(walletClient, publicClient, arbitrationFee, isSender, transactionId, router);
+      return payArbitrationFee(walletClient, publicClient, arbitrationFee, isSender, transactionId, router,config);
     }
   };
   const timeout = () => {
     if (walletClient) {
-      return arbitrationFeeTimeout(walletClient, publicClient, transactionId, router);
+      return arbitrationFeeTimeout(walletClient, publicClient, transactionId, router,config);
     }
   };
 
