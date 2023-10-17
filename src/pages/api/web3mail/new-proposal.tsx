@@ -106,7 +106,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     for (const proposal of proposalEmailsToBeSent) {
       try {
         const email = renderWeb3mail(
-          `You got a new proposal !`,
+          `You got a new proposal!`,
           `You just received a new proposal for the service ${
             proposal.service.id
           } you posted on TalentLayer !

@@ -131,18 +131,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         `New fund ${action} email to send to ${senderHandle} at address ${receiverAddress}`,
       );
 
+      const email = renderWeb3mail(
+        `Funds released!`,
+        `Funds ${action} for the service - ${
+          payment.service.description?.title
+        }. ${senderHandle} has ${action} ${renderTokenAmount(payment.rateToken, payment.amount)} ${
+          payment.amount
+        } ${payment.rateToken.symbol} for the service ${
+          payment.service.description?.title
+        } on StarterKit !`,
+        receiverHandle,
+        `${payment.service.platform.description?.website}/dashboard/services/${payment.service.id}`,
+        `Go to payment detail`,
+      );
       try {
-        const email = renderWeb3mail(
-          `Funds ${action} for the service - ${payment.service.description?.title}`,
-          `${senderHandle} has ${action} ${renderTokenAmount(payment.rateToken, payment.amount)} ${
-            payment.amount
-          } ${payment.rateToken.symbol} for the service ${
-            payment.service.description?.title
-          } on TalentLayer !`,
-          receiverHandle,
-          `${payment.service.platform.description?.website}/dashboard/services/${payment.service.id}`,
-          `Go to payment detail`,
-        );
         // @dev: This function needs to be throwable to avoid persisting the entity in the DB if the email is not sent
         await sendMailToAddresses(
           `Funds ${action} for the service - ${payment.service.description?.title}`,

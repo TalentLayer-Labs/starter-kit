@@ -100,7 +100,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     for (const proposal of proposalEmailsToBeSent) {
       try {
         const email = renderWeb3mail(
-          `Your proposal got accepted !`,
+          `Your proposal got accepted!`,
           `The proposal you made for the service ${proposal.service.id} you posted on TalentLayer got accepted by ${proposal.service.buyer} !
               The following amount was agreed: ${proposal.rateAmount} : ${proposal.rateToken.symbol}. 
               For the following work to be provided: ${proposal.description?.about}.`,

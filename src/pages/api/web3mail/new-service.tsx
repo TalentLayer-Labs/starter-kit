@@ -110,7 +110,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             );
             try {
               const email = renderWeb3mail(
-                `A new service matching your skills is available on TalentLayer !`,
+                `A new service matching your skills is available on TalentLayer!`,
                 `Good news, the following service: "${
                   service.description?.title
                 }" was recently posted by ${service.buyer.handle} and you are a good match for it.
