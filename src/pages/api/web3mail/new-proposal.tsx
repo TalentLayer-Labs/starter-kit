@@ -10,7 +10,12 @@ import {
   persistCronProbe,
   persistEmail,
 } from '../../../modules/Web3mail/utils/database';
-import { generateWeb3mailProviders, getValidUsers, prepareCronApi } from '../utils/web3mail';
+import {
+  generateWeb3mailProviders,
+  getValidUsers,
+  prepareCronApi,
+  renderWeb3mail,
+} from '../utils/web3mail';
 import { renderTokenAmount } from '../../../utils/conversion';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -98,12 +103,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     for (const proposal of proposalEmailsToBeSent) {
       try {
-        // @dev: This function needs to be throwable to avoid persisting the entity in the DB if the email is not sent
-        await sendMailToAddresses(
-          `
-          Hi ${proposal.service.buyer.handle} !
-          
-          You got a new proposal !`,
+        const email = renderWeb3mail(
+          `You got a new proposal !`,
+          proposal.service.buyer.handle,
           `You just received a new proposal for the service ${
             proposal.service.id
           } you posted on TalentLayer !
@@ -112,13 +114,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           } can complete your service for the following amount: ${renderTokenAmount(
             proposal.rateToken,
             proposal.rateAmount,
-          )}.
-          
-          Here is what is proposed: ${proposal.description?.about}.
-          
-          This Proposal can be viewed at: ${
-            proposal.service.platform.description?.website
-          }/dashboard/services/${proposal.service.id}`,
+          )}.`,
+          `${proposal.service.platform.description?.website}/dashboard/services/${proposal.service.id}`,
+        );
+        // @dev: This function needs to be throwable to avoid persisting the entity in the DB if the email is not sent
+        await sendMailToAddresses(
+          `You got a new proposal !`,
+          email,
           [proposal.service.buyer.address],
           true,
           proposal.service.platform.name,
