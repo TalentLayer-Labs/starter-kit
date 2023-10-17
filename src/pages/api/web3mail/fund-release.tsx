@@ -133,11 +133,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       const email = renderWeb3mail(
         `Funds released!`,
-        `Funds ${action} for the service - ${
+        `Funds ${action} for the gig - ${
           payment.service.description?.title
         }. ${senderHandle} has ${action} ${renderTokenAmount(payment.rateToken, payment.amount)} ${
           payment.amount
-        } ${payment.rateToken.symbol} for the service ${
+        } ${payment.rateToken.symbol} for the gig ${
           payment.service.description?.title
         } on StarterKit !`,
         receiverHandle,
@@ -147,7 +147,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       try {
         // @dev: This function needs to be throwable to avoid persisting the entity in the DB if the email is not sent
         await sendMailToAddresses(
-          `Funds ${action} for the service - ${payment.service.description?.title}`,
+          `Funds ${action} for the gig - ${payment.service.description?.title}`,
           email,
           [receiverAddress],
           true,

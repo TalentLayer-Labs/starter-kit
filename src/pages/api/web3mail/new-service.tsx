@@ -106,28 +106,28 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             console.log(
               `The skills ${
                 contact.user.handle
-              } has which are required by this service are: ${matchingSkills.join(', ')}`,
+              } has which are required by this gig are: ${matchingSkills.join(', ')}`,
             );
             try {
               const email = renderWeb3mail(
-                `A new service matching your skills is available on TalentLayer!`,
-                `Good news, the following service: "${
+                `A new gig matching your skills is available on StarterKit!`,
+                `Good news, the following gig: "${
                   service.description?.title
                 }" was recently posted by ${service.buyer.handle} and you are a good match for it.
                   Here is what is proposed: ${service.description?.about}.
                   
-                  The skills you have which are required by this service are: ${matchingSkills.join(
+                  The skills you have which are required by this gig are: ${matchingSkills.join(
                     ', ',
                   )}.
                   
                   Be the first one to send a proposal !`,
                 contact.user.handle,
                 `${service.platform.description?.website}/dashboard/services/${service.id}`,
-                `Go to service detail`,
+                `Go to gig detail`,
               );
               // @dev: This function needs to be throwable to avoid persisting the entity in the DB if the email is not sent
               await sendMailToAddresses(
-                `A new service matching your skills is available on TalentLayer !`,
+                `A new gig matching your skills is available on StarterKit !`,
                 email,
                 [contact.user.address],
                 true,
