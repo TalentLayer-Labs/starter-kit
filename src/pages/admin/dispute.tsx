@@ -57,6 +57,7 @@ function AdminDispute() {
         label: 'TalentLayer Arbitrator',
       },
       { value: ZERO_ADDRESS, label: 'None' },
+      { value: '0x05a782977eD60B53148bf6cCCC435812073909Bb', label: 'Testing Arbitrator'}
     ];
   }
 
