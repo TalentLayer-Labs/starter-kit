@@ -18,7 +18,7 @@ const emailCounter = () => {
       <p>
         <span className='text-s text-gray-200'>Sent Emails : </span>
         {renderEmailNumber(sentEmailsNumber)}
-        <span className='text-s text-gray-200'>/500 {sentEmailsNumber >= 500 ? '🥳' : ''}</span>
+        <span className='text-s text-gray-200'>/500 {sentEmailsNumber >= 500 ? '🥳 🦝' : ''}</span>
       </p>
     </>
   );
