@@ -41,3 +41,8 @@ export const persistCronProbe = async (
   });
   cronProbe.save();
 };
+
+export const fetchSentEmailAMount = async (): Promise<number> => {
+  const emails = await Web3Mail.find({});
+  return emails.length;
+};

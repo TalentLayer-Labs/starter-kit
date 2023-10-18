@@ -160,3 +160,12 @@ export const fetchMyContacts = async (): Promise<any> => {
     throw err;
   }
 };
+
+export const fetchEmailAmount = async (): Promise<any> => {
+  try {
+    return await axios.post('/api/web3mail/fetch-email-amount');
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
