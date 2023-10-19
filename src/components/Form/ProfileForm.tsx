@@ -146,7 +146,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
                 placeholder=''
               />
             </label>
-            <label className='block hidden'>
+            <label className='block'>
               <span className='text-gray-100'>Name</span>
               <Field
                 type='text'
