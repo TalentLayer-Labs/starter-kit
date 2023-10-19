@@ -73,7 +73,7 @@ function AdminDispute() {
         <SingleValueForm
           validationData={{
             valueType: 'select',
-            initialValue: platform?.arbitrator || ZERO_ADDRESS,
+            initialValue: platform?.arbitrator || ZERO_ADDRESS || '0x05a782977eD60B53148bf6cCCC435812073909Bb',
             selectOptions: availableArbitrators,
           }}
           contractParams={{
