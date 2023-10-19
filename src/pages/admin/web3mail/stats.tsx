@@ -1,4 +1,4 @@
-import { UserGroupIcon } from '@heroicons/react/24/outline';
+import { CogIcon, UserGroupIcon } from '@heroicons/react/24/outline';
 import { PaperAirplane } from 'heroicons-react';
 import { useContext } from 'react';
 import Loading from '../../../components/Loading';
@@ -110,7 +110,7 @@ function Web3mailStats() {
                 </div>
                 <div className='bg-midnight flex items-center gap-2 rounded-xl px-5 py-10'>
                   <div className='p-4 rounded-full border-2 border-redpraha/80 bg-redpraha/20 text-redpraha'>
-                    <PaperAirplane width={20} height={20} />
+                    <CogIcon width={20} height={20} />
                   </div>
                   <div>
                     <h2 className='text-white'>
