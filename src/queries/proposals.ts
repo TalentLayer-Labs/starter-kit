@@ -145,6 +145,7 @@ export const getProposalsFromPlatformServices = (
               id
               name
               description {
+                title
                 website
               }
             }
@@ -172,6 +173,9 @@ export const getAcceptedProposals = (
           where: {status: Validated, platform: "${id}" ${timestampCondition}}
         ) {
           id
+          description {
+            about
+          }
           rateAmount
           rateToken {
             symbol
@@ -180,6 +184,9 @@ export const getAcceptedProposals = (
             id
             buyer {
               address
+            }
+            description {
+              title
             }
             platform {
               id

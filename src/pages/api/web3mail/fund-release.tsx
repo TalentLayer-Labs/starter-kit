@@ -135,13 +135,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       const email = renderWeb3mail(
         `Funds released!`,
-        `Funds ${action} for the gig - ${
-          payment.service.description?.title
-        }. ${senderHandle} has ${action} ${renderTokenAmount(payment.rateToken, payment.amount)} ${
-          payment.amount
-        } ${payment.rateToken.symbol} for the gig ${
-          payment.service.description?.title
-        } on StarterKit !`,
+        `${senderHandle} has ${action} ${renderTokenAmount(
+          payment.rateToken,
+          payment.amount,
+        )} for the gig ${payment.service.description?.title} on StarterKit !`,
         receiverHandle,
         `${payment.service.platform.description?.website}/dashboard/services/${payment.service.id}`,
         `Go to payment detail`,
