@@ -11,14 +11,14 @@ const renderEmailNumber = (sentEmailsNumber: number) => {
     return <span className='text-xl font-bold text-green-500'>{sentEmailsNumber}</span>;
 };
 
-const emailCounter = () => {
+const EmailCounter = () => {
   const { web3MailStats } = useWeb3MailStats();
   return (
     <>
       <p>
-        <span className='text-s text-gray-200'>Sent Emails : </span>
+        <span className='text-sm text-gray-200'>Sent web3mails : </span>
         {renderEmailNumber(web3MailStats.emailAmount)}
-        <span className='text-s text-gray-200'>
+        <span className='text-sm text-gray-200'>
           /500 {web3MailStats.emailAmount >= 500 ? '🥳 🦝' : ''}
         </span>
       </p>
@@ -26,4 +26,4 @@ const emailCounter = () => {
   );
 };
 
-export default emailCounter;
+export default EmailCounter;
