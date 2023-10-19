@@ -16,6 +16,10 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
+export const config = {
+  maxDuration: 300, // 5 minutes.
+};
+
 export default async function handler(
   req: GenerateNextApiRequest,
   res: NextApiResponse<ResponceData>,
