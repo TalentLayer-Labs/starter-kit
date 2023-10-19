@@ -118,7 +118,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         : console.log('Reviewer is the buyer');
       try {
         const email = renderWeb3mail(
-          ` A review was created for the gig - ${review.service.description?.title}!`,
+          `You received a new review!`,
           review.to.handle,
           `${fromHandle} has left a review for the gig ${review.service.description?.title}.
             The gig was rated ${review.rating}/5 stars and the following comment was left: ${review.description?.content}.
