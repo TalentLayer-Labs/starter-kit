@@ -1,4 +1,4 @@
-import useSentEmailAmount from '../../hooks/useSentEmailAmount';
+import useWeb3MailStats from '../hooks/useWeb3MailStats';
 
 const renderEmailNumber = (sentEmailsNumber: number) => {
   if (sentEmailsNumber < 150)
@@ -12,13 +12,15 @@ const renderEmailNumber = (sentEmailsNumber: number) => {
 };
 
 const emailCounter = () => {
-  const { sentEmailsNumber } = useSentEmailAmount();
+  const { web3MailStats } = useWeb3MailStats();
   return (
     <>
       <p>
         <span className='text-s text-gray-200'>Sent Emails : </span>
-        {renderEmailNumber(sentEmailsNumber)}
-        <span className='text-s text-gray-200'>/500 {sentEmailsNumber >= 500 ? '🥳 🦝' : ''}</span>
+        {renderEmailNumber(web3MailStats.emailAmount)}
+        <span className='text-s text-gray-200'>
+          /500 {web3MailStats.emailAmount >= 500 ? '🥳 🦝' : ''}
+        </span>
       </p>
     </>
   );

@@ -324,3 +324,7 @@ export enum NotificationApiUri {
   Review = 'review',
   NewService = 'new-service',
 }
+
+export type Web3MailStats = {
+  emailAmount: number;
+};
