@@ -6,6 +6,7 @@ import Steps from '../../../components/Steps';
 import UserNeedsMoreRights from '../../../components/UserNeedsMoreRights';
 import TalentLayerContext from '../../../context/talentLayer';
 import dynamic from 'next/dynamic';
+import useWeb3MailStats from '../../../modules/Web3mail/hooks/useWeb3MailStats';
 
 const Web3mailChart = dynamic(() => import('../../../modules/Web3mail/components/Web3mailChart'), {
   ssr: false,
@@ -13,9 +14,10 @@ const Web3mailChart = dynamic(() => import('../../../modules/Web3mail/components
 
 function Web3mailStats() {
   const { user, loading } = useContext(TalentLayerContext);
+  const { web3MailStats } = useWeb3MailStats();
   const isWeb3mailActive = process.env.NEXT_PUBLIC_ACTIVE_WEB3MAIL as string;
 
-  if (loading) {
+  if (loading || !web3MailStats) {
     return <Loading />;
   }
   if (!user) {
@@ -73,10 +75,23 @@ function Web3mailStats() {
                   </div>
                   <div>
                     <h2 className='text-white'>
-                      <span>2,870</span>
+                      <span>{web3MailStats.totalSent}</span>
                     </h2>
                     <p className=''>
                       <span className='text-gray-400'> Total sent </span>
+                    </p>
+                  </div>
+                </div>
+                <div className='bg-midnight flex items-center gap-2 rounded-xl px-5 py-10'>
+                  <div className='p-4 rounded-full border-2 border-redpraha/80 bg-redpraha/20 text-redpraha'>
+                    <PaperAirplane width={20} height={20} />
+                  </div>
+                  <div>
+                    <h2 className='text-white'>
+                      <span>{web3MailStats.totalSentThisMonth}</span>
+                    </h2>
+                    <p className=''>
+                      <span className='text-gray-400'> sent this month </span>
                     </p>
                   </div>
                 </div>
@@ -86,7 +101,7 @@ function Web3mailStats() {
                   </div>
                   <div>
                     <h2 className='text-white'>
-                      <span>159</span>
+                      <span>{web3MailStats.totalContact}</span>
                     </h2>
                     <p className=''>
                       <span className='text-gray-400'> contacts </span>
@@ -99,23 +114,10 @@ function Web3mailStats() {
                   </div>
                   <div>
                     <h2 className='text-white'>
-                      <span>429</span>
+                      <span>{web3MailStats.totalCronRunning}</span>
                     </h2>
                     <p className=''>
-                      <span className='text-gray-400'> Utils sent </span>
-                    </p>
-                  </div>
-                </div>
-                <div className='bg-midnight flex items-center gap-2 rounded-xl px-5 py-10'>
-                  <div className='p-4 rounded-full border-2 border-redpraha/80 bg-redpraha/20 text-redpraha'>
-                    <PaperAirplane width={20} height={20} />
-                  </div>
-                  <div>
-                    <h2 className='text-white'>
-                      <span>6816</span>
-                    </h2>
-                    <p className=''>
-                      <span className='text-gray-400'> Markeintg sent </span>
+                      <span className='text-gray-400'> cron running </span>
                     </p>
                   </div>
                 </div>
@@ -132,7 +134,7 @@ function Web3mailStats() {
               <div className='-ms-4'>
                 {/**/}
                 <div className='vue-apexcharts' style={{ minHeight: 273 }}>
-                  <Web3mailChart />
+                  <Web3mailChart totalSentByMonth={web3MailStats.totalSentByMonth} />
                 </div>
               </div>
             </div>

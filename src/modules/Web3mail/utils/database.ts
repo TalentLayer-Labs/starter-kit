@@ -42,6 +42,30 @@ export const persistCronProbe = async (
   cronProbe.save();
 };
 
-export const fetchSentEmailAmount = async (): Promise<number> => {
+export const getWeb3mailCount = async (): Promise<number> => {
   return Web3Mail.count();
+};
+
+export const getWeb3mailCountByMonth = async (): Promise<{ _id: number; count: number }[]> => {
+  return Web3Mail.aggregate([
+    {
+      $project: {
+        month: { $month: { $toDate: { $multiply: ['$sentAt', 1000] } } }, // Convert timestamp to milliseconds and to a Date object
+        // The $multiply by 1000 is because MongoDB expects time in milliseconds, but often Unix time is in seconds
+      },
+    },
+    {
+      $group: {
+        _id: '$month', // Group by months
+        count: { $sum: 1 }, // Count each group size
+      },
+    },
+    {
+      $sort: { _id: 1 }, // Optional: sort by month (1 to 12)
+    },
+  ]);
+};
+
+export const getCronProbeCount = async (): Promise<number> => {
+  return CronProbe.count();
 };

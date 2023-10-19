@@ -326,5 +326,9 @@ export enum NotificationApiUri {
 }
 
 export type Web3MailStats = {
-  emailAmount: number;
+  totalSent: number;
+  totalSentByMonth: { _id: number; count: number }[];
+  totalSentThisMonth: number;
+  totalContact: number;
+  totalCronRunning: number;
 };

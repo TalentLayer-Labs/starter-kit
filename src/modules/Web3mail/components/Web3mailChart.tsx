@@ -1,11 +1,35 @@
 import Chart from 'react-apexcharts';
 
-function Web3mailChart() {
+function generateMonthlyData(totalSentByMonth: { _id: number; count: number }[]) {
+  // Create an array with 12 slots, all initialized to 0
+  const monthlyCounts: number[] = Array(12).fill(0);
+
+  // Iterate over the response data and populate the corresponding month index
+  totalSentByMonth.forEach(data => {
+    // Subtract 1 from the month number to get the correct array index (0-11)
+    // and set the value to the count from your data
+    const monthIndex = data._id - 1; // because array indices start at 0
+
+    // Ensure the month index is within the valid range (0-11)
+    if (monthIndex >= 0 && monthIndex < 12) {
+      monthlyCounts[monthIndex] = data.count;
+    }
+  });
+
+  return monthlyCounts;
+}
+
+function Web3mailChart({
+  totalSentByMonth,
+}: {
+  totalSentByMonth: { _id: number; count: number }[];
+}) {
+  const montlyData = generateMonthlyData(totalSentByMonth);
   const chart = {
     series: [
       {
-        name: 'Inflation',
-        data: [150, 150, 150, 150, 100, 200, 250, 300, 450, 500, 600, 0],
+        name: 'sent',
+        data: montlyData,
       },
     ],
     options: {
