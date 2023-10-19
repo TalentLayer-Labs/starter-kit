@@ -7,6 +7,7 @@ import SideMenu from '../components/Layout/SideMenu';
 import NetworkSwitch from '../components/NetworkSwitch';
 import UserAccount from '../components/UserAccount';
 import { useRouter } from 'next/router';
+import EmailCounter from '../modules/Web3mail/components/EmailCounter';
 
 interface ContainerProps {
   children: ReactNode;
@@ -86,6 +87,9 @@ function Layout({ children, className }: ContainerProps) {
               </div>
               <div className='mt-8 flex flex-1 flex-col justify-between'>
                 <SideMenu />
+              </div>
+              <div className='flex flex-2 flex-col ml-5 mb-5'>
+                <EmailCounter />
               </div>
             </div>
           </div>
