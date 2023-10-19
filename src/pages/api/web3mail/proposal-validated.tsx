@@ -17,6 +17,7 @@ import {
   prepareCronApi,
 } from '../utils/web3mail';
 import { renderWeb3mail } from '../utils/generateWeb3Mail';
+import { renderTokenAmount } from '../../../utils/conversion';
 
 export const config = {
   maxDuration: 300, // 5 minutes.
@@ -103,8 +104,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       try {
         const email = renderWeb3mail(
           `Your proposal got accepted!`,
-          `The proposal you made for the gig "${proposal.service.description?.title}" you posted on StarterKit got accepted by ${proposal.service.buyer} !
-              The following amount was agreed: ${proposal.rateAmount} : ${proposal.rateToken.symbol}. 
+          `The proposal you made for the gig "${
+            proposal.service.description?.title
+          }" you posted on StarterKit got accepted by ${proposal.service.buyer.handle} !
+              The following amount was agreed: ${renderTokenAmount(
+                proposal.rateToken,
+                proposal.rateAmount,
+              )}. 
               For the following work to be provided: ${proposal.description?.about}.`,
           proposal.seller.handle,
           `${proposal.service.platform.description?.website}/dashboard/services/${proposal.service.id}`,
