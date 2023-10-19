@@ -65,7 +65,7 @@ function Web3mailStats() {
             <div className='p-6'>
               <div className='mb-6'>
                 <h3 className='text-white'>
-                  <span>Your Quick Stats</span>
+                  <span>Quick Stats</span>
                 </h3>
               </div>
               <div className='grid gap-4 md:grid-cols-2'>
