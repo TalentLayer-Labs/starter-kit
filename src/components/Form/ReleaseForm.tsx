@@ -85,7 +85,7 @@ function ReleaseForm({
     <div className='p-6 space-y-6'>
       <div className='flex flex-col px-4 py-6 md:p-6 xl:p-6 w-full bg-gray-50 space-y-6'>
         {service.status === ServiceStatusEnum.Confirmed && (
-          <h3 className='text-xl font-semibold leading-5 text-gray-800'>
+          <h3 className='text-xl font-semibold leading-5 text-gray-200'>
             Select the % amount to release
           </h3>
         )}
@@ -94,7 +94,7 @@ function ReleaseForm({
             <button
               type='button'
               onClick={releaseMin}
-              className='text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-xl border border-redpraha text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 '>
+              className='text-gray-700 bg-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-xl border text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 '>
               Min
             </button>
           </div>
@@ -102,7 +102,7 @@ function ReleaseForm({
             <button
               type='button'
               onClick={releaseMax}
-              className='text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-xl border border-redpraha text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 '>
+              className='text-gray-700 bg-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-xl border text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 '>
               Max
             </button>
           </div>
@@ -111,7 +111,7 @@ function ReleaseForm({
           <Form>
             <div className='sm:px-6 justify-between bg-white flex flex-row items-center gap-2'>
               <div>
-                <span className='text-base font-semibold leading-4 text-gray-800'>% </span>
+                <span className='text-base font-semibold leading-4 text-gray-200'>% </span>
                 <Field
                   type='number'
                   label='Pourcent'
@@ -141,7 +141,7 @@ function ReleaseForm({
               <button
                 onClick={closeModal}
                 type='button'
-                className='text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-xl border border-redpraha text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 '>
+                className='text-gray-700 bg-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-xl border text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 '>
                 Close
               </button>
             </div>

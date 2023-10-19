@@ -118,7 +118,7 @@ function TalentLayerIdForm() {
                 <div className='sm:pl-2 sm:pr-4 sm:space-x-4 relative'>
                   <SubmitButton isSubmitting={isSubmitting} />
                   <HelpPopover>
-                    <h3 className='font-semibold text-gray-900 dark:text-white'>
+                    <h3 className='font-semibold text-white dark:text-white'>
                       What is a TalentLayerID?
                     </h3>
                     <p>
@@ -127,7 +127,7 @@ function TalentLayerIdForm() {
                       crypto wallets; this means that reputation is self-custodied by the wallet
                       owner and lives separately from integrated platforms.
                     </p>
-                    <h3 className='font-semibold text-gray-900 dark:text-white'>
+                    <h3 className='font-semibold text-white dark:text-white'>
                       What is the handle?
                     </h3>
                     <p>

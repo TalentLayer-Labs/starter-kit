@@ -40,7 +40,7 @@ function UserItem({ user }: { user: IUser }) {
 
         <div className='flex flex-row gap-4 justify-end items-center'>
           <Link
-            className='text-zinc-600 bg-zinc-50 hover:bg-zinc-500 hover:text-white px-3 py-2 rounded text-sm'
+            className='text-zinc-600 bg-white hover:bg-zinc-200 hover:text-white px-5 py-2.5 rounded-xl text-sm'
             href={`/dashboard/profile/${user.id}`}>
             View profile
           </Link>
