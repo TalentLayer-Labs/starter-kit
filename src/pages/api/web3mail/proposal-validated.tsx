@@ -94,7 +94,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     if (proposalEmailsToBeSent.length === 0) {
       throw new EmptyError(
-        `New proposals validated detected, but no concerned users opted for the `,
+        `New proposals validated detected, but no concerned users opted for the ${EmailType.ProposalValidated} feature`,
       );
     }
 
