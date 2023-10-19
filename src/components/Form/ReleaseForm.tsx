@@ -83,7 +83,7 @@ function ReleaseForm({
 
   return (
     <div className='p-6 space-y-6'>
-      <div className='flex flex-col px-4 py-6 md:p-6 xl:p-6 w-full bg-gray-50 space-y-6'>
+      <div className='flex flex-col px-4 py-6 md:p-6 xl:p-6 w-full bg-midnight space-y-6'>
         {service.status === ServiceStatusEnum.Confirmed && (
           <h3 className='text-xl font-semibold leading-5 text-gray-200'>
             Select the % amount to release
