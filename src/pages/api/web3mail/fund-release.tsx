@@ -61,9 +61,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   let status = 200;
   try {
+    console.log('Before getNewPayments call with params:', {
+      chainId,
+      platformId,
+      sinceTimestamp,
+    });
     const response = await getNewPayments(Number(chainId), platformId, sinceTimestamp);
+    console.log('getNewPayments response:', response);
 
     if (!response?.data?.data?.payments || response.data.data.payments.length === 0) {
+      console.log('No new payments available');
       throw new EmptyError('No new payments available');
     }
 
@@ -97,6 +104,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       allAddresses,
       'activeOnFundRelease',
     );
+    console.log('getUsersWeb3MailPreference response:', notificationResponse);
 
     if (
       !notificationResponse?.data?.data?.userDescriptions ||
