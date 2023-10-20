@@ -111,5 +111,6 @@ export const getNewPayments = (chainId: number, id: string, timestamp?: string):
         }
       }
     `;
+  console.log(query);
   return processRequest(chainId, query);
 };
