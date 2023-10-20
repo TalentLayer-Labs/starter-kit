@@ -72,10 +72,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       sinceTimestamp,
     });
     const response = await getNewPayments(Number(chainId), platformId, sinceTimestamp);
-    console.log('getNewPayments response:', response);
 
     if (!response?.data?.data?.payments || response.data.data.payments.length === 0) {
-      console.log('No new payments available');
       throw new EmptyError('No new payments available');
     }
 
