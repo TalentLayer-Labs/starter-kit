@@ -37,6 +37,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   let sentEmails = 0,
     nonSentEmails = 0;
 
+  console.log('Preapre cron API with params:', {
+    isWeb3mailActive,
+    chainId,
+    platformId,
+  });
+
   prepareCronApi(isWeb3mailActive, chainId, platformId, mongoUri, cronSecurityKey, privateKey, res);
 
   await mongoose.connect(mongoUri as string);
@@ -47,6 +53,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     Number(RETRY_FACTOR),
     NotificationApiUri.FundRelease,
   );
+
+  console.log('calculateCronData result:', {
+    sinceTimestamp,
+    cronDuration,
+  });
 
   let status = 200;
   try {
@@ -60,12 +71,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const nonSentPaymentEmails: IPayment[] = [];
 
     // Check if a notification email has already been sent for these fund releases
-    if (payments.length > 0) {
-      for (const payment of payments) {
-        const hasBeenSent = await hasEmailBeenSent(payment.id, EmailType.FundRelease);
-        if (!hasBeenSent) {
-          nonSentPaymentEmails.push(payment);
-        }
+    for (const payment of payments) {
+      const hasBeenSent = await hasEmailBeenSent(payment.id, EmailType.FundRelease);
+      if (!hasBeenSent) {
+        nonSentPaymentEmails.push(payment);
       }
     }
 
