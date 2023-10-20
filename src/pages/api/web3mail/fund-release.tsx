@@ -34,19 +34,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     ? process.env.NEXT_WEB3MAIL_RETRY_FACTOR
     : '0';
 
-  console.log('retry factor:', RETRY_FACTOR);
-
   let sentEmails = 0,
     nonSentEmails = 0;
-
-  console.log('Preapre cron API with params:', {
-    isWeb3mailActive,
-    chainId,
-    platformId,
-    mongoUri,
-    cronSecurityKey,
-    privateKey,
-  });
 
   prepareCronApi(isWeb3mailActive, chainId, platformId, mongoUri, cronSecurityKey, privateKey, res);
 
@@ -59,18 +48,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     NotificationApiUri.FundRelease,
   );
 
-  console.log('calculateCronData result:', {
-    sinceTimestamp,
-    cronDuration,
-  });
-
   let status = 200;
   try {
-    console.log('Before getNewPayments call with params:', {
-      chainId,
-      platformId,
-      sinceTimestamp,
-    });
     const response = await getNewPayments(Number(chainId), platformId, sinceTimestamp);
 
     if (!response?.data?.data?.payments || response.data.data.payments.length === 0) {
@@ -107,7 +86,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       allAddresses,
       'activeOnFundRelease',
     );
-    console.log('getUsersWeb3MailPreference response:', notificationResponse);
 
     if (
       !notificationResponse?.data?.data?.userDescriptions ||
