@@ -30,8 +30,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const cronSecurityKey = req.headers.authorization as string;
   const privateKey = process.env.NEXT_PUBLIC_WEB3MAIL_PLATFORM_PRIVATE_KEY as string;
   const isWeb3mailActive = process.env.NEXT_PUBLIC_ACTIVE_WEB3MAIL as string;
+  const RETRY_FACTOR = process.env.NEXT_WEB3MAIL_RETRY_FACTOR
+    ? process.env.NEXT_WEB3MAIL_RETRY_FACTOR
+    : '0';
 
-  const RETRY_FACTOR = 5;
+  console.log('retry factor:', RETRY_FACTOR);
+
   let sentEmails = 0,
     nonSentEmails = 0;
 
@@ -48,7 +52,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   // Check whether the user provided a timestamp or if it will come from the cron config
   const { sinceTimestamp, cronDuration } = calculateCronData(
     req,
-    RETRY_FACTOR,
+    Number(RETRY_FACTOR),
     NotificationApiUri.FundRelease,
   );
 
@@ -59,9 +63,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   let status = 200;
   try {
+    console.log('Before getNewPayments call with params:', {
+      chainId,
+      platformId,
+      sinceTimestamp,
+    });
     const response = await getNewPayments(Number(chainId), platformId, sinceTimestamp);
+    console.log('getNewPayments response:', response);
 
     if (!response?.data?.data?.payments || response.data.data.payments.length === 0) {
+      console.log('No new payments available');
       throw new EmptyError('No new payments available');
     }
 
@@ -95,6 +106,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       allAddresses,
       'activeOnFundRelease',
     );
+    console.log('getUsersWeb3MailPreference response:', notificationResponse);
 
     if (
       !notificationResponse?.data?.data?.userDescriptions ||
