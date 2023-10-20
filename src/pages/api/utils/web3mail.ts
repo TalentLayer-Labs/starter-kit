@@ -20,26 +20,32 @@ export const prepareCronApi = (
   res: NextApiResponse,
 ) => {
   if (isWeb3mailActive !== 'true') {
+    console.warn('Web3mail not activated');
     return res.status(500).json({ message: 'Web3mail not activated' });
   }
 
   if (!(cronSecurityKey == `Bearer ${process.env.CRON_SECRET}`)) {
+    console.warn('Unauthorized');
     return res.status(401).json({ message: 'Unauthorized' });
   }
 
   if (!chainId) {
+    console.warn('Chain Id is not set');
     return res.status(500).json('Chain Id is not set');
   }
 
   if (!mongoUri) {
+    console.warn('MongoDb URI is not set');
     return res.status(500).json('MongoDb URI is not set');
   }
 
   if (!platformId) {
+    console.warn('Platform Id is not set');
     return res.status(500).json('Platform Id is not set');
   }
 
   if (!privateKey) {
+    console.warn('Private key is not set');
     return res.status(500).json('Private key is not set');
   }
 };
@@ -52,18 +58,22 @@ export const prepareNonCronApi = (
   res: NextApiResponse,
 ) => {
   if (isWeb3mailActive !== 'true') {
+    console.warn('Web3mail not activated');
     return res.status(500).json({ message: 'Web3mail not activated' });
   }
 
   if (!chainId) {
+    console.warn('Chain Id is not set');
     return res.status(500).json('Chain Id is not set');
   }
 
   if (!platformId) {
+    console.warn('Platform Id is not set');
     return res.status(500).json('Platform Id is not set');
   }
 
   if (!privateKey) {
+    console.warn('Private key is not set');
     return res.status(500).json('Private key is not set');
   }
 };

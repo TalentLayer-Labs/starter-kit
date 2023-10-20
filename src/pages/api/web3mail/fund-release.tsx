@@ -28,10 +28,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const platformId = process.env.NEXT_PUBLIC_PLATFORM_ID as string;
   const mongoUri = process.env.NEXT_MONGO_URI as string;
   const cronSecurityKey = req.headers.authorization as string;
-  const privateKey = process.env.NEXT_PUBLIC_WEB3MAIL_PLATFORM_PRIVATE_KEY as string;
+  const privateKey = process.env.NEXT_WEB3MAIL_PLATFORM_PRIVATE_KEY as string;
   const isWeb3mailActive = process.env.NEXT_PUBLIC_ACTIVE_WEB3MAIL as string;
+  const RETRY_FACTOR = process.env.NEXT_WEB3MAIL_RETRY_FACTOR
+    ? process.env.NEXT_WEB3MAIL_RETRY_FACTOR
+    : '0';
 
-  const RETRY_FACTOR = 5;
   let sentEmails = 0,
     nonSentEmails = 0;
 
@@ -42,7 +44,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   // Check whether the user provided a timestamp or if it will come from the cron config
   const { sinceTimestamp, cronDuration } = calculateCronData(
     req,
-    RETRY_FACTOR,
+    Number(RETRY_FACTOR),
     NotificationApiUri.FundRelease,
   );
 
@@ -58,12 +60,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const nonSentPaymentEmails: IPayment[] = [];
 
     // Check if a notification email has already been sent for these fund releases
-    if (payments.length > 0) {
-      for (const payment of payments) {
-        const hasBeenSent = await hasEmailBeenSent(payment.id, EmailType.FundRelease);
-        if (!hasBeenSent) {
-          nonSentPaymentEmails.push(payment);
-        }
+    for (const payment of payments) {
+      const hasBeenSent = await hasEmailBeenSent(payment.id, EmailType.FundRelease);
+      if (!hasBeenSent) {
+        nonSentPaymentEmails.push(payment);
       }
     }
 
