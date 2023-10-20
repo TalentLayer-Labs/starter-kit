@@ -34,6 +34,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     ? process.env.NEXT_WEB3MAIL_RETRY_FACTOR
     : '0';
 
+  console.log('retry factor:', RETRY_FACTOR);
+
   let sentEmails = 0,
     nonSentEmails = 0;
 
