@@ -4,13 +4,13 @@ import { useContext } from 'react';
 import * as Yup from 'yup';
 import SubmitButton from '../../../components/Form/SubmitButton';
 import Loading from '../../../components/Loading';
-import TalentLayerContext from '../../../context/talentLayer';
 import { useChainId } from '../../../hooks/useChainId';
 import { showErrorTransactionToast } from '../../../utils/toast';
 import Web3mailCard from './Web3mailCard';
 import Web3MailContext from '../context/web3mail';
 import { toast } from 'react-toastify';
 import { usePublicClient, useWalletClient } from 'wagmi';
+import { useTalentLayer } from '@talentlayer/react';
 
 interface IFormValues {
   email: string;
@@ -19,7 +19,7 @@ interface IFormValues {
 function Web3mailForm() {
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
-  const { user } = useContext(TalentLayerContext);
+  const { user } = useTalentLayer()
   const { protectEmailAndGrantAccess, emailIsProtected } = useContext(Web3MailContext);
   const { data: walletClient } = useWalletClient({ chainId });
   const publicClient = usePublicClient({ chainId });

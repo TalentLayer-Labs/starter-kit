@@ -1,3 +1,4 @@
+import { useProposal } from '@talentlayer/react';
 import useProposalsByUser from '../hooks/useProposalsByUser';
 import { IUser } from '../types';
 import UserProposalItem from './UserProposalItem';
@@ -7,9 +8,9 @@ interface IProps {
 }
 
 function UserProposals({ user }: IProps) {
-  const proposals = useProposalsByUser(user.id);
+  const [proposals] = useProposal({ userId: user.id });
 
-  if (proposals.length === 0) {
+  if (!proposals || proposals.length === 0) {
     return null;
   }
 

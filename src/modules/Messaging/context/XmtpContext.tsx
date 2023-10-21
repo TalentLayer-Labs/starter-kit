@@ -1,3 +1,5 @@
+"use client"
+
 import { Client, Conversation, DecodedMessage } from '@xmtp/xmtp-js';
 import React, { createContext, ReactNode, useEffect, useMemo, useState } from 'react';
 import { useAccount, useWalletClient } from 'wagmi';

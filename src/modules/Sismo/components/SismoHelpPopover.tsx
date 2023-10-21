@@ -1,3 +1,5 @@
+"use client"
+
 import { QuestionMarkCircle } from 'heroicons-react';
 import { useState } from 'react';
 

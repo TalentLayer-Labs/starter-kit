@@ -1,3 +1,5 @@
+"use client"
+
 import { GrantedAccess, IExecDataProtector, ProtectedData } from '@iexec/dataprotector';
 import { IExecWeb3mail } from '@iexec/web3mail';
 import {
@@ -9,8 +11,8 @@ import {
   useMemo,
   useState,
 } from 'react';
-import TalentLayerContext from '../../../context/talentLayer';
 import { log } from '../../../utils/log';
+import { useTalentLayer } from '@talentlayer/react';
 
 const Web3MailContext = createContext<{
   platformHasAccess: boolean;
@@ -29,7 +31,7 @@ const Web3MailContext = createContext<{
 });
 
 const Web3MailProvider = ({ children }: { children: ReactNode }) => {
-  const { account } = useContext(TalentLayerContext);
+  const { account } = useTalentLayer()
   const [platformHasAccess, setPlatformHasAccess] = useState(false);
   const [emailIsProtected, setEmailIsProtected] = useState(false);
   const [dataProtector, setDataProtector] = useState<IExecDataProtector>();

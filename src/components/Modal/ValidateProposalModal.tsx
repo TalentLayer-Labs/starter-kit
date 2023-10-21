@@ -1,3 +1,5 @@
+"use client"
+
 import { Check, X } from 'heroicons-react';
 import { useState } from 'react';
 import { useBalance, usePublicClient, useWalletClient } from 'wagmi';

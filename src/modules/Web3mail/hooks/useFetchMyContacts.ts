@@ -1,11 +1,16 @@
+'use client';
+
 import { useEffect, useState } from 'react';
-import { IExecWeb3mail, getWeb3Provider as getMailProvider, Contact } from '@iexec/web3mail';
+import { Contact } from '@iexec/web3mail';
 import { getUsersWeb3MailPreference } from '../../../queries/users';
 import { IUserDetails } from '../../../types';
 import { useChainId } from '../../../hooks/useChainId';
 import { fetchMyContacts } from '../../../components/request';
 
-const useFetchMyContacts = (): { contacts: IUserDetails[]; contactsLoaded: boolean } => {
+export default function useFetchMyContacts(): {
+  contacts: IUserDetails[];
+  contactsLoaded: boolean;
+} {
   const [contacts, setContacts] = useState<IUserDetails[]>([]);
   const [contactsLoaded, setContactsLoaded] = useState(false);
   const chainId = useChainId();
@@ -54,6 +59,4 @@ const useFetchMyContacts = (): { contacts: IUserDetails[]; contactsLoaded: boole
   }, [chainId]);
 
   return { contacts, contactsLoaded };
-};
-
-export default useFetchMyContacts;
+}

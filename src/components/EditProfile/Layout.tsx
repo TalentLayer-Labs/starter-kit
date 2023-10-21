@@ -1,10 +1,13 @@
+"use client"
+
 import { EyeIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ReactNode, useContext } from 'react';
-import TalentLayerContext from '../../context/talentLayer';
+import { ReactNode, useState, useEffect } from 'react';
 import Steps from '../Steps';
 import SideMenu from './SideMenu';
+import { useTalentLayer } from '@talentlayer/react';
+import { ICompletionScores, getCompletionScores } from '../../utils/profile';
 
 interface ContainerProps {
   children: ReactNode;
@@ -12,7 +15,13 @@ interface ContainerProps {
 }
 
 function Layout({ children, className }: ContainerProps) {
-  const { account, user, completionScores } = useContext(TalentLayerContext);
+  const [completionScores, setCompletionScores] = useState<ICompletionScores>();
+
+  const { account, user } = useTalentLayer();
+
+  useEffect(() => {
+    if (user) setCompletionScores(getCompletionScores(user));
+  }, [user]);
 
   if (!account?.isConnected || !user) {
     return <Steps />;

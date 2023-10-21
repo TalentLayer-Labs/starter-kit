@@ -1,3 +1,5 @@
+"use client"
+
 import { useEffect, useState } from 'react';
 import { getUserTotalGains } from '../queries/users';
 import { IUserGain } from '../types';

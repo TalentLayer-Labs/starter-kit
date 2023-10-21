@@ -1,11 +1,8 @@
-import { useContext } from 'react';
 import Loading from '../../../components/Loading';
-import TalentLayerContext from '../../../context/talentLayer';
-import { shortenString } from '../../../utils';
 import { formatDateDivider } from '../../../utils/dates';
 import { formatDateTime } from '../utils/messaging';
 import { ChatMessageStatus, XmtpChatMessage } from '../utils/types';
-import { ArrowUpRightIcon } from '@heroicons/react/24/outline';
+import { useTalentLayer } from '@talentlayer/react';
 
 interface IMessageCardProps {
   message: XmtpChatMessage;
@@ -20,7 +17,7 @@ const formatMessage = (message: string) => {
 };
 
 const MessageCard = ({ message, dateHasChanged }: IMessageCardProps) => {
-  const { account } = useContext(TalentLayerContext);
+  const { account } = useTalentLayer();
 
   const isSender = message.from.toLowerCase() === account?.address?.toLowerCase();
 

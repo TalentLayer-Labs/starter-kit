@@ -1,18 +1,10 @@
-import { useRouter } from 'next/router';
+import { useRouter, usePathname } from 'next/navigation';
 
 function BottomLink({ children, href }: { children: React.ReactNode; href: string }) {
   const router = useRouter();
-  const isDashboard = href == '/dashboard';
-  let className = isDashboard
-    ? router.asPath === href
-      ? 'bg-redpraha'
-      : ''
-    : router.asPath.includes(href)
-    ? 'bg-redpraha'
-    : '';
+  const path = usePathname();
 
-  className +=
-    ' inline-flex font-light text-white flex-col items-center justify-center px-2 hover:bg-redpraha group m-2 rounded-xl';
+  const isDashboard = href == '/dashboard';
 
   const handleClick = (e: any) => {
     e.preventDefault();
@@ -20,7 +12,19 @@ function BottomLink({ children, href }: { children: React.ReactNode; href: strin
   };
 
   return (
-    <a href={href} onClick={handleClick} className={className}>
+    <a
+      href={href}
+      onClick={handleClick}
+      className={
+        'inline-flex font-light text-white flex-col items-center justify-center px-2 hover:bg-redpraha group m-2 rounded-xl' +
+        isDashboard
+          ? path === href
+            ? 'bg-redpraha'
+            : ''
+          : path && path.includes(href)
+          ? 'bg-redpraha'
+          : ''
+      }>
       {children}
     </a>
   );

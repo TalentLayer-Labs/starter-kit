@@ -1,18 +1,16 @@
-import { useContext } from 'react';
-import TalentLayerContext from '../../../context/talentLayer';
+import { useTalentLayer } from '@talentlayer/react';
 import { IUser } from '../../../types';
 import useSismoBadgesPerAddress from '../hooks/useSismoBadgesPerAddress';
 import { TALENTLAYER_GROUPS } from '../utils/sismoGroupsData';
 import { ISismoBadge, ISismoGroup } from '../utils/types';
 import SismoBadgeCard from './SismoBadgeCard';
-import SismoGroupCard from './SismoGroupCard';
 
 interface IProps {
   user: IUser;
 }
 
 function UserBadges({ user }: IProps) {
-  const { user: currentUser } = useContext(TalentLayerContext);
+  const { user: currentUser } = useTalentLayer()
   const sismoBadges = useSismoBadgesPerAddress(user.address);
 
   const groupsData: ISismoGroup[] = [...TALENTLAYER_GROUPS];

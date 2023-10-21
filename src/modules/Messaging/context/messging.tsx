@@ -1,10 +1,12 @@
-import { useRouter } from 'next/router';
+"use client"
+
+import { useRouter } from 'next/navigation';
 import { createContext, ReactNode, useContext, useMemo } from 'react';
 import { getAddress } from 'viem';
 import { useWalletClient } from 'wagmi';
-import TalentLayerContext from '../../../context/talentLayer';
 import { useChainId } from '../../../hooks/useChainId';
 import { XmtpContext } from './XmtpContext';
+import { useTalentLayer } from '@talentlayer/react';
 
 const MessagingContext = createContext<{
   userExists: () => boolean;
@@ -18,7 +20,7 @@ const MessagingContext = createContext<{
 
 const MessagingProvider = ({ children }: { children: ReactNode }) => {
   const chainId = useChainId();
-  const { user } = useContext(TalentLayerContext);
+  const { user } = useTalentLayer()
   const { providerState } = useContext(XmtpContext);
   const { data: walletClient } = useWalletClient({
     chainId,

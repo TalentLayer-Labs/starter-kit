@@ -1,12 +1,13 @@
+'use client';
+
 import { Field, Form, Formik } from 'formik';
 import { useContext, useMemo, useState } from 'react';
 import { usePublicClient } from 'wagmi';
-import TalentLayerContext from '../../context/talentLayer';
 import { executePayment } from '../../contracts/executePayment';
 import { IService, IToken, ServiceStatusEnum } from '../../types';
 import { renderTokenAmount } from '../../utils/conversion';
 import { useChainId } from '../../hooks/useChainId';
-import useTalentLayerClient from '../../hooks/useTalentLayerClient';
+import { useTalentLayer } from '@talentlayer/react';
 
 interface IFormValues {
   percentField: string;
@@ -28,9 +29,8 @@ function ReleaseForm({
   isBuyer,
 }: IReleaseFormProps) {
   const chainId = useChainId();
-  const { user, isActiveDelegate } = useContext(TalentLayerContext);
+  const { user, client: talentLayerClient } = useTalentLayer();
   const publicClient = usePublicClient({ chainId });
-  const talentLayerClient = useTalentLayerClient();
 
   const [percent, setPercentage] = useState(0);
 
@@ -49,8 +49,9 @@ function ReleaseForm({
         service.transaction.id,
         percentToToken,
         isBuyer,
-        isActiveDelegate,
-        talentLayerClient,
+        false,
+        // isActiveDelegate,
+        talentLayerClient as any,
         service.id,
       );
     }

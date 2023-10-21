@@ -3,14 +3,13 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useContext } from 'react';
 import { usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
-import TalentLayerContext from '../../context/talentLayer';
 import { postToIPFS } from '../../utils/ipfs';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../utils/toast';
 import SubmitButton from './SubmitButton';
 import { getUserByAddress } from '../../queries/users';
 import { delegateMintReview } from '../request';
 import { useChainId } from '../../hooks/useChainId';
-import useTalentLayerClient from '../../hooks/useTalentLayerClient';
+import { useTalentLayer } from '@talentlayer/react';
 
 interface IFormValues {
   content: string;
@@ -30,11 +29,9 @@ const initialValues: IFormValues = {
 function ReviewForm({ serviceId }: { serviceId: string }) {
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
-  const { user } = useContext(TalentLayerContext);
-  const { isActiveDelegate } = useContext(TalentLayerContext);
+  const { user, client: talentLayerClient } = useTalentLayer();
   const publicClient = usePublicClient({ chainId });
   const { data: walletClient } = useWalletClient({ chainId });
-  const talentLayerClient = useTalentLayerClient();
 
   const onSubmit = async (
     values: IFormValues,
@@ -55,11 +52,12 @@ function ReviewForm({ serviceId }: { serviceId: string }) {
         const getUser = await getUserByAddress(chainId, user.address);
         const delegateAddresses = getUser.data?.data?.users[0].delegates;
         let tx;
-        if (isActiveDelegate) {
+        if (false) {
+          //isActiveDelegate) {
           const response = await delegateMintReview(
             chainId,
-            user.id,
-            user.address,
+            user?.id || '',
+            user?.address || '',
             serviceId,
             uri,
             values.rating,
@@ -87,7 +85,7 @@ function ReviewForm({ serviceId }: { serviceId: string }) {
             error: 'An error occurred while creating your review',
           },
           publicClient,
-          tx,
+          tx as any,
           'review',
           uri,
         );

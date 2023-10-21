@@ -1,3 +1,5 @@
+"use client"
+
 import { useState } from 'react';
 import Loading from './Loading';
 import { renderTokenAmount } from '../utils/conversion';

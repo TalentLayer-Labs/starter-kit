@@ -1,14 +1,13 @@
 import Link from 'next/link';
-import { useContext } from 'react';
-import TalentLayerContext from '../context/talentLayer';
-import useUserById from '../hooks/useUserById';
 import { IUser } from '../types';
 import Loading from './Loading';
 import Stars from './Stars';
+import { useTalentLayer, useUser } from '@talentlayer/react';
 
 function UserItem({ user }: { user: IUser }) {
-  const { user: currentUser } = useContext(TalentLayerContext);
-  const userDescription = user?.id ? useUserById(user?.id)?.description : null;
+  const { user: currentUser } = useTalentLayer();
+  const [userResponse] = useUser({ userId: user?.id });
+  const userDescription = userResponse?.description;
 
   if (!user?.id) {
     return <Loading />;

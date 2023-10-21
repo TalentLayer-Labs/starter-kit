@@ -6,7 +6,6 @@ import SubmitButton from '../../../components/Form/SubmitButton';
 import { Toogle } from '../../../components/Form/Toggle';
 import Loading from '../../../components/Loading';
 import { delegateUpdateProfileData } from '../../../components/request';
-import TalentLayerContext from '../../../context/talentLayer';
 import TalentLayerID from '../../../contracts/ABI/TalentLayerID.json';
 import { useChainId } from '../../../hooks/useChainId';
 import { useConfig } from '../../../hooks/useConfig';
@@ -16,30 +15,30 @@ import { postToIPFS } from '../../../utils/ipfs';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../../utils/toast';
 import Web3mailCard from './Web3mailCard';
 import Web3mailRevokeButton from './Web3mailRevokeButton';
+import { useTalentLayer } from '@talentlayer/react';
 
 function Web3mailPreferencesForm() {
   const config = useConfig();
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
-  const { user, isActiveDelegate, refreshData } = useContext(TalentLayerContext);
+  const { user, refreshData } = useTalentLayer();
   const { data: walletClient } = useWalletClient({ chainId });
   const { address } = useAccount();
   const publicClient = usePublicClient({ chainId });
-  const userDescription = user?.id ? useUserById(user?.id)?.description : null;
 
   if (!user?.id) {
     return <Loading />;
   }
 
   const initialValues: IWeb3mailPreferences = {
-    activeOnNewService: userDescription?.web3mailPreferences?.activeOnNewService || true,
-    activeOnNewProposal: userDescription?.web3mailPreferences?.activeOnNewProposal || true,
+    activeOnNewService: user.description?.web3mailPreferences?.activeOnNewService || true,
+    activeOnNewProposal: user.description?.web3mailPreferences?.activeOnNewProposal || true,
     activeOnProposalValidated:
-      userDescription?.web3mailPreferences?.activeOnProposalValidated || true,
-    activeOnFundRelease: userDescription?.web3mailPreferences?.activeOnFundRelease || true,
-    activeOnReview: userDescription?.web3mailPreferences?.activeOnReview || true,
+      user.description?.web3mailPreferences?.activeOnProposalValidated || true,
+    activeOnFundRelease: user.description?.web3mailPreferences?.activeOnFundRelease || true,
+    activeOnReview: user.description?.web3mailPreferences?.activeOnReview || true,
     activeOnPlatformMarketing:
-      userDescription?.web3mailPreferences?.activeOnPlatformMarketing || false,
+      user.description?.web3mailPreferences?.activeOnPlatformMarketing || false,
   };
 
   const onSubmit = async (
@@ -50,13 +49,13 @@ function Web3mailPreferencesForm() {
       try {
         const cid = await postToIPFS(
           JSON.stringify({
-            title: userDescription?.title,
-            role: userDescription?.role,
-            image_url: userDescription?.image_url,
-            video_url: userDescription?.video_url,
-            name: userDescription?.name,
-            about: userDescription?.about,
-            skills: userDescription?.skills_raw,
+            title: user.description?.title,
+            role: user.description?.role,
+            image_url: user.description?.image_url,
+            video_url: user.description?.video_url,
+            name: user.description?.name,
+            about: user.description?.about,
+            skills: user.description?.skills_raw,
             web3mailPreferences: {
               activeOnNewService: values.activeOnNewService,
               activeOnNewProposal: values.activeOnNewProposal,
@@ -69,8 +68,14 @@ function Web3mailPreferencesForm() {
         );
 
         let tx;
-        if (isActiveDelegate) {
-          const response = await delegateUpdateProfileData(chainId, user.id, user.address, cid);
+        if (false) {
+          //isActiveDelegate) {
+          const response = await delegateUpdateProfileData(
+            chainId,
+            user?.id || '',
+            user?.address || '',
+            cid,
+          );
           tx = response.data.transaction;
         } else {
           tx = await walletClient.writeContract({

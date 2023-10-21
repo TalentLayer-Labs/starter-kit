@@ -1,5 +1,7 @@
+'use client';
+
 import { FormEvent, useCallback, useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 function SearchTalentButton(props?: { value?: string }) {
   const router = useRouter();
@@ -14,10 +16,7 @@ function SearchTalentButton(props?: { value?: string }) {
     const formElm = e.target as HTMLFormElement;
     const searchQueryRef = formElm.querySelector('input')!.value;
     if (searchQueryRef.length > 0) {
-      router.push({
-        pathname: '/talents',
-        query: { search: searchQueryRef },
-      });
+      router.push(`/talents?search=${searchQueryRef}`);
     } else router.push('/talents');
   }, []);
 

@@ -1,3 +1,5 @@
+"use client"
+
 import { useState } from 'react';
 import { IService, IUser } from '../../types';
 import ReviewForm from '../Form/ReviewForm';

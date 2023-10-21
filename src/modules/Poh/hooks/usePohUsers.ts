@@ -1,3 +1,5 @@
+"use client"
+
 import { useState, useEffect } from 'react';
 import { getPohProfileInfo } from '../queries/pohProfileData';
 import { IPohUser } from '../utils/types';

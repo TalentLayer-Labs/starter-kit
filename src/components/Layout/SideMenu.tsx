@@ -1,10 +1,9 @@
-import TalentLayerContext from '../../context/talentLayer';
+import { useTalentLayer } from '@talentlayer/react';
 import SideLink from './SideLink';
 import { navigation, navigationAdmin } from './navigation';
-import { useContext } from 'react';
 
 function SideMenu() {
-  const { user } = useContext(TalentLayerContext);
+  const { user } = useTalentLayer();
 
   return (
     <nav className='space-y-1 px-3'>

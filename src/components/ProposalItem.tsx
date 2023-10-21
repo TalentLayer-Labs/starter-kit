@@ -1,16 +1,14 @@
 import Link from 'next/link';
-import { useContext } from 'react';
-import TalentLayerContext from '../context/talentLayer';
-import useServiceById from '../hooks/useServiceById';
 import { IProposal, ProposalStatusEnum, ServiceStatusEnum } from '../types';
 import { renderTokenAmount } from '../utils/conversion';
 import { formatDate } from '../utils/dates';
 import ValidateProposalModal from './Modal/ValidateProposalModal';
 import Image from 'next/image';
+import { useService, useTalentLayer } from '@talentlayer/react';
 
 function ProposalItem({ proposal }: { proposal: IProposal }) {
-  const { user, account } = useContext(TalentLayerContext);
-  const service = useServiceById(proposal.service.id);
+  const { user, account } = useTalentLayer();
+  const [service] = useService(proposal.service.id);
 
   if (!service) {
     return null;

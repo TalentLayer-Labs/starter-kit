@@ -1,8 +1,7 @@
 import { ISismoGroup } from '../utils/types';
-import { useContext } from 'react';
-import TalentLayerContext from '../../../context/talentLayer';
 import SismoHelpPopover from './SismoHelpPopover';
 import Image from 'next/image';
+import { useTalentLayer } from '@talentlayer/react';
 
 function SismoGroupCard({
   sismoGroupData,
@@ -11,7 +10,7 @@ function SismoGroupCard({
   sismoGroupData: ISismoGroup;
   userAddrss: string;
 }) {
-  const { user } = useContext(TalentLayerContext);
+  const { user } = useTalentLayer()
   const isConnectedUser = () => {
     return user?.address === userAddrss;
   };

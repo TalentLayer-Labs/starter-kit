@@ -1,10 +1,11 @@
+'use client';
+
 import { useWeb3Modal } from '@web3modal/react';
 import { Field, Form, Formik } from 'formik';
 import { QuestionMarkCircle } from 'heroicons-react';
 import { useContext, useState } from 'react';
 import { usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
-import TalentLayerContext from '../../context/talentLayer';
 import { useChainId } from '../../hooks/useChainId';
 import useUserById from '../../hooks/useUserById';
 import Web3MailContext from '../../modules/Web3mail/context/web3mail';
@@ -15,7 +16,7 @@ import Loading from '../Loading';
 import { delegateUpdateProfileData } from '../request';
 import SubmitButton from './SubmitButton';
 import { SkillsInput } from './skills-input';
-import useTalentLayerClient from '../../hooks/useTalentLayerClient';
+import { useTalentLayer } from '@talentlayer/react';
 
 interface IFormValues {
   title?: string;
@@ -34,13 +35,12 @@ const validationSchema = Yup.object({
 function ProfileForm({ callback }: { callback?: () => void }) {
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
-  const { user, isActiveDelegate, refreshData } = useContext(TalentLayerContext);
+  const { client: talentLayerClient, user, refreshData } = useTalentLayer();
   const { platformHasAccess } = useContext(Web3MailContext);
   const { data: walletClient } = useWalletClient({ chainId });
   const publicClient = usePublicClient({ chainId });
   const [aiLoading, setAiLoading] = useState(false);
   const userDescription = user?.id ? useUserById(user?.id)?.description : null;
-  const talentLayerClient = useTalentLayerClient();
 
   if (!user?.id) {
     return <Loading />;
@@ -86,8 +86,14 @@ function ProfileForm({ callback }: { callback?: () => void }) {
         let cid = await talentLayerClient.profile.upload(profile);
 
         let tx;
-        if (isActiveDelegate) {
-          const response = await delegateUpdateProfileData(chainId, user.id, user.address, cid);
+        if (false) {
+          //isActiveDelegate) {
+          const response = await delegateUpdateProfileData(
+            chainId,
+            user?.id || '',
+            user?.address || '',
+            cid,
+          );
           tx = response.data.transaction;
         } else {
           const res = await talentLayerClient?.profile.update(profile, user.id);

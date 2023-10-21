@@ -1,11 +1,12 @@
+'use client';
+
 import { useWeb3Modal } from '@web3modal/react';
 import { formatUnits } from 'viem';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useContext, useState } from 'react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
-import TalentLayerContext from '../../context/talentLayer';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../utils/toast';
 import { parseRateAmount } from '../../utils/currency';
 import SubmitButton from './SubmitButton';
@@ -16,9 +17,9 @@ import { delegateCreateService } from '../request';
 import { useChainId } from '../../hooks/useChainId';
 import { createWeb3mailToast } from '../../modules/Web3mail/utils/toast';
 import Web3MailContext from '../../modules/Web3mail/context/web3mail';
-import useTalentLayerClient from '../../hooks/useTalentLayerClient';
 import usePlatform from '../../hooks/usePlatform';
-import { chains } from '../../pages/_app';
+import { chains } from '../../app/Providers';
+import { useTalentLayer } from '@talentlayer/react';
 
 interface IFormValues {
   title: string;
@@ -40,15 +41,13 @@ function ServiceForm() {
   const chainId = useChainId();
 
   const { open: openConnectModal } = useWeb3Modal();
-  const { user, account } = useContext(TalentLayerContext);
+  const { user, account, client: talentLayerClient } = useTalentLayer();
   const { platformHasAccess } = useContext(Web3MailContext);
   const publiClient = usePublicClient({ chainId });
   const { data: walletClient } = useWalletClient({ chainId });
   const router = useRouter();
   const allowedTokenList = useAllowedTokens();
   const [selectedToken, setSelectedToken] = useState<IToken>();
-  const { isActiveDelegate } = useContext(TalentLayerContext);
-  const talentLayerClient = useTalentLayerClient();
 
   const currentChain = chains.find(chain => chain.id === chainId);
   const platform = usePlatform(process.env.NEXT_PUBLIC_PLATFORM_ID as string);
@@ -121,8 +120,14 @@ function ServiceForm() {
           rateAmount: parsedRateAmountString,
         });
 
-        if (isActiveDelegate) {
-          const response = await delegateCreateService(chainId, user.id, user.address, cid);
+        if (false) {
+          //isActiveDelegate) {
+          const response = await delegateCreateService(
+            chainId,
+            user?.id || '',
+            user?.address || '',
+            cid,
+          );
           tx = response.data.transaction;
         } else {
           if (talentLayerClient) {

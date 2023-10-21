@@ -1,3 +1,5 @@
+"use client"
+
 import { LockClosedIcon, LockOpenIcon } from '@heroicons/react/24/outline';
 import { useCallback, useContext, useState } from 'react';
 import Web3MailContext from '../context/web3mail';

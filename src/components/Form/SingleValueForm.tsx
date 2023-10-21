@@ -1,3 +1,5 @@
+"use client"
+
 import { useWeb3Modal } from '@web3modal/react';
 import { Field, Form, Formik } from 'formik';
 import { usePublicClient } from 'wagmi';
@@ -7,7 +9,7 @@ import { useChainId } from '../../hooks/useChainId';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../utils/toast';
 import SubmitButton from './SubmitButton';
 import { Address } from 'viem';
-import useTalentLayerClient from '../../hooks/useTalentLayerClient';
+import { useTalentLayer } from '@talentlayer/react';
 
 interface validationDataType {
   valueType: string;
@@ -42,7 +44,7 @@ function SingleValueForm({
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
   const publicClient = usePublicClient({ chainId });
-  const talentLayerClient = useTalentLayerClient();
+  const { client: talentLayerClient } = useTalentLayer();
 
   const onSubmit = async (
     values: any,

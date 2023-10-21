@@ -1,7 +1,7 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
-import { useContext } from 'react';
-import TalentLayerContext from '../context/talentLayer';
 import usePaymentsByService from '../hooks/usePaymentsByService';
 import useProposalsByService from '../hooks/useProposalsByService';
 import useReviewsByService from '../hooks/useReviewsByService';
@@ -16,26 +16,40 @@ import ReviewItem from './ReviewItem';
 import ServiceStatus from './ServiceStatus';
 import Stars from './Stars';
 import { useChainId } from '../hooks/useChainId';
+import { useTalentLayer } from '@talentlayer/react';
+import useReviews from '@talentlayer/react/hooks/useReviews';
+import { useProposals } from '@talentlayer/react';
 
 function ServiceDetail({ service }: { service: IService }) {
   const chainId = useChainId();
-  const { account, user } = useContext(TalentLayerContext);
-  const { reviews } = useReviewsByService(service.id);
-  const proposals = useProposalsByService(service.id);
+  const { account, user } = useTalentLayer();
+  const [reviews] = useReviews(service.id);
+
+  // const { reviews } = useReviewsByService(service.id);
+  const [proposals] = useProposals({ serviceId: service.id });
+
   const payments = usePaymentsByService(service.id);
 
   const isBuyer = user?.id === service.buyer.id;
   const isSeller = user?.id === service.seller?.id;
-  const hasReviewed = !!reviews.find(review => {
-    return review.to.id !== user?.id;
-  });
-  const userProposal = proposals.find(proposal => {
-    return proposal.seller.id === user?.id;
-  });
+  const hasReviewed =
+    reviews &&
+    reviews.length > 0 &&
+    !!reviews?.find(review => {
+      return review.to.id !== user?.id;
+    });
 
-  const validatedProposal = proposals.find(proposal => {
-    return proposal.status === ProposalStatusEnum.Validated;
-  });
+  const userProposal =
+    proposals &&
+    proposals.find(proposal => {
+      return proposal.seller.id === user?.id;
+    });
+
+  const validatedProposal =
+    proposals &&
+    proposals.find(proposal => {
+      return proposal.status === ProposalStatusEnum.Validated;
+    });
 
   return (
     <>
@@ -134,7 +148,7 @@ function ServiceDetail({ service }: { service: IService }) {
         </div>
       </div>
 
-      {(isBuyer || isSeller) && reviews.length > 0 && (
+      {(isBuyer || isSeller) && reviews && reviews.length > 0 && (
         <div className='flex flex-col gap-4 mt-4'>
           <p className='text-gray-900 font-bold'>Reviews:</p>
           {reviews.map((review, index) => (
@@ -152,7 +166,7 @@ function ServiceDetail({ service }: { service: IService }) {
 
       {isBuyer && (
         <>
-          {proposals.length > 0 ? (
+          {proposals && proposals.length > 0 ? (
             <>
               <p className='text-gray-900 font-bold mt-12 mb-4'>
                 {service.status === ServiceStatusEnum.Opened

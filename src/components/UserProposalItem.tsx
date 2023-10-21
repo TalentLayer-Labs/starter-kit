@@ -1,16 +1,14 @@
-import { useContext } from 'react';
-import { useRouter } from 'next/router';
-import TalentLayerContext from '../context/talentLayer';
 import { renderTokenAmount } from '../utils/conversion';
 import { IProposal, ProposalStatusEnum } from '../types';
 import { formatDate } from '../utils/dates';
-import useServiceById from '../hooks/useServiceById';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useTalentLayer } from '@talentlayer/react';
+import { useService } from '@talentlayer/react';
 
 function UserProposalItem({ proposal }: { proposal: IProposal }) {
-  const { user } = useContext(TalentLayerContext);
-  const service = useServiceById(proposal.service.id);
+  const { user } = useTalentLayer();
+  const [service, loading] = useService(proposal.service.id);
 
   if (!service) {
     return null;
@@ -22,26 +20,28 @@ function UserProposalItem({ proposal }: { proposal: IProposal }) {
     <div className='flex flex-row gap-2 rounded-xl p-4 border border-gray-700 text-white bg-endnight'>
       <div className='flex flex-col items-top justify-between gap-4 w-full'>
         <div className='flex flex-col justify-start items-start gap-4'>
-          <div className='flex items-center justify-start w-full  relative'>
-            <Image
-              src={`/images/default-avatar-${Number(proposal.service.buyer.id) % 9}.jpeg`}
-              className='w-10 mr-4 rounded-full'
-              width={50}
-              height={50}
-              alt='default avatar'
-            />
-            <div className='flex flex-col'>
-              <p className='text-gray-100 font-medium break-all'>{service.description?.title}</p>
-              <p className='text-xs text-gray-500'>
-                Gig created by {proposal.service.buyer.handle} the{' '}
-                {formatDate(Number(proposal.service.createdAt) * 1000)}
-              </p>
-            </div>
+          {!loading && (
+            <div className='flex items-center justify-start w-full  relative'>
+              <Image
+                src={`/images/default-avatar-${Number(proposal.service.buyer.id) % 9}.jpeg`}
+                className='w-10 mr-4 rounded-full'
+                width={50}
+                height={50}
+                alt='default avatar'
+              />
+              <div className='flex flex-col'>
+                <p className='text-gray-100 font-medium break-all'>{service.description?.title}</p>
+                <p className='text-xs text-gray-500'>
+                  Gig created by {proposal.service.buyer.handle} the{' '}
+                  {formatDate(Number(proposal.service.createdAt) * 1000)}
+                </p>
+              </div>
 
-            <span className='absolute right-[-25px] top-[-25px] inline-flex items-center rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-medium text-zinc-800'>
-              {proposal.status}
-            </span>
-          </div>
+              <span className='absolute right-[-25px] top-[-25px] inline-flex items-center rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-medium text-zinc-800'>
+                {proposal.status}
+              </span>
+            </div>
+          )}
 
           <div className=' border-t border-gray-100 pt-4'>
             <p className='text-sm text-gray-400 mt-4'>

@@ -1,3 +1,5 @@
+"use client"
+
 import { useEffect, useState } from 'react';
 import { getSismoBadgesPerAddress } from '../queries/sismo';
 import { ISismoBadge } from '../utils/types';

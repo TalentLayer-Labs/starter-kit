@@ -1,7 +1,7 @@
 import React from 'react';
-import useTotalGainByUser from '../hooks/useTotalGainByUser';
 import { IUser } from '../types';
 import { renderTokenAmount } from '../utils/conversion';
+import useTotalGainByUser from '../hooks/useTotalGainByUser';
 
 interface IProps {
   user: IUser;

@@ -1,13 +1,15 @@
-import { useRouter } from 'next/router';
+import { useRouter, usePathname } from 'next/navigation';
 
 function SideLink({ children, href }: { children: React.ReactNode; href: string }) {
   const router = useRouter();
+  const path = usePathname();
+
   const isDashboard = href == '/dashboard';
   let className = isDashboard
-    ? router.asPath === href
+    ? path === href
       ? 'bg-redpraha text-white'
       : 'text-zinc-100 hover:bg-midnight'
-    : router.asPath.includes(href)
+    : path && path.includes(href)
     ? 'bg-redpraha text-white'
     : 'text-zinc-100 hover:bg-midnight';
 

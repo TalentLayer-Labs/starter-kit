@@ -1,12 +1,14 @@
+'use client';
+
 import { ClipboardDocumentIcon, QrCodeIcon } from '@heroicons/react/24/outline';
 import { QRCodeSVG } from 'qrcode.react';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { toast } from 'react-toastify';
-import TalentLayerContext from '../../../context/talentLayer';
+import { useTalentLayer } from '@talentlayer/react';
 
 function ShareModal() {
   const [show, setShow] = useState(false);
-  const { account } = useContext(TalentLayerContext);
+  const { account } = useTalentLayer();
 
   const shareLink = `${window.location.origin}/dashboard/messaging/${account?.address}`;
 

@@ -1,10 +1,10 @@
-import { useContext } from 'react';
-import TalentLayerContext from '../context/talentLayer';
+// import { useContext } from 'react';
+// import TalentLayerContext from '../context/talentLayer';
 
-const useTalentLayerClient = () => {
-  const talentLayerContext = useContext(TalentLayerContext);
+// const useTalentLayerClient = () => {
+//   const talentLayerContext = useContext(TalentLayerContext);
 
-  return talentLayerContext.talentLayerClient;
-};
+//   return talentLayerContext.talentLayerClient;
+// };
 
-export default useTalentLayerClient;
+// export default useTalentLayerClient;

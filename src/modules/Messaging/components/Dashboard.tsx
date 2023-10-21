@@ -1,10 +1,9 @@
-import { useRouter } from 'next/router';
+"use client"
+
 import { useContext, useState } from 'react';
 import { useWalletClient } from 'wagmi';
 import Steps from '../../../components/Steps';
-import TalentLayerContext from '../../../context/talentLayer';
 import { useChainId } from '../../../hooks/useChainId';
-import useUserByAddress from '../../../hooks/useUserByAddress';
 import { XmtpContext } from '../context/XmtpContext';
 import useSendMessage from '../hooks/useSendMessage';
 import useStreamConversations from '../hooks/useStreamConversations';
@@ -13,17 +12,17 @@ import { ChatMessageStatus, XmtpChatMessage } from '../utils/types';
 import CardHeader from './CardHeader';
 import MessageComposer from './MessageComposer';
 import MessageList from './MessageList';
+import { useTalentLayer, useUser } from '@talentlayer/react';
 
-function Dashboard() {
+function Dashboard(props: { address: string }) {
   const chainId = useChainId();
-  const { account, user } = useContext(TalentLayerContext);
+  const { account, user } = useTalentLayer();
   const { data: walletClient } = useWalletClient({
     chainId,
   });
   const { providerState, setProviderState } = useContext(XmtpContext);
   const [messageContent, setMessageContent] = useState<string>('');
-  const router = useRouter();
-  const { address } = router.query;
+  const { address } = props;
   const selectedConversationPeerAddress = address as string;
   const [sendingPending, setSendingPending] = useState(false);
   const [messageSendingErrorMsg, setMessageSendingErrorMsg] = useState('');
@@ -32,7 +31,7 @@ function Dashboard() {
     (selectedConversationPeerAddress as string) ? selectedConversationPeerAddress : '',
     account?.address,
   );
-  const peerUser = useUserByAddress(selectedConversationPeerAddress);
+  const peerUser = useUser({ address: selectedConversationPeerAddress });
 
   // Listens to new conversations ? ==> Yes, & sets them in "xmtp context". Stream stops "onDestroy"
   useStreamConversations();

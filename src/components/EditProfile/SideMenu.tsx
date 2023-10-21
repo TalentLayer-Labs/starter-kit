@@ -1,11 +1,17 @@
-import { useContext } from 'react';
+import { useState, useEffect } from 'react';
 import SideLink from './SideLink';
 import { navigation } from './navigation';
-import TalentLayerContext from '../../context/talentLayer';
-import { ICompletionScores } from '../../utils/profile';
+import { ICompletionScores, getCompletionScores } from '../../utils/profile';
+import { useTalentLayer } from '@talentlayer/react';
 
-function SideMenu() {
-  const { completionScores } = useContext(TalentLayerContext);
+export default function SideMenu() {
+  const [completionScores, setCompletionScores] = useState<ICompletionScores>();
+
+  const { user } = useTalentLayer();
+
+  useEffect(() => {
+    if (user) setCompletionScores(getCompletionScores(user));
+  }, [user]);
 
   return (
     <ul className='space-y-1 font-sans text-sm'>
@@ -26,5 +32,3 @@ function SideMenu() {
     </ul>
   );
 }
-
-export default SideMenu;

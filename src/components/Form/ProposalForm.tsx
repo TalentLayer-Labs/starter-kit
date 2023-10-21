@@ -1,11 +1,12 @@
+'use client';
+
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { QuestionMarkCircle } from 'heroicons-react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { useContext, useState } from 'react';
 import { formatUnits } from 'viem';
 import { usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
-import TalentLayerContext from '../../context/talentLayer';
 import useAllowedTokens from '../../hooks/useAllowedTokens';
 import { useChainId } from '../../hooks/useChainId';
 import { postOpenAiRequest } from '../../modules/OpenAi/utils';
@@ -18,9 +19,9 @@ import Loading from '../Loading';
 import ServiceItem from '../ServiceItem';
 import { delegateCreateOrUpdateProposal } from '../request';
 import SubmitButton from './SubmitButton';
-import useTalentLayerClient from '../../hooks/useTalentLayerClient';
 import usePlatform from '../../hooks/usePlatform';
 import { chains } from '../../pages/_app';
+import { useTalentLayer } from '@talentlayer/react';
 
 interface IFormValues {
   about: string;
@@ -51,10 +52,10 @@ function ProposalForm({
   const { data: walletClient } = useWalletClient({ chainId });
   const router = useRouter();
   const allowedTokenList = useAllowedTokens();
-  const { isActiveDelegate } = useContext(TalentLayerContext);
+  // const { isActiveDelegate } = useTalentLayer();
   const { platformHasAccess } = useContext(Web3MailContext);
   const [aiLoading, setAiLoading] = useState(false);
-  const talentLayerClient = useTalentLayerClient();
+  const { client: talentLayerClient } = useTalentLayer();
 
   const currentChain = chains.find(chain => chain.id === chainId);
   const platform = usePlatform(process.env.NEXT_PUBLIC_PLATFORM_ID as string);
@@ -140,7 +141,8 @@ function ProposalForm({
 
         cid = await talentLayerClient?.proposal?.upload(proposal);
 
-        if (isActiveDelegate) {
+        if (false) {
+          //isActiveDelegate) {
           const proposalResponse = await delegateCreateOrUpdateProposal(
             chainId,
             user.id,

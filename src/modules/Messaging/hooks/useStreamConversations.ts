@@ -1,3 +1,5 @@
+"use client"
+
 import { useState, useEffect, useContext } from 'react';
 import { XmtpContext } from '../context/XmtpContext';
 import { useAccount, useWalletClient } from 'wagmi';

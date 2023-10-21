@@ -3,10 +3,8 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useContext } from 'react';
 import { usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
-import TalentLayerContext from '../../context/talentLayer';
 import { useChainId } from '../../hooks/useChainId';
-import useMintFee from '../../hooks/useMintFee';
-import useTalentLayerClient from '../../hooks/useTalentLayerClient';
+import { useMintFee } from '@talentlayer/react';
 import { NetworkEnum } from '../../types';
 import { createTalentLayerIdTransactionToast, showErrorTransactionToast } from '../../utils/toast';
 import HelpPopover from '../HelpPopover';
@@ -15,6 +13,7 @@ import { HandlePrice } from './HandlePrice';
 import SubmitButton from './SubmitButton';
 import Web3MailContext from '../../modules/Web3mail/context/web3mail';
 import { createWeb3mailToast } from '../../modules/Web3mail/utils/toast';
+import { useTalentLayer } from '@talentlayer/react';
 
 interface IFormValues {
   handle: string;
@@ -28,10 +27,9 @@ function TalentLayerIdForm() {
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
   const { platformHasAccess } = useContext(Web3MailContext);
-  const { account, refreshData } = useContext(TalentLayerContext);
   const { data: walletClient } = useWalletClient({ chainId });
   const publicClient = usePublicClient({ chainId });
-  const talentLayerClient = useTalentLayerClient();
+  const { client: talentLayerClient, account, refreshData } = useTalentLayer();
   const { calculateMintFee } = useMintFee();
 
   const validationSchema = Yup.object().shape({
