@@ -52,9 +52,6 @@ export const sendMailToAddresses = async (
 
     const results = await Promise.all(sendPromises);
 
-    let sentCount = 0;
-    let nonSentCount = 0;
-
     results.forEach(result => {
       if (result.success) {
         sentCount++;
