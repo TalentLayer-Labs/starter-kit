@@ -9,7 +9,7 @@ import UserProposals from '../../components/UserProposals';
 import UserServices from '../../components/UserServices';
 import Link from 'next/link';
 import { PencilSquareIcon } from '@heroicons/react/24/outline';
-import { useTalentLayer } from '@talentlayer/react';
+import { useTalentLayer } from '@talentlayer/react/dist';
 
 export default function Page() {
   const { account, user } = useTalentLayer();

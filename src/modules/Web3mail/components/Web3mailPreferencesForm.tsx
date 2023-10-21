@@ -15,7 +15,7 @@ import { postToIPFS } from '../../../utils/ipfs';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../../utils/toast';
 import Web3mailCard from './Web3mailCard';
 import Web3mailRevokeButton from './Web3mailRevokeButton';
-import { useTalentLayer } from '@talentlayer/react';
+import { useTalentLayer } from '@talentlayer/react/dist';
 
 function Web3mailPreferencesForm() {
   const config = useConfig();

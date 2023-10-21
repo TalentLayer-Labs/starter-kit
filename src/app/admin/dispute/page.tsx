@@ -11,7 +11,7 @@ import TalentLayerPlatformID from '../../../contracts/ABI/TalentLayerPlatformID.
 import { useConfig } from '../../../hooks/useConfig';
 import { formatEther } from 'viem';
 import { ZERO_ADDRESS } from '../../../utils/constant';
-import { usePlatform, useTalentLayer } from '@talentlayer/react';
+import { usePlatform, useTalentLayer } from '@talentlayer/react/dist';
 
 export default function AdminDispute() {
   const { user, loading, client: talentLayerClient } = useTalentLayer();

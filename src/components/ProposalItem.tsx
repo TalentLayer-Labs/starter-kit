@@ -4,7 +4,7 @@ import { renderTokenAmount } from '../utils/conversion';
 import { formatDate } from '../utils/dates';
 import ValidateProposalModal from './Modal/ValidateProposalModal';
 import Image from 'next/image';
-import { useService, useTalentLayer } from '@talentlayer/react';
+import { useService, useTalentLayer } from '@talentlayer/react/dist';
 
 function ProposalItem({ proposal }: { proposal: IProposal }) {
   const { user, account } = useTalentLayer();

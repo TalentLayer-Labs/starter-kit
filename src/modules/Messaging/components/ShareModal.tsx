@@ -4,7 +4,7 @@ import { ClipboardDocumentIcon, QrCodeIcon } from '@heroicons/react/24/outline';
 import { QRCodeSVG } from 'qrcode.react';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { useTalentLayer } from '@talentlayer/react';
+import { useTalentLayer } from '@talentlayer/react/dist';
 
 function ShareModal() {
   const [show, setShow] = useState(false);

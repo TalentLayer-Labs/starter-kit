@@ -7,7 +7,7 @@ import { executePayment } from '../../contracts/executePayment';
 import { IService, IToken, ServiceStatusEnum } from '../../types';
 import { renderTokenAmount } from '../../utils/conversion';
 import { useChainId } from '../../hooks/useChainId';
-import { useTalentLayer } from '@talentlayer/react';
+import { useTalentLayer } from '@talentlayer/react/dist';
 
 interface IFormValues {
   percentField: string;

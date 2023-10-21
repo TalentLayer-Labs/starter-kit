@@ -4,7 +4,7 @@ import { useSearchParams } from 'next/navigation';
 import SearchTalentButton from '../../../components/Form/SearchTalentButton';
 import Loading from '../../../components/Loading';
 import UserItem from '../../../components/UserItem';
-import { useUsers } from '@talentlayer/react';
+import { useUsers } from '@talentlayer/react/dist';
 
 export default function Page() {
   const PAGE_SIZE = 36;

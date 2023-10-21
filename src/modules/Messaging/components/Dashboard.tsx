@@ -12,7 +12,7 @@ import { ChatMessageStatus, XmtpChatMessage } from '../utils/types';
 import CardHeader from './CardHeader';
 import MessageComposer from './MessageComposer';
 import MessageList from './MessageList';
-import { useTalentLayer, useUser } from '@talentlayer/react';
+import { useTalentLayer, useUser } from '@talentlayer/react/dist';
 
 function Dashboard(props: { address: string }) {
   const chainId = useChainId();

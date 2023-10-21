@@ -1,4 +1,4 @@
-import { useProposal } from '@talentlayer/react';
+import { useProposal } from '@talentlayer/react/dist';
 import useProposalsByUser from '../hooks/useProposalsByUser';
 import { IUser } from '../types';
 import UserProposalItem from './UserProposalItem';

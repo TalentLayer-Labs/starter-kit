@@ -4,7 +4,7 @@ import { useContext } from 'react';
 import { usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
 import { useChainId } from '../../hooks/useChainId';
-import { useMintFee } from '@talentlayer/react';
+import { useMintFee } from '@talentlayer/react/dist';
 import { NetworkEnum } from '../../types';
 import { createTalentLayerIdTransactionToast, showErrorTransactionToast } from '../../utils/toast';
 import HelpPopover from '../HelpPopover';
@@ -13,7 +13,7 @@ import { HandlePrice } from './HandlePrice';
 import SubmitButton from './SubmitButton';
 import Web3MailContext from '../../modules/Web3mail/context/web3mail';
 import { createWeb3mailToast } from '../../modules/Web3mail/utils/toast';
-import { useTalentLayer } from '@talentlayer/react';
+import { useTalentLayer } from '@talentlayer/react/dist';
 
 interface IFormValues {
   handle: string;

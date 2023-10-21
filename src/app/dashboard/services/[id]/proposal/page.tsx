@@ -11,7 +11,7 @@ import {
   useProposal,
   useService,
   useTalentLayer,
-} from '@talentlayer/react';
+} from '@talentlayer/react/dist';
 
 export default function CreateOrEditProposal(props: { params: { id: string } }) {
   const { account, user } = useTalentLayer();

@@ -1,4 +1,4 @@
-import { usePaymentsForUser } from '@talentlayer/react';
+import { usePaymentsForUser } from '@talentlayer/react/dist';
 import { IUser } from '../types';
 import { renderTokenAmount } from '../utils/conversion';
 import { formatStringCompleteDate } from '../utils/dates';

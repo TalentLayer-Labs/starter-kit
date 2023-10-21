@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useDisconnect } from 'wagmi';
 import { truncateAddress } from '../utils';
 import Link from 'next/link';
-import { useTalentLayer } from '@talentlayer/react';
+import { useTalentLayer } from '@talentlayer/react/dist';
 
 function UserSubMenu() {
   const { account, user } = useTalentLayer()

@@ -1,7 +1,7 @@
 import ConnectBlock from './ConnectBlock';
 import Loading from './Loading';
 import TalentLayerIdForm from './Form/TalentLayerIdForm';
-import { useTalentLayer } from '@talentlayer/react';
+import { useTalentLayer } from '@talentlayer/react/dist';
 
 function Steps() {
   const { account, loading, user } = useTalentLayer();

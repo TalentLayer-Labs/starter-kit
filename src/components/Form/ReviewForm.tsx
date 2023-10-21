@@ -9,7 +9,7 @@ import SubmitButton from './SubmitButton';
 import { getUserByAddress } from '../../queries/users';
 import { delegateMintReview } from '../request';
 import { useChainId } from '../../hooks/useChainId';
-import { useTalentLayer } from '@talentlayer/react';
+import { useTalentLayer } from '@talentlayer/react/dist';
 
 interface IFormValues {
   content: string;

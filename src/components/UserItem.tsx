@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { IUser } from '../types';
 import Loading from './Loading';
 import Stars from './Stars';
-import { useTalentLayer, useUser } from '@talentlayer/react';
+import { useTalentLayer, useUser } from '@talentlayer/react/dist';
 
 function UserItem({ user }: { user: IUser }) {
   const { user: currentUser } = useTalentLayer();

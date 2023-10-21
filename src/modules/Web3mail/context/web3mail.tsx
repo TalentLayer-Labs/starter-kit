@@ -12,7 +12,7 @@ import {
   useState,
 } from 'react';
 import { log } from '../../../utils/log';
-import { useTalentLayer } from '@talentlayer/react';
+import { useTalentLayer } from '@talentlayer/react/dist';
 
 const Web3MailContext = createContext<{
   platformHasAccess: boolean;

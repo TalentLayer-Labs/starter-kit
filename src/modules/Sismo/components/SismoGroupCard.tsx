@@ -1,7 +1,7 @@
 import { ISismoGroup } from '../utils/types';
 import SismoHelpPopover from './SismoHelpPopover';
 import Image from 'next/image';
-import { useTalentLayer } from '@talentlayer/react';
+import { useTalentLayer } from '@talentlayer/react/dist';
 
 function SismoGroupCard({
   sismoGroupData,

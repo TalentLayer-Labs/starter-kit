@@ -1,6 +1,6 @@
 "use client"
 
-import { useService } from '@talentlayer/react';
+import { useService } from '@talentlayer/react/dist';
 import Loading from '../../../../components/Loading';
 import ServiceDetail from '../../../../components/ServiceDetail';
 

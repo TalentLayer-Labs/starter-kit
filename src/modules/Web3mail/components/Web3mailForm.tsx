@@ -10,7 +10,7 @@ import Web3mailCard from './Web3mailCard';
 import Web3MailContext from '../context/web3mail';
 import { toast } from 'react-toastify';
 import { usePublicClient, useWalletClient } from 'wagmi';
-import { useTalentLayer } from '@talentlayer/react';
+import { useTalentLayer } from '@talentlayer/react/dist';
 
 interface IFormValues {
   email: string;

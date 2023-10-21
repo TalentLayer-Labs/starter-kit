@@ -4,7 +4,7 @@ import Loading from './Loading';
 import Stars from './Stars';
 import DelegateModal from './Modal/DelegateModal';
 import Link from 'next/link';
-import { useTalentLayer, useUser } from '@talentlayer/react';
+import { useTalentLayer, useUser } from '@talentlayer/react/dist';
 
 function UserDetail({ user }: { user: IUser }) {
   const { user: currentUser } = useTalentLayer();

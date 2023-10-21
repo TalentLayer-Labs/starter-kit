@@ -19,7 +19,7 @@ import { createWeb3mailToast } from '../../modules/Web3mail/utils/toast';
 import Web3MailContext from '../../modules/Web3mail/context/web3mail';
 import usePlatform from '../../hooks/usePlatform';
 import { chains } from '../../app/Providers';
-import { useTalentLayer } from '@talentlayer/react';
+import { useTalentLayer } from '@talentlayer/react/dist';
 
 interface IFormValues {
   title: string;

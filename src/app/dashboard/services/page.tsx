@@ -7,7 +7,7 @@ import ServiceItem from '../../../components/ServiceItem';
 import { IService, ServiceStatusEnum } from '../../../types';
 import Link from 'next/link';
 import { PlusCircleIcon } from '@heroicons/react/24/outline';
-import { useServices } from '@talentlayer/react';
+import { useServices } from '@talentlayer/react/dist';
 
 export default function Services() {
   const PAGE_SIZE = 30;

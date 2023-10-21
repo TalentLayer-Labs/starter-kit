@@ -2,7 +2,7 @@
 
 import Loading from '../../../../components/Loading';
 import UserIncomes from '../../../../components/UserIncomes';
-import { useTalentLayer } from '@talentlayer/react';
+import { useTalentLayer } from '@talentlayer/react/dist';
 
 export default function Incomes() {
   const { user } = useTalentLayer();

@@ -3,7 +3,7 @@
 import { Menu, Transition } from '@headlessui/react';
 import { Fragment, useEffect, useState } from 'react';
 import UserSubMenu from './UserSubMenu';
-import { useTalentLayer } from '@talentlayer/react';
+import { useTalentLayer } from '@talentlayer/react/dist';
 
 function UserAccount() {
   const { account, user } = useTalentLayer();

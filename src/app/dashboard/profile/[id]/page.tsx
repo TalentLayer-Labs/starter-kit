@@ -1,6 +1,6 @@
 'use client';
 
-import { useUser } from '@talentlayer/react';
+import { useUser } from '@talentlayer/react/dist';
 import Loading from '../../../../components/Loading';
 import UserDetail from '../../../../components/UserDetail';
 import UserServices from '../../../../components/UserServices';

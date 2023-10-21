@@ -16,9 +16,9 @@ import ReviewItem from './ReviewItem';
 import ServiceStatus from './ServiceStatus';
 import Stars from './Stars';
 import { useChainId } from '../hooks/useChainId';
-import { useTalentLayer } from '@talentlayer/react';
-import useReviews from '@talentlayer/react/hooks/useReviews';
-import { useProposals } from '@talentlayer/react';
+import { useTalentLayer } from '@talentlayer/react/dist';
+import useReviews from '@talentlayer/react/dist/hooks/useReviews';
+import { useProposals } from '@talentlayer/react/dist';
 
 function ServiceDetail({ service }: { service: IService }) {
   const chainId = useChainId();

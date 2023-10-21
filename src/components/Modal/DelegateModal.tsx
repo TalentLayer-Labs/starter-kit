@@ -6,7 +6,7 @@ import { toggleDelegation } from '../../contracts/toggleDelegation';
 import { getUserByAddress } from '../../queries/users';
 import { useChainId } from '../../hooks/useChainId';
 import { useConfig } from '../../hooks/useConfig';
-import { useTalentLayer } from '@talentlayer/react';
+import { useTalentLayer } from '@talentlayer/react/dist';
 
 function DelegateModal() {
   const chainId = useChainId();

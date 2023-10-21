@@ -1,4 +1,4 @@
-import { useTalentLayer } from '@talentlayer/react';
+import { useTalentLayer } from '@talentlayer/react/dist';
 import SideLink from './SideLink';
 import { navigation, navigationAdmin } from './navigation';
 

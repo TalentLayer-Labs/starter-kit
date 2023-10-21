@@ -1,4 +1,4 @@
-import { useTalentLayer } from '@talentlayer/react';
+import { useTalentLayer } from '@talentlayer/react/dist';
 import { IUser } from '../../../types';
 import useSismoBadgesPerAddress from '../hooks/useSismoBadgesPerAddress';
 import { TALENTLAYER_GROUPS } from '../utils/sismoGroupsData';

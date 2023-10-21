@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { ReactNode, useState, useEffect } from 'react';
 import Steps from '../Steps';
 import SideMenu from './SideMenu';
-import { useTalentLayer } from '@talentlayer/react';
+import { useTalentLayer } from '@talentlayer/react/dist';
 import { ICompletionScores, getCompletionScores } from '../../utils/profile';
 
 interface ContainerProps {

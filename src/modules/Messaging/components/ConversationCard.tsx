@@ -2,7 +2,7 @@ import { useRouter } from 'next/navigation';
 import { truncateAddress } from '../../../utils';
 import { formatDateConversationCard } from '../../../utils/dates';
 import { XmtpChatMessage } from '../utils/types';
-import { useUser } from '@talentlayer/react';
+import { useUser } from '@talentlayer/react/dist';
 
 interface IConversationCardProps {
   peerAddress: string;

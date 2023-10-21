@@ -9,7 +9,7 @@ import SearchModal from '../../../modules/Messaging/components/SearchModal';
 import ShareModal from '../../../modules/Messaging/components/ShareModal';
 import { XmtpContext } from '../../../modules/Messaging/context/XmtpContext';
 import useStreamConversations from '../../../modules/Messaging/hooks/useStreamConversations';
-import { useTalentLayer } from '@talentlayer/react';
+import { useTalentLayer } from '@talentlayer/react/dist';
 
 function MessagingIndex() {
   const chainId = useChainId();

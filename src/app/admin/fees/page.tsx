@@ -11,7 +11,7 @@ import TalentLayerPlatformID from '../../../contracts/ABI/TalentLayerPlatformID.
 import { useConfig } from '../../../hooks/useConfig';
 import { chains } from '../../Providers';
 import { useChainId } from 'wagmi';
-import { usePlatform, useTalentLayer } from '@talentlayer/react';
+import { usePlatform, useTalentLayer } from '@talentlayer/react/dist';
 
 export default function AdminFees() {
   const chainId = useChainId();

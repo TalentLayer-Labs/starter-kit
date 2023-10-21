@@ -5,7 +5,7 @@ import ServiceForm from '../../../../components/Form/ServiceForm';
 import Steps from '../../../../components/Steps';
 import ConnectButton from '../../../../modules/Messaging/components/ConnectButton';
 import MessagingContext from '../../../../modules/Messaging/context/messging';
-import { useTalentLayer } from '@talentlayer/react';
+import { useTalentLayer } from '@talentlayer/react/dist';
 
 export default function CreateService() {
   const { account, user } = useTalentLayer();

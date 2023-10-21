@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { useServices } from '@talentlayer/react';
+import { useServices } from '@talentlayer/react/dist';
 import { IUser } from '../types';
 import UserServiceItem from './UserServiceItem';
 

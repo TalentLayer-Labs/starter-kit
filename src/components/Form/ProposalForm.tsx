@@ -21,7 +21,7 @@ import { delegateCreateOrUpdateProposal } from '../request';
 import SubmitButton from './SubmitButton';
 import usePlatform from '../../hooks/usePlatform';
 import { chains } from '../../pages/_app';
-import { useTalentLayer } from '@talentlayer/react';
+import { useTalentLayer } from '@talentlayer/react/dist';
 
 interface IFormValues {
   about: string;

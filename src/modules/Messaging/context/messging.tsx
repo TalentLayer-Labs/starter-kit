@@ -6,7 +6,7 @@ import { getAddress } from 'viem';
 import { useWalletClient } from 'wagmi';
 import { useChainId } from '../../../hooks/useChainId';
 import { XmtpContext } from './XmtpContext';
-import { useTalentLayer } from '@talentlayer/react';
+import { useTalentLayer } from '@talentlayer/react/dist';
 
 const MessagingContext = createContext<{
   userExists: () => boolean;

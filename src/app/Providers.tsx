@@ -2,7 +2,7 @@
 
 import { DefaultSeo } from 'next-seo';
 import { WagmiConfig, configureChains, createConfig, useAccount, useChainId, Chain } from 'wagmi';
-import { TalentLayerProvider } from '@talentlayer/react';
+import { TalentLayerProvider } from '@talentlayer/react/dist';
 import { Web3MailProvider } from '../modules/Web3mail/context/web3mail';
 import { XmtpContextProvider } from '../modules/Messaging/context/XmtpContext';
 import { MessagingProvider } from '../modules/Messaging/context/messging';
@@ -60,7 +60,7 @@ export default function Providers(props: { children: JSX.Element }) {
 
 function TLWrapper(props: { children: JSX.Element }) {
   const chainId = useChainId();
-  const account = useAccount();
+  const account: any = useAccount();
 
   return (
     <TalentLayerProvider

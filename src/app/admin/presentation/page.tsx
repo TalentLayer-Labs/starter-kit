@@ -10,7 +10,7 @@ import Steps from '../../../components/Steps';
 import UserNeedsMoreRights from '../../../components/UserNeedsMoreRights';
 import { useChainId } from '../../../hooks/useChainId';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../../utils/toast';
-import { usePlatform, useTalentLayer } from '@talentlayer/react';
+import { usePlatform, useTalentLayer } from '@talentlayer/react/dist';
 
 interface IFormValues {
   about: string;

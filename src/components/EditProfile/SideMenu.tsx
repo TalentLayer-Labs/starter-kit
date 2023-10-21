@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import SideLink from './SideLink';
 import { navigation } from './navigation';
 import { ICompletionScores, getCompletionScores } from '../../utils/profile';
-import { useTalentLayer } from '@talentlayer/react';
+import { useTalentLayer } from '@talentlayer/react/dist';
 
 export default function SideMenu() {
   const [completionScores, setCompletionScores] = useState<ICompletionScores>();

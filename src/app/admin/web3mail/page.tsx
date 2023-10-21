@@ -5,7 +5,7 @@ import Steps from '../../../components/Steps';
 import useFetchMyContacts from '../../../modules/Web3mail/hooks/useFetchMyContacts';
 import { ContactListForm } from '../../../components/Form/ContactSelectForm';
 import UserNeedsMoreRights from '../../../components/UserNeedsMoreRights';
-import { useTalentLayer } from '@talentlayer/react';
+import { useTalentLayer } from '@talentlayer/react/dist';
 
 export default function Web3mail() {
   const { user, loading } = useTalentLayer();

@@ -3,8 +3,8 @@ import { IProposal, ProposalStatusEnum } from '../types';
 import { formatDate } from '../utils/dates';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useTalentLayer } from '@talentlayer/react';
-import { useService } from '@talentlayer/react';
+import { useTalentLayer } from '@talentlayer/react/dist';
+import { useService } from '@talentlayer/react/dist';
 
 function UserProposalItem({ proposal }: { proposal: IProposal }) {
   const { user } = useTalentLayer();
