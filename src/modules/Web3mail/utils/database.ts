@@ -32,6 +32,17 @@ export const persistCronProbe = async (
   errorCount: number,
   cronDuration: number,
 ) => {
+  const existingCronProbe = await CronProbe.findOne({
+    type: emailType,
+  });
+  if (existingCronProbe) {
+    existingCronProbe.lastRanAt = `${getTimestampNowSeconds()}`;
+    existingCronProbe.successCount = successCount;
+    existingCronProbe.errorCount = errorCount;
+    existingCronProbe.duration = cronDuration;
+    existingCronProbe.save();
+    return;
+  }
   const cronProbe = await CronProbe.create({
     type: emailType,
     lastRanAt: `${getTimestampNowSeconds()}`,
