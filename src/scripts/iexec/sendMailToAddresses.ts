@@ -39,36 +39,29 @@ export const sendMailToAddresses = async (
       web3mail = providedWeb3mail;
     }
 
-    for (const address of addresses) {
-      try {
-        console.log(`------- Sending web3mail to ${address} -------`);
+    const sendPromises = addresses.map(address =>
+      sendMarketingEmailTo(
+        address,
+        dataProtector,
+        web3mail,
+        emailSubject,
+        emailContent,
+        platformName,
+      ),
+    );
 
-        // Check whether user granted access to his email
-        const protectedEmailAddress = await userGaveAccessToPlatform(address, dataProtector);
-        if (!protectedEmailAddress) {
-          throwable
-            ? throwError(`sendMailToAddresses - User ${address} did not grant access to his email`)
-            : console.warn(
-                `sendMailToAddresses - User ${address} did not grant access to his email`,
-              );
-          nonSentCount++;
-          continue;
-        }
+    const results = await Promise.all(sendPromises);
 
-        const mailSent = await web3mail.sendEmail({
-          protectedData: protectedEmailAddress,
-          emailSubject: emailSubject,
-          emailContent: emailContent,
-          contentType: 'text/html',
-          senderName: platformName,
-        });
+    let sentCount = 0;
+    let nonSentCount = 0;
+
+    results.forEach(result => {
+      if (result.success) {
         sentCount++;
-        console.log('sent email', mailSent);
-      } catch (e) {
+      } else {
         nonSentCount++;
-        throwable ? throwError(e) : console.log(e);
       }
-    }
+    });
   } catch (e) {
     /**@dev: No error should be thrown here if dataProtector or web3mail are provided */
     throwError(e);
@@ -78,4 +71,37 @@ export const sendMailToAddresses = async (
 
 const throwError = (message: any) => {
   throw new Error(message);
+};
+
+const sendMarketingEmailTo = async (
+  address: string,
+  dataProtector: IExecDataProtector,
+  web3mail: IExecWeb3mail,
+  emailSubject: string,
+  emailContent: string,
+  platformName: string,
+) => {
+  try {
+    console.log(`------- Sending web3mail to ${address} -------`);
+
+    // Check whether user granted access to his email
+    const protectedEmailAddress = await userGaveAccessToPlatform(address, dataProtector);
+    if (!protectedEmailAddress) {
+      console.warn(`sendMailToAddresses - User ${address} did not grant access to his email`);
+      return { success: false, error: 'access denied' };
+    }
+
+    const mailSent = await web3mail.sendEmail({
+      protectedData: protectedEmailAddress,
+      emailSubject: emailSubject,
+      emailContent: emailContent,
+      contentType: 'text/html',
+      senderName: platformName,
+    });
+    console.log('sent email', mailSent);
+    return { success: true };
+  } catch (e) {
+    console.log(e);
+    return { success: false, error: e };
+  }
 };
