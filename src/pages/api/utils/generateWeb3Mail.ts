@@ -247,9 +247,12 @@ table, td { color: #000000; } #u_body a { color: #161a39; text-decoration: under
       <td style="overflow-wrap:break-word;word-break:break-word;padding:40px 40px 30px;font-family:'Lato',sans-serif;" align="left">
         
   <div style="font-size: 14px; line-height: 140%; text-align: left; word-wrap: break-word;">
-    <p style="font-size: 14px; line-height: 140%;"><span style="font-size: 18px; line-height: 25.2px; color: #666666;">Hello ${
-      name ? ` ${name}` : ''
-    },</span></p>
+  ${
+    name
+      ? `  <p style="font-size: 14px; line-height: 140%;"><span style="font-size: 18px; line-height: 25.2px; color: #666666;">Hello ${name},</span></p>`
+      : ''
+  }
+   
 <p style="font-size: 14px; line-height: 140%;">&nbsp;</p>
 <p style="font-size: 14px; line-height: 140%;"><span style="font-size: 18px; line-height: 25.2px; color: #666666;">${body}</span></p>
   </div>
