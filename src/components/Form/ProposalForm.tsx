@@ -20,7 +20,7 @@ import ServiceItem from '../ServiceItem';
 import { delegateCreateOrUpdateProposal } from '../request';
 import SubmitButton from './SubmitButton';
 import usePlatform from '../../hooks/usePlatform';
-import { chains } from '../../pages/_app';
+import { chains } from '../../app/Providers';
 import { useTalentLayer } from '@talentlayer/react/dist';
 
 interface IFormValues {
@@ -187,7 +187,7 @@ function ProposalForm({
             error: 'An error occurred while creating your proposal',
           },
           publicClient,
-          tx,
+          tx as any,
           'proposal',
           cid,
         );
