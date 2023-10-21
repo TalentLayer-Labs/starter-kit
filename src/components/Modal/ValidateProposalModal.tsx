@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 import { Check, X } from 'heroicons-react';
 import { useState } from 'react';
@@ -11,8 +11,8 @@ import { IAccount, IProposal } from '../../types';
 import { renderTokenAmount } from '../../utils/conversion';
 import Step from '../Step';
 import { useChainId } from '../../hooks/useChainId';
-import useTalentLayerClient from '../../hooks/useTalentLayerClient';
 import { ZERO_ADDRESS } from '../../utils/constant';
+import { useTalentLayer } from '@talentlayer/react';
 
 function ValidateProposalModal({ proposal, account }: { proposal: IProposal; account: IAccount }) {
   const chainId = useChainId();
@@ -29,7 +29,7 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
     token: proposal.rateToken.address,
   });
 
-  const talentLayerClient = useTalentLayerClient();
+  const { client: talentLayerClient } = useTalentLayer();
 
   const originValidatedProposalPlatformId = proposal.platform.id;
   const originServicePlatformId = proposal.service.platform.id;
