@@ -30,8 +30,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const cronSecurityKey = req.headers.authorization as string;
   const privateKey = process.env.NEXT_WEB3MAIL_PLATFORM_PRIVATE_KEY as string;
   const isWeb3mailActive = process.env.NEXT_PUBLIC_ACTIVE_WEB3MAIL as string;
+  const RETRY_FACTOR = process.env.NEXT_WEB3MAIL_RETRY_FACTOR
+    ? process.env.NEXT_WEB3MAIL_RETRY_FACTOR
+    : '0';
 
-  const RETRY_FACTOR = 5;
   let sentEmails = 0,
     nonSentEmails = 0;
 
@@ -42,7 +44,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   // Check whether the user provided a timestamp or if it will come from the cron config
   const { sinceTimestamp, cronDuration } = calculateCronData(
     req,
-    RETRY_FACTOR,
+    Number(RETRY_FACTOR),
     NotificationApiUri.NewProposal,
   );
 
@@ -152,7 +154,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (!req.query.sinceTimestamp) {
       // Update cron probe in db
       await persistCronProbe(EmailType.NewProposal, sentEmails, nonSentEmails, cronDuration);
-      console.log(`Cron probe updated in DB`);
+      console.log(
+        `Cron probe updated in DB for ${EmailType.NewProposal}: duration: ${cronDuration}, sentEmails: ${sentEmails}, nonSentEmails: ${nonSentEmails}`,
+      );
     }
     console.log(
       `Web3 Emails sent - ${sentEmails} email successfully sent | ${nonSentEmails} non sent emails`,
