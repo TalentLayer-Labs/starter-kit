@@ -47,18 +47,16 @@ function MyApp({ Component, pageProps }: AppProps) {
         <WagmiConfig config={wagmiConfig}>
           <TalentLayerProvider>
             <SpaceProvider>
-              <Web3MailProvider>
-                <XmtpContextProvider>
-                  <MessagingProvider>
-                    <ThemeProvider enableSystem={false}>
-                      <Layout>
-                        <Component {...pageProps} />
-                      </Layout>
-                    </ThemeProvider>
-                  </MessagingProvider>
-                </XmtpContextProvider>
-                <ToastContainer position='bottom-right' />
-              </Web3MailProvider>
+              <XmtpContextProvider>
+                <MessagingProvider>
+                  <ThemeProvider enableSystem={false}>
+                    <Layout>
+                      <Component {...pageProps} />
+                    </Layout>
+                  </ThemeProvider>
+                </MessagingProvider>
+              </XmtpContextProvider>
+              <ToastContainer position='bottom-right' />
             </SpaceProvider>
           </TalentLayerProvider>
           <Web3Modal
