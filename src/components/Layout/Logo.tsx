@@ -9,7 +9,7 @@ function Logo({ theme = 'dark' }: { theme?: 'dark' | 'light' }) {
           src={'/logo-text-white.png'}
           width={180}
           height={36}
-          alt='StarterKit logo'
+          alt='BuilderPlace logo'
           className='-ml-2 sm:ml-0'
         />
       </Link>

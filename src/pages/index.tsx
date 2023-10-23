@@ -114,7 +114,7 @@ function Home() {
                   <div className='flex flex-wrap items-center'>
                     <a
                       target='_blank'
-                      href='https://github.com/TalentLayer-Labs/starter-kit'
+                      href='https://github.com/TalentLayer-Labs/builder-place'
                       className='mr-6 mb-6 inline-flex h-[60px] items-center rounded-lg bg-black py-[14px] px-[30px] text-white hover:bg-opacity-90'>
                       <span className='mr-[18px] border-r border-stroke border-opacity-40 pr-[18px] leading-relaxed '>
                         Fork Now
@@ -246,9 +246,9 @@ function Home() {
                 Amazing features to make your work easier
               </h2>
               <p className='text-base text-body'>
-                With value-added features and a user-friendly environment, our starter kit empowers
-                you to unlock the full potential of TalentLayer and XMTP, enabling the creation of
-                an outstanding dapp experience
+                With value-added features and a user-friendly environment, our builder place
+                empowers you to unlock the full potential of TalentLayer and XMTP, enabling the
+                creation of an outstanding dapp experience
               </p>
             </div>
           </div>
@@ -569,7 +569,7 @@ function Home() {
                 <div className='w-full px-4 lg:w-1/2'>
                   <div className='wow fadeInUp lg:ml-auto lg:max-w-[510px]' data-wow-delay='.3s'>
                     <span className='mb-4 block text-lg font-medium text-redpraha md:text-[22px]'>
-                      The open source starterKit
+                      The open source BuilderPlace
                     </span>
                     <h2 className='mb-4 text-3xl font-bold text-black  sm:text-4xl md:text-[44px] md:leading-tight'>
                       Build the future of Work
@@ -865,7 +865,7 @@ function Home() {
               </h2>
               <p className='text-base text-body'>
                 We highly value feedback from our users as it plays a crucial role in enhancing our
-                starter kit, refining the user experience, and continuously improving the features
+                builder place, refining the user experience, and continuously improving the features
                 and functionality to meet the evolving needs of our community.
               </p>
             </div>
@@ -880,7 +880,7 @@ function Home() {
                   <div className='mb-5 border-b border-stroke'>
                     <p className='pb-9 text-base text-body'>
                       The integration process of the TalentLayer and XMTP protocols was seamless
-                      using your starter kit. It saved us a significant amount of time and effort,
+                      using your builder place. It saved us a significant amount of time and effort,
                       allowing us to focus more on building unique features for our dapp. The
                       documentation provided was clear and comprehensive, making it easy for our
                       development team to understand and utilize the kit effectively.
@@ -1042,7 +1042,7 @@ function Home() {
                   data-wow-delay='.3s'>
                   <div className='mb-5 border-b border-stroke'>
                     <p className='pb-9 text-base text-body'>
-                      We appreciate the value-added features included in your starter kit. The
+                      We appreciate the value-added features included in your builder place. The
                       pre-built components and streamlined development environment made it simple to
                       create a great dapp experience quickly. Additionally, the responsiveness of
                       your support team in addressing our queries and providing guidance was
@@ -1212,7 +1212,7 @@ function Home() {
                 Frequently Asked Questions
               </h2>
               <p className='text-base text-body'>
-                Find answers to commonly asked questions about our Next.js starter kit for
+                Find answers to commonly asked questions about our Next.js builder place for
                 TalentLayer and XMTP integration, helping you navigate through the implementation
                 process and make the most out of the powerful features provided.
               </p>
@@ -1223,7 +1223,7 @@ function Home() {
               data-wow-delay='.3s'>
               <div className='faq border-b border-stroke last-of-type:border-none'>
                 <button className='faq-btn relative flex w-full justify-between pt-6 pb-1 px-[18px] text-left text-base font-medium text-black  sm:px-[26px] sm:text-lg'>
-                  Are there any specific requirements or dependencies for using the starter kit?
+                  Are there any specific requirements or dependencies for using the builder place?
                 </button>
                 <div className='pb-4 h-auto overflow-hidden px-[18px] sm:px-[26px]'>
                   <p className='text-base text-body'>Just NodeJS & npm</p>

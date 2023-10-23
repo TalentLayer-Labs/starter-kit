@@ -1,4 +1,4 @@
-const title = 'StarterKit';
+const title = 'BuilderPlace';
 const description = 'Start Fast with XMTP & TalentLayer';
 const url = 'https://www.yourdomain.com';
 
@@ -9,7 +9,7 @@ export default {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    site_name: 'StarterKit',
+    site_name: 'BuilderPlace',
     title,
     description,
   },

@@ -113,7 +113,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           `You got a new proposal!`,
           `You just received a new proposal for the gig "${
             proposal.service.description?.title
-          }" you posted on StarterKit !
+          }" you posted on BuilderPlace !
           ${
             proposal.seller.handle
           } can complete your gig for the following amount: ${renderTokenAmount(
