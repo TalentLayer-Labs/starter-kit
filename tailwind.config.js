@@ -13,6 +13,7 @@ module.exports = {
       brownbs: '#373528',
       yellowpraha: '#fff490',
       bluepraha: '#90f6ff',
+      landingprimary: '#FF71A2',
     },
   },
   plugins: [require('@tailwindcss/forms'), require('@tailwindcss/line-clamp')],
