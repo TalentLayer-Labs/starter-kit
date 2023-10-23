@@ -1,11 +1,9 @@
-import { DomainVerificationStatusProps, DomainResponse, Space } from '../types';
 import { useQuery } from 'react-query';
+import { Space } from '../types';
 
 export function useGetSpace({ domain }: { domain: string }) {
   const { data, isLoading } = useQuery<Space>(`space-${domain}`, () =>
-    fetch(`/api/domain/${domain}/get-space`).then(res =>
-      res.json()
-    ), { refetchInterval: 5000, keepPreviousData: true }
+    fetch(`/api/domain/${domain}/get-space`).then(res => res.json()),
   );
 
   return {
