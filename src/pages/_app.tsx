@@ -18,7 +18,19 @@ import { NetworkEnum } from '../types';
 import Layout from './Layout';
 import { iexec } from '../chains';
 
-export const chains: Chain[] = [polygonMumbai, polygon, iexec];
+export let chains: Chain[] = [];
+if ((process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as unknown as NetworkEnum) == NetworkEnum.MUMBAI) {
+  chains.push(polygonMumbai);
+} else if (
+  (process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as unknown as NetworkEnum) == NetworkEnum.POLYGON
+) {
+  chains.push(polygon);
+}
+
+if (process.env.NEXT_PUBLIC_ACTIVE_WEB3MAIL == 'true') {
+  chains.push(iexec);
+}
+
 export const defaultChain: Chain | undefined = chains.find(
   chain => chain.id === parseInt(process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as string),
 );
