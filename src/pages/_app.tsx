@@ -3,23 +3,21 @@ import { Web3Modal } from '@web3modal/react';
 import { DefaultSeo } from 'next-seo';
 import { ThemeProvider } from 'next-themes';
 import type { AppProps } from 'next/app';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Chain, WagmiConfig, configureChains, createConfig } from 'wagmi';
-import { polygonMumbai } from 'wagmi/chains';
+import { polygon, polygonMumbai } from 'wagmi/chains';
 import SEO from '../../next-seo.config';
-import { iexec } from '../chains';
 import { TalentLayerProvider } from '../context/talentLayer';
 import { XmtpContextProvider } from '../modules/Messaging/context/XmtpContext';
 import { MessagingProvider } from '../modules/Messaging/context/messging';
-import { Web3MailProvider } from '../modules/Web3mail/context/web3mail';
-import '../styles/globals.css';
-import Layout from './Layout';
-import { QueryClient, QueryClientProvider } from 'react-query';
 import { SpaceProvider } from '../modules/MultiDomain/context/SpaceContext';
+import '../styles/globals.css';
 import { NetworkEnum } from '../types';
+import Layout from './Layout';
 
-export const chains: Chain[] = [polygonMumbai, iexec];
+export const chains: Chain[] = [polygonMumbai, polygon];
 export const defaultChain: Chain | undefined = chains.find(
   chain => chain.id === parseInt(process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as string),
 );
