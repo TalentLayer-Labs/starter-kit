@@ -5,9 +5,11 @@ import Web3mailPreferencesForm from '../../../../../modules/Web3mail/components/
 import Web3MailContext from '../../../../../modules/Web3mail/context/web3mail';
 
 function EditPrivacy() {
-  const { platformHasAccess } = useContext(Web3MailContext);
-
-  return <Layout>{platformHasAccess ? <Web3mailPreferencesForm /> : <Web3mailForm />}</Layout>;
+  return (
+    <Layout>
+      <Web3mailPreferencesForm />
+    </Layout>
+  );
 }
 
 export default EditPrivacy;

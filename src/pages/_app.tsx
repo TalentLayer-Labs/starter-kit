@@ -16,8 +16,9 @@ import { SpaceProvider } from '../modules/MultiDomain/context/SpaceContext';
 import '../styles/globals.css';
 import { NetworkEnum } from '../types';
 import Layout from './Layout';
+import { iexec } from '../chains';
 
-export const chains: Chain[] = [polygonMumbai, polygon];
+export const chains: Chain[] = [polygonMumbai, polygon, iexec];
 export const defaultChain: Chain | undefined = chains.find(
   chain => chain.id === parseInt(process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as string),
 );
