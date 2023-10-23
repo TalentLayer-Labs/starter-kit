@@ -110,7 +110,7 @@ function UserIncomes({ id }: { id: string }) {
                         {payment.rateToken.symbol}
                       </td>
                       <td className=' p-2 text-center text-blue-500 border-r border-b border-gray-500'>
-                        <a target='_blank' href={`/dashboard/services/${payment.service.id}`}>
+                        <a target='_blank' href={`/dashboard/work/${payment.service.id}`}>
                           Service n°{payment.service.id}{' '}
                         </a>
                       </td>

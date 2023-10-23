@@ -160,7 +160,7 @@ function ServiceForm() {
         setSubmitting(false);
         resetForm();
         if (newId) {
-          router.push(`/dashboard/services/${newId}`);
+          router.push(`/dashboard/work/${newId}`);
         }
         if (process.env.NEXT_PUBLIC_ACTIVE_WEB3MAIL == 'true' && !platformHasAccess) {
           createWeb3mailToast();

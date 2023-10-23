@@ -6,15 +6,19 @@ import { IService, ServiceStatusEnum } from '../../../../types';
 import Link from 'next/link';
 import { PlusCircleIcon } from '@heroicons/react/24/outline';
 import useFilteredServices from '../../../../hooks/useFilteredServices';
+import { useContext } from 'react';
+import BuilderPlaceContext from '../../../../modules/BuilderPlace/context/BuilderPlaceContext';
 
 function Services() {
+  const { builderPlace } = useContext(BuilderPlaceContext);
   const PAGE_SIZE = 30;
   const router = useRouter();
   const query = router.query;
   const searchQuery = query.search as string;
+
   const { hasMoreData, services, loading, loadMore } = useFilteredServices(
     ServiceStatusEnum.Opened,
-    undefined,
+    builderPlace?.ownerTalentLayerId,
     undefined,
     searchQuery?.toLocaleLowerCase(),
     PAGE_SIZE,
@@ -28,7 +32,7 @@ function Services() {
             All <span className='text-stone-800 ml-1'> posts </span>
           </p>
           <Link
-            href={`/dashboard/services/create`}
+            href={`/dashboard/work/create`}
             className=' hover:bg-endnight text-stone-800 bg-endnight px-3 py-2 text-sm flex items-center rounded-xl'>
             <PlusCircleIcon className='w-[18px] h-[18px] text-stone-600 mr-2' />
             Create Gig

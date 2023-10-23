@@ -15,10 +15,10 @@ function SearchServiceButton(props?: { value?: string }) {
     const searchQueryRef = formElm.querySelector('input')!.value;
     if (searchQueryRef.length > 0) {
       router.push({
-        pathname: '/dashboard/services',
+        pathname: '/dashboard/work',
         query: { search: searchQueryRef },
       });
-    } else router.push('/dashboard/services');
+    } else router.push('/dashboard/work');
   }, []);
 
   return (

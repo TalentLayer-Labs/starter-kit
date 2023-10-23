@@ -109,7 +109,7 @@ function ServiceDetail({ service }: { service: IService }) {
                 {!userProposal && (
                   <Link
                     className='text-stone-800 bg-redpraha hover:redpraha/80 hover:text-stone-800 px-5 py-2.5 rounded-xl text-sm'
-                    href={`/dashboard/services/${service.id}/proposal`}>
+                    href={`/dashboard/work/${service.id}/proposal`}>
                     Create proposal
                   </Link>
                 )}
