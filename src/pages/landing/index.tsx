@@ -318,7 +318,7 @@ function Home() {
                   y='0'
                   width='1154'
                   height='1154'
-                  filterUnits='userBuilderPlaceOnUse'
+                  filterUnits='userSpaceOnUse'
                   colorInterpolationFilters='sRGB'>
                   <feFlood floodOpacity='0' result='BackgroundImageFix' />
                   <feBlend
@@ -335,7 +335,7 @@ function Home() {
                   y1='894'
                   x2='970.173'
                   y2='346.491'
-                  gradientUnits='userBuilderPlaceOnUse'>
+                  gradientUnits='userSpaceOnUse'>
                   <stop stopColor='#8EA5FE' />
                   <stop offset='0.541667' stopColor='#BEB3FD' />
                   <stop offset='1' stopColor='#90D1FF' />
@@ -360,7 +360,7 @@ function Home() {
                   y='0'
                   width='1236'
                   height='1236'
-                  filterUnits='userBuilderPlaceOnUse'
+                  filterUnits='userSpaceOnUse'
                   colorInterpolationFilters='sRGB'>
                   <feFlood floodOpacity='0' result='BackgroundImageFix' />
                   <feBlend
@@ -377,7 +377,7 @@ function Home() {
                   y1='250'
                   x2='506.12'
                   y2='754.835'
-                  gradientUnits='userBuilderPlaceOnUse'>
+                  gradientUnits='userSpaceOnUse'>
                   <stop stopColor='#FF8FE8' />
                   <stop offset='1' stopColor='#FFC960' />
                 </linearGradient>
@@ -529,7 +529,7 @@ function Home() {
                   y1='0'
                   x2='224.623'
                   y2='130.324'
-                  gradientUnits='userBuilderPlaceOnUse'>
+                  gradientUnits='userSpaceOnUse'>
                   <stop stopColor='#FF8FE8' />
                   <stop offset='1' stopColor='#FFC960' />
                 </linearGradient>
@@ -683,7 +683,7 @@ function Home() {
                   y='0'
                   width='1179'
                   height='1179'
-                  filterUnits='userBuilderPlaceOnUse'
+                  filterUnits='userSpaceOnUse'
                   colorInterpolationFilters='sRGB'>
                   <feFlood floodOpacity='0' result='BackgroundImageFix' />
                   <feBlend
@@ -700,7 +700,7 @@ function Home() {
                   y1='919'
                   x2='451.176'
                   y2='349.901'
-                  gradientUnits='userBuilderPlaceOnUse'>
+                  gradientUnits='userSpaceOnUse'>
                   <stop stopColor='#8EA5FE' />
                   <stop offset='0.541667' stopColor='#BEB3FD' />
                   <stop offset='1' stopColor='#90D1FF' />
@@ -726,7 +726,7 @@ function Home() {
                   y='0'
                   width='1277'
                   height='1277'
-                  filterUnits='userBuilderPlaceOnUse'
+                  filterUnits='userSpaceOnUse'
                   colorInterpolationFilters='sRGB'>
                   <feFlood floodOpacity='0' result='BackgroundImageFix' />
                   <feBlend
@@ -743,7 +743,7 @@ function Home() {
                   y1='250'
                   x2='1168.59'
                   y2='782.957'
-                  gradientUnits='userBuilderPlaceOnUse'>
+                  gradientUnits='userSpaceOnUse'>
                   <stop stopColor='#FF8FE8' />
                   <stop offset='1' stopColor='#FFC960' />
                 </linearGradient>
@@ -1185,7 +1185,7 @@ function Home() {
                   y1='0'
                   x2='224.623'
                   y2='130.324'
-                  gradientUnits='userBuilderPlaceOnUse'>
+                  gradientUnits='userSpaceOnUse'>
                   <stop stopColor='#FF8FE8' />
                   <stop offset='1' stopColor='#FFC960' />
                 </linearGradient>
@@ -1207,7 +1207,7 @@ function Home() {
                   y1='190'
                   x2='117.828'
                   y2='25.9199'
-                  gradientUnits='userBuilderPlaceOnUse'>
+                  gradientUnits='userSpaceOnUse'>
                   <stop stopColor='#0f172a' />
                   <stop stopColor='#FF8FE8' />
                   <stop offset='1' stopColor='#FFC960' />
