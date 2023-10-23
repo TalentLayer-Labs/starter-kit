@@ -20,7 +20,7 @@ function UserServices({ user, type }: IProps) {
 
   return (
     <>
-      <h2 className='mb-6 pb-4 border-b border-gray-gray-200 text-gray-100 font-medium break-all'>
+      <h2 className='mb-6 pb-4 border-b border-gray-gray-200 text-stone-800 font-medium break-all'>
         {type == 'buyer' ? 'Gigs posted' : 'Gigs applied'}
       </h2>
       <div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4'>
@@ -32,7 +32,7 @@ function UserServices({ user, type }: IProps) {
       {services.length === 20 && (
         <a
           href='#'
-          className='px-5 py-2  border border-zinc-600 rounded-full text-zinc-600 hover:text-white hover:bg-midnight'>
+          className='px-5 py-2  border border-zinc-600 rounded-full text-zinc-600 hover:text-stone-800 hover:bg-midnight'>
           Load More
         </a>
       )}

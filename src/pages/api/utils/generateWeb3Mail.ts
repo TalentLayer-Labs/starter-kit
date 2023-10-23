@@ -170,7 +170,7 @@ table, td { color: #000000; } #u_body a { color: #161a39; text-decoration: under
   <tr>
     <td style="padding-right: 0px;padding-left: 0px;" align="center">
       
-      <img align="center" border="0" src="https://assets.unlayer.com/projects/191243/1697535461939-logo-text-white.png" alt="Image" title="Image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 29%;max-width: 168.2px;" width="168.2"/>
+      <img align="center" border="0" src="https://assets.unlayer.com/projects/191243/1697535461939-logo-text-stone-800.png" alt="Image" title="Image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 29%;max-width: 168.2px;" width="168.2"/>
       
     </td>
   </tr>
@@ -392,8 +392,8 @@ const renderLink = (link: string, linkText: string) => {
 
     <!--[if mso]><style>.v-button {background: transparent !important;}</style><![endif]-->
   <div align="center">
-    <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://bellecour.builderplace.work/...." style="height:52px; v-text-anchor:middle; width:191px;" arcsize="2%"  stroke="f" fillcolor="#ff0050"><w:anchorlock/><center style="color:#FFFFFF;"><![endif]-->
-  <a href=${link} target="_blank" class="v-button" style="box-sizing: border-box;display: inline-block;text-decoration: none;-webkit-text-size-adjust: none;text-align: center;color: #FFFFFF; background-color: #ff0050; border-radius: 1px;-webkit-border-radius: 1px; -moz-border-radius: 1px; width:auto; max-width:100%; overflow-wrap: break-word; word-break: break-word; word-wrap:break-word; mso-border-alt: none;font-size: 14px;">
+    <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://bellecour.builderplace.work/...." style="height:52px; v-text-anchor:middle; width:191px;" arcsize="2%"  stroke="f" fillcolor="#f4dabe"><w:anchorlock/><center style="color:#FFFFFF;"><![endif]-->
+  <a href=${link} target="_blank" class="v-button" style="box-sizing: border-box;display: inline-block;text-decoration: none;-webkit-text-size-adjust: none;text-align: center;color: #FFFFFF; background-color: #f4dabe; border-radius: 1px;-webkit-border-radius: 1px; -moz-border-radius: 1px; width:auto; max-width:100%; overflow-wrap: break-word; word-break: break-word; word-wrap:break-word; mso-border-alt: none;font-size: 14px;">
   <span style="display:block;padding:15px 40px;line-height:120%;"><span style="font-size: 18px; line-height: 21.6px;">${linkText}</span></span>
   </a>
     <!--[if mso]></center></v:roundrect><![endif]-->

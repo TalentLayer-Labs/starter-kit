@@ -137,32 +137,32 @@ function ProfileForm({ callback }: { callback?: () => void }) {
         <Form>
           <div className='grid grid-cols-1 gap-6'>
             <label className='block'>
-              <span className='text-gray-100'>Title</span>
+              <span className='text-stone-800'>Title</span>
               <Field
                 type='text'
                 id='title'
                 name='title'
-                className='mt-1 mb-1 block w-full rounded-xl border border-gray-700 bg-midnight shadow-sm focus:ring-opacity-50'
+                className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
                 placeholder=''
               />
             </label>
             <label className='block'>
-              <span className='text-gray-100'>Name</span>
+              <span className='text-stone-800'>Name</span>
               <Field
                 type='text'
                 id='name'
                 name='name'
-                className='mt-1 mb-1 block w-full rounded-xl border border-gray-700 bg-midnight shadow-sm focus:ring-opacity-50'
+                className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
                 placeholder=''
               />
             </label>
             <label className='block'>
-              <span className='text-gray-100'>Role</span>
+              <span className='text-stone-800'>Role</span>
               <Field
                 as='select'
                 id='role'
                 name='role'
-                className='mt-1 mb-1 block w-full rounded-xl border border-gray-700 bg-midnight shadow-sm focus:ring-opacity-50'
+                className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
                 placeholder=''>
                 <option value=''></option>
                 <option value='buyer'>Freelance</option>
@@ -172,23 +172,23 @@ function ProfileForm({ callback }: { callback?: () => void }) {
             </label>
 
             <label className='block'>
-              <span className='text-gray-100'>Picture Url</span>
+              <span className='text-stone-800'>Picture Url</span>
               <Field
                 type='text'
                 id='image_url'
                 name='image_url'
-                className='mt-1 mb-1 block w-full rounded-xl border border-gray-700 bg-midnight shadow-sm focus:ring-opacity-50'
+                className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
                 placeholder=''
               />
-              <div className='border-gray-700 bg-gray-800 relative w-full border transition-all duration-300 rounded-xl p-4'>
+              <div className='border-redpraha bg-redpraha relative w-full border transition-all duration-300 rounded-xl p-4'>
                 <div className='flex w-full items-center gap-3'>
                   <QuestionMarkCircle className='hidden' />
                   <div>
-                    <h2 className='font-heading text-xs font-bold text-white mb-1'>
+                    <h2 className='font-heading text-xs font-bold text-stone-800 mb-1'>
                       <span>Need help?</span>
                     </h2>
                     <p className='font-alt text-xs font-normal'>
-                      <span className='text-gray-400'>Use our AI to generate a cool one</span>
+                      <span className='text-stone-600'>Use our AI to generate a cool one</span>
                     </p>
                   </div>
                   <div className='ms-auto'>
@@ -197,7 +197,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
                       onClick={e =>
                         generatePictureUrl(e, newUrl => setFieldValue('image_url', newUrl))
                       }
-                      className='border text-white bg-gray-700 hover:bg-gray-600 border-gray-600 rounded-md h-10 w-10 p-2 relative inline-flex items-center justify-center space-x-1 font-sans text-sm font-normal leading-5 no-underline outline-none transition-all duration-300'>
+                      className='border text-stone-800 bg-endnight hover:bg-white border-white rounded-md h-10 w-10 p-2 relative inline-flex items-center justify-center space-x-1 font-sans text-sm font-normal leading-5 no-underline outline-none transition-all duration-300'>
                       {aiLoading ? <Loading /> : 'GO'}
                     </button>
                   </div>
@@ -211,19 +211,19 @@ function ProfileForm({ callback }: { callback?: () => void }) {
             </label>
 
             <label className='block'>
-              <span className='text-gray-100'>About</span>
+              <span className='text-stone-800'>About</span>
               <Field
                 as='textarea'
                 id='about'
                 name='about'
                 rows='4'
-                className='mt-1 mb-1 block w-full rounded-xl border border-gray-700 bg-midnight shadow-sm focus:ring-opacity-50'
+                className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
                 placeholder=''
               />
             </label>
 
             <label className='block'>
-              <span className='text-gray-100'>Skills</span>
+              <span className='text-stone-800'>Skills</span>
 
               <SkillsInput initialValues={userDescription?.skills_raw} entityId={'skills'} />
 

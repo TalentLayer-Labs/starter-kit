@@ -13,7 +13,7 @@ function UserPayments({ user }: { user: IUser }) {
   }
   return (
     <>
-      <h2 className='mb-6 pb-4 border-b border-gray-gray-200 text-gray-100 font-medium break-all'>
+      <h2 className='mb-6 pb-4 border-b border-gray-gray-200 text-stone-800 font-medium break-all'>
         Your last incomes
       </h2>
       <div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4'>
@@ -21,7 +21,7 @@ function UserPayments({ user }: { user: IUser }) {
           return (
             <Link
               href={`/dashboard/services/${payment.service.id}`}
-              className='flex items-center p-4 bg-endnight rounded-xl border border-gray-700'
+              className='flex items-center p-4 bg-white rounded-xl border border-redpraha'
               key={i}>
               <div className='flex flex-shrink-0 items-center justify-center bg-green-200 h-16 w-16 rounded'>
                 <svg
@@ -41,7 +41,7 @@ function UserPayments({ user }: { user: IUser }) {
                   {renderTokenAmount(payment.rateToken, payment.amount)}
                 </span>
                 <div className='flex items-center justify-between'>
-                  <span className='text-gray-500'>
+                  <span className='text-stone-400'>
                     received the {formatStringCompleteDate(payment.createdAt)}
                   </span>
                 </div>

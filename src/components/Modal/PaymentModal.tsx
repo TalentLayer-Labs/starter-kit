@@ -32,7 +32,7 @@ function PaymentModal({ service, payments, isBuyer }: IPaymentModalProps) {
           service.status === ServiceStatusEnum.Finished
             ? 'text-green-600 bg-green-50 hover:bg-redpraha'
             : 'text-zinc-600 bg-zinc-50 hover:bg-zinc-500'
-        } hover:text-white rounded-xl px-5 py-2.5 text-center`}
+        } hover:text-stone-800 rounded-xl px-5 py-2.5 text-center`}
         type='button'
         data-modal-toggle='defaultModal'>
         {service.status === ServiceStatusEnum.Finished
@@ -49,7 +49,7 @@ function PaymentModal({ service, payments, isBuyer }: IPaymentModalProps) {
         <div className='relative p-4 w-full max-w-2xl h-auto'>
           <div className='relative bg-endnight rounded-xl shadow '>
             <div className='flex justify-between items-start p-4 rounded-t border-b border-gray-600'>
-              <h3 className='text-xl font-semibold text-white '>
+              <h3 className='text-xl font-semibold text-stone-800 '>
                 {service.status === ServiceStatusEnum.Confirmed
                   ? 'Release payment'
                   : 'Payment summary'}
@@ -57,7 +57,7 @@ function PaymentModal({ service, payments, isBuyer }: IPaymentModalProps) {
               <button
                 onClick={() => setShow(false)}
                 type='button'
-                className='text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-xl text-sm p-1.5 ml-auto inline-flex items-center '
+                className='text-stone-600 bg-transparent hover:bg-gray-200 hover:text-stone-800 rounded-xl text-sm p-1.5 ml-auto inline-flex items-center '
                 data-modal-toggle='defaultModal'>
                 <svg
                   className='w-5 h-5'
@@ -73,22 +73,22 @@ function PaymentModal({ service, payments, isBuyer }: IPaymentModalProps) {
               </button>
             </div>
             <div className='p-6 space-y-6'>
-              <div className='flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full bg-midnight space-y-6 text-white'>
+              <div className='flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full bg-midnight space-y-6 text-stone-800'>
                 {service.status === ServiceStatusEnum.Confirmed && (
-                  <h3 className='text-xl font-semibold leading-5 text-gray-200'>
+                  <h3 className='text-xl font-semibold leading-5 text-stone-800'>
                     Payments summary
                   </h3>
                 )}
                 <div className='flex justify-center items-center w-full space-y-4 flex-col border-redpraha border-b pb-4'>
                   <div className='flex justify-between w-full'>
-                    <p className='text-base leading-4 text-gray-400'>Rate</p>
-                    <p className='text-base  leading-4 text-gray-200'>
+                    <p className='text-base leading-4 text-stone-600'>Rate</p>
+                    <p className='text-base  leading-4 text-stone-800'>
                       {renderTokenAmount(rateToken, rateAmount)}
                     </p>
                   </div>
                   {payments.map((payment, index) => (
                     <div key={index} className='flex justify-between w-full'>
-                      <p className='text-base leading-4 text-gray-400'>
+                      <p className='text-base leading-4 text-stone-600'>
                         <a
                           className='flex'
                           href={`${network.chain?.blockExplorers?.default.url}/tx/${payment.transactionHash}`}
@@ -99,17 +99,17 @@ function PaymentModal({ service, payments, isBuyer }: IPaymentModalProps) {
                           <ArrowTopRightOnSquareIcon className='ml-2 w-4 h-4' />
                         </a>
                       </p>
-                      <p className='text-base  leading-4 text-gray-200'>
+                      <p className='text-base  leading-4 text-stone-800'>
                         -{renderTokenAmount(rateToken, payment.amount)}
                       </p>
                     </div>
                   ))}
                 </div>
                 <div className='flex justify-between items-center w-full'>
-                  <p className='text-base font-semibold leading-4 text-gray-200'>
+                  <p className='text-base font-semibold leading-4 text-stone-800'>
                     Total in the escrow
                   </p>
-                  <p className='text-base  font-semibold leading-4 text-gray-200'>
+                  <p className='text-base  font-semibold leading-4 text-stone-800'>
                     {renderTokenAmount(rateToken, totalInEscrow.toString())}
                   </p>
                 </div>

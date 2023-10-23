@@ -55,7 +55,7 @@ function DelegateModal() {
       {process.env.NEXT_PUBLIC_ACTIVE_DELEGATE === 'true' && (
         <button
           onClick={() => setShow(true)}
-          className='block text-blue-600 bg-red-50 hover:bg-redpraha hover:text-white rounded-xl px-5 py-2.5 text-center'
+          className='block text-blue-600 bg-red-50 hover:bg-redpraha hover:text-stone-800 rounded-xl px-5 py-2.5 text-center'
           type='button'
           data-modal-toggle='defaultModal'>
           Active Delegation
@@ -69,12 +69,14 @@ function DelegateModal() {
         <div className='relative p-4 w-full max-w-2xl h-auto'>
           <div className='relative bg-endnight rounded-xl shadow '>
             <div className='flex justify-between items-start p-4 rounded-t border-b border-gray-600'>
-              <h3 className='text-xl font-semibold text-white '>Delegate activation information</h3>
+              <h3 className='text-xl font-semibold text-stone-800 '>
+                Delegate activation information
+              </h3>
               {/* close button */}
               <button
                 onClick={() => setShow(false)}
                 type='button'
-                className='text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-xl text-sm p-1.5 ml-auto inline-flex items-center '
+                className='text-stone-600 bg-transparent hover:bg-gray-200 hover:text-stone-800 rounded-xl text-sm p-1.5 ml-auto inline-flex items-center '
                 data-modal-toggle='defaultModal'>
                 <svg
                   className='w-5 h-5'
@@ -90,9 +92,9 @@ function DelegateModal() {
               </button>
             </div>
             <div className='p-6 space-y-6'>
-              <div className='flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full bg-midnight space-y-6 text-white'>
+              <div className='flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full bg-midnight space-y-6 text-stone-800'>
                 <div className='flex flex-row'>
-                  <h3 className='font-semibold text-white'>Delegation state: </h3>
+                  <h3 className='font-semibold text-stone-800'>Delegation state: </h3>
                   {hasPlatformAsDelegate == true ? (
                     <p className='text-green-500 pl-2'> is active</p>
                   ) : (
@@ -112,14 +114,14 @@ function DelegateModal() {
                 <button
                   onClick={() => onSubmit(false)}
                   type='button'
-                  className='hover:text-blue-600 hover:bg-red-50 bg-red-500 text-white rounded-xl px-5 py-2.5 text-center'>
+                  className='hover:text-blue-600 hover:bg-red-50 bg-red-500 text-stone-800 rounded-xl px-5 py-2.5 text-center'>
                   Cancel Delegation
                 </button>
               ) : (
                 <button
                   onClick={() => onSubmit(true)}
                   type='button'
-                  className='hover:text-green-600 hover:bg-green-50 bg-redpraha text-white rounded-xl px-5 py-2.5 text-center'>
+                  className='hover:text-green-600 hover:bg-green-50 bg-redpraha text-stone-800 rounded-xl px-5 py-2.5 text-center'>
                   Validate Delegation
                 </button>
               )}

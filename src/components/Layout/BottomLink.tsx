@@ -12,7 +12,7 @@ function BottomLink({ children, href }: { children: React.ReactNode; href: strin
     : '';
 
   className +=
-    ' inline-flex font-light text-white flex-col items-center justify-center px-2 hover:bg-redpraha group m-2 rounded-xl';
+    ' inline-flex font-light text-stone-800 flex-col items-center justify-center px-2 hover:bg-redpraha group m-2 rounded-xl';
 
   const handleClick = (e: any) => {
     e.preventDefault();

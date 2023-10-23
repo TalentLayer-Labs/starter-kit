@@ -4,11 +4,11 @@ import Layout from '../../../../../components/EditProfile/Layout';
 function EditSettings() {
   return (
     <Layout>
-      <h2 className='text-white text-xl font-bold text-center my-4'>Comming soon</h2>
+      <h2 className='text-stone-800 text-xl font-bold text-center my-4'>Comming soon</h2>
       <div className='bg-gray-200 relative flex flex-1 items-center justify-center bg-gradient-to-br p-5 shadow-xl rounded-xl'>
         <div className='relative z-20 flex flex-col gap-3'>
           <p className=''>
-            <span className='text-gray-800'>
+            <span className='text-stone-400'>
               {' '}
               Customize your interface
               <br />
@@ -21,7 +21,7 @@ function EditSettings() {
           <a
             aria-current='page'
             href='#'
-            className='text-sm text-gray-800 underline-offset-4 underline'>
+            className='text-sm text-stone-400 underline-offset-4 underline'>
             {' '}
             Learn More{' '}
           </a>

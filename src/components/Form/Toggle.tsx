@@ -40,7 +40,7 @@ export function Toogle({ entityId, label }: ToggleProps) {
         />
       </Switch>
       <Switch.Label as='span' className='ml-3 text-xs'>
-        <span className=' text-white'>{label}</span>{' '}
+        <span className=' text-stone-800'>{label}</span>{' '}
       </Switch.Label>
     </Switch.Group>
   );

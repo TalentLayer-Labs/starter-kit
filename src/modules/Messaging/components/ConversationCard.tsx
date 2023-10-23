@@ -20,11 +20,11 @@ const ConversationCard = ({ peerAddress, latestMessage }: IConversationCardProps
   return (
     <div
       onClick={() => handleSelectConversation()}
-      className={`flex py-4 px-2 justify-center items-center border-b border-gray-700 cursor-pointer text-white`}>
+      className={`flex py-4 px-2 justify-center items-center border-b border-redpraha cursor-pointer text-stone-800`}>
       <div className='flex-1 pl-2'>
         {user && user.handle ? <b>{user.handle}</b> : <b>{truncateAddress(peerAddress)}</b>}
         <div>
-          <span className='text-xs text-gray-200 bas'>
+          <span className='text-xs text-stone-800 bas'>
             {formatDateConversationCard(latestMessage?.timestamp as Date)}
           </span>
         </div>

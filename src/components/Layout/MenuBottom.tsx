@@ -3,7 +3,7 @@ import { hirerNavigation } from './navigation';
 
 function MenuBottom() {
   return (
-    <div className='menuBottom md:hidden fixed bottom-0 left-0 z-50 w-full h-16 border-t border-gray-700 bg-endnight'>
+    <div className='menuBottom md:hidden fixed bottom-0 left-0 z-50 w-full h-16 border-t border-redpraha bg-endnight'>
       <div className={`grid h-full max-w-lg grid-cols-4 font-medium`}>
         {hirerNavigation.map(item => (
           <BottomLink key={item.name} href={item.href}>

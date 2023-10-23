@@ -29,9 +29,9 @@ function Web3mailStats() {
 
   if (isWeb3mailActive === 'false') {
     return (
-      <div className='max-w-7xl mx-auto text-gray-200 sm:px-4 lg:px-0'>
+      <div className='max-w-7xl mx-auto text-stone-800 sm:px-4 lg:px-0'>
         <div className=' -mx-6 -mt-6 '>
-          <div className='flex py-2 px-6 items-center border-b w-full border-gray-700 mb-8'>
+          <div className='flex py-2 px-6 items-center border-b w-full border-redpraha mb-8'>
             <p className='text-2xl font-medium flex-1'>Stats Web3 Mails</p>
           </div>
         </div>
@@ -43,17 +43,17 @@ function Web3mailStats() {
   }
 
   return (
-    <div className='max-w-7xl mx-auto text-gray-200 sm:px-4 lg:px-0'>
+    <div className='max-w-7xl mx-auto text-stone-800 sm:px-4 lg:px-0'>
       <div className=' -mx-6 -mt-6 sm:mx-0 sm:mt-0'>
-        <div className='flex py-2 px-6 sm:px-0 items-center border-b w-full border-gray-700 mb-8'>
+        <div className='flex py-2 px-6 sm:px-0 items-center border-b w-full border-redpraha mb-8'>
           <p className='text-2xl font-medium flex-1'>Stats Web3 Mails</p>
           <a
             href={`/admin/web3mail`}
-            className=' hover:bg-endnight text-white bg-endnight px-3 py-2 text-sm flex items-center rounded-xl'>
+            className=' hover:bg-endnight text-stone-800 bg-endnight px-3 py-2 text-sm flex items-center rounded-xl'>
             <PaperAirplane
               width={18}
               height={18}
-              className='w-[18px] h-[18px] text-redpraha mr-2'
+              className='w-[18px] h-[18px] text-stone-600 mr-2'
             />
             Send
           </a>
@@ -61,10 +61,10 @@ function Web3mailStats() {
       </div>
       <div>
         <div className='grid grid-cols-12 gap-6'>
-          <div className='bg-endnight ltablet:col-span-6 col-span-12 lg:col-span-6 rounded-xl border border-gray-700'>
+          <div className='bg-endnight ltablet:col-span-6 col-span-12 lg:col-span-6 rounded-xl border border-redpraha'>
             <div className='p-6'>
               <div className='mb-6'>
-                <h3 className='text-white'>
+                <h3 className='text-stone-800'>
                   <span>Quick Stats</span>
                 </h3>
               </div>
@@ -74,11 +74,11 @@ function Web3mailStats() {
                     <PaperAirplane width={20} height={20} />
                   </div>
                   <div>
-                    <h2 className='text-white'>
+                    <h2 className='text-stone-800'>
                       <span>{web3MailStats.totalSent}</span>
                     </h2>
                     <p className=''>
-                      <span className='text-gray-400'> Total sent </span>
+                      <span className='text-stone-600'> Total sent </span>
                     </p>
                   </div>
                 </div>
@@ -87,11 +87,11 @@ function Web3mailStats() {
                     <PaperAirplane width={20} height={20} />
                   </div>
                   <div>
-                    <h2 className='text-white'>
+                    <h2 className='text-stone-800'>
                       <span>{web3MailStats.totalSentThisMonth}</span>
                     </h2>
                     <p className=''>
-                      <span className='text-gray-400'> sent this month </span>
+                      <span className='text-stone-600'> sent this month </span>
                     </p>
                   </div>
                 </div>
@@ -100,11 +100,11 @@ function Web3mailStats() {
                     <UserGroupIcon width={20} height={20} />
                   </div>
                   <div>
-                    <h2 className='text-white'>
+                    <h2 className='text-stone-800'>
                       <span>{web3MailStats.totalContact}</span>
                     </h2>
                     <p className=''>
-                      <span className='text-gray-400'> contacts </span>
+                      <span className='text-stone-600'> contacts </span>
                     </p>
                   </div>
                 </div>
@@ -113,21 +113,21 @@ function Web3mailStats() {
                     <CogIcon width={20} height={20} />
                   </div>
                   <div>
-                    <h2 className='text-white'>
+                    <h2 className='text-stone-800'>
                       <span>{web3MailStats.totalCronRunning}</span>
                     </h2>
                     <p className=''>
-                      <span className='text-gray-400'> cron running </span>
+                      <span className='text-stone-600'> cron running </span>
                     </p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div className='bg-endnight ltablet:col-span-6 col-span-12 lg:col-span-6 rounded-xl border border-gray-700'>
+          <div className='bg-endnight ltablet:col-span-6 col-span-12 lg:col-span-6 rounded-xl border border-redpraha'>
             <div className='p-6'>
               <div className='mb-6'>
-                <h3 className='text-white'>
+                <h3 className='text-stone-800'>
                   <span>Web3mails sent by month</span>
                 </h3>
               </div>

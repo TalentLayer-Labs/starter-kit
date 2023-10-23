@@ -59,7 +59,7 @@ function Layout({ children, className }: ContainerProps) {
                           className='ml-1 flex h-10 w-10 items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white'
                           onClick={() => setSidebarOpen(false)}>
                           <span className='sr-only'>Close sidebar</span>
-                          <XMarkIcon className='h-6 w-6 text-white' aria-hidden='true' />
+                          <XMarkIcon className='h-6 w-6 text-stone-800' aria-hidden='true' />
                         </button>
                       </div>
                     </Transition.Child>
@@ -78,7 +78,7 @@ function Layout({ children, className }: ContainerProps) {
             </Dialog>
           </Transition.Root>
 
-          <div className='hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col border-r border-gray-700'>
+          <div className='hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col border-r border-redpraha'>
             <div className='flex flex-grow flex-col overflow-y-auto bg-endnight pt-5'>
               <div className='flex flex-shrink-0 items-center px-6'>
                 <Logo />

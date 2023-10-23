@@ -17,7 +17,7 @@ function UserDetail({ user }: { user: IUser }) {
   }
 
   return (
-    <div className='rounded-xl p-4 border border-gray-700 text-white bg-endnight'>
+    <div className='rounded-xl p-4 border border-redpraha text-stone-800 bg-white'>
       <div className='w-full'>
         <div className='flex flex-col justify-start items-start gap-4'>
           <div className='flex items-center justify-start mb-4'>
@@ -33,8 +33,8 @@ function UserDetail({ user }: { user: IUser }) {
               alt='default avatar'
             />
             <div className='flex flex-col'>
-              <p className='text-gray-100 font-medium break-all'>{user?.handle}</p>
-              <p className='text-gray-400 text-xs'>{userDescription?.title}</p>
+              <p className='text-stone-800 font-medium break-all'>{user?.handle}</p>
+              <p className='text-stone-600 text-xs'>{userDescription?.title}</p>
             </div>
             <div className=''>
               <PohModule address={user.address} />
@@ -43,30 +43,30 @@ function UserDetail({ user }: { user: IUser }) {
         </div>
         <Stars rating={Number(user.rating)} numReviews={user.userStats.numReceivedReviews} />
       </div>
-      <div className=' border-t border-gray-700 pt-2 w-full'>
+      <div className=' border-t border-redpraha pt-2 w-full'>
         {userDescription?.name && (
-          <p className='text-sm text-gray-400 mt-4'>
+          <p className='text-sm text-stone-600 mt-4'>
             <strong>Name:</strong> {userDescription?.name}
           </p>
         )}
-        <p className='text-sm text-gray-400 mt-4'>
+        <p className='text-sm text-stone-600 mt-4'>
           <strong>Skills:</strong> {userDescription?.skills_raw}
         </p>
-        <p className='text-sm text-gray-400 mt-4'>
+        <p className='text-sm text-stone-600 mt-4'>
           <strong>About:</strong> {userDescription?.about}
         </p>
         {userDescription?.role && (
-          <p className='text-sm text-gray-400 mt-4'>
+          <p className='text-sm text-stone-600 mt-4'>
             <strong>Role:</strong> {userDescription?.role}
           </p>
         )}
       </div>
 
       {currentUser?.id === user.id && (
-        <div className=' border-t border-gray-700 pt-4 w-full mt-4'>
+        <div className=' border-t border-redpraha pt-4 w-full mt-4'>
           <div className='flex flex-row gap-4 justify-end items-center'>
             <Link
-              className='text-zinc-600 bg-white hover:bg-zinc-200 hover:text-white px-5 py-2.5 rounded-xl text-sm'
+              className='text-stone-800 bg-stone-200 hover:bg-stone-300 px-5 py-2.5 rounded-xl text-sm-xl relative'
               href={`/dashboard/profile/incomes`}>
               Your incomes
             </Link>

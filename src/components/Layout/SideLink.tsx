@@ -5,11 +5,11 @@ function SideLink({ children, href }: { children: React.ReactNode; href: string 
   const isDashboard = href == '/dashboard';
   let className = isDashboard
     ? router.asPath === href
-      ? 'bg-redpraha text-white'
-      : 'text-zinc-100 hover:bg-midnight'
+      ? 'bg-redpraha text-stone-800'
+      : 'text-stone-700 hover:bg-midnight'
     : router.asPath.includes(href)
-    ? 'bg-redpraha text-white'
-    : 'text-zinc-100 hover:bg-midnight';
+    ? 'bg-redpraha text-stone-800'
+    : 'text-stone-700 hover:bg-midnight';
 
   className += ' group flex items-center px-3 py-2 text-base rounded-xl';
 

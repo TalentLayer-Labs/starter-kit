@@ -10,27 +10,27 @@ function ShareModal() {
 
   const shareLink = `${window.location.origin}/dashboard/messaging/${account?.address}`;
 
-
   return (
     <>
       <button
         type='button'
-        className=' hover:bg-endnight text-white bg-endnight px-3 py-2 text-sm flex items-center rounded-xl'
+        className=' hover:bg-endnight text-stone-800 bg-endnight px-3 py-2 text-sm flex items-center rounded-xl'
         onClick={() => setShow(true)}>
-        <QrCodeIcon className='w-[18px] h-[18px] text-redpraha mr-2' />
+        <QrCodeIcon className='w-[18px] h-[18px] text-stone-600 mr-2' />
         Share
       </button>
 
       <div
-        className={`${!show ? 'hidden' : ''
-          } overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal h-full bg-black/90 flex flex-col items-center justify-center`}>
+        className={`${
+          !show ? 'hidden' : ''
+        } overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal h-full bg-black/90 flex flex-col items-center justify-center`}>
         <div className='relative w-full max-w-2xl h-auto'>
-          <div className='relative bg-endnightshadow '>
+          <div className='relative bg-endnight shadow '>
             <div className='fixed top-0 right-0'>
               <button
                 onClick={() => setShow(false)}
                 type='button'
-                className='text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-xl text-sm p-4 ml-auto inline-flex items-center '
+                className='text-stone-600 bg-transparent hover:bg-gray-200 hover:text-stone-800 rounded-xl text-sm p-4 ml-auto inline-flex items-center '
                 data-modal-toggle='defaultModal'>
                 <svg
                   className='w-5 h-5'
@@ -51,7 +51,7 @@ function ShareModal() {
                 <QRCodeSVG
                   value={shareLink}
                   size={260}
-                  bgColor='#ff0050'
+                  bgColor='#f4dabe'
                   fgColor='#0A0A18'
                   level='L'
                   includeMargin={true}
@@ -60,9 +60,9 @@ function ShareModal() {
               <p className='mt-10'>or</p>
               <a
                 onClick={() => {
-                  handleCopyClick(shareLink)
+                  handleCopyClick(shareLink);
                 }}
-                className='flex p-3 bg-endnight border-endnight rounded-xl justify-between mt-10 text-redpraha'>
+                className='flex p-3 bg-endnight border-endnight rounded-xl justify-between mt-10 text-stone-800'>
                 Copy a share link
                 <ClipboardDocumentIcon className='ml-2 h-5 w-5' />
               </a>

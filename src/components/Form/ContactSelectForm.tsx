@@ -113,14 +113,14 @@ export const ContactListForm = ({
       validationSchema={validationSchema}>
       {({ isSubmitting, values }) => (
         <Form>
-          <div className='grid grid-cols-1 gap-6 border border-gray-700 rounded-xl p-6 bg-endnight'>
+          <div className='grid grid-cols-1 gap-6 border border-redpraha rounded-xl p-6 bg-white'>
             <label className='block'>
-              <span className='text-gray-100'>Subject</span>
+              <span className='text-stone-800'>Subject</span>
               <Field
                 type='text'
                 id='subject'
                 name='subject'
-                className='mt-1 mb-1 block w-full rounded-xl border border-gray-700 bg-midnight shadow-sm focus:ring-opacity-50'
+                className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
                 placeholder='Type your subject here...'
               />
               <span className='text-red-500'>
@@ -129,13 +129,13 @@ export const ContactListForm = ({
             </label>
 
             <label className='block'>
-              <span className='text-gray-100'>Body</span>
+              <span className='text-stone-800'>Body</span>
               <Field
                 as='textarea'
                 rows='4'
                 id='body'
                 name='body'
-                className='mt-1 mb-1 block w-full rounded-xl border border-gray-700 bg-midnight shadow-sm focus:ring-opacity-50'
+                className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
                 placeholder='Type the email body here...'
               />
               <span className='text-red-500'>
@@ -148,12 +148,12 @@ export const ContactListForm = ({
               render={arrayHelpers => (
                 <div className={'flex flex-row space-x-10'}>
                   <div className='block flex-auto'>
-                    <span className='text-gray-100'>Available Contacts</span>
+                    <span className='text-stone-800'>Available Contacts</span>
                     <div className={'overflow-y-auto overflow-x-visible h-24'}>
                       {!usersLoaded && (
                         <div className={'flex flex-row'}>
                           <Loading />
-                          <p className={'flex text-gray-400 justify-center mt-2 ml-4'}>
+                          <p className={'flex text-stone-600 justify-center mt-2 ml-4'}>
                             Loading Contacts...
                           </p>
                         </div>
@@ -165,55 +165,55 @@ export const ContactListForm = ({
                             return (
                               <div
                                 key={index}
-                                className={`text-gray-400 flex ${
+                                className={`text-stone-600 flex ${
                                   isAddressAlreadyAdded ? 'hidden' : ''
                                 }`}>
                                 {userDetail.user.handle}
                                 <span onClick={() => arrayHelpers.insert(index, userDetail)}>
                                   <CheckCircleIcon
                                     className={
-                                      'ml-3 h-5 w-5 items-center justify-center text-zinc-300 cursor-pointer'
+                                      'ml-3 h-5 w-5 items-center justify-center text-stone-600 cursor-pointer'
                                     }
                                   />
                                 </span>
                               </div>
                             );
                           })
-                        : usersLoaded && <p className={'text-gray-400 mt-2'}>No Contacts</p>}
+                        : usersLoaded && <p className={'text-stone-600 mt-2'}>No Contacts</p>}
                     </div>
                     <div className={'flex flew-row mt-2 center-items'}>
                       <input
                         type='checkbox'
                         checked={allContractsAdded}
-                        className='checked:bg-gray-500 cursor-pointer center-items mt-1'
+                        className='checked:bg-redpraha0 cursor-pointer center-items mt-1'
                         onClick={event => {
                           handleAddOrRemoveAllContacts(event, arrayHelpers, values.users);
                         }}
                       />
-                      <p className={'ml-2 text-gray-400 center-items'}>Add all contacts</p>
+                      <p className={'ml-2 text-stone-600 center-items'}>Add all contacts</p>
                     </div>
                     <span className='text-red-500'>
                       <ErrorMessage name='users' />
                     </span>
                   </div>
                   <label className='block flex-auto '>
-                    <span className='text-gray-100'>Selected Contacts</span>
+                    <span className='text-stone-800'>Selected Contacts</span>
                     <div className={'overflow-y-auto overflow-x-visible w-auto h-24'}>
                       {values.users.length > 0 ? (
                         values.users.map((userDetails, index) => (
-                          <div key={index} className={'text-gray-400 flex'}>
+                          <div key={index} className={'text-stone-600 flex'}>
                             {userDetails.user.handle}
                             <span onClick={() => arrayHelpers.remove(index)}>
                               <XCircleIcon
                                 className={
-                                  'ml-3 h-5 w-5 items-center justify-center text-zinc-300 cursor-pointer'
+                                  'ml-3 h-5 w-5 items-center justify-center text-stone-600 cursor-pointer'
                                 }
                               />
                             </span>
                           </div>
                         ))
                       ) : (
-                        <p className={'text-gray-400  mt-2'}>No Contacts</p>
+                        <p className={'text-stone-600  mt-2'}>No Contacts</p>
                       )}
                     </div>
                   </label>

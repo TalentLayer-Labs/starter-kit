@@ -2,7 +2,7 @@ function Loading() {
   return (
     <div className='flex justify-center items-center'>
       <svg
-        className={`inline w-[20px] h-[20px] text-gray-200 animate-spin fill-zinc-700`}
+        className={`inline w-[20px] h-[20px] text-stone-800 animate-spin fill-zinc-700`}
         viewBox='0 0 100 101'
         fill='none'
         xmlns='http://www.w3.org/2000/svg'>

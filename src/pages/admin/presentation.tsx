@@ -87,9 +87,9 @@ function AdminPresentation() {
   };
 
   return (
-    <div className='max-w-7xl mx-auto text-gray-200 sm:px-4 lg:px-0'>
+    <div className='max-w-7xl mx-auto text-stone-800 sm:px-4 lg:px-0'>
       <div className=' -mx-6 -mt-6 '>
-        <div className='flex py-2 px-6 items-center border-b w-full border-gray-700 mb-8'>
+        <div className='flex py-2 px-6 items-center border-b w-full border-redpraha mb-8'>
           <p className='text-2xl font-medium flex-1'>Presentation</p>
         </div>
       </div>
@@ -101,28 +101,28 @@ function AdminPresentation() {
         validationSchema={validationSchema}>
         {({ isSubmitting, values }) => (
           <Form>
-            <div className='grid grid-cols-1 gap-6 border border-gray-700 rounded-xl p-6 bg-endnight'>
+            <div className='grid grid-cols-1 gap-6 border border-redpraha rounded-xl p-6 bg-white'>
               <label className='block'>
-                <span className='text-gray-100'>Website</span>
+                <span className='text-stone-800'>Website</span>
                 <Field
                   type='text'
                   id='website'
                   name='website'
-                  className='mt-1 mb-1 block w-full rounded-xl border border-gray-700 bg-midnight shadow-sm focus:ring-opacity-50'
+                  className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
                   placeholder=''
                 />
               </label>
 
               <label className='block'>
-                <span className='text-gray-100'>Picture Url</span>
+                <span className='text-stone-800'>Picture Url</span>
                 <Field
                   type='text'
                   id='image_url'
                   name='image_url'
-                  className='mt-1 mb-1 block w-full rounded-xl border border-gray-700 bg-midnight shadow-sm focus:ring-opacity-50'
+                  className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
                   placeholder=''
                 />
-                <div className='border-gray-700 bg-gray-800 relative w-full border transition-all duration-300 rounded-xl p-4'>
+                <div className='border-redpraha bg-redpraha relative w-full border transition-all duration-300 rounded-xl p-4'>
                   {values.image_url && (
                     <div className='flex items-center justify-center py-3'>
                       <img width='300' height='300' src={values.image_url} alt='image preview' />
@@ -132,13 +132,13 @@ function AdminPresentation() {
               </label>
 
               <label className='block'>
-                <span className='text-gray-100'>About</span>
+                <span className='text-stone-800'>About</span>
                 <Field
                   as='textarea'
                   id='about'
                   name='about'
                   rows='4'
-                  className='mt-1 mb-1 block w-full rounded-xl border border-gray-700 bg-midnight shadow-sm focus:ring-opacity-50'
+                  className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
                   placeholder=''
                 />
               </label>

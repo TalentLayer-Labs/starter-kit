@@ -16,12 +16,12 @@ function Profile() {
   }
 
   return (
-    <div className='max-w-7xl mx-auto text-gray-200 sm:px-4 lg:px-0'>
+    <div className='max-w-7xl mx-auto text-stone-800 sm:px-4 lg:px-0'>
       {user && (
         <>
           <div className='-mx-6 -mt-6 sm:mx-0 sm:mt-0'>
-            <p className='flex py-2 px-6 sm:px-0 items-center text-2xl font-medium tracking-wider mb-8 border-b w-full border-gray-700 md:px-8 '>
-              Profile <span className='text-gray-100 ml-1'> {user.handle} </span>
+            <p className='flex py-2 px-6 sm:px-0 items-center text-2xl font-medium tracking-wider mb-8 border-b w-full border-redpraha md:px-8 '>
+              Profile <span className='text-stone-800 ml-1'> {user.handle} </span>
             </p>
           </div>
           <div>

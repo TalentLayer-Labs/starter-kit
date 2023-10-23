@@ -37,7 +37,7 @@ function UserLensFeed({ lensUser }: IProps) {
               )}
 
               <div className='w-full p-5 flex flex-col justify-between'>
-                <p className='font-light text-xs text-gray-600'>
+                <p className='font-light text-xs text-stone-400'>
                   Created {timeSince(item.createdAt || '')} ago
                 </p>
                 <div className='mt-2 text-sm line-clamp-2'>{item.metadata.content}</div>
@@ -47,7 +47,7 @@ function UserLensFeed({ lensUser }: IProps) {
                       <span>
                         <svg
                           xmlns='http://www.w3.org/2000/svg'
-                          className='h-5 w-5 text-gray-600 cursor-pointer'
+                          className='h-5 w-5 text-stone-400 cursor-pointer'
                           fill='none'
                           viewBox='0 0 24 24'
                           stroke='currentColor'>
@@ -91,7 +91,7 @@ function UserLensFeed({ lensUser }: IProps) {
         <a
           href={`https://lenster.xyz/u/${lensUser.handle}`}
           target='_blank'
-          className='text-zinc-600 bg-white hover:bg-zinc-200 hover:text-white px-5 py-2.5 rounded-xl text-sm-xl active'>
+          className='text-stone-800 bg-stone-200 hover:bg-stone-300 px-5 py-2.5 rounded-xl text-sm-xl relative-xl active'>
           More posts
         </a>
       </div>

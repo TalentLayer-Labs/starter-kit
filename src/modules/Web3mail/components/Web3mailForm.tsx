@@ -73,7 +73,7 @@ function Web3mailForm() {
             <label className='block'>
               <div className='mb-2 ml-1'>
                 <p className='font-heading text-base font-medium leading-none'>Your email</p>
-                <p className='font-sans text-xs font-normal leading-normal text-gray-400 mt-0.5'>
+                <p className='font-sans text-xs font-normal leading-normal text-stone-600 mt-0.5'>
                   It will allow you to configure your preferences to be notified every time an
                   important action happened.
                 </p>
@@ -85,13 +85,13 @@ function Web3mailForm() {
                     type='text'
                     id='email'
                     name='email'
-                    className='cursor-not-allowed mt-1 mb-1 block w-full rounded-xl border border-gray-700 bg-midnight shadow-sm focus:ring-opacity-50'
+                    className='cursor-not-allowed mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
                     placeholder='**********'
                     readOnly
                     disabled
                     title='You already protect your email, just need to grant access now'
                   />
-                  <span className='text-xs text-gray-400 ml-1'>
+                  <span className='text-xs text-stone-600 ml-1'>
                     You already protect your email, just need to grant access now
                   </span>
                 </>
@@ -100,7 +100,7 @@ function Web3mailForm() {
                   type='text'
                   id='email'
                   name='email'
-                  className='mt-1 mb-1 block w-full rounded-xl border border-gray-700 bg-midnight shadow-sm focus:ring-opacity-50'
+                  className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
                   placeholder=''
                 />
               )}

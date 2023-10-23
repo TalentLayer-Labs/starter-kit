@@ -17,7 +17,7 @@ function ToastStep({
             <span className='relative flex h-5 w-5 flex-shrink-0 items-center justify-center'>
               <CheckCircleIcon className='h-full w-full text-zinc-600 group-hover:text-zinc-800' />
             </span>
-            <span className='ml-3 text-sm font-medium text-gray-500 group-hover:text-gray-900'>
+            <span className='ml-3 text-sm font-medium text-stone-400 group-hover:text-stone-800'>
               {title}
             </span>
           </span>
@@ -38,7 +38,7 @@ function ToastStep({
             <div className='relative flex h-5 w-5 flex-shrink-0 items-center justify-center'>
               <div className='h-2 w-2 rounded-full bg-gray-300 group-hover:bg-gray-400' />
             </div>
-            <p className='ml-3 text-sm font-medium text-gray-500 group-hover:text-gray-900'>
+            <p className='ml-3 text-sm font-medium text-stone-400 group-hover:text-stone-800'>
               {title}
             </p>
           </div>

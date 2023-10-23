@@ -21,28 +21,28 @@ function Services() {
   );
 
   return (
-    <div className='max-w-7xl mx-auto text-gray-200 sm:px-4 lg:px-0'>
+    <div className='max-w-7xl mx-auto text-stone-800 sm:px-4 lg:px-0'>
       <div className='-mx-6 -mt-6 sm:mx-0 sm:mt-0'>
-        <div className='flex py-2 px-6 sm:px-0 items-center border-b w-full border-gray-700 mb-8'>
+        <div className='flex py-2 px-6 sm:px-0 items-center border-b w-full border-redpraha mb-8'>
           <p className='text-2xl font-medium flex-1'>
-            All <span className='text-gray-100 ml-1'> Gigs </span>
+            All <span className='text-stone-800 ml-1'> Gigs </span>
           </p>
           <Link
             href={`/dashboard/services/create`}
-            className=' hover:bg-endnight text-white bg-endnight px-3 py-2 text-sm flex items-center rounded-xl'>
-            <PlusCircleIcon className='w-[18px] h-[18px] text-redpraha mr-2' />
+            className=' hover:bg-endnight text-stone-800 bg-endnight px-3 py-2 text-sm flex items-center rounded-xl'>
+            <PlusCircleIcon className='w-[18px] h-[18px] text-stone-600 mr-2' />
             Create Gig
           </Link>
         </div>
       </div>
       {searchQuery && services.length > 0 && (
         <p className='text-xl font-medium tracking-wider mb-8'>
-          Search results for <span className='text-gray-100'>{searchQuery}</span>
+          Search results for <span className='text-stone-800'>{searchQuery}</span>
         </p>
       )}
       {searchQuery && services.length === 0 && (
         <p className='text-xl font-medium tracking-wider mb-8'>
-          No search results for <span className='text-gray-100'>{searchQuery}</span>
+          No search results for <span className='text-stone-800'>{searchQuery}</span>
         </p>
       )}
 
@@ -61,7 +61,7 @@ function Services() {
           <button
             type='submit'
             className={`px-5 py-2 mt-5 content-center border border-zinc-600 rounded-full text-zinc-600 
-              hover:text-white hover:bg-midnight
+              hover:text-stone-800 hover:bg-midnight
             `}
             disabled={!hasMoreData}
             onClick={() => loadMore()}>

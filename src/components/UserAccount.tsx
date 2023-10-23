@@ -41,11 +41,11 @@ function UserAccount() {
 
                 {/* <Menu.Button className='ml-3 text-left'>
                   <p
-                    className='text-sm font-medium text-gray-200 group-hover:text-gray-100'
+                    className='text-sm font-medium text-stone-800 group-hover:text-stone-800'
                     style={{ marginBottom: '-3px' }}>
                     {user?.handle ? user.handle : ''}
                   </p>
-                  <p className='text-xs text-redpraha group-hover:text-gray-700'>
+                  <p className='text-xs text-redpraha group-hover:text-stone-700'>
                     {account.address && truncateAddress(account.address)}
                   </p>
                 </Menu.Button> */}

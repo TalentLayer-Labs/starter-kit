@@ -39,7 +39,7 @@ function ServiceDetail({ service }: { service: IService }) {
 
   return (
     <>
-      <div className='flex flex-row gap-2 rounded-xl p-4 border border-gray-700 text-white bg-endnight'>
+      <div className='flex flex-row gap-2 rounded-xl p-4 border border-redpraha text-stone-800 bg-white'>
         <div className='flex flex-col items-top justify-between gap-4 w-full'>
           <div className='flex flex-col justify-start items-start gap-4'>
             <div className='flex items-center justify-start w-full relative'>
@@ -51,8 +51,8 @@ function ServiceDetail({ service }: { service: IService }) {
                 alt='default avatar'
               />
               <div className='flex flex-col'>
-                <p className='text-gray-100 font-medium break-all'>{service.description?.title}</p>
-                <p className='text-xs text-gray-500'>
+                <p className='text-stone-800 font-medium break-all'>{service.description?.title}</p>
+                <p className='text-xs text-stone-400'>
                   created by {isBuyer ? 'You' : service.buyer.handle} the{' '}
                   {formatDate(Number(service.createdAt) * 1000)}
                 </p>
@@ -62,26 +62,26 @@ function ServiceDetail({ service }: { service: IService }) {
               </span>
             </div>
 
-            <div className=' border-t border-gray-700 pt-4 w-full'>
+            <div className=' border-t border-redpraha pt-4 w-full'>
               {service.seller && (
                 <Link
-                  className='text-sm text-gray-400 mt-4'
+                  className='text-sm text-stone-600 mt-4'
                   href={`/dashboard/profile/${service.seller.id}`}>
-                  Gig handle by <span className='text-gray-100'>{service.seller.handle}</span>
+                  Gig handle by <span className='text-stone-800'>{service.seller.handle}</span>
                 </Link>
               )}
-              <div className='text-sm text-gray-400 mt-4'>
+              <div className='text-sm text-stone-600 mt-4'>
                 <strong>Employer rating:</strong>
                 <Stars
                   rating={Number(service.buyer.rating)}
                   numReviews={service.buyer.userStats.numReceivedReviews}
                 />
               </div>
-              <p className='text-sm text-gray-400 mt-4'>
+              <p className='text-sm text-stone-600 mt-4'>
                 <strong>About:</strong> {service.description?.about}
               </p>
               {service.description?.rateToken && service.description?.rateAmount && (
-                <p className='text-sm text-gray-400 mt-4'>
+                <p className='text-sm text-stone-600 mt-4'>
                   <strong>Budget:</strong>{' '}
                   {renderTokenAmountFromConfig(
                     chainId,
@@ -90,12 +90,12 @@ function ServiceDetail({ service }: { service: IService }) {
                   )}
                 </p>
               )}
-              <p className='text-sm text-gray-400 mt-4'>
+              <p className='text-sm text-stone-600 mt-4'>
                 <strong>Keywords:</strong>{' '}
                 {service.description?.keywords_raw?.split(',').map((keyword, i) => (
                   <span
                     key={i}
-                    className='inline-block bg-gray-100 rounded-full px-2 py-1 text-xs font-semibold text-gray-700 mr-2 mb-2'>
+                    className='inline-block bg-gray-100 rounded-full px-2 py-1 text-xs font-semibold text-stone-700 mr-2 mb-2'>
                     {keyword}
                   </span>
                 ))}
@@ -103,12 +103,12 @@ function ServiceDetail({ service }: { service: IService }) {
             </div>
           </div>
 
-          <div className='flex flex-row gap-4 items-center border-t border-gray-700 pt-4'>
+          <div className='flex flex-row gap-4 items-center border-t border-redpraha pt-4'>
             {!isBuyer && service.status == ServiceStatusEnum.Opened && (
               <>
                 {!userProposal && (
                   <Link
-                    className='text-white bg-redpraha hover:redpraha/80 hover:text-white px-5 py-2.5 rounded-xl text-sm'
+                    className='text-stone-800 bg-redpraha hover:redpraha/80 hover:text-stone-800 px-5 py-2.5 rounded-xl text-sm'
                     href={`/dashboard/services/${service.id}/proposal`}>
                     Create proposal
                   </Link>
@@ -136,7 +136,7 @@ function ServiceDetail({ service }: { service: IService }) {
 
       {(isBuyer || isSeller) && reviews.length > 0 && (
         <div className='flex flex-col gap-4 mt-4'>
-          <p className='text-gray-900 font-bold'>Reviews:</p>
+          <p className='text-stone-800 font-bold'>Reviews:</p>
           {reviews.map((review, index) => (
             <ReviewItem review={review} key={index} />
           ))}
@@ -145,7 +145,7 @@ function ServiceDetail({ service }: { service: IService }) {
 
       {userProposal && (
         <div className='flex flex-col gap-4 mt-4'>
-          <p className='text-gray-900 font-bold'>Your proposal:</p>
+          <p className='text-stone-800 font-bold'>Your proposal:</p>
           <ProposalItem proposal={userProposal} />
         </div>
       )}
@@ -154,7 +154,7 @@ function ServiceDetail({ service }: { service: IService }) {
         <>
           {proposals.length > 0 ? (
             <>
-              <p className='text-gray-900 font-bold mt-12 mb-4'>
+              <p className='text-stone-800 font-bold mt-12 mb-4'>
                 {service.status === ServiceStatusEnum.Opened
                   ? 'Review proposals'
                   : 'Validated proposal'}
@@ -179,7 +179,7 @@ function ServiceDetail({ service }: { service: IService }) {
             </>
           ) : (
             <div
-              className='flex p-4 text-sm text-gray-700 bg-gray-100 rounded-xl mt-4'
+              className='flex p-4 text-sm text-stone-700 bg-gray-100 rounded-xl mt-4'
               role='alert'>
               <svg
                 className='flex-shrink-0 inline w-5 h-5 mr-3'

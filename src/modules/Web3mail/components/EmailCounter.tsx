@@ -16,9 +16,9 @@ const EmailCounter = () => {
   return (
     <>
       <p>
-        <span className='text-sm text-gray-200'>Sent web3mails : </span>
+        <span className='text-sm text-stone-800'>Sent web3mails : </span>
         {renderEmailNumber(web3MailStats.totalSent)}
-        <span className='text-sm text-gray-200'>
+        <span className='text-sm text-stone-800'>
           /500 {web3MailStats.totalSent >= 500 ? '🥳 🦝' : ''}
         </span>
       </p>

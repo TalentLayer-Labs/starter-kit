@@ -30,7 +30,7 @@ export default function Document() {
         <link rel='mask-icon' href='/images/safari-pinned-tab.svg' color='#000000' />
         <link rel='shortcut icon' href='/favicon.ico' />
       </Head>
-      <body className='text-white bg-midnight'>
+      <body className='text-stone-800 bg-midnight'>
         <Main />
         <NextScript />
       </body>

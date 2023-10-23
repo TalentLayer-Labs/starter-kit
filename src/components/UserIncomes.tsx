@@ -65,7 +65,7 @@ function UserIncomes({ id }: { id: string }) {
         </span>
         <button
           type='button'
-          className='ml-4 px-3 py-1 border border-gray-400 rounded-xl text-gray-600 hover:bg-gray-200'
+          className='ml-4 px-3 py-1 border border-gray-400 rounded-xl text-stone-400 hover:bg-gray-200'
           onClick={() => {
             setStartDate('');
             setEndDate('');
@@ -75,7 +75,7 @@ function UserIncomes({ id }: { id: string }) {
         {payments && payments.length > 0 && (
           <button
             type='button'
-            className='ml-4 px-3 py-1 border border-gray-400 rounded-xl text-gray-600 hover:bg-gray-200 '
+            className='ml-4 px-3 py-1 border border-gray-400 rounded-xl text-stone-400 hover:bg-gray-200 '
             onClick={handleExportToCsv}>
             Export to CSV
           </button>
@@ -103,10 +103,10 @@ function UserIncomes({ id }: { id: string }) {
                       <td className=' p-2 text-center font-bold border-r border-b border-gray-500'>
                         {renderTokenAmount(payment.rateToken, payment.amount)}
                       </td>
-                      <td className=' p-2 text-center text-gray-300 border-r border-b border-gray-500'>
+                      <td className=' p-2 text-center text-stone-500 border-r border-b border-gray-500'>
                         {formatStringCompleteDate(payment.createdAt)}
                       </td>
-                      <td className=' p-2 text-center text-gray-300 border-r border-b border-gray-500'>
+                      <td className=' p-2 text-center text-stone-500 border-r border-b border-gray-500'>
                         {payment.rateToken.symbol}
                       </td>
                       <td className=' p-2 text-center text-blue-500 border-r border-b border-gray-500'>
@@ -135,7 +135,7 @@ function UserIncomes({ id }: { id: string }) {
                 <button
                   type='submit'
                   className={`px-5 py-2 mt-5 content-center border border-zinc-600 rounded-full text-zinc-600 
-              hover:text-white hover:bg-midnight
+              hover:text-stone-800 hover:bg-midnight
             `}
                   disabled={!hasMoreData}
                   onClick={() => loadMore()}>

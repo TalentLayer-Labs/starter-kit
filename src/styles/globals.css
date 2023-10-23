@@ -39,12 +39,17 @@ body .dashboard .Toastify__toast-container--bottom-right {
 }
 
 body .Toastify__toast-theme--dark {
-  background: #11112a;
+  background: #f4dabe;
+  color: #292524;
 }
 
 body .Toastify__progress-bar-theme--dark {
-  background: #ff0050;
+  background: #ffffff;
   height: 2px;
+}
+
+body .Toastify__close-button{
+  color: #292524;
 }
 
 body .menuBottom {

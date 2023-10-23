@@ -177,14 +177,14 @@ function ServiceForm() {
     <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
       {({ isSubmitting, setFieldValue }) => (
         <Form>
-          <div className='grid grid-cols-1 gap-6 border border-gray-700 rounded-xl p-6 bg-endnight'>
+          <div className='grid grid-cols-1 gap-6 border border-redpraha rounded-xl p-6 bg-white'>
             <label className='block'>
-              <span className='text-gray-100'>Title</span>
+              <span className='text-stone-800'>Title</span>
               <Field
                 type='text'
                 id='title'
                 name='title'
-                className='mt-1 mb-1 block w-full rounded-xl border border-gray-700 bg-midnight shadow-sm focus:ring-opacity-50'
+                className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
                 placeholder=''
               />
               <span className='text-red-500'>
@@ -193,12 +193,12 @@ function ServiceForm() {
             </label>
 
             <label className='block'>
-              <span className='text-gray-100'>About</span>
+              <span className='text-stone-800'>About</span>
               <Field
                 as='textarea'
                 id='about'
                 name='about'
-                className='mt-1 mb-1 block w-full rounded-xl border border-gray-700 bg-midnight shadow-sm focus:ring-opacity-50'
+                className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
                 placeholder=''
               />
               <span className='text-red-500'>
@@ -207,7 +207,7 @@ function ServiceForm() {
             </label>
 
             <label className='block'>
-              <span className='text-gray-100'>Keywords</span>
+              <span className='text-stone-800'>Keywords</span>
 
               <SkillsInput entityId={'keywords'} />
 
@@ -216,31 +216,31 @@ function ServiceForm() {
 
             <div className='flex'>
               <label className='block flex-1 mr-4'>
-                <span className='text-gray-100'>Amount</span>
+                <span className='text-stone-800'>Amount</span>
                 <Field
                   type='number'
                   id='rateAmount'
                   name='rateAmount'
-                  className='mt-1 mb-1 block w-full rounded-xl border border-gray-700 bg-midnight shadow-sm focus:ring-opacity-50'
+                  className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
                   placeholder=''
                 />
                 <span className='text-red-500 mt-2'>
                   <ErrorMessage name='rateAmount' />
                 </span>
                 {servicePostingFeeFormat !== 0 && (
-                  <span className='text-gray-100'>
+                  <span className='text-stone-800'>
                     Fee for posting a service: {servicePostingFeeFormat}{' '}
                     {currentChain?.nativeCurrency.symbol}
                   </span>
                 )}
               </label>
               <label className='block'>
-                <span className='text-gray-100'>Token</span>
+                <span className='text-stone-800'>Token</span>
                 <Field
                   component='select'
                   id='rateToken'
                   name='rateToken'
-                  className='mt-1 mb-1 block w-full rounded-xl border border-gray-700 bg-midnight shadow-sm focus:ring-opacity-50'
+                  className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
                   placeholder=''
                   onChange={(e: { target: { value: string } }) => {
                     const token = allowedTokenList.find(token => token.address === e.target.value);

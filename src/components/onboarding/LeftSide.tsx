@@ -2,10 +2,10 @@ function LeftSide({ title, subtext }: { title: string; subtext: string }) {
   return (
     <div className='bg-redpraha group relative hidden w-1/2 items-center justify-around overflow-hidden bg-gradient-to-tr md:flex'>
       <div className='mx-auto max-w-xs text-center'>
-        <h2 className='font-heading text-3xl font-medium leading-normal text-white mb-4'>
+        <h2 className='font-heading text-3xl font-medium leading-normal text-stone-800 mb-4'>
           {title}
         </h2>
-        <p className='font-alt text-sm font-normal leading-normal text-gray-200 mb-3'>{subtext}</p>
+        <p className='font-alt text-sm font-normal leading-normal text-stone-800 mb-3'>{subtext}</p>
       </div>
       <div className='bg-white/20 absolute -start-6 left-0 -top-6 h-14 w-0 origin-top-left rotate-45 rounded-full transition-all delay-[25ms] duration-300 group-hover:w-72' />
       <div className='bg-white/20 absolute -top-12 left-[100px] start-20 h-14 w-0 origin-top-left rotate-45 rounded-full transition-all delay-75 duration-300 group-hover:w-48' />

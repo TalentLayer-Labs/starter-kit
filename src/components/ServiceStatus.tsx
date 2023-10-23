@@ -4,13 +4,13 @@ function ServiceStatus({ status }: { status: ServiceStatusEnum }) {
   let color;
   switch (status) {
     case ServiceStatusEnum.Opened:
-      color = 'gray';
+      color = 'stone';
       break;
     case ServiceStatusEnum.Confirmed:
       color = 'green';
       break;
     case ServiceStatusEnum.Finished:
-      color = 'gray';
+      color = 'stone';
       break;
     case ServiceStatusEnum.Cancelled:
       color = 'red';

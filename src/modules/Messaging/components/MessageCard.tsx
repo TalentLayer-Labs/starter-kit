@@ -44,8 +44,8 @@ const MessageCard = ({ message, dateHasChanged }: IMessageCardProps) => {
                 ? 'ml-12 bg-gray-200 text-midnight rounded-bl-2xl rounded-tl-2xl rounded-tr-xl'
                 : 'mr-12 bg-gray-200 text-midnight rounded-br-2xl rounded-tr-2xl rounded-tl-xl'
             }
-          text-white`}>
-            <span className='pr-1 text-gray-600 text-xs w-[50px]'>
+          text-stone-800`}>
+            <span className='pr-1 text-stone-400 text-xs w-[50px]'>
               {formatDateTime(message.timestamp)}
             </span>
             {isSender && message.status === ChatMessageStatus.SENT && (
@@ -75,7 +75,7 @@ const MessageCard = ({ message, dateHasChanged }: IMessageCardProps) => {
 const DateDivider = ({ date }: { date?: Date }): JSX.Element => (
   <div className='flex align-items-center items-center pb-8 pt-4'>
     <div className='grow h-[1px] bg-gray-800' />
-    <span className='mx-11 flex-none text-gray-300 text-sm font-semibold'>
+    <span className='mx-11 flex-none text-stone-500 text-sm font-semibold'>
       {formatDateDivider(date)}
     </span>
     <div className='grow h-[1px] bg-gray-800' />

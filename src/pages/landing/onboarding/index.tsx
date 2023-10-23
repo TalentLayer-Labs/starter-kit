@@ -24,13 +24,13 @@ function onboardingStep1() {
     <>
       <div className='flex'>
         <label className='block flex-1 mr-4'>
-          <label htmlFor='custom-domain' className='text-gray-100'>
+          <label htmlFor='custom-domain' className='text-stone-800'>
             Name
           </label>
           <input
             type='string'
             id='name'
-            className='mt-1 mb-1 block w-full rounded-xl border border-gray-700 bg-midnight shadow-sm focus:ring-opacity-50'
+            className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
             onChange={e => setName(e.target.value)}
           />
         </label>

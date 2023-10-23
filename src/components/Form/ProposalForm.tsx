@@ -205,30 +205,32 @@ function ProposalForm({
     <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
       {({ isSubmitting, values, setFieldValue }) => (
         <Form>
-          <h2 className='mb-2 text-white font-bold'>For the job:</h2>
+          <h2 className='mb-2 text-stone-800 font-bold'>For the job:</h2>
           <ServiceItem service={service} />
 
-          <h2 className=' mt-8 mb-2 text-white font-bold'>Describe your proposal in details:</h2>
-          <div className='grid grid-cols-1 gap-6 border border-gray-700 rounded-xl p-6 bg-endnight'>
+          <h2 className=' mt-8 mb-2 text-stone-800 font-bold'>
+            Describe your proposal in details:
+          </h2>
+          <div className='grid grid-cols-1 gap-6 border border-redpraha rounded-xl p-6 bg-white'>
             <label className='block'>
-              <span className='text-gray-100'>about</span>
+              <span className='text-stone-800'>about</span>
               <Field
                 as='textarea'
                 id='about'
                 rows={8}
                 name='about'
-                className='mt-1 mb-1 block w-full rounded-xl border border-gray-700 bg-midnight shadow-sm focus:ring-opacity-50'
+                className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
                 placeholder=''
               />
-              <div className='border-gray-700 bg-gray-800 relative w-full border transition-all duration-300 rounded-xl p-4'>
+              <div className='border-redpraha bg-redpraha relative w-full border transition-all duration-300 rounded-xl p-4'>
                 <div className='flex w-full items-center gap-3'>
                   <QuestionMarkCircle className='hidden' />
                   <div>
-                    <h2 className='font-heading text-xs font-bold text-white mb-1'>
+                    <h2 className='font-heading text-xs font-bold text-stone-800 mb-1'>
                       <span>Need help?</span>
                     </h2>
                     <p className='font-alt text-xs font-normal'>
-                      <span className='text-gray-400'>
+                      <span className='text-stone-600'>
                         Write few lines above and get some help from our AI
                       </span>
                     </p>
@@ -240,7 +242,7 @@ function ProposalForm({
                         e.preventDefault();
                         askAI(values.about, setFieldValue);
                       }}
-                      className='border text-white bg-gray-700 hover:bg-gray-600 border-gray-600 rounded-md h-10 w-10 p-2 relative inline-flex items-center justify-center space-x-1 font-sans text-sm font-normal leading-5 no-underline outline-none transition-all duration-300'>
+                      className='border text-stone-800 bg-endnight hover:bg-white border-white rounded-md h-10 w-10 p-2 relative inline-flex items-center justify-center space-x-1 font-sans text-sm font-normal leading-5 no-underline outline-none transition-all duration-300'>
                       {aiLoading ? <Loading /> : 'GO'}
                     </button>
                   </div>
@@ -253,12 +255,12 @@ function ProposalForm({
 
             <div className='flex'>
               <label className='block flex-1 mr-4'>
-                <span className='text-gray-100'>Amount</span>
+                <span className='text-stone-800'>Amount</span>
                 <Field
                   type='number'
                   id='rateAmount'
                   name='rateAmount'
-                  className='mt-1 mb-1 block w-full rounded-xl border border-gray-700 bg-midnight shadow-sm focus:ring-opacity-50'
+                  className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
                   placeholder=''
                 />
                 <span className='text-red-500'>
@@ -266,12 +268,12 @@ function ProposalForm({
                 </span>
               </label>
               <label className='block'>
-                <span className='text-gray-100'>Token</span>
+                <span className='text-stone-800'>Token</span>
                 <Field
                   component='select'
                   id='rateToken'
                   name='rateToken'
-                  className='mt-1 mb-2 block w-full rounded-xl border border-gray-700 bg-midnight shadow-sm focus:ring-opacity-50'
+                  className='mt-1 mb-2 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
                   placeholder=''>
                   <option value=''>Select a token</option>
                   {allowedTokenList.map((token, index) => (
@@ -286,12 +288,12 @@ function ProposalForm({
               </label>
             </div>
             <label className='block flex-1'>
-              <span className='text-gray-100'>Expiration Date (Days)</span>
+              <span className='text-stone-800'>Expiration Date (Days)</span>
               <Field
                 type='number'
                 id='expirationDate'
                 name='expirationDate'
-                className='mt-1 mb-2 block w-full rounded-xl border border-gray-700 bg-midnight shadow-sm focus:ring-opacity-50'
+                className='mt-1 mb-2 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
                 placeholder=''
               />
               <span className='text-red-500'>
@@ -299,12 +301,12 @@ function ProposalForm({
               </span>
             </label>
             <label className='block flex-1'>
-              <span className='text-gray-100'>Video URL (optional)</span>
+              <span className='text-stone-800'>Video URL (optional)</span>
               <Field
                 type='text'
                 id='video_url'
                 name='video_url'
-                className='mt-1 mb-2 block w-full rounded-xl border border-gray-700 bg-midnight shadow-sm focus:ring-opacity-50'
+                className='mt-1 mb-2 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
                 placeholder='Enter  video URL'
               />
               <span className='text-red-500'>
@@ -312,7 +314,7 @@ function ProposalForm({
               </span>
             </label>
             {proposalPostingFeeFormat !== 0 && !existingProposal && (
-              <span className='text-gray-100'>
+              <span className='text-stone-800'>
                 Fee for making a proposal: {proposalPostingFeeFormat}{' '}
                 {currentChain?.nativeCurrency.symbol}
               </span>

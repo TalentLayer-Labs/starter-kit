@@ -112,19 +112,19 @@ function Dashboard() {
   }
 
   return (
-    <div className='mx-auto text-gray-900'>
+    <div className='mx-auto text-stone-800'>
       {!providerState?.client && account && (
         <div className='flex items-center justify-center pt-16'>
           <button
             type='submit'
-            className='bg-redpraha text-white font-bold py-2 px-4 rounded'
+            className='bg-redpraha text-stone-800 font-bold py-2 px-4 rounded'
             onClick={() => handleXmtpConnect()}>
             Connect to Messaging
           </button>
         </div>
       )}
       {providerState?.client && (
-        <div className='-mx-6 -mt-6 sm:mx-0 sm:mt-0'>
+        <div className='-mx-6 -mt-6'>
           <CardHeader peerAddress={selectedConversationPeerAddress} />
           <div className='flex flex-row'>
             {providerState?.client && selectedConversationPeerAddress && (

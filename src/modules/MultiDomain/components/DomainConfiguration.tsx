@@ -28,18 +28,15 @@ export default function DomainConfiguration({ domain }: { domain: string }) {
       domainJson.verification.find((x: any) => x.type === 'TXT')) ||
     null;
 
-  if (status === DomainVerificationStatusProps.Valid) return (
-    <div className='border-t border-stone-200 px-10 pb-5 pt-7 border-stone-700'>
-      <div className='mb-4 flex items-center space-x-2'>
-        <CheckCircle
-          fill='#32CD32'
-          stroke='currentColor'
-          className='text-white text-black'
-        />
-        <p className='text-lg font-semibold text-white'>{status}</p>
+  if (status === DomainVerificationStatusProps.Valid)
+    return (
+      <div className='border-t border-stone-200 px-10 pb-5 pt-7 border-stone-700'>
+        <div className='mb-4 flex items-center space-x-2'>
+          <CheckCircle fill='#32CD32' stroke='currentColor' className='text-stone-800 text-black' />
+          <p className='text-lg font-semibold text-stone-800'>{status}</p>
+        </div>
       </div>
-    </div>
-  )
+    );
 
   return (
     <div className='border-t border-stone-200 px-10 pb-5 pt-7 border-stone-700'>
@@ -48,29 +45,34 @@ export default function DomainConfiguration({ domain }: { domain: string }) {
           <ExclamationCircle
             fill='#FBBF24'
             stroke='currentColor'
-            className='text-white text-black'
+            className='text-stone-800 text-black'
           />
         ) : (
-          <XCircleOutline fill='#DC2626' stroke='currentColor' className='text-white text-black' />
+          <XCircleOutline
+            fill='#DC2626'
+            stroke='currentColor'
+            className='text-stone-800 text-black'
+          />
         )}
-        <p className='text-lg font-semibold text-white'>{status}</p>
-
+        <p className='text-lg font-semibold text-stone-800'>{status}</p>
       </div>
       {txtVerification ? (
         <>
-          <p className='text-sm text-white'>
+          <p className='text-sm text-stone-800'>
             Please set the following TXT record on{' '}
             <InlineSnippet>{domainJson.apexName}</InlineSnippet> to prove ownership of{' '}
             <InlineSnippet>{domainJson.name}</InlineSnippet>:
           </p>
-          <div className='my-5 flex items-start justify-start space-x-10 rounded-md bg-stone-50 p-2 bg-stone-800 text-white'>
+          <div className='my-5 flex items-start justify-start space-x-10 rounded-md bg-stone-50 p-2 bg-stone-800 text-stone-800'>
             <div>
               <p className='text-sm font-bold'>Type</p>
               <p className='mt-2 text-sm'>{txtVerification.type}</p>
             </div>
             <div>
               <p className='text-sm font-bold'>Name</p>
-              <p className='mt-2 text-sm'>{getDomainPrefix(txtVerification.domain, domainJson.apexName)}</p>
+              <p className='mt-2 text-sm'>
+                {getDomainPrefix(txtVerification.domain, domainJson.apexName)}
+              </p>
             </div>
             <div>
               <p className='text-sm font-bold'>Value</p>
@@ -78,10 +80,9 @@ export default function DomainConfiguration({ domain }: { domain: string }) {
                 <span className='text-ellipsis'>{txtVerification.value}</span>
                 <button
                   onClick={() => {
-                    handleCopyClick(txtVerification.value)
+                    handleCopyClick(txtVerification.value);
                   }}
-                  className='ml-2'
-                >
+                  className='ml-2'>
                   <ClipboardDocumentListIcon className='h-5 w-5 text-indigo-500' />
                 </button>
               </p>
@@ -95,47 +96,47 @@ export default function DomainConfiguration({ domain }: { domain: string }) {
           </p>
         </>
       ) : status === DomainVerificationStatusProps.Error ? (
-        <p className='mb-5 text-sm text-white'>{domainJson.error.message}</p>
+        <p className='mb-5 text-sm text-stone-800'>{domainJson.error.message}</p>
       ) : (
         <>
           <div className='flex justify-start space-x-4'>
             <button
               type='button'
               onClick={() => setRecordType('A')}
-              className={`${recordType == 'A'
-                ? 'border-black text-black border-white text-white'
-                : 'border-white text-stone-400 border-black text-stone-600'
-                } ease border-b-2 pb-1 text-sm transition-all duration-150`}>
+              className={`${
+                recordType == 'A'
+                  ? 'border-black text-black border-white text-stone-800'
+                  : 'border-white text-stone-400 border-black text-stone-600'
+              } ease border-b-2 pb-1 text-sm transition-all duration-150`}>
               A Record{!subdomain && ' (recommended)'}
             </button>
             <button
               type='button'
               onClick={() => setRecordType('CNAME')}
-              className={`${recordType == 'CNAME'
-                ? 'border-black text-black border-white text-white'
-                : 'border-white text-stone-400 border-black text-stone-600'
-                } ease border-b-2 pb-1 text-sm transition-all duration-150`}>
+              className={`${
+                recordType == 'CNAME'
+                  ? 'border-black text-black border-white text-stone-800'
+                  : 'border-white text-stone-400 border-black text-stone-600'
+              } ease border-b-2 pb-1 text-sm transition-all duration-150`}>
               CNAME Record{subdomain && ' (recommended)'}
             </button>
           </div>
           <div className='my-3 text-left'>
-            <p className='my-5 text-sm text-white'>
+            <p className='my-5 text-sm text-stone-800'>
               To configure your {recordType === 'A' ? 'apex domain' : 'subdomain'} (
               <InlineSnippet>
                 {recordType === 'A' ? domainJson.apexName : domainJson.name}
               </InlineSnippet>
               ), set the following {recordType} record on your DNS provider to continue:
             </p>
-            <div className='flex items-center justify-start space-x-10 rounded-md bg-stone-50 p-2 bg-stone-800 text-white'>
+            <div className='flex items-center justify-start space-x-10 rounded-md bg-stone-50 p-2 bg-stone-800 text-stone-800'>
               <div>
                 <p className='text-sm font-bold'>Type</p>
                 <p className='mt-2 text-sm'>{recordType}</p>
               </div>
               <div>
                 <p className='text-sm font-bold'>Name</p>
-                <p className='mt-2 text-sm'>
-                  {recordType === 'A' ? '@' : subdomain ?? 'www'}
-                </p>
+                <p className='mt-2 text-sm'>{recordType === 'A' ? '@' : subdomain ?? 'www'}</p>
               </div>
               <div>
                 <p className='text-sm font-bold'>Value</p>
@@ -150,7 +151,7 @@ export default function DomainConfiguration({ domain }: { domain: string }) {
                 <p className='mt-2 text-sm'>86400</p>
               </div>
             </div>
-            <p className='mt-5 text-sm text-white'>
+            <p className='mt-5 text-sm text-stone-800'>
               Note: for TTL, if <InlineSnippet>86400</InlineSnippet> is not available, set the
               highest value possible. Also, domain propagation can take up to an hour.
             </p>
@@ -160,4 +161,3 @@ export default function DomainConfiguration({ domain }: { domain: string }) {
     </div>
   );
 }
-

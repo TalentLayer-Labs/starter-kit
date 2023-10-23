@@ -113,7 +113,7 @@ function Web3mailPreferencesForm() {
             <div className='grid grid-cols-1 gap-6'>
               <Web3mailCard />
 
-              <div className='border-b border-gray-700 pb-6'>
+              <div className='border-b border-redpraha pb-6'>
                 <label className='block'>
                   <div className='mb-2 ml-0.5'>
                     <div className='flex justify-between'>
@@ -121,7 +121,7 @@ function Web3mailPreferencesForm() {
                         <p className='font-heading text-base font-medium leading-none'>
                           Your email is protected
                         </p>
-                        <p className='font-sans text-xs font-normal leading-normal text-gray-400 mt-0.5'>
+                        <p className='font-sans text-xs font-normal leading-normal text-stone-600 mt-0.5'>
                           It allow you to configure your preferences to be notified every time an
                           important action happened.
                         </p>
@@ -133,7 +133,7 @@ function Web3mailPreferencesForm() {
                     type='text'
                     id='email'
                     name='email'
-                    className='cursor-not-allowed mt-1 mb-1 block w-full rounded-xl border border-gray-700 bg-midnight shadow-sm focus:ring-opacity-50'
+                    className='cursor-not-allowed mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
                     placeholder='**********'
                     readOnly
                     disabled
@@ -147,7 +147,7 @@ function Web3mailPreferencesForm() {
                     <p className='font-heading text-base font-medium leading-none'>
                       Your notifications preferences
                     </p>
-                    <p className='font-sans text-xs font-normal leading-normal text-gray-400 mt-0.5'>
+                    <p className='font-sans text-xs font-normal leading-normal text-stone-600 mt-0.5'>
                       Receive email when:
                     </p>
                   </div>
