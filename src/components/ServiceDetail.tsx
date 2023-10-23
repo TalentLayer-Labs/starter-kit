@@ -67,7 +67,7 @@ function ServiceDetail({ service }: { service: IService }) {
                 <Link
                   className='text-sm text-stone-600 mt-4'
                   href={`/dashboard/profile/${service.seller.id}`}>
-                  Gig handle by <span className='text-stone-800'>{service.seller.handle}</span>
+                  Work handle by <span className='text-stone-800'>{service.seller.handle}</span>
                 </Link>
               )}
               <div className='text-sm text-stone-600 mt-4'>

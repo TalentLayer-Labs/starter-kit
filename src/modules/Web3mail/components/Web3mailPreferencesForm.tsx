@@ -151,7 +151,7 @@ function Web3mailPreferencesForm() {
 
                   <Toogle
                     entityId={'activeOnNewProposal'}
-                    label='A new proposal is posted on your Gig'
+                    label='A new proposal is posted on your Work Post'
                   />
 
                   <Toogle

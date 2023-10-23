@@ -35,7 +35,7 @@ function Services() {
             href={`/dashboard/work/create`}
             className=' hover:bg-endnight text-stone-800 bg-endnight px-3 py-2 text-sm flex items-center rounded-xl'>
             <PlusCircleIcon className='w-[18px] h-[18px] text-stone-600 mr-2' />
-            Create Gig
+            Create Post
           </Link>
         </div>
       </div>
