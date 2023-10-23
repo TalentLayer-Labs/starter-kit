@@ -30,6 +30,7 @@ export type IUser = {
 };
 
 export type IUserDetails = {
+  id: string;
   title: string;
   name: string;
   role?: string;
@@ -37,6 +38,7 @@ export type IUserDetails = {
   video_url?: string;
   about?: string;
   skills_raw?: string;
+  user: IUser;
   web3mailPreferences?: IWeb3mailPreferences;
 };
 
@@ -47,6 +49,7 @@ export type IWeb3mailPreferences = {
   activeOnFundRelease: boolean;
   activeOnReview: boolean;
   activeOnPlatformMarketing: boolean;
+  activeOnProtocolMarketing?: boolean;
 };
 
 export type IUserStats = {
@@ -234,6 +237,7 @@ export type IProposal = {
   cid: string;
   status: ProposalStatusEnum;
   seller: IUser;
+  buyer: IUser;
   rateToken: IToken;
   rateAmount: string;
   service: IService;
@@ -301,4 +305,30 @@ export type IUserGain = {
   user: IUser;
   token: IToken;
   totalGain: string;
+};
+
+export enum EmailType {
+  NewProposal = 'newProposal',
+  ProposalValidated = 'proposalValidated',
+  FundRelease = 'fundRelease',
+  Review = 'review',
+  PlatformMarketing = 'platformMarketing',
+  ProtocolMarketing = 'protocolMarketing',
+  NewService = 'newService',
+}
+
+export enum NotificationApiUri {
+  NewProposal = 'new-proposal',
+  ProposalValidated = 'proposal-validated',
+  FundRelease = 'fund-release',
+  Review = 'review',
+  NewService = 'new-service',
+}
+
+export type Web3MailStats = {
+  totalSent: number;
+  totalSentByMonth: { _id: number; count: number }[];
+  totalSentThisMonth: number;
+  totalContact: number;
+  totalCronRunning: number;
 };

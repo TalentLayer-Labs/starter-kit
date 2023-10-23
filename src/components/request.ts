@@ -132,3 +132,31 @@ export const delegateMintID = async (
     throw err;
   }
 };
+
+export const sendPlatformMarketingWeb3mail = async (
+  emailSubject: string,
+  emailContent: string,
+  usersAddresses: string[],
+  signature: string,
+): Promise<any> => {
+  try {
+    return await axios.post('/api/web3mail/platform-marketing', {
+      emailSubject: emailSubject,
+      emailContent: emailContent,
+      usersAddresses: usersAddresses,
+      signature: signature,
+    });
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
+export const fetchMyContacts = async (): Promise<any> => {
+  try {
+    return await axios.post('/api/web3mail/fetch-my-contacts');
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};

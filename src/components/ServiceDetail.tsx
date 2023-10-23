@@ -108,7 +108,7 @@ function ServiceDetail({ service }: { service: IService }) {
               <>
                 {!userProposal && (
                   <Link
-                    className='text-white bg-redpraha hover:redpraha/80 hover:text-white px-3 py-2 rounded text-sm'
+                    className='text-white bg-redpraha hover:redpraha/80 hover:text-white px-5 py-2.5 rounded-xl text-sm'
                     href={`/dashboard/services/${service.id}/proposal`}>
                     Create proposal
                   </Link>

@@ -7,7 +7,7 @@ export const getPaymentsByService = (
 ): Promise<any> => {
   let condition = `where: {service: "${serviceId}"`;
   paymentType ? (condition += `, paymentType: "${paymentType}"`) : '';
-  condition += '}, orderBy: id, orderDirection: asc';
+  condition += '}, first: 1000, orderBy: id, orderDirection: asc';
   const query = `
     {
       payments(${condition}) {
@@ -48,7 +48,7 @@ export const getPaymentsForUser = (
         ${startDataCondition}
         ${endDateCondition}
       }, 
-      orderBy: createdAt orderDirection: desc ${pagination} ) {
+      first: 1000, orderBy: createdAt orderDirection: desc ${pagination} ) {
         id, 
         rateToken {
           address
@@ -66,6 +66,50 @@ export const getPaymentsForUser = (
         }
       }
     }
+    `;
+  return processRequest(chainId, query);
+};
+
+export const getNewPayments = (chainId: number, id: string, timestamp?: string): Promise<any> => {
+  const timestampCondition = timestamp ? `, createdAt_gt: "${timestamp}"` : '';
+  const query = `
+      {
+        payments(
+          first: 1000, orderBy: createdAt
+          where: {service_: {platform: "${id}"} ${timestampCondition}}
+        ) {
+          id
+          amount
+          createdAt
+          paymentType
+          rateToken {
+            symbol
+            address
+          }
+          service {
+            id
+            buyer {
+              address
+              handle
+            }
+            seller {
+              address
+              handle
+            }
+            description {
+              title
+              about
+            }
+            platform {
+              id
+              name
+              description {
+                website
+              }
+            }
+          }
+        }
+      }
     `;
   return processRequest(chainId, query);
 };

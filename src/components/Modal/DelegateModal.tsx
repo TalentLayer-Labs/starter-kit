@@ -67,11 +67,9 @@ function DelegateModal() {
           !show ? 'hidden' : ''
         } overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal h-full bg-black/75 flex flex-col items-center justify-center`}>
         <div className='relative p-4 w-full max-w-2xl h-auto'>
-          <div className='relative bg-white rounded-xl shadow '>
-            <div className='flex justify-between items-start p-4 rounded-t border-b '>
-              <h3 className='text-xl font-semibold text-gray-900 '>
-                Delegate activation information
-              </h3>
+          <div className='relative bg-endnight rounded-xl shadow '>
+            <div className='flex justify-between items-start p-4 rounded-t border-b border-gray-600'>
+              <h3 className='text-xl font-semibold text-white '>Delegate activation information</h3>
               {/* close button */}
               <button
                 onClick={() => setShow(false)}
@@ -92,9 +90,9 @@ function DelegateModal() {
               </button>
             </div>
             <div className='p-6 space-y-6'>
-              <div className='flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 space-y-6'>
+              <div className='flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full bg-midnight space-y-6 text-white'>
                 <div className='flex flex-row'>
-                  <h3 className='font-semibold text-gray-900'>Delegation state: </h3>
+                  <h3 className='font-semibold text-white'>Delegation state: </h3>
                   {hasPlatformAsDelegate == true ? (
                     <p className='text-green-500 pl-2'> is active</p>
                   ) : (

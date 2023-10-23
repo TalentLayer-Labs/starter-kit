@@ -7,6 +7,7 @@ import SideMenu from '../components/Layout/SideMenu';
 import NetworkSwitch from '../components/NetworkSwitch';
 import UserAccount from '../components/UserAccount';
 import { useRouter } from 'next/router';
+import EmailCounter from '../modules/Web3mail/components/EmailCounter';
 
 interface ContainerProps {
   children: ReactNode;
@@ -17,9 +18,7 @@ function Layout({ children, className }: ContainerProps) {
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  if (router.asPath.includes('dashboard') || router.asPath.startsWith('admin')) {
-    // TODO: if is connect but doesn't have a group, redirect to onbaording
-
+  if (router.asPath.includes('dashboard') || router.asPath.includes('admin')) {
     return (
       <>
         <div className={className + ' dashboard pb-[110px]'}>
@@ -87,6 +86,11 @@ function Layout({ children, className }: ContainerProps) {
               <div className='mt-8 flex flex-1 flex-col justify-between'>
                 <SideMenu />
               </div>
+              {process.env.NEXT_PUBLIC_ACTIVE_WEB3MAIL == 'true' && (
+                <div className='flex flex-2 flex-col ml-5 mb-5'>
+                  <EmailCounter />
+                </div>
+              )}
             </div>
           </div>
 

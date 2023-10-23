@@ -1,4 +1,5 @@
 import { processRequest } from '../utils/graphql';
+import { IWeb3mailPreferences } from '../types';
 
 export const getUsers = (
   chainId: number,
@@ -157,6 +158,79 @@ export const getUserByIds = (chainId: number, ids: string[]): Promise<any> => {
           title
           timezone
           skills_raw
+        }
+      }
+    }
+    `;
+  return processRequest(chainId, query);
+};
+
+export const getUserWeb3mailPreference = (
+  chainId: number,
+  address: string,
+  web3mailPreference: keyof IWeb3mailPreferences,
+): Promise<any> => {
+  const query = `
+    {
+      user(address: "${address}) {
+        description{
+          web3mailPreferences {
+            ${web3mailPreference}
+        }
+      }
+    }
+    `;
+  return processRequest(chainId, query);
+};
+
+export const getUsersWeb3MailPreference = (
+  chainId: number,
+  addresses: string[],
+  web3mailPreference: keyof IWeb3mailPreferences,
+): Promise<any> => {
+  const query = `
+    {
+      userDescriptions(
+        where: {user_: {address_in: ["${addresses
+          .map(a => a.toLowerCase())
+          .join('","')}"]}, web3mailPreferences_: {${web3mailPreference}: true}}
+      ) {
+        id
+        user {
+          id
+          address
+          handle
+          description {
+            id
+          }
+        }
+      }
+    }
+    `;
+  return processRequest(chainId, query);
+};
+
+export const getWeb3mailUsersForNewServices = (
+  chainId: number,
+  addresses: string[],
+  web3mailPreference: keyof IWeb3mailPreferences,
+): Promise<any> => {
+  const query = `
+    {
+      userDescriptions(
+        where: {user_: {address_in: ["${addresses
+          .map(a => a.toLowerCase())
+          .join('","')}"]}, web3mailPreferences_: {${web3mailPreference}: true}}
+      ) {
+        id
+        skills_raw
+        user {
+          id
+          address
+          handle
+          description {
+            id
+          }
         }
       }
     }

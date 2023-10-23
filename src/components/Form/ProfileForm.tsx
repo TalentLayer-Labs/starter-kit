@@ -2,11 +2,10 @@ import { useWeb3Modal } from '@web3modal/react';
 import { Field, Form, Formik } from 'formik';
 import { QuestionMarkCircle } from 'heroicons-react';
 import { useContext, useState } from 'react';
-import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
+import { usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
 import TalentLayerContext from '../../context/talentLayer';
 import { useChainId } from '../../hooks/useChainId';
-import { useConfig } from '../../hooks/useConfig';
 import useUserById from '../../hooks/useUserById';
 import Web3MailContext from '../../modules/Web3mail/context/web3mail';
 import { createWeb3mailToast } from '../../modules/Web3mail/utils/toast';
@@ -33,14 +32,12 @@ const validationSchema = Yup.object({
 });
 
 function ProfileForm({ callback }: { callback?: () => void }) {
-  const config = useConfig();
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
   const { user, isActiveDelegate, refreshData } = useContext(TalentLayerContext);
   const { platformHasAccess } = useContext(Web3MailContext);
   const { data: walletClient } = useWalletClient({ chainId });
   const publicClient = usePublicClient({ chainId });
-  const { address } = useAccount();
   const [aiLoading, setAiLoading] = useState(false);
   const userDescription = user?.id ? useUserById(user?.id)?.description : null;
   const talentLayerClient = useTalentLayerClient();
@@ -149,7 +146,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
                 placeholder=''
               />
             </label>
-            <label className='block hidden'>
+            <label className='block'>
               <span className='text-gray-100'>Name</span>
               <Field
                 type='text'

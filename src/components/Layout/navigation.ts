@@ -6,6 +6,7 @@ import {
   PresentationChartLineIcon,
   ExclamationCircleIcon,
   ShieldCheckIcon,
+  EnvelopeIcon,
 } from '@heroicons/react/24/outline';
 
 export const navigation = [
@@ -32,6 +33,12 @@ export const navigationAdmin = [
     name: 'Dispute',
     href: `/admin/dispute`,
     icon: ExclamationCircleIcon,
+    current: false,
+  },
+  {
+    name: 'Web3Mail',
+    href: `/admin/web3mail`,
+    icon: EnvelopeIcon,
     current: false,
   },
 ];

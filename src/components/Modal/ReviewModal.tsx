@@ -20,9 +20,9 @@ function ReviewModal({ service, userToReview }: { service: IService; userToRevie
           !show ? 'hidden' : ''
         } overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal h-full bg-black/75 flex flex-col items-center justify-center`}>
         <div className='relative p-4 w-full max-w-2xl h-auto'>
-          <div className='relative bg-white rounded-xl shadow '>
-            <div className='flex justify-between items-start p-4 rounded-t border-b '>
-              <h3 className='text-xl font-semibold text-gray-900 '>Create a review</h3>
+          <div className='relative bg-endnight rounded-xl shadow '>
+            <div className='flex justify-between items-start p-4 rounded-t border-b border-gray-600'>
+              <h3 className='text-xl font-semibold text-white '>Create a review</h3>
               <button
                 onClick={() => setShow(false)}
                 type='button'

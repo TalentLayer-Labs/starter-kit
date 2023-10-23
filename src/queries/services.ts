@@ -9,6 +9,7 @@ interface IProps {
   offset?: number;
   searchQuery?: string;
   platformId?: string;
+  keywordList?: string[];
 }
 
 const serviceQueryFields = `
@@ -63,13 +64,41 @@ const serviceDescriptionQueryFields = `
 `;
 
 const getFilteredServiceCondition = (params: IProps) => {
-  let condition = ', where: {';
-  condition += params.serviceStatus ? `status: "${params.serviceStatus}"` : '';
-  condition += params.buyerId ? `, buyer: "${params.buyerId}"` : '';
-  condition += params.sellerId ? `, seller: "${params.sellerId}"` : '';
-  condition += params.platformId ? `, platform: "${params.platformId}"` : '';
+  let condition = 'where: {';
+
+  if (params.serviceStatus) condition += `status: "${params.serviceStatus}",`;
+  if (params.buyerId) condition += `buyer: "${params.buyerId}",`;
+  if (params.sellerId) condition += `seller: "${params.sellerId}",`;
+  if (params.platformId) condition += `platform: "${params.platformId}",`;
+
+  let keywordFilter = '';
+
+  // Filter by keyword
+  // This code filters the list of keywords to exclude those that are included in the keyword list.
+
+  if (params.keywordList && params.keywordList.length > 0) {
+    keywordFilter = params.keywordList
+      .map(keyword => `{keywords_raw_not_contains: "${keyword}"}`)
+      .join(', ');
+  }
+  // Prepare description_ filter
+  let descriptionCondition = '';
+  if (params.searchQuery) {
+    descriptionCondition += `{keywords_raw_not_contains: "${params.searchQuery}"}`;
+  }
+  if (keywordFilter) {
+    descriptionCondition = descriptionCondition
+      ? `{ and: [ { and: [${keywordFilter}]}, ${descriptionCondition} ] }`
+      : `{ and: [${keywordFilter}]}`;
+  }
+
+  if (descriptionCondition) {
+    condition += `description_: ${descriptionCondition},`;
+  }
+
   condition += '}';
-  return condition === ', where: {}' ? '' : condition;
+
+  return condition === 'where: {}' ? '' : `, ${condition}`;
 };
 
 const getFilteredServiceDescriptionCondition = (params: IProps) => {
@@ -132,6 +161,49 @@ export const getServiceById = (chainId: number, id: string): Promise<any> => {
         }
       }
     }
+    `;
+  return processRequest(chainId, query);
+};
+
+export const getNewServicesForPlatform = (
+  chainId: number,
+  id: string,
+  timestamp?: string,
+): Promise<any> => {
+  const timestampCondition = timestamp ? `, updatedAt_gt: "${timestamp}"` : '';
+  const query = `
+      {
+        services(
+          orderBy: updatedAt
+          where: {status: Opened, platform: "${id}" ${timestampCondition}}
+        ) {
+          id
+          platform {
+            id
+            name
+            description {
+              website
+            }
+          }
+          description {
+            keywords_raw
+            keywords {
+              id
+            }
+            about
+            rateAmount
+            rateToken {
+              symbol
+            }
+            startDate
+            title
+          }
+          buyer {
+            address
+            handle
+          }
+        }
+      }
     `;
   return processRequest(chainId, query);
 };

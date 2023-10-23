@@ -34,18 +34,18 @@ function Step({
           )}
           {status === 'inprogress' && (
             <span className='flex items-center animate-pulse'>
-              <span className='flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-2 border-zinc-600'>
+              <span className='flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-2 border-redpraha'>
                 <span className='text-gray-100'>0{order}</span>
               </span>
-              <span className='ml-4 text-sm font-medium text-zinc-600'>{title}</span>
+              <span className='ml-4 text-sm font-medium text-white'>{title}</span>
             </span>
           )}
           {status === 'todo' && (
             <>
-              <span className='flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-2 border-redpraha group-hover:border-gray-400'>
+              <span className='flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-2 border-gray-400 group-hover:border-gray-400'>
                 <span className='text-gray-500 group-hover:text-gray-900'>0{order}</span>
               </span>
-              <span className='ml-4 text-sm font-medium text-gray-500 group-hover:text-gray-900'>
+              <span className='ml-4 text-sm font-medium text-gray-400 group-hover:text-gray-900'>
                 {title}
               </span>
             </>

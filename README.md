@@ -40,3 +40,13 @@ XMTP is an open protocol and dev toolkit for messaging applications. You can use
 **Documentation:** [Read here.](https://xmtp.org/docs/dev-concepts/start-building)
 
 **Example DAPP Tutorial:** [Read here.](https://xmtp.org/docs/client-sdk/javascript/tutorials/build-an-xmtp-hello-world-app)
+
+## ✉️ IExec - Web3mail
+
+Web3mail is a decentralized email service built by IExec which allows a platform to send emails to a user without knowing the email address of the user. 
+
+### Developer Resources
+
+**Iexec Documentation:** [Read here.](https://tools.docs.iex.ec/tools/dataprotector)
+
+**Technical TalentLayer integration documentation:** [Read here.](https://docs.talentlayer.org/third-party-modules/iexec-web3mail)

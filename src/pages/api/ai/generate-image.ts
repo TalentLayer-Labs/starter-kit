@@ -11,6 +11,10 @@ interface GenerateNextApiRequest extends NextApiRequest {
   };
 }
 
+export const config = {
+  maxDuration: 300, // 5 minutes.
+};
+
 export default async function handler(
   req: GenerateNextApiRequest,
   res: NextApiResponse<ResponceData>,

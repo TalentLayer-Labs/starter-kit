@@ -70,8 +70,8 @@ const iexec: Config = {
       name: 'iExec RLC',
       decimals: 18,
     },
-    '0xe62C28709E4F19Bae592a716b891A9B76bf897E4': {
-      address: '0xe62C28709E4F19Bae592a716b891A9B76bf897E4',
+    '0xe62c28709e4f19bae592a716b891a9b76bf897e4': {
+      address: '0xe62c28709e4f19bae592a716b891a9b76bf897e4',
       symbol: 'SERC20',
       name: 'SimpleERC20',
       decimals: 18,

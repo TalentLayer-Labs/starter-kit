@@ -114,3 +114,94 @@ export const getProposalById = (chainId: number, id: string): Promise<any> => {
     `;
   return processRequest(chainId, query);
 };
+
+export const getProposalsFromPlatformServices = (
+  chainId: number,
+  id: string,
+  timestamp?: string,
+): Promise<any> => {
+  const timestampCondition = timestamp ? `, updatedAt_gt: "${timestamp}"` : '';
+  const query = `
+      {
+        proposals(
+          orderBy: updatedAt
+          where: {status: Pending, service_: {platform: "${id}", status: Opened} ${timestampCondition}}
+        ) {
+          id
+          rateAmount
+          rateToken {
+            symbol
+          }
+          description {
+            about
+          }
+          service {
+            id
+            buyer {
+              address
+              handle
+            }
+            platform {
+              id
+              name
+              description {
+                title
+                website
+              }
+            }
+          }
+          seller {
+            address
+            handle
+          }
+        }
+      }
+    `;
+  return processRequest(chainId, query);
+};
+
+export const getAcceptedProposals = (
+  chainId: number,
+  id: string,
+  timestamp?: string,
+): Promise<any> => {
+  const timestampCondition = timestamp ? `, updatedAt_gt: "${timestamp}"` : '';
+  const query = `
+      {
+        proposals(
+          orderBy: updatedAt
+          where: {status: Validated, platform: "${id}" ${timestampCondition}}
+        ) {
+          id
+          description {
+            about
+          }
+          rateAmount
+          rateToken {
+            symbol
+          }
+          service {
+            id
+            buyer {
+              address
+            }
+            description {
+              title
+            }
+            platform {
+              id
+              name
+              description {
+                website
+              }
+            }
+          }
+          seller {
+            address
+            handle
+          }
+        }
+      }
+    `;
+  return processRequest(chainId, query);
+};
