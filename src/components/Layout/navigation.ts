@@ -12,7 +12,7 @@ import {
   CodeBracketSquareIcon,
 } from '@heroicons/react/24/outline';
 
-export const navigation = [
+export const hirerNavigation = [
   { name: 'Dashboard', href: '/dashboard', icon: UserIcon, current: false },
   { name: 'My post', href: '/dashboard/services', icon: BriefcaseIcon, current: false },
   { name: 'New post', href: '/dashboard/services/create', icon: PlusCircleIcon, current: false },
@@ -20,7 +20,7 @@ export const navigation = [
   { name: 'Chat', href: '/dashboard/messaging', icon: ChatBubbleBottomCenterIcon, current: false },
 ];
 
-export const navigationAdmin = [
+export const hirerAdminNavigation = [
   { name: 'Hirer profile', href: '/admin/hirer-profile', icon: UserIcon, current: false },
   {
     name: 'Configure your place',
@@ -36,7 +36,14 @@ export const navigationAdmin = [
   },
 ];
 
-export const navigationPlatformAdmin = [
+export const workerNavigation = [
+  { name: 'Dashboard', href: '/dashboard', icon: UserIcon, current: false },
+  { name: 'Find work', href: '/dashboard/services', icon: BriefcaseIcon, current: false },
+  { name: 'My profile', href: '/dashboard/profile/edit', icon: UserGroupIcon, current: false },
+  { name: 'Chat', href: '/dashboard/messaging', icon: ChatBubbleBottomCenterIcon, current: false },
+];
+
+export const PlatformAdminNavigation = [
   {
     name: 'Presentation',
     href: `/admin/presentation`,

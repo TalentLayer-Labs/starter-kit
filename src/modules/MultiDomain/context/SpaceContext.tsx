@@ -4,18 +4,18 @@ import { useRouter } from 'next/router';
 import { useGetSpace } from '../hooks/UseGetSpace';
 
 const SpaceContext = createContext<{
-  space?: Space | undefined;
+  space?: Space;
   loading: boolean;
   spaceNotFound: boolean;
 }>({
   space: undefined,
   loading: true,
-  spaceNotFound: false
+  spaceNotFound: false,
 });
 
 const SpaceProvider = ({ children }: { children: ReactNode }) => {
   const [spaceNotFound, setSpaceNotFound] = useState(false);
-  const { query } = useRouter()
+  const { query } = useRouter();
   const domain = query.domain;
 
   const { space, loading } = useGetSpace({ domain: domain as string });
@@ -34,7 +34,7 @@ const SpaceProvider = ({ children }: { children: ReactNode }) => {
     return {
       space,
       loading,
-      spaceNotFound
+      spaceNotFound,
     };
   }, [space, loading, spaceNotFound]);
 
