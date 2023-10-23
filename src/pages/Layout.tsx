@@ -86,11 +86,6 @@ function Layout({ children, className }: ContainerProps) {
               <div className='mt-8 flex flex-1 flex-col justify-between'>
                 <SideMenu />
               </div>
-              {process.env.NEXT_PUBLIC_ACTIVE_WEB3MAIL == 'true' && (
-                <div className='flex flex-2 flex-col ml-5 mb-5'>
-                  <EmailCounter />
-                </div>
-              )}
             </div>
           </div>
 
