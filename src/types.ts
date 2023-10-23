@@ -332,3 +332,10 @@ export type Web3MailStats = {
   totalContact: number;
   totalCronRunning: number;
 };
+
+export enum JobType {
+  jobs = 'jobs',
+  bounties = 'bounties',
+  grants = 'grnats',
+  gigs = 'gigs',
+}

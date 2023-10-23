@@ -7,7 +7,6 @@ import SideMenu from '../components/Layout/SideMenu';
 import NetworkSwitch from '../components/NetworkSwitch';
 import UserAccount from '../components/UserAccount';
 import { useRouter } from 'next/router';
-import EmailCounter from '../modules/Web3mail/components/EmailCounter';
 
 interface ContainerProps {
   children: ReactNode;
