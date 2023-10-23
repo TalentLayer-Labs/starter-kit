@@ -1,9 +1,8 @@
-import { useRouter } from 'next/router';
+import Link from 'next/link';
 import usePaymentsForUser from '../hooks/usePaymentsForUser';
 import { IUser } from '../types';
 import { renderTokenAmount } from '../utils/conversion';
 import { formatStringCompleteDate } from '../utils/dates';
-import Link from 'next/link';
 
 function UserPayments({ user }: { user: IUser }) {
   const { payments } = usePaymentsForUser(user.id, 10);
