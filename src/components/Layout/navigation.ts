@@ -10,10 +10,11 @@ import {
   PlusCircleIcon,
   WrenchIcon,
   CodeBracketSquareIcon,
+  HomeIcon,
 } from '@heroicons/react/24/outline';
 
 export const hirerNavigation = [
-  { name: 'Dashboard', href: '/dashboard', icon: UserIcon, current: false },
+  { name: 'Dashboard', href: '/dashboard', icon: HomeIcon, current: false },
   { name: 'My post', href: '/dashboard/services', icon: BriefcaseIcon, current: false },
   { name: 'New post', href: '/dashboard/services/create', icon: PlusCircleIcon, current: false },
   { name: 'My talents', href: '/dashboard/talents', icon: UserGroupIcon, current: false },
@@ -37,9 +38,9 @@ export const hirerAdminNavigation = [
 ];
 
 export const workerNavigation = [
-  { name: 'Dashboard', href: '/dashboard', icon: UserIcon, current: false },
+  { name: 'Dashboard', href: '/dashboard', icon: HomeIcon, current: false },
   { name: 'Find work', href: '/dashboard/services', icon: BriefcaseIcon, current: false },
-  { name: 'My profile', href: '/dashboard/profile/edit', icon: UserGroupIcon, current: false },
+  { name: 'My profile', href: '/dashboard/profile/edit', icon: UserIcon, current: false },
   { name: 'Chat', href: '/dashboard/messaging', icon: ChatBubbleBottomCenterIcon, current: false },
 ];
 

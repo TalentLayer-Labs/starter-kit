@@ -105,8 +105,7 @@ function Layout({ children, className }: ContainerProps) {
             </main>
           </div>
         </div>
-
-        <MenuBottom />
+        <MenuBottom setSidebarOpen={setSidebarOpen} sidebarOpen={sidebarOpen} />
       </>
     );
   }
