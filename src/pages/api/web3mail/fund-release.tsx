@@ -138,7 +138,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         `${senderHandle} has ${action} ${renderTokenAmount(
           payment.rateToken,
           payment.amount,
-        )} for the gig ${payment.service.description?.title} on StarterKit !`,
+        )} for the gig ${payment.service.description?.title} on BuilderPlace !`,
         receiverHandle,
         `${payment.service.platform.description?.website}/dashboard/services/${payment.service.id}`,
         `Go to payment detail`,

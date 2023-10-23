@@ -84,7 +84,7 @@ export default function Ai() {
       key: new Date().getTime(),
     };
     setMessages([myMessage, ...messages]);
-    const context = "I'm using StarterKit freelance platform, help me use the platform.";
+    const context = "I'm using BuilderPlace freelance platform, help me use the platform.";
     const response = await postOpenAiRequest(context + input);
     setLoading(false);
 

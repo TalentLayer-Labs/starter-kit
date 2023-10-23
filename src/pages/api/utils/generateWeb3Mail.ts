@@ -269,7 +269,7 @@ ${link && linkText ? renderLink(link, linkText) : ''}
       <td style="overflow-wrap:break-word;word-break:break-word;padding:40px 40px 30px;font-family:'Lato',sans-serif;" align="left">
         
   <div style="font-size: 14px; line-height: 140%; text-align: left; word-wrap: break-word;">
-    <p style="font-size: 14px; line-height: 140%;"><span style="color: #888888; font-size: 14px; line-height: 19.6px;"><em><span style="font-size: 16px; line-height: 22.4px;">We email has been sent with iExec web3mail, <a rel="noopener" href="https://bellecour.starterkit.work/dashboard/profile/edit/privacy" target="_blank"><span style="text-decoration: underline; line-height: 19.6px;">go here</span></a> to update your preferences</span></em></span></p>
+    <p style="font-size: 14px; line-height: 140%;"><span style="color: #888888; font-size: 14px; line-height: 19.6px;"><em><span style="font-size: 16px; line-height: 22.4px;">We email has been sent with iExec web3mail, <a rel="noopener" href="https://bellecour.builderplace.work/dashboard/profile/edit/privacy" target="_blank"><span style="text-decoration: underline; line-height: 19.6px;">go here</span></a> to update your preferences</span></em></span></p>
   </div>
 
       </td>
@@ -306,7 +306,7 @@ ${link && linkText ? renderLink(link, linkText) : ''}
       <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:'Lato',sans-serif;" align="left">
         
   <div style="font-size: 14px; line-height: 140%; text-align: center; word-wrap: break-word;">
-    <p style="line-height: 140%;"><span style="color: #ecf0f1; line-height: 19.6px;"><a href="https://bellecour.starterkit.work/" style="color: #ecf0f1;">bellecour.starterkit.work</a></span></p>
+    <p style="line-height: 140%;"><span style="color: #ecf0f1; line-height: 19.6px;"><a href="https://bellecour.builderplace.work/" style="color: #ecf0f1;">bellecour.builderplace.work</a></span></p>
   </div>
 
       </td>
@@ -392,7 +392,7 @@ const renderLink = (link: string, linkText: string) => {
 
     <!--[if mso]><style>.v-button {background: transparent !important;}</style><![endif]-->
   <div align="center">
-    <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://bellecour.starterkit.work/...." style="height:52px; v-text-anchor:middle; width:191px;" arcsize="2%"  stroke="f" fillcolor="#ff0050"><w:anchorlock/><center style="color:#FFFFFF;"><![endif]-->
+    <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://bellecour.builderplace.work/...." style="height:52px; v-text-anchor:middle; width:191px;" arcsize="2%"  stroke="f" fillcolor="#ff0050"><w:anchorlock/><center style="color:#FFFFFF;"><![endif]-->
   <a href=${link} target="_blank" class="v-button" style="box-sizing: border-box;display: inline-block;text-decoration: none;-webkit-text-size-adjust: none;text-align: center;color: #FFFFFF; background-color: #ff0050; border-radius: 1px;-webkit-border-radius: 1px; -moz-border-radius: 1px; width:auto; max-width:100%; overflow-wrap: break-word; word-break: break-word; word-wrap:break-word; mso-border-alt: none;font-size: 14px;">
   <span style="display:block;padding:15px 40px;line-height:120%;"><span style="font-size: 18px; line-height: 21.6px;">${linkText}</span></span>
   </a>

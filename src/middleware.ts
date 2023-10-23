@@ -24,6 +24,11 @@ export default async function middleware(req: NextRequest) {
   // Get the pathname of the request (e.g. /, /onboarding, /lens/admin)
   const path = url.pathname;
 
+  // ignore assets
+  if (path.startsWith('/images/') || path.startsWith('/fonts/')) {
+    return;
+  }
+
   // rewrite root application to `/landing` folder
   if (hostname === 'localhost:3000' || hostname === process.env.NEXT_PUBLIC_ROOT_DOMAIN) {
     return NextResponse.rewrite(new URL(`/landing${path}`, req.url));

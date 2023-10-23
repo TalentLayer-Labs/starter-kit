@@ -114,7 +114,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             );
             try {
               const email = renderWeb3mail(
-                `New gig available on StarterKit!`,
+                `New gig available on BuilderPlace!`,
                 `Good news, the following gig: "${
                   service.description?.title
                 }" was recently posted by ${service.buyer.handle} and you are a good match for it.
@@ -131,7 +131,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
               );
               // @dev: This function needs to be throwable to avoid persisting the entity in the DB if the email is not sent
               await sendMailToAddresses(
-                `A new gig matching your skills is available on StarterKit !`,
+                `A new gig matching your skills is available on BuilderPlace !`,
                 email,
                 [contact.user.address],
                 true,

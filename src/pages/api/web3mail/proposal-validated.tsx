@@ -108,7 +108,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           `Your proposal got accepted!`,
           `The proposal you made for the gig "${
             proposal.service.description?.title
-          }" you posted on StarterKit got accepted by ${proposal.service.buyer.handle} !
+          }" you posted on BuilderPlace got accepted by ${proposal.service.buyer.handle} !
               The following amount was agreed: ${renderTokenAmount(
                 proposal.rateToken,
                 proposal.rateAmount,
