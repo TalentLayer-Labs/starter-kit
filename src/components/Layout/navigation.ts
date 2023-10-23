@@ -7,13 +7,17 @@ import {
   ExclamationCircleIcon,
   ShieldCheckIcon,
   EnvelopeIcon,
+  PlusCircleIcon,
+  WrenchIcon,
 } from '@heroicons/react/24/outline';
 
 export const navigation = [
-  { name: 'My board', href: '/dashboard', icon: UserIcon, current: false },
+  { name: 'Dashboard', href: '/dashboard', icon: UserIcon, current: false },
+  { name: 'My post', href: '/dashboard/services', icon: BriefcaseIcon, current: false },
+  { name: 'New post', href: '/dashboard/services/create', icon: PlusCircleIcon, current: false },
   { name: 'Chat', href: '/dashboard/messaging', icon: ChatBubbleBottomCenterIcon, current: false },
-  { name: 'Gigs', href: '/dashboard/services', icon: BriefcaseIcon, current: false },
-  { name: 'Talents', href: '/dashboard/talents', icon: UserGroupIcon, current: false },
+  { name: 'My talents', href: '/dashboard/talents', icon: UserGroupIcon, current: false },
+  { name: 'Admin', href: '/admin', icon: WrenchIcon, current: false },
 ];
 
 export const navigationAdmin = [

@@ -1,7 +1,7 @@
-import { SparklesIcon } from '@heroicons/react/24/outline';
-import Layout from '../../../../components/EditProfile/Layout';
+import { Cog8ToothIcon } from '@heroicons/react/24/outline';
+import Layout from '../../../../../components/EditProfile/Layout';
 
-function EditTrustScore() {
+function EditSettings() {
   return (
     <Layout>
       <h2 className='text-white text-xl font-bold text-center my-4'>Comming soon</h2>
@@ -10,11 +10,11 @@ function EditTrustScore() {
           <p className=''>
             <span className='text-gray-800'>
               {' '}
-              Gain trust in the network
+              Customize your interface
               <br />
-              Certifiy your existing web3 reputation with blockchain
+              Choose your language
               <br />
-              Preserve your privacy
+              And more
               <br />
             </span>
           </p>
@@ -27,11 +27,11 @@ function EditTrustScore() {
           </a>
         </div>
         <div className='absolute right-2 bottom-2 z-10 flex h-14 w-14 items-center justify-center text-redpraha'>
-          <SparklesIcon width={56} height={56} />
+          <Cog8ToothIcon width={56} height={56} />
         </div>
       </div>
     </Layout>
   );
 }
 
-export default EditTrustScore;
+export default EditSettings;

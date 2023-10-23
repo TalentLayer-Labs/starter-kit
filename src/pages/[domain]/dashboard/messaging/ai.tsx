@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { postOpenAiRequest } from '../../../modules/OpenAi/utils';
+import { postOpenAiRequest } from '../../../../modules/OpenAi/utils';
 
 enum Creator {
   Me = 0,

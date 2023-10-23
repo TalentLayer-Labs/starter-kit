@@ -1,14 +1,14 @@
 import { useRouter } from 'next/router';
 import { useContext } from 'react';
-import ProposalForm from '../../../../components/Form/ProposalForm';
-import Loading from '../../../../components/Loading';
-import Steps from '../../../../components/Steps';
-import TalentLayerContext from '../../../../context/talentLayer';
-import useProposalById from '../../../../hooks/useProposalById';
-import useServiceById from '../../../../hooks/useServiceById';
-import ConnectButton from '../../../../modules/Messaging/components/ConnectButton';
-import MessagingContext from '../../../../modules/Messaging/context/messging';
-import { ProposalStatusEnum, ServiceStatusEnum } from '../../../../types';
+import ProposalForm from '../../../../../components/Form/ProposalForm';
+import Loading from '../../../../../components/Loading';
+import Steps from '../../../../../components/Steps';
+import TalentLayerContext from '../../../../../context/talentLayer';
+import useProposalById from '../../../../../hooks/useProposalById';
+import useServiceById from '../../../../../hooks/useServiceById';
+import ConnectButton from '../../../../../modules/Messaging/components/ConnectButton';
+import MessagingContext from '../../../../../modules/Messaging/context/messging';
+import { ProposalStatusEnum, ServiceStatusEnum } from '../../../../../types';
 
 function CreateOrEditProposal() {
   const { account, user } = useContext(TalentLayerContext);
