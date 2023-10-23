@@ -89,7 +89,8 @@ const chains: { [networkId in NetworkEnum]?: Config } = {
   [NetworkEnum.MUMBAI]: mumbai,
   [NetworkEnum.POLYGON]: polygon,
 };
-export const getDefaultConfig = () =>
-  chains[process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as unknown as NetworkEnum];
+export const getDefaultConfig = (): Config =>
+  chains[process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as unknown as NetworkEnum] as Config;
 
-export const getConfig = (networkId: NetworkEnum) => chains[networkId] || getDefaultConfig;
+export const getConfig = (networkId: NetworkEnum): Config =>
+  chains[networkId] || getDefaultConfig();

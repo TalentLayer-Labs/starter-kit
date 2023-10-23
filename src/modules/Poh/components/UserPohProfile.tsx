@@ -67,7 +67,7 @@ function UserPohProfile({ pohUser }: IProps) {
                   y1='17.0387'
                   x2='28.6708'
                   y2='10.5243'
-                  gradientUnits='userSpaceOnUse'>
+                  gradientUnits='userBuilderPlaceOnUse'>
                   <stop stopColor='#ff9900'></stop>
                   <stop offset='1' stopColor='#ffc700'></stop>
                 </linearGradient>

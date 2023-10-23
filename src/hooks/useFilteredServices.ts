@@ -42,7 +42,7 @@ const useFilteredServices = (
           offset,
           searchQuery,
           platformId,
-          chainId
+          chainId,
         );
 
         newServices = response?.data?.services;

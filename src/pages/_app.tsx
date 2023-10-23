@@ -12,7 +12,7 @@ import SEO from '../../next-seo.config';
 import { TalentLayerProvider } from '../context/talentLayer';
 import { XmtpContextProvider } from '../modules/Messaging/context/XmtpContext';
 import { MessagingProvider } from '../modules/Messaging/context/messging';
-import { SpaceProvider } from '../modules/MultiDomain/context/SpaceContext';
+import { BuilderPlaceProvider } from '../modules/BuilderPlace/context/BuilderPlaceContext';
 import '../styles/globals.css';
 import { NetworkEnum } from '../types';
 import Layout from './Layout';
@@ -57,7 +57,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <DefaultSeo {...SEO} />
         <WagmiConfig config={wagmiConfig}>
           <TalentLayerProvider>
-            <SpaceProvider>
+            <BuilderPlaceProvider>
               <XmtpContextProvider>
                 <MessagingProvider>
                   <ThemeProvider enableSystem={false}>
@@ -68,7 +68,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                 </MessagingProvider>
               </XmtpContextProvider>
               <ToastContainer position='bottom-right' />
-            </SpaceProvider>
+            </BuilderPlaceProvider>
           </TalentLayerProvider>
           <Web3Modal
             projectId={projectId}

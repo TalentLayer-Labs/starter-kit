@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import TalentLayerContext from '../../context/talentLayer';
-import SpaceContext from '../../modules/MultiDomain/context/SpaceContext';
+import BuilderPlaceContext from '../../modules/BuilderPlace/context/BuilderPlaceContext';
 import SideLink from './SideLink';
 import {
   hirerNavigation,
@@ -11,13 +11,15 @@ import {
 
 function SideMenu() {
   const { user } = useContext(TalentLayerContext);
-  const { space } = useContext(SpaceContext);
+  const { builderPlace } = useContext(BuilderPlaceContext);
 
-  const isSpaceOwner = space?.owners?.some(owner => owner.toLocaleLowerCase() === user?.address);
+  const isBuilderPlaceOwner = builderPlace?.owners?.some(
+    owner => owner.toLocaleLowerCase() === user?.address,
+  );
 
   return (
     <nav className='space-y-1 px-3'>
-      {isSpaceOwner && (
+      {isBuilderPlaceOwner && (
         <>
           <div className='pt-4'>
             <div className='border-redpraha h-px mx-3'></div>
@@ -53,7 +55,7 @@ function SideMenu() {
         </>
       )}
 
-      {!isSpaceOwner && (
+      {!isBuilderPlaceOwner && (
         <nav className='space-y-1 mt-6'>
           {workerNavigation.map(item => (
             <SideLink key={item.name} href={item.href}>

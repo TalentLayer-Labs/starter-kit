@@ -1,7 +1,7 @@
 // https://mongoosejs.com/docs/schematypes.html#
 import mongoose, { Schema, model, models } from 'mongoose';
 
-var space = new Schema({
+var builderPlace = new Schema({
   name: {
     type: String,
   },
@@ -26,13 +26,16 @@ var space = new Schema({
   presentation: {
     type: String,
   },
+  ownerTalentLayerId: {
+    type: String,
+  },
   owners: {
     type: Array,
   },
   status: {
     type: String,
-    default: 'pending'
-  }
+    default: 'pending',
+  },
 });
 
-export const SpaceModel = models.SpaceModel || model('SpaceModel', space);
+export const BuilderPlace = models.BuilderPlace || model('BuilderPlace', builderPlace);

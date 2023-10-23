@@ -1,12 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { deleteSpace } from '../../../modules/MultiDomain/actions';
+import { deleteBuilderPlace } from '../../../modules/BuilderPlace/actions';
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'DELETE') {
     const { subdomain } = req.query;
-    console.log('Received space:', subdomain);
+    console.log('Received builderPlace:', subdomain);
 
-    const result = await deleteSpace(subdomain as string);
+    const result = await deleteBuilderPlace(subdomain as string);
 
     if (result.message) {
       res.status(200).json({ message: result.message });

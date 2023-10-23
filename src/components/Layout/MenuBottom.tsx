@@ -3,7 +3,7 @@ import BottomLink from './BottomLink';
 import { hirerNavigation, workerNavigation } from './navigation';
 import { useContext } from 'react';
 import TalentLayerContext from '../../context/talentLayer';
-import SpaceContext from '../../modules/MultiDomain/context/SpaceContext';
+import BuilderPlaceContext from '../../modules/BuilderPlace/context/BuilderPlaceContext';
 
 function MenuBottom({
   sidebarOpen,
@@ -13,10 +13,12 @@ function MenuBottom({
   setSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const { user } = useContext(TalentLayerContext);
-  const { space } = useContext(SpaceContext);
-  const isSpaceOwner = space?.owners?.some(owner => owner.toLocaleLowerCase() === user?.address);
+  const { builderPlace } = useContext(BuilderPlaceContext);
+  const isBuilderPlaceOwner = builderPlace?.owners?.some(
+    owner => owner.toLocaleLowerCase() === user?.address,
+  );
 
-  const navigation = isSpaceOwner
+  const navigation = isBuilderPlaceOwner
     ? hirerNavigation.filter(item => item.name !== 'My talents')
     : workerNavigation;
 

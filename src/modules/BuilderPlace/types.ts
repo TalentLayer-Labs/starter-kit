@@ -1,15 +1,16 @@
-export interface UpdateSpace {
-  subdomain: string,
-  name: string | undefined,
-  primaryColor: string | undefined,
-  secondaryColor: string | undefined,
-  owners: string[] | undefined,
-  status: string | undefined,
+export interface UpdateBuilderPlace {
+  subdomain: string;
+  name: string | undefined;
+  primaryColor: string | undefined;
+  secondaryColor: string | undefined;
+  ownerTalentLayerId: string | undefined;
+  owners: string[] | undefined;
+  status: string | undefined;
 }
 
-export interface UpdateSpaceDomain {
-  subdomain: string,
-  customDomain: string
+export interface UpdateBuilderPlaceDomain {
+  subdomain: string;
+  customDomain: string;
 }
 
 export enum DomainVerificationStatusProps {
@@ -17,26 +18,27 @@ export enum DomainVerificationStatusProps {
   Invalid = 'Invalid Configuration',
   Pending = 'Pending Verification',
   NotFound = 'Domain Not Found',
-  Error = 'Unknown Error'
+  Error = 'Unknown Error',
 }
 
-
-export interface CreateSpaceAction {
-  name: string,
-  subdomain: string,
-  primaryColor: string,
-  secondaryColor: string,
-  owners: string[],
+export interface CreateBuilderPlaceAction {
+  name: string;
+  subdomain: string;
+  primaryColor: string;
+  secondaryColor: string;
+  owners: string[];
+  ownerTalentLayerId: string;
 }
 
-export interface CreateSpaceProps {
-  name: string,
-  subdomain: string,
-  primaryColor: string,
-  secondaryColor: string,
+export interface CreateBuilderPlaceProps {
+  name: string;
+  subdomain: string;
+  primaryColor: string;
+  secondaryColor: string;
+  ownerTalentLayerId: string;
 }
 
-export type Space = {
+export type IBuilderPlace = {
   id: Number;
   name: string;
   subdomain: string;
@@ -47,6 +49,7 @@ export type Space = {
   secondaryColor: string;
   presentation: string;
   owners: string[];
+  ownerTalentLayerId: string;
   status: 'Validated' | 'Pending';
 };
 

@@ -1,23 +1,25 @@
 import * as Yup from 'yup';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { useCreateSpaceMutation } from '../../../modules/MultiDomain/hooks/UseCreateSpaceMutation';
-import { generateSubdomainPrefix } from '../../../modules/MultiDomain/utils';
+import { useCreateBuilderPlaceMutation } from '../../../modules/BuilderPlace/hooks/UseCreateBuilderPlaceMutation';
+import { generateSubdomainPrefix } from '../../../modules/BuilderPlace/utils';
 import { useState } from 'react';
 
 function onboardingStep1() {
-  const { data: createdSpace, mutateAsync: createSpaceAsync } = useCreateSpaceMutation();
+  const { data: createdBuilderPlace, mutateAsync: createBuilderPlaceAsync } =
+    useCreateBuilderPlaceMutation();
   const [name, setName] = useState('');
 
   const sendDomain = async () => {
     const subdomainPrefix = generateSubdomainPrefix(name);
     const subdomain = `${subdomainPrefix}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
-    await createSpaceAsync({
+    await createBuilderPlaceAsync({
       subdomain: subdomain,
       name: name,
       primaryColor: '#ffffff',
       secondaryColor: '#ffffff',
+      ownerTalentLayerId: '1',
     });
-    window.location.href = `${window.location.protocol}//${subdomain}/admin`;
+    window.location.href = `${window.location.protocol}//${subdomain}/dashboard`;
   };
 
   return (
