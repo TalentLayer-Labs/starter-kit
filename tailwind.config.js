@@ -10,7 +10,6 @@ module.exports = {
       midnight: '#fefcfa',
       endnight: '#f9f0e7',
       redpraha: '#f4dabe',
-      brownbs: '#373528',
       yellowpraha: '#fff490',
       bluepraha: '#90f6ff',
     },
