@@ -1,16 +1,19 @@
 import { CogIcon, UserGroupIcon } from '@heroicons/react/24/outline';
 import { PaperAirplane } from 'heroicons-react';
 import { useContext } from 'react';
-import Loading from '../../../components/Loading';
-import Steps from '../../../components/Steps';
-import UserNeedsMoreRights from '../../../components/UserNeedsMoreRights';
-import TalentLayerContext from '../../../context/talentLayer';
+import Loading from '../../../../components/Loading';
+import Steps from '../../../../components/Steps';
+import UserNeedsMoreRights from '../../../../components/UserNeedsMoreRights';
+import TalentLayerContext from '../../../../context/talentLayer';
 import dynamic from 'next/dynamic';
-import useWeb3MailStats from '../../../modules/Web3mail/hooks/useWeb3MailStats';
+import useWeb3MailStats from '../../../../modules/Web3mail/hooks/useWeb3MailStats';
 
-const Web3mailChart = dynamic(() => import('../../../modules/Web3mail/components/Web3mailChart'), {
-  ssr: false,
-});
+const Web3mailChart = dynamic(
+  () => import('../../../../modules/Web3mail/components/Web3mailChart'),
+  {
+    ssr: false,
+  },
+);
 
 function Web3mailStats() {
   const { user, loading } = useContext(TalentLayerContext);

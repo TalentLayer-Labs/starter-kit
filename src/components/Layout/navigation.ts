@@ -47,25 +47,25 @@ export const workerNavigation = [
 export const PlatformAdminNavigation = [
   {
     name: 'Presentation',
-    href: `/admin/presentation`,
+    href: `/superadmin/presentation`,
     icon: PresentationChartLineIcon,
     current: false,
   },
   {
     name: 'Fees strategies',
-    href: `/admin/fees`,
+    href: `/superadmin/fees`,
     icon: ShieldCheckIcon,
     current: false,
   },
   {
     name: 'Dispute',
-    href: `/admin/dispute`,
+    href: `/superadmin/dispute`,
     icon: ExclamationCircleIcon,
     current: false,
   },
   {
     name: 'Web3Mail',
-    href: `/admin/web3mail`,
+    href: `/superadmin/web3mail`,
     icon: EnvelopeIcon,
     current: false,
   },

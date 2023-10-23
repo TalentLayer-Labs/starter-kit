@@ -65,6 +65,7 @@ export const createBuilderPlace = async (data: CreateBuilderPlaceAction) => {
       cover: 'a',
       primaryColor: data.primaryColor,
       secondaryColor: data.secondaryColor,
+      ownerTalentLayerId: data.ownerTalentLayerId,
       presentation: 'a',
       owners: data.owners,
       status: 'pending',

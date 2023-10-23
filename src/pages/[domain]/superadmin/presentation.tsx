@@ -3,15 +3,15 @@ import { Field, Form, Formik } from 'formik';
 import { useContext } from 'react';
 import { usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
-import SubmitButton from '../../components/Form/SubmitButton';
-import Loading from '../../components/Loading';
-import Steps from '../../components/Steps';
-import UserNeedsMoreRights from '../../components/UserNeedsMoreRights';
-import TalentLayerContext from '../../context/talentLayer';
-import { useChainId } from '../../hooks/useChainId';
-import usePlatform from '../../hooks/usePlatform';
-import useTalentLayerClient from '../../hooks/useTalentLayerClient';
-import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../utils/toast';
+import SubmitButton from '../../../components/Form/SubmitButton';
+import Loading from '../../../components/Loading';
+import Steps from '../../../components/Steps';
+import UserNeedsMoreRights from '../../../components/UserNeedsMoreRights';
+import TalentLayerContext from '../../../context/talentLayer';
+import { useChainId } from '../../../hooks/useChainId';
+import usePlatform from '../../../hooks/usePlatform';
+import useTalentLayerClient from '../../../hooks/useTalentLayerClient';
+import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../../utils/toast';
 
 interface IFormValues {
   about: string;

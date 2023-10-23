@@ -8,7 +8,7 @@ function Logo({ theme = 'dark' }: { theme?: 'dark' | 'light' }) {
 
   return (
     <div>
-      <Link href='/' className='flex items-end'>
+      <Link href='/' className='flex items-end flex-wrap'>
         <h1 className='text-stone-800 text-3xl font-bold'>{builderPlace?.name}</h1>
         <p className='text-stone-800 mb-[2px] ml-1'>builder place</p>
         {/* <Image

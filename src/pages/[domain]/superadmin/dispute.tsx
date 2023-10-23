@@ -1,17 +1,17 @@
 import { useContext, useEffect, useState } from 'react';
 import * as Yup from 'yup';
-import SingleValueForm from '../../components/Form/SingleValueForm';
-import Loading from '../../components/Loading';
-import Steps from '../../components/Steps';
-import UserNeedsMoreRights from '../../components/UserNeedsMoreRights';
-import TalentLayerContext from '../../context/talentLayer';
-import TalentLayerArbitrator from '../../contracts/ABI/TalentLayerArbitrator.json';
-import TalentLayerPlatformID from '../../contracts/ABI/TalentLayerPlatformID.json';
-import { useConfig } from '../../hooks/useConfig';
-import usePlatform from '../../hooks/usePlatform';
+import SingleValueForm from '../../../components/Form/SingleValueForm';
+import Loading from '../../../components/Loading';
+import Steps from '../../../components/Steps';
+import UserNeedsMoreRights from '../../../components/UserNeedsMoreRights';
+import TalentLayerContext from '../../../context/talentLayer';
+import TalentLayerArbitrator from '../../../contracts/ABI/TalentLayerArbitrator.json';
+import TalentLayerPlatformID from '../../../contracts/ABI/TalentLayerPlatformID.json';
+import { useConfig } from '../../../hooks/useConfig';
+import usePlatform from '../../../hooks/usePlatform';
 import { formatEther } from 'viem';
-import { ZERO_ADDRESS } from '../../utils/constant';
-import useTalentLayerClient from '../../hooks/useTalentLayerClient';
+import { ZERO_ADDRESS } from '../../../utils/constant';
+import useTalentLayerClient from '../../../hooks/useTalentLayerClient';
 
 function AdminDispute() {
   const { user, loading } = useContext(TalentLayerContext);

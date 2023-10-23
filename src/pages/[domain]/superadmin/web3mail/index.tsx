@@ -1,10 +1,10 @@
 import { useContext } from 'react';
-import Loading from '../../../components/Loading';
-import Steps from '../../../components/Steps';
-import TalentLayerContext from '../../../context/talentLayer';
-import useFetchMyContacts from '../../../modules/Web3mail/hooks/useFetchMyContacts';
-import { ContactListForm } from '../../../components/Form/ContactSelectForm';
-import UserNeedsMoreRights from '../../../components/UserNeedsMoreRights';
+import Loading from '../../../../components/Loading';
+import Steps from '../../../../components/Steps';
+import TalentLayerContext from '../../../../context/talentLayer';
+import useFetchMyContacts from '../../../../modules/Web3mail/hooks/useFetchMyContacts';
+import { ContactListForm } from '../../../../components/Form/ContactSelectForm';
+import UserNeedsMoreRights from '../../../../components/UserNeedsMoreRights';
 import { Link } from 'heroicons-react';
 import { ChartBarIcon } from '@heroicons/react/24/outline';
 
