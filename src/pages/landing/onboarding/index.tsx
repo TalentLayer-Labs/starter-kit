@@ -4,32 +4,34 @@ import { useCreateBuilderPlaceMutation } from '../../../modules/BuilderPlace/hoo
 import { generateSubdomainPrefix } from '../../../modules/BuilderPlace/utils';
 import { useState } from 'react';
 import { showErrorTransactionToast } from '../../../utils/toast';
-import { JobType } from '../../../types';
+import { PreferredWorkType } from '../../../types';
 import { createOrganization } from '../../../modules/BuilderPlace/request';
 
 interface IFormValues {
   name: string;
-  about: string;
-  job_type: JobType;
+  presentation: string;
+  preferred_work_type: PreferredWorkType[];
   image_url: string;
 }
 function onboardingStep1() {
   const { data: createdBuilderPlace, mutateAsync: createBuilderPlaceAsync } =
     useCreateBuilderPlaceMutation();
-  // const { data: createdSpace, mutateAsync: createSpaceAsync } = useCreateSpaceMutation();
-  const [name, setName] = useState('');
 
   const initialValues: IFormValues = {
     name: '',
-    about: '',
-    job_type: JobType.jobs,
+    presentation: '',
+    preferred_work_type: [PreferredWorkType.jobs],
     image_url: '',
   };
 
   const validationSchema = Yup.object({
     name: Yup.string().required('name is required'),
-    about: Yup.string().required('about is required'),
-    job_type: Yup.string().required('Job Type is required'),
+    presentation: Yup.string().required('presentation is required'),
+    preferred_work_type: Yup.array()
+      .of(Yup.string())
+      .min(1, 'Chose at least one preferred word type')
+      .max(4, 'You already chose all existing preferred word type')
+      .required('Job Type is required'),
     image_url: Yup.string().required('Image is required'),
   });
 
@@ -37,35 +39,33 @@ function onboardingStep1() {
     values: IFormValues,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void },
   ) => {
-    // const subdomainPrefix = generateSubdomainPrefix(name);
-    // const subdomain = `${subdomainPrefix}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
-    // await createBuilderPlaceAsync({
-    //   subdomain: subdomain,
-    //   name: name,
-    //   primaryColor: '#ffffff',
-    //   secondaryColor: '#ffffff',
-    //   ownerTalentLayerId: '1',
-    // });
-    // window.location.href = `${window.location.protocol}//${subdomain}/dashboard`;
-    // const initialValues: IFormValues = {
-    //   name: '',
-    //   about: '',
-    //   job_type: JobType.jobs,
-    //   image_url: '',
-    // };
+    console.log('values', values);
     try {
       setSubmitting(true);
-      await createOrganization(values.name, values.about, values.job_type, values.image_url);
+      const subdomainPrefix = generateSubdomainPrefix(values.name);
+      const subdomain = `${subdomainPrefix}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
+      await createBuilderPlaceAsync({
+        subdomain: subdomain,
+        name: values.name,
+        primaryColor: '#ffffff',
+        secondaryColor: '#ffffff',
+        presentation: values.presentation,
+        preferredWorkType: values.preferred_work_type,
+        imageUrl: values.image_url,
+      });
+      window.location.href = `${window.location.protocol}//${subdomain}/dashboard`;
+
+      setSubmitting(false);
     } catch (error) {
       console.log(error);
       showErrorTransactionToast(error);
-    } finally {
       setSubmitting(false);
     }
   };
 
   return (
     <>
+      <h1>1</h1>
       <h1>Create your hirer profile</h1>
       <Formik
         initialValues={initialValues}
@@ -89,36 +89,58 @@ function onboardingStep1() {
                 <ErrorMessage name='name' />
               </span>
               <label className='block'>
-                <span className='text-stone-800'>About</span>
+                <span className='text-stone-800'>presentation</span>
                 <Field
                   as='textarea'
-                  id='about'
-                  name='about'
+                  id='presentation'
+                  name='presentation'
                   rows='4'
                   className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
                   placeholder=''
                 />
               </label>
               <span className='text-red-500'>
-                <ErrorMessage name='about' />
+                <ErrorMessage name='presentation' />
               </span>
               <label className='block'>
                 <span className='text-stone-800'>I want to post</span>
-                <Field
-                  as='select'
-                  id='job_type'
-                  name='job_type'
-                  className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
-                  placeholder=''>
-                  <option value=''></option>
-                  <option value={JobType.jobs}>Jobs</option>
-                  <option value={JobType.bounties}>Bounties</option>
-                  <option value={JobType.grants}>Grants</option>
-                  <option value={JobType.gigs}>Gigs</option>
-                </Field>
+                <div role='group' aria-labelledby='checkbox-group'>
+                  <label>
+                    <Field
+                      type='checkbox'
+                      name='preferred_work_type'
+                      value={PreferredWorkType.jobs}
+                    />
+                    One
+                  </label>
+                  <label>
+                    <Field
+                      type='checkbox'
+                      name='preferred_work_type'
+                      value={PreferredWorkType.bounties}
+                    />
+                    Two
+                  </label>
+                  <label>
+                    <Field
+                      type='checkbox'
+                      name='preferred_work_type'
+                      value={PreferredWorkType.grants}
+                    />
+                    Three
+                  </label>
+                  <label>
+                    <Field
+                      type='checkbox'
+                      name='preferred_work_type'
+                      value={PreferredWorkType.gigs}
+                    />
+                    Three
+                  </label>
+                </div>
               </label>
               <span className='text-red-500'>
-                <ErrorMessage name='job_type' />
+                <ErrorMessage name='preferred_work_type' />
               </span>
 
               <label className='block'>
@@ -138,7 +160,7 @@ function onboardingStep1() {
               <button
                 type='submit'
                 className='grow px-5 py-2 rounded-xl bg-redpraha text-stone-800'>
-                Submit
+                Create My Profile
               </button>
             </div>
           </Form>
