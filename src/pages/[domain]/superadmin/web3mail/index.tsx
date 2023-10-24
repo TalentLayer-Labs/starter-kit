@@ -1,12 +1,16 @@
+import { ChartBarIcon } from '@heroicons/react/24/outline';
 import { useContext } from 'react';
+import { ContactListForm } from '../../../../components/Form/ContactSelectForm';
 import Loading from '../../../../components/Loading';
 import Steps from '../../../../components/Steps';
-import TalentLayerContext from '../../../../context/talentLayer';
-import useFetchMyContacts from '../../../../modules/Web3mail/hooks/useFetchMyContacts';
-import { ContactListForm } from '../../../../components/Form/ContactSelectForm';
 import UserNeedsMoreRights from '../../../../components/UserNeedsMoreRights';
-import { Link } from 'heroicons-react';
-import { ChartBarIcon } from '@heroicons/react/24/outline';
+import TalentLayerContext from '../../../../context/talentLayer';
+import { getBuilderPlace } from '../../../../modules/BuilderPlace/queries';
+import useFetchMyContacts from '../../../../modules/Web3mail/hooks/useFetchMyContacts';
+
+export async function getServerSideProps({ params }: any) {
+  return await getBuilderPlace(params.domain);
+}
 
 function Web3mail() {
   const { user, loading } = useContext(TalentLayerContext);

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { postOpenAiRequest } from '../../../modules/OpenAi/utils';
+import { getBuilderPlace } from '../../../modules/BuilderPlace/queries';
 
 enum Creator {
   Me = 0,
@@ -15,6 +16,10 @@ interface MessageProps {
 interface InputProps {
   onSend: (input: string) => void;
   disable: boolean;
+}
+
+export async function getServerSideProps({ params }: any) {
+  return await getBuilderPlace(params.domain);
 }
 
 const ChatMessage = ({ text, from }: MessageProps) => {

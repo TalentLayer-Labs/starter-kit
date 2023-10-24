@@ -6,6 +6,11 @@ import ConnectButton from '../../../modules/Messaging/components/ConnectButton';
 import MessagingContext from '../../../modules/Messaging/context/messging';
 import BuilderPlaceContext from '../../../modules/BuilderPlace/context/BuilderPlaceContext';
 import AccessDenied from '../../../components/AccessDenied';
+import { getBuilderPlace } from '../../../modules/BuilderPlace/queries';
+
+export async function getServerSideProps({ params }: any) {
+  return await getBuilderPlace(params.domain);
+}
 
 function CreateService() {
   const { account, user } = useContext(TalentLayerContext);

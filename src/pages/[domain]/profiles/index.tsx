@@ -3,6 +3,11 @@ import SearchTalentButton from '../../../components/Form/SearchTalentButton';
 import Loading from '../../../components/Loading';
 import UserItem from '../../../components/UserItem';
 import useUsers from '../../../hooks/useUsers';
+import { getBuilderPlace } from '../../../modules/BuilderPlace/queries';
+
+export async function getServerSideProps({ params }: any) {
+  return await getBuilderPlace(params.domain);
+}
 
 function Profiles() {
   const PAGE_SIZE = 36;

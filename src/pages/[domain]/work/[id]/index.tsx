@@ -2,6 +2,11 @@ import { useRouter } from 'next/router';
 import Loading from '../../../../components/Loading';
 import ServiceDetail from '../../../../components/ServiceDetail';
 import useServiceById from '../../../../hooks/useServiceById';
+import { getBuilderPlace } from '../../../../modules/BuilderPlace/queries';
+
+export async function getServerSideProps({ params }: any) {
+  return await getBuilderPlace(params.domain);
+}
 
 function Service() {
   const router = useRouter();

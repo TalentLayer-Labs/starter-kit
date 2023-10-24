@@ -1,8 +1,10 @@
-import { useContext } from 'react';
 import Layout from '../../../../components/EditProfile/Layout';
-import Web3mailForm from '../../../../modules/Web3mail/components/Web3mailForm';
+import { getBuilderPlace } from '../../../../modules/BuilderPlace/queries';
 import Web3mailPreferencesForm from '../../../../modules/Web3mail/components/Web3mailPreferencesForm';
-import Web3MailContext from '../../../../modules/Web3mail/context/web3mail';
+
+export async function getServerSideProps({ params }: any) {
+  return await getBuilderPlace(params.domain);
+}
 
 function EditPrivacy() {
   return (

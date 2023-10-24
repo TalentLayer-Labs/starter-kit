@@ -87,6 +87,7 @@ export const getBuilderPlaceByDomain = async (domain: string) => {
   try {
     await connection();
     console.log('getting builderPlace ', domain);
+    // todo: do both call in parrallel or use an or
     const builderPlaceSubdomain = await BuilderPlace.findOne({ subdomain: domain });
     const builderPlaceDomain = await BuilderPlace.findOne({ customDomain: domain });
     console.log('fetched builderPlaces, ', builderPlaceSubdomain, builderPlaceDomain);

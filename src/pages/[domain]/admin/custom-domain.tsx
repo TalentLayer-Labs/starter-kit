@@ -5,6 +5,11 @@ import { getBuilderPlaceByDomain } from '../../../modules/BuilderPlace/actions';
 import DomainConfiguration from '../../../modules/BuilderPlace/components/DomainConfiguration';
 import BuilderPlaceContext from '../../../modules/BuilderPlace/context/BuilderPlaceContext';
 import { useUpdateBuilderPlaceDomain } from '../../../modules/BuilderPlace/hooks/UseUpdateBuilderPlaceDomain';
+import { getBuilderPlace } from '../../../modules/BuilderPlace/queries';
+
+export async function getServerSideProps({ params }: any) {
+  return await getBuilderPlace(params.domain);
+}
 
 export default function CustomDomain(
   props: InferGetServerSidePropsType<typeof getServerSideProps>,
@@ -49,30 +54,4 @@ export default function CustomDomain(
       <DomainConfiguration domain={customDomain} />
     </div>
   );
-}
-
-export async function getServerSideProps({ params }: any) {
-  console.log('serverProps', params);
-  const domain = params.domain;
-  let builderPlace;
-  let found = false;
-
-  try {
-    builderPlace = await getBuilderPlaceByDomain(domain as string);
-    if (builderPlace?.error) {
-      found = false;
-    } else {
-      found = true;
-    }
-  } catch (error) {
-    console.error('An error occurred:', error);
-    found = false;
-  }
-  const serializedBuilderPlace = JSON.parse(JSON.stringify(builderPlace));
-  return {
-    props: {
-      builderPlace: serializedBuilderPlace,
-      found,
-    },
-  };
 }
