@@ -1,10 +1,11 @@
-import React, { useContext } from 'react';
-import BuilderPlaceContext from '../../modules/BuilderPlace/context/BuilderPlaceContext';
 import ServiceList from '../../components/ServiceList';
+import { getBuilderPlace } from '../../modules/BuilderPlace/queries';
+
+export async function getServerSideProps({ params }: any) {
+  return await getBuilderPlace(params.domain);
+}
 
 export default function BuilderPlaceHome() {
-  const { builderPlace, loading } = useContext(BuilderPlaceContext);
-
   return (
     <div className='max-w-7xl mx-auto text-stone-800 sm:px-4 lg:px-0'>
       <div className='-mx-6 -mt-6 sm:mx-0 sm:mt-0'>

@@ -57,7 +57,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <DefaultSeo {...SEO} />
         <WagmiConfig config={wagmiConfig}>
           <TalentLayerProvider>
-            <BuilderPlaceProvider>
+            <BuilderPlaceProvider data={pageProps.builderPlace}>
               <XmtpContextProvider>
                 <MessagingProvider>
                   <ThemeProvider enableSystem={false}>
