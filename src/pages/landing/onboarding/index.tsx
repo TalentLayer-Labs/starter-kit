@@ -2,11 +2,10 @@ import * as Yup from 'yup';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useCreateBuilderPlaceMutation } from '../../../modules/BuilderPlace/hooks/UseCreateBuilderPlaceMutation';
 import { generateSubdomainPrefix } from '../../../modules/BuilderPlace/utils';
-import { useCreateSpaceMutation } from '../../../modules/MultiDomain/hooks/UseCreateSpaceMutation';
 import { useState } from 'react';
 import { showErrorTransactionToast } from '../../../utils/toast';
-import mongoose from 'mongoose';
 import { JobType } from '../../../types';
+import { createOrganization } from '../../../modules/BuilderPlace/request';
 
 interface IFormValues {
   name: string;
@@ -17,21 +16,9 @@ interface IFormValues {
 function onboardingStep1() {
   const { data: createdBuilderPlace, mutateAsync: createBuilderPlaceAsync } =
     useCreateBuilderPlaceMutation();
-  const mongoUri = process.env.NEXT_MONGO_URI as string;
-  const { data: createdSpace, mutateAsync: createSpaceAsync } = useCreateSpaceMutation();
+  // const { data: createdSpace, mutateAsync: createSpaceAsync } = useCreateSpaceMutation();
   const [name, setName] = useState('');
 
-  const sendDomain = async () => {
-    const subdomainPrefix = generateSubdomainPrefix(name);
-    const subdomain = `${subdomainPrefix}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
-    await createBuilderPlaceAsync({
-      subdomain: subdomain,
-      name: name,
-      primaryColor: '#ffffff',
-      secondaryColor: '#ffffff',
-      ownerTalentLayerId: '1',
-    });
-    window.location.href = `${window.location.protocol}//${subdomain}/dashboard`;
   const initialValues: IFormValues = {
     name: '',
     about: '',
@@ -52,21 +39,23 @@ function onboardingStep1() {
   ) => {
     // const subdomainPrefix = generateSubdomainPrefix(name);
     // const subdomain = `${subdomainPrefix}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
-    // await createSpaceAsync({
+    // await createBuilderPlaceAsync({
     //   subdomain: subdomain,
     //   name: name,
     //   primaryColor: '#ffffff',
     //   secondaryColor: '#ffffff',
+    //   ownerTalentLayerId: '1',
     // });
-    // window.location.href = `${window.location.protocol}//${subdomain}/admin`;
+    // window.location.href = `${window.location.protocol}//${subdomain}/dashboard`;
+    // const initialValues: IFormValues = {
+    //   name: '',
+    //   about: '',
+    //   job_type: JobType.jobs,
+    //   image_url: '',
+    // };
     try {
       setSubmitting(true);
-      if (!mongoUri) {
-        throw new Error('MongoDb URI is not set');
-      }
-      await mongoose.connect(mongoUri as string);
-
-      // await persistOrganization(values.name, values.about, values.job_type, values.image_url);
+      await createOrganization(values.name, values.about, values.job_type, values.image_url);
     } catch (error) {
       console.log(error);
       showErrorTransactionToast(error);
@@ -135,7 +124,7 @@ function onboardingStep1() {
               <label className='block'>
                 <span className='text-stone-800'>Picture Url</span>
                 <Field
-                  type='text'
+                  type='file'
                   id='image_url'
                   name='image_url'
                   className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'

@@ -1,3 +1,5 @@
+import { JobType } from '../../types';
+
 export interface UpdateBuilderPlace {
   subdomain: string;
   name: string | undefined;
@@ -103,4 +105,11 @@ export interface DomainVerificationResponse {
     value: string;
     reason: string;
   }[];
+}
+
+export interface OrganizationProps {
+  name: string;
+  about: string;
+  jobType: JobType;
+  imageUrl: string;
 }

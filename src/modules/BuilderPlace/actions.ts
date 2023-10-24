@@ -11,9 +11,11 @@ import { BuilderPlace } from './models/BuilderPlace';
 import {
   CreateBuilderPlaceAction,
   IBuilderPlace,
+  OrganizationProps,
   UpdateBuilderPlace,
   UpdateBuilderPlaceDomain,
 } from './types';
+import { Organization } from './models/organization';
 
 export const deleteBuilderPlace = async (subdomain: string) => {
   await connection();
@@ -174,6 +176,38 @@ export const updateDomain = async (builderPlace: UpdateBuilderPlaceDomain) => {
   } catch (error: any) {
     return {
       error: error.message,
+    };
+  }
+};
+
+export const createOrganization = async (data: OrganizationProps) => {
+  try {
+    await connection();
+
+    const organization = await Organization.findOne({ name: data.name });
+    console.log(organization);
+    if (organization) {
+      console.log('Organization already exists');
+      return {
+        error: 'Organization already exists',
+      };
+    }
+
+    const newOrganization = new Organization({
+      name: data.name,
+      about: data.about,
+      jobType: data.jobType,
+      imageUrl: data.imageUrl,
+    });
+    await newOrganization.save();
+
+    return {
+      message: 'BuilderPlace created successfully',
+    };
+  } catch (error: any) {
+    console.log('Error creating new organization:', error);
+    return {
+      error: error.message!,
     };
   }
 };

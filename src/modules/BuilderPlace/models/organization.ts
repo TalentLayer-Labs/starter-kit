@@ -14,13 +14,13 @@ const organizationSchema = new Schema({
     required: true,
     unique: false,
   },
-  job_type: {
+  jobType: {
     type: String,
     enum: JobType,
     required: true,
     unique: false,
   },
-  image_url: {
+  imageUrl: {
     type: String,
     required: true,
     unique: false,
