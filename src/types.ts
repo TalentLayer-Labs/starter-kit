@@ -333,9 +333,9 @@ export type Web3MailStats = {
   totalCronRunning: number;
 };
 
-export enum JobType {
+export enum PreferredWorkType {
   jobs = 'jobs',
   bounties = 'bounties',
-  grants = 'grnats',
+  grants = 'grants',
   gigs = 'gigs',
 }

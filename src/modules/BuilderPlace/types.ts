@@ -1,4 +1,4 @@
-import { JobType } from '../../types';
+import { PreferredWorkType } from '../../types';
 
 export interface UpdateBuilderPlace {
   subdomain: string;
@@ -28,8 +28,9 @@ export interface CreateBuilderPlaceAction {
   subdomain: string;
   primaryColor: string;
   secondaryColor: string;
-  owners: string[];
-  ownerTalentLayerId: string;
+  presentation: string;
+  preferredWorkType: PreferredWorkType[];
+  imageUrl: string;
 }
 
 export interface CreateBuilderPlaceProps {
@@ -37,7 +38,9 @@ export interface CreateBuilderPlaceProps {
   subdomain: string;
   primaryColor: string;
   secondaryColor: string;
-  ownerTalentLayerId: string;
+  presentation: string;
+  preferredWorkType: PreferredWorkType[];
+  imageUrl: string;
 }
 
 export type IBuilderPlace = {
@@ -110,6 +113,6 @@ export interface DomainVerificationResponse {
 export interface OrganizationProps {
   name: string;
   about: string;
-  jobType: JobType;
+  jobType: PreferredWorkType;
   imageUrl: string;
 }

@@ -15,7 +15,6 @@ import {
   UpdateBuilderPlace,
   UpdateBuilderPlaceDomain,
 } from './types';
-import { Organization } from './models/organization';
 
 export const deleteBuilderPlace = async (subdomain: string) => {
   await connection();
@@ -61,15 +60,14 @@ export const createBuilderPlace = async (data: CreateBuilderPlaceAction) => {
     const newBuilderPlace = new BuilderPlace({
       _id: new mongoose.Types.ObjectId(),
       name: data.name,
+      presentation: data.presentation,
       subdomain: data.subdomain,
+      preferredWorkType: data.preferredWorkType,
       customDomain: 'null',
       logo: 'a',
       cover: 'a',
       primaryColor: data.primaryColor,
       secondaryColor: data.secondaryColor,
-      ownerTalentLayerId: data.ownerTalentLayerId,
-      presentation: 'a',
-      owners: data.owners,
       status: 'pending',
     });
     await newBuilderPlace.save();
@@ -176,38 +174,6 @@ export const updateDomain = async (builderPlace: UpdateBuilderPlaceDomain) => {
   } catch (error: any) {
     return {
       error: error.message,
-    };
-  }
-};
-
-export const createOrganization = async (data: OrganizationProps) => {
-  try {
-    await connection();
-
-    const organization = await Organization.findOne({ name: data.name });
-    console.log(organization);
-    if (organization) {
-      console.log('Organization already exists');
-      return {
-        error: 'Organization already exists',
-      };
-    }
-
-    const newOrganization = new Organization({
-      name: data.name,
-      about: data.about,
-      jobType: data.jobType,
-      imageUrl: data.imageUrl,
-    });
-    await newOrganization.save();
-
-    return {
-      message: 'BuilderPlace created successfully',
-    };
-  } catch (error: any) {
-    console.log('Error creating new organization:', error);
-    return {
-      error: error.message!,
     };
   }
 };
