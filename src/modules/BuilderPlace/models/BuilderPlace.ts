@@ -1,5 +1,6 @@
 // https://mongoosejs.com/docs/schematypes.html#
 import mongoose, { Schema, model, models } from 'mongoose';
+import { PreferredWorkType } from '../../../types';
 
 var builderPlace = new Schema({
   name: {
@@ -35,6 +36,12 @@ var builderPlace = new Schema({
   status: {
     type: String,
     default: 'pending',
+  },
+  preferredWorkType: {
+    type: [String],
+    enum: PreferredWorkType,
+    required: true,
+    unique: false,
   },
 });
 
