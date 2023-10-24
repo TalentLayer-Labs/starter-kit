@@ -12,14 +12,14 @@ export default function CustomDomain(
   console.log('Parsed props ', props);
   if (!props.found) return <Error statusCode={404} />;
 
-  const { builderPlace, loading } = useContext(BuilderPlaceContext);
+  const { builderPlace } = useContext(BuilderPlaceContext);
   const [customDomain, setCustomDomain] = useState('');
 
   useEffect(() => {
     if (builderPlace?.customDomain) {
       setCustomDomain(builderPlace.customDomain);
     }
-  }, [builderPlace, loading]);
+  }, [builderPlace]);
 
   const updateBuilderPlaceDomainMutation = useUpdateBuilderPlaceDomain();
   const handleUpdateDomainClick = async () => {
@@ -36,7 +36,6 @@ export default function CustomDomain(
   return (
     <div>
       <p>BuilderPlace name: {builderPlace?.name}</p>
-      <p>{loading}</p>
 
       <label htmlFor='custom-domain'>Custom Domain:</label>
       <input

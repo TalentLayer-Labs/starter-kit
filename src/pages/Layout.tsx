@@ -1,16 +1,14 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
+import { useRouter } from 'next/router';
 import { Fragment, ReactNode, useContext, useState } from 'react';
 import Logo from '../components/Layout/Logo';
 import MenuBottom from '../components/Layout/MenuBottom';
 import SideMenu from '../components/Layout/SideMenu';
 import NetworkSwitch from '../components/NetworkSwitch';
 import UserAccount from '../components/UserAccount';
-import { useRouter } from 'next/router';
-import EmailCounter from '../modules/Web3mail/components/EmailCounter';
-import BuilderPlaceContext from '../modules/BuilderPlace/context/BuilderPlaceContext';
-import Loading from '../components/Loading';
 import TalentLayerContext from '../context/talentLayer';
+import BuilderPlaceContext from '../modules/BuilderPlace/context/BuilderPlaceContext';
 
 interface ContainerProps {
   children: ReactNode;
@@ -19,17 +17,9 @@ interface ContainerProps {
 
 function Layout({ children, className }: ContainerProps) {
   const router = useRouter();
-  const { builderPlace, loading } = useContext(BuilderPlaceContext);
+  const { builderPlace } = useContext(BuilderPlaceContext);
   const { account } = useContext(TalentLayerContext);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
-  if (loading) {
-    return (
-      <div className={`p-6`}>
-        <Loading />
-      </div>
-    );
-  }
 
   if (router.asPath.includes('web3mail')) {
     return (
