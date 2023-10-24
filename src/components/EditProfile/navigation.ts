@@ -9,27 +9,27 @@ export const navigation = () => {
   const config = [
     {
       name: 'Your profile',
-      href: '/dashboard/profile/edit',
+      href: '/profiles/edit',
       icon: UserCircleIcon,
       current: false,
       completitonKey: 'userDetails',
     },
     {
       name: 'Trust Score',
-      href: '/dashboard/profile/edit/trust-score',
+      href: '/profiles/edit/trust-score',
       icon: StarIcon,
       current: false,
     },
     {
       name: 'Notifications',
-      href: '/dashboard/profile/edit/privacy',
+      href: '/profiles/edit/privacy',
       icon: BellAlertIcon,
       current: false,
       completitonKey: 'web3mail',
     },
     {
       name: 'Settings',
-      href: '/dashboard/profile/edit/settings',
+      href: '/profiles/edit/settings',
       icon: Cog6ToothIcon,
       current: false,
     },

@@ -67,7 +67,7 @@ function UserDetail({ user }: { user: IUser }) {
           <div className='flex flex-row gap-4 justify-end items-center'>
             <Link
               className='text-stone-800 bg-stone-200 hover:bg-stone-300 px-5 py-2.5 rounded-xl text-sm-xl relative'
-              href={`/dashboard/profile/incomes`}>
+              href={`/profiles/incomes`}>
               Your incomes
             </Link>
             {process.env.NEXT_PUBLIC_ACTIVE_DELEGATE === 'true' && <DelegateModal />}

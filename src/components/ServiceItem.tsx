@@ -41,7 +41,7 @@ function ServiceItem({ service }: { service: IService }) {
           )}
           <Link
             className='text-stone-600 bg-endnight hover:bg-midnight px-4 py-1.5 rounded btn-sm'
-            href={`/dashboard/work/${service.id}`}>
+            href={`/work/${service.id}`}>
             Show details
           </Link>
         </div>

@@ -11,7 +11,7 @@ function SideLink({
   isCompleted: boolean;
 }) {
   const router = useRouter();
-  const isDashboard = href == '/dashboard/profile/edit';
+  const isDashboard = href == '/profiles/edit';
   let className = isDashboard
     ? router.asPath === href
       ? 'text-primary-500 bg-redpraha'

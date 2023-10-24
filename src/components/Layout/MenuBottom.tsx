@@ -19,7 +19,7 @@ function MenuBottom({
   );
 
   const navigation = isBuilderPlaceOwner
-    ? hirerNavigation.filter(item => item.name !== 'My talents')
+    ? hirerNavigation.filter(item => item.name !== 'Find worker')
     : workerNavigation;
 
   const onClick = (e: any) => {

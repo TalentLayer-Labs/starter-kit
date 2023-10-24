@@ -1,16 +1,23 @@
 import { useContext } from 'react';
-import ServiceForm from '../../../../components/Form/ServiceForm';
-import Steps from '../../../../components/Steps';
-import TalentLayerContext from '../../../../context/talentLayer';
-import ConnectButton from '../../../../modules/Messaging/components/ConnectButton';
-import MessagingContext from '../../../../modules/Messaging/context/messging';
+import ServiceForm from '../../../components/Form/ServiceForm';
+import Steps from '../../../components/Steps';
+import TalentLayerContext from '../../../context/talentLayer';
+import ConnectButton from '../../../modules/Messaging/components/ConnectButton';
+import MessagingContext from '../../../modules/Messaging/context/messging';
+import BuilderPlaceContext from '../../../modules/BuilderPlace/context/BuilderPlaceContext';
+import AccessDenied from '../../../components/AccessDenied';
 
 function CreateService() {
   const { account, user } = useContext(TalentLayerContext);
   const { userExists } = useContext(MessagingContext);
+  const { builderPlace } = useContext(BuilderPlaceContext);
 
   if (!user) {
     return <Steps />;
+  }
+
+  if (builderPlace?.ownerTalentLayerId !== user?.id) {
+    return <AccessDenied />;
   }
 
   return (

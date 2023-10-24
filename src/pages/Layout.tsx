@@ -9,6 +9,8 @@ import UserAccount from '../components/UserAccount';
 import { useRouter } from 'next/router';
 import EmailCounter from '../modules/Web3mail/components/EmailCounter';
 import BuilderPlaceContext from '../modules/BuilderPlace/context/BuilderPlaceContext';
+import Loading from '../components/Loading';
+import TalentLayerContext from '../context/talentLayer';
 
 interface ContainerProps {
   children: ReactNode;
@@ -16,15 +18,65 @@ interface ContainerProps {
 }
 
 function Layout({ children, className }: ContainerProps) {
-  const { builderPlace } = useContext(BuilderPlaceContext);
+  const router = useRouter();
+  const { builderPlace, loading } = useContext(BuilderPlaceContext);
+  const { account } = useContext(TalentLayerContext);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  console.log({ builderPlace });
+  if (loading) {
+    return (
+      <div className={`p-6`}>
+        <Loading />
+      </div>
+    );
+  }
+
+  if (router.asPath.includes('web3mail')) {
+    return (
+      <div className={'dashboard pb-[110px]'}>
+        <div className='flex flex-1 flex-col '>
+          <div className='top-0 z-10 flex h-16 flex-shrink-0 bg-midnight'>
+            <div className='flex flex-1 items-center pl-6'>
+              <div className=''>
+                <Logo />
+              </div>
+            </div>
+          </div>
+
+          <main>
+            <div className={`p-6`}>{children}</div>
+          </main>
+        </div>
+      </div>
+    );
+  }
 
   if (builderPlace) {
+    if (!account?.isConnected) {
+      return (
+        <div className={'dashboard pb-[110px]'}>
+          <div className='flex flex-1 flex-col '>
+            <div className='top-0 z-10 flex h-16 flex-shrink-0 bg-midnight'>
+              <div className='flex flex-1 items-center pl-6'>
+                <div className=''>
+                  <Logo />
+                </div>
+              </div>
+              <NetworkSwitch />
+              <UserAccount />
+            </div>
+
+            <main>
+              <div className={`p-6`}>{children}</div>
+            </main>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <>
-        <div className={className + ' dashboard pb-[110px]'}>
+        <div className={'dashboard pb-[110px]'}>
           <Transition.Root show={sidebarOpen} as={Fragment}>
             <Dialog as='div' className='relative z-40 md:hidden' onClose={setSidebarOpen}>
               <Transition.Child

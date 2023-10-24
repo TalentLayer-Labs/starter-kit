@@ -91,7 +91,7 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
               <button
                 onClick={() => setShow(false)}
                 type='button'
-                className='text-stone-600 bg-transparent hover:bg-gray-200 hover:text-stone-800 rounded-xl text-sm p-1.5 ml-auto inline-flex items-center '
+                className='text-stone-600 bg-transparent hover:bg-midnight hover:text-stone-800 rounded-xl text-sm p-1.5 ml-auto inline-flex items-center '
                 data-modal-toggle='defaultModal'>
                 <svg
                   className='w-5 h-5'
@@ -134,7 +134,7 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
                   <div className='flex justify-between items-center w-full'>
                     <p className='text-base leading-4 text-stone-600'>
                       Fees from the marketplace originating the service{' '}
-                      <span className='bg-gray-200 p-1 text-xs font-medium leading-3 text-stone-400'>
+                      <span className='bg-midnight p-1 text-xs font-medium leading-3 text-stone-400'>
                         {((Number(originServiceFeeRate) / FEE_RATE_DIVIDER) * 100).toString()} %
                       </span>
                     </p>
@@ -145,7 +145,7 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
                   <div className='flex justify-between items-center w-full'>
                     <p className='text-base leading-4 text-stone-600'>
                       Fees from the marketplace validating the proposal{' '}
-                      <span className='bg-gray-200 p-1 text-xs font-medium leading-3 text-stone-400'>
+                      <span className='bg-midnight p-1 text-xs font-medium leading-3 text-stone-400'>
                         {(
                           (Number(originValidatedProposalFeeRate) / FEE_RATE_DIVIDER) *
                           100
@@ -161,7 +161,7 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
                   <div className='flex justify-between items-center w-full'>
                     <p className='text-base leading-4 text-stone-600'>
                       Protocol fees{' '}
-                      <span className='bg-gray-200 p-1 text-xs font-medium leading-3 text-stone-400'>
+                      <span className='bg-midnight p-1 text-xs font-medium leading-3 text-stone-400'>
                         {((Number(protocolEscrowFeeRate) / FEE_RATE_DIVIDER) * 100).toString()} %
                       </span>
                     </p>
@@ -243,7 +243,7 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
               <button
                 onClick={() => setShow(false)}
                 type='button'
-                className='text-stone-700 bg-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-xl border text-sm font-medium px-5 py-2.5 hover:text-stone-800 focus:z-10 '>
+                className='text-stone-700 bg-midnight hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-xl border text-sm font-medium px-5 py-2.5 hover:text-stone-800 focus:z-10 '>
                 Decline
               </button>
               <ContactButton

@@ -65,7 +65,7 @@ function Web3mailForm() {
                 process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as unknown as NetworkEnum,
               ));
 
-            router.push('/dashboard/profile/edit/privacy');
+            router.push('/profiles/edit/privacy');
           }}
           className='grow px-5 py-2 rounded-xl bg-redpraha text-stone-800 hover:bg-midnight inline-flex align-center justify-center '>
           <ArrowLeftCircleIcon className='w-[22px] h-[22px] text-stone-600 mr-2 mt-05' />

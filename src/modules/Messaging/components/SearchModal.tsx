@@ -10,7 +10,7 @@ function SearchModal() {
   const router = useRouter();
 
   const handleChat = () => {
-    const chatLink = `/dashboard/messaging/${search}`;
+    const chatLink = `/messaging/${search}`;
     router.push(chatLink);
   };
 
@@ -34,7 +34,7 @@ function SearchModal() {
               <button
                 onClick={() => setShow(false)}
                 type='button'
-                className='text-stone-600 bg-transparent hover:bg-gray-200 hover:text-stone-800 rounded-xl text-sm p-4 ml-auto inline-flex items-center '
+                className='text-stone-600 bg-transparent hover:bg-midnight hover:text-stone-800 rounded-xl text-sm p-4 ml-auto inline-flex items-center '
                 data-modal-toggle='defaultModal'>
                 <svg
                   className='w-5 h-5'

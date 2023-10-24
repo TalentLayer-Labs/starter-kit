@@ -1,13 +1,13 @@
 import { useContext } from 'react';
 import { useWalletClient } from 'wagmi';
-import Steps from '../../../../components/Steps';
-import TalentLayerContext from '../../../../context/talentLayer';
-import { useChainId } from '../../../../hooks/useChainId';
-import ConversationList from '../../../../modules/Messaging/components/ConversationList';
-import SearchModal from '../../../../modules/Messaging/components/SearchModal';
-import ShareModal from '../../../../modules/Messaging/components/ShareModal';
-import { XmtpContext } from '../../../../modules/Messaging/context/XmtpContext';
-import useStreamConversations from '../../../../modules/Messaging/hooks/useStreamConversations';
+import Steps from '../../../components/Steps';
+import TalentLayerContext from '../../../context/talentLayer';
+import { useChainId } from '../../../hooks/useChainId';
+import ConversationList from '../../../modules/Messaging/components/ConversationList';
+import SearchModal from '../../../modules/Messaging/components/SearchModal';
+import ShareModal from '../../../modules/Messaging/components/ShareModal';
+import { XmtpContext } from '../../../modules/Messaging/context/XmtpContext';
+import useStreamConversations from '../../../modules/Messaging/hooks/useStreamConversations';
 
 function MessagingIndex() {
   const chainId = useChainId();
