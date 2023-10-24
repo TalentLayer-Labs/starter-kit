@@ -12,6 +12,11 @@ import { useConfig } from '../../../hooks/useConfig';
 import usePlatform from '../../../hooks/usePlatform';
 import { chains } from '../../_app';
 import { useChainId } from 'wagmi';
+import { getBuilderPlace } from '../../../modules/BuilderPlace/queries';
+
+export async function getServerSideProps({ params }: any) {
+  return await getBuilderPlace(params.domain);
+}
 
 function AdminFees() {
   const chainId = useChainId();

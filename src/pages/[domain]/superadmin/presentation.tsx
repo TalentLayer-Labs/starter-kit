@@ -12,6 +12,7 @@ import { useChainId } from '../../../hooks/useChainId';
 import usePlatform from '../../../hooks/usePlatform';
 import useTalentLayerClient from '../../../hooks/useTalentLayerClient';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../../utils/toast';
+import { getBuilderPlace } from '../../../modules/BuilderPlace/queries';
 
 interface IFormValues {
   about: string;
@@ -23,6 +24,10 @@ interface IFormValues {
 const validationSchema = Yup.object({
   // nothing required
 });
+
+export async function getServerSideProps({ params }: any) {
+  return await getBuilderPlace(params.domain);
+}
 
 function AdminPresentation() {
   const { user, loading } = useContext(TalentLayerContext);

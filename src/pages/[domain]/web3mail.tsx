@@ -2,6 +2,11 @@ import React from 'react';
 import Web3mailForm from '../../modules/Web3mail/components/Web3mailForm';
 import { Web3MailProvider } from '../../modules/Web3mail/context/web3mail';
 import Web3mailCard from '../../modules/Web3mail/components/Web3mailCard';
+import { getBuilderPlace } from '../../modules/BuilderPlace/queries';
+
+export async function getServerSideProps({ params }: any) {
+  return await getBuilderPlace(params.domain);
+}
 
 export default function web3mail() {
   return (

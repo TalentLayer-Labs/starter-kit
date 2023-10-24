@@ -9,6 +9,11 @@ import useServiceById from '../../../../hooks/useServiceById';
 import ConnectButton from '../../../../modules/Messaging/components/ConnectButton';
 import MessagingContext from '../../../../modules/Messaging/context/messging';
 import { ProposalStatusEnum, ServiceStatusEnum } from '../../../../types';
+import { getBuilderPlace } from '../../../../modules/BuilderPlace/queries';
+
+export async function getServerSideProps({ params }: any) {
+  return await getBuilderPlace(params.domain);
+}
 
 function CreateOrEditProposal() {
   const { account, user } = useContext(TalentLayerContext);

@@ -4,6 +4,11 @@ import UserDetail from '../../../components/UserDetail';
 import UserServices from '../../../components/UserServices';
 import useUserById from '../../../hooks/useUserById';
 import LensModule from '../../../modules/Lens/LensModule';
+import { getBuilderPlace } from '../../../modules/BuilderPlace/queries';
+
+export async function getServerSideProps({ params }: any) {
+  return await getBuilderPlace(params.domain);
+}
 
 function Profile() {
   const router = useRouter();

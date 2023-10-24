@@ -12,6 +12,11 @@ import usePlatform from '../../../hooks/usePlatform';
 import { formatEther } from 'viem';
 import { ZERO_ADDRESS } from '../../../utils/constant';
 import useTalentLayerClient from '../../../hooks/useTalentLayerClient';
+import { getBuilderPlace } from '../../../modules/BuilderPlace/queries';
+
+export async function getServerSideProps({ params }: any) {
+  return await getBuilderPlace(params.domain);
+}
 
 function AdminDispute() {
   const { user, loading } = useContext(TalentLayerContext);

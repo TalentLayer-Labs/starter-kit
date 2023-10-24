@@ -1,5 +1,10 @@
 import { Cog8ToothIcon } from '@heroicons/react/24/outline';
 import Layout from '../../../../components/EditProfile/Layout';
+import { getBuilderPlace } from '../../../../modules/BuilderPlace/queries';
+
+export async function getServerSideProps({ params }: any) {
+  return await getBuilderPlace(params.domain);
+}
 
 function EditSettings() {
   return (

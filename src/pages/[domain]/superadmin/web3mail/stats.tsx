@@ -7,6 +7,11 @@ import UserNeedsMoreRights from '../../../../components/UserNeedsMoreRights';
 import TalentLayerContext from '../../../../context/talentLayer';
 import dynamic from 'next/dynamic';
 import useWeb3MailStats from '../../../../modules/Web3mail/hooks/useWeb3MailStats';
+import { getBuilderPlace } from '../../../../modules/BuilderPlace/queries';
+
+export async function getServerSideProps({ params }: any) {
+  return await getBuilderPlace(params.domain);
+}
 
 const Web3mailChart = dynamic(
   () => import('../../../../modules/Web3mail/components/Web3mailChart'),
