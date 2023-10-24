@@ -1,7 +1,7 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/router';
-import { Fragment, ReactNode, useContext, useState } from 'react';
+import { Fragment, ReactNode, useContext, useEffect, useState } from 'react';
 import Logo from '../components/Layout/Logo';
 import MenuBottom from '../components/Layout/MenuBottom';
 import SideMenu from '../components/Layout/SideMenu';
@@ -9,6 +9,7 @@ import NetworkSwitch from '../components/NetworkSwitch';
 import UserAccount from '../components/UserAccount';
 import TalentLayerContext from '../context/talentLayer';
 import BuilderPlaceContext from '../modules/BuilderPlace/context/BuilderPlaceContext';
+import Loading from '../components/Loading';
 
 interface ContainerProps {
   children: ReactNode;
@@ -20,6 +21,16 @@ function Layout({ children, className }: ContainerProps) {
   const { builderPlace } = useContext(BuilderPlaceContext);
   const { account } = useContext(TalentLayerContext);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  // Tips to prevent nextJs error: Hydration failed because the initial UI does not match what was rendered on the server.
+  useEffect(() => {
+    setLoading(false);
+  }, []);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   if (router.asPath.includes('web3mail')) {
     return (
