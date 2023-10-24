@@ -23,7 +23,7 @@ function SearchTalentButton(props?: { value?: string }) {
 
   return (
     <form onSubmit={e => handleSubmit(e)} className='flex w-full'>
-      <div className='flex bg-white py-2 px-4 sm:px-2 justify-center items-center flex-row drop-shadow-lg rounded-xl w-full'>
+      <div className='flex bg-white py-2 px-4 sm:px-2 justify-center items-center flex-row rounded-xl w-full bg-midnight border border-endnight'>
         <div className='sm:px-6 flex flex-row items-center'>
           <span className='text-stone-400'>
             <svg

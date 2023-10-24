@@ -37,24 +37,24 @@ function Web3mailStats() {
 
   if (isWeb3mailActive === 'false') {
     return (
-      <div className='max-w-7xl mx-auto text-stone-800 sm:px-4 lg:px-0'>
+      <div className='max-w-7xl mx-auto text-stone-800'>
         <div className=' -mx-6 -mt-6 '>
           <div className='flex py-2 px-6 items-center border-b w-full border-redpraha mb-8'>
-            <p className='text-2xl font-medium flex-1'>Stats Web3 Mails</p>
+            <p className='text-2xl font-bold flex-1 mt-6'>Stats Web3 Mails</p>
           </div>
         </div>
         <div className='flex flex-col items-center justify-center'>
-          <p className='text-2xl font-medium flex-1'>Web3mail is not active</p>
+          <p className='text-2xl font-bold flex-1 mt-6'>Web3mail is not active</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className='max-w-7xl mx-auto text-stone-800 sm:px-4 lg:px-0'>
+    <div className='max-w-7xl mx-auto text-stone-800'>
       <div className=' -mx-6 -mt-6 sm:mx-0 sm:mt-0'>
-        <div className='flex py-2 px-6 sm:px-0 items-center border-b w-full border-redpraha mb-8'>
-          <p className='text-2xl font-medium flex-1'>Stats Web3 Mails</p>
+        <div className='flex py-2 px-6 sm:px-0 items-center w-full mb-8'>
+          <p className='text-2xl font-bold flex-1 mt-6'>Stats Web3 Mails</p>
           <a
             href={`/admin/web3mail`}
             className=' hover:bg-endnight text-stone-800 bg-endnight px-3 py-2 text-sm flex items-center rounded-xl'>

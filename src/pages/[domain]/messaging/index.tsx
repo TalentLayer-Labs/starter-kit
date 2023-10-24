@@ -52,7 +52,7 @@ function MessagingIndex() {
           <div className='flex flex-row text-stone-800'>
             <div className='flex py-2 px-6 sm:px-0 items-center border-b w-full border-redpraha'>
               <>
-                <p className='text-2xl font-medium flex-1'>Chats</p>
+                <p className='text-2xl font-bold flex-1 mt-6'>Chats</p>
 
                 <SearchModal />
                 <ShareModal />

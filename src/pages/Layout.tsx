@@ -45,7 +45,7 @@ function Layout({ children, className }: ContainerProps) {
           </div>
 
           <main>
-            <div className={`p-6`}>{children}</div>
+            <div className={`px-6 py-6 md:px-12 xl:px-24`}>{children}</div>
           </main>
         </div>
       </div>
@@ -68,7 +68,7 @@ function Layout({ children, className }: ContainerProps) {
             </div>
 
             <main>
-              <div className={`p-6`}>{children}</div>
+              <div className={`px-6 py-6 md:px-12 xl:px-24`}>{children}</div>
             </main>
           </div>
         </div>
@@ -134,7 +134,7 @@ function Layout({ children, className }: ContainerProps) {
             </Dialog>
           </Transition.Root>
 
-          <div className='hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col border-r border-redpraha'>
+          <div className='hidden md:fixed md:inset-y-0 md:flex md:w-72 md:flex-col'>
             <div className='flex flex-grow flex-col overflow-y-auto bg-endnight pt-5'>
               <div className='flex flex-shrink-0 items-center px-6'>
                 <Logo />
@@ -145,7 +145,7 @@ function Layout({ children, className }: ContainerProps) {
             </div>
           </div>
 
-          <div className='flex flex-1 flex-col md:pl-64'>
+          <div className='flex flex-1 flex-col md:pl-72'>
             <div className='top-0 z-10 flex h-16 flex-shrink-0 bg-midnight'>
               <div className='flex flex-1 items-center pl-6'>
                 <div className='sm:hidden'>
@@ -157,7 +157,7 @@ function Layout({ children, className }: ContainerProps) {
             </div>
 
             <main>
-              <div className={`p-6`}>{children}</div>
+              <div className={`px-6 py-6 md:px-12 xl:px-24`}>{children}</div>
             </main>
           </div>
         </div>

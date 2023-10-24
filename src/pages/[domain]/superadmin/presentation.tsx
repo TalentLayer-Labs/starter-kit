@@ -92,10 +92,10 @@ function AdminPresentation() {
   };
 
   return (
-    <div className='max-w-7xl mx-auto text-stone-800 sm:px-4 lg:px-0'>
+    <div className='max-w-7xl mx-auto text-stone-800'>
       <div className=' -mx-6 -mt-6 '>
         <div className='flex py-2 px-6 items-center border-b w-full border-redpraha mb-8'>
-          <p className='text-2xl font-medium flex-1'>Presentation</p>
+          <p className='text-2xl font-bold flex-1 mt-6'>Presentation</p>
         </div>
       </div>
 
