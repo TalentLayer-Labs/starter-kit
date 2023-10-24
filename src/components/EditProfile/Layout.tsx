@@ -26,7 +26,7 @@ function Layout({ children, className }: ContainerProps) {
             <p className='text-2xl font-medium flex-1'>Edit</p>
 
             <Link
-              href={`/dashboard/profile/${user.id}`}
+              href={`/profiles/${user.id}`}
               className=' hover:bg-endnight text-stone-800 bg-endnight px-3 py-2 text-sm flex items-center rounded-xl'>
               <EyeIcon className='w-[18px] h-[18px] text-stone-600 mr-2' />
               Public page

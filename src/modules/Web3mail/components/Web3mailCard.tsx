@@ -95,7 +95,7 @@ function Web3mailCard() {
             <a
               href='https://medium.com/iex-ec/introducing-privacy-enhancing-marketing-the-future-of-marketing-in-web3-429283e7c7f0'
               target='_blank'
-              className='px-3 py-1 border border-gray-400 rounded-md hover:bg-gray-200 text-stone-800 hover:text-stone-800 inline-flex items-center text-xs'>
+              className='px-3 py-1 border border-gray-400 rounded-md hover:bg-midnight text-stone-800 hover:text-stone-800 inline-flex items-center text-xs'>
               <span>Learn More</span>
               <ArrowSmallRightIcon width='16' height='16' className='ml-2' />
             </a>

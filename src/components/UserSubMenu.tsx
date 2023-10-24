@@ -43,7 +43,7 @@ function UserSubMenu() {
           </p>
           {user && (
             <Link
-              href='/dashboard/profile/edit'
+              href='/profiles/edit'
               className='mt-2 border border-redpraha rounded-xl hover:bg-endnight text-stone-800 bg-midnight px-5 py-2 w-full'
               role='none'>
               Manage Account

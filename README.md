@@ -10,7 +10,8 @@ A Ready to Use NextJS dapp using [TalentLayer](https://docs.talentlayer.org/).
     - Minimum required configuration: 
         - NEXT_PUBLIC_PLATFORM_ID: use 4, the default value, or [create your own platform](https://docs.talentlayer.org/get-a-platform-id) to setup your custom fees and more: 
         - NEXT_PUBLIC_WALLECT_CONNECT_PROJECT_ID: Create a free account on [wallet connect and get your project ID](https://cloud.walletconnect.com/)
-        - NEXT_PUBLIC_INFURA_ID & NEXT_PUBLIC_INFURA_SECRET: used to post on IPFS, create a free account on [Infura here](https://www.infura.io/product/ipfs)  
+        - NEXT_PUBLIC_INFURA_ID & NEXT_PUBLIC_INFURA_SECRET: used to post on IPFS, create a free account on [Infura here](https://www.infura.io/product/ipfs) 
+        - NEXT_MONGO_URI: create a mongodb in two clicks here [with railway](https://railway.app)
     - For more advanced configuration [check the official doc](https://docs.talentlayer.org/technical-guides/builderplace-setup)
 - Use the recommended node version: `18^`, if you are using nvm just run: `nvm use`
 - Install the dependencies: `npm install`

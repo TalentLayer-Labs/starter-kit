@@ -2,8 +2,8 @@ import { useRouter } from 'next/router';
 
 function SideLink({ children, href }: { children: React.ReactNode; href: string }) {
   const router = useRouter();
-  const isDashboard = href == '/dashboard';
-  let className = isDashboard
+  const isRootPages = href == '/dashboard' || href === '/';
+  let className = isRootPages
     ? router.asPath === href
       ? 'bg-redpraha text-stone-800'
       : 'text-stone-700 hover:bg-midnight'

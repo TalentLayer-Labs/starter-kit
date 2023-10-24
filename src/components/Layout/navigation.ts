@@ -15,10 +15,10 @@ import {
 
 export const hirerNavigation = [
   { name: 'Dashboard', href: '/dashboard', icon: HomeIcon, current: false },
-  { name: 'My post', href: '/dashboard/work', icon: BriefcaseIcon, current: false },
-  { name: 'New post', href: '/dashboard/work/create', icon: PlusCircleIcon, current: false },
-  { name: 'My talents', href: '/dashboard/talents', icon: UserGroupIcon, current: false },
-  { name: 'Chat', href: '/dashboard/messaging', icon: ChatBubbleBottomCenterIcon, current: false },
+  { name: 'My posts', href: '/', icon: BriefcaseIcon, current: false },
+  { name: 'New post', href: '/work/create', icon: PlusCircleIcon, current: false },
+  { name: 'Find worker', href: '/profiles', icon: UserGroupIcon, current: false },
+  { name: 'Chat', href: '/messaging', icon: ChatBubbleBottomCenterIcon, current: false },
 ];
 
 export const hirerAdminNavigation = [
@@ -39,9 +39,9 @@ export const hirerAdminNavigation = [
 
 export const workerNavigation = [
   { name: 'Dashboard', href: '/dashboard', icon: HomeIcon, current: false },
-  { name: 'Find work', href: '/dashboard/work', icon: BriefcaseIcon, current: false },
-  { name: 'My profile', href: '/dashboard/profile/edit', icon: UserIcon, current: false },
-  { name: 'Chat', href: '/dashboard/messaging', icon: ChatBubbleBottomCenterIcon, current: false },
+  { name: 'Find work', href: '/', icon: BriefcaseIcon, current: false },
+  { name: 'My profile', href: '/profiles/edit', icon: UserIcon, current: false },
+  { name: 'Chat', href: '/messaging', icon: ChatBubbleBottomCenterIcon, current: false },
 ];
 
 export const PlatformAdminNavigation = [

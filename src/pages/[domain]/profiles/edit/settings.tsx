@@ -1,11 +1,11 @@
 import { Cog8ToothIcon } from '@heroicons/react/24/outline';
-import Layout from '../../../../../components/EditProfile/Layout';
+import Layout from '../../../../components/EditProfile/Layout';
 
 function EditSettings() {
   return (
     <Layout>
       <h2 className='text-stone-800 text-xl font-bold text-center my-4'>Comming soon</h2>
-      <div className='bg-gray-200 relative flex flex-1 items-center justify-center bg-gradient-to-br p-5 shadow-xl rounded-xl'>
+      <div className='bg-midnight relative flex flex-1 items-center justify-center bg-gradient-to-br p-5 shadow-xl rounded-xl'>
         <div className='relative z-20 flex flex-col gap-3'>
           <p className=''>
             <span className='text-stone-400'>

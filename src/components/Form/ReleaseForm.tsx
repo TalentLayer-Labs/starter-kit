@@ -94,7 +94,7 @@ function ReleaseForm({
             <button
               type='button'
               onClick={releaseMin}
-              className='text-stone-700 bg-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-xl border text-sm font-medium px-5 py-2.5 hover:text-stone-800 focus:z-10 '>
+              className='text-stone-700 bg-midnight hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-xl border text-sm font-medium px-5 py-2.5 hover:text-stone-800 focus:z-10 '>
               Min
             </button>
           </div>
@@ -102,7 +102,7 @@ function ReleaseForm({
             <button
               type='button'
               onClick={releaseMax}
-              className='text-stone-700 bg-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-xl border text-sm font-medium px-5 py-2.5 hover:text-stone-800 focus:z-10 '>
+              className='text-stone-700 bg-midnight hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-xl border text-sm font-medium px-5 py-2.5 hover:text-stone-800 focus:z-10 '>
               Max
             </button>
           </div>
@@ -141,7 +141,7 @@ function ReleaseForm({
               <button
                 onClick={closeModal}
                 type='button'
-                className='text-stone-700 bg-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-xl border text-sm font-medium px-5 py-2.5 hover:text-stone-800 focus:z-10 '>
+                className='text-stone-700 bg-midnight hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-xl border text-sm font-medium px-5 py-2.5 hover:text-stone-800 focus:z-10 '>
                 Close
               </button>
             </div>

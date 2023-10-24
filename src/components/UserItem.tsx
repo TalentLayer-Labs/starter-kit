@@ -41,13 +41,13 @@ function UserItem({ user }: { user: IUser }) {
         <div className='flex flex-row gap-4 justify-end items-center'>
           <Link
             className='text-stone-800 bg-stone-200 hover:bg-stone-300 px-5 py-2.5 rounded-xl text-sm-xl relative'
-            href={`/dashboard/profile/${user.id}`}>
+            href={`/profiles/${user.id}`}>
             View profile
           </Link>
           {currentUser?.id === user.id && (
             <Link
               className='text-green-600 bg-green-50 hover:bg-redpraha hover:text-stone-800 px-5 py-2 rounded'
-              href={`/dashboard/profile/edit`}>
+              href={`/profiles/edit`}>
               Edit profile
             </Link>
           )}

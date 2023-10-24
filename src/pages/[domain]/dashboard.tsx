@@ -1,12 +1,12 @@
 import { useContext } from 'react';
-import Steps from '../../../components/Steps';
-import UserBadges from '../../../modules/Sismo/components/UserBadges';
-import UserDetail from '../../../components/UserDetail';
-import UserGains from '../../../components/UserGains';
-import UserPayments from '../../../components/UserPayments';
-import UserProposals from '../../../components/UserProposals';
-import UserServices from '../../../components/UserServices';
-import TalentLayerContext from '../../../context/talentLayer';
+import Steps from '../../components/Steps';
+import UserBadges from '../../modules/Sismo/components/UserBadges';
+import UserDetail from '../../components/UserDetail';
+import UserGains from '../../components/UserGains';
+import UserPayments from '../../components/UserPayments';
+import UserProposals from '../../components/UserProposals';
+import UserServices from '../../components/UserServices';
+import TalentLayerContext from '../../context/talentLayer';
 import Link from 'next/link';
 import { PencilSquareIcon } from '@heroicons/react/24/outline';
 
@@ -25,7 +25,7 @@ function Dashboard() {
             Your <span className='text-stone-800 ml-1'> dashboard </span>
           </p>
           <Link
-            href={`/dashboard/profile/edit`}
+            href={`/profiles/edit`}
             className=' hover:bg-endnight text-stone-800 bg-endnight px-3 py-2 text-sm flex items-center rounded-xl'>
             <PencilSquareIcon className='w-[18px] h-[18px] text-stone-600 mr-2' />
             Edit

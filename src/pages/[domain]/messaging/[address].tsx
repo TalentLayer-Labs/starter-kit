@@ -1,4 +1,4 @@
-import Dashboard from '../../../../modules/Messaging/components/Dashboard';
+import Dashboard from '../../../modules/Messaging/components/Dashboard';
 
 function MessagingAddress() {
   return <Dashboard />;

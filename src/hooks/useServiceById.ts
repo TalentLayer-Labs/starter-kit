@@ -9,18 +9,19 @@ const useServiceById = (serviceId: string): IService | null => {
   const talentLayerClient = useTalentLayerClient();
 
   useEffect(() => {
-    if (chainId && talentLayerClient) {
-      talentLayerClient.service
-        .getOne(serviceId)
-        .then(response => {
-          if (response) {
-            setService(response);
-          }
-        })
-        .catch((err: any) => {
-          console.error(err);
-        });
+    if (!talentLayerClient) {
+      return;
     }
+    talentLayerClient.service
+      .getOne(serviceId)
+      .then(response => {
+        if (response) {
+          setService(response);
+        }
+      })
+      .catch((err: any) => {
+        console.error(err);
+      });
   }, [serviceId, chainId, talentLayerClient]);
 
   return service;

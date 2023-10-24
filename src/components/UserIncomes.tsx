@@ -65,7 +65,7 @@ function UserIncomes({ id }: { id: string }) {
         </span>
         <button
           type='button'
-          className='ml-4 px-3 py-1 border border-gray-400 rounded-xl text-stone-400 hover:bg-gray-200'
+          className='ml-4 px-3 py-1 border border-gray-400 rounded-xl text-stone-400 hover:bg-midnight'
           onClick={() => {
             setStartDate('');
             setEndDate('');
@@ -75,7 +75,7 @@ function UserIncomes({ id }: { id: string }) {
         {payments && payments.length > 0 && (
           <button
             type='button'
-            className='ml-4 px-3 py-1 border border-gray-400 rounded-xl text-stone-400 hover:bg-gray-200 '
+            className='ml-4 px-3 py-1 border border-gray-400 rounded-xl text-stone-400 hover:bg-midnight '
             onClick={handleExportToCsv}>
             Export to CSV
           </button>
@@ -110,7 +110,7 @@ function UserIncomes({ id }: { id: string }) {
                         {payment.rateToken.symbol}
                       </td>
                       <td className=' p-2 text-center text-blue-500 border-r border-b border-gray-500'>
-                        <a target='_blank' href={`/dashboard/work/${payment.service.id}`}>
+                        <a target='_blank' href={`/work/${payment.service.id}`}>
                           Service n°{payment.service.id}{' '}
                         </a>
                       </td>

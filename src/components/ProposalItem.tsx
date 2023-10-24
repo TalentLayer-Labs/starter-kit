@@ -75,7 +75,7 @@ function ProposalItem({ proposal }: { proposal: IProposal }) {
             <div className='flex flex-row gap-4 items-center border-t border-redpraha pt-4'>
               <Link
                 className='text-stone-800 bg-stone-200 hover:bg-stone-300 px-5 py-2.5 rounded-xl text-sm-xl relative'
-                href={`/dashboard/work/${service.id}/proposal`}>
+                href={`/work/${service.id}/proposal`}>
                 Edit proposal
               </Link>
             </div>
