@@ -1,10 +1,11 @@
 import * as Yup from 'yup';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { useCreateBuilderPlaceMutation } from '../../../modules/BuilderPlace/hooks/UseCreateBuilderPlaceMutation';
+import { generateSubdomainPrefix } from '../../../modules/BuilderPlace/utils';
 import { useCreateSpaceMutation } from '../../../modules/MultiDomain/hooks/UseCreateSpaceMutation';
 import { useState } from 'react';
 import { showErrorTransactionToast } from '../../../utils/toast';
 import mongoose from 'mongoose';
-import { persistOrganization } from '../../../utils/database';
 import { JobType } from '../../../types';
 
 interface IFormValues {
@@ -14,10 +15,23 @@ interface IFormValues {
   image_url: string;
 }
 function onboardingStep1() {
+  const { data: createdBuilderPlace, mutateAsync: createBuilderPlaceAsync } =
+    useCreateBuilderPlaceMutation();
   const mongoUri = process.env.NEXT_MONGO_URI as string;
   const { data: createdSpace, mutateAsync: createSpaceAsync } = useCreateSpaceMutation();
   const [name, setName] = useState('');
 
+  const sendDomain = async () => {
+    const subdomainPrefix = generateSubdomainPrefix(name);
+    const subdomain = `${subdomainPrefix}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
+    await createBuilderPlaceAsync({
+      subdomain: subdomain,
+      name: name,
+      primaryColor: '#ffffff',
+      secondaryColor: '#ffffff',
+      ownerTalentLayerId: '1',
+    });
+    window.location.href = `${window.location.protocol}//${subdomain}/dashboard`;
   const initialValues: IFormValues = {
     name: '',
     about: '',

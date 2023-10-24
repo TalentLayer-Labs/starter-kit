@@ -1,9 +1,8 @@
-import { useRouter } from 'next/router';
+import Link from 'next/link';
 import usePaymentsForUser from '../hooks/usePaymentsForUser';
 import { IUser } from '../types';
 import { renderTokenAmount } from '../utils/conversion';
 import { formatStringCompleteDate } from '../utils/dates';
-import Link from 'next/link';
 
 function UserPayments({ user }: { user: IUser }) {
   const { payments } = usePaymentsForUser(user.id, 10);
@@ -20,7 +19,7 @@ function UserPayments({ user }: { user: IUser }) {
         {payments.map((payment, i) => {
           return (
             <Link
-              href={`/dashboard/services/${payment.service.id}`}
+              href={`/dashboard/work/${payment.service.id}`}
               className='flex items-center p-4 bg-white rounded-xl border border-redpraha'
               key={i}>
               <div className='flex flex-shrink-0 items-center justify-center bg-green-200 h-16 w-16 rounded'>

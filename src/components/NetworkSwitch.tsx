@@ -1,13 +1,17 @@
 import { Menu, Transition } from '@headlessui/react';
 import Image from 'next/image';
 import { Fragment, useEffect, useState } from 'react';
-import { useNetwork } from 'wagmi';
+import { useNetwork, useSwitchNetwork } from 'wagmi';
 import NetworkLink from './NetworkLink';
+import { NetworkEnum } from '../types';
 
 function NetworkSwitch() {
   const network = useNetwork();
   const { chains } = network;
   const [loading, setLoading] = useState(true);
+  const { switchNetwork: switchToDefaultNetwork } = useSwitchNetwork({
+    chainId: process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as unknown as number,
+  });
 
   // Tips to prevent nextJs error: Hydration failed because the initial UI does not match what was rendered on the server.
   useEffect(() => {
@@ -20,6 +24,19 @@ function NetworkSwitch() {
 
   if (network?.chain === undefined) {
     return null;
+  }
+
+  const needToSwitch =
+    network.chain.id != (process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as unknown as NetworkEnum);
+
+  if (needToSwitch) {
+    return (
+      <button
+        onClick={() => switchToDefaultNetwork && switchToDefaultNetwork()}
+        className='text-red-500 text-xs italic'>
+        wrong network, <span className='underline hover:text-red-700'>switch now</span>
+      </button>
+    );
   }
 
   return (
@@ -45,11 +62,15 @@ function NetworkSwitch() {
         leaveTo='transform opacity-0 scale-95'>
         <Menu.Items className='absolute right-0 top-[60px] z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-xl shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none border border-redpraha bg-endnight'>
           <div className='py-1 '>
-            {chains.map(chain => (
-              <Menu.Item key={chain.id}>
-                <NetworkLink chaindId={chain.id} chainName={chain.name} />
-              </Menu.Item>
-            ))}
+            {chains.map(
+              chain =>
+                chain.id ==
+                  (process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as unknown as NetworkEnum) && (
+                  <Menu.Item key={chain.id}>
+                    <NetworkLink chaindId={chain.id} chainName={chain.name} />
+                  </Menu.Item>
+                ),
+            )}
           </div>
         </Menu.Items>
       </Transition>

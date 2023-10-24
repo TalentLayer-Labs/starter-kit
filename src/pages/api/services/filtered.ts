@@ -15,10 +15,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const offset = Number(query.offset);
   const searchQuery = query.searchQuery as string;
   const platformId = query.platformId as string;
-  const chainId = Number(query.chainId)
-  
+  const chainId = Number(query.chainId);
+
   try {
-    
     let response = await getServices(chainId, {
       serviceStatus,
       buyerId,
@@ -27,11 +26,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       offset,
       keywordList,
       searchQuery,
-      platformId
+      platformId,
     });
 
     const filteredServices = response?.data?.data?.services;
-    
+
     res.status(200).json({ services: filteredServices });
   } catch (error) {
     res.status(500).json({ error: error });

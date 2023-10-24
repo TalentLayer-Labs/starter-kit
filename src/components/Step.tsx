@@ -43,11 +43,9 @@ function Step({
           {status === 'todo' && (
             <>
               <span className='flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-2 border-gray-400 group-hover:border-gray-400'>
-                <span className='text-stone-400 group-hover:text-stone-800'>0{order}</span>
+                <span className='text-stone-400 '>0{order}</span>
               </span>
-              <span className='ml-4 text-sm font-medium text-stone-600 group-hover:text-stone-800'>
-                {title}
-              </span>
+              <span className='ml-4 text-sm font-medium text-stone-400 '>{title}</span>
             </>
           )}
         </span>
@@ -56,7 +54,7 @@ function Step({
       {!isLast && (
         <div className='absolute top-0 right-0 hidden h-full w-5 md:block' aria-hidden='true'>
           <svg
-            className='h-full w-full text-stone-800'
+            className='h-full w-full text-stone-200'
             viewBox='0 0 22 80'
             fill='none'
             preserveAspectRatio='none'>

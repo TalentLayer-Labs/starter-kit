@@ -9,7 +9,9 @@ import {
   useMemo,
   useState,
 } from 'react';
+import { useChainId } from 'wagmi';
 import TalentLayerContext from '../../../context/talentLayer';
+import { NetworkEnum } from '../../../types';
 import { log } from '../../../utils/log';
 
 const Web3MailContext = createContext<{
@@ -30,6 +32,7 @@ const Web3MailContext = createContext<{
 
 const Web3MailProvider = ({ children }: { children: ReactNode }) => {
   const { account } = useContext(TalentLayerContext);
+  const chainId = useChainId();
   const [platformHasAccess, setPlatformHasAccess] = useState(false);
   const [emailIsProtected, setEmailIsProtected] = useState(false);
   const [dataProtector, setDataProtector] = useState<IExecDataProtector>();
@@ -59,6 +62,9 @@ const Web3MailProvider = ({ children }: { children: ReactNode }) => {
       if (!(account?.status === 'connected') || dataProtector || web3mail) {
         return;
       }
+      if (chainId != NetworkEnum.IEXEC) {
+        return;
+      }
 
       log('Web3MailProvider ---- Init The dataProtector', { dataProtector, account });
       const provider2 = await account.connector?.getProvider();
@@ -66,7 +72,7 @@ const Web3MailProvider = ({ children }: { children: ReactNode }) => {
       setWeb3mail(new IExecWeb3mail(provider2));
     };
     fetchData();
-  }, [account]);
+  }, [account, chainId]);
 
   /*
    * @what: Check if platform has access to the user email
@@ -132,10 +138,14 @@ const Web3MailProvider = ({ children }: { children: ReactNode }) => {
       setPlatformHasAccess(true);
       setEmailGrantedAccess(emailGrantedAccess);
     };
-    fetchData().then(() => {
-      setIsFetching(false);
-    });
-  }, [account]);
+    try {
+      fetchData().then(() => {
+        setIsFetching(false);
+      });
+    } catch (e) {
+      console.log('Web3MailProvider ----  - error', e);
+    }
+  }, [account, chainId]);
 
   const protectEmailAndGrantAccess = useCallback(
     async (email: string) => {

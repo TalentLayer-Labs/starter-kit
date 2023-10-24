@@ -29,7 +29,6 @@ const TalentLayerContext = createContext<{
 
 const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
   const chainId = useChainId();
-  const { switchNetwork } = useSwitchNetwork();
   const [user, setUser] = useState<IUser | undefined>();
   const account = useAccount();
   const [isActiveDelegate, setIsActiveDelegate] = useState(false);
@@ -39,11 +38,6 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
 
   // automatically switch to the default chain is the current one is not part of the config
   useEffect(() => {
-    if (!switchNetwork) return;
-    const chain = chains.find(chain => chain.id === chainId);
-    if (!chain && defaultChain) {
-      switchNetwork(defaultChain.id);
-    }
     if (chainId && account.address) {
       const talentLayerClient = new TalentLayerClient({
         chainId,
@@ -57,7 +51,7 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
       });
       setTalentLayerClient(talentLayerClient);
     }
-  }, [chainId, switchNetwork, account.address]);
+  }, [chainId, account.address]);
 
   const fetchData = async () => {
     if (!account.address || !account.isConnected || !talentLayerClient) {
@@ -83,10 +77,10 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
       setUser(currentUser);
       setIsActiveDelegate(
         process.env.NEXT_PUBLIC_ACTIVE_DELEGATE === 'true' &&
-        userResponse.data.data.users[0].delegates &&
-        userResponse.data.data.users[0].delegates.indexOf(
-          (process.env.NEXT_PUBLIC_DELEGATE_ADDRESS as string).toLowerCase(),
-        ) !== -1,
+          userResponse.data.data.users[0].delegates &&
+          userResponse.data.data.users[0].delegates.indexOf(
+            (process.env.NEXT_PUBLIC_DELEGATE_ADDRESS as string).toLowerCase(),
+          ) !== -1,
       );
       setLoading(false);
       return true;

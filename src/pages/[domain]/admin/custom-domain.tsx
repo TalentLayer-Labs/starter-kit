@@ -1,43 +1,50 @@
-import React, { useContext, useEffect, useState } from 'react';
-import SpaceContext from '../../../modules/MultiDomain/context/SpaceContext';
-import { useUpdateSpaceDomain } from '../../../modules/MultiDomain/hooks/UseUpdateSpaceDomain';
-import DomainConfiguration from '../../../modules/MultiDomain/components/DomainConfiguration';
-import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
-import { useGetSpace } from '../../../modules/MultiDomain/hooks/UseGetSpace';
-import { getSpaceByDomain } from '../../../modules/MultiDomain/actions';
+import { InferGetServerSidePropsType } from 'next';
 import Error from 'next/error';
+import { useContext, useEffect, useState } from 'react';
+import { getBuilderPlaceByDomain } from '../../../modules/BuilderPlace/actions';
+import DomainConfiguration from '../../../modules/BuilderPlace/components/DomainConfiguration';
+import BuilderPlaceContext from '../../../modules/BuilderPlace/context/BuilderPlaceContext';
+import { useUpdateBuilderPlaceDomain } from '../../../modules/BuilderPlace/hooks/UseUpdateBuilderPlaceDomain';
 
-export default function CustomDomain(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  console.log("Parsed props ", props);
-  if (!props.found) return <Error statusCode={404} />
+export default function CustomDomain(
+  props: InferGetServerSidePropsType<typeof getServerSideProps>,
+) {
+  console.log('Parsed props ', props);
+  if (!props.found) return <Error statusCode={404} />;
 
-  const { space, loading } = useContext(SpaceContext);
+  const { builderPlace, loading } = useContext(BuilderPlaceContext);
   const [customDomain, setCustomDomain] = useState('');
 
   useEffect(() => {
-    if (space?.customDomain) {
-      setCustomDomain(space.customDomain);
+    if (builderPlace?.customDomain) {
+      setCustomDomain(builderPlace.customDomain);
     }
-  }, [space, loading])
+  }, [builderPlace, loading]);
 
-  const updateSpaceDomainMutation = useUpdateSpaceDomain();
+  const updateBuilderPlaceDomainMutation = useUpdateBuilderPlaceDomain();
   const handleUpdateDomainClick = async () => {
     try {
-      updateSpaceDomainMutation.mutate({
-        customDomain: customDomain, subdomain: space?.subdomain!
+      updateBuilderPlaceDomainMutation.mutate({
+        customDomain: customDomain,
+        subdomain: builderPlace?.subdomain!,
       });
     } catch (error) {
       console.error('Error updating domain:', error);
     }
-  }
+  };
 
   return (
     <div>
-      <p>Space name: {space?.name}</p>
+      <p>BuilderPlace name: {builderPlace?.name}</p>
       <p>{loading}</p>
 
-      <label htmlFor="custom-domain">Custom Domain:</label>
-      <input type="text" id="custom-domain" value={customDomain} onChange={(e) => setCustomDomain(e.target.value)} />
+      <label htmlFor='custom-domain'>Custom Domain:</label>
+      <input
+        type='text'
+        id='custom-domain'
+        value={customDomain}
+        onChange={e => setCustomDomain(e.target.value)}
+      />
       <button onClick={handleUpdateDomainClick}>Update Domain</button>
 
       <DomainConfiguration domain={customDomain} />
@@ -46,27 +53,27 @@ export default function CustomDomain(props: InferGetServerSidePropsType<typeof g
 }
 
 export async function getServerSideProps({ params }: any) {
-  console.log("serverProps", params)
+  console.log('serverProps', params);
   const domain = params.domain;
-  let space;
+  let builderPlace;
   let found = false;
 
   try {
-    space = await getSpaceByDomain(domain as string);
-    if (space?.error) {
+    builderPlace = await getBuilderPlaceByDomain(domain as string);
+    if (builderPlace?.error) {
       found = false;
     } else {
-      found = true
+      found = true;
     }
   } catch (error) {
     console.error('An error occurred:', error);
     found = false;
   }
-  const serializedSpace = JSON.parse(JSON.stringify(space));
+  const serializedBuilderPlace = JSON.parse(JSON.stringify(builderPlace));
   return {
     props: {
-      space: serializedSpace,
-      found
-    }
-  }
+      builderPlace: serializedBuilderPlace,
+      found,
+    },
+  };
 }

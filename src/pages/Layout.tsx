@@ -1,12 +1,14 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import { Fragment, ReactNode, useState } from 'react';
+import { Fragment, ReactNode, useContext, useState } from 'react';
 import Logo from '../components/Layout/Logo';
 import MenuBottom from '../components/Layout/MenuBottom';
 import SideMenu from '../components/Layout/SideMenu';
 import NetworkSwitch from '../components/NetworkSwitch';
 import UserAccount from '../components/UserAccount';
 import { useRouter } from 'next/router';
+import EmailCounter from '../modules/Web3mail/components/EmailCounter';
+import BuilderPlaceContext from '../modules/BuilderPlace/context/BuilderPlaceContext';
 
 interface ContainerProps {
   children: ReactNode;
@@ -14,10 +16,12 @@ interface ContainerProps {
 }
 
 function Layout({ children, className }: ContainerProps) {
-  const router = useRouter();
+  const { builderPlace } = useContext(BuilderPlaceContext);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  if (router.asPath.includes('dashboard') || router.asPath.includes('admin')) {
+  console.log({ builderPlace });
+
+  if (builderPlace) {
     return (
       <>
         <div className={className + ' dashboard pb-[110px]'}>
@@ -104,8 +108,7 @@ function Layout({ children, className }: ContainerProps) {
             </main>
           </div>
         </div>
-
-        <MenuBottom />
+        <MenuBottom setSidebarOpen={setSidebarOpen} sidebarOpen={sidebarOpen} />
       </>
     );
   }

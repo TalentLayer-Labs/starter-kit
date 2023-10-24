@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
-import SpaceContext from '../../modules/MultiDomain/context/SpaceContext';
+import BuilderPlaceContext from '../../modules/BuilderPlace/context/BuilderPlaceContext';
 
-export default function SpaceHome() {
-  const { space, loading } = useContext(SpaceContext);
+export default function BuilderPlaceHome() {
+  const { builderPlace, loading } = useContext(BuilderPlaceContext);
 
   return (
     <div>
-      Space Home from {space?.name}
+      BuilderPlace Home from {builderPlace?.name}
       <br />
       List of gigs
     </div>

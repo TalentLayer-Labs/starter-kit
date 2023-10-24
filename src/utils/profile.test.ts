@@ -41,6 +41,7 @@ describe('getCompletionScores', () => {
         title: 'Engineer',
         name: 'John',
         skills_raw: 'solidity, jest, js',
+        isAdmin: false,
         web3mailPreferences: {
           activeOnNewService: false,
           activeOnNewProposal: true,
@@ -51,6 +52,7 @@ describe('getCompletionScores', () => {
         },
       },
     };
+
     const expected = {
       total: {
         score: 100,
@@ -68,6 +70,7 @@ describe('getCompletionScores', () => {
         percentage: 100,
       },
     };
+    // @ts-ignore
     expect(getCompletionScores(user)).toEqual(expected);
   });
 });
