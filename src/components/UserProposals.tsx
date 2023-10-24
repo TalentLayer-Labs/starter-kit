@@ -15,9 +15,7 @@ function UserProposals({ user }: IProps) {
 
   return (
     <>
-      <h2 className='mb-6 pb-4 border-b border-gray-gray-200 text-stone-800 font-medium break-all'>
-        Your pending Proposals
-      </h2>
+      <h2 className='pb-4 text-stone-800 font-bold break-all'>Your pending Proposals</h2>
       <div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4'>
         {proposals.map((proposal, i) => {
           return <UserProposalItem proposal={proposal} key={i} />;

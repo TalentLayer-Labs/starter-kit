@@ -16,7 +16,7 @@ export default function web3mail() {
           <div className='border border-redpraha rounded-xl p-6 bg-white'>
             <Web3MailProvider>
               <div className='grid grid-cols-1 gap-6'>
-                <h1 className='text-2xl font-medium flex-1 border-b w-full border-redpraha mb-8'>
+                <h1 className='text-2xl font-bold flex-1 mt-6 border-b w-full border-redpraha mb-8'>
                   Setup your web3mail
                 </h1>
                 <Web3mailCard />

@@ -12,7 +12,7 @@ function CreateId() {
   return (
     <>
       <div className='bg-white'>
-        <div className='max-w-7xl mx-auto text-stone-800 sm:px-4 lg:px-0 py-20'>
+        <div className='max-w-7xl mx-auto text-stone-800 py-20'>
           <div className='flex flex-col items-center justify-center gap-10'>
             <p className='text-5xl sm:text-7xl font-medium tracking-wider max-w-lg text-center'>
               Create <span className='text-stone-800'>Your </span> TalentLayer ID
