@@ -6,6 +6,7 @@ import {
 } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import { useState } from 'react';
+import { IntroducationSecion } from '../../components/introduction-section';
 
 function Home() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -100,16 +101,16 @@ function Home() {
                     discovery engine
                   </p>
 
-                  <div className='flex flex-wrap items-center'>
-                    <div className='mr-[60px] flex items-center justify-end lg:mr-0'>
+                  <div className='flex flex-wrap text-center items-center'>
+                    <div className='mr-[60px] flex items-center text-center justify-end lg:mr-0'>
                       <a
                         href='/onboarding'
-                        className='rounded-md bg-landingprimary py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base font-medium text-stone-800 hover:bg-opacity-90'>
+                        className='rounded-md text-center bg-landingprimary py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base font-medium text-stone-800 hover:bg-opacity-90'>
                         create a BuilderPlace
                       </a>
                       <a
                         href='/worker-onboarding'
-                        className='rounded-md bg-endnight ml-2 py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base font-medium text-stone-800 hover:bg-opacity-90'>
+                        className='rounded-md text-center bg-endnight ml-2 py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base font-medium text-stone-800 hover:bg-opacity-90'>
                         contribute to projects
                       </a>
                     </div>
@@ -117,28 +118,26 @@ function Home() {
                 </div>
               </div>
 
-              <div className='w-full px-4 lg:w-5/12'>
+              <div className='w-full px-4  pb-10 lg:w-5/12 sm:pb-40 hidden lg:block'>
                 <div
                   className='wow fadeInUp relative z-10 mx-auto w-full max-w-[530px] pt-8 lg:mr-0'
                   data-wow-delay='.3s'>
-                  <img
-                    src='/images/home/hero/hero-light2.png'
-                    alt='hero image'
-                    className='hidden lg:block'
-                  />
+                  <img src='/images/home/hero/hero-light2.png' alt='hero image' />
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        <section id='work-process' className='relative z-10 pt-[110px]'>
+        <IntroducationSecion />
+
+        <section id='work-process' className='relative lg:pt-[110px]'>
           <div className='container'>
             <div
               className='wow fadeInUp mx-auto mb-14 max-w-[690px] text-center lg:mb-[70px]'
               data-wow-delay='.2s'>
-              <h2 className='mb-4 text-3xl font-bold text-black  sm:text-4xl md:text-[44px] md:leading-tight'>
-                meet your BuilderPlace
+              <h2 className='mb-4 pt-40 text-3xl font-bold text-black  sm:text-4xl pt-40 md:text-[44px] md:leading-tight'>
+                what's included in your <a className='text-landingprimary'>BuilderPlace</a>?
               </h2>
               <p className='text-base text-body'>
                 your BuilderPlace helps you kick-start and grow your own passionate community of
@@ -151,6 +150,41 @@ function Home() {
           <div className='container max-w-[1390px]'>
             <div className='rounded-2xl bg-white px-5 pt-14 pb-14 shadow-md md:pb-1 lg:pt-20 lg:pb-5 xl:px-10'>
               <div className='-mx-4 flex flex-wrap justify-center'>
+                <div className='w-full px-4 md:w-1/2 lg:w-1/2'>
+                  <div
+                    className='wow fadeInUp group mx-auto mb-[60px] max-w-[510px] text-center'
+                    data-wow-delay='.3s'>
+                    <div className='mx-auto mb-8 flex h-[250px] w-[350px] items-center justify-center rounded-3 bg-opacity-20 text-redpraha duration-300   '>
+                      <img
+                        src='/images/myplace.png'
+                        alt='about image'
+                        className='mx-auto max-w-full'
+                      />
+                    </div>
+                    <h3 className='mb-4 text-xl font-semibold text-black  sm:text-[22px] xl:text-[26px]'>
+                      the place
+                    </h3>
+                    <p className='text-base text-body pb-5'>
+                      a custom-domain and branded open-source contribution center for your community
+                    </p>
+                    <div className='pb-6'>
+                      <a
+                        href='/onboarding'
+                        className='rounded-md bg-landingprimary py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base font-medium text-stone-800 hover:bg-opacity-90'>
+                        learn more
+                      </a>
+                    </div>
+                    <div
+                      className='pt-4 pb-1 wow fadeInUp mb-[50px] rounded-lg bg-endnight shadow-md sm:px-9 lg:px-7 xl:px-9'
+                      data-wow-delay='.2s'>
+                      <div className='mb-5'>
+                        <p className='px-4 text-base text-justify text-body lg:px-0'>
+                          😄 lets your community have a familiar experience in a place all your own
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <div className='w-full px-4 md:w-1/2 lg:w-1/2'>
                   <div
                     className='wow fadeInUp group mx-auto mb-[60px] max-w-[510px] text-center'
@@ -182,42 +216,6 @@ function Home() {
                         <p className='px-4 text-base text-justify text-body lg:px-0'>
                           🔍 lets contributors find opportunities easily, where they’re already
                           looking
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className='w-full px-4 md:w-1/2 lg:w-1/2'>
-                  <div
-                    className='wow fadeInUp group mx-auto mb-[60px] max-w-[510px] text-center'
-                    data-wow-delay='.3s'>
-                    <div className='mx-auto mb-8 flex h-[250px] w-[350px] items-center justify-center rounded-3 bg-opacity-20 text-redpraha duration-300   '>
-                      <img
-                        src='/images/myplace.png'
-                        alt='about image'
-                        className='mx-auto max-w-full'
-                      />
-                    </div>
-                    <h3 className='mb-4 text-xl font-semibold text-black  sm:text-[22px] xl:text-[26px]'>
-                      the place
-                    </h3>
-                    <p className='text-base text-body pb-5'>
-                      a custom-branded open-source contribution center for your community
-                    </p>
-                    <div className='pb-6'>
-                      <a
-                        href='/onboarding'
-                        className='rounded-md bg-landingprimary py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base font-medium text-stone-800 hover:bg-opacity-90'>
-                        learn more
-                      </a>
-                    </div>
-                    <div
-                      className='pt-4 pb-1 wow fadeInUp mb-[50px] rounded-lg bg-endnight shadow-md sm:px-9 lg:px-7 xl:px-9'
-                      data-wow-delay='.2s'>
-                      <div className='mb-5'>
-                        <p className='px-4 text-base text-justify text-body lg:px-0'>
-                          😄 lets your community have a familiar experience in a place all your own
                         </p>
                       </div>
                     </div>
