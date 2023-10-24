@@ -2,10 +2,9 @@ import * as Yup from 'yup';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useCreateBuilderPlaceMutation } from '../../../modules/BuilderPlace/hooks/UseCreateBuilderPlaceMutation';
 import { generateSubdomainPrefix } from '../../../modules/BuilderPlace/utils';
-import { useState } from 'react';
 import { showErrorTransactionToast } from '../../../utils/toast';
 import { PreferredWorkType } from '../../../types';
-import { createOrganization } from '../../../modules/BuilderPlace/request';
+import { useRouter } from 'next/router';
 
 interface IFormValues {
   name: string;
@@ -16,6 +15,7 @@ interface IFormValues {
 function onboardingStep1() {
   const { data: createdBuilderPlace, mutateAsync: createBuilderPlaceAsync } =
     useCreateBuilderPlaceMutation();
+  const router = useRouter();
 
   const initialValues: IFormValues = {
     name: '',
@@ -56,6 +56,7 @@ function onboardingStep1() {
       window.location.href = `${window.location.protocol}//${subdomain}/dashboard`;
 
       setSubmitting(false);
+      router.push('/dashboard/onboarding/step2');
     } catch (error) {
       console.log(error);
       showErrorTransactionToast(error);
