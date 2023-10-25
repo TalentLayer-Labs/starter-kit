@@ -43,6 +43,9 @@ var builderPlace = new Schema({
     required: true,
     unique: false,
   },
+  imageUrl: {
+    type: String,
+  },
 });
 
 export const BuilderPlace = models.BuilderPlace || model('BuilderPlace', builderPlace);

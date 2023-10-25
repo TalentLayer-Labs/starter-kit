@@ -25,7 +25,11 @@ function onboardingStep1() {
   };
 
   const validationSchema = Yup.object({
-    name: Yup.string().required('name is required'),
+    name: Yup.string()
+      .min(2)
+      .max(10)
+      .matches(/^[a-z0-9][a-z0-9-_]*$/, 'Only a-z, 0-9 and -_ allowed, and cannot begin with -_')
+      .required('name is required'),
     presentation: Yup.string().required('presentation is required'),
     preferred_work_type: Yup.array()
       .of(Yup.string())
@@ -39,6 +43,7 @@ function onboardingStep1() {
     values: IFormValues,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void },
   ) => {
+    //TODO add un check sur handle taken (useUserByHandle)
     console.log('values', values);
     try {
       setSubmitting(true);
@@ -53,10 +58,14 @@ function onboardingStep1() {
         preferredWorkType: values.preferred_work_type,
         imageUrl: values.image_url,
       });
-      window.location.href = `${window.location.protocol}//${subdomain}/dashboard`;
+      // window.location.href = `${window.location.protocol}//${subdomain}/dashboard`;
 
       setSubmitting(false);
-      router.push('/dashboard/onboarding/step2');
+      router.query.subdomain = subdomain;
+      router.push({
+        pathname: '/onboarding/step2',
+        query: { subdomain: subdomain },
+      });
     } catch (error) {
       console.log(error);
       showErrorTransactionToast(error);
@@ -112,15 +121,15 @@ function onboardingStep1() {
                       name='preferred_work_type'
                       value={PreferredWorkType.jobs}
                     />
-                    One
+                    {PreferredWorkType.jobs}
                   </label>
                   <label>
                     <Field
                       type='checkbox'
                       name='preferred_work_type'
-                      value={PreferredWorkType.bounties}
+                      value={PreferredWorkType.jobs}
                     />
-                    Two
+                    {PreferredWorkType.jobs}
                   </label>
                   <label>
                     <Field
@@ -128,7 +137,7 @@ function onboardingStep1() {
                       name='preferred_work_type'
                       value={PreferredWorkType.grants}
                     />
-                    Three
+                    {PreferredWorkType.grants}
                   </label>
                   <label>
                     <Field
@@ -136,7 +145,7 @@ function onboardingStep1() {
                       name='preferred_work_type'
                       value={PreferredWorkType.gigs}
                     />
-                    Three
+                    {PreferredWorkType.gigs}
                   </label>
                 </div>
               </label>

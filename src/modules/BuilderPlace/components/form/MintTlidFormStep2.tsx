@@ -4,9 +4,8 @@ import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
 import { useChainId } from '../../../../hooks/useChainId';
 import useTalentLayerClient from '../../../../hooks/useTalentLayerClient';
-import useMintFee from '../../../../hooks/useMintFee';
 import {
-  createTalentLayerIdTransactionToast,
+  createMultiStepsTransactionToast,
   showErrorTransactionToast,
 } from '../../../../utils/toast';
 import { NetworkEnum } from '../../../../types';
@@ -15,23 +14,32 @@ import SubmitButton from '../../../../components/Form/SubmitButton';
 import HelpPopover from '../../../../components/HelpPopover';
 import { useContext } from 'react';
 import TalentLayerContext from '../../../../context/talentLayer';
+import { useGetBuilderPlace } from '../../hooks/UseGetBuilderPlace';
+import { slugify } from '../../utils';
 
 interface IFormValues {
   handle: string;
 }
 
-const initialValues: IFormValues = {
-  handle: '',
-};
-
-function MintTlidFormStep2() {
+function MintTlidFormStep2({
+  handle,
+  description,
+  image,
+}: {
+  handle?: string;
+  description?: string;
+  image?: string;
+}) {
   const chainId = useChainId();
   const { account, refreshData } = useContext(TalentLayerContext);
   const { open: openConnectModal } = useWeb3Modal();
   const { data: walletClient } = useWalletClient({ chainId });
   const publicClient = usePublicClient({ chainId });
   const talentLayerClient = useTalentLayerClient();
-  const { calculateMintFee } = useMintFee();
+
+  const initialValues: IFormValues = {
+    handle: slugify(handle as string) || '',
+  };
 
   const validationSchema = Yup.object().shape({
     handle: Yup.string()
@@ -57,18 +65,46 @@ function MintTlidFormStep2() {
       talentLayerClient
     ) {
       try {
-        const tx = await talentLayerClient.profile.create(submittedValues.handle);
+        //TODO update metadata
+        // const tx = await talentLayerClient.profile.create(submittedValues.handle);
+        //
+        // await createTalentLayerIdTransactionToast(
+        //   chainId,
+        //   {
+        //     pending: 'Minting your Talent Layer Id...',
+        //     success: 'Congrats! Your Talent Layer Id is minted',
+        //     error: 'An error occurred while creating your Talent Layer Id',
+        //   },
+        //   publicClient,
+        //   tx,
+        //   account.address,
+        // );
+        //
+        const userId = await talentLayerClient.profile.getByAddress(account.address);
+        console.log('userId', userId);
 
-        await createTalentLayerIdTransactionToast(
+        const profile = {
+          image_url: image,
+          about: description,
+        };
+
+        const resCid = await talentLayerClient.profile.upload(profile);
+        console.log('resCid', resCid);
+        //TODO issue here, invalidBigintSyntax
+        // (need extra step for this ?)
+        const res = await talentLayerClient?.profile.update(profile, userId);
+
+        await createMultiStepsTransactionToast(
           chainId,
           {
-            pending: 'Minting your Talent Layer Id...',
-            success: 'Congrats! Your Talent Layer Id is minted',
-            error: 'An error occurred while creating your Talent Layer Id',
+            pending: 'Updating profile...',
+            success: 'Congrats! Your profile has been updated',
+            error: 'An error occurred while updating your profile',
           },
           publicClient,
-          tx,
-          account.address,
+          res.tx,
+          'user',
+          res.cid,
         );
 
         setSubmitting(false);
@@ -82,7 +118,11 @@ function MintTlidFormStep2() {
   };
 
   return (
-    <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
+    <Formik
+      initialValues={initialValues}
+      enableReinitialize={true}
+      onSubmit={onSubmit}
+      validationSchema={validationSchema}>
       {({ isSubmitting, values }) => (
         <Form>
           <div className='flex items-center justify-center'>

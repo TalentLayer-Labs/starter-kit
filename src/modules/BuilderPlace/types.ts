@@ -15,6 +15,12 @@ export interface UpdateBuilderPlaceDomain {
   customDomain: string;
 }
 
+export interface SetBuilderPlaceOwner {
+  subdomain: string;
+  owners: string[];
+  ownerTalentLayerId: string;
+}
+
 export enum DomainVerificationStatusProps {
   Valid = 'Valid Configuration',
   Invalid = 'Invalid Configuration',
@@ -56,6 +62,8 @@ export type IBuilderPlace = {
   owners: string[];
   ownerTalentLayerId: string;
   status: 'Validated' | 'Pending';
+  preferredWorkType: PreferredWorkType[];
+  imageUrl: string;
 };
 
 // From https://vercel.com/docs/rest-api/endpoints#get-a-project-domain

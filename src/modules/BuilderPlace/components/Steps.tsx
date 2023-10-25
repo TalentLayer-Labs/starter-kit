@@ -3,7 +3,15 @@ import MintTlidFormStep2 from '../../../modules/BuilderPlace/components/form/Min
 import ConnectBlock from '../../../components/ConnectBlock';
 import TalentLayerContext from '../../../context/talentLayer';
 
-function Steps() {
+function Steps({
+  handle,
+  description,
+  image,
+}: {
+  handle?: string;
+  description?: string;
+  image?: string;
+}) {
   const { account, user } = useContext(TalentLayerContext);
 
   return (
@@ -21,7 +29,9 @@ function Steps() {
           <ConnectBlock />
         </div>
       )}
-      {account?.isConnected && !user && <MintTlidFormStep2 />}
+      {account?.isConnected && !user && (
+        <MintTlidFormStep2 handle={handle} description={description} image={image} />
+      )}
     </>
   );
 }
