@@ -9,7 +9,6 @@ import { useChainId } from '../../hooks/useChainId';
 import useUserById from '../../hooks/useUserById';
 import Web3MailContext from '../../modules/Web3mail/context/web3mail';
 import { createWeb3mailToast } from '../../modules/Web3mail/utils/toast';
-import { generatePicture } from '../../utils/ai-picture-gen';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../utils/toast';
 import Loading from '../Loading';
 import { delegateUpdateProfileData } from '../request';
@@ -38,7 +37,6 @@ function CreateWorkerProfileForm({ callback }: { callback?: () => void }) {
   const { platformHasAccess } = useContext(Web3MailContext);
   const { data: walletClient } = useWalletClient({ chainId });
   const publicClient = usePublicClient({ chainId });
-  const [aiLoading, setAiLoading] = useState(false);
   const [selectedTypes, setSelectedTypes] = useState(['']);
   const userDescription = user?.id ? useUserById(user?.id)?.description : null;
   const talentLayerClient = useTalentLayerClient();
@@ -57,7 +55,7 @@ function CreateWorkerProfileForm({ callback }: { callback?: () => void }) {
     skills: userDescription?.skills_raw || '',
   };
 
-  const toggleType = (type) => {
+  const toggleType = (type: string) => {
     if (selectedTypes.includes(type)) {
       // If the type is already in the array, remove it
       setSelectedTypes(selectedTypes.filter((selectedType) => selectedType !== type));
@@ -65,16 +63,6 @@ function CreateWorkerProfileForm({ callback }: { callback?: () => void }) {
       // If the type is not in the array, add it
       setSelectedTypes([...selectedTypes, type]);
     }
-  };
-
-  const generatePictureUrl = async (e: React.FormEvent, callback: (string: string) => void) => {
-    e.preventDefault();
-    setAiLoading(true);
-    const image_url = await generatePicture();
-    if (image_url) {
-      callback(image_url);
-    }
-    setAiLoading(false);
   };
 
   const onSubmit = async (
@@ -177,59 +165,7 @@ function CreateWorkerProfileForm({ callback }: { callback?: () => void }) {
                 placeholder=''
               />
             </label>
-            {/* <label className='block'>
-              <span className='text-stone-800'>Role</span>
-              <Field
-                as='select'
-                id='role'
-                name='role'
-                className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
-                placeholder=''>
-                <option value=''></option>
-                <option value='buyer'>Freelance</option>
-                <option value='seller'>Hirer</option>
-                <option value='buyer-seller'>Both</option>
-              </Field>
-            </label> */}
 
-            {/* <label className='block'>
-              <span className='text-stone-800'>Picture Url</span>
-              <Field
-                type='text'
-                id='image_url'
-                name='image_url'
-                className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
-                placeholder=''
-              />
-              <div className='border-redpraha bg-redpraha relative w-full border transition-all duration-300 rounded-xl p-4'>
-                <div className='flex w-full items-center gap-3'>
-                  <QuestionMarkCircle className='hidden' />
-                  <div>
-                    <h2 className='font-heading text-xs font-bold text-stone-800 mb-1'>
-                      <span>Need help?</span>
-                    </h2>
-                    <p className='font-alt text-xs font-normal'>
-                      <span className='text-stone-600'>Use our AI to generate a cool one</span>
-                    </p>
-                  </div>
-                  <div className='ms-auto'>
-                    <button
-                      disabled={aiLoading}
-                      onClick={e =>
-                        generatePictureUrl(e, newUrl => setFieldValue('image_url', newUrl))
-                      }
-                      className='border text-stone-800 bg-endnight hover:bg-white border-white rounded-md h-10 w-10 p-2 relative inline-flex items-center justify-center space-x-1 font-sans text-sm font-normal leading-5 no-underline outline-none transition-all duration-300'>
-                      {aiLoading ? <Loading /> : 'GO'}
-                    </button>
-                  </div>
-                </div>
-                {values.image_url && (
-                  <div className='flex items-center justify-center py-3'>
-                    <img width='300' height='300' src={values.image_url} alt='' />
-                  </div>
-                )}
-              </div>
-            </label> */}
             <label className='block'>
               <span className='text-stone-800'>Skills</span>
 
@@ -292,27 +228,33 @@ function CreateWorkerProfileForm({ callback }: { callback?: () => void }) {
             </div>
           </label>
 
-          <label className='block'>        
-          <span className='text-stone-800'>Profile Photo</span>
-          <input
-            type='file'
-            id='profile_photo'
-            name='profile_photo'
-            accept='image/*'
-            onChange={(e) => {
-              const file = e.target.files?.[0];
-              if (file) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                  const image_url = e.target?.result;
-                  setFieldValue('image_url', image_url);
-                };
-                reader.readAsDataURL(file);
-              }
-            }}
-            className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
-          />
-        </label>
+          <label className='block'>
+  <span className='text-stone-800'>Profile Photo</span>
+  <div className='relative rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'>
+    <input
+      type='file'
+      id='profile_photo'
+      name='profile_photo'
+      accept='image/*'
+      onChange={(e) => {
+        const file = e.target.files?.[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const image_url = e.target?.result;
+            setFieldValue('image_url', image_url);
+          };
+          reader.readAsDataURL(file);
+        }
+      }}
+      className='opacity-0 absolute h-full w-full top-0 left-0 cursor-pointer'
+    />
+    <label htmlFor='profile_photo' className='h-full w-full flex items-center justify-center cursor-pointer'>
+      Upload File
+    </label>
+  </div>
+</label>
+
         {values.image_url && (
                 <div className='flex items-center justify-center py-3'>
                     <img width='300' height='300' src={values.image_url} alt='' />
