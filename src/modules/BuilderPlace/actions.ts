@@ -12,6 +12,7 @@ import {
   CreateBuilderPlaceAction,
   IBuilderPlace,
   OrganizationProps,
+  SetBuilderPlaceOwner,
   UpdateBuilderPlace,
   UpdateBuilderPlaceDomain,
 } from './types';
@@ -31,6 +32,20 @@ export const deleteBuilderPlace = async (subdomain: string) => {
 };
 
 export const updateBuilderPlace = async (builderPlace: UpdateBuilderPlace) => {
+  try {
+    await connection();
+    await BuilderPlace.updateOne({ subdomain: builderPlace.subdomain }, builderPlace).exec();
+    return {
+      message: 'BuilderPlace updated successfully',
+    };
+  } catch (error: any) {
+    return {
+      error: error.message,
+    };
+  }
+};
+
+export const setBuilderPlaceOwner = async (builderPlace: SetBuilderPlaceOwner) => {
   try {
     await connection();
     await BuilderPlace.updateOne({ subdomain: builderPlace.subdomain }, builderPlace).exec();
@@ -69,6 +84,7 @@ export const createBuilderPlace = async (data: CreateBuilderPlaceAction) => {
       primaryColor: data.primaryColor,
       secondaryColor: data.secondaryColor,
       status: 'pending',
+      imageUrl: data.imageUrl,
     });
     await newBuilderPlace.save();
 
