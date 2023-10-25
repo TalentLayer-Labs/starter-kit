@@ -35,8 +35,7 @@ function onboardingStep2() {
       } catch (error) {
         console.error('Error updating domain:', error);
       }
-
-      // router.push('/dashboard/onboarding/step3');
+      router.push('/onboarding/step3');
     }
   };
   //TODO message si déjà updaté
