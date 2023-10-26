@@ -52,34 +52,42 @@ function onboardingStep1() {
       const subdomainPrefix = generateSubdomainPrefix(values.name);
       const subdomain = `${subdomainPrefix}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
 
-      // let formData = new FormData();
       // const stream = fs.createReadStream(values.image_url);
       // console.log('values.image_url', values.image_url);
       // console.log('stream', stream);
       // const base64 = btoa(values.image_url);
       // console.log('base64', base64);
-      // formData.append('file', stream);
       // console.log('formData', formData);
+
+      let formData = new FormData();
+      formData.append('file', values.image_url);
+      await fetch('/api/domain/upload', {
+        method: 'POST',
+        body: formData,
+        // headers: {
+        //   'Content-type': 'multipart/form-data',
+        // },
+      });
 
       // const response = await upload(formData);
       // console.log('response', response);
 
-      await createBuilderPlaceAsync({
-        subdomain: subdomain,
-        name: slugify(values.name),
-        primaryColor: '#ffffff',
-        secondaryColor: '#ffffff',
-        presentation: values.presentation,
-        preferredWorkType: values.preferred_work_type,
-        imageUrl: values.image_url.name,
-      });
+      // await createBuilderPlaceAsync({
+      //   subdomain: subdomain,
+      //   name: slugify(values.name),
+      //   primaryColor: '#ffffff',
+      //   secondaryColor: '#ffffff',
+      //   presentation: values.presentation,
+      //   preferredWorkType: values.preferred_work_type,
+      //   imageUrl: values.image_url.name,
+      // });
 
-      setSubmitting(false);
-      router.query.subdomain = subdomain;
-      router.push({
-        pathname: '/onboarding/step2',
-        query: { subdomain: subdomain },
-      });
+      // setSubmitting(false);
+      // router.query.subdomain = subdomain;
+      // router.push({
+      //   pathname: '/onboarding/step2',
+      //   query: { subdomain: subdomain },
+      // });
     } catch (error) {
       console.log(error);
       showErrorTransactionToast(error);
