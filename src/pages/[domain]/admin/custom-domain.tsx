@@ -13,9 +13,6 @@ export async function getServerSideProps({ params }: any) {
 export default function CustomDomain(
   props: InferGetServerSidePropsType<typeof getServerSideProps>,
 ) {
-  console.log('Parsed props ', props);
-  if (!props.found) return <Error statusCode={404} />;
-
   const { builderPlace } = useContext(BuilderPlaceContext);
   const [customDomain, setCustomDomain] = useState('');
 
