@@ -5,6 +5,7 @@ import { useContext } from 'react';
 import TalentLayerContext from '../../../context/talentLayer';
 import { useChainId, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
+import { useRouter } from 'next/router';
 
 interface IFormValues {
   subdomain: string;
@@ -26,6 +27,7 @@ function onboardingStep3() {
   const { data: updateBuilderPlace, mutateAsync: updateBuilderPlaceAsync } =
     useUpdateBuilderPlace();
   const builderPlaceData = useGetBuilderPlaceFromOwner(user?.id as string);
+  const router = useRouter();
 
   const initialValues: IFormValues = {
     subdomain: builderPlaceData?.subdomain || '',
@@ -64,6 +66,7 @@ function onboardingStep3() {
           });
 
           setSubmitting(false);
+          router.push(`${window.location.protocol}//${values.subdomain}/dashboard`);
         }
       } catch (e: any) {
         console.error(e);
