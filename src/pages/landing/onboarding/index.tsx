@@ -15,8 +15,23 @@ function onboardingStep1() {
     await createBuilderPlaceAsync({
       subdomain: subdomain,
       name: name,
-      primaryColor: '#ffffff',
-      secondaryColor: '#ffffff',
+      pallete: {
+        primary: '#ffffff',
+        primaryFocus: '#ffffff',
+        primaryContent: '#ffffff',
+        base100: '#ffffff',
+        base200: '#ffffff',
+        base300: '#ffffff',
+        baseContent: '#ffffff',
+        info: '#ffffff',
+        infoContent: '#ffffff',
+        success: '#ffffff',
+        successContent: '#ffffff',
+        warning: '#ffffff',
+        warningContent: '#ffffff',
+        error: '#ffffff',
+        errorContent: '#ffffff',
+      },
       ownerTalentLayerId: '1',
     });
     window.location.href = `${window.location.protocol}//${subdomain}/dashboard`;
