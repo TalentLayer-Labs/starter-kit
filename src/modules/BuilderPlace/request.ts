@@ -4,7 +4,7 @@ export const upload = async (file: FormData): Promise<any> => {
       method: 'POST',
       body: file,
       headers: {
-        'Content-type': 'application/octet-stream',
+        'Content-type': 'multipart/form-data',
       },
     });
   } catch (err) {

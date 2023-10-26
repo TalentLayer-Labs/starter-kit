@@ -1,10 +1,12 @@
 import * as Yup from 'yup';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useCreateBuilderPlaceMutation } from '../../../modules/BuilderPlace/hooks/UseCreateBuilderPlaceMutation';
-import { generateSubdomainPrefix } from '../../../modules/BuilderPlace/utils';
 import { showErrorTransactionToast } from '../../../utils/toast';
 import { PreferredWorkType } from '../../../types';
 import { useRouter } from 'next/router';
+import { upload } from '../../../modules/BuilderPlace/request';
+import * as fs from 'fs';
+import { generateSubdomainPrefix } from '../../../modules/BuilderPlace/utils';
 
 interface IFormValues {
   name: string;
@@ -25,47 +27,59 @@ function onboardingStep1() {
   };
 
   const validationSchema = Yup.object({
-    name: Yup.string()
-      .min(2)
-      .max(10)
-      .matches(/^[a-z0-9][a-z0-9-_]*$/, 'Only a-z, 0-9 and -_ allowed, and cannot begin with -_')
-      .required('name is required'),
-    presentation: Yup.string().required('presentation is required'),
-    preferred_work_type: Yup.array()
-      .of(Yup.string())
-      .min(1, 'Chose at least one preferred word type')
-      .max(4, 'You already chose all existing preferred word type')
-      .required('Job Type is required'),
-    image_url: Yup.string().required('Image is required'),
+    // name: Yup.string()
+    //   .min(2)
+    //   .max(10)
+    //   .matches(/^[a-z0-9][a-z0-9-_]*$/, 'Only a-z, 0-9 and -_ allowed, and cannot begin with -_')
+    //   .required('name is required'),
+    // presentation: Yup.string().required('presentation is required'),
+    // preferred_work_type: Yup.array()
+    //   .of(Yup.string())
+    //   .min(1, 'Chose at least one preferred word type')
+    //   .max(4, 'You already chose all existing preferred word type')
+    //   .required('Job Type is required'),
+    // image_url: Yup.string().required('Image is required'),
   });
 
-  const sendDomain = async (
+  const handleSubmit = async (
     values: IFormValues,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void },
   ) => {
     //TODO add un check sur handle taken (useUserByHandle)
     console.log('values', values);
     try {
-      setSubmitting(true);
-      const subdomainPrefix = generateSubdomainPrefix(values.name);
-      const subdomain = `${subdomainPrefix}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
-      await createBuilderPlaceAsync({
-        subdomain: subdomain,
-        name: values.name,
-        primaryColor: '#ffffff',
-        secondaryColor: '#ffffff',
-        presentation: values.presentation,
-        preferredWorkType: values.preferred_work_type,
-        imageUrl: values.image_url,
-      });
-      // window.location.href = `${window.location.protocol}//${subdomain}/dashboard`;
+      // setSubmitting(true);
+      // const subdomainPrefix = generateSubdomainPrefix(values.name);
+      // const subdomain = `${subdomainPrefix}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
 
-      setSubmitting(false);
-      router.query.subdomain = subdomain;
-      router.push({
-        pathname: '/onboarding/step2',
-        query: { subdomain: subdomain },
-      });
+      let formData = new FormData();
+      // const stream = fs.createReadStream(values.image_url);
+      console.log('values.image_url', values.image_url);
+      // console.log('stream', stream);
+      // const base64 = btoa(values.image_url);
+      // console.log('base64', base64);
+      // formData.append('file', stream);
+      console.log('formData', formData);
+
+      const response = await upload(formData);
+      console.log('response', response);
+
+      // await createBuilderPlaceAsync({
+      //   subdomain: subdomain,
+      //   name: values.name,
+      //   primaryColor: '#ffffff',
+      //   secondaryColor: '#ffffff',
+      //   presentation: values.presentation,
+      //   preferredWorkType: values.preferred_work_type,
+      //   imageUrl: values.image_url,
+      // });
+      //
+      // setSubmitting(false);
+      // router.query.subdomain = subdomain;
+      // router.push({
+      //   pathname: '/onboarding/step2',
+      //   query: { subdomain: subdomain },
+      // });
     } catch (error) {
       console.log(error);
       showErrorTransactionToast(error);
@@ -80,7 +94,7 @@ function onboardingStep1() {
       <Formik
         initialValues={initialValues}
         enableReinitialize={true}
-        onSubmit={sendDomain}
+        onSubmit={handleSubmit}
         validationSchema={validationSchema}>
         {({ isSubmitting, setFieldValue, values }) => (
           <Form>
@@ -155,10 +169,13 @@ function onboardingStep1() {
 
               <label className='block'>
                 <span className='text-stone-800'>Picture Url</span>
-                <Field
+                <input
                   type='file'
                   id='image_url'
                   name='image_url'
+                  onChange={(event: any) => {
+                    setFieldValue('image_url', event.currentTarget.files[0].mozFullPath);
+                  }}
                   className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
                   placeholder=''
                 />

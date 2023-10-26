@@ -14,7 +14,6 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
   } else {
     const body: any = req.body;
     console.log('body', body);
-    // console.log('body', { ...body });
 
     try {
       // Here, create a new FormData instance to send with the Axios request.
@@ -24,17 +23,18 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
       // Set up the headers, particularly for the "Authorization" and "Content-Type".
       // You may need to add your Bearer Token here for authorization.
       const headers = {
-        Authorization: `Bearer ${cloudflareToken}`, // Replace with your actual token
-        // ...formData.getHeaders(), // This helps set the boundary in the multipart form request.
+        Authorization: `Bearer ${cloudflareToken}`,
+        'Content-type': 'multipart/form-data',
+        // ...body.getHeaders(), // This helps set the boundary in the multipart form request.
       };
 
       // Make the POST request to Cloudflare's API with the image file.
       const cloudflareResponse = await axios.post(
         'https://api.cloudflare.com/client/v4/accounts/ff28f5398f74c7a36566ae9404174faf/images/v1',
-        body,
+        { file: body },
         { headers: headers },
       );
-      console.log('cloudflareResponse', cloudflareResponse);
+      // console.log('cloudflareResponse', cloudflareResponse);
 
       // // Clean up the file stored in the temporary folder
       // fs.unlinkSync(file.path);
