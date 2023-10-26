@@ -51,6 +51,7 @@ const ethereumClient = new EthereumClient(wagmiConfig, chains);
 const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }: AppProps) {
+  console.log('MyApp', { pageProps });
   return (
     <>
       <QueryClientProvider client={queryClient}>

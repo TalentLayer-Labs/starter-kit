@@ -10,6 +10,10 @@ export const getBuilderPlace = async (domain: string) => {
   }
 
   const serializedBuilderPlace = JSON.parse(JSON.stringify(builderPlace));
+
+  console.log({
+    serializedBuilderPlace,
+  });
   return {
     props: {
       builderPlace: serializedBuilderPlace,

@@ -5,7 +5,9 @@ import useServiceById from '../../../../hooks/useServiceById';
 import { getBuilderPlace } from '../../../../modules/BuilderPlace/queries';
 
 export async function getServerSideProps({ params }: any) {
-  return await getBuilderPlace(params.domain);
+  const data = await getBuilderPlace(params.domain);
+  console.log({ data });
+  return data;
 }
 
 function Service() {
