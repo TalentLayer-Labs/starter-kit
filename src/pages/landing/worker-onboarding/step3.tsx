@@ -1,7 +1,9 @@
+import WorkerOnboardSuccess from "../../../components/WorkerOnboardSuccess";
+
 function onboardingStep3() {
   return (
     <>
-      <p>Hirer onboarding - step3</p>
+      <WorkerOnboardSuccess />
     </>
   );
 }
