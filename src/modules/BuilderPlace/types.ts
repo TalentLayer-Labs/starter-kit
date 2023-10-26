@@ -1,8 +1,24 @@
+export interface iBuilderPlacePallete {
+  primary: string;
+  primaryFocus: string;
+  primaryContent: string;
+  base100: string;
+  base200: string;
+  base300: string;
+  baseContent: string;
+  info: string;
+  infoContent: string;
+  success: string;
+  successContent: string;
+  warning: string;
+  warningContent: string;
+  error: string;
+  errorContent: string;
+}
 export interface UpdateBuilderPlace {
   subdomain: string;
   name: string | undefined;
-  primaryColor: string | undefined;
-  secondaryColor: string | undefined;
+  pallete: iBuilderPlacePallete
   ownerTalentLayerId: string | undefined;
   owners: string[] | undefined;
   status: string | undefined;
@@ -24,8 +40,7 @@ export enum DomainVerificationStatusProps {
 export interface CreateBuilderPlaceAction {
   name: string;
   subdomain: string;
-  primaryColor: string;
-  secondaryColor: string;
+  pallete: iBuilderPlacePallete
   owners: string[];
   ownerTalentLayerId: string;
 }
@@ -33,8 +48,7 @@ export interface CreateBuilderPlaceAction {
 export interface CreateBuilderPlaceProps {
   name: string;
   subdomain: string;
-  primaryColor: string;
-  secondaryColor: string;
+  pallete: iBuilderPlacePallete
   ownerTalentLayerId: string;
 }
 
@@ -45,8 +59,7 @@ export type IBuilderPlace = {
   customDomain: string | null;
   logo: string;
   cover: string;
-  primaryColor: string;
-  secondaryColor: string;
+  pallete: iBuilderPlacePallete
   presentation: string;
   owners: string[];
   ownerTalentLayerId: string;
