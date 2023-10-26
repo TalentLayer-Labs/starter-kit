@@ -8,7 +8,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   try {
     if (!builderPlace) throw new Error('Builder Place not found');
-
     res.status(200).json({
       short_name: `${builderPlace.name} Builder Place`,
       name: `${builderPlace.name} Builder Place`,
@@ -32,8 +31,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       ],
       start_url: '.',
       display: 'standalone',
-      theme_color: builderPlace.pallete.primary || '#000000',
-      background_color: builderPlace.pallete['primary-content'] || '#ffffff',
+      theme_color: builderPlace?.pallete?.primary || '#000000',
+      background_color: builderPlace?.pallete?.primaryContent || '#ffffff',
     });
   } catch (error) {
     res.status(500).json({ error: error });

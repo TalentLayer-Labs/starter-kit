@@ -1,7 +1,6 @@
 import { InferGetServerSidePropsType } from 'next';
 import Error from 'next/error';
 import { useContext, useEffect, useState } from 'react';
-import { getBuilderPlaceByDomain } from '../../../modules/BuilderPlace/actions';
 import DomainConfiguration from '../../../modules/BuilderPlace/components/DomainConfiguration';
 import BuilderPlaceContext from '../../../modules/BuilderPlace/context/BuilderPlaceContext';
 import { useUpdateBuilderPlaceDomain } from '../../../modules/BuilderPlace/hooks/UseUpdateBuilderPlaceDomain';

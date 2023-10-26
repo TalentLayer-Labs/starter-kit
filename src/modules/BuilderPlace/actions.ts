@@ -84,25 +84,17 @@ export const createBuilderPlace = async (data: CreateBuilderPlaceAction) => {
 };
 
 export const getBuilderPlaceByDomain = async (domain: string) => {
-  try {
-    await connection();
-    console.log('getting builderPlace ', domain);
-    // todo: do both call in parrallel or use an or
-    const builderPlaceSubdomain = await BuilderPlace.findOne({ subdomain: domain });
-    const builderPlaceDomain = await BuilderPlace.findOne({ customDomain: domain });
-    console.log('fetched builderPlaces, ', builderPlaceSubdomain, builderPlaceDomain);
-    if (builderPlaceSubdomain) {
-      return builderPlaceSubdomain;
-    } else if (builderPlaceDomain) {
-      return builderPlaceDomain;
-    }
-
-    return null;
-  } catch (error: any) {
-    return {
-      error: error.message,
-    };
+  await connection();
+  console.log('getting builderPlace ', domain);
+  let builderPlace;
+  if (domain.includes(process.env.NEXT_PUBLIC_ROOT_DOMAIN as string)) {
+    builderPlace = await BuilderPlace.findOne({ subdomain: domain });
+  } else {
+    builderPlace = await BuilderPlace.findOne({ customDomain: domain });
   }
+  console.log('fetched builderPlaces, ', builderPlace);
+
+  return builderPlace;
 };
 
 // TODO! createBuilderPlace, can be used for the onboarding workflow maybe for the creating the subdomain & deleteBuilderPlace
