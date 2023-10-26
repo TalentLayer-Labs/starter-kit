@@ -40,7 +40,6 @@ function onboardingStep2() {
   };
   //TODO message si déjà updaté
   //TODO 2 update metadata aussi
-  //TODO 3 set une signature pour update
 
   return (
     <>

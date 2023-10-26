@@ -8,6 +8,8 @@ export interface UpdateBuilderPlace {
   ownerTalentLayerId: string | undefined;
   owners: string[] | undefined;
   status: string | undefined;
+  cover: string | undefined;
+  logo: string | undefined;
 }
 
 export interface UpdateBuilderPlaceDomain {
