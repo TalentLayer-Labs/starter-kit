@@ -10,6 +10,7 @@ import ConnectButton from '../../../../modules/Messaging/components/ConnectButto
 import MessagingContext from '../../../../modules/Messaging/context/messging';
 import { ProposalStatusEnum, ServiceStatusEnum } from '../../../../types';
 import { getBuilderPlace } from '../../../../modules/BuilderPlace/queries';
+import NotFound from '../../../../components/NotFound';
 
 export async function getServerSideProps({ params }: any) {
   return await getBuilderPlace(params.domain);
@@ -20,11 +21,15 @@ function CreateOrEditProposal() {
   const { userExists } = useContext(MessagingContext);
   const router = useRouter();
   const { id } = router.query;
-  const service = useServiceById(id as string);
+  const { service, isLoading } = useServiceById(id as string);
   const existingProposal = useProposalById(`${id}-${user?.id}`);
 
-  if (!service) {
+  if (isLoading) {
     return <Loading />;
+  }
+
+  if (!service) {
+    return <NotFound />;
   }
 
   if (!user) {

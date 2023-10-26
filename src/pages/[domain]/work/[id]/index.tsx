@@ -3,6 +3,10 @@ import Loading from '../../../../components/Loading';
 import ServiceDetail from '../../../../components/ServiceDetail';
 import useServiceById from '../../../../hooks/useServiceById';
 import { getBuilderPlace } from '../../../../modules/BuilderPlace/queries';
+import { useContext } from 'react';
+import BuilderPlaceContext from '../../../../modules/BuilderPlace/context/BuilderPlaceContext';
+import AccessDenied from '../../../../components/AccessDenied';
+import NotFound from '../../../../components/NotFound';
 
 export async function getServerSideProps({ params }: any) {
   const data = await getBuilderPlace(params.domain);
@@ -11,9 +15,18 @@ export async function getServerSideProps({ params }: any) {
 }
 
 function Service() {
+  const { builderPlace } = useContext(BuilderPlaceContext);
   const router = useRouter();
   const { id } = router.query;
-  const service = useServiceById(id as string);
+  const { service, isLoading } = useServiceById(id as string);
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (builderPlace?.ownerTalentLayerId !== service?.buyer.id) {
+    return <NotFound />;
+  }
 
   return (
     <div className='max-w-7xl mx-auto text-stone-800'>
