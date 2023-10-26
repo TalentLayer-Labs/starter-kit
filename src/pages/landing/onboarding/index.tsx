@@ -6,7 +6,7 @@ import { PreferredWorkType } from '../../../types';
 import { useRouter } from 'next/router';
 import { upload } from '../../../modules/BuilderPlace/request';
 import * as fs from 'fs';
-import { generateSubdomainPrefix } from '../../../modules/BuilderPlace/utils';
+import { generateSubdomainPrefix, slugify } from '../../../modules/BuilderPlace/utils';
 
 interface IFormValues {
   name: string;
@@ -48,38 +48,38 @@ function onboardingStep1() {
     //TODO add un check sur handle taken (useUserByHandle)
     console.log('values', values);
     try {
-      // setSubmitting(true);
-      // const subdomainPrefix = generateSubdomainPrefix(values.name);
-      // const subdomain = `${subdomainPrefix}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
+      setSubmitting(true);
+      const subdomainPrefix = generateSubdomainPrefix(values.name);
+      const subdomain = `${subdomainPrefix}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
 
-      let formData = new FormData();
+      // let formData = new FormData();
       // const stream = fs.createReadStream(values.image_url);
-      console.log('values.image_url', values.image_url);
+      // console.log('values.image_url', values.image_url);
       // console.log('stream', stream);
       // const base64 = btoa(values.image_url);
       // console.log('base64', base64);
       // formData.append('file', stream);
-      console.log('formData', formData);
+      // console.log('formData', formData);
 
-      const response = await upload(formData);
-      console.log('response', response);
+      // const response = await upload(formData);
+      // console.log('response', response);
 
-      // await createBuilderPlaceAsync({
-      //   subdomain: subdomain,
-      //   name: values.name,
-      //   primaryColor: '#ffffff',
-      //   secondaryColor: '#ffffff',
-      //   presentation: values.presentation,
-      //   preferredWorkType: values.preferred_work_type,
-      //   imageUrl: values.image_url,
-      // });
-      //
-      // setSubmitting(false);
-      // router.query.subdomain = subdomain;
-      // router.push({
-      //   pathname: '/onboarding/step2',
-      //   query: { subdomain: subdomain },
-      // });
+      await createBuilderPlaceAsync({
+        subdomain: subdomain,
+        name: slugify(values.name),
+        primaryColor: '#ffffff',
+        secondaryColor: '#ffffff',
+        presentation: values.presentation,
+        preferredWorkType: values.preferred_work_type,
+        imageUrl: values.image_url.name,
+      });
+
+      setSubmitting(false);
+      router.query.subdomain = subdomain;
+      router.push({
+        pathname: '/onboarding/step2',
+        query: { subdomain: subdomain },
+      });
     } catch (error) {
       console.log(error);
       showErrorTransactionToast(error);
@@ -141,9 +141,9 @@ function onboardingStep1() {
                     <Field
                       type='checkbox'
                       name='preferred_work_type'
-                      value={PreferredWorkType.jobs}
+                      value={PreferredWorkType.bounties}
                     />
-                    {PreferredWorkType.jobs}
+                    {PreferredWorkType.bounties}
                   </label>
                   <label>
                     <Field
@@ -174,7 +174,7 @@ function onboardingStep1() {
                   id='image_url'
                   name='image_url'
                   onChange={(event: any) => {
-                    setFieldValue('image_url', event.currentTarget.files[0].mozFullPath);
+                    setFieldValue('image_url', event.currentTarget.files[0]);
                   }}
                   className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
                   placeholder=''

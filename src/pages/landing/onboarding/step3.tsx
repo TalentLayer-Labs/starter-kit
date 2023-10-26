@@ -56,8 +56,8 @@ function onboardingStep3() {
             subdomain: values.subdomain,
             primaryColor: values.primaryColor,
             secondaryColor: values.secondaryColor,
-            logo: values.logo,
-            cover: values.cover,
+            logo: values.logo.name,
+            cover: values.cover.name,
             name: builderPlaceData.name,
             ownerTalentLayerId: builderPlaceData.ownerTalentLayerId,
             owners: builderPlaceData.owners,
@@ -129,6 +129,9 @@ function onboardingStep3() {
                   type='file'
                   id='logo'
                   name='logo'
+                  onChange={(event: any) => {
+                    setFieldValue('logo', event.currentTarget.files[0]);
+                  }}
                   className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
                   placeholder=''
                 />
@@ -142,6 +145,9 @@ function onboardingStep3() {
                   type='file'
                   id='cover'
                   name='cover'
+                  onChange={(event: any) => {
+                    setFieldValue('cover', event.currentTarget.files[0]);
+                  }}
                   className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
                   placeholder=''
                 />

@@ -27,19 +27,19 @@ function onboardingStep2() {
         subdomainParam = subdomainState;
       }
       try {
-        setOwner.mutate({
+        await setOwner.mutate({
           subdomain: subdomainParam,
           owners: [account.address],
           ownerTalentLayerId: user.id,
         });
+        router.push('/onboarding/step3');
       } catch (error) {
+        //TODO: Issue: On error we never go here
         console.error('Error updating domain:', error);
       }
-      router.push('/onboarding/step3');
     }
   };
   //TODO message si déjà updaté
-  //TODO 2 update metadata aussi
 
   return (
     <>

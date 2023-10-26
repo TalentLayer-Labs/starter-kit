@@ -31,6 +31,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
       // Make the POST request to Cloudflare's API with the image file.
       const cloudflareResponse = await axios.post(
         'https://api.cloudflare.com/client/v4/accounts/ff28f5398f74c7a36566ae9404174faf/images/v1',
+        // body,
         { file: body },
         { headers: headers },
       );
