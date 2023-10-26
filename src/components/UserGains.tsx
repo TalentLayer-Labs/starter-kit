@@ -2,6 +2,8 @@ import React from 'react';
 import useTotalGainByUser from '../hooks/useTotalGainByUser';
 import { IUser } from '../types';
 import { renderTokenAmount } from '../utils/conversion';
+import Link from 'next/link';
+import DelegateModal from './Modal/DelegateModal';
 
 interface IProps {
   user: IUser;
@@ -9,6 +11,7 @@ interface IProps {
 
 function UserGains({ user }: IProps) {
   const userGains = useTotalGainByUser(user.id);
+
   if (userGains.length === 0) {
     return null;
   }

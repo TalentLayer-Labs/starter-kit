@@ -45,9 +45,6 @@ function Dashboard() {
             <UserDetail user={user} />
           </div>
           <div className='mb-6'>
-            <UserBadges user={user} />
-          </div>
-          <div className='mb-6'>
             <UserPayments user={user} />
           </div>
           <div className='mb-6'>

@@ -12,7 +12,15 @@ function UserPayments({ user }: { user: IUser }) {
   }
   return (
     <>
-      <h2 className='pb-4 text-stone-800 font-bold break-all'>Your last incomes</h2>
+      <h2 className='pb-4 text-stone-800  break-all flex justify-between items-center'>
+        <span className='flex-1 font-bold'>Your last incomes</span>
+
+        <Link
+          className=' hover:bg-endnight text-stone-800 bg-endnight px-3 py-2 text-sm  rounded-xl'
+          href={`/profiles/incomes`}>
+          Sell all
+        </Link>
+      </h2>
       <div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4'>
         {payments.map((payment, i) => {
           return (

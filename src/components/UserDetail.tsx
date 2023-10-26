@@ -62,15 +62,10 @@ function UserDetail({ user }: { user: IUser }) {
         )}
       </div>
 
-      {currentUser?.id === user.id && (
+      {currentUser?.id === user.id && process.env.NEXT_PUBLIC_ACTIVE_DELEGATE === 'true' && (
         <div className=' border-t border-redpraha pt-4 w-full mt-4'>
           <div className='flex flex-row gap-4 justify-end items-center'>
-            <Link
-              className='text-stone-800 bg-stone-200 hover:bg-stone-300 px-5 py-2.5 rounded-xl text-md relative'
-              href={`/profiles/incomes`}>
-              Your incomes
-            </Link>
-            {process.env.NEXT_PUBLIC_ACTIVE_DELEGATE === 'true' && <DelegateModal />}
+            <DelegateModal />
           </div>
         </div>
       )}

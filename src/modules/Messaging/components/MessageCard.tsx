@@ -73,7 +73,7 @@ const MessageCard = ({ message, dateHasChanged }: IMessageCardProps) => {
 };
 
 const DateDivider = ({ date }: { date?: Date }): JSX.Element => (
-  <div className='flex align-items-center items-center pb-8 pt-4'>
+  <div className='flex items-center pb-8 pt-4'>
     <div className='grow h-[1px] bg-gray-800' />
     <span className='mx-11 flex-none text-stone-500 text-sm font-semibold'>
       {formatDateDivider(date)}
