@@ -20,6 +20,7 @@ export interface DeleteBuilderPlace {
 export interface UpdateBuilderPlaceDomain {
   subdomain: string;
   customDomain: string;
+  signature: `0x${string}` | Uint8Array;
 }
 
 export interface SetBuilderPlaceOwner {

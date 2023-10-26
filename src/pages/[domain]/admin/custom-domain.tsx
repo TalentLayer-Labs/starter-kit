@@ -5,10 +5,15 @@ import { getBuilderPlaceByDomain } from '../../../modules/BuilderPlace/actions';
 import DomainConfiguration from '../../../modules/BuilderPlace/components/DomainConfiguration';
 import BuilderPlaceContext from '../../../modules/BuilderPlace/context/BuilderPlaceContext';
 import { useUpdateBuilderPlaceDomain } from '../../../modules/BuilderPlace/hooks/UseUpdateBuilderPlaceDomain';
+import { useChainId, useWalletClient } from 'wagmi';
+import TalentLayerContext from '../../../context/talentLayer';
 
 export default function CustomDomain(
   props: InferGetServerSidePropsType<typeof getServerSideProps>,
 ) {
+  const chainId = useChainId();
+  const { data: walletClient } = useWalletClient({ chainId });
+  const { account } = useContext(TalentLayerContext);
   console.log('Parsed props ', props);
   if (!props.found) return <Error statusCode={404} />;
 
@@ -22,11 +27,22 @@ export default function CustomDomain(
   }, [builderPlace, loading]);
 
   const updateBuilderPlaceDomainMutation = useUpdateBuilderPlaceDomain();
+
   const handleUpdateDomainClick = async () => {
+    if (!walletClient || !account?.address) return;
     try {
+      /**
+       * @dev Sign message to prove ownership of the address
+       */
+      const signature = await walletClient.signMessage({
+        account: account?.address,
+        message: builderPlace?.subdomain!,
+      });
+
       updateBuilderPlaceDomainMutation.mutate({
         customDomain: customDomain,
         subdomain: builderPlace?.subdomain!,
+        signature: signature,
       });
     } catch (error) {
       console.error('Error updating domain:', error);
