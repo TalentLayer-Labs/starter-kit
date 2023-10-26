@@ -1,12 +1,13 @@
-export const upload = async (file: FormData): Promise<any> => {
+export const upload = async (file: File): Promise<any> => {
+  console.log(file);
   try {
-    return await fetch('/api/domain/upload', {
+    let formData = new FormData();
+    formData.append('file', file);
+    const response = await fetch('/api/domain/upload', {
       method: 'POST',
-      body: file,
-      headers: {
-        'Content-type': 'multipart/form-data',
-      },
+      body: formData,
     });
+    return (await response.json()).image;
   } catch (err) {
     console.error(err);
     throw err;

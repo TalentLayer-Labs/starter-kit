@@ -12,7 +12,7 @@ interface IFormValues {
   name: string;
   presentation: string;
   preferred_work_type: PreferredWorkType[];
-  image_url: string;
+  logo?: File;
 }
 function onboardingStep1() {
   const { data: createdBuilderPlace, mutateAsync: createBuilderPlaceAsync } =
@@ -23,7 +23,6 @@ function onboardingStep1() {
     name: '',
     presentation: '',
     preferred_work_type: [PreferredWorkType.jobs],
-    image_url: '',
   };
 
   const validationSchema = Yup.object({
@@ -38,7 +37,7 @@ function onboardingStep1() {
     //   .min(1, 'Chose at least one preferred word type')
     //   .max(4, 'You already chose all existing preferred word type')
     //   .required('Job Type is required'),
-    // image_url: Yup.string().required('Image is required'),
+    // logo: Yup.string().required('Image is required'),
   });
 
   const handleSubmit = async (
@@ -52,35 +51,23 @@ function onboardingStep1() {
       const subdomainPrefix = generateSubdomainPrefix(values.name);
       const subdomain = `${subdomainPrefix}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
 
-      // const stream = fs.createReadStream(values.image_url);
-      // console.log('values.image_url', values.image_url);
-      // console.log('stream', stream);
-      // const base64 = btoa(values.image_url);
-      // console.log('base64', base64);
-      // console.log('formData', formData);
+      let image;
+      if (values.logo) {
+        image = await upload(values.logo);
+        console.log({ image, url: image?.variants[0] });
+      }
 
-      let formData = new FormData();
-      formData.append('file', values.image_url);
-      await fetch('/api/domain/upload', {
-        method: 'POST',
-        body: formData,
-        // headers: {
-        //   'Content-type': 'multipart/form-data',
-        // },
+      // TODO: generate image url form response
+
+      await createBuilderPlaceAsync({
+        subdomain: subdomain,
+        name: slugify(values.name),
+        primaryColor: '#ffffff',
+        secondaryColor: '#ffffff',
+        presentation: values.presentation,
+        preferredWorkType: values.preferred_work_type,
+        imageUrl: image?.variants[0] || null,
       });
-
-      // const response = await upload(formData);
-      // console.log('response', response);
-
-      // await createBuilderPlaceAsync({
-      //   subdomain: subdomain,
-      //   name: slugify(values.name),
-      //   primaryColor: '#ffffff',
-      //   secondaryColor: '#ffffff',
-      //   presentation: values.presentation,
-      //   preferredWorkType: values.preferred_work_type,
-      //   imageUrl: values.image_url.name,
-      // });
 
       // setSubmitting(false);
       // router.query.subdomain = subdomain;
@@ -179,17 +166,17 @@ function onboardingStep1() {
                 <span className='text-stone-800'>Picture Url</span>
                 <input
                   type='file'
-                  id='image_url'
-                  name='image_url'
+                  id='logo'
+                  name='logo'
                   onChange={(event: any) => {
-                    setFieldValue('image_url', event.currentTarget.files[0]);
+                    setFieldValue('logo', event.currentTarget.files[0]);
                   }}
                   className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
                   placeholder=''
                 />
               </label>
               <span className='text-red-500'>
-                <ErrorMessage name='image_url' />
+                <ErrorMessage name='logo' />
               </span>
 
               <button
