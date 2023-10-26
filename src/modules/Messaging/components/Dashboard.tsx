@@ -124,7 +124,7 @@ function Dashboard() {
         </div>
       )}
       {providerState?.client && (
-        <div className='-mx-6 -mt-6'>
+        <div className='-mx-6 md:-mx-12 xl:-mx-24'>
           <CardHeader peerAddress={selectedConversationPeerAddress} />
           <div className='flex flex-row'>
             {providerState?.client && selectedConversationPeerAddress && (

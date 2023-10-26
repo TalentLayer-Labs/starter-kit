@@ -48,11 +48,11 @@ function MessagingIndex() {
         </div>
       )}
       {providerState?.client && (
-        <div className='-mx-6 -mt-6 sm:mx-0 sm:mt-0'>
+        <div className='-mx-6 md:-mx-12 xl:-mx-24'>
           <div className='flex flex-row text-stone-800'>
-            <div className='flex py-2 px-6 sm:px-0 items-center border-b w-full border-redpraha'>
+            <div className='flex py-2 px-4 sm:px-0 items-center border-b w-full border-redpraha'>
               <>
-                <p className='text-2xl font-bold flex-1 mt-6'>Chats</p>
+                <p className='text-2xl font-bold flex-1 mt-3'>Chats</p>
 
                 <SearchModal />
                 <ShareModal />

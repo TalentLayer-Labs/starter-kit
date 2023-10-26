@@ -29,7 +29,11 @@ function Layout({ children, className }: ContainerProps) {
   }, []);
 
   if (loading) {
-    return <Loading />;
+    return (
+      <div className='pt-16'>
+        <Loading />
+      </div>
+    );
   }
 
   console.log('Layout render', { builderPlace, account });

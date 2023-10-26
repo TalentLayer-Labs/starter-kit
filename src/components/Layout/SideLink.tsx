@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 
 function SideLink({ children, href }: { children: React.ReactNode; href: string }) {
   const router = useRouter();
-  const isRootPages = href == '/dashboard' || href === '/';
+  const isRootPages = href == '/dashboard' || href === '/profiles' || href === '/';
   let className = isRootPages
     ? router.asPath === href
       ? 'bg-midnight'
