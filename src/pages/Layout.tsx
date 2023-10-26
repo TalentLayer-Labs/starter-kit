@@ -32,6 +32,8 @@ function Layout({ children, className }: ContainerProps) {
     return <Loading />;
   }
 
+  console.log('Layout render', { builderPlace, account });
+
   if (router.asPath.includes('web3mail')) {
     return (
       <div className={'dashboard pb-[110px]'}>
