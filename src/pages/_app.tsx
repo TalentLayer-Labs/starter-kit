@@ -3,6 +3,7 @@ import { Web3Modal } from '@web3modal/react';
 import { DefaultSeo } from 'next-seo';
 import { ThemeProvider } from 'next-themes';
 import type { AppProps } from 'next/app';
+import Head from 'next/head';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -17,8 +18,6 @@ import { MessagingProvider } from '../modules/Messaging/context/messging';
 import '../styles/globals.css';
 import { NetworkEnum } from '../types';
 import Layout from './Layout';
-import { useEffect } from 'react';
-import Head from 'next/head';
 
 export let chains: Chain[] = [];
 if ((process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as unknown as NetworkEnum) == NetworkEnum.MUMBAI) {
@@ -54,63 +53,96 @@ const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }: AppProps) {
   console.log('MyApp', { pageProps });
-  useEffect(() => {
-    const root = document.documentElement;
-    root.style.setProperty('--primary', pageProps.builderPlace.pallete.primary);
-    root.style.setProperty('--primary-focus', pageProps.builderPlace.pallete.primaryFocus);
-    root.style.setProperty('--primary-content', pageProps.builderPlace.pallete.primaryContent);
-    root.style.setProperty('--base-100', pageProps.builderPlace.pallete.base100);
-    root.style.setProperty('--base-200', pageProps.builderPlace.pallete.base200);
-    root.style.setProperty('--base-300', pageProps.builderPlace.pallete.base300);
-    root.style.setProperty('--base-content', pageProps.builderPlace.pallete.baseContent);
-    root.style.setProperty('--info', pageProps.builderPlace.pallete.info);
-    root.style.setProperty('--info-content', pageProps.builderPlace.pallete.infoContent);
-    root.style.setProperty('--success', pageProps.builderPlace.pallete.success);
-    root.style.setProperty('--success-content', pageProps.builderPlace.pallete.successContent);
-    root.style.setProperty('--warning', pageProps.builderPlace.pallete.warning);
-    root.style.setProperty('--warning-content', pageProps.builderPlace.pallete.warningContent);
-    root.style.setProperty('--error', pageProps.builderPlace.pallete.error);
-    root.style.setProperty('--error-content', pageProps.builderPlace.pallete.errorContent);
-  }, []);
-
   return (
     <>
-    <Head>
-      <style>
-      {`
+      <Head>
+        <style>
+          {`
           :root {
-            --primary: ${pageProps.builderPlace.pallete.primary};
-            --primary-focus: ${pageProps.builderPlace.pallete.primaryFocus};
-            --primary-content: ${pageProps.builderPlace.pallete.primaryContent};
+            --primary: ${pageProps.builderPlace?.pallete.primary};
+            --primary-focus: ${pageProps.builderPlace?.pallete.primaryFocus};
+            --primary-content: ${pageProps.builderPlace?.pallete.primaryContent};
 
-            --base-100: ${pageProps.builderPlace.pallete.base100};
-            --base-200: ${pageProps.builderPlace.pallete.base200};
-            --base-300: ${pageProps.builderPlace.pallete.base300};
-            --base-content: ${pageProps.builderPlace.pallete.baseContent};
+            --base-100: ${pageProps.builderPlace?.pallete.base100};
+            --base-200: ${pageProps.builderPlace?.pallete.base200};
+            --base-300: ${pageProps.builderPlace?.pallete.base300};
+            --base-content: ${pageProps.builderPlace?.pallete.baseContent};
 
-            --info: ${pageProps.builderPlace.pallete.info};
-            --info-content: ${pageProps.builderPlace.pallete.infoContent};
+            --info: ${pageProps.builderPlace?.pallete.info};
+            --info-content: ${pageProps.builderPlace?.pallete.infoContent};
 
-            --success: ${pageProps.builderPlace.pallete.success};
-            --success-content: ${pageProps.builderPlace.pallete.successContent};
+            --success: ${pageProps.builderPlace?.pallete.success};
+            --success-content: ${pageProps.builderPlace?.pallete.successContent};
 
-            --warning: ${pageProps.builderPlace.pallete.warning};
-            --warning-content: ${pageProps.builderPlace.pallete.warningContent};
+            --warning: ${pageProps.builderPlace?.pallete.warning};
+            --warning-content: ${pageProps.builderPlace?.pallete.warningContent};
 
-            --error: ${pageProps.builderPlace.pallete.error};
-            --error-content: ${pageProps.builderPlace.pallete.errorContent};
+            --error: ${pageProps.builderPlace?.pallete.error};
+            --error-content: ${pageProps.builderPlace?.pallete.errorContent};
           }
 
-         .bg-primary {
-            background-color: var(--color-primary)
-         }
+          .bg-primary {
+            background-color: var(--color-primary);
+          }
 
-         .text-primary {
+          .text-primary {
             color: var(--primary-content);
-         }
+          }
+
+          .text-primary-focus {
+            color: var(--primary-focus);
+          }
+
+          .bg-base-100 {
+            background-color: var(--base-100);
+          }
+
+          .bg-base-200 {
+            background-color: var(--base-200);
+          }
+
+          .bg-base-300 {
+            background-color: var(--base-300);
+          }
+
+          .text-base {
+            color: var(--base-content);
+          }
+
+          .bg-info {
+            background-color: var(--info);
+          }
+
+          .text-info {
+            color: var(--info-content);
+          }
+
+          .bg-success {
+            background-color: var(--success);
+          }
+
+          .text-success {
+            color: var(--success-content);
+          }
+
+          .bg-warning {
+            background-color: var(--warning);
+          }
+
+          .text-warning {
+            color: var(--warning-content);
+          }
+
+          .bg-error {
+            background-color: var(--error);
+          }
+
+          .text-error {
+            color: var(--error-content);
+          }
         `}
-      </style>
-    </Head>
+        </style>
+      </Head>
       <QueryClientProvider client={queryClient}>
         <DefaultSeo {...getSeoDefaultConfig(pageProps.builderPlace)} />
         <WagmiConfig config={wagmiConfig}>
