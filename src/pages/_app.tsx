@@ -17,6 +17,8 @@ import { MessagingProvider } from '../modules/Messaging/context/messging';
 import '../styles/globals.css';
 import { NetworkEnum } from '../types';
 import Layout from './Layout';
+import { useEffect } from 'react';
+import Head from 'next/head';
 
 export let chains: Chain[] = [];
 if ((process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as unknown as NetworkEnum) == NetworkEnum.MUMBAI) {
@@ -52,8 +54,63 @@ const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }: AppProps) {
   console.log('MyApp', { pageProps });
+  useEffect(() => {
+    const root = document.documentElement;
+    root.style.setProperty('--primary', pageProps.builderPlace.pallete.primary);
+    root.style.setProperty('--primary-focus', pageProps.builderPlace.pallete.primaryFocus);
+    root.style.setProperty('--primary-content', pageProps.builderPlace.pallete.primaryContent);
+    root.style.setProperty('--base-100', pageProps.builderPlace.pallete.base100);
+    root.style.setProperty('--base-200', pageProps.builderPlace.pallete.base200);
+    root.style.setProperty('--base-300', pageProps.builderPlace.pallete.base300);
+    root.style.setProperty('--base-content', pageProps.builderPlace.pallete.baseContent);
+    root.style.setProperty('--info', pageProps.builderPlace.pallete.info);
+    root.style.setProperty('--info-content', pageProps.builderPlace.pallete.infoContent);
+    root.style.setProperty('--success', pageProps.builderPlace.pallete.success);
+    root.style.setProperty('--success-content', pageProps.builderPlace.pallete.successContent);
+    root.style.setProperty('--warning', pageProps.builderPlace.pallete.warning);
+    root.style.setProperty('--warning-content', pageProps.builderPlace.pallete.warningContent);
+    root.style.setProperty('--error', pageProps.builderPlace.pallete.error);
+    root.style.setProperty('--error-content', pageProps.builderPlace.pallete.errorContent);
+  }, []);
+
   return (
     <>
+    <Head>
+      <style>
+      {`
+          :root {
+            --primary: ${pageProps.builderPlace.pallete.primary};
+            --primary-focus: ${pageProps.builderPlace.pallete.primaryFocus};
+            --primary-content: ${pageProps.builderPlace.pallete.primaryContent};
+
+            --base-100: ${pageProps.builderPlace.pallete.base100};
+            --base-200: ${pageProps.builderPlace.pallete.base200};
+            --base-300: ${pageProps.builderPlace.pallete.base300};
+            --base-content: ${pageProps.builderPlace.pallete.baseContent};
+
+            --info: ${pageProps.builderPlace.pallete.info};
+            --info-content: ${pageProps.builderPlace.pallete.infoContent};
+
+            --success: ${pageProps.builderPlace.pallete.success};
+            --success-content: ${pageProps.builderPlace.pallete.successContent};
+
+            --warning: ${pageProps.builderPlace.pallete.warning};
+            --warning-content: ${pageProps.builderPlace.pallete.warningContent};
+
+            --error: ${pageProps.builderPlace.pallete.error};
+            --error-content: ${pageProps.builderPlace.pallete.errorContent};
+          }
+
+         .bg-primary {
+            background-color: var(--color-primary)
+         }
+
+         .text-primary {
+            color: var(--primary-content);
+         }
+        `}
+      </style>
+    </Head>
       <QueryClientProvider client={queryClient}>
         <DefaultSeo {...getSeoDefaultConfig(pageProps.builderPlace)} />
         <WagmiConfig config={wagmiConfig}>
