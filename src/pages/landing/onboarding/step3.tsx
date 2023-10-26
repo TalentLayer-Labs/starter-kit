@@ -4,6 +4,7 @@ import { useGetBuilderPlaceFromOwner } from '../../../modules/BuilderPlace/hooks
 import { useContext } from 'react';
 import TalentLayerContext from '../../../context/talentLayer';
 import { useChainId, useWalletClient } from 'wagmi';
+import * as Yup from 'yup';
 
 interface IFormValues {
   subdomain: string;
@@ -12,6 +13,12 @@ interface IFormValues {
   logo: string | undefined;
   cover: string | undefined;
 }
+
+const validationSchema = Yup.object({
+  subdomain: Yup.string().required('subdomain is required'),
+  primaryColor: Yup.string().required('primaryColor is required'),
+  secondaryColor: Yup.string().required('secondaryColor is required'),
+});
 function onboardingStep3() {
   const { account, user, loading } = useContext(TalentLayerContext);
   const chainId = useChainId();
@@ -70,8 +77,7 @@ function onboardingStep3() {
         initialValues={initialValues}
         enableReinitialize={true}
         onSubmit={handleSubmit}
-        // validationSchema={validationSchema}
-      >
+        validationSchema={validationSchema}>
         {({ isSubmitting, setFieldValue, values }) => (
           <Form>
             <div className='grid grid-cols-1 gap-6'>
