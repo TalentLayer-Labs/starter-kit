@@ -77,7 +77,7 @@ export const createBuilderPlace = async (data: CreateBuilderPlaceAction) => {
       name: data.name,
       presentation: data.presentation,
       subdomain: data.subdomain,
-      preferredWorkType: data.preferredWorkType,
+      preferredWorkTypes: data.preferredWorkTypes,
       customDomain: 'null',
       logo: 'a',
       cover: 'a',

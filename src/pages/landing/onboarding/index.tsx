@@ -2,7 +2,7 @@ import * as Yup from 'yup';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useCreateBuilderPlaceMutation } from '../../../modules/BuilderPlace/hooks/UseCreateBuilderPlaceMutation';
 import { showErrorTransactionToast } from '../../../utils/toast';
-import { PreferredWorkType } from '../../../types';
+import { PreferredWorkTypes } from '../../../types';
 import { useRouter } from 'next/router';
 import { upload } from '../../../modules/BuilderPlace/request';
 import * as fs from 'fs';
@@ -11,7 +11,7 @@ import { generateSubdomainPrefix, slugify } from '../../../modules/BuilderPlace/
 interface IFormValues {
   name: string;
   presentation: string;
-  preferred_work_type: PreferredWorkType[];
+  preferred_work_types: PreferredWorkTypes[];
   logo?: File;
 }
 function onboardingStep1() {
@@ -22,7 +22,7 @@ function onboardingStep1() {
   const initialValues: IFormValues = {
     name: '',
     presentation: '',
-    preferred_work_type: [PreferredWorkType.jobs],
+    preferred_work_types: [PreferredWorkTypes.jobs],
   };
 
   const validationSchema = Yup.object({
@@ -32,7 +32,7 @@ function onboardingStep1() {
     //   .matches(/^[a-z0-9][a-z0-9-_]*$/, 'Only a-z, 0-9 and -_ allowed, and cannot begin with -_')
     //   .required('name is required'),
     // presentation: Yup.string().required('presentation is required'),
-    // preferred_work_type: Yup.array()
+    // preferred_work_types: Yup.array()
     //   .of(Yup.string())
     //   .min(1, 'Chose at least one preferred word type')
     //   .max(4, 'You already chose all existing preferred word type')
@@ -65,7 +65,7 @@ function onboardingStep1() {
         primaryColor: '#ffffff',
         secondaryColor: '#ffffff',
         presentation: values.presentation,
-        preferredWorkType: values.preferred_work_type,
+        preferredWorkTypes: values.preferred_work_types,
         imageUrl: image?.variants[0] || null,
       });
 
@@ -127,39 +127,39 @@ function onboardingStep1() {
                   <label>
                     <Field
                       type='checkbox'
-                      name='preferred_work_type'
-                      value={PreferredWorkType.jobs}
+                      name='preferred_work_types'
+                      value={PreferredWorkTypes.jobs}
                     />
-                    {PreferredWorkType.jobs}
+                    {PreferredWorkTypes.jobs}
                   </label>
                   <label>
                     <Field
                       type='checkbox'
-                      name='preferred_work_type'
-                      value={PreferredWorkType.bounties}
+                      name='preferred_work_types'
+                      value={PreferredWorkTypes.bounties}
                     />
-                    {PreferredWorkType.bounties}
+                    {PreferredWorkTypes.bounties}
                   </label>
                   <label>
                     <Field
                       type='checkbox'
-                      name='preferred_work_type'
-                      value={PreferredWorkType.grants}
+                      name='preferred_work_types'
+                      value={PreferredWorkTypes.grants}
                     />
-                    {PreferredWorkType.grants}
+                    {PreferredWorkTypes.grants}
                   </label>
                   <label>
                     <Field
                       type='checkbox'
-                      name='preferred_work_type'
-                      value={PreferredWorkType.gigs}
+                      name='preferred_work_types'
+                      value={PreferredWorkTypes.gigs}
                     />
-                    {PreferredWorkType.gigs}
+                    {PreferredWorkTypes.gigs}
                   </label>
                 </div>
               </label>
               <span className='text-red-500'>
-                <ErrorMessage name='preferred_work_type' />
+                <ErrorMessage name='preferred_work_types' />
               </span>
 
               <label className='block'>

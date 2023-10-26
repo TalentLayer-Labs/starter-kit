@@ -1,4 +1,4 @@
-import { PreferredWorkType } from '../../types';
+import { PreferredWorkTypes } from '../../types';
 
 export interface UpdateBuilderPlace {
   subdomain: string;
@@ -20,6 +20,7 @@ export interface DeleteBuilderPlace {
 export interface UpdateBuilderPlaceDomain {
   subdomain: string;
   customDomain: string;
+  signature: `0x${string}` | Uint8Array;
 }
 
 export interface SetBuilderPlaceOwner {
@@ -42,7 +43,7 @@ export interface CreateBuilderPlaceAction {
   primaryColor: string;
   secondaryColor: string;
   presentation: string;
-  preferredWorkType: PreferredWorkType[];
+  preferredWorkTypes: PreferredWorkTypes[];
   imageUrl: string;
 }
 
@@ -52,7 +53,7 @@ export interface CreateBuilderPlaceProps {
   primaryColor: string;
   secondaryColor: string;
   presentation: string;
-  preferredWorkType: PreferredWorkType[];
+  preferredWorkTypes: PreferredWorkTypes[];
   imageUrl: string;
 }
 
@@ -69,7 +70,7 @@ export type IBuilderPlace = {
   owners: string[];
   ownerTalentLayerId: string;
   status: 'Validated' | 'Pending';
-  preferredWorkType: PreferredWorkType[];
+  preferredWorkTypes: PreferredWorkTypes[];
   imageUrl: string;
 };
 
@@ -128,6 +129,6 @@ export interface DomainVerificationResponse {
 export interface OrganizationProps {
   name: string;
   about: string;
-  jobType: PreferredWorkType;
+  jobType: PreferredWorkTypes;
   imageUrl: string;
 }
