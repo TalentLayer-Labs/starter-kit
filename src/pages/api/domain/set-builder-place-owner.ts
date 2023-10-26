@@ -18,10 +18,10 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     if (builderSpace.owners.length !== 0 || !!builderSpace.ownerTalentLayerId) {
       return res.status(500).json({ error: 'Domain already taken.' });
     }
-    console.log('builderSpace', builderSpace);
+
     try {
       builderSpace.ownerTalentLayerId = body.ownerTalentLayerId;
-      builderSpace.owners = [...builderSpace.owners, body.owners];
+      builderSpace.owners = body.owners;
       builderSpace.save();
       res.status(200).json({ message: 'BuilderPlace domain updated successfully' });
     } catch (error: any) {

@@ -10,6 +10,7 @@ export interface UpdateBuilderPlace {
   status: string | undefined;
   cover: string | undefined;
   logo: string | undefined;
+  signature: `0x${string}` | Uint8Array;
 }
 
 export interface UpdateBuilderPlaceDomain {

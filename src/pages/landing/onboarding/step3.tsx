@@ -3,6 +3,7 @@ import { useUpdateBuilderPlace } from '../../../modules/BuilderPlace/hooks/UseUp
 import { useGetBuilderPlaceFromOwner } from '../../../modules/BuilderPlace/hooks/UseGetBuilderPlaceFromOwner';
 import { useContext } from 'react';
 import TalentLayerContext from '../../../context/talentLayer';
+import { useChainId, useWalletClient } from 'wagmi';
 
 interface IFormValues {
   subdomain: string;
@@ -12,13 +13,12 @@ interface IFormValues {
   cover: string | undefined;
 }
 function onboardingStep3() {
-  //TODO 3 set une signature pour update
   const { account, user, loading } = useContext(TalentLayerContext);
+  const chainId = useChainId();
+  const { data: walletClient } = useWalletClient({ chainId });
   const { data: updateBuilderPlace, mutateAsync: updateBuilderPlaceAsync } =
     useUpdateBuilderPlace();
   const builderPlaceData = useGetBuilderPlaceFromOwner(user?.id as string);
-  //TODO du mettre 2 await ... comprend pas... <===== I'm here
-  console.log('builderPlaceData', builderPlaceData);
 
   const initialValues: IFormValues = {
     subdomain: builderPlaceData?.subdomain || '',
@@ -28,26 +28,39 @@ function onboardingStep3() {
     cover: builderPlaceData?.cover || '',
   };
 
-  console.log('initialValues', initialValues);
-
   const handleSubmit = async (
     values: IFormValues,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void },
   ) => {
-    if (builderPlaceData) {
-      await updateBuilderPlaceAsync({
-        subdomain: values.subdomain,
-        primaryColor: values.primaryColor,
-        secondaryColor: values.secondaryColor,
-        logo: values.logo,
-        cover: values.cover,
-        name: builderPlaceData.name,
-        ownerTalentLayerId: builderPlaceData.ownerTalentLayerId,
-        owners: builderPlaceData.owners,
-        status: builderPlaceData.status,
-      });
+    if (walletClient && account?.address) {
+      try {
+        /**
+         * @dev Sign message to prove ownership of the address
+         */
+        const signature = await walletClient.signMessage({
+          account: account.address,
+          message: values.subdomain,
+        });
 
-      setSubmitting(false);
+        if (builderPlaceData) {
+          await updateBuilderPlaceAsync({
+            subdomain: values.subdomain,
+            primaryColor: values.primaryColor,
+            secondaryColor: values.secondaryColor,
+            logo: values.logo,
+            cover: values.cover,
+            name: builderPlaceData.name,
+            ownerTalentLayerId: builderPlaceData.ownerTalentLayerId,
+            owners: builderPlaceData.owners,
+            status: builderPlaceData.status,
+            signature,
+          });
+
+          setSubmitting(false);
+        }
+      } catch (e: any) {
+        console.error(e);
+      }
     }
   };
   return (
