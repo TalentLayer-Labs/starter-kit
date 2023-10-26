@@ -12,6 +12,10 @@ export interface UpdateBuilderPlace {
   logo: string | undefined;
   signature: `0x${string}` | Uint8Array;
 }
+export interface DeleteBuilderPlace {
+  subdomain: string;
+  signature: `0x${string}` | Uint8Array;
+}
 
 export interface UpdateBuilderPlaceDomain {
   subdomain: string;
