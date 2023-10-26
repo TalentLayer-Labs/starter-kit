@@ -35,6 +35,9 @@ export const getAllProposalsByServiceId = (chainId: number, id: string): Promise
           userStats {
             numReceivedReviews
           }
+          description{
+            image_url
+          }
         }
         description {
           id

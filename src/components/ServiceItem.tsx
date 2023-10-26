@@ -1,9 +1,8 @@
 import Link from 'next/link';
+import { useChainId } from '../hooks/useChainId';
 import { IService } from '../types';
 import { renderTokenAmountFromConfig } from '../utils/conversion';
 import { formatDate } from '../utils/dates';
-import Image from 'next/image';
-import { useChainId } from '../hooks/useChainId';
 
 function ServiceItem({ service }: { service: IService }) {
   const chainId = useChainId();
@@ -13,8 +12,11 @@ function ServiceItem({ service }: { service: IService }) {
       <div className='flex flex-col items-top justify-between gap-4 w-full'>
         <div className='flex flex-col justify-start items-start gap-4'>
           <div className='flex items-center justify-start'>
-            <Image
-              src={`/images/default-avatar-${Number(service.buyer.id) % 9}.jpeg`}
+            <img
+              src={
+                service?.buyer?.description?.image_url ||
+                `/images/default-avatar-${Number(service.buyer.id) % 9}.jpeg`
+              }
               className='w-10 mr-4 rounded-full'
               width={50}
               height={50}

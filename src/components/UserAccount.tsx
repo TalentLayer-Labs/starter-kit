@@ -40,9 +40,8 @@ function UserAccount() {
                   className='h-9 w-9 rounded-full'
                   alt=''
                   src={
-                    user?.description?.image_url
-                      ? user?.description?.image_url
-                      : `/images/default-avatar-${Number(user?.id ? user.id : '1') % 9}.jpeg`
+                    user?.description?.image_url ||
+                    `/images/default-avatar-${Number(user?.id ? user.id : '1') % 9}.jpeg`
                   }
                   width={50}
                   height={50}

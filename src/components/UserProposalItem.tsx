@@ -1,16 +1,14 @@
-import { useContext } from 'react';
-import { useRouter } from 'next/router';
-import TalentLayerContext from '../context/talentLayer';
-import { renderTokenAmount } from '../utils/conversion';
-import { IProposal, ProposalStatusEnum } from '../types';
-import { formatDate } from '../utils/dates';
-import useServiceById from '../hooks/useServiceById';
 import Link from 'next/link';
-import Image from 'next/image';
+import { useContext } from 'react';
+import TalentLayerContext from '../context/talentLayer';
+import useServiceById from '../hooks/useServiceById';
+import { IProposal, ProposalStatusEnum } from '../types';
+import { renderTokenAmount } from '../utils/conversion';
+import { formatDate } from '../utils/dates';
 
 function UserProposalItem({ proposal }: { proposal: IProposal }) {
   const { user } = useContext(TalentLayerContext);
-  const service = useServiceById(proposal.service.id);
+  const { service } = useServiceById(proposal.service.id);
 
   if (!service) {
     return null;
@@ -23,8 +21,11 @@ function UserProposalItem({ proposal }: { proposal: IProposal }) {
       <div className='flex flex-col items-top justify-between gap-4 w-full'>
         <div className='flex flex-col justify-start items-start gap-4'>
           <div className='flex items-center justify-start w-full  relative'>
-            <Image
-              src={`/images/default-avatar-${Number(proposal.service.buyer.id) % 9}.jpeg`}
+            <img
+              src={
+                proposal.service.buyer.description?.image_url ||
+                `/images/default-avatar-${Number(proposal.service.buyer.id) % 9}.jpeg`
+              }
               className='w-10 mr-4 rounded-full'
               width={50}
               height={50}
@@ -61,7 +62,7 @@ function UserProposalItem({ proposal }: { proposal: IProposal }) {
             {renderTokenAmount(proposal.rateToken, proposal.rateAmount)}
           </p>
           <Link
-            className='text-stone-800 bg-stone-200 hover:bg-stone-300 px-5 py-2.5 rounded-xl text-sm-xl relative'
+            className='text-stone-800 bg-stone-200 hover:bg-stone-300 px-5 py-2.5 rounded-xl text-md relative'
             href={`/work/${proposal.service.id}`}>
             Show Post
           </Link>

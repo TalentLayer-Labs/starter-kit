@@ -1,10 +1,9 @@
-import Image from 'next/image';
 import Link from 'next/link';
+import { useChainId } from '../hooks/useChainId';
 import { IService, IUser, ServiceStatusEnum } from '../types';
 import { renderTokenAmountFromConfig } from '../utils/conversion';
 import { formatDate } from '../utils/dates';
 import ServiceStatus from './ServiceStatus';
-import { useChainId } from '../hooks/useChainId';
 
 function UserServiceItem({ user, service }: { user: IUser; service: IService }) {
   const chainId = useChainId();
@@ -16,8 +15,11 @@ function UserServiceItem({ user, service }: { user: IUser; service: IService }) 
       <div className='flex flex-col items-top justify-between gap-4 w-full'>
         <div className='flex flex-col justify-start items-start gap-4 relative'>
           <div className='flex items-center justify-start'>
-            <Image
-              src={`/images/default-avatar-${Number(service.buyer.id) % 9}.jpeg`}
+            <img
+              src={
+                service?.buyer?.description?.image_url ||
+                `/images/default-avatar-${Number(service.buyer.id) % 9}.jpeg`
+              }
               className='w-10 mr-4 rounded-full'
               width={50}
               height={50}
@@ -61,7 +63,7 @@ function UserServiceItem({ user, service }: { user: IUser; service: IService }) 
             </p>
           )}
           <Link
-            className='text-stone-800 bg-stone-200 hover:bg-stone-300 px-5 py-2.5 rounded-xl text-sm-xl relative'
+            className='text-stone-800 bg-stone-200 hover:bg-stone-300 px-5 py-2.5 rounded-xl text-md relative'
             href={`/work/${service.id}`}>
             Show details
             {isBuyer && service.status == ServiceStatusEnum.Opened && (

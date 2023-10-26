@@ -1,7 +1,7 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { useContext } from 'react';
 import TalentLayerContext from '../context/talentLayer';
+import { useChainId } from '../hooks/useChainId';
 import usePaymentsByService from '../hooks/usePaymentsByService';
 import useProposalsByService from '../hooks/useProposalsByService';
 import useReviewsByService from '../hooks/useReviewsByService';
@@ -15,7 +15,6 @@ import ProposalItem from './ProposalItem';
 import ReviewItem from './ReviewItem';
 import ServiceStatus from './ServiceStatus';
 import Stars from './Stars';
-import { useChainId } from '../hooks/useChainId';
 
 function ServiceDetail({ service }: { service: IService }) {
   const chainId = useChainId();
@@ -43,8 +42,11 @@ function ServiceDetail({ service }: { service: IService }) {
         <div className='flex flex-col items-top justify-between gap-4 w-full'>
           <div className='flex flex-col justify-start items-start gap-4'>
             <div className='flex items-center justify-start w-full relative'>
-              <Image
-                src={`/images/default-avatar-${Number(service.buyer.id) % 9}.jpeg`}
+              <img
+                src={
+                  service?.buyer?.description?.image_url ||
+                  `/images/default-avatar-${Number(service.buyer.id) % 9}.jpeg`
+                }
                 className='w-10 mr-4 rounded-full'
                 width={50}
                 height={50}
@@ -108,7 +110,7 @@ function ServiceDetail({ service }: { service: IService }) {
               <>
                 {!userProposal && (
                   <Link
-                    className='text-stone-800 bg-redpraha hover:redpraha/80 hover:text-stone-800 px-5 py-2.5 rounded-xl text-sm'
+                    className='text-stone-800 bg-redpraha hover:redpraha/80 hover:text-stone-800 px-5 py-2.5 rounded-xl text-md'
                     href={`/work/${service.id}/proposal`}>
                     Create proposal
                   </Link>

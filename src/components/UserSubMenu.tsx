@@ -1,10 +1,9 @@
-import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useContext } from 'react';
 import { useDisconnect } from 'wagmi';
 import TalentLayerContext from '../context/talentLayer';
 import { truncateAddress } from '../utils';
-import Link from 'next/link';
 
 function UserSubMenu() {
   const { account, user } = useContext(TalentLayerContext);
@@ -23,8 +22,10 @@ function UserSubMenu() {
         <div
           className='relative mx-auto flex h-20 w-20 items-center justify-center rounded-full'
           role='none'>
-          <Image
-            src={`/images/default-avatar-${Number(user?.id) % 9}.jpeg`}
+          <img
+            src={
+              user.description?.image_url || `/images/default-avatar-${Number(user.id) % 9}.jpeg`
+            }
             className='max-w-full rounded-full object-cover shadow-sm'
             width={80}
             height={80}
