@@ -82,7 +82,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           }
 
           .bg-primary {
-            background-color: var(--color-primary);
+            background-color: var(--primary);
           }
 
           .text-primary {
