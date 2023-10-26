@@ -38,9 +38,8 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
 
   // automatically switch to the default chain is the current one is not part of the config
   useEffect(() => {
-    console.log({ chainId });
     const talentLayerClient = new TalentLayerClient({
-      chainId: 80001,
+      chainId: chainId || (process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as unknown as number),
       ipfsConfig: {
         clientId: process.env.NEXT_PUBLIC_INFURA_ID as string,
         clientSecret: process.env.NEXT_PUBLIC_INFURA_SECRET as string,
