@@ -1,7 +1,5 @@
 import { createContext, ReactNode, useEffect, useMemo, useState } from 'react';
 import { IBuilderPlace } from '../types';
-import { useRouter } from 'next/router';
-import { useGetBuilderPlace } from '../hooks/UseGetBuilderPlace';
 
 const BuilderPlaceContext = createContext<{
   builderPlace?: IBuilderPlace;
@@ -10,11 +8,16 @@ const BuilderPlaceContext = createContext<{
 });
 
 const BuilderPlaceProvider = ({ data, children }: { data: IBuilderPlace; children: ReactNode }) => {
-  const value = useMemo(() => {
-    return {
-      builderPlace: data,
-    };
+  const [builderPlace, setBuilderPlace] = useState<IBuilderPlace | undefined>();
+
+  useEffect(() => {
+    if (!data) return;
+    setBuilderPlace(data);
   }, [data]);
+
+  const value = {
+    builderPlace,
+  };
 
   return <BuilderPlaceContext.Provider value={value}>{children}</BuilderPlaceContext.Provider>;
 };

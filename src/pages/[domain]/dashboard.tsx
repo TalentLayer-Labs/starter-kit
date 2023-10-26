@@ -12,6 +12,7 @@ import { PencilSquareIcon } from '@heroicons/react/24/outline';
 import { getBuilderPlace } from '../../modules/BuilderPlace/queries';
 
 export async function getServerSideProps({ params }: any) {
+  console.log('getServerSideProps', { params });
   return await getBuilderPlace(params.domain);
 }
 
