@@ -15,11 +15,11 @@ function WorkerOnboardSuccess() {
         <OnboardingSteps currentStep={3} />
         <div className='max-w-7xl mx-auto text-base-content sm:px-4 lg:px-0 py-20'>
           <div className='flex flex-col items-center justify-center gap-10'>
-            <p className='text-5xl sm:text-7xl font-medium tracking-wider max-w-5xl text-center'>
-              Done!
+            <p className='text-5xl sm:text-7xl font-medium font-bold tracking-wider max-w-5xl text-center'>
+              Done! 🎉 
             </p>
             <p className='text-3xl sm:text-5xl font-medium tracking-wider max-w-5xl text-center'>
-              Looking good! Now, time to work.
+              Looking good! Now, it's time to work.
             </p>
             <p className='text-xl sm:text-2xl text-base-content opacity-50 text-center'>
               Your profile looks great - you are all set to apply for opportunities.
@@ -32,13 +32,13 @@ function WorkerOnboardSuccess() {
                   className='object-cover w-full h-full'
                 />
               </div>
-              <p className='text-2xl text-base-content opacity-50'>{user?.description?.name}</p>
-              <p className='text-xl text-base-content opacity-50'>{user?.description?.title}</p>
-              <p className='text-xl text-base-content opacity-50 text-center max-w-lg'>
+              <p className='text-4xl text-base-content font-medium '>{user?.description?.name}</p>
+              <p className='text-2xl text-base-content font-medium '>{user?.description?.title}</p>
+              <p className='text-2xl text-base-content text-center max-w-lg font-medium '>
                 {user?.description?.about}
               </p>
               <button
-                className='bg-info text-content rounded-lg px-4 py-2 mt-4 text-lg font-medium'
+                className='bg-pink-500 text-content rounded-lg px-4 py-2 mt-4 text-lg text-white font-medium'
                 onClick={viewFullProfile}>
                 View My Full Profile
               </button>

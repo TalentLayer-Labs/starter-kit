@@ -16,30 +16,22 @@ function CreateProfileLayout({ children, className }: ContainerProps) {
   }
 
   return (
-    <div className={className}>
+    <>
       <OnboardingSteps currentStep={2} />
-      <div className='max-w-7xl mx-auto text-base-content'>
-        <div className='-mx-6 -mt-6 sm:mx-0 sm:mt-0'>
-          <div className='flex py-2 px-6 sm:px-0 items-center w-full mb-8'>
-            <p className='text-2xl font-bold flex-1 mt-6'>Create Your Worker Profile</p>
+      <div className={`${className}`}>
+        <div className='text-stone-800'>
+          <p className='pb-10 pt-5 text-5xl font-bold mt-6 text-center'>
+            Create Your Worker Profile
+          </p>
+        
+          {account?.isConnected && user && (
+              <div className=' pb-16 max-w-3xl transition-all duration-300 rounded-md mx-auto'>
+                <div className='p-6 mx-auto'>{children}</div>
+              </div>
+          )}
           </div>
         </div>
-
-        {account?.isConnected && user && (
-          <div>
-            <div className='min-h-screen overflow-hidden'>
-              <div className='grid xl:gap-8 xl:grid-cols-12'>
-                <div className='col-span-12 xl:col-span-8'>
-                  <div className='pb-16 border-info relative w-full transition-all duration-300 rounded-md'>
-                    <div className='border border-info rounded-xl p-6 bg-base-100'>{children}</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
+    </>
   );
 }
 

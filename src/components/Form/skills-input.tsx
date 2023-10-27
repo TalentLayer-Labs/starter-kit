@@ -40,7 +40,7 @@ export function SkillsInput({
       <div
         key={skill}
         className={
-          'leading-tight mr-2 inline-flex items-center rounded-full bg-base-200 p-1 pl-3 text-xs text-base-content'
+          'leading-tight mr-2 inline-flex items-center rounded-full bg-base-200 p-1 pl-3 text-xs text-base-content border border-gray-300'
         }>
         <span>{skill}</span>
         <span
@@ -68,7 +68,7 @@ export function SkillsInput({
         <div className='relative'>
           <div className='relative mb-2'>
             <Combobox.Input
-              className='mt-1 mb-1 block w-full rounded-xl border border-info bg-base-200 shadow-sm focus:ring-opacity-50'
+              className='mt-1 mb-1 block w-full rounded-xl border border-2 border-gray-200 bg-midnight shadow-sm focus:ring-opacity-50'
               onChange={event => debounceSetQuery(event.target.value)}
             />
           </div>
