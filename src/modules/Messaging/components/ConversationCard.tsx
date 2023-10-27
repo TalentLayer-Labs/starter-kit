@@ -14,17 +14,17 @@ const ConversationCard = ({ peerAddress, latestMessage }: IConversationCardProps
   const router = useRouter();
 
   const handleSelectConversation = () => {
-    router.push(`/dashboard/messaging/${peerAddress}`);
+    router.push(`/messaging/${peerAddress}`);
   };
 
   return (
     <div
       onClick={() => handleSelectConversation()}
-      className={`flex py-4 px-2 justify-center items-center border-b border-redpraha cursor-pointer text-stone-800`}>
+      className={`flex py-4 px-2 justify-center items-center border-b border-info cursor-pointer text-base-content`}>
       <div className='flex-1 pl-2'>
         {user && user.handle ? <b>{user.handle}</b> : <b>{truncateAddress(peerAddress)}</b>}
         <div>
-          <span className='text-xs text-stone-800 bas'>
+          <span className='text-xs text-base-content bas'>
             {formatDateConversationCard(latestMessage?.timestamp as Date)}
           </span>
         </div>

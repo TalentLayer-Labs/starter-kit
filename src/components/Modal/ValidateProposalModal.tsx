@@ -74,7 +74,7 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
     <>
       <button
         onClick={() => setShow(true)}
-        className='block text-green-600 bg-green-50 hover:bg-redpraha hover:text-stone-800 rounded-xl px-5 py-2.5 text-center'
+        className='block text-success bg-success hover:bg-info hover:text-base-content rounded-xl px-5 py-2.5 text-center'
         type='button'
         data-modal-toggle='defaultModal'>
         Validate
@@ -85,13 +85,13 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
           !show ? 'hidden' : ''
         } overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal h-full bg-black/75 flex flex-col items-center justify-center`}>
         <div className='relative p-4 w-full max-w-2xl h-auto'>
-          <div className='relative bg-endnight rounded-xl shadow '>
-            <div className='flex justify-between items-start p-4 rounded-t border-b border-gray-600'>
-              <h3 className='text-xl font-semibold text-stone-800 '>Proposal validation</h3>
+          <div className='relative bg-base-300 rounded-xl shadow '>
+            <div className='flex justify-between items-start p-4 rounded-t border-b border-info'>
+              <h3 className='text-xl font-semibold text-base-content '>Proposal validation</h3>
               <button
                 onClick={() => setShow(false)}
                 type='button'
-                className='text-stone-600 bg-transparent hover:bg-gray-200 hover:text-stone-800 rounded-xl text-sm p-1.5 ml-auto inline-flex items-center '
+                className='text-base-content bg-transparent hover:bg-base-200 hover:text-base-content rounded-xl text-sm p-1.5 ml-auto inline-flex items-center '
                 data-modal-toggle='defaultModal'>
                 <svg
                   className='w-5 h-5'
@@ -111,7 +111,7 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
                 <nav className='mb-8'>
                   <ol
                     role='list'
-                    className='divide-y divide-gray-200 rounded-xl border border-redpraha md:flex md:divide-y-0'>
+                    className='divide-y divide-gray-200 rounded-xl border border-info md:flex md:divide-y-0'>
                     <Step title='Allow spending' status={'inprogress'} order={1} />
                     <Step
                       title='Send money to escrow and validate the proposal'
@@ -122,30 +122,30 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
                   </ol>
                 </nav>
               )}
-              <div className='flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full bg-midnight space-y-6 text-stone-800'>
-                <h3 className='text-xl font-semibold leading-5 text-stone-800'>Summary</h3>
-                <div className='flex justify-center items-center w-full space-y-4 flex-col border-redpraha border-b pb-4'>
+              <div className='flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full bg-base-200 space-y-6 text-base-content'>
+                <h3 className='text-xl font-semibold leading-5 text-base-content'>Summary</h3>
+                <div className='flex justify-center items-center w-full space-y-4 flex-col border-info border-b pb-4'>
                   <div className='flex justify-between w-full'>
-                    <p className='text-base leading-4 text-stone-600'>Rate</p>
-                    <p className='text-base  leading-4 text-stone-800'>
+                    <p className='text-base-content leading-4 text-base-content'>Rate</p>
+                    <p className='text-base-content  leading-4 text-base-content'>
                       {renderTokenAmount(proposal.rateToken, proposal.rateAmount)}
                     </p>
                   </div>
                   <div className='flex justify-between items-center w-full'>
-                    <p className='text-base leading-4 text-stone-600'>
+                    <p className='text-base-content leading-4 text-base-content'>
                       Fees from the marketplace originating the service{' '}
-                      <span className='bg-gray-200 p-1 text-xs font-medium leading-3 text-stone-400'>
+                      <span className='bg-base-200 p-1 text-xs font-medium leading-3 text-base-content opacity-50'>
                         {((Number(originServiceFeeRate) / FEE_RATE_DIVIDER) * 100).toString()} %
                       </span>
                     </p>
-                    <p className='text-base  leading-4 text-stone-800'>
+                    <p className='text-base-content  leading-4 text-base-content'>
                       +{renderTokenAmount(proposal.rateToken, originServiceFee.toString())}
                     </p>
                   </div>
                   <div className='flex justify-between items-center w-full'>
-                    <p className='text-base leading-4 text-stone-600'>
+                    <p className='text-base-content leading-4 text-base-content'>
                       Fees from the marketplace validating the proposal{' '}
-                      <span className='bg-gray-200 p-1 text-xs font-medium leading-3 text-stone-400'>
+                      <span className='bg-base-200 p-1 text-xs font-medium leading-3 text-base-content opacity-50'>
                         {(
                           (Number(originValidatedProposalFeeRate) / FEE_RATE_DIVIDER) *
                           100
@@ -153,44 +153,46 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
                         %
                       </span>
                     </p>
-                    <p className='text-base  leading-4 text-stone-800'>
+                    <p className='text-base-content  leading-4 text-base-content'>
                       +
                       {renderTokenAmount(proposal.rateToken, originValidatedProposalFee.toString())}
                     </p>
                   </div>
                   <div className='flex justify-between items-center w-full'>
-                    <p className='text-base leading-4 text-stone-600'>
+                    <p className='text-base-content leading-4 text-base-content'>
                       Protocol fees{' '}
-                      <span className='bg-gray-200 p-1 text-xs font-medium leading-3 text-stone-400'>
+                      <span className='bg-base-200 p-1 text-xs font-medium leading-3 text-base-content opacity-50'>
                         {((Number(protocolEscrowFeeRate) / FEE_RATE_DIVIDER) * 100).toString()} %
                       </span>
                     </p>
-                    <p className='text-base  leading-4 text-stone-800'>
+                    <p className='text-base-content  leading-4 text-base-content'>
                       +{renderTokenAmount(proposal.rateToken, protocolFee.toString())}
                     </p>
                   </div>
                 </div>
                 <div className='flex justify-between items-center w-full'>
-                  <p className='text-base font-semibold leading-4 text-stone-800'>Total</p>
-                  <p className='text-base  font-semibold leading-4 text-stone-800'>
+                  <p className='text-base-content font-semibold leading-4 text-base-content'>
+                    Total
+                  </p>
+                  <p className='text-base-content  font-semibold leading-4 text-base-content'>
                     {renderTokenAmount(proposal.rateToken, totalAmount.toString())}
                   </p>
                 </div>
               </div>
 
-              <div className='flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full bg-midnight space-y-6 text-stone-800'>
-                <h3 className='text-xl font-semibold leading-5 text-stone-800'>Your balances</h3>
+              <div className='flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full bg-base-200 space-y-6 text-base-content'>
+                <h3 className='text-xl font-semibold leading-5 text-base-content'>Your balances</h3>
                 <div className='flex justify-center items-center w-full space-y-4 flex-col'>
                   {!isProposalUseEth && tokenBalance && (
                     <div className='flex justify-between w-full'>
-                      <p className='text-base leading-4 text-stone-600'>
+                      <p className='text-base-content leading-4 text-base-content'>
                         {tokenBalance.formatted} {tokenBalance.symbol}
                       </p>
                       <p className=''>
                         <span
                           className={`block ${
-                            hasEnoughBalance() ? 'bg-redpraha' : 'bg-red-500'
-                          } p-1 text-xs font-medium text-stone-800 rounded-full`}>
+                            hasEnoughBalance() ? 'bg-info' : 'bg-error'
+                          } p-1 text-xs font-medium text-base-content rounded-full`}>
                           {hasEnoughBalance() ? (
                             <Check className='w-4 h-4' />
                           ) : (
@@ -202,16 +204,16 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
                   )}
                   {isProposalUseEth && ethBalance && (
                     <div className='flex justify-between w-full'>
-                      <p className='text-base leading-4 text-stone-600'>
+                      <p className='text-base-content leading-4 text-base-content'>
                         {ethBalance.formatted} ETH
                       </p>
                       <p className=''>
                         <span
                           className={`block ${
                             (isProposalUseEth && hasEnoughBalance()) || ethBalance.value > 0
-                              ? 'bg-redpraha'
-                              : 'bg-red-500'
-                          } p-1 text-xs font-medium text-stone-800 rounded-full`}>
+                              ? 'bg-info'
+                              : 'bg-error'
+                          } p-1 text-xs font-medium text-base-content rounded-full`}>
                           {(isProposalUseEth && hasEnoughBalance()) || ethBalance.value > 0 ? (
                             <Check className='w-4 h-4' />
                           ) : (
@@ -224,26 +226,26 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
                 </div>
               </div>
             </div>
-            <div className='flex items-center p-6 space-x-2 rounded-b border-t border-redpraha '>
+            <div className='flex items-center p-6 space-x-2 rounded-b border-t border-info '>
               {hasEnoughBalance() ? (
                 <button
                   onClick={() => onSubmit()}
                   type='button'
-                  className='hover:text-green-600 hover:bg-green-50 bg-redpraha text-stone-800 rounded-xl px-5 py-2.5 text-center'>
+                  className='hover:text-success hover:bg-success bg-info text-base-content rounded-xl px-5 py-2.5 text-center'>
                   {isProposalUseEth ? 'Validate' : 'Allow spending'}
                 </button>
               ) : (
                 <button
                   disabled
                   type='button'
-                  className='hover:text-red-600 hover:bg-red-50 bg-red-500 text-stone-800 rounded-xl px-5 py-2.5 text-center'>
+                  className='hover:text-red-600 hover:bg-error bg-error text-base-content rounded-xl px-5 py-2.5 text-center'>
                   Validate
                 </button>
               )}
               <button
                 onClick={() => setShow(false)}
                 type='button'
-                className='text-stone-700 bg-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-xl border text-sm font-medium px-5 py-2.5 hover:text-stone-800 focus:z-10 '>
+                className='text-base-content bg-base-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-xl border text-sm font-medium px-5 py-2.5 hover:text-base-content focus:z-10 '>
                 Decline
               </button>
               <ContactButton

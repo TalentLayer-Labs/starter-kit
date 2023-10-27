@@ -15,7 +15,7 @@ function SideBottom() {
                 network?.chain?.name == 'Ethereum' ? 'www' : network?.chain?.name.toLowerCase()
               }.etherscan.io/block/${Number(blockNumber)}`}
               target='_blank'
-              className='text-xs font-medium text-stone-700 flex items-center'>
+              className='text-xs font-medium text-base-content flex items-center'>
               <span
                 style={{
                   width: '8px',
@@ -32,7 +32,7 @@ function SideBottom() {
               <span className='flex'>
                 <svg
                   width={10}
-                  className='text-stone-800 mx-1'
+                  className='text-base-content mx-1'
                   xmlns='http://www.w3.org/2000/svg'
                   viewBox='0 0 296.114 296.114'>
                   <path

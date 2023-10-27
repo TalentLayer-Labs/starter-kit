@@ -1,42 +1,35 @@
-import { createContext, ReactNode, useEffect, useMemo, useState } from 'react';
+import { createContext, ReactNode, useContext, useEffect, useMemo, useState } from 'react';
 import { IBuilderPlace } from '../types';
-import { useRouter } from 'next/router';
-import { useGetBuilderPlace } from '../hooks/UseGetBuilderPlace';
+import TalentLayerContext from '../../../context/talentLayer';
 
 const BuilderPlaceContext = createContext<{
   builderPlace?: IBuilderPlace;
-  loading: boolean;
-  builderPlaceNotFound: boolean;
+  isBuilderPlaceOwner: boolean;
 }>({
   builderPlace: undefined,
-  loading: true,
-  builderPlaceNotFound: false,
+  isBuilderPlaceOwner: false,
 });
 
-const BuilderPlaceProvider = ({ children }: { children: ReactNode }) => {
-  const [builderPlaceNotFound, setBuilderPlaceNotFound] = useState(false);
-  const { query } = useRouter();
-  const domain = query.domain;
-
-  const { data, loading } = useGetBuilderPlace({ domain: domain as string });
-
-  const fetchData = async () => {
-    if (data === undefined) {
-      setBuilderPlaceNotFound(true);
-    }
-  };
+const BuilderPlaceProvider = ({ data, children }: { data: IBuilderPlace; children: ReactNode }) => {
+  const { user } = useContext(TalentLayerContext);
+  const [builderPlace, setBuilderPlace] = useState<IBuilderPlace | undefined>();
+  const [isBuilderPlaceOwner, setIsBuilderPlaceOwner] = useState<boolean>(false);
 
   useEffect(() => {
-    fetchData();
-  }, [data, builderPlaceNotFound, query, domain]);
+    if (!data) return;
 
-  const value = useMemo(() => {
-    return {
-      builderPlace: data,
-      loading,
-      builderPlaceNotFound,
-    };
-  }, [data, loading, builderPlaceNotFound]);
+    const isBuilderPlaceOwner = data?.owners?.some(
+      owner => owner.toLocaleLowerCase() === user?.address,
+    );
+
+    setIsBuilderPlaceOwner(isBuilderPlaceOwner);
+    setBuilderPlace(data);
+  }, [data]);
+
+  const value = {
+    builderPlace,
+    isBuilderPlaceOwner,
+  };
 
   return <BuilderPlaceContext.Provider value={value}>{children}</BuilderPlaceContext.Provider>;
 };

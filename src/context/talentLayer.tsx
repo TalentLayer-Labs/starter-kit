@@ -1,30 +1,18 @@
+import { TalentLayerClient } from '@talentlayer/client';
 import { createContext, ReactNode, useEffect, useMemo, useState } from 'react';
-import { useAccount, useSwitchNetwork } from 'wagmi';
+import { toast } from 'react-toastify';
+import { useAccount } from 'wagmi';
 import { useChainId } from '../hooks/useChainId';
 import { getUserByAddress } from '../queries/users';
-import { IAccount, IUser } from '../types';
+import { iTalentLayerContext, IUser } from '../types';
 import { getCompletionScores, ICompletionScores } from '../utils/profile';
-import { toast } from 'react-toastify';
-import { chains, defaultChain } from '../pages/_app';
-import { TalentLayerClient } from '@talentlayer/client';
 
-const TalentLayerContext = createContext<{
-  user?: IUser;
-  account?: IAccount;
-  isActiveDelegate: boolean;
-  refreshData: () => Promise<boolean>;
-  loading: boolean;
-  completionScores?: ICompletionScores;
-  talentLayerClient?: TalentLayerClient;
-}>({
-  user: undefined,
-  account: undefined,
+const TalentLayerContext = createContext<iTalentLayerContext>({
+  loading: true,
   isActiveDelegate: false,
   refreshData: async () => {
     return false;
   },
-  loading: true,
-  completionScores: undefined,
 });
 
 const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
@@ -38,19 +26,17 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
 
   // automatically switch to the default chain is the current one is not part of the config
   useEffect(() => {
-    if (chainId && account.address) {
-      const talentLayerClient = new TalentLayerClient({
-        chainId,
-        ipfsConfig: {
-          clientId: process.env.NEXT_PUBLIC_INFURA_ID as string,
-          clientSecret: process.env.NEXT_PUBLIC_INFURA_SECRET as string,
-          baseUrl: process.env.NEXT_PUBLIC_IPFS_WRITE_URL as string,
-        },
-        platformId: parseInt(process.env.NEXT_PUBLIC_PLATFORM_ID as string),
-        signatureApiUrl: process.env.NEXT_PUBLIC_SIGNATURE_API_URL as string,
-      });
-      setTalentLayerClient(talentLayerClient);
-    }
+    const talentLayerClient = new TalentLayerClient({
+      chainId: chainId || (process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as unknown as number),
+      ipfsConfig: {
+        clientId: process.env.NEXT_PUBLIC_INFURA_ID as string,
+        clientSecret: process.env.NEXT_PUBLIC_INFURA_SECRET as string,
+        baseUrl: process.env.NEXT_PUBLIC_IPFS_WRITE_URL as string,
+      },
+      platformId: parseInt(process.env.NEXT_PUBLIC_PLATFORM_ID as string),
+      signatureApiUrl: process.env.NEXT_PUBLIC_SIGNATURE_API_URL as string,
+    });
+    setTalentLayerClient(talentLayerClient);
   }, [chainId, account.address]);
 
   const fetchData = async () => {

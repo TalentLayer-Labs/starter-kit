@@ -113,32 +113,32 @@ export const ContactListForm = ({
       validationSchema={validationSchema}>
       {({ isSubmitting, values }) => (
         <Form>
-          <div className='grid grid-cols-1 gap-6 border border-redpraha rounded-xl p-6 bg-white'>
+          <div className='grid grid-cols-1 gap-6 border border-info rounded-xl p-6 bg-base-100'>
             <label className='block'>
-              <span className='text-stone-800'>Subject</span>
+              <span className='text-base-content'>Subject</span>
               <Field
                 type='text'
                 id='subject'
                 name='subject'
-                className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
+                className='mt-1 mb-1 block w-full rounded-xl border border-info bg-base-200 shadow-sm focus:ring-opacity-50'
                 placeholder='Type your subject here...'
               />
-              <span className='text-red-500'>
+              <span className='text-error'>
                 <ErrorMessage name='subject' />
               </span>
             </label>
 
             <label className='block'>
-              <span className='text-stone-800'>Body</span>
+              <span className='text-base-content'>Body</span>
               <Field
                 as='textarea'
                 rows='4'
                 id='body'
                 name='body'
-                className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
+                className='mt-1 mb-1 block w-full rounded-xl border border-info bg-base-200 shadow-sm focus:ring-opacity-50'
                 placeholder='Type the email body here...'
               />
-              <span className='text-red-500'>
+              <span className='text-error'>
                 <ErrorMessage name='body' />
               </span>
             </label>
@@ -148,12 +148,12 @@ export const ContactListForm = ({
               render={arrayHelpers => (
                 <div className={'flex flex-row space-x-10'}>
                   <div className='block flex-auto'>
-                    <span className='text-stone-800'>Available Contacts</span>
+                    <span className='text-base-content'>Available Contacts</span>
                     <div className={'overflow-y-auto overflow-x-visible h-24'}>
                       {!usersLoaded && (
                         <div className={'flex flex-row'}>
                           <Loading />
-                          <p className={'flex text-stone-600 justify-center mt-2 ml-4'}>
+                          <p className={'flex text-base-content justify-center mt-2 ml-4'}>
                             Loading Contacts...
                           </p>
                         </div>
@@ -165,55 +165,55 @@ export const ContactListForm = ({
                             return (
                               <div
                                 key={index}
-                                className={`text-stone-600 flex ${
+                                className={`text-base-content flex ${
                                   isAddressAlreadyAdded ? 'hidden' : ''
                                 }`}>
                                 {userDetail.user.handle}
                                 <span onClick={() => arrayHelpers.insert(index, userDetail)}>
                                   <CheckCircleIcon
                                     className={
-                                      'ml-3 h-5 w-5 items-center justify-center text-stone-600 cursor-pointer'
+                                      'ml-3 h-5 w-5 items-center justify-center text-base-content cursor-pointer'
                                     }
                                   />
                                 </span>
                               </div>
                             );
                           })
-                        : usersLoaded && <p className={'text-stone-600 mt-2'}>No Contacts</p>}
+                        : usersLoaded && <p className={'text-base-content mt-2'}>No Contacts</p>}
                     </div>
                     <div className={'flex flew-row mt-2 center-items'}>
                       <input
                         type='checkbox'
                         checked={allContractsAdded}
-                        className='checked:bg-redpraha0 cursor-pointer center-items mt-1'
+                        className='checked:bg-info0 cursor-pointer center-items mt-1'
                         onClick={event => {
                           handleAddOrRemoveAllContacts(event, arrayHelpers, values.users);
                         }}
                       />
-                      <p className={'ml-2 text-stone-600 center-items'}>Add all contacts</p>
+                      <p className={'ml-2 text-base-content center-items'}>Add all contacts</p>
                     </div>
-                    <span className='text-red-500'>
+                    <span className='text-error'>
                       <ErrorMessage name='users' />
                     </span>
                   </div>
                   <label className='block flex-auto '>
-                    <span className='text-stone-800'>Selected Contacts</span>
+                    <span className='text-base-content'>Selected Contacts</span>
                     <div className={'overflow-y-auto overflow-x-visible w-auto h-24'}>
                       {values.users.length > 0 ? (
                         values.users.map((userDetails, index) => (
-                          <div key={index} className={'text-stone-600 flex'}>
+                          <div key={index} className={'text-base-content flex'}>
                             {userDetails.user.handle}
                             <span onClick={() => arrayHelpers.remove(index)}>
                               <XCircleIcon
                                 className={
-                                  'ml-3 h-5 w-5 items-center justify-center text-stone-600 cursor-pointer'
+                                  'ml-3 h-5 w-5 items-center justify-center text-base-content cursor-pointer'
                                 }
                               />
                             </span>
                           </div>
                         ))
                       ) : (
-                        <p className={'text-stone-600  mt-2'}>No Contacts</p>
+                        <p className={'text-base-content  mt-2'}>No Contacts</p>
                       )}
                     </div>
                   </label>

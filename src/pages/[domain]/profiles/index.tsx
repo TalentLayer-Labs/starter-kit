@@ -3,8 +3,13 @@ import SearchTalentButton from '../../../components/Form/SearchTalentButton';
 import Loading from '../../../components/Loading';
 import UserItem from '../../../components/UserItem';
 import useUsers from '../../../hooks/useUsers';
+import { getBuilderPlace } from '../../../modules/BuilderPlace/queries';
 
-function Talents() {
+export async function getServerSideProps({ params }: any) {
+  return await getBuilderPlace(params.domain);
+}
+
+function Profiles() {
   const PAGE_SIZE = 36;
   const router = useRouter();
   const query = router.query;
@@ -15,21 +20,21 @@ function Talents() {
   );
 
   return (
-    <div className='max-w-7xl mx-auto text-stone-800 sm:px-4 lg:px-0'>
+    <div className='max-w-7xl mx-auto text-base-content'>
       <div className='-mx-6 -mt-6 sm:mx-0 sm:mt-0'>
-        <p className='flex py-2 px-6 sm:px-0 items-center text-2xl font-medium tracking-wider mb-8 border-b w-full border-redpraha md:px-8 '>
-          All <span className='text-stone-800 ml-1'> Talents </span>
+        <p className='flex py-2 items-center text-2xl font-bold tracking-wider mb-6 w-full px-6 sm:px-0 mt-6 '>
+          All <span className='text-base-content ml-1'> Profiles </span>
         </p>
       </div>
 
       {searchQuery && users.length > 0 && (
         <p className='text-xl font-medium tracking-wider mb-8'>
-          Search results for <span className='text-stone-800'>{searchQuery}</span>
+          Search results for <span className='text-base-content'>{searchQuery}</span>
         </p>
       )}
       {searchQuery && users.length === 0 && (
         <p className='text-xl font-medium tracking-wider mb-8'>
-          No search results for <span className='text-stone-800'>{searchQuery}</span>
+          No search results for <span className='text-base-content'>{searchQuery}</span>
         </p>
       )}
 
@@ -47,8 +52,8 @@ function Talents() {
         <div className='flex justify-center items-center gap-10 flex-col pb-5'>
           <button
             type='submit'
-            className={`px-5 py-2 mt-5 content-center border border-zinc-600 rounded-full text-zinc-600 
-              hover:text-stone-800 hover:bg-midnight
+            className={`px-5 py-2 mt-5 content-center border border-zinc-600 rounded-full text-content 
+              hover:text-base-content hover:bg-base-200
             `}
             disabled={!hasMoreData}
             onClick={() => loadMore()}>
@@ -70,4 +75,4 @@ function Talents() {
   );
 }
 
-export default Talents;
+export default Profiles;

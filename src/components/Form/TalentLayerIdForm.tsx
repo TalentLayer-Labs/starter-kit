@@ -106,11 +106,11 @@ function TalentLayerIdForm({ handle, callback }: { handle?: string; callback?: (
       {({ isSubmitting, values }) => (
         <Form>
           <p className='text-center mb-8'>Mint your TalentLayer ID</p>
-          <div className='flex  bg-endnight py-4 px-4 mb-2 sm:px-0 justify-center items-center flex-row drop-shadow-lg rounded'>
+          <div className='flex  bg-base-300 py-4 px-4 mb-2 sm:px-0 justify-center items-center flex-row drop-shadow-lg rounded'>
             <div className='sm:px-6 flex flex-row items-center gap-2'>
               <Field
                 type='text'
-                className='text-stone-400 py-2 focus:ring-0 outline-none text-sm border-0 rounded-xl h-[40px]'
+                className='text-base-content opacity-50 py-2 focus:ring-0 outline-none text-sm border-0 rounded-xl h-[40px]'
                 placeholder='Choose your handle'
                 id='handle'
                 name='handle'
@@ -126,7 +126,7 @@ function TalentLayerIdForm({ handle, callback }: { handle?: string; callback?: (
                 <div className='sm:pl-2 sm:pr-4 sm:space-x-4 relative'>
                   <SubmitButton isSubmitting={isSubmitting} />
                   <HelpPopover>
-                    <h3 className='font-semibold text-stone-800 dark:text-stone-800'>
+                    <h3 className='font-semibold text-base-content dark:text-base-content'>
                       What is a TalentLayerID?
                     </h3>
                     <p>
@@ -135,7 +135,7 @@ function TalentLayerIdForm({ handle, callback }: { handle?: string; callback?: (
                       crypto wallets; this means that reputation is self-custodied by the wallet
                       owner and lives separately from integrated platforms.
                     </p>
-                    <h3 className='font-semibold text-stone-800 dark:text-stone-800'>
+                    <h3 className='font-semibold text-base-content dark:text-base-content'>
                       What is the handle?
                     </h3>
                     <p>
@@ -146,7 +146,7 @@ function TalentLayerIdForm({ handle, callback }: { handle?: string; callback?: (
                     <a
                       target='_blank'
                       href='https://docs.talentlayer.org/basics/elements/what-is-talentlayer-id'
-                      className='flex items-center font-medium text-blue-600 dark:text-blue-500 dark:hover:text-blue-600 hover:text-blue-700'>
+                      className='flex items-center font-medium text-info dark:text-info dark:hover:text-info hover:text-info'>
                       Read more{' '}
                       <svg
                         className='w-4 h-4 ml-1'
@@ -165,7 +165,7 @@ function TalentLayerIdForm({ handle, callback }: { handle?: string; callback?: (
               </div>
             </div>
           </div>
-          <span className='label-text text-red-500 mt-2'>
+          <span className='label-text text-error mt-2'>
             <ErrorMessage name='handle' />
           </span>
         </Form>

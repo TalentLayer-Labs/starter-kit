@@ -12,6 +12,11 @@ import { useConfig } from '../../../hooks/useConfig';
 import usePlatform from '../../../hooks/usePlatform';
 import { chains } from '../../_app';
 import { useChainId } from 'wagmi';
+import { getBuilderPlace } from '../../../modules/BuilderPlace/queries';
+
+export async function getServerSideProps({ params }: any) {
+  return await getBuilderPlace(params.domain);
+}
 
 function AdminFees() {
   const chainId = useChainId();
@@ -31,14 +36,14 @@ function AdminFees() {
   }
 
   return (
-    <div className='max-w-7xl mx-auto text-stone-800 sm:px-4 lg:px-0'>
+    <div className='max-w-7xl mx-auto text-base-content'>
       <div className=' -mx-6 -mt-6 '>
-        <div className='flex py-2 px-6 items-center border-b w-full border-redpraha mb-8'>
-          <p className='text-2xl font-medium flex-1'>Fees strategies</p>
+        <div className='flex py-2 px-6 items-center border-b w-full border-info mb-8'>
+          <p className='text-2xl font-bold flex-1 mt-6'>Fees strategies</p>
         </div>
       </div>
 
-      <div className='grid grid-cols-1 gap-6 border border-redpraha rounded-xl p-6 bg-white'>
+      <div className='grid grid-cols-1 gap-6 border border-info rounded-xl p-6 bg-base-100'>
         <SingleValueForm
           validationData={{
             validationSchema: Yup.object({

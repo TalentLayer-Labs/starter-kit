@@ -3,20 +3,22 @@ import { Web3Modal } from '@web3modal/react';
 import { DefaultSeo } from 'next-seo';
 import { ThemeProvider } from 'next-themes';
 import type { AppProps } from 'next/app';
+import Head from 'next/head';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Chain, WagmiConfig, configureChains, createConfig } from 'wagmi';
 import { polygon, polygonMumbai } from 'wagmi/chains';
-import SEO from '../../next-seo.config';
+import { iexec } from '../chains';
 import { TalentLayerProvider } from '../context/talentLayer';
+import { BuilderPlaceProvider } from '../modules/BuilderPlace/context/BuilderPlaceContext';
+import { getSeoDefaultConfig } from '../modules/BuilderPlace/seo';
 import { XmtpContextProvider } from '../modules/Messaging/context/XmtpContext';
 import { MessagingProvider } from '../modules/Messaging/context/messging';
-import { BuilderPlaceProvider } from '../modules/BuilderPlace/context/BuilderPlaceContext';
 import '../styles/globals.css';
 import { NetworkEnum } from '../types';
 import Layout from './Layout';
-import { iexec } from '../chains';
+import CustomPallete from '../components/CustomPallete';
 
 export let chains: Chain[] = [];
 if ((process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as unknown as NetworkEnum) == NetworkEnum.MUMBAI) {
@@ -51,13 +53,15 @@ const ethereumClient = new EthereumClient(wagmiConfig, chains);
 const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }: AppProps) {
+  console.log('MyApp', { pageProps });
   return (
     <>
+      <CustomPallete builderPlace={pageProps.builderPlace} />
       <QueryClientProvider client={queryClient}>
-        <DefaultSeo {...SEO} />
+        <DefaultSeo {...getSeoDefaultConfig(pageProps.builderPlace)} />
         <WagmiConfig config={wagmiConfig}>
           <TalentLayerProvider>
-            <BuilderPlaceProvider>
+            <BuilderPlaceProvider data={pageProps.builderPlace}>
               <XmtpContextProvider>
                 <MessagingProvider>
                   <ThemeProvider enableSystem={false}>

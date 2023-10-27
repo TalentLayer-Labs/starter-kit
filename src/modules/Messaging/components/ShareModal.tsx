@@ -8,15 +8,15 @@ function ShareModal() {
   const [show, setShow] = useState(false);
   const { account } = useContext(TalentLayerContext);
 
-  const shareLink = `${window.location.origin}/dashboard/messaging/${account?.address}`;
+  const shareLink = `${window.location.origin}/messaging/${account?.address}`;
 
   return (
     <>
       <button
         type='button'
-        className=' hover:bg-endnight text-stone-800 bg-endnight px-3 py-2 text-sm flex items-center rounded-xl'
+        className='hover:opacity-70 text-primary bg-primary px-3 py-2 text-sm flex items-center rounded-xl'
         onClick={() => setShow(true)}>
-        <QrCodeIcon className='w-[18px] h-[18px] text-stone-600 mr-2' />
+        <QrCodeIcon className='w-[18px] h-[18px] mr-2' />
         Share
       </button>
 
@@ -25,12 +25,12 @@ function ShareModal() {
           !show ? 'hidden' : ''
         } overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal h-full bg-black/90 flex flex-col items-center justify-center`}>
         <div className='relative w-full max-w-2xl h-auto'>
-          <div className='relative bg-endnight shadow '>
+          <div className='relative bg-base-300 shadow '>
             <div className='fixed top-0 right-0'>
               <button
                 onClick={() => setShow(false)}
                 type='button'
-                className='text-stone-600 bg-transparent hover:bg-gray-200 hover:text-stone-800 rounded-xl text-sm p-4 ml-auto inline-flex items-center '
+                className='text-base-content bg-transparent hover:bg-base-200 hover:text-base-content rounded-xl text-sm p-4 ml-auto inline-flex items-center '
                 data-modal-toggle='defaultModal'>
                 <svg
                   className='w-5 h-5'
@@ -62,7 +62,7 @@ function ShareModal() {
                 onClick={() => {
                   handleCopyClick(shareLink);
                 }}
-                className='flex p-3 bg-endnight border-endnight rounded-xl justify-between mt-10 text-stone-800'>
+                className='flex p-3 bg-base-300 border-info rounded-xl justify-between mt-10 text-base-content'>
                 Copy a share link
                 <ClipboardDocumentIcon className='ml-2 h-5 w-5' />
               </a>

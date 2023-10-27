@@ -21,7 +21,7 @@ export function HandlePrice({ handle }: { handle: string }) {
   );
 
   return (
-    <div className='flex items-center border-gray-300 pl-2 text-sm text-stone-400 '>
+    <div className='flex items-center border-info pl-2 text-sm text-base-content opacity-50 '>
       <div>
         {priceFormatted} {currentChain?.nativeCurrency.symbol}
       </div>

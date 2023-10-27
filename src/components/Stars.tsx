@@ -4,7 +4,7 @@ function Stars({ rating, numReviews }: { rating: number; numReviews: number }) {
       {[...Array(5)].map((_, i) => (
         <svg
           key={i}
-          className={`w-5 h-5 ${i < rating ? 'text-yellow-300' : 'text-stone-500'}`}
+          className={`w-5 h-5 ${i < rating ? 'text-yellow-300' : 'text-base-content'}`}
           fill='currentColor'
           viewBox='0 0 20 20'
           xmlns='http://www.w3.org/2000/svg'>
@@ -13,10 +13,10 @@ function Stars({ rating, numReviews }: { rating: number; numReviews: number }) {
         </svg>
       ))}
 
-      <span className='bg-midnight text-stone-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-xl ml-3'>
+      <span className='bg-base-200 text-base-content text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-xl ml-3'>
         {rating}/5
       </span>
-      <span className='text-xs text-stone-600'>
+      <span className='text-xs text-base-content'>
         {numReviews} review{numReviews > 1 ? 's' : ''}
       </span>
     </div>

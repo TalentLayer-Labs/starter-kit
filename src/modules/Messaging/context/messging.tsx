@@ -51,7 +51,7 @@ const MessagingProvider = ({ children }: { children: ReactNode }) => {
         }
       }
       const buyerAddress = getAddress(userAddress);
-      router.push(`/dashboard/messaging/${buyerAddress}`);
+      router.push(`/messaging/${buyerAddress}`);
     }
   };
 

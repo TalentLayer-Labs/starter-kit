@@ -11,7 +11,7 @@ function UserPohProfile({ pohUser }: IProps) {
         <a
           className='animate-pulse'
           target='_blank'
-          href={`https://app.proofofhumanity.id/profile/${pohUser.id}`}>
+          href={`https://app.proofofhumanity.id/profiles/${pohUser.id}`}>
           <span>
             <svg
               fill='none'

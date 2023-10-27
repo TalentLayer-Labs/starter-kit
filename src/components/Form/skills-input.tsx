@@ -40,11 +40,11 @@ export function SkillsInput({
       <div
         key={skill}
         className={
-          'leading-tight mr-2 inline-flex items-center rounded-full bg-midnight p-1 pl-3 text-xs text-stone-800'
+          'leading-tight mr-2 inline-flex items-center rounded-full bg-base-200 p-1 pl-3 text-xs text-base-content'
         }>
         <span>{skill}</span>
         <span
-          className={'ml-2 cursor-pointer rounded-full bg-redpraha text-center'}
+          className={'ml-2 cursor-pointer rounded-full bg-info text-center'}
           onClick={() => {
             const newSkills = [...allSkills];
             newSkills.splice(newSkills.indexOf(skill), 1);
@@ -68,14 +68,14 @@ export function SkillsInput({
         <div className='relative'>
           <div className='relative mb-2'>
             <Combobox.Input
-              className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
+              className='mt-1 mb-1 block w-full rounded-xl border border-info bg-base-200 shadow-sm focus:ring-opacity-50'
               onChange={event => debounceSetQuery(event.target.value)}
             />
           </div>
           {query.length >= 2 && (
-            <Combobox.Options className='absolute mt-1 max-h-60 w-full overflow-auto rounded-xl bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm'>
+            <Combobox.Options className='absolute mt-1 max-h-60 w-full overflow-auto rounded-xl bg-base-100 py-1 text-base-content shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm'>
               {filteredSkills?.length === 0 && query.length >= MINIMUM_QUERY_LENGTH ? (
-                <div className='relative cursor-default select-none py-2 px-4 text-stone-700'>
+                <div className='relative cursor-default select-none py-2 px-4 text-base-content'>
                   Nothing found.
                 </div>
               ) : (
@@ -88,7 +88,7 @@ export function SkillsInput({
                           key={skill.name}
                           className={({ active }) =>
                             `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                              active ? 'bg-zinc-600 text-stone-800' : 'text-stone-800'
+                              active ? 'bg-zinc-600 text-base-content' : 'text-base-content'
                             }`
                           }
                           value={skill.name}>

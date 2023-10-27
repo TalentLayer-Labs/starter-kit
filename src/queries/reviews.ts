@@ -14,6 +14,9 @@ export const getReviewsByService = (chainId: number, serviceId: string): Promise
         to {
           id
           handle
+          description {
+            image_url
+          }
         }
         description{
           id
@@ -62,6 +65,9 @@ export const getNewReviews = (chainId: number, id: string, timestamp?: string): 
           to {
             address
             handle
+            description {
+              image_url
+            }
           }
         }
       }

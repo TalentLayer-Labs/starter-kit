@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { postOpenAiRequest } from '../../../../modules/OpenAi/utils';
+import { postOpenAiRequest } from '../../../modules/OpenAi/utils';
+import { getBuilderPlace } from '../../../modules/BuilderPlace/queries';
 
 enum Creator {
   Me = 0,
@@ -17,17 +18,21 @@ interface InputProps {
   disable: boolean;
 }
 
+export async function getServerSideProps({ params }: any) {
+  return await getBuilderPlace(params.domain);
+}
+
 const ChatMessage = ({ text, from }: MessageProps) => {
   return (
     <>
       {from == Creator.Me && (
-        <div className=' bg-endnight border border-redpraha p-4 rounded-lg flex gap-4 items-center whitespace-pre-wrap mb-2'>
-          <p className=' text-stone-700'></p>
+        <div className=' bg-base-300 border border-info p-4 rounded-lg flex gap-4 items-center whitespace-pre-wrap mb-2'>
+          <p className=' text-base-content'></p>
         </div>
       )}
       {from == Creator.Bot && (
-        <div className='bg-endnight p-4 rounded-lg flex gap-4 items-center whitespace-pre-wrap mb-2'>
-          <p className='text-stone-800'>{text}</p>
+        <div className='bg-base-300 p-4 rounded-lg flex gap-4 items-center whitespace-pre-wrap mb-2'>
+          <p className='text-base-content'>{text}</p>
         </div>
       )}
     </>
@@ -53,7 +58,7 @@ const ChatInput = ({ onSend, disable }: InputProps) => {
       <input
         value={input}
         onChange={(ev: any) => setInput(ev.target.value)}
-        className='w-full py-2 px-3 text-stone-400 rounded-lg focuse:outline-none'
+        className='w-full py-2 px-3 text-base-content opacity-50 rounded-lg focuse:outline-none'
         type='text'
         placeholder='Ask me anything'
         disabled={disable}
@@ -63,7 +68,7 @@ const ChatInput = ({ onSend, disable }: InputProps) => {
       {!disable && (
         <button
           onClick={() => sendInput()}
-          className='grow px-5 py-2 rounded-xl bg-redpraha text-stone-800'>
+          className='grow px-5 py-2 rounded-xl bg-info text-base-content'>
           <p>send</p>
         </button>
       )}
@@ -108,7 +113,9 @@ export default function Ai() {
         {messages.map((msg: MessageProps) => (
           <ChatMessage key={msg.key} text={msg.text} from={msg.from} />
         ))}
-        {messages.length == 0 && <p className='text-center text-stone-600'>I am at you service</p>}
+        {messages.length == 0 && (
+          <p className='text-center text-base-content'>I am at you service</p>
+        )}
       </div>
     </main>
   );

@@ -79,8 +79,23 @@ export const createBuilderPlace = async (data: CreateBuilderPlaceAction) => {
       customDomain: 'null',
       logo: data.logo,
       cover: 'null',
-      primaryColor: data.primaryColor,
-      secondaryColor: data.secondaryColor,
+      pallete: {
+        primary: '#FF71A2',
+        primaryFocus: '#FFC2D1',
+        primaryContent: '#ffffff',
+        base100: '#ffffff',
+        base200: '#fefcfa',
+        base300: '#fae4ce',
+        baseContent: '#000000',
+        info: '#f4dabe',
+        infoContent: '#000000',
+        success: '#C5F1A4',
+        successContent: '#000000',
+        warning: '#FFE768',
+        warningContent: '#000000',
+        error: '#FFC2D1',
+        errorContent: '#000000',
+      },
       status: 'pending',
     });
     await newBuilderPlace.save();
@@ -97,24 +112,17 @@ export const createBuilderPlace = async (data: CreateBuilderPlaceAction) => {
 };
 
 export const getBuilderPlaceByDomain = async (domain: string) => {
-  try {
-    await connection();
-    console.log('getting builderPlace ', domain);
-    const builderPlaceSubdomain = await BuilderPlace.findOne({ subdomain: domain });
-    const builderPlaceDomain = await BuilderPlace.findOne({ customDomain: domain });
-    console.log('fetched builderPlaces, ', builderPlaceSubdomain, builderPlaceDomain);
-    if (builderPlaceSubdomain) {
-      return builderPlaceSubdomain;
-    } else if (builderPlaceDomain) {
-      return builderPlaceDomain;
-    }
-
-    return null;
-  } catch (error: any) {
-    return {
-      error: error.message,
-    };
+  await connection();
+  console.log('getting builderPlace ', domain);
+  let builderPlace;
+  if (domain.includes(process.env.NEXT_PUBLIC_ROOT_DOMAIN as string)) {
+    builderPlace = await BuilderPlace.findOne({ subdomain: domain });
+  } else {
+    builderPlace = await BuilderPlace.findOne({ customDomain: domain });
   }
+  console.log('fetched builderPlaces, ', builderPlace);
+
+  return builderPlace;
 };
 
 export const getBuilderPlaceByOwnerId = async (id: string) => {

@@ -20,7 +20,7 @@ function SubmitButton({
           className='py-2 px-5 mr-2 text-midnight bg-gray-400 rounded-xl border inline-flex items-center'>
           <svg
             role='status'
-            className='inline mr-2 w-4 h-4 text-stone-800 animate-spin '
+            className='inline mr-2 w-4 h-4 text-base-content animate-spin '
             viewBox='0 0 100 101'
             fill='none'
             xmlns='http://www.w3.org/2000/svg'>
@@ -36,7 +36,7 @@ function SubmitButton({
           Loading...
         </button>
       ) : isConnected ? (
-        <button type='submit' className='grow px-5 py-2 rounded-xl bg-redpraha text-stone-800'>
+        <button type='submit' className='grow px-5 py-2 rounded-xl bg-info text-base-content'>
           {label}
         </button>
       ) : (
@@ -45,7 +45,7 @@ function SubmitButton({
             openConnectModal();
           }}
           type='button'
-          className='grow px-5 py-2 rounded-xl bg-redpraha text-stone-800 hover:bg-midnight  '>
+          className='grow px-5 py-2 rounded-xl bg-info text-base-content hover:bg-base-200  '>
           {'Connect first'}
         </button>
       )}

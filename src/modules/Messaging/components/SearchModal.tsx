@@ -10,7 +10,7 @@ function SearchModal() {
   const router = useRouter();
 
   const handleChat = () => {
-    const chatLink = `/dashboard/messaging/${search}`;
+    const chatLink = `/messaging/${search}`;
     router.push(chatLink);
   };
 
@@ -18,9 +18,9 @@ function SearchModal() {
     <>
       <button
         type='button'
-        className=' hover:bg-endnight text-stone-800 bg-endnight px-3 py-2 text-sm flex items-center mr-4 rounded-xl'
+        className=' hover:bg-base-300 text-base-content bg-base-300 px-3 py-2 text-sm flex items-center mr-4 rounded-xl'
         onClick={() => setShow(true)}>
-        <SearchOutline className='w-[18px] h-[18px] text-stone-600 mr-2' />
+        <SearchOutline className='w-[18px] h-[18px] mr-2' />
         Search
       </button>
 
@@ -29,12 +29,12 @@ function SearchModal() {
           !show ? 'hidden' : ''
         } overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal h-full bg-black/90 flex flex-col items-center justify-center`}>
         <div className='relative w-full max-w-2xl h-auto'>
-          <div className='relative bg-endnight shadow '>
+          <div className='relative bg-base-300 shadow '>
             <div className='fixed top-0 right-0'>
               <button
                 onClick={() => setShow(false)}
                 type='button'
-                className='text-stone-600 bg-transparent hover:bg-gray-200 hover:text-stone-800 rounded-xl text-sm p-4 ml-auto inline-flex items-center '
+                className='text-base-content bg-transparent hover:bg-base-200 hover:text-base-content rounded-xl text-sm p-4 ml-auto inline-flex items-center '
                 data-modal-toggle='defaultModal'>
                 <svg
                   className='w-5 h-5'
@@ -55,7 +55,7 @@ function SearchModal() {
                 <input
                   type='text'
                   name='search'
-                  className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
+                  className='mt-1 mb-1 block w-full rounded-xl border border-info bg-base-200 shadow-sm focus:ring-opacity-50'
                   onChange={e => {
                     setSearch(e.target.value);
                   }}
@@ -64,7 +64,7 @@ function SearchModal() {
               </div>
               <a
                 onClick={handleChat}
-                className='flex p-3 bg-endnight border-endnight rounded-xl justify-between mt-10 text-stone-800'>
+                className='flex p-3 bg-base-300 border-info rounded-xl justify-between mt-10 text-base-content'>
                 Chat
               </a>
             </div>

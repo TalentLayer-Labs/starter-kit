@@ -1,12 +1,15 @@
 import { InferGetServerSidePropsType } from 'next';
-import Error from 'next/error';
 import { useContext, useEffect, useState } from 'react';
-import { getBuilderPlaceByDomain } from '../../../modules/BuilderPlace/actions';
+import { useChainId, useWalletClient } from 'wagmi';
+import TalentLayerContext from '../../../context/talentLayer';
 import DomainConfiguration from '../../../modules/BuilderPlace/components/DomainConfiguration';
 import BuilderPlaceContext from '../../../modules/BuilderPlace/context/BuilderPlaceContext';
 import { useUpdateBuilderPlaceDomain } from '../../../modules/BuilderPlace/hooks/UseUpdateBuilderPlaceDomain';
-import { useChainId, useWalletClient } from 'wagmi';
-import TalentLayerContext from '../../../context/talentLayer';
+import { getBuilderPlace } from '../../../modules/BuilderPlace/queries';
+
+export async function getServerSideProps({ params }: any) {
+  return await getBuilderPlace(params.domain);
+}
 
 export default function CustomDomain(
   props: InferGetServerSidePropsType<typeof getServerSideProps>,
@@ -14,17 +17,15 @@ export default function CustomDomain(
   const chainId = useChainId();
   const { data: walletClient } = useWalletClient({ chainId });
   const { account } = useContext(TalentLayerContext);
-  console.log('Parsed props ', props);
-  if (!props.found) return <Error statusCode={404} />;
 
-  const { builderPlace, loading } = useContext(BuilderPlaceContext);
+  const { builderPlace } = useContext(BuilderPlaceContext);
   const [customDomain, setCustomDomain] = useState('');
 
   useEffect(() => {
     if (builderPlace?.customDomain) {
       setCustomDomain(builderPlace.customDomain);
     }
-  }, [builderPlace, loading]);
+  }, [builderPlace]);
 
   const updateBuilderPlaceDomainMutation = useUpdateBuilderPlaceDomain();
 
@@ -52,7 +53,6 @@ export default function CustomDomain(
   return (
     <div>
       <p>BuilderPlace name: {builderPlace?.name}</p>
-      <p>{loading}</p>
 
       <label htmlFor='custom-domain'>Custom Domain:</label>
       <input
@@ -66,30 +66,4 @@ export default function CustomDomain(
       <DomainConfiguration domain={customDomain} />
     </div>
   );
-}
-
-export async function getServerSideProps({ params }: any) {
-  console.log('serverProps', params);
-  const domain = params.domain;
-  let builderPlace;
-  let found = false;
-
-  try {
-    builderPlace = await getBuilderPlaceByDomain(domain as string);
-    if (builderPlace?.error) {
-      found = false;
-    } else {
-      found = true;
-    }
-  } catch (error) {
-    console.error('An error occurred:', error);
-    found = false;
-  }
-  const serializedBuilderPlace = JSON.parse(JSON.stringify(builderPlace));
-  return {
-    props: {
-      builderPlace: serializedBuilderPlace,
-      found,
-    },
-  };
 }

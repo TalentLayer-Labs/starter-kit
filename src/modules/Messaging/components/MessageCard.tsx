@@ -37,15 +37,15 @@ const MessageCard = ({ message, dateHasChanged }: IMessageCardProps) => {
           <div
             className={`py-3 px-4 text-sm ${
               isSender && message.status === ChatMessageStatus.SENT
-                ? 'ml-12 bg-[#b2c9f7] text-midnight rounded-bl-2xl rounded-tl-2xl rounded-tr-xl'
+                ? 'ml-12 bg-info text-base-content rounded-bl-2xl rounded-tl-2xl rounded-tr-xl'
                 : isSender && message.status === ChatMessageStatus.ERROR
-                ? 'ml-12 bg-red-600 rounded-br-2xl rounded-tl-2xl rounded-tr-xl'
+                ? 'ml-12 bg-error rounded-br-2xl rounded-tl-2xl rounded-tr-xl'
                 : isSender && message.status === ChatMessageStatus.PENDING
-                ? 'ml-12 bg-gray-200 text-midnight rounded-bl-2xl rounded-tl-2xl rounded-tr-xl'
-                : 'mr-12 bg-gray-200 text-midnight rounded-br-2xl rounded-tr-2xl rounded-tl-xl'
+                ? 'ml-12 bg-base-200 text-base-content rounded-bl-2xl rounded-tl-2xl rounded-tr-xl'
+                : 'mr-12 bg-base-200 text-base-content rounded-br-2xl rounded-tr-2xl rounded-tl-xl'
             }
-          text-stone-800`}>
-            <span className='pr-1 text-stone-400 text-xs w-[50px]'>
+          text-base-content`}>
+            <span className='pr-1 text-base-content opacity-50 text-xs w-[50px]'>
               {formatDateTime(message.timestamp)}
             </span>
             {isSender && message.status === ChatMessageStatus.SENT && (
@@ -73,9 +73,9 @@ const MessageCard = ({ message, dateHasChanged }: IMessageCardProps) => {
 };
 
 const DateDivider = ({ date }: { date?: Date }): JSX.Element => (
-  <div className='flex align-items-center items-center pb-8 pt-4'>
+  <div className='flex items-center pb-8 pt-4'>
     <div className='grow h-[1px] bg-gray-800' />
-    <span className='mx-11 flex-none text-stone-500 text-sm font-semibold'>
+    <span className='mx-11 flex-none text-base-content text-sm font-semibold'>
       {formatDateDivider(date)}
     </span>
     <div className='grow h-[1px] bg-gray-800' />

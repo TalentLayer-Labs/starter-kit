@@ -26,11 +26,10 @@ export default function Document() {
 
         <link rel='icon' type='image/png' sizes='32x32' href='/favicon-32x32.png' />
         <link rel='icon' type='image/png' sizes='16x16' href='/favicon-16x16.png' />
-        <link rel='manifest' href='/manifest.json' />
         <link rel='mask-icon' href='/images/safari-pinned-tab.svg' color='#000000' />
         <link rel='shortcut icon' href='/favicon.ico' />
       </Head>
-      <body className='text-stone-800 bg-midnight'>
+      <body className='text-base-content bg-base-200'>
         <Main />
         <NextScript />
       </body>
