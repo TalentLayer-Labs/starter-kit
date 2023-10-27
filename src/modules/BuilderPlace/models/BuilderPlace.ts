@@ -62,6 +62,9 @@ const builderPlace = new Schema({
   logo: {
     type: String,
   },
+  icon: {
+    type: String,
+  },
   cover: {
     type: String,
   },
