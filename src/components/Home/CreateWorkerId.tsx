@@ -10,14 +10,13 @@ function CreateWorkerId() {
 
   return (
     <>
-      <div className='bg-white'>
         <div className='max-w-7xl mx-auto text-stone-800 sm:px-4 lg:px-0 py-20'>
           <div className='flex flex-col items-center justify-center gap-10'>
-            <p className='text-5xl sm:text-7xl font-medium tracking-wider max-w-5xl text-center'>
-              Create Your self-owned worker identity
+            <p className='text-5xl sm:text-6xl font-bold tracking-wider max-w-5xl text-center'>
+              Create Your self-owned <br/> worker identity
             </p>
 
-            <p className='text-stone-400 text-center'>
+            <p className='text-black-400 text-center'>
               Details about TLIDs and benefits to hirers and workers, on chain reputation and other
               details about this.
               <br />
@@ -26,7 +25,6 @@ function CreateWorkerId() {
             </p>
           </div>
         </div>
-      </div>
     </>
   );
 }
