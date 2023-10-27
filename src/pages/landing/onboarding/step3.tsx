@@ -1,19 +1,20 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useUpdateBuilderPlace } from '../../../modules/BuilderPlace/hooks/UseUpdateBuilderPlace';
 import { useGetBuilderPlaceFromOwner } from '../../../modules/BuilderPlace/hooks/UseGetBuilderPlaceFromOwner';
-import { useContext } from 'react';
+import { Dispatch, SetStateAction, useContext, useState } from 'react';
 import TalentLayerContext from '../../../context/talentLayer';
 import { useChainId, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
 import { useRouter } from 'next/router';
 import { upload } from '../../../modules/BuilderPlace/request';
 import { iBuilderPlacePalette } from '../../../modules/BuilderPlace/types';
+import Loading from '../../../components/Loading';
 
 interface IFormValues {
   subdomain: string;
   palette?: iBuilderPlacePalette;
-  logo?: File;
-  cover?: File;
+  logo?: string;
+  cover?: string;
 }
 
 const validationSchema = Yup.object({
@@ -27,6 +28,8 @@ function onboardingStep3() {
     useUpdateBuilderPlace();
   const builderPlaceData = useGetBuilderPlaceFromOwner(user?.id as string);
   const router = useRouter();
+  const [logoLoader, setLogoLoader] = useState(false);
+  const [coverLoader, setCoverLoader] = useState(false);
 
   const initialValues: IFormValues = {
     subdomain: builderPlaceData?.subdomain || '',
@@ -46,23 +49,11 @@ function onboardingStep3() {
           message: values.subdomain,
         });
 
-        let logo;
-        if (values.logo) {
-          logo = await upload(values.logo);
-          console.log({ logo, url: logo?.variants[0] });
-        }
-
-        let cover;
-        if (values.cover) {
-          cover = await upload(values.cover);
-          console.log({ cover, url: cover?.variants[0] });
-        }
-
         if (builderPlaceData) {
           await updateBuilderPlaceAsync({
             subdomain: values.subdomain,
-            logo: logo?.variants[0] || null,
-            cover: cover?.variants[0] || null,
+            logo: values.logo || undefined,
+            cover: values.cover || undefined,
             name: builderPlaceData.name,
             ownerTalentLayerId: builderPlaceData.ownerTalentLayerId,
             palette: undefined,
@@ -79,6 +70,20 @@ function onboardingStep3() {
       }
     }
   };
+
+  const uploadImage = async (
+    file: File,
+    setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void,
+    fieldName: string,
+    setLoader: Dispatch<SetStateAction<boolean>>,
+  ) => {
+    setLoader(true);
+    const profilePictureUrl = await upload(file);
+    console.log({ logo: profilePictureUrl, url: profilePictureUrl?.variants[0] });
+    setFieldValue(fieldName, profilePictureUrl?.variants[0]);
+    setLoader(false);
+  };
+
   return (
     <>
       <p>Hirer onboarding - step3</p>
@@ -104,46 +109,69 @@ function onboardingStep3() {
                 <ErrorMessage name='subdomain' />
               </span>
 
-              <label className='block'>
-                <span className='text-stone-800'>Logo</span>
-                <input
-                  type='file'
-                  id='logo'
-                  name='logo'
-                  onChange={(event: any) => {
-                    setFieldValue('logo', event.currentTarget.files[0]);
-                  }}
-                  className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
-                  placeholder=''
-                />
-              </label>
-              <span className='text-red-500'>
-                <ErrorMessage name='logo' />
-              </span>
-              <label className='block'>
-                <span className='text-stone-800'>Cover</span>
-                <input
-                  type='file'
-                  id='cover'
-                  name='cover'
-                  onChange={(event: any) => {
-                    setFieldValue('cover', event.currentTarget.files[0]);
-                  }}
-                  className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
-                  placeholder=''
-                />
-              </label>
-              <span className='text-red-500'>
-                <ErrorMessage name='cover' />
-              </span>
+                <label className='block'>
+                  <span className='text-stone-800'>Logo</span>
+                  <input
+                    type='file'
+                    id='logo'
+                    name='logo'
+                    onChange={async (event: any) => {
+                      await uploadImage(
+                        event.currentTarget.files[0],
+                        setFieldValue,
+                        'logo',
+                        setLogoLoader,
+                      );
+                    }}
+                    className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
+                    placeholder=''
+                  />
+                  {logoLoader && <Loading />}
+                  {values.logo && (
+                    <div className='flex items-center justify-center py-3'>
+                      <img width='300' height='300' src={values.logo} alt='' />
+                    </div>
+                  )}
+                </label>
+                <span className='text-red-500'>
+                  <ErrorMessage name='logo' />
+                </span>
+                <label className='block'>
+                  <span className='text-stone-800'>Cover</span>
+                  <input
+                    type='file'
+                    id='cover'
+                    name='cover'
+                    onChange={async (event: any) => {
+                      await uploadImage(
+                        event.currentTarget.files[0],
+                        setFieldValue,
+                        'cover',
+                        setCoverLoader,
+                      );
+                    }}
+                    className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
+                    placeholder=''
+                  />
+                  {coverLoader && <Loading />}
+                  {values.cover && (
+                    <div className='flex items-center justify-center py-3'>
+                      <img width='300' height='300' src={values.cover} alt='' />
+                    </div>
+                  )}
+                </label>
+                <span className='text-red-500'>
+                  <ErrorMessage name='cover' />
+                </span>
 
-              <button
-                type='submit'
-                className='grow px-5 py-2 rounded-xl bg-redpraha text-stone-800'>
-                I'm done
-              </button>
-            </div>
-          </Form>
+                <button
+                  type='submit'
+                  className='grow px-5 py-2 rounded-xl bg-redpraha text-stone-800'>
+                  I'm done
+                </button>
+              </div>
+            </Form>
+          </>
         )}
       </Formik>
     </>
