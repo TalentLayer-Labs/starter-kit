@@ -2,7 +2,7 @@
 import { Schema, model, models } from 'mongoose';
 import { PreferredWorkTypes } from '../../../types';
 
-const pallete = new Schema({
+const palette = new Schema({
   primary: {
     type: String,
   },
@@ -69,7 +69,7 @@ const builderPlace = new Schema({
   cover: {
     type: String,
   },
-  pallete,
+  palette: palette,
   presentation: {
     type: String,
   },

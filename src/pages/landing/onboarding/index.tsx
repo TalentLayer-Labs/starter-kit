@@ -56,7 +56,7 @@ function onboardingStep1() {
       await createBuilderPlaceAsync({
         subdomain: subdomain,
         name: name,
-        pallete: {
+        palette: {
           primary: '#FF71A2',
           primaryFocus: '#FFC2D1',
           primaryContent: '#ffffff',
