@@ -1,4 +1,6 @@
+import { TalentLayerClient } from '@talentlayer/client';
 import { Connector } from 'wagmi';
+import { ICompletionScores } from './utils/profile';
 
 export type IHive = {
   id: string;
@@ -331,4 +333,14 @@ export type Web3MailStats = {
   totalSentThisMonth: number;
   totalContact: number;
   totalCronRunning: number;
+};
+
+export type iTalentLayerContext = {
+  loading: boolean;
+  isActiveDelegate: boolean;
+  refreshData: () => Promise<boolean>;
+  user?: IUser;
+  account?: IAccount;
+  completionScores?: ICompletionScores;
+  talentLayerClient?: TalentLayerClient;
 };
