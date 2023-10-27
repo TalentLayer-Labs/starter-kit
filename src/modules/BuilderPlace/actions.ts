@@ -10,7 +10,7 @@ import {
 import { BuilderPlace } from './models/BuilderPlace';
 import {
   CreateBuilderPlaceAction,
-  IBuilderPlace,
+  SetBuilderPlaceOwner,
   UpdateBuilderPlace,
   UpdateBuilderPlaceDomain,
 } from './types';
@@ -43,6 +43,20 @@ export const updateBuilderPlace = async (builderPlace: UpdateBuilderPlace) => {
   }
 };
 
+export const setBuilderPlaceOwner = async (builderPlace: SetBuilderPlaceOwner) => {
+  try {
+    await connection();
+    await BuilderPlace.updateOne({ subdomain: builderPlace.subdomain }, builderPlace).exec();
+    return {
+      message: 'BuilderPlace updated successfully',
+    };
+  } catch (error: any) {
+    return {
+      error: error.message,
+    };
+  }
+};
+
 export const createBuilderPlace = async (data: CreateBuilderPlaceAction) => {
   try {
     await connection();
@@ -59,30 +73,29 @@ export const createBuilderPlace = async (data: CreateBuilderPlaceAction) => {
     const newBuilderPlace = new BuilderPlace({
       _id: new mongoose.Types.ObjectId(),
       name: data.name,
+      presentation: data.presentation,
       subdomain: data.subdomain,
+      preferredWorkTypes: data.preferredWorkTypes,
       customDomain: 'null',
-      logo: 'a',
-      cover: 'a',
+      logo: data.logo,
+      cover: 'null',
       pallete: {
-        primary: '#ffffff',
-        primaryFocus: '#ffffff',
+        primary: '#FF71A2',
+        primaryFocus: '#FFC2D1',
         primaryContent: '#ffffff',
         base100: '#ffffff',
-        base200: '#ffffff',
-        base300: '#ffffff',
-        baseContent: '#ffffff',
-        info: '#ffffff',
-        infoContent: '#ffffff',
-        success: '#ffffff',
-        successContent: '#ffffff',
-        warning: '#ffffff',
-        warningContent: '#ffffff',
-        error: '#ffffff',
-        errorContent: '#ffffff',
+        base200: '#fefcfa',
+        base300: '#fae4ce',
+        baseContent: '#000000',
+        info: '#f4dabe',
+        infoContent: '#000000',
+        success: '#C5F1A4',
+        successContent: '#000000',
+        warning: '#FFE768',
+        warningContent: '#000000',
+        error: '#FFC2D1',
+        errorContent: '#000000',
       },
-      ownerTalentLayerId: data.ownerTalentLayerId,
-      presentation: 'a',
-      owners: data.owners,
       status: 'pending',
     });
     await newBuilderPlace.save();
@@ -110,6 +123,48 @@ export const getBuilderPlaceByDomain = async (domain: string) => {
   console.log('fetched builderPlaces, ', builderPlace);
 
   return builderPlace;
+};
+
+export const getBuilderPlaceByOwnerId = async (id: string) => {
+  try {
+    await connection();
+    console.log("getting builderPlace with owner's id:", id);
+    const builderPlaceSubdomain = await BuilderPlace.findOne({ ownerTalentLayerId: id });
+    console.log('fetched builderPlace, ', builderPlaceSubdomain);
+    if (builderPlaceSubdomain) {
+      return builderPlaceSubdomain;
+    }
+
+    return null;
+  } catch (error: any) {
+    return {
+      error: error.message,
+    };
+  }
+};
+
+export const getBuilderPlaceByOwnerAddressAndDomain = async (
+  address: string,
+  subdomain: string,
+) => {
+  try {
+    await connection();
+    console.log("getting builderPlace with owner's address & domain:", address, subdomain);
+    const builderPlaceSubdomain = await BuilderPlace.findOne({
+      owners: address,
+      subdomain: subdomain,
+    });
+    console.log('fetched builderPlace, ', builderPlaceSubdomain);
+    if (builderPlaceSubdomain) {
+      return builderPlaceSubdomain;
+    }
+
+    return null;
+  } catch (error: any) {
+    return {
+      error: error.message,
+    };
+  }
 };
 
 // TODO! createBuilderPlace, can be used for the onboarding workflow maybe for the creating the subdomain & deleteBuilderPlace

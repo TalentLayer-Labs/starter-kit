@@ -1,3 +1,5 @@
+import { PreferredWorkTypes } from '../../types';
+
 export interface iBuilderPlacePallete {
   primary: string;
   primaryFocus: string;
@@ -18,15 +20,30 @@ export interface iBuilderPlacePallete {
 export interface UpdateBuilderPlace {
   subdomain: string;
   name: string | undefined;
-  pallete: iBuilderPlacePallete
+  pallete?: iBuilderPlacePallete;
   ownerTalentLayerId: string | undefined;
   owners: string[] | undefined;
   status: string | undefined;
+  cover: string | undefined;
+  logo: string | undefined;
+  signature: `0x${string}` | Uint8Array;
+}
+export interface DeleteBuilderPlace {
+  subdomain: string;
+  signature: `0x${string}` | Uint8Array;
 }
 
 export interface UpdateBuilderPlaceDomain {
   subdomain: string;
   customDomain: string;
+  signature: `0x${string}` | Uint8Array;
+}
+
+export interface SetBuilderPlaceOwner {
+  name: string;
+  subdomain: string;
+  owners: string[];
+  ownerTalentLayerId: string;
 }
 
 export enum DomainVerificationStatusProps {
@@ -40,16 +57,19 @@ export enum DomainVerificationStatusProps {
 export interface CreateBuilderPlaceAction {
   name: string;
   subdomain: string;
-  pallete: iBuilderPlacePallete
-  owners: string[];
-  ownerTalentLayerId: string;
+  pallete: iBuilderPlacePallete;
+  presentation: string;
+  preferredWorkTypes: PreferredWorkTypes[];
+  logo: string;
 }
 
 export interface CreateBuilderPlaceProps {
   name: string;
   subdomain: string;
-  pallete: iBuilderPlacePallete
-  ownerTalentLayerId: string;
+  pallete: iBuilderPlacePallete;
+  presentation: string;
+  preferredWorkTypes: PreferredWorkTypes[];
+  logo: string;
 }
 
 export type IBuilderPlace = {
@@ -59,11 +79,12 @@ export type IBuilderPlace = {
   customDomain: string | null;
   logo: string;
   cover: string;
-  pallete: iBuilderPlacePallete
+  pallete: iBuilderPlacePallete;
   presentation: string;
   owners: string[];
   ownerTalentLayerId: string;
   status: 'Validated' | 'Pending';
+  preferredWorkTypes: PreferredWorkTypes[];
 };
 
 // From https://vercel.com/docs/rest-api/endpoints#get-a-project-domain
@@ -116,4 +137,11 @@ export interface DomainVerificationResponse {
     value: string;
     reason: string;
   }[];
+}
+
+export interface OrganizationProps {
+  name: string;
+  about: string;
+  jobType: PreferredWorkTypes;
+  imageUrl: string;
 }

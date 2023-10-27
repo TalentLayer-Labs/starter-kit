@@ -1,4 +1,4 @@
-import WorkerOnboardSuccess from "../../../components/WorkerOnboardSuccess";
+import WorkerOnboardSuccess from '../../../components/WorkerOnboardSuccess';
 
 function onboardingStep3() {
   return (

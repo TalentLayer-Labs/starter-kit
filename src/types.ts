@@ -2,24 +2,6 @@ import { TalentLayerClient } from '@talentlayer/client';
 import { Connector } from 'wagmi';
 import { ICompletionScores } from './utils/profile';
 
-export type IHive = {
-  id: string;
-  handle: string;
-  address: string;
-  description?: IHiveDetails;
-  members: string[];
-  honeyFee: number;
-  owner: string;
-  ownerIdentity?: IUser;
-  identity: IUser;
-  paymasterAddress: string;
-};
-
-export type IHiveDetails = {
-  manifesto: string;
-  offeredServices: string;
-};
-
 export type IUser = {
   id: string;
   handle: string;
@@ -334,6 +316,13 @@ export type Web3MailStats = {
   totalContact: number;
   totalCronRunning: number;
 };
+
+export enum PreferredWorkTypes {
+  jobs = 'jobs',
+  bounties = 'bounties',
+  grants = 'grants',
+  gigs = 'gigs',
+}
 
 export type iTalentLayerContext = {
   loading: boolean;

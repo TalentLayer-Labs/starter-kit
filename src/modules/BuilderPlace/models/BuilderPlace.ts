@@ -1,5 +1,6 @@
 // https://mongoosejs.com/docs/schematypes.html#
-import mongoose, { Schema, model, models } from 'mongoose';
+import { Schema, model, models } from 'mongoose';
+import { PreferredWorkTypes } from '../../../types';
 
 const pallete = new Schema({
   primary: {
@@ -81,6 +82,12 @@ const builderPlace = new Schema({
   status: {
     type: String,
     default: 'pending',
+  },
+  preferredWorkTypes: {
+    type: [String],
+    enum: PreferredWorkTypes,
+    required: true,
+    unique: false,
   },
 });
 
