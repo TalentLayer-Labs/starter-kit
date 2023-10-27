@@ -15,7 +15,7 @@ function LensModule({ address }: IProps) {
 
   return (
     <div>
-      <h2 className='pb-4 text-stone-800 font-bold break-all'>Lens Profile</h2>
+      <h2 className='pb-4 text-base font-bold break-all'>Lens Profile</h2>
       <div className='flex'>
         <>
           <div className='md:w-1/2 xl:w-1/3 mb-6'>

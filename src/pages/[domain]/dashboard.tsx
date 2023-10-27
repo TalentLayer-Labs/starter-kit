@@ -24,16 +24,16 @@ function Dashboard() {
   }
 
   return (
-    <div className='max-w-7xl mx-auto text-stone-800'>
+    <div className='max-w-7xl mx-auto text-base'>
       <div className='-mx-6 -mt-6 sm:mx-0 sm:mt-0'>
         <div className='flex py-2 px-6 sm:px-0 items-center w-full mb-8'>
           <p className='text-2xl font-bold flex-1 mt-6'>
-            Your <span className='text-stone-800 ml-1'> dashboard </span>
+            Your <span className='text-base ml-1'> dashboard </span>
           </p>
           <Link
             href={`/profiles/edit`}
-            className=' hover:bg-endnight text-stone-800 bg-endnight px-3 py-2 text-sm flex items-center rounded-xl'>
-            <PencilSquareIcon className='w-[18px] h-[18px] text-stone-600 mr-2' />
+            className='hover:bg-primary-focus text-primary bg-primary px-3 py-2 text-sm flex items-center rounded-xl'>
+            <PencilSquareIcon className='w-[18px] h-[18px] mr-2' />
             Edit
           </Link>
         </div>

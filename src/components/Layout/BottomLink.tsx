@@ -5,14 +5,14 @@ function BottomLink({ children, href }: { children: React.ReactNode; href: strin
   const isRootPages = href == '/dashboard' || href === '/';
   let className = isRootPages
     ? router.asPath === href
-      ? 'bg-midnight'
+      ? 'bg-base-200'
       : ''
     : router.asPath.includes(href)
-    ? 'bg-midnight'
+    ? 'bg-base-200'
     : '';
 
   className +=
-    ' inline-flex font-light text-stone-800 flex-col items-center justify-center px-2 group my-2 rounded-xl';
+    ' inline-flex font-light text-base flex-col items-center justify-center px-2 group my-2 rounded-xl';
 
   const handleClick = (e: any) => {
     e.preventDefault();

@@ -15,7 +15,7 @@ function UserItem({ user }: { user: IUser }) {
   }
 
   return (
-    <div className='flex flex-row gap-2 rounded-xl p-4 border border-redpraha text-stone-800 bg-white'>
+    <div className='flex flex-row gap-2 rounded-xl p-4 border border-info text-base bg-base-100'>
       <div className='flex flex-col items-top justify-between w-full'>
         <div className='flex flex-col justify-start items-start gap-4'>
           <div className='flex items-center justify-start mb-4'>
@@ -31,8 +31,8 @@ function UserItem({ user }: { user: IUser }) {
               alt='default avatar'
             />
             <div className='flex flex-col'>
-              <p className='text-stone-800 font-medium break-all'>{user.handle}</p>
-              <p className='text-xs text-stone-400'>{userDescription?.title || '-'}</p>
+              <p className='text-base font-medium break-all'>{user.handle}</p>
+              <p className='text-xs text-base opacity-50'>{userDescription?.title || '-'}</p>
             </div>
           </div>
         </div>
@@ -40,13 +40,13 @@ function UserItem({ user }: { user: IUser }) {
 
         <div className='flex flex-row gap-4 justify-end items-center'>
           <Link
-            className='text-stone-800 bg-stone-200 hover:bg-stone-300 px-5 py-2.5 rounded-xl text-md relative'
+            className='text-primary bg-primary hover:bg-primary-focus px-5 py-2.5 rounded-xl text-md relative'
             href={`/profiles/${user.id}`}>
             View profile
           </Link>
           {currentUser?.id === user.id && (
             <Link
-              className='text-green-600 bg-green-50 hover:bg-redpraha hover:text-stone-800 px-5 py-2 rounded'
+              className='text-success bg-success hover:bg-info hover:text-base px-5 py-2 rounded'
               href={`/profiles/edit`}>
               Edit profile
             </Link>

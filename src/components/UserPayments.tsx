@@ -12,11 +12,11 @@ function UserPayments({ user }: { user: IUser }) {
   }
   return (
     <>
-      <h2 className='pb-4 text-stone-800  break-all flex justify-between items-center'>
+      <h2 className='pb-4 text-base  break-all flex justify-between items-center'>
         <span className='flex-1 font-bold'>Your last incomes</span>
 
         <Link
-          className=' hover:bg-endnight text-stone-800 bg-endnight px-3 py-2 text-sm  rounded-xl'
+          className='hover:bg-primary-focus text-primary bg-primary px-3 py-2 text-sm  rounded-xl'
           href={`/profiles/incomes`}>
           Sell all
         </Link>
@@ -26,11 +26,11 @@ function UserPayments({ user }: { user: IUser }) {
           return (
             <Link
               href={`/work/${payment.service.id}`}
-              className='flex items-center p-4 bg-white rounded-xl border border-redpraha'
+              className='flex items-center p-4 bg-base-100 rounded-xl border border-info'
               key={i}>
-              <div className='flex flex-shrink-0 items-center justify-center bg-green-200 h-16 w-16 rounded'>
+              <div className='flex flex-shrink-0 items-center justify-center bg-success h-16 w-16 rounded'>
                 <svg
-                  className='w-6 h-6 fill-current text-green-700'
+                  className='w-6 h-6 fill-current text-success'
                   xmlns='http://www.w3.org/2000/svg'
                   viewBox='0 0 20 20'
                   fill='currentColor'>
@@ -46,7 +46,7 @@ function UserPayments({ user }: { user: IUser }) {
                   {renderTokenAmount(payment.rateToken, payment.amount)}
                 </span>
                 <div className='flex items-center justify-between'>
-                  <span className='text-stone-400'>
+                  <span className='text-base opacity-50'>
                     received the {formatStringCompleteDate(payment.createdAt)}
                   </span>
                 </div>

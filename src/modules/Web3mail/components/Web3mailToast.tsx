@@ -19,14 +19,14 @@ function Web3mailToast() {
           <div className='mt-3'>
             <a
               href='/profiles/edit/privacy'
-              className='px-5 py-2 rounded-xl bg-redpraha hover:bg-midnight text-stone-800 hover:text-stone-800 inline-flex items-center text-xs'>
+              className='px-5 py-2 rounded-xl bg-info hover:bg-base-200 text-base hover:text-base inline-flex items-center text-xs'>
               <span>Activate now</span>
               <ArrowSmallRightIcon width='16' height='16' className='ml-2' />
             </a>
 
             <a
               href='/profiles/edit/privacy'
-              className='px-3 py-1 underline text-stone-800 hover:text-stone-400 inline-flex items-center text-xs'>
+              className='px-3 py-1 underline text-base hover:text-base opacity-50 inline-flex items-center text-xs'>
               <span>Learn more</span>
             </a>
           </div>

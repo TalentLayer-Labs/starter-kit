@@ -112,12 +112,11 @@ function Dashboard() {
   }
 
   return (
-    <div className='mx-auto text-stone-800'>
+    <div className='mx-auto text-base'>
       {!providerState?.client && account && (
         <div className='flex items-center justify-center pt-16'>
           <button
-            type='submit'
-            className='bg-redpraha text-stone-800 font-bold py-2 px-4 rounded'
+            className='text-primary bg-primary hover:bg-primary-focus px-5 py-2.5 rounded-xl text-md relative'
             onClick={() => handleXmtpConnect()}>
             Connect to Messaging
           </button>
@@ -159,12 +158,12 @@ function Dashboard() {
           </div>
           {messageSendingErrorMsg && (
             <div className={'text-center text-xs px-4'}>
-              <p className={'text-red-400 ml-1'}>{messageSendingErrorMsg}</p>
+              <p className={'text-error ml-1'}>{messageSendingErrorMsg}</p>
             </div>
           )}
           {selectedConversationPeerAddress && !selectedConversationPeerAddress && (
             <div className={'text-center text-xs px-4'}>
-              <p className={'text-red-400 ml-1'}>User is not registered</p>
+              <p className={'text-error ml-1'}>User is not registered</p>
             </div>
           )}
         </div>

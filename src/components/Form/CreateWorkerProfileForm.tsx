@@ -122,7 +122,6 @@ function CreateWorkerProfileForm({ callback }: { callback?: () => void }) {
         }
 
         router.push('/worker-onboarding/step3');
-
       } catch (error) {
         console.log(error);
         showErrorTransactionToast(error);
@@ -142,56 +141,56 @@ function CreateWorkerProfileForm({ callback }: { callback?: () => void }) {
         <Form>
           <div className='grid grid-cols-1 gap-6'>
             <label className='block'>
-              <span className='text-stone-800'>Title</span>
+              <span className='text-base'>Title</span>
               <Field
                 type='text'
                 id='title'
                 name='title'
-                className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
+                className='mt-1 mb-1 block w-full rounded-xl border border-info bg-base-200 shadow-sm focus:ring-opacity-50'
                 placeholder=''
               />
             </label>
             <label className='block'>
-              <span className='text-stone-800'>Name</span>
+              <span className='text-base'>Name</span>
               <Field
                 type='text'
                 id='name'
                 name='name'
-                className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
+                className='mt-1 mb-1 block w-full rounded-xl border border-info bg-base-200 shadow-sm focus:ring-opacity-50'
                 placeholder=''
               />
             </label>
             <label className='block'>
-              <span className='text-stone-800'>Role</span>
+              <span className='text-base'>Role</span>
               <Field
                 as='input'
                 type='text'
                 id='role'
                 name='role'
                 value='worker'
-                className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
+                className='mt-1 mb-1 block w-full rounded-xl border border-info bg-base-200 shadow-sm focus:ring-opacity-50'
                 readOnly
               />
             </label>
 
             <label className='block'>
-              <span className='text-stone-800'>Picture Url</span>
+              <span className='text-base'>Picture Url</span>
               <Field
                 type='text'
                 id='image_url'
                 name='image_url'
-                className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
+                className='mt-1 mb-1 block w-full rounded-xl border border-info bg-base-200 shadow-sm focus:ring-opacity-50'
                 placeholder=''
               />
-              <div className='border-redpraha bg-redpraha relative w-full border transition-all duration-300 rounded-xl p-4'>
+              <div className='border-info bg-info relative w-full border transition-all duration-300 rounded-xl p-4'>
                 <div className='flex w-full items-center gap-3'>
                   <QuestionMarkCircle className='hidden' />
                   <div>
-                    <h2 className='font-heading text-xs font-bold text-stone-800 mb-1'>
+                    <h2 className='font-heading text-xs font-bold text-base mb-1'>
                       <span>Need help?</span>
                     </h2>
                     <p className='font-alt text-xs font-normal'>
-                      <span className='text-stone-600'>Use our AI to generate a cool one</span>
+                      <span className='text-base'>Use our AI to generate a cool one</span>
                     </p>
                   </div>
                   <div className='ms-auto'>
@@ -200,7 +199,7 @@ function CreateWorkerProfileForm({ callback }: { callback?: () => void }) {
                       onClick={e =>
                         generatePictureUrl(e, newUrl => setFieldValue('image_url', newUrl))
                       }
-                      className='border text-stone-800 bg-endnight hover:bg-white border-white rounded-md h-10 w-10 p-2 relative inline-flex items-center justify-center space-x-1 font-sans text-sm font-normal leading-5 no-underline outline-none transition-all duration-300'>
+                      className='border text-base bg-base-300 hover:bg-base-100 border-white rounded-md h-10 w-10 p-2 relative inline-flex items-center justify-center space-x-1 font-sans text-sm font-normal leading-5 no-underline outline-none transition-all duration-300'>
                       {aiLoading ? <Loading /> : 'GO'}
                     </button>
                   </div>
@@ -214,19 +213,19 @@ function CreateWorkerProfileForm({ callback }: { callback?: () => void }) {
             </label>
 
             <label className='block'>
-              <span className='text-stone-800'>About</span>
+              <span className='text-base'>About</span>
               <Field
                 as='textarea'
                 id='about'
                 name='about'
                 rows='4'
-                className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
+                className='mt-1 mb-1 block w-full rounded-xl border border-info bg-base-200 shadow-sm focus:ring-opacity-50'
                 placeholder=''
               />
             </label>
 
             <label className='block'>
-              <span className='text-stone-800'>Skills</span>
+              <span className='text-base'>Skills</span>
 
               <SkillsInput initialValues={userDescription?.skills_raw} entityId={'skills'} />
 

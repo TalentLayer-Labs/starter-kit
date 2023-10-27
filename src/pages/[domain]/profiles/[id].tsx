@@ -20,12 +20,12 @@ function Profile() {
   }
 
   return (
-    <div className='max-w-7xl mx-auto text-stone-800'>
+    <div className='max-w-7xl mx-auto text-base'>
       {user && (
         <>
           <div className='-mx-6 -mt-6 sm:mx-0 sm:mt-0'>
             <p className='flex py-2 items-center text-2xl font-bold tracking-wider mb-6 w-full px-6 sm:px-0 mt-6 '>
-              Profile <span className='text-stone-800 ml-1'> {user.handle} </span>
+              Profile <span className='text-base ml-1'> {user.handle} </span>
             </p>
           </div>
           <div>

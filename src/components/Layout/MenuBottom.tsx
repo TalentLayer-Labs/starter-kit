@@ -28,7 +28,7 @@ function MenuBottom({
   };
 
   return (
-    <div className='menuBottom md:hidden fixed bottom-0 left-0 z-50 w-full h-16 border-t border-redpraha bg-endnight'>
+    <div className='menuBottom md:hidden fixed bottom-0 left-0 z-50 w-full h-16 border-t border-info bg-base-300'>
       <div className={`grid h-full max-w-lg grid-cols-5 font-medium`}>
         {navigation.map(item => (
           <BottomLink key={item.name} href={item.href}>
@@ -37,7 +37,7 @@ function MenuBottom({
           </BottomLink>
         ))}
         <button
-          className=' inline-flex font-light text-stone-800 flex-col items-center justify-center px-2 group my-2 rounded-xl'
+          className=' inline-flex font-light text-base flex-col items-center justify-center px-2 group my-2 rounded-xl'
           onClick={onClick}>
           <Bars3Icon className='w-5 h-5 mb-1 ' />
           <span className='text-xs'>More</span>

@@ -11,8 +11,8 @@ function Home() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
-    <div className='bg-white text-black'>
-      <header className='navbar fixed top-0 left-0 z-50 w-full border-stroke bg-white duration-300'>
+    <div className='bg-base-100 text-black'>
+      <header className='navbar fixed top-0 left-0 z-50 w-full border-stroke bg-base-100 duration-300'>
         <div className='container relative lg:max-w-[1305px] lg:px-10'>
           <div className='flex items-center justify-between'>
             <div className='block py-4 lg:py-0'>
@@ -41,7 +41,7 @@ function Home() {
                 <span className='-mt-[2px] block h-[2px] w-7 -rotate-45 bg-black '></span>
               </button>
 
-              <nav className='fixed top-0 left-0 z-[999] flex h-screen w-full items-center justify-center bg-white bg-opacity-95 text-center backdrop-blur-sm lg:static lg:h-auto lg:w-max lg:bg-transparent lg:backdrop-blur-none '>
+              <nav className='fixed top-0 left-0 z-[999] flex h-screen w-full items-center justify-center bg-base-100 bg-opacity-95 text-center backdrop-blur-sm lg:static lg:h-auto lg:w-max lg:bg-transparent lg:backdrop-blur-none '>
                 <ul className='items-center space-y-3 lg:flex lg:space-x-8 lg:space-y-0 xl:space-x-10'>
                   <li className='menu-item'>
                     <a
@@ -106,12 +106,12 @@ function Home() {
                     <div className='mr-[60px] flex items-center justify-end lg:mr-0'>
                       <a
                         href='/onboarding'
-                        className='rounded-md bg-landingprimary py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base font-medium text-stone-800 hover:bg-opacity-90'>
+                        className='rounded-md bg-landingprimary py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base font-medium text-base hover:bg-opacity-90'>
                         Create a BuilderPlace
                       </a>
                       <a
                         href='/worker-onboarding'
-                        className='rounded-md bg-endnight ml-2 py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base font-medium text-stone-800 hover:bg-opacity-90'>
+                        className='rounded-md bg-base-300 ml-2 py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base font-medium text-base hover:bg-opacity-90'>
                         Contribute to Projects
                       </a>
                     </div>
@@ -151,13 +151,13 @@ function Home() {
           </div>
 
           <div className='container max-w-[1390px]'>
-            <div className='rounded-2xl bg-white px-5 pt-14 pb-14 shadow-md md:pb-1 lg:pt-20 lg:pb-5 xl:px-10'>
+            <div className='rounded-2xl bg-base-100 px-5 pt-14 pb-14 shadow-md md:pb-1 lg:pt-20 lg:pb-5 xl:px-10'>
               <div className='-mx-4 flex flex-wrap'>
                 <div className='w-full px-4 md:w-1/2 lg:w-1/3'>
                   <div
                     className='wow fadeInUp group mx-auto mb-[60px] max-w-[310px] text-center'
                     data-wow-delay='.2s'>
-                    <div className='mx-auto mb-8 flex h-[90px] w-[90px] items-center justify-center rounded-3xl bg-redpraha bg-opacity-20 text-redpraha duration-300 group-hover:bg-redpraha group-hover:text-stone-800   '>
+                    <div className='mx-auto mb-8 flex h-[90px] w-[90px] items-center justify-center rounded-3xl bg-info bg-opacity-20 text-redpraha duration-300 group-hover:bg-info group-hover:text-base   '>
                       <svg
                         xmlns='http://www.w3.org/2000/svg'
                         width='44'
@@ -201,7 +201,7 @@ function Home() {
                   <div
                     className='wow fadeInUp group mx-auto mb-[60px] max-w-[310px] text-center'
                     data-wow-delay='.3s'>
-                    <div className='mx-auto mb-8 flex h-[90px] w-[90px] items-center justify-center rounded-3xl bg-redpraha bg-opacity-20 text-redpraha duration-300 group-hover:bg-redpraha group-hover:text-stone-800   '>
+                    <div className='mx-auto mb-8 flex h-[90px] w-[90px] items-center justify-center rounded-3xl bg-info bg-opacity-20 text-redpraha duration-300 group-hover:bg-info group-hover:text-base   '>
                       <ChatBubbleBottomCenterTextIcon width={48} height={48} />
                     </div>
                     <h3 className='mb-4 text-xl font-semibold text-black  sm:text-[22px] xl:text-[26px]'>
@@ -217,7 +217,7 @@ function Home() {
                   <div
                     className='wow fadeInUp group mx-auto mb-[60px] max-w-[310px] text-center'
                     data-wow-delay='.4s'>
-                    <div className='mx-auto mb-8 flex h-[90px] w-[90px] items-center justify-center rounded-3xl bg-redpraha bg-opacity-20 text-redpraha duration-300 group-hover:bg-redpraha group-hover:text-stone-800   '>
+                    <div className='mx-auto mb-8 flex h-[90px] w-[90px] items-center justify-center rounded-3xl bg-info bg-opacity-20 text-redpraha duration-300 group-hover:bg-info group-hover:text-base   '>
                       <BriefcaseIcon width={48} height={48} />
                     </div>
                     <h3 className='mb-4 text-xl font-semibold text-black  sm:text-[22px] xl:text-[26px]'>
@@ -233,7 +233,7 @@ function Home() {
                   <div
                     className='wow fadeInUp group mx-auto mb-[60px] max-w-[310px] text-center'
                     data-wow-delay='.2s'>
-                    <div className='mx-auto mb-8 flex h-[90px] w-[90px] items-center justify-center rounded-3xl bg-redpraha bg-opacity-20 text-redpraha duration-300 group-hover:bg-redpraha group-hover:text-stone-800   '>
+                    <div className='mx-auto mb-8 flex h-[90px] w-[90px] items-center justify-center rounded-3xl bg-info bg-opacity-20 text-redpraha duration-300 group-hover:bg-info group-hover:text-base   '>
                       <BanknotesIcon width={48} height={48} />
                     </div>
                     <h3 className='mb-4 text-xl font-semibold text-black  sm:text-[22px] xl:text-[26px]'>
@@ -249,7 +249,7 @@ function Home() {
                   <div
                     className='wow fadeInUp group mx-auto mb-[60px] max-w-[310px] text-center'
                     data-wow-delay='.3s'>
-                    <div className='mx-auto mb-8 flex h-[90px] w-[90px] items-center justify-center rounded-3xl bg-redpraha bg-opacity-20 text-redpraha duration-300 group-hover:bg-redpraha group-hover:text-stone-800   '>
+                    <div className='mx-auto mb-8 flex h-[90px] w-[90px] items-center justify-center rounded-3xl bg-info bg-opacity-20 text-redpraha duration-300 group-hover:bg-info group-hover:text-base   '>
                       <svg
                         width='40'
                         height='40'
@@ -282,13 +282,13 @@ function Home() {
                   <div
                     className='wow fadeInUp group mx-auto mb-[60px] max-w-[310px] text-center'
                     data-wow-delay='.4s'>
-                    <div className='mx-auto mb-8 flex h-[90px] w-[90px] items-center justify-center rounded-3xl bg-redpraha bg-opacity-20 text-redpraha duration-300 group-hover:bg-redpraha group-hover:text-stone-800   '>
+                    <div className='mx-auto mb-8 flex h-[90px] w-[90px] items-center justify-center rounded-3xl bg-info bg-opacity-20 text-redpraha duration-300 group-hover:bg-info group-hover:text-base   '>
                       <SparklesIcon width={48} height={48} />
                     </div>
                     <h3 className='mb-4 text-xl font-semibold text-black  sm:text-[22px] xl:text-[26px]'>
                       Landing page
                     </h3>
-                    {/* <div className='absolute top-[-5px] right-[40px] md:right-[100px] p-2 bg-redpraha text-stone-800 text-xs rounded-md'>
+                    {/* <div className='absolute top-[-5px] right-[40px] md:right-[100px] p-2 bg-info text-base text-xs rounded-md'>
                       Coming Soon
                     </div> */}
                     <p className='text-base text-body'>
@@ -424,7 +424,7 @@ function Home() {
                         </defs>
                       </svg>
                     </div>
-                    <div className='absolute bottom-0 left-0 -z-10 h-1/2 w-full rounded-[20px] bg-redpraha'>
+                    <div className='absolute bottom-0 left-0 -z-10 h-1/2 w-full rounded-[20px] bg-info'>
                       <div className='absolute left-10 -top-12 -z-10'>
                         <svg
                           width='65'
@@ -554,13 +554,13 @@ function Home() {
           </div>
 
           <div className='container max-w-[1390px]'>
-            <div className='rounded-2xl bg-white px-5 pt-14 pb-14 shadow-md md:pb-1 lg:pt-20 lg:pb-5 xl:px-10'>
+            <div className='rounded-2xl bg-base-100 px-5 pt-14 pb-14 shadow-md md:pb-1 lg:pt-20 lg:pb-5 xl:px-10'>
               <div className='-mx-4 flex flex-wrap justify-center'>
                 <div className='w-full px-4 md:w-1/2 lg:w-1/3'>
                   <div
                     className='wow fadeInUp group mx-auto mb-[60px] max-w-[310px] text-center'
                     data-wow-delay='.2s'>
-                    <div className='mx-auto mb-8 flex h-[90px] w-[90px] items-center justify-center rounded-3xl bg-redpraha bg-opacity-20 text-redpraha duration-300 group-hover:bg-redpraha group-hover:text-stone-800   '>
+                    <div className='mx-auto mb-8 flex h-[90px] w-[90px] items-center justify-center rounded-3xl bg-info bg-opacity-20 text-redpraha duration-300 group-hover:bg-info group-hover:text-base   '>
                       <svg
                         width='40'
                         height='40'
@@ -599,7 +599,7 @@ function Home() {
                   <div
                     className='wow fadeInUp group mx-auto mb-[60px] max-w-[310px] text-center'
                     data-wow-delay='.3s'>
-                    <div className='mx-auto mb-8 flex h-[90px] w-[90px] items-center justify-center rounded-3xl bg-redpraha bg-opacity-20 text-redpraha duration-300 group-hover:bg-redpraha group-hover:text-stone-800   '>
+                    <div className='mx-auto mb-8 flex h-[90px] w-[90px] items-center justify-center rounded-3xl bg-info bg-opacity-20 text-redpraha duration-300 group-hover:bg-info group-hover:text-base   '>
                       <svg
                         width='40'
                         height='40'
@@ -633,7 +633,7 @@ function Home() {
                   <div
                     className='wow fadeInUp group mx-auto mb-[60px] max-w-[310px] text-center'
                     data-wow-delay='.4s'>
-                    <div className='mx-auto mb-8 flex h-[90px] w-[90px] items-center justify-center rounded-3xl bg-redpraha bg-opacity-20 text-redpraha duration-300 group-hover:bg-redpraha group-hover:text-stone-800   '>
+                    <div className='mx-auto mb-8 flex h-[90px] w-[90px] items-center justify-center rounded-3xl bg-info bg-opacity-20 text-redpraha duration-300 group-hover:bg-info group-hover:text-base   '>
                       <svg
                         width='40'
                         height='40'
@@ -772,7 +772,7 @@ function Home() {
             <div className='-mx-6 flex flex-wrap'>
               <div className='w-full px-6 lg:w-1/2'>
                 <div
-                  className='wow fadeInUp mb-[50px] rounded-lg bg-white py-9 px-7 shadow-md sm:px-9 lg:px-7 xl:px-9'
+                  className='wow fadeInUp mb-[50px] rounded-lg bg-base-100 py-9 px-7 shadow-md sm:px-9 lg:px-7 xl:px-9'
                   data-wow-delay='.2s'>
                   <div className='mb-5 border-b border-stroke'>
                     <p className='pb-9 text-base text-body'>
@@ -935,7 +935,7 @@ function Home() {
 
               <div className='w-full px-6 lg:w-1/2'>
                 <div
-                  className='wow fadeInUp mb-[50px] rounded-lg bg-white py-9 px-7 shadow-md sm:px-9 lg:px-7 xl:px-9'
+                  className='wow fadeInUp mb-[50px] rounded-lg bg-base-100 py-9 px-7 shadow-md sm:px-9 lg:px-7 xl:px-9'
                   data-wow-delay='.3s'>
                   <div className='mb-5 border-b border-stroke'>
                     <p className='pb-9 text-base text-body'>
@@ -1116,7 +1116,7 @@ function Home() {
             </div>
 
             <div
-              className='faqs wow fadeInUp mx-auto w-full max-w-[785px] rounded-lg bg-white px-6 py-[6px] shadow-car'
+              className='faqs wow fadeInUp mx-auto w-full max-w-[785px] rounded-lg bg-base-100 px-6 py-[6px] shadow-car'
               data-wow-delay='.3s'>
               <div className='faq border-b border-stroke last-of-type:border-none'>
                 <button className='faq-btn relative flex w-full justify-between pt-6 pb-1 px-[18px] text-left text-base font-medium text-black  sm:px-[26px] sm:text-lg'>
@@ -1235,11 +1235,11 @@ function Home() {
       </main>
 
       <footer>
-        <div className='wow fadeInUp bg-redpraha py-7' data-wow-delay='.2s'>
+        <div className='wow fadeInUp bg-info py-7' data-wow-delay='.2s'>
           <div className='container max-w-[1390px]'>
             <div className='-mx-3 flex flex-wrap'>
               <div className='order-last w-full px-3 lg:order-first lg:w-1/3'>
-                <p className='mt-4 text-center text-base text-stone-800 lg:mt-0 lg:text-left'>
+                <p className='mt-4 text-center text-base text-base lg:mt-0 lg:text-left'>
                   &copy; 2023 BuilderPlace | Terms of Service
                 </p>
               </div>

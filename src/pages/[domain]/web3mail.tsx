@@ -10,13 +10,13 @@ export async function getServerSideProps({ params }: any) {
 
 export default function web3mail() {
   return (
-    <div className='max-w-5xl mx-auto text-stone-800 sm:px-4 lg:px-0 mt-6'>
+    <div className='max-w-5xl mx-auto text-base sm:px-4 lg:px-0 mt-6'>
       <div className='flex items-center justify-center w-full flex-col'>
-        <div className='pb-16 border-redpraha relative w-full transition-all duration-300 rounded-md'>
-          <div className='border border-redpraha rounded-xl p-6 bg-white'>
+        <div className='pb-16 border-info relative w-full transition-all duration-300 rounded-md'>
+          <div className='border border-info rounded-xl p-6 bg-base-100'>
             <Web3MailProvider>
               <div className='grid grid-cols-1 gap-6'>
-                <h1 className='text-2xl font-bold flex-1 mt-6 border-b w-full border-redpraha mb-8'>
+                <h1 className='text-2xl font-bold flex-1 mt-6 border-b w-full border-info mb-8'>
                   Setup your web3mail
                 </h1>
                 <Web3mailCard />

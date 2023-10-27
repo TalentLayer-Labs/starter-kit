@@ -42,7 +42,7 @@ function Layout({ children, className }: ContainerProps) {
     return (
       <div className={'dashboard pb-[110px]'}>
         <div className='flex flex-1 flex-col '>
-          <div className='top-0 z-10 flex h-16 flex-shrink-0 bg-midnight'>
+          <div className='top-0 z-10 flex h-16 flex-shrink-0 bg-base-200'>
             <div className='flex flex-1 items-center pl-6'>
               <div className=''>
                 <Logo />
@@ -63,7 +63,7 @@ function Layout({ children, className }: ContainerProps) {
       return (
         <div className={'dashboard pb-[110px]'}>
           <div className='flex flex-1 flex-col '>
-            <div className='top-0 z-10 flex h-16 flex-shrink-0 bg-midnight'>
+            <div className='top-0 z-10 flex h-16 flex-shrink-0 bg-base-200'>
               <div className='flex flex-1 items-center pl-6'>
                 <div className=''>
                   <Logo />
@@ -106,7 +106,7 @@ function Layout({ children, className }: ContainerProps) {
                   leave='transition ease-in-out duration-300 transform'
                   leaveFrom='translate-x-0'
                   leaveTo='-translate-x-full'>
-                  <Dialog.Panel className='relative flex w-full max-w-xs flex-1 flex-col bg-midnight pt-5 pb-4'>
+                  <Dialog.Panel className='relative flex w-full max-w-xs flex-1 flex-col bg-base-200 pt-5 pb-4'>
                     <Transition.Child
                       as={Fragment}
                       enter='ease-in-out duration-300'
@@ -121,7 +121,7 @@ function Layout({ children, className }: ContainerProps) {
                           className='ml-1 flex h-10 w-10 items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white'
                           onClick={() => setSidebarOpen(false)}>
                           <span className='sr-only'>Close sidebar</span>
-                          <XMarkIcon className='h-6 w-6 text-stone-800' aria-hidden='true' />
+                          <XMarkIcon className='h-6 w-6 text-base' aria-hidden='true' />
                         </button>
                       </div>
                     </Transition.Child>
@@ -141,7 +141,7 @@ function Layout({ children, className }: ContainerProps) {
           </Transition.Root>
 
           <div className='hidden md:fixed md:inset-y-0 md:flex md:w-72 md:flex-col'>
-            <div className='flex flex-grow flex-col overflow-y-auto bg-endnight pt-5'>
+            <div className='flex flex-grow flex-col overflow-y-auto bg-base-300 pt-5'>
               <div className='flex flex-shrink-0 items-center px-6'>
                 <Logo />
               </div>
@@ -152,7 +152,7 @@ function Layout({ children, className }: ContainerProps) {
           </div>
 
           <div className='flex flex-1 flex-col md:pl-72'>
-            <div className='top-0 z-10 flex h-16 flex-shrink-0 bg-midnight'>
+            <div className='top-0 z-10 flex h-16 flex-shrink-0 bg-base-200'>
               <div className='flex flex-1 items-center pl-6'>
                 <div className='sm:hidden'>
                   <Logo />

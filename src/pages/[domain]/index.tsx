@@ -7,11 +7,11 @@ export async function getServerSideProps({ params }: any) {
 
 export default function BuilderPlaceHome() {
   return (
-    <div className='max-w-7xl mx-auto text-stone-800'>
+    <div className='max-w-7xl mx-auto text-base'>
       <div className='-mx-6 -mt-6 sm:mx-0 sm:mt-0'>
         <div className='flex py-2 px-6 sm:px-0 items-center w-full mb-8'>
           <p className='text-2xl font-bold flex-1 mt-6'>
-            Open <span className='text-stone-800 ml-1'> work </span>
+            Open <span className='text-base ml-1'> work </span>
           </p>
         </div>
       </div>

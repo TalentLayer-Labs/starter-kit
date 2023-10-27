@@ -92,9 +92,9 @@ function AdminPresentation() {
   };
 
   return (
-    <div className='max-w-7xl mx-auto text-stone-800'>
+    <div className='max-w-7xl mx-auto text-base'>
       <div className=' -mx-6 -mt-6 '>
-        <div className='flex py-2 px-6 items-center border-b w-full border-redpraha mb-8'>
+        <div className='flex py-2 px-6 items-center border-b w-full border-info mb-8'>
           <p className='text-2xl font-bold flex-1 mt-6'>Presentation</p>
         </div>
       </div>
@@ -106,28 +106,28 @@ function AdminPresentation() {
         validationSchema={validationSchema}>
         {({ isSubmitting, values }) => (
           <Form>
-            <div className='grid grid-cols-1 gap-6 border border-redpraha rounded-xl p-6 bg-white'>
+            <div className='grid grid-cols-1 gap-6 border border-info rounded-xl p-6 bg-base-100'>
               <label className='block'>
-                <span className='text-stone-800'>Website</span>
+                <span className='text-base'>Website</span>
                 <Field
                   type='text'
                   id='website'
                   name='website'
-                  className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
+                  className='mt-1 mb-1 block w-full rounded-xl border border-info bg-base-200 shadow-sm focus:ring-opacity-50'
                   placeholder=''
                 />
               </label>
 
               <label className='block'>
-                <span className='text-stone-800'>Picture Url</span>
+                <span className='text-base'>Picture Url</span>
                 <Field
                   type='text'
                   id='image_url'
                   name='image_url'
-                  className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
+                  className='mt-1 mb-1 block w-full rounded-xl border border-info bg-base-200 shadow-sm focus:ring-opacity-50'
                   placeholder=''
                 />
-                <div className='border-redpraha bg-redpraha relative w-full border transition-all duration-300 rounded-xl p-4'>
+                <div className='border-info bg-info relative w-full border transition-all duration-300 rounded-xl p-4'>
                   {values.image_url && (
                     <div className='flex items-center justify-center py-3'>
                       <img width='300' height='300' src={values.image_url} alt='image preview' />
@@ -137,13 +137,13 @@ function AdminPresentation() {
               </label>
 
               <label className='block'>
-                <span className='text-stone-800'>About</span>
+                <span className='text-base'>About</span>
                 <Field
                   as='textarea'
                   id='about'
                   name='about'
                   rows='4'
-                  className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
+                  className='mt-1 mb-1 block w-full rounded-xl border border-info bg-base-200 shadow-sm focus:ring-opacity-50'
                   placeholder=''
                 />
               </label>

@@ -19,7 +19,7 @@ function UserLensFeed({ lensUser }: IProps) {
       {lensFeed.map((item: ILensPublication, index: number) => (
         <a key={index} href={`https://lenster.xyz/posts/${item.id}`} target='_blank' className=''>
           <div
-            className={`card bg-white border border-redpraha rounded-xl ml-4 ${
+            className={`card bg-base-100 border border-info rounded-xl ml-4 ${
               index !== 0 ? 'mt-4' : ''
             }`}>
             <div className='flex'>
@@ -36,7 +36,7 @@ function UserLensFeed({ lensUser }: IProps) {
               )}
 
               <div className='w-full p-5 flex flex-col justify-between'>
-                <p className='font-light text-xs text-stone-400'>
+                <p className='font-light text-xs text-base opacity-50'>
                   Created {timeSince(item.createdAt || '')} ago
                 </p>
                 <div className='mt-2 text-sm line-clamp-2'>{item.metadata.content}</div>
@@ -46,7 +46,7 @@ function UserLensFeed({ lensUser }: IProps) {
                       <span>
                         <svg
                           xmlns='http://www.w3.org/2000/svg'
-                          className='h-5 w-5 text-stone-400 cursor-pointer'
+                          className='h-5 w-5 text-base opacity-50 cursor-pointer'
                           fill='none'
                           viewBox='0 0 24 24'
                           stroke='currentColor'>
@@ -64,7 +64,7 @@ function UserLensFeed({ lensUser }: IProps) {
                       <span>
                         <svg
                           xmlns='http://www.w3.org/2000/svg'
-                          className='h-5 w-5 text-red-500 hover:text-red-400 transition duration-100 cursor-pointer'
+                          className='h-5 w-5 text-error transition duration-100 cursor-pointer'
                           viewBox='0 0 20 20'
                           fill='currentColor'>
                           <path
@@ -76,7 +76,7 @@ function UserLensFeed({ lensUser }: IProps) {
                       </span>
                       <span>{item.stats.totalUpvotes}</span>
                     </div>
-                    <span className='font-medium text-blue-400 w-full text-right'>
+                    <span className='font-medium text-info w-full text-right'>
                       Read it on Lenster
                     </span>
                   </div>
@@ -90,7 +90,7 @@ function UserLensFeed({ lensUser }: IProps) {
         <a
           href={`https://lenster.xyz/u/${lensUser.handle}`}
           target='_blank'
-          className='text-stone-800 bg-stone-200 hover:bg-stone-300 px-5 py-2.5 rounded-xl text-md relative-xl active'>
+          className='text-primary bg-primary hover:bg-primary-focus px-5 py-2.5 rounded-xl text-md relative-xl active'>
           More posts
         </a>
       </div>

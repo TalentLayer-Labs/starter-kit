@@ -18,6 +18,7 @@ import { MessagingProvider } from '../modules/Messaging/context/messging';
 import '../styles/globals.css';
 import { NetworkEnum } from '../types';
 import Layout from './Layout';
+import CustomPallete from '../components/CustomPallete';
 
 export let chains: Chain[] = [];
 if ((process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as unknown as NetworkEnum) == NetworkEnum.MUMBAI) {
@@ -55,94 +56,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   console.log('MyApp', { pageProps });
   return (
     <>
-      <Head>
-        <style>
-          {`
-          :root {
-            --primary: ${pageProps.builderPlace?.pallete.primary};
-            --primary-focus: ${pageProps.builderPlace?.pallete.primaryFocus};
-            --primary-content: ${pageProps.builderPlace?.pallete.primaryContent};
-
-            --base-100: ${pageProps.builderPlace?.pallete.base100};
-            --base-200: ${pageProps.builderPlace?.pallete.base200};
-            --base-300: ${pageProps.builderPlace?.pallete.base300};
-            --base-content: ${pageProps.builderPlace?.pallete.baseContent};
-
-            --info: ${pageProps.builderPlace?.pallete.info};
-            --info-content: ${pageProps.builderPlace?.pallete.infoContent};
-
-            --success: ${pageProps.builderPlace?.pallete.success};
-            --success-content: ${pageProps.builderPlace?.pallete.successContent};
-
-            --warning: ${pageProps.builderPlace?.pallete.warning};
-            --warning-content: ${pageProps.builderPlace?.pallete.warningContent};
-
-            --error: ${pageProps.builderPlace?.pallete.error};
-            --error-content: ${pageProps.builderPlace?.pallete.errorContent};
-          }
-
-          .bg-primary {
-            background-color: var(--primary);
-          }
-
-          .text-primary {
-            color: var(--primary-content);
-          }
-
-          .text-primary-focus {
-            color: var(--primary-focus);
-          }
-
-          .bg-base-100 {
-            background-color: var(--base-100);
-          }
-
-          .bg-base-200 {
-            background-color: var(--base-200);
-          }
-
-          .bg-base-300 {
-            background-color: var(--base-300);
-          }
-
-          .text-base {
-            color: var(--base-content);
-          }
-
-          .bg-info {
-            background-color: var(--info);
-          }
-
-          .text-info {
-            color: var(--info-content);
-          }
-
-          .bg-success {
-            background-color: var(--success);
-          }
-
-          .text-success {
-            color: var(--success-content);
-          }
-
-          .bg-warning {
-            background-color: var(--warning);
-          }
-
-          .text-warning {
-            color: var(--warning-content);
-          }
-
-          .bg-error {
-            background-color: var(--error);
-          }
-
-          .text-error {
-            color: var(--error-content);
-          }
-        `}
-        </style>
-      </Head>
+      <CustomPallete builderPlace={pageProps.builderPlace} />
       <QueryClientProvider client={queryClient}>
         <DefaultSeo {...getSeoDefaultConfig(pageProps.builderPlace)} />
         <WagmiConfig config={wagmiConfig}>

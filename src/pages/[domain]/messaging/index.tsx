@@ -36,12 +36,11 @@ function MessagingIndex() {
   }
 
   return (
-    <div className='mx-auto text-stone-800 sm:px-4 lg:px-0'>
+    <div className='mx-auto text-base sm:px-4 lg:px-0'>
       {!providerState?.client && account && (
         <div className='flex items-center justify-center pt-16'>
           <button
-            type='submit'
-            className='bg-redpraha text-stone-800 font-bold py-2 px-4 rounded'
+            className='text-primary bg-primary hover:bg-primary-focus px-5 py-2.5 rounded-xl text-md relative'
             onClick={() => handleXmtpConnect()}>
             Connect to Messaging
           </button>
@@ -49,8 +48,8 @@ function MessagingIndex() {
       )}
       {providerState?.client && (
         <div className='-mx-6 md:-mx-12 xl:-mx-24'>
-          <div className='flex flex-row text-stone-800'>
-            <div className='flex py-2 px-4 sm:px-0 items-center border-b w-full border-redpraha'>
+          <div className='flex flex-row text-base'>
+            <div className='flex py-2 px-4 sm:px-0 items-center border-b w-full border-info'>
               <>
                 <p className='text-2xl font-bold flex-1 mt-3'>Chats</p>
 

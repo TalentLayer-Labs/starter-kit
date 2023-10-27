@@ -18,7 +18,7 @@ function CreateProfileLayout({ children, className }: ContainerProps) {
   return (
     <div className={className}>
       <OnboardingSteps currentStep={2} />
-      <div className='max-w-7xl mx-auto text-stone-800'>
+      <div className='max-w-7xl mx-auto text-base'>
         <div className='-mx-6 -mt-6 sm:mx-0 sm:mt-0'>
           <div className='flex py-2 px-6 sm:px-0 items-center w-full mb-8'>
             <p className='text-2xl font-bold flex-1 mt-6'>Create Your Worker Profile</p>
@@ -30,8 +30,8 @@ function CreateProfileLayout({ children, className }: ContainerProps) {
             <div className='min-h-screen overflow-hidden'>
               <div className='grid xl:gap-8 xl:grid-cols-12'>
                 <div className='col-span-12 xl:col-span-8'>
-                  <div className='pb-16 border-redpraha relative w-full transition-all duration-300 rounded-md'>
-                    <div className='border border-redpraha rounded-xl p-6 bg-white'>{children}</div>
+                  <div className='pb-16 border-info relative w-full transition-all duration-300 rounded-md'>
+                    <div className='border border-info rounded-xl p-6 bg-base-100'>{children}</div>
                   </div>
                 </div>
               </div>

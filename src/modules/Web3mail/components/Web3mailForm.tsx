@@ -50,7 +50,7 @@ function Web3mailForm() {
             <div className='flex justify-between'>
               <div>
                 <p className='font-heading font-medium leading-none'>Everything is setup</p>
-                <p className='font-sans text-xs font-normal leading-normal text-stone-600 mt-0.5'>
+                <p className='font-sans text-xs font-normal leading-normal text-base mt-0.5'>
                   your web3mail is ready to use, you can come back to polygon and to your profile
                   setup
                 </p>
@@ -67,8 +67,8 @@ function Web3mailForm() {
 
             router.push('/profiles/edit/privacy');
           }}
-          className='grow px-5 py-2 rounded-xl bg-redpraha text-stone-800 hover:bg-midnight inline-flex align-center justify-center '>
-          <ArrowLeftCircleIcon className='w-[22px] h-[22px] text-stone-600 mr-2 mt-05' />
+          className='grow px-5 py-2 rounded-xl bg-info text-base hover:bg-base-200 inline-flex align-center justify-center '>
+          <ArrowLeftCircleIcon className='w-[22px] h-[22px] mr-2 mt-05' />
           <span>Switch back to Polygon and go back to my profile</span>
         </button>
       </div>
@@ -118,7 +118,7 @@ function Web3mailForm() {
             <nav className='mb-8'>
               <ol
                 role='list'
-                className='divide-y divide-gray-200 rounded-xl border border-redpraha md:flex md:divide-y-0'>
+                className='divide-y divide-gray-200 rounded-xl border border-info md:flex md:divide-y-0'>
                 <Step
                   title='Switch Chain'
                   status={chainId != NetworkEnum.IEXEC ? 'inprogress' : 'done'}
@@ -141,7 +141,7 @@ function Web3mailForm() {
               <label className='block'>
                 <div className='mb-2 ml-1'>
                   <p className='font-heading text-base font-medium leading-none'>Your email</p>
-                  <p className='font-sans text-xs font-normal leading-normal text-stone-600 mt-0.5'>
+                  <p className='font-sans text-xs font-normal leading-normal text-base mt-0.5'>
                     It will allow you to configure your preferences to be notified every time an
                     important action happened.
                   </p>
@@ -153,13 +153,13 @@ function Web3mailForm() {
                       type='text'
                       id='email'
                       name='email'
-                      className='cursor-not-allowed mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
+                      className='cursor-not-allowed mt-1 mb-1 block w-full rounded-xl border border-info bg-base-200 shadow-sm focus:ring-opacity-50'
                       placeholder='**********'
                       readOnly
                       disabled
                       title='You already protect your email, just need to grant access now'
                     />
-                    <span className='text-xs text-stone-600 ml-1'>
+                    <span className='text-xs text-base ml-1'>
                       You already protect your email, just need to grant access now
                     </span>
                   </>
@@ -168,7 +168,7 @@ function Web3mailForm() {
                     type='text'
                     id='email'
                     name='email'
-                    className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
+                    className='mt-1 mb-1 block w-full rounded-xl border border-info bg-base-200 shadow-sm focus:ring-opacity-50'
                     placeholder=''
                   />
                 )}

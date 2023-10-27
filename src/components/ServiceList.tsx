@@ -26,12 +26,12 @@ function ServiceList() {
     <>
       {searchQuery && services.length > 0 && (
         <p className='text-xl font-medium tracking-wider mb-8'>
-          Search results for <span className='text-stone-800'>{searchQuery}</span>
+          Search results for <span className='text-base'>{searchQuery}</span>
         </p>
       )}
       {searchQuery && services.length === 0 && (
         <p className='text-xl font-medium tracking-wider mb-8'>
-          No search results for <span className='text-stone-800'>{searchQuery}</span>
+          No search results for <span className='text-base'>{searchQuery}</span>
         </p>
       )}
 
@@ -49,8 +49,8 @@ function ServiceList() {
         <div className='flex justify-center items-center gap-10 flex-col pb-5'>
           <button
             type='submit'
-            className={`px-5 py-2 mt-5 content-center border border-zinc-600 rounded-full text-zinc-600 
-                  hover:text-stone-800 hover:bg-midnight
+            className={`px-5 py-2 mt-5 content-center border border-zinc-600 rounded-full text-content 
+                  hover:text-base hover:bg-base-200
                 `}
             disabled={!hasMoreData}
             onClick={() => loadMore()}>

@@ -18,16 +18,16 @@ function UserGains({ user }: IProps) {
 
   return (
     <>
-      <h2 className='pb-4 text-stone-800 font-bold break-all'>Your total gain</h2>
+      <h2 className='pb-4 text-base font-bold break-all'>Your total gain</h2>
       <div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4'>
         {userGains.map((gain, i) => {
           return (
             <div
-              className='flex items-center p-4 bg-white rounded-xl border border-redpraha'
+              className='flex items-center p-4 bg-base-100 rounded-xl border border-info'
               key={i}>
-              <div className='flex flex-shrink-0 items-center justify-center bg-green-200 h-16 w-16 rounded'>
+              <div className='flex flex-shrink-0 items-center justify-center bg-success h-16 w-16 rounded'>
                 <svg
-                  className='w-6 h-6 fill-current text-green-700'
+                  className='w-6 h-6 fill-current text-success'
                   xmlns='http://www.w3.org/2000/svg'
                   viewBox='0 0 20 20'
                   fill='currentColor'>
