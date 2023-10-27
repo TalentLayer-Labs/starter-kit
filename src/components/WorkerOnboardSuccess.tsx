@@ -1,16 +1,18 @@
 import { useRouter } from "next/router";
 import { useContext } from "react";
 import TalentLayerContext from "../context/talentLayer";
+import OnboardingSteps from "./OnboardingSteps";
 
 function WorkerOnboardSuccess() {
     const { user } = useContext(TalentLayerContext);
     const router = useRouter();
     const viewFullProfile = () => {
-      router.push('/profile');
+      router.push(`/profiles/${user?.id}`);
     };
     return (
       <>
         <div className='bg-white'>
+        <OnboardingSteps currentStep={3} />
           <div className='max-w-7xl mx-auto text-stone-800 sm:px-4 lg:px-0 py-20'>
             <div className='flex flex-col items-center justify-center gap-10'>
               <p className='text-5xl sm:text-7xl font-medium tracking-wider max-w-5xl text-center'>Done!</p>

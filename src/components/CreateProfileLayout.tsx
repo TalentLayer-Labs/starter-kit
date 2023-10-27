@@ -1,9 +1,7 @@
-import { EyeIcon } from '@heroicons/react/24/outline';
-import Image from 'next/image';
-import Link from 'next/link';
 import { ReactNode, useContext } from 'react';
 import TalentLayerContext from './../context/talentLayer';
 import Steps from './Steps';
+import OnboardingSteps from './OnboardingSteps';
 
 interface ContainerProps {
   children: ReactNode;
@@ -19,6 +17,7 @@ function CreateProfileLayout({ children, className }: ContainerProps) {
 
   return (
     <div className={className}>
+      <OnboardingSteps currentStep={2} />
       <div className='max-w-7xl mx-auto text-stone-800'>
         <div className='-mx-6 -mt-6 sm:mx-0 sm:mt-0'>
           <div className='flex py-2 px-6 sm:px-0 items-center w-full mb-8'>
