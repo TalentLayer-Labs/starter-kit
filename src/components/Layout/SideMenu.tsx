@@ -13,6 +13,8 @@ function SideMenu() {
   const { user } = useContext(TalentLayerContext);
   const { isBuilderPlaceOwner } = useContext(BuilderPlaceContext);
 
+  console.log({ isBuilderPlaceOwner });
+
   return (
     <nav className='space-y-1 px-3'>
       {isBuilderPlaceOwner && (

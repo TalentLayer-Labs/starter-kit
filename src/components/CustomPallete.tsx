@@ -29,6 +29,7 @@ function CustomPallete({ builderPlace }: { builderPlace: IBuilderPlace }) {
         {`
           :root {
             --primary: ${builderPlace?.pallete?.primary || '#FF71A2'};
+            --primary-50: ${(builderPlace?.pallete?.primary || '#FF71A2') + '60'};
             --primary-focus: ${builderPlace?.pallete?.primaryFocus || '#FFC2D1'};
             --primary-content: ${builderPlace?.pallete?.primaryContent || '#ffffff'};
 
@@ -41,6 +42,7 @@ function CustomPallete({ builderPlace }: { builderPlace: IBuilderPlace }) {
             --info-content: ${builderPlace?.pallete?.infoContent || '#000000'};
 
             --success: ${builderPlace?.pallete?.success || '#C5F1A4'};
+            --success-50: ${(builderPlace?.pallete?.success || '#C5F1A4') + '60'};
             --success-content: ${builderPlace?.pallete?.successContent || '#000000'};
 
             --warning: ${builderPlace?.pallete?.warning || '#FFE768'};
@@ -52,6 +54,10 @@ function CustomPallete({ builderPlace }: { builderPlace: IBuilderPlace }) {
 
           .bg-primary {
             background-color: var(--primary);
+          }
+
+          .bg-primary-50 {
+            background-color: var(--primary-50);
           }
 
           .text-primary {
@@ -108,6 +114,10 @@ function CustomPallete({ builderPlace }: { builderPlace: IBuilderPlace }) {
 
           .bg-success {
             background-color: var(--success);
+          }
+
+          .bg-success-50 {
+            background-color: var(--success-50);
           }
 
           .text-success {

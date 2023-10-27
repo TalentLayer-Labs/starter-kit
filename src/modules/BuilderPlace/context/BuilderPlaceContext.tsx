@@ -19,12 +19,12 @@ const BuilderPlaceProvider = ({ data, children }: { data: IBuilderPlace; childre
     if (!data) return;
 
     const isBuilderPlaceOwner = data?.owners?.some(
-      owner => owner.toLocaleLowerCase() === user?.address,
+      owner => owner.toLocaleLowerCase() === user?.address.toLocaleLowerCase(),
     );
 
     setIsBuilderPlaceOwner(isBuilderPlaceOwner);
     setBuilderPlace(data);
-  }, [data]);
+  }, [data, user]);
 
   const value = {
     builderPlace,
