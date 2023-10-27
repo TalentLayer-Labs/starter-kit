@@ -40,68 +40,73 @@ function Dashboard() {
       {account?.isConnected && user && (
         <div>
           {isBuilderPlaceOwner && (
-            <div className='mb-12'>
-              <h2 className='pb-4 text-base-content  break-all flex justify-between items-center'>
-                <span className='flex-1 font-bold'>tasks overview</span>
-              </h2>
+            <>
+              <div className='mb-12'>
+                <h2 className='pb-4 text-base-content  break-all flex justify-between items-center'>
+                  <span className='flex-1 font-bold'>tasks overview</span>
+                </h2>
 
-              <Notification
-                title='post your first work!'
-                text='create your first work post to share with your community'
-                link='/work/create'
-                linkText='post a job'
-                color='primary'
-                imageUrl={
-                  user?.description?.image_url
-                    ? user?.description?.image_url
-                    : `/images/default-avatar-${Number(user?.id ? user.id : '1') % 9}.jpeg`
-                }
-              />
+                <Notification
+                  title='post your first work!'
+                  text='create your first work post to share with your community'
+                  link='/work/create'
+                  linkText='post a job'
+                  color='primary'
+                  imageUrl={
+                    user?.description?.image_url
+                      ? user?.description?.image_url
+                      : `/images/default-avatar-${Number(user?.id ? user.id : '1') % 9}.jpeg`
+                  }
+                />
 
-              <div className='mt-4'></div>
+                <div className='mt-4'></div>
 
-              <Notification
-                title='personalize your space!'
-                text='customize your builder place to match your brand'
-                link='/admin/configure-place'
-                linkText='personalize my space'
-                color='success'
-                imageUrl={
-                  user?.description?.image_url
-                    ? user?.description?.image_url
-                    : `/images/default-avatar-${Number(user?.id ? user.id : '1') % 9}.jpeg`
-                }
-              />
-            </div>
+                <Notification
+                  title='personalize your space!'
+                  text='customize your builder place to match your brand'
+                  link='/admin/configure-place'
+                  linkText='personalize my space'
+                  color='success'
+                  imageUrl={
+                    user?.description?.image_url
+                      ? user?.description?.image_url
+                      : `/images/default-avatar-${Number(user?.id ? user.id : '1') % 9}.jpeg`
+                  }
+                />
+              </div>
+
+              <div className='mb-12'>
+                <UserServices user={user} type='buyer' />
+              </div>
+            </>
           )}
-          <div className='mb-12'>
-            <h2 className='pb-4 text-base-content  break-all flex justify-between items-center'>
-              <span className='flex-1 font-bold'>hirer profile</span>
-              <Link
-                className='hover:opacity-70 text-primary bg-primary px-3 py-2 text-sm  rounded-xl'
-                href={`/profiles/edit`}>
-                Edit
-              </Link>
-            </h2>
-            <UserDetail user={user} />
-          </div>
-          <div className='mb-12'>
-            <UserPayments user={user} />
-          </div>
-          <div className='mb-12'>
-            <UserGains user={user} />
-          </div>
-          {isBuilderPlaceOwner && (
-            <div className='mb-12'>
-              <UserServices user={user} type='buyer' />
-            </div>
+          {!isBuilderPlaceOwner && (
+            <>
+              <div className='mb-12'>
+                <h2 className='pb-4 text-base-content  break-all flex justify-between items-center'>
+                  <span className='flex-1 font-bold'>worker profile</span>
+                  <Link
+                    className='hover:opacity-70 text-primary bg-primary px-3 py-2 text-sm  rounded-xl'
+                    href={`/profiles/edit`}>
+                    Edit
+                  </Link>
+                </h2>
+                <UserDetail user={user} />
+              </div>
+              <div className='mb-12'>
+                <UserPayments user={user} />
+              </div>
+              <div className='mb-12'>
+                <UserGains user={user} />
+              </div>
+              <div className='mb-12'>
+                <UserServices user={user} type='seller' />
+              </div>
+              <div className='mb-12'>
+                <UserProposals user={user} />
+              </div>
+            </>
           )}
-          <div className='mb-12'>
-            <UserServices user={user} type='seller' />
-          </div>
-          <div className='mb-12'>
-            <UserProposals user={user} />
-          </div>
         </div>
       )}
     </div>
