@@ -73,14 +73,14 @@ function Home() {
                   <li>
                     <a
                       href='/onboarding'
-                      className='rounded-md text-center bg-landingprimary py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base font-medium text-stone-800 hover:bg-opacity-60'>
+                      className='rounded-md text-center bg-landingprimary py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base font-bold text-white hover:bg-opacity-60'>
                       register
                     </a>
                   </li>
                   <li>
                     <a
                       href='/onboarding'
-                      className='rounded-md text-center bg-redpraha py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base font-medium text-stone-800 hover:bg-opacity-60'>
+                      className='rounded-md text-center bg-redpraha py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base font-bold text-stone-800 hover:bg-opacity-60'>
                       contribute
                     </a>
                   </li>
@@ -92,40 +92,38 @@ function Home() {
       </header>
 
       <main>
-        <section id='home' className='pt-[100px] lg:pt-[120px]'>
+        <section id='home' className='pt-[100px] md:pt-[200px] lg:pt-[120px]'>
           <div className='container lg:max-w-[1305px] lg:px-10'>
             <div className='-mx-4 flex flex-wrap items-center'>
               <div className='w-full px-4  lg:w-5/12 mb-20'>
-                <div className='wow fadeInUp mb-12 lg:mb-0 lg:max-w-[570px]' data-wow-delay='.2s'>
-                  <h1 className='mb-6 text-5xl font-bold leading-tight text-black  sm:text-[50px] md:text-[60px] lg:text-[50px] xl:text-[70px]'>
+                <div className='fadeInUp mb-12 lg:mb-0 lg:max-w-[570px]' data-wow-delay='.2s'>
+                  <h1 className='text-center mb-6 text-5xl font-bold leading-tight text-black  sm:text-[50px] md:text-[60px] lg:text-[50px] lext-left xl:text-[70px] md:text-left'>
                     grow your<br></br>
                     <span className='inline bg-landingprimary bg-clip-text text-transparent'>
                       open-source movement{' '}
                     </span>
                     today
                   </h1>
-                  <p className='mb-10 max-w-[475px] text-base leading-relaxed text-body'>
+                  <p className='mb-10 first-letter:max-w-[475px] text-base leading-relaxed text-body text-center md:text-left'>
                     BuilderPlace is your open-source community management platform + contributor
                     discovery engine
                   </p>
 
-                  <div className='flex flex-wrap text-center items-center'>
-                    <div className='mr-[60px] mb-10 flex items-center text-center justify-end lg:mr-0'>
-                      <a
-                        href='/onboarding'
-                        className='rounded-md text-center bg-landingprimary py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base font-medium text-white font-bold hover:bg-opacity-60'>
-                        create a <br></br>BuilderPlace
-                      </a>
-                      <a
-                        href='/onboarding'
-                        className='w-1/2 rounded-md bg-redpraha mx-5 py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base font-medium text-stone-800 font-bold hover:bg-opacity-60'>
-                        contribute to <br></br>projects
-                      </a>
-                    </div>
+                  <div className='flex justify-center md:justify-start gap-4'>
+                    <a
+                      href='/onboarding'
+                      className='max-w-[186px] flex-1 rounded-md text-center bg-landingprimary py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base font-medium text-white font-bold hover:bg-opacity-60'>
+                      create a <br></br>BuilderPlace
+                    </a>
+                    <a
+                      href='/onboarding'
+                      className='max-w-[186px] flex-1 text-center rounded-md bg-redpraha py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base font-medium text-stone-800 font-bold hover:bg-opacity-60'>
+                      contribute to <br></br>projects
+                    </a>
                   </div>
-                  <div className='w-full px-4  pb-10 sm:pb-40 block md:hidden lg:hidden w-[280px]'>
+                  <div className='w-full px-4  pb-10 pt-5 sm:pb-40 block md:hidden lg:hidden'>
                     <div
-                      className='wow fadeInUp relative z-10 mx-auto w-full max-w-[530px] pt-8 lg:mr-0'
+                      className='wow fadeInUp relative z-10 mx-auto w-full max-w-[300px] pt-8 lg:mr-0'
                       data-wow-delay='.3s'>
                       <img src='/images/arrow.png' alt='hero image' />
                     </div>
@@ -334,14 +332,7 @@ function Home() {
           </div>
         </section>
 
-        <section id='features' className='relative z-10 pt-[110px]'>
-          <div className='container'>
-            <div
-              className='wow fadeInUp mx-auto mb-14 max-w-[690px] text-center lg:mb-[70px]'
-              data-wow-delay='.2s'></div>
-          </div>
-        </section>
-        <section id='work-process' className='relative lg:pt-[110px]'>
+        {/* <section id='work-process' className='relative lg:pt-[110px]'>
           <div className='container'>
             <div
               className='wow fadeInUp mx-auto mb-5 max-w-[690px] text-center lg:mb-[70px]'
@@ -358,7 +349,7 @@ function Home() {
               <div className='-mx-4 flex flex-wrap justify-center'>
                 <div className='w-full px-4 md:w-1/2 lg:w-1/2'>
                   <div
-                    className='wow fadeInUp group mx-auto max-w-[510px] text-center pt-4 pb-1 wow fadeInUp mb-[50px] rounded-lg bg-redpraha bg-opacity-60 shadow-lg hover:bg-opacity-20 rounded-3xl'
+                    className='wow fadeInUp group mx-auto max-w-[510px] text-center pt-4 pb-1 wow fadeInUp mb-[50px] bg-redpraha bg-opacity-60 shadow-lg hover:bg-opacity-20 rounded-3xl'
                     data-wow-delay='.3s'>
                     <div className='mx-auto mb-4 flex h-[230px] w-[250px] items-center justify-center bg-opacity-20 text-redpraha duration-300   '>
                       <img
@@ -373,11 +364,18 @@ function Home() {
                     <p className='text-base text-body pb-5 px-5'>
                       an API and infra layer for marketplace platforms
                     </p>
+                    <div className='flex justify-center gap-4'>
+                      <a
+                        href='#'
+                        className='max-w-[250px] flex-1 mb-5 rounded-md text-center bg-landingprimary py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base text-white font-bold hover:bg-opacity-60'>
+                        talentlayer.builder.place
+                      </a>
+                    </div>
                   </div>
                 </div>
                 <div className='w-full px-4 md:w-1/2 lg:w-1/2'>
                   <div
-                    className='wow fadeInUp group mx-auto max-w-[510px] text-center pt-4 pb-1 wow fadeInUp mb-[50px] rounded-lg bg-redpraha bg-opacity-60 shadow-lg hover:bg-opacity-20 rounded-3xl'
+                    className='wow fadeInUp group mx-auto max-w-[510px] text-center pt-4 pb-1 wow fadeInUp mb-[50px] bg-redpraha bg-opacity-60 shadow-lg hover:bg-opacity-20 rounded-3xl'
                     data-wow-delay='.3s'>
                     <div className='mx-auto mb-4 flex h-[230px] w-[250px] items-center justify-center bg-opacity-20 text-redpraha duration-300   '>
                       <img
@@ -390,13 +388,20 @@ function Home() {
                       WorkX
                     </h3>
                     <p className='text-base text-body pb-5 px-5'>
-                      an API and infra layer for marketplace platforms
+                      an AI powered hiring network and marketplace
                     </p>
+                    <div className='flex justify-center gap-4'>
+                      <a
+                        href='#'
+                        className='max-w-[250px] flex-1 mb-5 rounded-md text-center bg-landingprimary py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base text-white font-bold hover:bg-opacity-60'>
+                        workx.builder.place
+                      </a>
+                    </div>
                   </div>
                 </div>
                 <div className='w-full px-4 md:w-1/2 lg:w-1/2'>
                   <div
-                    className='wow fadeInUp group mx-auto max-w-[510px] text-center pt-4 pb-1 wow fadeInUp mb-[50px] rounded-lg bg-redpraha bg-opacity-60 shadow-lg hover:bg-opacity-20 rounded-3xl'
+                    className='wow fadeInUp group mx-auto max-w-[510px] text-center pt-4 pb-1 wow fadeInUp mb-[50px] bg-redpraha bg-opacity-60 shadow-lg hover:bg-opacity-20 rounded-3xl'
                     data-wow-delay='.3s'>
                     <div className='mx-auto mb-4 flex h-[230px] w-[250px] items-center justify-center bg-opacity-20 text-redpraha duration-300   '>
                       <img
@@ -411,11 +416,18 @@ function Home() {
                     <p className='text-base text-body pb-5 px-5'>
                       a peer-to-peer information curation and attestation protocol
                     </p>
+                    <div className='flex justify-center gap-4'>
+                      <a
+                        href='#'
+                        className='max-w-[250px] flex-1 mb-5 rounded-md text-center bg-landingprimary py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base text-white font-bold hover:bg-opacity-60'>
+                        thebadge.builder.place
+                      </a>
+                    </div>
                   </div>
                 </div>
                 <div className='w-full px-4 md:w-1/2 lg:w-1/2'>
                   <div
-                    className='wow fadeInUp group mx-auto max-w-[510px] text-center pt-4 pb-1 wow fadeInUp mb-[50px] rounded-lg bg-redpraha bg-opacity-60 shadow-lg hover:bg-opacity-20 rounded-3xl'
+                    className='wow fadeInUp group mx-auto max-w-[510px] text-center pt-4 pb-1 wow fadeInUp mb-[50px] rounded-lg bg-redpraha bg-opacity-60 shadow-lg hover:bg-opacity-20'
                     data-wow-delay='.3s'>
                     <div className='mx-auto mb-4 flex h-[230px] w-[250px] items-center justify-center bg-opacity-20 text-redpraha duration-300   '>
                       <img
@@ -430,6 +442,13 @@ function Home() {
                     <p className='text-base text-body pb-5 px-5'>
                       A non-custodial AI assistant for performing transactions by prompting
                     </p>
+                    <div className='flex justify-center gap-4'>
+                      <a
+                        href='#'
+                        className='max-w-[250px] flex-1 mb-5 rounded-md text-center bg-landingprimary py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base text-white font-bold hover:bg-opacity-60'>
+                        brian.builder.place
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -520,9 +539,9 @@ function Home() {
               </defs>
             </svg>
           </div>
-        </section>
+        </section> */}
 
-        <section id='pricing' className='relative lg:pt-[110px]'>
+        <section id='pricing' className='relative lg:pt-[50px]'>
           <div className='container'>
             <div
               className='wow fadeInUp mx-auto mb-5 max-w-[690px] text-center lg:mb-[70px]'
@@ -544,11 +563,11 @@ function Home() {
                   <div
                     className='wow fadeInUp group mx-auto max-w-[510px] text-center pt-4 pb-1 wow fadeInUp mb-[50px] rounded-lg bg-redpraha bg-opacity-60 shadow-lg hover:bg-opacity-20 rounded-3xl'
                     data-wow-delay='.3s'>
-                    <h3 className='mb-4 mt-4 font-semibold text-black  sm:text-[50px] xl:text-[50px] mt-10'>
+                    <h3 className='mb-4 mt-4 font-semibold text-[50px]  text-black  xl:mt-10'>
                       hosting
                     </h3>
                     <div className='mx-auto flex mb-10 mt-10  items-center justify-center bg-opacity-20 duration-300   '>
-                      <h3 className='mb-4 mt-4  text-landingprimary font-semibol  sm:text-[50px]  xl:text-[100px]'>
+                      <h3 className='mb-4 mt-4  text-landingprimary font-semibol text-[100px]'>
                         free
                       </h3>
                     </div>
@@ -562,11 +581,11 @@ function Home() {
                   <div
                     className='wow fadeInUp group mx-auto max-w-[510px] text-center pt-4 pb-1 wow fadeInUp mb-[50px] rounded-lg bg-redpraha bg-opacity-60 shadow-lg hover:bg-opacity-20 rounded-3xl'
                     data-wow-delay='.3s'>
-                    <h3 className='mb-4 mt-4 font-semibold text-black  sm:text-[50px] xl:text-[50px] mt-10'>
+                    <h3 className='mb-4 mt-4 font-semibold text-[50px]  text-black  xl:mt-10'>
                       distribution
                     </h3>
                     <div className='mx-auto flex mb-10 mt-10  items-center justify-center bg-opacity-20 duration-300   '>
-                      <h3 className='mb-4 mt-4  text-landingprimary font-semibol  sm:text-[50px]  xl:text-[100px]'>
+                      <h3 className='mb-4 mt-4  text-landingprimary font-semibol text-[100px]'>
                         free
                       </h3>
                     </div>
@@ -579,11 +598,11 @@ function Home() {
                   <div
                     className='wow fadeInUp group mx-auto max-w-[510px] text-center pt-4 pb-1 wow fadeInUp mb-[50px] rounded-lg bg-redpraha bg-opacity-60 shadow-lg hover:bg-opacity-20 rounded-3xl'
                     data-wow-delay='.3s'>
-                    <h3 className='mb-4 mt-4 font-semibold text-black  sm:text-[50px] xl:text-[50px] mt-10'>
+                    <h3 className='mb-4 mt-4 font-semibold text-[50px]  text-black  xl:mt-10'>
                       payments
                     </h3>
                     <div className='mx-auto flex mb-10 mt-10  items-center justify-center bg-opacity-20 duration-300   '>
-                      <h3 className='mb-4 mt-4  text-landingprimary font-semibol  sm:text-[50px]  xl:text-[100px]'>
+                      <h3 className='mb-4 mt-4  text-landingprimary font-semibol text-[100px]'>
                         2%
                       </h3>
                     </div>
@@ -1133,17 +1152,16 @@ function Home() {
               <h2 className='mb-4 mt-20 text-3xl font-bold text-black  sm:text-4xl md:text-[44px] md:leading-tight'>
                 grow your open-source movement today
               </h2>
-
-              <div className='pb-6 pt-10 '>
+              <div className='flex justify-center gap-4'>
                 <a
                   href='/onboarding'
-                  className='w-1/2 rounded-md bg-landingprimary mx-5 py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base font-medium text-stone-800 hover:bg-opacity-60'>
-                  launch my BuilderPlace
+                  className='max-w-[186px] flex-1 rounded-md text-center bg-landingprimary py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base font-medium text-white font-bold hover:bg-opacity-60'>
+                  launch my <br></br>BuilderPlace
                 </a>
                 <a
                   href='/onboarding'
-                  className='w-1/2 rounded-md bg-redpraha mx-5 py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base font-medium text-stone-800 hover:bg-opacity-60'>
-                  contact the team
+                  className='max-w-[186px] flex-1 text-center rounded-md bg-redpraha py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base font-medium text-stone-800 font-bold hover:bg-opacity-60'>
+                  contact <br></br>the team
                 </a>
               </div>
               <div className='pb-6 pt-10 w-1/2'></div>
@@ -1155,10 +1173,13 @@ function Home() {
       <footer>
         <div className='wow fadeInUp bg-redpraha py-7' data-wow-delay='.2s'>
           <div className='container text-center max-w-[1390px]'>
-            <div className='-mx-3 flex text-center flex-wrap'>
+            <div className='flex justify-center flex-wrap'>
               <div className='order-last w-full text-center px-3 lg:order-first lg:w-1/3'>
-                <p className='mt-4 text-center text-base text-stone-800 lg:mt-0 lg:text-left'>
-                  &copy; 2023 BuilderPlace | Terms of Service
+                <p className='text-center text-base text-stone-800'>
+                  &copy; 2023 BuilderPlace |{' '}
+                  <a href='#' className='underline'>
+                    Terms of Service
+                  </a>
                 </p>
               </div>
             </div>
