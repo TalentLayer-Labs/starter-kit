@@ -9,10 +9,10 @@ function Logo({ theme = 'dark' }: { theme?: 'dark' | 'light' }) {
   return (
     <div>
       <Link href='/' className='flex items-end flex-wrap'>
-        <h1 className='text-base text-3xl font-bold'>{builderPlace?.name}</h1>
-        <p className='text-base mb-[2px] ml-1'>builder place</p>
+        <h1 className='text-base-content text-3xl font-bold'>{builderPlace?.name}</h1>
+        <p className='text-base-content mb-[2px] ml-1'>builder place</p>
         {/* <Image
-          src={'/logo-text-base.png'}
+          src={'/logo-text-base-content.png'}
           width={180}
           height={36}
           alt='BuilderPlace logo'

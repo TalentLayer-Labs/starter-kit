@@ -18,7 +18,7 @@ function SearchModal() {
     <>
       <button
         type='button'
-        className=' hover:bg-base-300 text-base bg-base-300 px-3 py-2 text-sm flex items-center mr-4 rounded-xl'
+        className=' hover:bg-base-300 text-base-content bg-base-300 px-3 py-2 text-sm flex items-center mr-4 rounded-xl'
         onClick={() => setShow(true)}>
         <SearchOutline className='w-[18px] h-[18px] mr-2' />
         Search
@@ -34,7 +34,7 @@ function SearchModal() {
               <button
                 onClick={() => setShow(false)}
                 type='button'
-                className='text-base bg-transparent hover:bg-base-200 hover:text-base rounded-xl text-sm p-4 ml-auto inline-flex items-center '
+                className='text-base-content bg-transparent hover:bg-base-200 hover:text-base-content rounded-xl text-sm p-4 ml-auto inline-flex items-center '
                 data-modal-toggle='defaultModal'>
                 <svg
                   className='w-5 h-5'
@@ -64,7 +64,7 @@ function SearchModal() {
               </div>
               <a
                 onClick={handleChat}
-                className='flex p-3 bg-base-300 border-info rounded-xl justify-between mt-10 text-base'>
+                className='flex p-3 bg-base-300 border-info rounded-xl justify-between mt-10 text-base-content'>
                 Chat
               </a>
             </div>

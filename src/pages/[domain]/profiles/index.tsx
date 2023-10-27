@@ -20,21 +20,21 @@ function Profiles() {
   );
 
   return (
-    <div className='max-w-7xl mx-auto text-base'>
+    <div className='max-w-7xl mx-auto text-base-content'>
       <div className='-mx-6 -mt-6 sm:mx-0 sm:mt-0'>
         <p className='flex py-2 items-center text-2xl font-bold tracking-wider mb-6 w-full px-6 sm:px-0 mt-6 '>
-          All <span className='text-base ml-1'> Profiles </span>
+          All <span className='text-base-content ml-1'> Profiles </span>
         </p>
       </div>
 
       {searchQuery && users.length > 0 && (
         <p className='text-xl font-medium tracking-wider mb-8'>
-          Search results for <span className='text-base'>{searchQuery}</span>
+          Search results for <span className='text-base-content'>{searchQuery}</span>
         </p>
       )}
       {searchQuery && users.length === 0 && (
         <p className='text-xl font-medium tracking-wider mb-8'>
-          No search results for <span className='text-base'>{searchQuery}</span>
+          No search results for <span className='text-base-content'>{searchQuery}</span>
         </p>
       )}
 
@@ -53,7 +53,7 @@ function Profiles() {
           <button
             type='submit'
             className={`px-5 py-2 mt-5 content-center border border-zinc-600 rounded-full text-content 
-              hover:text-base hover:bg-base-200
+              hover:text-base-content hover:bg-base-200
             `}
             disabled={!hasMoreData}
             onClick={() => loadMore()}>

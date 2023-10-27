@@ -12,7 +12,7 @@ function SideLink({ children, href }: { children: React.ReactNode; href: string 
     : '';
 
   className +=
-    ' hover:bg-base-200 text-base group flex items-center px-3 py-2 text-base rounded-xl';
+    ' hover:bg-base-200 text-base-content group flex items-center px-3 py-2 text-base-content rounded-xl';
 
   const handleClick = (e: any) => {
     e.preventDefault();

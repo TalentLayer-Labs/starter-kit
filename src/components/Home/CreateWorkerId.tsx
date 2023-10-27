@@ -10,7 +10,7 @@ function CreateWorkerId() {
 
   return (
     <>
-      <div className='max-w-7xl mx-auto text-base sm:px-4 lg:px-0 py-20'>
+      <div className='max-w-7xl mx-auto text-base-content sm:px-4 lg:px-0 py-20'>
         <div className='flex flex-col items-center justify-center gap-10'>
           <p className='text-5xl sm:text-6xl font-bold tracking-wider max-w-5xl text-center'>
             Create Your self-owned <br /> worker identity

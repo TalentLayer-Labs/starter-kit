@@ -119,10 +119,10 @@ function Web3mailPreferencesForm() {
                   <div className='mb-2 ml-0.5'>
                     <div className='flex justify-between'>
                       <div>
-                        <p className='font-heading text-base font-medium leading-none'>
+                        <p className='font-heading text-base-content font-medium leading-none'>
                           1. Setup your email
                         </p>
-                        <p className='font-sans text-xs font-normal leading-normal text-base mt-0.5'>
+                        <p className='font-sans text-xs font-normal leading-normal text-base-content mt-0.5'>
                           It allow you to configure your preferences to be notified every time an
                           important action happened.
                         </p>
@@ -132,7 +132,7 @@ function Web3mailPreferencesForm() {
                 </label>
                 <Link
                   href='/web3mail'
-                  className='grow px-5 py-2 rounded-xl bg-info text-base hover:bg-base-200 inline-flex align-center justify-center '>
+                  className='grow px-5 py-2 rounded-xl bg-info text-base-content hover:bg-base-200 inline-flex align-center justify-center '>
                   <span>Manage your email</span>
                   <ArrowUpRightIcon width='16' height='16' className='ml-2 mt-1' />
                 </Link>
@@ -141,10 +141,10 @@ function Web3mailPreferencesForm() {
               <label className='block'>
                 <div className='mb-2 ml-0.5'>
                   <div className='mb-4'>
-                    <p className='font-heading text-base font-medium leading-none'>
+                    <p className='font-heading text-base-content font-medium leading-none'>
                       2. Setup your notifications preferences
                     </p>
-                    <p className='font-sans text-xs font-normal leading-normal text-base mt-0.5'>
+                    <p className='font-sans text-xs font-normal leading-normal text-base-content mt-0.5'>
                       Receive email when:
                     </p>
                   </div>

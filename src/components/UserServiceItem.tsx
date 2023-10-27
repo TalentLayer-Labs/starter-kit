@@ -11,7 +11,7 @@ function UserServiceItem({ user, service }: { user: IUser; service: IService }) 
   const isBuyer = user?.id === service.buyer.id;
 
   return (
-    <div className='flex flex-row gap-2 rounded-xl p-4 border border-info text-base bg-base-100'>
+    <div className='flex flex-row gap-2 rounded-xl p-4 border border-info text-base-content bg-base-100'>
       <div className='flex flex-col items-top justify-between gap-4 w-full'>
         <div className='flex flex-col justify-start items-start gap-4 relative'>
           <div className='flex items-center justify-start'>
@@ -26,8 +26,10 @@ function UserServiceItem({ user, service }: { user: IUser; service: IService }) 
               alt='default avatar'
             />
             <div className='flex flex-col'>
-              <p className='text-base font-medium break-all'>{service.description?.title}</p>
-              <p className='text-xs text-base opacity-50'>
+              <p className='text-base-content font-medium break-all'>
+                {service.description?.title}
+              </p>
+              <p className='text-xs text-base-content opacity-50'>
                 created by {service.buyer.handle} the {formatDate(Number(service.createdAt) * 1000)}
               </p>
             </div>
@@ -41,12 +43,12 @@ function UserServiceItem({ user, service }: { user: IUser; service: IService }) 
               {service.description?.keywords_raw?.split(',').map((keyword, i) => (
                 <span
                   key={i}
-                  className='inline-block bg-info rounded-full px-2 py-1 text-xs font-semibold text-base mr-2 mb-2'>
+                  className='inline-block bg-info rounded-full px-2 py-1 text-xs font-semibold text-base-content mr-2 mb-2'>
                   {keyword}
                 </span>
               ))}
             </div>
-            <p className='text-sm text-base  line-clamp-1 mt-4'>
+            <p className='text-sm text-base-content  line-clamp-1 mt-4'>
               <strong>About:</strong> {service.description?.about}
             </p>
           </div>
@@ -54,7 +56,7 @@ function UserServiceItem({ user, service }: { user: IUser; service: IService }) 
 
         <div className='flex flex-row gap-4 justify-between items-center border-t border-info pt-4'>
           {service.description?.rateToken && service.description?.rateAmount && (
-            <p className='text-base font-bold line-clamp-1 max-w-[100px]'>
+            <p className='text-base-content font-bold line-clamp-1 max-w-[100px]'>
               {renderTokenAmountFromConfig(
                 chainId,
                 service.description.rateToken,
@@ -67,7 +69,7 @@ function UserServiceItem({ user, service }: { user: IUser; service: IService }) 
             href={`/work/${service.id}`}>
             Show details
             {isBuyer && service.status == ServiceStatusEnum.Opened && (
-              <div className='inline-flex absolute -top-2 -right-2 justify-center items-center w-6 h-6 text-xs font-bold text-base bg-base-200 rounded-full border-2 border-white'>
+              <div className='inline-flex absolute -top-2 -right-2 justify-center items-center w-6 h-6 text-xs font-bold text-base-content bg-base-200 rounded-full border-2 border-white'>
                 {service.proposals.length}
               </div>
             )}

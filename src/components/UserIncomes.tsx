@@ -65,7 +65,7 @@ function UserIncomes({ id }: { id: string }) {
         </span>
         <button
           type='button'
-          className='ml-4 px-3 py-1 border border-info rounded-xl text-base opacity-50 hover:bg-base-200'
+          className='ml-4 px-3 py-1 border border-info rounded-xl text-base-content opacity-50 hover:bg-base-200'
           onClick={() => {
             setStartDate('');
             setEndDate('');
@@ -75,7 +75,7 @@ function UserIncomes({ id }: { id: string }) {
         {payments && payments.length > 0 && (
           <button
             type='button'
-            className='ml-4 px-3 py-1 border border-info rounded-xl text-base opacity-50 hover:bg-base-200 '
+            className='ml-4 px-3 py-1 border border-info rounded-xl text-base-content opacity-50 hover:bg-base-200 '
             onClick={handleExportToCsv}>
             Export to CSV
           </button>
@@ -103,10 +103,10 @@ function UserIncomes({ id }: { id: string }) {
                       <td className=' p-2 text-center font-bold border-r border-b border-info'>
                         {renderTokenAmount(payment.rateToken, payment.amount)}
                       </td>
-                      <td className=' p-2 text-center text-base border-r border-b border-info'>
+                      <td className=' p-2 text-center text-base-content border-r border-b border-info'>
                         {formatStringCompleteDate(payment.createdAt)}
                       </td>
-                      <td className=' p-2 text-center text-base border-r border-b border-info'>
+                      <td className=' p-2 text-center text-base-content border-r border-b border-info'>
                         {payment.rateToken.symbol}
                       </td>
                       <td className=' p-2 text-center text-info border-r border-b border-info'>
@@ -135,7 +135,7 @@ function UserIncomes({ id }: { id: string }) {
                 <button
                   type='submit'
                   className={`px-5 py-2 mt-5 content-center border border-zinc-600 rounded-full text-content 
-              hover:text-base hover:bg-base-200
+              hover:text-base-content hover:bg-base-200
             `}
                   disabled={!hasMoreData}
                   onClick={() => loadMore()}>

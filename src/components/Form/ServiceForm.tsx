@@ -179,7 +179,7 @@ function ServiceForm() {
         <Form>
           <div className='grid grid-cols-1 gap-6 border border-info rounded-xl p-6 bg-base-100'>
             <label className='block'>
-              <span className='text-base'>Title</span>
+              <span className='text-base-content'>Title</span>
               <Field
                 type='text'
                 id='title'
@@ -193,7 +193,7 @@ function ServiceForm() {
             </label>
 
             <label className='block'>
-              <span className='text-base'>About</span>
+              <span className='text-base-content'>About</span>
               <Field
                 as='textarea'
                 id='about'
@@ -207,7 +207,7 @@ function ServiceForm() {
             </label>
 
             <label className='block'>
-              <span className='text-base'>Keywords</span>
+              <span className='text-base-content'>Keywords</span>
 
               <SkillsInput entityId={'keywords'} />
 
@@ -216,7 +216,7 @@ function ServiceForm() {
 
             <div className='flex'>
               <label className='block flex-1 mr-4'>
-                <span className='text-base'>Amount</span>
+                <span className='text-base-content'>Amount</span>
                 <Field
                   type='number'
                   id='rateAmount'
@@ -228,14 +228,14 @@ function ServiceForm() {
                   <ErrorMessage name='rateAmount' />
                 </span>
                 {servicePostingFeeFormat !== 0 && (
-                  <span className='text-base'>
+                  <span className='text-base-content'>
                     Fee for posting a service: {servicePostingFeeFormat}{' '}
                     {currentChain?.nativeCurrency.symbol}
                   </span>
                 )}
               </label>
               <label className='block'>
-                <span className='text-base'>Token</span>
+                <span className='text-base-content'>Token</span>
                 <Field
                   component='select'
                   id='rateToken'

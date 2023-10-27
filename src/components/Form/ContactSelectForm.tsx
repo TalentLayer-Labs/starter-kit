@@ -115,7 +115,7 @@ export const ContactListForm = ({
         <Form>
           <div className='grid grid-cols-1 gap-6 border border-info rounded-xl p-6 bg-base-100'>
             <label className='block'>
-              <span className='text-base'>Subject</span>
+              <span className='text-base-content'>Subject</span>
               <Field
                 type='text'
                 id='subject'
@@ -129,7 +129,7 @@ export const ContactListForm = ({
             </label>
 
             <label className='block'>
-              <span className='text-base'>Body</span>
+              <span className='text-base-content'>Body</span>
               <Field
                 as='textarea'
                 rows='4'
@@ -148,12 +148,12 @@ export const ContactListForm = ({
               render={arrayHelpers => (
                 <div className={'flex flex-row space-x-10'}>
                   <div className='block flex-auto'>
-                    <span className='text-base'>Available Contacts</span>
+                    <span className='text-base-content'>Available Contacts</span>
                     <div className={'overflow-y-auto overflow-x-visible h-24'}>
                       {!usersLoaded && (
                         <div className={'flex flex-row'}>
                           <Loading />
-                          <p className={'flex text-base justify-center mt-2 ml-4'}>
+                          <p className={'flex text-base-content justify-center mt-2 ml-4'}>
                             Loading Contacts...
                           </p>
                         </div>
@@ -165,21 +165,21 @@ export const ContactListForm = ({
                             return (
                               <div
                                 key={index}
-                                className={`text-base flex ${
+                                className={`text-base-content flex ${
                                   isAddressAlreadyAdded ? 'hidden' : ''
                                 }`}>
                                 {userDetail.user.handle}
                                 <span onClick={() => arrayHelpers.insert(index, userDetail)}>
                                   <CheckCircleIcon
                                     className={
-                                      'ml-3 h-5 w-5 items-center justify-center text-base cursor-pointer'
+                                      'ml-3 h-5 w-5 items-center justify-center text-base-content cursor-pointer'
                                     }
                                   />
                                 </span>
                               </div>
                             );
                           })
-                        : usersLoaded && <p className={'text-base mt-2'}>No Contacts</p>}
+                        : usersLoaded && <p className={'text-base-content mt-2'}>No Contacts</p>}
                     </div>
                     <div className={'flex flew-row mt-2 center-items'}>
                       <input
@@ -190,30 +190,30 @@ export const ContactListForm = ({
                           handleAddOrRemoveAllContacts(event, arrayHelpers, values.users);
                         }}
                       />
-                      <p className={'ml-2 text-base center-items'}>Add all contacts</p>
+                      <p className={'ml-2 text-base-content center-items'}>Add all contacts</p>
                     </div>
                     <span className='text-error'>
                       <ErrorMessage name='users' />
                     </span>
                   </div>
                   <label className='block flex-auto '>
-                    <span className='text-base'>Selected Contacts</span>
+                    <span className='text-base-content'>Selected Contacts</span>
                     <div className={'overflow-y-auto overflow-x-visible w-auto h-24'}>
                       {values.users.length > 0 ? (
                         values.users.map((userDetails, index) => (
-                          <div key={index} className={'text-base flex'}>
+                          <div key={index} className={'text-base-content flex'}>
                             {userDetails.user.handle}
                             <span onClick={() => arrayHelpers.remove(index)}>
                               <XCircleIcon
                                 className={
-                                  'ml-3 h-5 w-5 items-center justify-center text-base cursor-pointer'
+                                  'ml-3 h-5 w-5 items-center justify-center text-base-content cursor-pointer'
                                 }
                               />
                             </span>
                           </div>
                         ))
                       ) : (
-                        <p className={'text-base  mt-2'}>No Contacts</p>
+                        <p className={'text-base-content  mt-2'}>No Contacts</p>
                       )}
                     </div>
                   </label>

@@ -50,7 +50,7 @@ function Web3mailForm() {
             <div className='flex justify-between'>
               <div>
                 <p className='font-heading font-medium leading-none'>Everything is setup</p>
-                <p className='font-sans text-xs font-normal leading-normal text-base mt-0.5'>
+                <p className='font-sans text-xs font-normal leading-normal text-base-content mt-0.5'>
                   your web3mail is ready to use, you can come back to polygon and to your profile
                   setup
                 </p>
@@ -67,7 +67,7 @@ function Web3mailForm() {
 
             router.push('/profiles/edit/privacy');
           }}
-          className='grow px-5 py-2 rounded-xl bg-info text-base hover:bg-base-200 inline-flex align-center justify-center '>
+          className='grow px-5 py-2 rounded-xl bg-info text-base-content hover:bg-base-200 inline-flex align-center justify-center '>
           <ArrowLeftCircleIcon className='w-[22px] h-[22px] mr-2 mt-05' />
           <span>Switch back to Polygon and go back to my profile</span>
         </button>
@@ -140,8 +140,10 @@ function Web3mailForm() {
             <>
               <label className='block'>
                 <div className='mb-2 ml-1'>
-                  <p className='font-heading text-base font-medium leading-none'>Your email</p>
-                  <p className='font-sans text-xs font-normal leading-normal text-base mt-0.5'>
+                  <p className='font-heading text-base-content font-medium leading-none'>
+                    Your email
+                  </p>
+                  <p className='font-sans text-xs font-normal leading-normal text-base-content mt-0.5'>
                     It will allow you to configure your preferences to be notified every time an
                     important action happened.
                   </p>
@@ -159,7 +161,7 @@ function Web3mailForm() {
                       disabled
                       title='You already protect your email, just need to grant access now'
                     />
-                    <span className='text-xs text-base ml-1'>
+                    <span className='text-xs text-base-content ml-1'>
                       You already protect your email, just need to grant access now
                     </span>
                   </>

@@ -12,11 +12,7 @@ function MenuBottom({
   sidebarOpen: boolean;
   setSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const { user } = useContext(TalentLayerContext);
-  const { builderPlace } = useContext(BuilderPlaceContext);
-  const isBuilderPlaceOwner = builderPlace?.owners?.some(
-    owner => owner.toLocaleLowerCase() === user?.address,
-  );
+  const { isBuilderPlaceOwner } = useContext(BuilderPlaceContext);
 
   const navigation = isBuilderPlaceOwner
     ? hirerNavigation.filter(item => item.name !== 'Find worker')
@@ -37,7 +33,7 @@ function MenuBottom({
           </BottomLink>
         ))}
         <button
-          className=' inline-flex font-light text-base flex-col items-center justify-center px-2 group my-2 rounded-xl'
+          className=' inline-flex font-light text-base-content flex-col items-center justify-center px-2 group my-2 rounded-xl'
           onClick={onClick}>
           <Bars3Icon className='w-5 h-5 mb-1 ' />
           <span className='text-xs'>More</span>

@@ -9,7 +9,7 @@ function ReviewModal({ service, userToReview }: { service: IService; userToRevie
     <>
       <button
         onClick={() => setShow(true)}
-        className='block text-success bg-success hover:bg-info hover:text-base rounded-xl px-5 py-2.5 text-center'
+        className='block text-success bg-success hover:bg-info hover:text-base-content rounded-xl px-5 py-2.5 text-center'
         type='button'
         data-modal-toggle='defaultModal'>
         Create a review
@@ -22,11 +22,11 @@ function ReviewModal({ service, userToReview }: { service: IService; userToRevie
         <div className='relative p-4 w-full max-w-2xl h-auto'>
           <div className='relative bg-base-300 rounded-xl shadow '>
             <div className='flex justify-between items-start p-4 rounded-t border-b border-info'>
-              <h3 className='text-xl font-semibold text-base '>Create a review</h3>
+              <h3 className='text-xl font-semibold text-base-content '>Create a review</h3>
               <button
                 onClick={() => setShow(false)}
                 type='button'
-                className='text-base bg-transparent hover:bg-base-200 hover:text-base rounded-xl text-sm p-1.5 ml-auto inline-flex items-center '
+                className='text-base-content bg-transparent hover:bg-base-200 hover:text-base-content rounded-xl text-sm p-1.5 ml-auto inline-flex items-center '
                 data-modal-toggle='defaultModal'>
                 <svg
                   className='w-5 h-5'
@@ -42,7 +42,7 @@ function ReviewModal({ service, userToReview }: { service: IService; userToRevie
               </button>
             </div>
             <div className='p-6 space-y-6'>
-              <p className='text-base opacity-50 text-sm'>
+              <p className='text-base-content opacity-50 text-sm'>
                 How did the job go with {userToReview.handle}?
               </p>
               {show && <ReviewForm serviceId={service.id} />}

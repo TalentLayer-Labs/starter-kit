@@ -27,12 +27,12 @@ const ChatMessage = ({ text, from }: MessageProps) => {
     <>
       {from == Creator.Me && (
         <div className=' bg-base-300 border border-info p-4 rounded-lg flex gap-4 items-center whitespace-pre-wrap mb-2'>
-          <p className=' text-base'></p>
+          <p className=' text-base-content'></p>
         </div>
       )}
       {from == Creator.Bot && (
         <div className='bg-base-300 p-4 rounded-lg flex gap-4 items-center whitespace-pre-wrap mb-2'>
-          <p className='text-base'>{text}</p>
+          <p className='text-base-content'>{text}</p>
         </div>
       )}
     </>
@@ -58,7 +58,7 @@ const ChatInput = ({ onSend, disable }: InputProps) => {
       <input
         value={input}
         onChange={(ev: any) => setInput(ev.target.value)}
-        className='w-full py-2 px-3 text-base opacity-50 rounded-lg focuse:outline-none'
+        className='w-full py-2 px-3 text-base-content opacity-50 rounded-lg focuse:outline-none'
         type='text'
         placeholder='Ask me anything'
         disabled={disable}
@@ -66,7 +66,9 @@ const ChatInput = ({ onSend, disable }: InputProps) => {
       />
       {disable && <p>disabled</p>}
       {!disable && (
-        <button onClick={() => sendInput()} className='grow px-5 py-2 rounded-xl bg-info text-base'>
+        <button
+          onClick={() => sendInput()}
+          className='grow px-5 py-2 rounded-xl bg-info text-base-content'>
           <p>send</p>
         </button>
       )}
@@ -111,7 +113,9 @@ export default function Ai() {
         {messages.map((msg: MessageProps) => (
           <ChatMessage key={msg.key} text={msg.text} from={msg.from} />
         ))}
-        {messages.length == 0 && <p className='text-center text-base'>I am at you service</p>}
+        {messages.length == 0 && (
+          <p className='text-center text-base-content'>I am at you service</p>
+        )}
       </div>
     </main>
   );

@@ -8,7 +8,7 @@ const CardHeader = ({ peerAddress }: IProps) => {
   const user = useUserByAddress(peerAddress);
 
   return (
-    <div className='flex flex-row text-base'>
+    <div className='flex flex-row text-base-content'>
       <div className='flex py-2 px-6 items-center border-b w-full border-info'>
         {peerAddress && (
           <>

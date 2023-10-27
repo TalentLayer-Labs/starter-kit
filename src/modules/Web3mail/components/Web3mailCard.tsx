@@ -78,13 +78,13 @@ function Web3mailCard() {
       </div>
       <div className='mt-6 grow sm:mt-0'>
         <div className='pb-4 text-center sm:pb-0 sm:text-left'>
-          <p className='font-heading text-xl font-semibold leading-normal mb-2 text-base opacity-90'>
+          <p className='font-heading text-xl font-semibold leading-normal mb-2 text-base-content opacity-90'>
             <span>
               {' '}
               Take back control! <span className='text-3xl'>🪄</span>
             </span>
           </p>
-          <p className='font-alt text-sm font-normal leading-normal max-w-sm text-base opacity-70'>
+          <p className='font-alt text-sm font-normal leading-normal max-w-sm text-base-content opacity-70'>
             <span>
               {' '}
               Your email will never be stored by us or TalentLayer. With iExec web3mail, you can
@@ -95,7 +95,7 @@ function Web3mailCard() {
             <a
               href='https://medium.com/iex-ec/introducing-privacy-enhancing-marketing-the-future-of-marketing-in-web3-429283e7c7f0'
               target='_blank'
-              className='px-3 py-1 border border-info rounded-md hover:bg-base-200 text-base hover:text-base inline-flex items-center text-xs'>
+              className='px-3 py-1 border border-info rounded-md hover:bg-base-200 text-base-content hover:text-base-content inline-flex items-center text-xs'>
               <span>Learn More</span>
               <ArrowSmallRightIcon width='16' height='16' className='ml-2' />
             </a>

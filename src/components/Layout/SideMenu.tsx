@@ -11,11 +11,7 @@ import {
 
 function SideMenu() {
   const { user } = useContext(TalentLayerContext);
-  const { builderPlace } = useContext(BuilderPlaceContext);
-
-  const isBuilderPlaceOwner = builderPlace?.owners?.some(
-    owner => owner.toLocaleLowerCase() === user?.address,
-  );
+  const { isBuilderPlaceOwner } = useContext(BuilderPlaceContext);
 
   return (
     <nav className='space-y-1 px-3'>
@@ -23,11 +19,14 @@ function SideMenu() {
         <>
           <div className='pt-4'>
             <div className='border-info h-px mx-3'></div>
-            <h2 className='text-base font-bold ml-3 mt-6'>WORK</h2>
+            <h2 className='text-base-content font-bold ml-3 mt-6'>WORK</h2>
             <nav className='space-y-1 mt-6'>
               {hirerNavigation.map(item => (
                 <SideLink key={item.name} href={item.href}>
-                  <item.icon className='mr-3 h-5 w-5 flex-shrink-0 text-base' aria-hidden='true' />
+                  <item.icon
+                    className='mr-3 h-5 w-5 flex-shrink-0 text-base-content'
+                    aria-hidden='true'
+                  />
                   {item.name}
                 </SideLink>
               ))}
@@ -35,11 +34,14 @@ function SideMenu() {
           </div>
 
           <div className='pt-4'>
-            <h2 className='text-base font-bold ml-3 mt-6'>ADMIN</h2>
+            <h2 className='text-base-content font-bold ml-3 mt-6'>ADMIN</h2>
             <nav className='space-y-1 mt-6'>
               {hirerAdminNavigation.map(item => (
                 <SideLink key={item.name} href={item.href}>
-                  <item.icon className='mr-3 h-5 w-5 flex-shrink-0 text-base' aria-hidden='true' />
+                  <item.icon
+                    className='mr-3 h-5 w-5 flex-shrink-0 text-base-content'
+                    aria-hidden='true'
+                  />
                   {item.name}
                 </SideLink>
               ))}
@@ -52,7 +54,10 @@ function SideMenu() {
         <nav className='space-y-1 mt-6'>
           {workerNavigation.map(item => (
             <SideLink key={item.name} href={item.href}>
-              <item.icon className='mr-3 h-5 w-5 flex-shrink-0 text-base' aria-hidden='true' />
+              <item.icon
+                className='mr-3 h-5 w-5 flex-shrink-0 text-base-content'
+                aria-hidden='true'
+              />
               {item.name}
             </SideLink>
           ))}
@@ -61,11 +66,14 @@ function SideMenu() {
 
       {user?.isAdmin && (
         <div className='pt-4'>
-          <h2 className='text-base font-bold ml-3 mt-6'>PLATFORM</h2>
+          <h2 className='text-base-content font-bold ml-3 mt-6'>PLATFORM</h2>
           <nav className='space-y-1 mt-6'>
             {PlatformAdminNavigation.map(item => (
               <SideLink key={item.name} href={item.href}>
-                <item.icon className='mr-3 h-5 w-5 flex-shrink-0 text-base' aria-hidden='true' />
+                <item.icon
+                  className='mr-3 h-5 w-5 flex-shrink-0 text-base-content'
+                  aria-hidden='true'
+                />
                 {item.name}
               </SideLink>
             ))}

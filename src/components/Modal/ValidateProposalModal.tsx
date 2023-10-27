@@ -74,7 +74,7 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
     <>
       <button
         onClick={() => setShow(true)}
-        className='block text-success bg-success hover:bg-info hover:text-base rounded-xl px-5 py-2.5 text-center'
+        className='block text-success bg-success hover:bg-info hover:text-base-content rounded-xl px-5 py-2.5 text-center'
         type='button'
         data-modal-toggle='defaultModal'>
         Validate
@@ -87,11 +87,11 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
         <div className='relative p-4 w-full max-w-2xl h-auto'>
           <div className='relative bg-base-300 rounded-xl shadow '>
             <div className='flex justify-between items-start p-4 rounded-t border-b border-info'>
-              <h3 className='text-xl font-semibold text-base '>Proposal validation</h3>
+              <h3 className='text-xl font-semibold text-base-content '>Proposal validation</h3>
               <button
                 onClick={() => setShow(false)}
                 type='button'
-                className='text-base bg-transparent hover:bg-base-200 hover:text-base rounded-xl text-sm p-1.5 ml-auto inline-flex items-center '
+                className='text-base-content bg-transparent hover:bg-base-200 hover:text-base-content rounded-xl text-sm p-1.5 ml-auto inline-flex items-center '
                 data-modal-toggle='defaultModal'>
                 <svg
                   className='w-5 h-5'
@@ -122,30 +122,30 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
                   </ol>
                 </nav>
               )}
-              <div className='flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full bg-base-200 space-y-6 text-base'>
-                <h3 className='text-xl font-semibold leading-5 text-base'>Summary</h3>
+              <div className='flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full bg-base-200 space-y-6 text-base-content'>
+                <h3 className='text-xl font-semibold leading-5 text-base-content'>Summary</h3>
                 <div className='flex justify-center items-center w-full space-y-4 flex-col border-info border-b pb-4'>
                   <div className='flex justify-between w-full'>
-                    <p className='text-base leading-4 text-base'>Rate</p>
-                    <p className='text-base  leading-4 text-base'>
+                    <p className='text-base-content leading-4 text-base-content'>Rate</p>
+                    <p className='text-base-content  leading-4 text-base-content'>
                       {renderTokenAmount(proposal.rateToken, proposal.rateAmount)}
                     </p>
                   </div>
                   <div className='flex justify-between items-center w-full'>
-                    <p className='text-base leading-4 text-base'>
+                    <p className='text-base-content leading-4 text-base-content'>
                       Fees from the marketplace originating the service{' '}
-                      <span className='bg-base-200 p-1 text-xs font-medium leading-3 text-base opacity-50'>
+                      <span className='bg-base-200 p-1 text-xs font-medium leading-3 text-base-content opacity-50'>
                         {((Number(originServiceFeeRate) / FEE_RATE_DIVIDER) * 100).toString()} %
                       </span>
                     </p>
-                    <p className='text-base  leading-4 text-base'>
+                    <p className='text-base-content  leading-4 text-base-content'>
                       +{renderTokenAmount(proposal.rateToken, originServiceFee.toString())}
                     </p>
                   </div>
                   <div className='flex justify-between items-center w-full'>
-                    <p className='text-base leading-4 text-base'>
+                    <p className='text-base-content leading-4 text-base-content'>
                       Fees from the marketplace validating the proposal{' '}
-                      <span className='bg-base-200 p-1 text-xs font-medium leading-3 text-base opacity-50'>
+                      <span className='bg-base-200 p-1 text-xs font-medium leading-3 text-base-content opacity-50'>
                         {(
                           (Number(originValidatedProposalFeeRate) / FEE_RATE_DIVIDER) *
                           100
@@ -153,44 +153,46 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
                         %
                       </span>
                     </p>
-                    <p className='text-base  leading-4 text-base'>
+                    <p className='text-base-content  leading-4 text-base-content'>
                       +
                       {renderTokenAmount(proposal.rateToken, originValidatedProposalFee.toString())}
                     </p>
                   </div>
                   <div className='flex justify-between items-center w-full'>
-                    <p className='text-base leading-4 text-base'>
+                    <p className='text-base-content leading-4 text-base-content'>
                       Protocol fees{' '}
-                      <span className='bg-base-200 p-1 text-xs font-medium leading-3 text-base opacity-50'>
+                      <span className='bg-base-200 p-1 text-xs font-medium leading-3 text-base-content opacity-50'>
                         {((Number(protocolEscrowFeeRate) / FEE_RATE_DIVIDER) * 100).toString()} %
                       </span>
                     </p>
-                    <p className='text-base  leading-4 text-base'>
+                    <p className='text-base-content  leading-4 text-base-content'>
                       +{renderTokenAmount(proposal.rateToken, protocolFee.toString())}
                     </p>
                   </div>
                 </div>
                 <div className='flex justify-between items-center w-full'>
-                  <p className='text-base font-semibold leading-4 text-base'>Total</p>
-                  <p className='text-base  font-semibold leading-4 text-base'>
+                  <p className='text-base-content font-semibold leading-4 text-base-content'>
+                    Total
+                  </p>
+                  <p className='text-base-content  font-semibold leading-4 text-base-content'>
                     {renderTokenAmount(proposal.rateToken, totalAmount.toString())}
                   </p>
                 </div>
               </div>
 
-              <div className='flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full bg-base-200 space-y-6 text-base'>
-                <h3 className='text-xl font-semibold leading-5 text-base'>Your balances</h3>
+              <div className='flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full bg-base-200 space-y-6 text-base-content'>
+                <h3 className='text-xl font-semibold leading-5 text-base-content'>Your balances</h3>
                 <div className='flex justify-center items-center w-full space-y-4 flex-col'>
                   {!isProposalUseEth && tokenBalance && (
                     <div className='flex justify-between w-full'>
-                      <p className='text-base leading-4 text-base'>
+                      <p className='text-base-content leading-4 text-base-content'>
                         {tokenBalance.formatted} {tokenBalance.symbol}
                       </p>
                       <p className=''>
                         <span
                           className={`block ${
                             hasEnoughBalance() ? 'bg-info' : 'bg-error'
-                          } p-1 text-xs font-medium text-base rounded-full`}>
+                          } p-1 text-xs font-medium text-base-content rounded-full`}>
                           {hasEnoughBalance() ? (
                             <Check className='w-4 h-4' />
                           ) : (
@@ -202,14 +204,16 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
                   )}
                   {isProposalUseEth && ethBalance && (
                     <div className='flex justify-between w-full'>
-                      <p className='text-base leading-4 text-base'>{ethBalance.formatted} ETH</p>
+                      <p className='text-base-content leading-4 text-base-content'>
+                        {ethBalance.formatted} ETH
+                      </p>
                       <p className=''>
                         <span
                           className={`block ${
                             (isProposalUseEth && hasEnoughBalance()) || ethBalance.value > 0
                               ? 'bg-info'
                               : 'bg-error'
-                          } p-1 text-xs font-medium text-base rounded-full`}>
+                          } p-1 text-xs font-medium text-base-content rounded-full`}>
                           {(isProposalUseEth && hasEnoughBalance()) || ethBalance.value > 0 ? (
                             <Check className='w-4 h-4' />
                           ) : (
@@ -227,21 +231,21 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
                 <button
                   onClick={() => onSubmit()}
                   type='button'
-                  className='hover:text-success hover:bg-success bg-info text-base rounded-xl px-5 py-2.5 text-center'>
+                  className='hover:text-success hover:bg-success bg-info text-base-content rounded-xl px-5 py-2.5 text-center'>
                   {isProposalUseEth ? 'Validate' : 'Allow spending'}
                 </button>
               ) : (
                 <button
                   disabled
                   type='button'
-                  className='hover:text-red-600 hover:bg-error bg-error text-base rounded-xl px-5 py-2.5 text-center'>
+                  className='hover:text-red-600 hover:bg-error bg-error text-base-content rounded-xl px-5 py-2.5 text-center'>
                   Validate
                 </button>
               )}
               <button
                 onClick={() => setShow(false)}
                 type='button'
-                className='text-base bg-base-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-xl border text-sm font-medium px-5 py-2.5 hover:text-base focus:z-10 '>
+                className='text-base-content bg-base-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-xl border text-sm font-medium px-5 py-2.5 hover:text-base-content focus:z-10 '>
                 Decline
               </button>
               <ContactButton

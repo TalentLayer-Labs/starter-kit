@@ -30,7 +30,7 @@ function ShareModal() {
               <button
                 onClick={() => setShow(false)}
                 type='button'
-                className='text-base bg-transparent hover:bg-base-200 hover:text-base rounded-xl text-sm p-4 ml-auto inline-flex items-center '
+                className='text-base-content bg-transparent hover:bg-base-200 hover:text-base-content rounded-xl text-sm p-4 ml-auto inline-flex items-center '
                 data-modal-toggle='defaultModal'>
                 <svg
                   className='w-5 h-5'
@@ -62,7 +62,7 @@ function ShareModal() {
                 onClick={() => {
                   handleCopyClick(shareLink);
                 }}
-                className='flex p-3 bg-base-300 border-info rounded-xl justify-between mt-10 text-base'>
+                className='flex p-3 bg-base-300 border-info rounded-xl justify-between mt-10 text-base-content'>
                 Copy a share link
                 <ClipboardDocumentIcon className='ml-2 h-5 w-5' />
               </a>

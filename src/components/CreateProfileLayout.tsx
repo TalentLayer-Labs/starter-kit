@@ -18,7 +18,7 @@ function CreateProfileLayout({ children, className }: ContainerProps) {
   return (
     <div className={className}>
       <OnboardingSteps currentStep={2} />
-      <div className='max-w-7xl mx-auto text-base'>
+      <div className='max-w-7xl mx-auto text-base-content'>
         <div className='-mx-6 -mt-6 sm:mx-0 sm:mt-0'>
           <div className='flex py-2 px-6 sm:px-0 items-center w-full mb-8'>
             <p className='text-2xl font-bold flex-1 mt-6'>Create Your Worker Profile</p>

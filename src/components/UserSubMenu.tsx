@@ -34,18 +34,18 @@ function UserSubMenu() {
         </div>
         <div className='mt-3' role='none'>
           <h6
-            className='font-heading text-base opacity-50 text-sm font-medium dark:text-base'
+            className='font-heading text-base-content opacity-50 text-sm font-medium dark:text-base-content'
             role='none'>
             {' '}
             {user?.handle}{' '}
           </h6>
-          <p className='text-base mb-4 font-sans text-xs' role='none'>
+          <p className='text-base-content mb-4 font-sans text-xs' role='none'>
             {account?.address && truncateAddress(account.address)}
           </p>
           {user && (
             <Link
               href='/profiles/edit'
-              className='mt-2 border border-info rounded-xl hover:bg-base-300 text-base bg-base-200 px-5 py-2 w-full'
+              className='mt-2 border border-info rounded-xl hover:bg-base-300 text-base-content bg-base-200 px-5 py-2 w-full'
               role='none'>
               Manage Account
             </Link>

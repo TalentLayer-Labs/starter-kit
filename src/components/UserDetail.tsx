@@ -17,7 +17,7 @@ function UserDetail({ user }: { user: IUser }) {
   }
 
   return (
-    <div className='rounded-xl p-4 border border-info text-base bg-base-100'>
+    <div className='rounded-xl p-4 border border-info text-base-content bg-base-100'>
       <div className='w-full'>
         <div className='flex flex-col justify-start items-start gap-4'>
           <div className='flex items-center justify-start mb-4'>
@@ -33,8 +33,8 @@ function UserDetail({ user }: { user: IUser }) {
               alt='default avatar'
             />
             <div className='flex flex-col'>
-              <p className='text-base font-medium break-all'>{user?.handle}</p>
-              <p className='text-base text-xs'>{userDescription?.title}</p>
+              <p className='text-base-content font-medium break-all'>{user?.handle}</p>
+              <p className='text-base-content text-xs'>{userDescription?.title}</p>
             </div>
             <div className=''>
               <PohModule address={user.address} />
@@ -45,18 +45,18 @@ function UserDetail({ user }: { user: IUser }) {
       </div>
       <div className=' border-t border-info pt-2 w-full'>
         {userDescription?.name && (
-          <p className='text-sm text-base mt-4'>
+          <p className='text-sm text-base-content mt-4'>
             <strong>Name:</strong> {userDescription?.name}
           </p>
         )}
-        <p className='text-sm text-base mt-4'>
+        <p className='text-sm text-base-content mt-4'>
           <strong>Skills:</strong> {userDescription?.skills_raw}
         </p>
-        <p className='text-sm text-base mt-4'>
+        <p className='text-sm text-base-content mt-4'>
           <strong>About:</strong> {userDescription?.about}
         </p>
         {userDescription?.role && (
-          <p className='text-sm text-base mt-4'>
+          <p className='text-sm text-base-content mt-4'>
             <strong>Role:</strong> {userDescription?.role}
           </p>
         )}

@@ -114,7 +114,7 @@ function ReviewForm({ serviceId }: { serviceId: string }) {
           ))} */}
           <div className='grid grid-cols-1 gap-6 border border-info rounded-xl p-6 bg-base-100'>
             <label className='block'>
-              <span className='text-base'>Message</span>
+              <span className='text-base-content'>Message</span>
               <Field
                 as='textarea'
                 id='content'
@@ -129,7 +129,7 @@ function ReviewForm({ serviceId }: { serviceId: string }) {
             </label>
 
             <label className='block'>
-              <span className='text-base'>Rating</span>
+              <span className='text-base-content'>Rating</span>
               <Field
                 type='number'
                 id='rating'

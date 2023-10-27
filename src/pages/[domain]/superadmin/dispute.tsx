@@ -65,7 +65,7 @@ function AdminDispute() {
   }
 
   return (
-    <div className='max-w-7xl mx-auto text-base'>
+    <div className='max-w-7xl mx-auto text-base-content'>
       <div className=' -mx-6 -mt-6 '>
         <div className='flex py-2 px-6 items-center border-b w-full border-info mb-8'>
           <p className='text-2xl font-bold flex-1 mt-6'>Dispute strategy</p>

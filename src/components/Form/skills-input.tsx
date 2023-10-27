@@ -40,7 +40,7 @@ export function SkillsInput({
       <div
         key={skill}
         className={
-          'leading-tight mr-2 inline-flex items-center rounded-full bg-base-200 p-1 pl-3 text-xs text-base'
+          'leading-tight mr-2 inline-flex items-center rounded-full bg-base-200 p-1 pl-3 text-xs text-base-content'
         }>
         <span>{skill}</span>
         <span
@@ -73,9 +73,9 @@ export function SkillsInput({
             />
           </div>
           {query.length >= 2 && (
-            <Combobox.Options className='absolute mt-1 max-h-60 w-full overflow-auto rounded-xl bg-base-100 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm'>
+            <Combobox.Options className='absolute mt-1 max-h-60 w-full overflow-auto rounded-xl bg-base-100 py-1 text-base-content shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm'>
               {filteredSkills?.length === 0 && query.length >= MINIMUM_QUERY_LENGTH ? (
-                <div className='relative cursor-default select-none py-2 px-4 text-base'>
+                <div className='relative cursor-default select-none py-2 px-4 text-base-content'>
                   Nothing found.
                 </div>
               ) : (
@@ -88,7 +88,7 @@ export function SkillsInput({
                           key={skill.name}
                           className={({ active }) =>
                             `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                              active ? 'bg-zinc-600 text-base' : 'text-base'
+                              active ? 'bg-zinc-600 text-base-content' : 'text-base-content'
                             }`
                           }
                           value={skill.name}>

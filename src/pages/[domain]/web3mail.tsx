@@ -10,7 +10,7 @@ export async function getServerSideProps({ params }: any) {
 
 export default function web3mail() {
   return (
-    <div className='max-w-5xl mx-auto text-base sm:px-4 lg:px-0 mt-6'>
+    <div className='max-w-5xl mx-auto text-base-content sm:px-4 lg:px-0 mt-6'>
       <div className='flex items-center justify-center w-full flex-col'>
         <div className='pb-16 border-info relative w-full transition-all duration-300 rounded-md'>
           <div className='border border-info rounded-xl p-6 bg-base-100'>

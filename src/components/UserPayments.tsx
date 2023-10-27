@@ -12,7 +12,7 @@ function UserPayments({ user }: { user: IUser }) {
   }
   return (
     <>
-      <h2 className='pb-4 text-base  break-all flex justify-between items-center'>
+      <h2 className='pb-4 text-base-content  break-all flex justify-between items-center'>
         <span className='flex-1 font-bold'>Your last incomes</span>
 
         <Link
@@ -46,7 +46,7 @@ function UserPayments({ user }: { user: IUser }) {
                   {renderTokenAmount(payment.rateToken, payment.amount)}
                 </span>
                 <div className='flex items-center justify-between'>
-                  <span className='text-base opacity-50'>
+                  <span className='text-base-content opacity-50'>
                     received the {formatStringCompleteDate(payment.createdAt)}
                   </span>
                 </div>

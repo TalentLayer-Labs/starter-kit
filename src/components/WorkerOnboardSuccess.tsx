@@ -13,7 +13,7 @@ function WorkerOnboardSuccess() {
     <>
       <div className='bg-base-100'>
         <OnboardingSteps currentStep={3} />
-        <div className='max-w-7xl mx-auto text-base sm:px-4 lg:px-0 py-20'>
+        <div className='max-w-7xl mx-auto text-base-content sm:px-4 lg:px-0 py-20'>
           <div className='flex flex-col items-center justify-center gap-10'>
             <p className='text-5xl sm:text-7xl font-medium tracking-wider max-w-5xl text-center'>
               Done!
@@ -21,7 +21,7 @@ function WorkerOnboardSuccess() {
             <p className='text-3xl sm:text-5xl font-medium tracking-wider max-w-5xl text-center'>
               Looking good! Now, time to work.
             </p>
-            <p className='text-xl sm:text-2xl text-base opacity-50 text-center'>
+            <p className='text-xl sm:text-2xl text-base-content opacity-50 text-center'>
               Your profile looks great - you are all set to apply for opportunities.
             </p>
             <div className='flex flex-col items-center gap-8'>
@@ -32,9 +32,9 @@ function WorkerOnboardSuccess() {
                   className='object-cover w-full h-full'
                 />
               </div>
-              <p className='text-2xl text-base opacity-50'>{user?.description?.name}</p>
-              <p className='text-xl text-base opacity-50'>{user?.description?.title}</p>
-              <p className='text-xl text-base opacity-50 text-center max-w-lg'>
+              <p className='text-2xl text-base-content opacity-50'>{user?.description?.name}</p>
+              <p className='text-xl text-base-content opacity-50'>{user?.description?.title}</p>
+              <p className='text-xl text-base-content opacity-50 text-center max-w-lg'>
                 {user?.description?.about}
               </p>
               <button

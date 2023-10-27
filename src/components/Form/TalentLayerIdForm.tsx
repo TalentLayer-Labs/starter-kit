@@ -102,7 +102,7 @@ function TalentLayerIdForm() {
             <div className='sm:px-6 flex flex-row items-center gap-2'>
               <Field
                 type='text'
-                className='text-base opacity-50 py-2 focus:ring-0 outline-none text-sm border-0 rounded-xl h-[40px]'
+                className='text-base-content opacity-50 py-2 focus:ring-0 outline-none text-sm border-0 rounded-xl h-[40px]'
                 placeholder='Choose your handle'
                 id='handle'
                 name='handle'
@@ -118,7 +118,7 @@ function TalentLayerIdForm() {
                 <div className='sm:pl-2 sm:pr-4 sm:space-x-4 relative'>
                   <SubmitButton isSubmitting={isSubmitting} />
                   <HelpPopover>
-                    <h3 className='font-semibold text-base dark:text-base'>
+                    <h3 className='font-semibold text-base-content dark:text-base-content'>
                       What is a TalentLayerID?
                     </h3>
                     <p>
@@ -127,7 +127,9 @@ function TalentLayerIdForm() {
                       crypto wallets; this means that reputation is self-custodied by the wallet
                       owner and lives separately from integrated platforms.
                     </p>
-                    <h3 className='font-semibold text-base dark:text-base'>What is the handle?</h3>
+                    <h3 className='font-semibold text-base-content dark:text-base-content'>
+                      What is the handle?
+                    </h3>
                     <p>
                       Your Anon ID Handle is a unique string of characters and numbers that you can
                       choose when you create your Anon ID. This handle is how others can search for

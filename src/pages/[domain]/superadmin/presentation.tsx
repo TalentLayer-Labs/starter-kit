@@ -92,7 +92,7 @@ function AdminPresentation() {
   };
 
   return (
-    <div className='max-w-7xl mx-auto text-base'>
+    <div className='max-w-7xl mx-auto text-base-content'>
       <div className=' -mx-6 -mt-6 '>
         <div className='flex py-2 px-6 items-center border-b w-full border-info mb-8'>
           <p className='text-2xl font-bold flex-1 mt-6'>Presentation</p>
@@ -108,7 +108,7 @@ function AdminPresentation() {
           <Form>
             <div className='grid grid-cols-1 gap-6 border border-info rounded-xl p-6 bg-base-100'>
               <label className='block'>
-                <span className='text-base'>Website</span>
+                <span className='text-base-content'>Website</span>
                 <Field
                   type='text'
                   id='website'
@@ -119,7 +119,7 @@ function AdminPresentation() {
               </label>
 
               <label className='block'>
-                <span className='text-base'>Picture Url</span>
+                <span className='text-base-content'>Picture Url</span>
                 <Field
                   type='text'
                   id='image_url'
@@ -137,7 +137,7 @@ function AdminPresentation() {
               </label>
 
               <label className='block'>
-                <span className='text-base'>About</span>
+                <span className='text-base-content'>About</span>
                 <Field
                   as='textarea'
                   id='about'

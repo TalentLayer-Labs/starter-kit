@@ -37,7 +37,7 @@ function Web3mailStats() {
 
   if (isWeb3mailActive === 'false') {
     return (
-      <div className='max-w-7xl mx-auto text-base'>
+      <div className='max-w-7xl mx-auto text-base-content'>
         <div className=' -mx-6 -mt-6 '>
           <div className='flex py-2 px-6 items-center border-b w-full border-info mb-8'>
             <p className='text-2xl font-bold flex-1 mt-6'>Stats Web3 Mails</p>
@@ -51,7 +51,7 @@ function Web3mailStats() {
   }
 
   return (
-    <div className='max-w-7xl mx-auto text-base'>
+    <div className='max-w-7xl mx-auto text-base-content'>
       <div className=' -mx-6 -mt-6 sm:mx-0 sm:mt-0'>
         <div className='flex py-2 px-6 sm:px-0 items-center w-full mb-8'>
           <p className='text-2xl font-bold flex-1 mt-6'>Stats Web3 Mails</p>
@@ -68,7 +68,7 @@ function Web3mailStats() {
           <div className='bg-base-300 ltablet:col-span-6 col-span-12 lg:col-span-6 rounded-xl border border-info'>
             <div className='p-6'>
               <div className='mb-6'>
-                <h3 className='text-base'>
+                <h3 className='text-base-content'>
                   <span>Quick Stats</span>
                 </h3>
               </div>
@@ -78,11 +78,11 @@ function Web3mailStats() {
                     <PaperAirplane width={20} height={20} />
                   </div>
                   <div>
-                    <h2 className='text-base'>
+                    <h2 className='text-base-content'>
                       <span>{web3MailStats.totalSent}</span>
                     </h2>
                     <p className=''>
-                      <span className='text-base'> Total sent </span>
+                      <span className='text-base-content'> Total sent </span>
                     </p>
                   </div>
                 </div>
@@ -91,11 +91,11 @@ function Web3mailStats() {
                     <PaperAirplane width={20} height={20} />
                   </div>
                   <div>
-                    <h2 className='text-base'>
+                    <h2 className='text-base-content'>
                       <span>{web3MailStats.totalSentThisMonth}</span>
                     </h2>
                     <p className=''>
-                      <span className='text-base'> sent this month </span>
+                      <span className='text-base-content'> sent this month </span>
                     </p>
                   </div>
                 </div>
@@ -104,11 +104,11 @@ function Web3mailStats() {
                     <UserGroupIcon width={20} height={20} />
                   </div>
                   <div>
-                    <h2 className='text-base'>
+                    <h2 className='text-base-content'>
                       <span>{web3MailStats.totalContact}</span>
                     </h2>
                     <p className=''>
-                      <span className='text-base'> contacts </span>
+                      <span className='text-base-content'> contacts </span>
                     </p>
                   </div>
                 </div>
@@ -117,11 +117,11 @@ function Web3mailStats() {
                     <CogIcon width={20} height={20} />
                   </div>
                   <div>
-                    <h2 className='text-base'>
+                    <h2 className='text-base-content'>
                       <span>{web3MailStats.totalCronRunning}</span>
                     </h2>
                     <p className=''>
-                      <span className='text-base'> cron running </span>
+                      <span className='text-base-content'> cron running </span>
                     </p>
                   </div>
                 </div>
@@ -131,7 +131,7 @@ function Web3mailStats() {
           <div className='bg-base-300 ltablet:col-span-6 col-span-12 lg:col-span-6 rounded-xl border border-info'>
             <div className='p-6'>
               <div className='mb-6'>
-                <h3 className='text-base'>
+                <h3 className='text-base-content'>
                   <span>Web3mails sent by month</span>
                 </h3>
               </div>

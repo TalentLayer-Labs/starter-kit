@@ -20,7 +20,7 @@ function Layout({ children, className }: ContainerProps) {
 
   return (
     <div className={className}>
-      <div className='max-w-7xl mx-auto text-base'>
+      <div className='max-w-7xl mx-auto text-base-content'>
         <div className='-mx-6 -mt-6 sm:mx-0 sm:mt-0'>
           <div className='flex py-2 px-6 sm:px-0 items-center w-full mb-8'>
             <p className='text-2xl font-bold flex-1 mt-6'>Edit</p>
@@ -60,7 +60,7 @@ function Layout({ children, className }: ContainerProps) {
                           <p className='font-heading text-lg font-medium leading-none'>
                             {user?.handle}
                           </p>
-                          <p className='font-alt text-sm font-normal leading-normal text-base opacity-50'>
+                          <p className='font-alt text-sm font-normal leading-normal text-base-content opacity-50'>
                             {user?.description?.title}
                           </p>
                         </div>
@@ -70,7 +70,7 @@ function Layout({ children, className }: ContainerProps) {
                           <span>Profile Completion</span>
                         </h3>
                         <div>
-                          <span className='text-base opacity-50 font-sans text-sm'>
+                          <span className='text-base-content opacity-50 font-sans text-sm'>
                             {completionScores?.total.percentage || '0'}%
                           </span>
                         </div>
@@ -85,7 +85,7 @@ function Layout({ children, className }: ContainerProps) {
                           />
                         </div>
                         <div className='mt-2'>
-                          <p className='text-base opacity-50 font-sans text-xs leading-tight'>
+                          <p className='text-base-content opacity-50 font-sans text-xs leading-tight'>
                             Reach out higher levels to increase your visibility and trust inside the
                             network while preserving your privacy.
                           </p>

@@ -205,13 +205,15 @@ function ProposalForm({
     <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
       {({ isSubmitting, values, setFieldValue }) => (
         <Form>
-          <h2 className='mb-2 text-base font-bold'>For the job:</h2>
+          <h2 className='mb-2 text-base-content font-bold'>For the job:</h2>
           <ServiceItem service={service} />
 
-          <h2 className=' mt-8 mb-2 text-base font-bold'>Describe your proposal in details:</h2>
+          <h2 className=' mt-8 mb-2 text-base-content font-bold'>
+            Describe your proposal in details:
+          </h2>
           <div className='grid grid-cols-1 gap-6 border border-info rounded-xl p-6 bg-base-100'>
             <label className='block'>
-              <span className='text-base'>about</span>
+              <span className='text-base-content'>about</span>
               <Field
                 as='textarea'
                 id='about'
@@ -224,11 +226,11 @@ function ProposalForm({
                 <div className='flex w-full items-center gap-3'>
                   <QuestionMarkCircle className='hidden' />
                   <div>
-                    <h2 className='font-heading text-xs font-bold text-base mb-1'>
+                    <h2 className='font-heading text-xs font-bold text-base-content mb-1'>
                       <span>Need help?</span>
                     </h2>
                     <p className='font-alt text-xs font-normal'>
-                      <span className='text-base'>
+                      <span className='text-base-content'>
                         Write few lines above and get some help from our AI
                       </span>
                     </p>
@@ -240,7 +242,7 @@ function ProposalForm({
                         e.preventDefault();
                         askAI(values.about, setFieldValue);
                       }}
-                      className='border text-base bg-base-300 hover:bg-base-100 border-white rounded-md h-10 w-10 p-2 relative inline-flex items-center justify-center space-x-1 font-sans text-sm font-normal leading-5 no-underline outline-none transition-all duration-300'>
+                      className='border text-base-content bg-base-300 hover:bg-base-100 border-white rounded-md h-10 w-10 p-2 relative inline-flex items-center justify-center space-x-1 font-sans text-sm font-normal leading-5 no-underline outline-none transition-all duration-300'>
                       {aiLoading ? <Loading /> : 'GO'}
                     </button>
                   </div>
@@ -253,7 +255,7 @@ function ProposalForm({
 
             <div className='flex'>
               <label className='block flex-1 mr-4'>
-                <span className='text-base'>Amount</span>
+                <span className='text-base-content'>Amount</span>
                 <Field
                   type='number'
                   id='rateAmount'
@@ -266,7 +268,7 @@ function ProposalForm({
                 </span>
               </label>
               <label className='block'>
-                <span className='text-base'>Token</span>
+                <span className='text-base-content'>Token</span>
                 <Field
                   component='select'
                   id='rateToken'
@@ -286,7 +288,7 @@ function ProposalForm({
               </label>
             </div>
             <label className='block flex-1'>
-              <span className='text-base'>Expiration Date (Days)</span>
+              <span className='text-base-content'>Expiration Date (Days)</span>
               <Field
                 type='number'
                 id='expirationDate'
@@ -299,7 +301,7 @@ function ProposalForm({
               </span>
             </label>
             <label className='block flex-1'>
-              <span className='text-base'>Video URL (optional)</span>
+              <span className='text-base-content'>Video URL (optional)</span>
               <Field
                 type='text'
                 id='video_url'
@@ -312,7 +314,7 @@ function ProposalForm({
               </span>
             </label>
             {proposalPostingFeeFormat !== 0 && !existingProposal && (
-              <span className='text-base'>
+              <span className='text-base-content'>
                 Fee for making a proposal: {proposalPostingFeeFormat}{' '}
                 {currentChain?.nativeCurrency.symbol}
               </span>

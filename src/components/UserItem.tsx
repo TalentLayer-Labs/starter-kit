@@ -15,7 +15,7 @@ function UserItem({ user }: { user: IUser }) {
   }
 
   return (
-    <div className='flex flex-row gap-2 rounded-xl p-4 border border-info text-base bg-base-100'>
+    <div className='flex flex-row gap-2 rounded-xl p-4 border border-info text-base-content bg-base-100'>
       <div className='flex flex-col items-top justify-between w-full'>
         <div className='flex flex-col justify-start items-start gap-4'>
           <div className='flex items-center justify-start mb-4'>
@@ -31,8 +31,10 @@ function UserItem({ user }: { user: IUser }) {
               alt='default avatar'
             />
             <div className='flex flex-col'>
-              <p className='text-base font-medium break-all'>{user.handle}</p>
-              <p className='text-xs text-base opacity-50'>{userDescription?.title || '-'}</p>
+              <p className='text-base-content font-medium break-all'>{user.handle}</p>
+              <p className='text-xs text-base-content opacity-50'>
+                {userDescription?.title || '-'}
+              </p>
             </div>
           </div>
         </div>
@@ -46,7 +48,7 @@ function UserItem({ user }: { user: IUser }) {
           </Link>
           {currentUser?.id === user.id && (
             <Link
-              className='text-success bg-success hover:bg-info hover:text-base px-5 py-2 rounded'
+              className='text-success bg-success hover:bg-info hover:text-base-content px-5 py-2 rounded'
               href={`/profiles/edit`}>
               Edit profile
             </Link>

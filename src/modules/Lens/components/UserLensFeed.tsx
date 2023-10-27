@@ -36,7 +36,7 @@ function UserLensFeed({ lensUser }: IProps) {
               )}
 
               <div className='w-full p-5 flex flex-col justify-between'>
-                <p className='font-light text-xs text-base opacity-50'>
+                <p className='font-light text-xs text-base-content opacity-50'>
                   Created {timeSince(item.createdAt || '')} ago
                 </p>
                 <div className='mt-2 text-sm line-clamp-2'>{item.metadata.content}</div>
@@ -46,7 +46,7 @@ function UserLensFeed({ lensUser }: IProps) {
                       <span>
                         <svg
                           xmlns='http://www.w3.org/2000/svg'
-                          className='h-5 w-5 text-base opacity-50 cursor-pointer'
+                          className='h-5 w-5 text-base-content opacity-50 cursor-pointer'
                           fill='none'
                           viewBox='0 0 24 24'
                           stroke='currentColor'>

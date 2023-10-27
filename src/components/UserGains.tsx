@@ -18,7 +18,7 @@ function UserGains({ user }: IProps) {
 
   return (
     <>
-      <h2 className='pb-4 text-base font-bold break-all'>Your total gain</h2>
+      <h2 className='pb-4 text-base-content font-bold break-all'>Your total gain</h2>
       <div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4'>
         {userGains.map((gain, i) => {
           return (

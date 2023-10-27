@@ -90,7 +90,7 @@ function CustomPallete({ builderPlace }: { builderPlace: IBuilderPlace }) {
             border-color: var(--base-300);
           }
 
-          .text-base {
+          .text-base-content-content {
             color: var(--base-content);
           }
 

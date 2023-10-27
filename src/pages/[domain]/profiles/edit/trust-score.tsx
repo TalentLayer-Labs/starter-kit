@@ -9,11 +9,11 @@ export async function getServerSideProps({ params }: any) {
 function EditTrustScore() {
   return (
     <Layout>
-      <h2 className='text-base text-xl font-bold text-center my-4'>Comming soon</h2>
+      <h2 className='text-base-content text-xl font-bold text-center my-4'>Comming soon</h2>
       <div className='bg-base-200 relative flex flex-1 items-center justify-center bg-gradient-to-br p-5 shadow-xl rounded-xl'>
         <div className='relative z-20 flex flex-col gap-3'>
           <p className=''>
-            <span className='text-base opacity-50'>
+            <span className='text-base-content opacity-50'>
               {' '}
               Gain trust in the network
               <br />
@@ -26,7 +26,7 @@ function EditTrustScore() {
           <a
             aria-current='page'
             href='#'
-            className='text-sm text-base opacity-50 underline-offset-4 underline'>
+            className='text-sm text-base-content opacity-50 underline-offset-4 underline'>
             {' '}
             Learn More{' '}
           </a>

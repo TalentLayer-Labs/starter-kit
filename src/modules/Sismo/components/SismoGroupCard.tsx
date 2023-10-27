@@ -17,7 +17,7 @@ function SismoGroupCard({
   };
 
   return (
-    <div className='rounded-xl p-4 border border-info text-base bg-base-100'>
+    <div className='rounded-xl p-4 border border-info text-base-content bg-base-100'>
       <div className='flex flex-col items-top justify-between gap-4 w-full'>
         <div className='flex flex-col justify-start items-start gap-4 relative'>
           <div className='flex items-center justify-start'>
@@ -29,10 +29,12 @@ function SismoGroupCard({
               height={200}
             />
             <div className='flex flex-col'>
-              <p className='text-base font-medium break-all'>{sismoGroupData.name}</p>
+              <p className='text-base-content font-medium break-all'>{sismoGroupData.name}</p>
             </div>
             <SismoHelpPopover>
-              <h3 className='font-semibold text-base dark:text-base'>How to get this Badge ?</h3>
+              <h3 className='font-semibold text-base-content dark:text-base-content'>
+                How to get this Badge ?
+              </h3>
               <p>
                 <strong>Description:</strong> {sismoGroupData.description}
                 <br />
@@ -49,8 +51,8 @@ function SismoGroupCard({
               target={'_blank'}
               className={`${
                 sismoGroupData.userInGroup
-                  ? 'text-content bg-zinc-50 hover:bg-zinc-500 hover:text-base'
-                  : 'text-base bg-base-200 pointer-events-none'
+                  ? 'text-content bg-zinc-50 hover:bg-zinc-500 hover:text-base-content'
+                  : 'text-base-content bg-base-200 pointer-events-none'
               } px-5 py-2 rounded`}
               href={sismoGroupData.link}>
               Mint Badge

@@ -137,7 +137,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
         <Form>
           <div className='grid grid-cols-1 gap-6'>
             <label className='block'>
-              <span className='text-base'>Title</span>
+              <span className='text-base-content'>Title</span>
               <Field
                 type='text'
                 id='title'
@@ -147,7 +147,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
               />
             </label>
             <label className='block'>
-              <span className='text-base'>Name</span>
+              <span className='text-base-content'>Name</span>
               <Field
                 type='text'
                 id='name'
@@ -157,7 +157,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
               />
             </label>
             <label className='block'>
-              <span className='text-base'>Role</span>
+              <span className='text-base-content'>Role</span>
               <Field
                 as='select'
                 id='role'
@@ -172,7 +172,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
             </label>
 
             <label className='block'>
-              <span className='text-base'>Picture Url</span>
+              <span className='text-base-content'>Picture Url</span>
               <Field
                 type='text'
                 id='image_url'
@@ -184,11 +184,11 @@ function ProfileForm({ callback }: { callback?: () => void }) {
                 <div className='flex w-full items-center gap-3'>
                   <QuestionMarkCircle className='hidden' />
                   <div>
-                    <h2 className='font-heading text-xs font-bold text-base mb-1'>
+                    <h2 className='font-heading text-xs font-bold text-base-content mb-1'>
                       <span>Need help?</span>
                     </h2>
                     <p className='font-alt text-xs font-normal'>
-                      <span className='text-base'>Use our AI to generate a cool one</span>
+                      <span className='text-base-content'>Use our AI to generate a cool one</span>
                     </p>
                   </div>
                   <div className='ms-auto'>
@@ -197,7 +197,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
                       onClick={e =>
                         generatePictureUrl(e, newUrl => setFieldValue('image_url', newUrl))
                       }
-                      className='border text-base bg-base-300 hover:bg-base-100 border-white rounded-md h-10 w-10 p-2 relative inline-flex items-center justify-center space-x-1 font-sans text-sm font-normal leading-5 no-underline outline-none transition-all duration-300'>
+                      className='border text-base-content bg-base-300 hover:bg-base-100 border-white rounded-md h-10 w-10 p-2 relative inline-flex items-center justify-center space-x-1 font-sans text-sm font-normal leading-5 no-underline outline-none transition-all duration-300'>
                       {aiLoading ? <Loading /> : 'GO'}
                     </button>
                   </div>
@@ -211,7 +211,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
             </label>
 
             <label className='block'>
-              <span className='text-base'>About</span>
+              <span className='text-base-content'>About</span>
               <Field
                 as='textarea'
                 id='about'
@@ -223,7 +223,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
             </label>
 
             <label className='block'>
-              <span className='text-base'>Skills</span>
+              <span className='text-base-content'>Skills</span>
 
               <SkillsInput initialValues={userDescription?.skills_raw} entityId={'skills'} />
 

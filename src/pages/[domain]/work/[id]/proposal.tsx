@@ -37,7 +37,7 @@ function CreateOrEditProposal() {
   }
 
   return (
-    <div className='max-w-7xl mx-auto text-base'>
+    <div className='max-w-7xl mx-auto text-base-content'>
       <div className='-mx-6 -mt-6 sm:mx-0 sm:mt-0'>
         <p className='flex py-2 items-center text-2xl font-bold tracking-wider mb-6 w-full px-6 sm:px-0 mt-6 '>
           {existingProposal &&
@@ -46,7 +46,8 @@ function CreateOrEditProposal() {
             <>Edit your proposal</>
           ) : service.status !== ServiceStatusEnum.Opened ? (
             <>
-              This service is not <span className='text-base'>open </span> for proposals any more
+              This service is not <span className='text-base-content'>open </span> for proposals any
+              more
             </>
           ) : (
             <>Create a proposal</>
@@ -56,7 +57,7 @@ function CreateOrEditProposal() {
 
       {!userExists() && account?.isConnected && user && (
         <div className='border border-info rounded-xl p-8'>
-          <p className='text-base opacity-50 py-4'>
+          <p className='text-base-content opacity-50 py-4'>
             In order to create a proposal, you need to be registered to our decentralized messaging
             service. Please sign in to our messaging service to verify your identity :
           </p>
