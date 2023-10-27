@@ -7,11 +7,11 @@ import { useChainId, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
 import { useRouter } from 'next/router';
 import { upload } from '../../../modules/BuilderPlace/request';
-import { iBuilderPlacePallete } from '../../../modules/BuilderPlace/types';
+import { iBuilderPlacePalette } from '../../../modules/BuilderPlace/types';
 
 interface IFormValues {
   subdomain: string;
-  palette?: iBuilderPlacePallete;
+  palette?: iBuilderPlacePalette;
   logo?: File;
   cover?: File;
 }
@@ -65,7 +65,7 @@ function onboardingStep3() {
             cover: cover?.variants[0] || null,
             name: builderPlaceData.name,
             ownerTalentLayerId: builderPlaceData.ownerTalentLayerId,
-            pallete: undefined,
+            palette: undefined,
             owners: builderPlaceData.owners,
             status: builderPlaceData.status,
             signature,

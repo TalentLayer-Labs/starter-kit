@@ -1,10 +1,10 @@
 import Head from 'next/head';
 import { IBuilderPlace } from '../modules/BuilderPlace/types';
 
-function CustomPallete({ builderPlace }: { builderPlace: IBuilderPlace }) {
+function CustomPalette({ builderPlace }: { builderPlace: IBuilderPlace }) {
   /*
-    Custom Pallete:
-        "pallete": {
+    Custom Palette:
+        "Palette": {
             "primary": "#FF71A2",
             "primaryFocus": "#FFC2D1",
             "primaryContent": "#ffffff",
@@ -28,26 +28,26 @@ function CustomPallete({ builderPlace }: { builderPlace: IBuilderPlace }) {
       <style>
         {`
           :root {
-            --primary: ${builderPlace?.pallete?.primary || '#FF71A2'};
-            --primary-focus: ${builderPlace?.pallete?.primaryFocus || '#FFC2D1'};
-            --primary-content: ${builderPlace?.pallete?.primaryContent || '#ffffff'};
+            --primary: ${builderPlace?.palette?.primary || '#FF71A2'};
+            --primary-focus: ${builderPlace?.palette?.primaryFocus || '#FFC2D1'};
+            --primary-content: ${builderPlace?.palette?.primaryContent || '#ffffff'};
 
-            --base-100: ${builderPlace?.pallete?.base100 || '#ffffff'};
-            --base-200: ${builderPlace?.pallete?.base200 || '#fefcfa'};
-            --base-300: ${builderPlace?.pallete?.base300 || '#fae4ce'};
-            --base-content: ${builderPlace?.pallete?.baseContent || '#000000'};
+            --base-100: ${builderPlace?.palette?.base100 || '#ffffff'};
+            --base-200: ${builderPlace?.palette?.base200 || '#fefcfa'};
+            --base-300: ${builderPlace?.palette?.base300 || '#fae4ce'};
+            --base-content: ${builderPlace?.palette?.baseContent || '#000000'};
 
-            --info: ${builderPlace?.pallete?.info || '#f4dabe'};
-            --info-content: ${builderPlace?.pallete?.infoContent || '#000000'};
+            --info: ${builderPlace?.palette?.info || '#f4dabe'};
+            --info-content: ${builderPlace?.palette?.infoContent || '#000000'};
 
-            --success: ${builderPlace?.pallete?.success || '#C5F1A4'};
-            --success-content: ${builderPlace?.pallete?.successContent || '#000000'};
+            --success: ${builderPlace?.palette?.success || '#C5F1A4'};
+            --success-content: ${builderPlace?.palette?.successContent || '#000000'};
 
-            --warning: ${builderPlace?.pallete?.warning || '#FFE768'};
-            --warning-content: ${builderPlace?.pallete?.warningContent || '#000000'};
+            --warning: ${builderPlace?.palette?.warning || '#FFE768'};
+            --warning-content: ${builderPlace?.palette?.warningContent || '#000000'};
 
-            --error: ${builderPlace?.pallete?.error || '#FFC2D1'};
-            --error-content: ${builderPlace?.pallete?.errorContent || '#000000'};
+            --error: ${builderPlace?.palette?.error || '#FFC2D1'};
+            --error-content: ${builderPlace?.palette?.errorContent || '#000000'};
           }
 
           .bg-primary {
@@ -147,4 +147,4 @@ function CustomPallete({ builderPlace }: { builderPlace: IBuilderPlace }) {
   );
 }
 
-export default CustomPallete;
+export default CustomPalette;

@@ -79,7 +79,7 @@ export const createBuilderPlace = async (data: CreateBuilderPlaceAction) => {
       customDomain: 'null',
       logo: data.logo,
       cover: 'null',
-      pallete: {
+      palette: {
         primary: '#FF71A2',
         primaryFocus: '#FFC2D1',
         primaryContent: '#ffffff',
