@@ -44,7 +44,7 @@ export interface CreateBuilderPlaceAction {
   secondaryColor: string;
   presentation: string;
   preferredWorkTypes: PreferredWorkTypes[];
-  imageUrl: string;
+  logo: string;
 }
 
 export interface CreateBuilderPlaceProps {
@@ -54,7 +54,7 @@ export interface CreateBuilderPlaceProps {
   secondaryColor: string;
   presentation: string;
   preferredWorkTypes: PreferredWorkTypes[];
-  imageUrl: string;
+  logo: string;
 }
 
 export type IBuilderPlace = {
@@ -71,7 +71,6 @@ export type IBuilderPlace = {
   ownerTalentLayerId: string;
   status: 'Validated' | 'Pending';
   preferredWorkTypes: PreferredWorkTypes[];
-  imageUrl: string;
 };
 
 // From https://vercel.com/docs/rest-api/endpoints#get-a-project-domain

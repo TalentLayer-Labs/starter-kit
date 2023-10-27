@@ -10,8 +10,6 @@ import {
 import { BuilderPlace } from './models/BuilderPlace';
 import {
   CreateBuilderPlaceAction,
-  IBuilderPlace,
-  OrganizationProps,
   SetBuilderPlaceOwner,
   UpdateBuilderPlace,
   UpdateBuilderPlaceDomain,
@@ -79,12 +77,11 @@ export const createBuilderPlace = async (data: CreateBuilderPlaceAction) => {
       subdomain: data.subdomain,
       preferredWorkTypes: data.preferredWorkTypes,
       customDomain: 'null',
-      logo: 'a',
-      cover: 'a',
+      logo: data.logo,
+      cover: 'null',
       primaryColor: data.primaryColor,
       secondaryColor: data.secondaryColor,
       status: 'pending',
-      imageUrl: data.imageUrl,
     });
     await newBuilderPlace.save();
 

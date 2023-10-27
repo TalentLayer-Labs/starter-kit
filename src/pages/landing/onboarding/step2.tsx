@@ -15,7 +15,7 @@ function onboardingStep2() {
   const [subdomainState, setSubdomainState] = useState<string>('');
 
   if (!account?.isConnected || !user) {
-    return <Steps handle={data?.name} description={data?.presentation} image={data?.imageUrl} />;
+    return <Steps handle={data?.name} description={data?.presentation} image={data?.logo} />;
   }
 
   const handleUpdateDomainOwner = async () => {
@@ -34,7 +34,6 @@ function onboardingStep2() {
         });
         router.push('/onboarding/step3');
       } catch (error) {
-        //TODO: Issue: On error we never go here
         console.error('Error updating domain:', error);
       }
     }

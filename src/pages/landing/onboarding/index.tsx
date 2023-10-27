@@ -5,7 +5,6 @@ import { showErrorTransactionToast } from '../../../utils/toast';
 import { PreferredWorkTypes } from '../../../types';
 import { useRouter } from 'next/router';
 import { upload } from '../../../modules/BuilderPlace/request';
-import * as fs from 'fs';
 import { generateSubdomainPrefix, slugify } from '../../../modules/BuilderPlace/utils';
 
 interface IFormValues {
@@ -26,18 +25,18 @@ function onboardingStep1() {
   };
 
   const validationSchema = Yup.object({
-    // name: Yup.string()
-    //   .min(2)
-    //   .max(10)
-    //   .matches(/^[a-z0-9][a-z0-9-_]*$/, 'Only a-z, 0-9 and -_ allowed, and cannot begin with -_')
-    //   .required('name is required'),
-    // presentation: Yup.string().required('presentation is required'),
-    // preferred_work_types: Yup.array()
-    //   .of(Yup.string())
-    //   .min(1, 'Chose at least one preferred word type')
-    //   .max(4, 'You already chose all existing preferred word type')
-    //   .required('Job Type is required'),
-    // logo: Yup.string().required('Image is required'),
+    name: Yup.string()
+      .min(2)
+      .max(10)
+      .matches(/^[a-z0-9][a-z0-9-_]*$/, 'Only a-z, 0-9 and -_ allowed, and cannot begin with -_')
+      .required('name is required'),
+    presentation: Yup.string().required('presentation is required'),
+    preferred_work_types: Yup.array()
+      .of(Yup.string())
+      .min(1, 'Chose at least one preferred word type')
+      .max(4, 'You already chose all existing preferred word type')
+      .required('Job Type is required'),
+    logo: Yup.string().required('Image is required'),
   });
 
   const handleSubmit = async (
@@ -66,15 +65,15 @@ function onboardingStep1() {
         secondaryColor: '#ffffff',
         presentation: values.presentation,
         preferredWorkTypes: values.preferred_work_types,
-        imageUrl: image?.variants[0] || null,
+        logo: image?.variants[0] || null,
       });
 
-      // setSubmitting(false);
-      // router.query.subdomain = subdomain;
-      // router.push({
-      //   pathname: '/onboarding/step2',
-      //   query: { subdomain: subdomain },
-      // });
+      setSubmitting(false);
+      router.query.subdomain = subdomain;
+      router.push({
+        pathname: '/onboarding/step2',
+        query: { subdomain: subdomain },
+      });
     } catch (error) {
       console.log(error);
       showErrorTransactionToast(error);

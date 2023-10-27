@@ -1,5 +1,5 @@
 // https://mongoosejs.com/docs/schematypes.html#
-import mongoose, { Schema, model, models } from 'mongoose';
+import { Schema, model, models } from 'mongoose';
 import { PreferredWorkTypes } from '../../../types';
 
 var builderPlace = new Schema({
@@ -42,9 +42,6 @@ var builderPlace = new Schema({
     enum: PreferredWorkTypes,
     required: true,
     unique: false,
-  },
-  imageUrl: {
-    type: String,
   },
 });
 

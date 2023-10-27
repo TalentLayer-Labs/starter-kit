@@ -6,13 +6,14 @@ import TalentLayerContext from '../../../context/talentLayer';
 import { useChainId, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
 import { useRouter } from 'next/router';
+import { upload } from '../../../modules/BuilderPlace/request';
 
 interface IFormValues {
   subdomain: string;
   primaryColor: string | undefined;
   secondaryColor: string | undefined;
-  logo: string | undefined;
-  cover: string | undefined;
+  logo?: File;
+  cover?: File;
 }
 
 const validationSchema = Yup.object({
@@ -33,8 +34,6 @@ function onboardingStep3() {
     subdomain: builderPlaceData?.subdomain || '',
     primaryColor: builderPlaceData?.primaryColor || '',
     secondaryColor: builderPlaceData?.secondaryColor || '',
-    logo: builderPlaceData?.logo || '',
-    cover: builderPlaceData?.cover || '',
   };
 
   const handleSubmit = async (
@@ -51,13 +50,25 @@ function onboardingStep3() {
           message: values.subdomain,
         });
 
+        let logo;
+        if (values.logo) {
+          logo = await upload(values.logo);
+          console.log({ logo, url: logo?.variants[0] });
+        }
+
+        let cover;
+        if (values.cover) {
+          cover = await upload(values.cover);
+          console.log({ cover, url: cover?.variants[0] });
+        }
+
         if (builderPlaceData) {
           await updateBuilderPlaceAsync({
             subdomain: values.subdomain,
             primaryColor: values.primaryColor,
             secondaryColor: values.secondaryColor,
-            logo: values.logo.name,
-            cover: values.cover.name,
+            logo: logo?.variants[0] || null,
+            cover: cover?.variants[0] || null,
             name: builderPlaceData.name,
             ownerTalentLayerId: builderPlaceData.ownerTalentLayerId,
             owners: builderPlaceData.owners,
