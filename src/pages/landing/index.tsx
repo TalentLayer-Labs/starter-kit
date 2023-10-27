@@ -348,7 +348,7 @@ function Home() {
               data-wow-delay='.2s'>
               <h2 className='mb-0 mt-10 text-3xl font-bold text-black  sm:text-4xl md:text-[44px] md:leading-tight'>
                 teams like yours are shipping faster thanks to{' '}
-                <a class='text-landingprimary'>open-source contributors</a>
+                <a className='text-landingprimary'>open-source contributors</a>
               </h2>
             </div>
           </div>
@@ -688,7 +688,7 @@ function Home() {
             className='wow fadeInUp mx-auto mb-14 max-w-[690px] text-center lg:mb-[70px]'
             data-wow-delay='.2s'>
             <h2 className='mb-4 mt-10 text-3xl font-bold text-black  sm:text-4xl md:text-[44px] md:leading-tight'>
-              create your BuilderPlace <a class='text-landingprimary'>in less than 5 minutes</a>
+              create your BuilderPlace <a className='text-landingprimary'>in less than 5 minutes</a>
             </h2>
           </div>
           <div className='container pb-20 lg:max-w-[1120px]'>
