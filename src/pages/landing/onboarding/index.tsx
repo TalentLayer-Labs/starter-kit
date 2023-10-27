@@ -6,17 +6,20 @@ import { PreferredWorkTypes } from '../../../types';
 import { useRouter } from 'next/router';
 import { upload } from '../../../modules/BuilderPlace/request';
 import { generateDomainName, slugify } from '../../../modules/BuilderPlace/utils';
+import { useState } from 'react';
+import Loading from '../../../components/Loading';
 
 interface IFormValues {
   name: string;
   presentation: string;
   preferred_work_types: PreferredWorkTypes[];
-  profilePicture?: File;
+  profilePicture?: string;
 }
 function onboardingStep1() {
   const { data: createdBuilderPlace, mutateAsync: createBuilderPlaceAsync } =
     useCreateBuilderPlaceMutation();
   const router = useRouter();
+  const [imgLoader, setImgLoader] = useState(false);
 
   const initialValues: IFormValues = {
     name: '',
@@ -32,7 +35,7 @@ function onboardingStep1() {
       .min(1, 'Chose at least one preferred word type')
       .max(4, 'You already chose all existing preferred word type')
       .required('Job Type is required'),
-    profilePicture: Yup.string().required('Image is required'),
+    // profilePicture: Yup.string().required('Image is required'),
   });
 
   const handleSubmit = async (
@@ -44,12 +47,6 @@ function onboardingStep1() {
 
       const name = slugify(values.name);
       const subdomain = generateDomainName(name);
-
-      let image;
-      if (values.profilePicture) {
-        image = await upload(values.profilePicture);
-        console.log({ image, url: image?.variants[0] });
-      }
 
       // TODO: generate image url form response
 
@@ -75,7 +72,7 @@ function onboardingStep1() {
         },
         presentation: values.presentation,
         preferredWorkTypes: values.preferred_work_types,
-        profilePicture: image?.variants[0] || null,
+        profilePicture: values.profilePicture || null,
       });
 
       setSubmitting(false);
@@ -89,6 +86,17 @@ function onboardingStep1() {
       showErrorTransactionToast(error);
       setSubmitting(false);
     }
+  };
+
+  const uploadImage = async (
+    file: File,
+    setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void,
+  ) => {
+    setImgLoader(true);
+    const profilePictureUrl = await upload(file);
+    console.log({ logo: profilePictureUrl, url: profilePictureUrl?.variants[0] });
+    setFieldValue('profilePicture', profilePictureUrl?.variants[0]);
+    setImgLoader(false);
   };
 
   return (
@@ -177,12 +185,18 @@ function onboardingStep1() {
                   type='file'
                   id='profilePicture'
                   name='profilePicture'
-                  onChange={(event: any) => {
-                    setFieldValue('profilePicture', event.currentTarget.files[0]);
+                  onChange={async (event: any) => {
+                    await uploadImage(event.currentTarget.files[0], setFieldValue);
                   }}
                   className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
                   placeholder=''
                 />
+                {imgLoader && <Loading />}
+                {values.profilePicture && (
+                  <div className='flex items-center justify-center py-3'>
+                    <img width='300' height='300' src={values.profilePicture} alt='' />
+                  </div>
+                )}
               </label>
               <span className='text-red-500'>
                 <ErrorMessage name='profilePicture' />
