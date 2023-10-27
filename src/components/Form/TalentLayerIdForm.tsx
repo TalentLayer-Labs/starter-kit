@@ -20,7 +20,7 @@ interface IFormValues {
   handle: string;
 }
 
-function TalentLayerIdForm({ handle, callback }: { handle?: string; callback: () => void }) {
+function TalentLayerIdForm({ handle, callback }: { handle?: string; callback?: () => void }) {
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
   const { platformHasAccess } = useContext(Web3MailContext);
