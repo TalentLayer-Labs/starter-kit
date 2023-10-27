@@ -10,6 +10,7 @@ import TalentLayerContext from '../../context/talentLayer';
 import Link from 'next/link';
 import { PencilSquareIcon } from '@heroicons/react/24/outline';
 import { getBuilderPlace } from '../../modules/BuilderPlace/queries';
+import BuilderPlaceContext from '../../modules/BuilderPlace/context/BuilderPlaceContext';
 
 export async function getServerSideProps({ params }: any) {
   console.log('getServerSideProps', { params });
@@ -18,17 +19,18 @@ export async function getServerSideProps({ params }: any) {
 
 function Dashboard() {
   const { account, user } = useContext(TalentLayerContext);
+  const { isBuilderPlaceOwner } = useContext(BuilderPlaceContext);
 
   if (!user) {
     return <Steps />;
   }
 
   return (
-    <div className='max-w-7xl mx-auto text-base'>
+    <div className='max-w-7xl mx-auto text-base-content'>
       <div className='-mx-6 -mt-6 sm:mx-0 sm:mt-0'>
         <div className='flex py-2 px-6 sm:px-0 items-center w-full mb-8'>
           <p className='text-2xl font-bold flex-1 mt-6'>
-            Your <span className='text-base ml-1'> dashboard </span>
+            Your <span className='text-base-content ml-1'> dashboard </span>
           </p>
           <Link
             href={`/profiles/edit`}
@@ -50,9 +52,11 @@ function Dashboard() {
           <div className='mb-6'>
             <UserGains user={user} />
           </div>
-          <div className='mb-6'>
-            <UserServices user={user} type='buyer' />
-          </div>
+          {isBuilderPlaceOwner && (
+            <div className='mb-6'>
+              <UserServices user={user} type='buyer' />
+            </div>
+          )}
           <div className='mb-6'>
             <UserServices user={user} type='seller' />
           </div>

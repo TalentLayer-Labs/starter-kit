@@ -1,6 +1,8 @@
+import { useContext } from 'react';
 import useServices from '../hooks/useServices';
 import { IUser } from '../types';
 import UserServiceItem from './UserServiceItem';
+import BuilderPlaceContext from '../modules/BuilderPlace/context/BuilderPlaceContext';
 
 interface IProps {
   user: IUser;
@@ -8,9 +10,11 @@ interface IProps {
 }
 
 function UserServices({ user, type }: IProps) {
+  const { builderPlace } = useContext(BuilderPlaceContext);
+
   const { services } = useServices(
     undefined,
-    type == 'buyer' ? user.id : undefined,
+    builderPlace?.ownerTalentLayerId || undefined,
     type == 'seller' ? user.id : undefined,
   );
 
