@@ -147,3 +147,9 @@ export interface OrganizationProps {
   jobType: PreferredWorkTypes;
   imageUrl: string;
 }
+
+export enum ImageType {
+  PNG = 'image/png',
+  SVG = 'image/svg+xml',
+  JPG = 'image/jpeg',
+}

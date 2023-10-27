@@ -1,3 +1,8 @@
+import { ImageType } from './types';
+import { Dispatch, SetStateAction } from 'react';
+import { upload } from './request';
+
+const IMG_LIMIT_SIZE = 10000000;
 export function generateSubdomainPrefix(name: string): string {
   // Remove any non-alphanumeric characters and replace spaces with hyphens
   const alphanumericName = name.replace(/[^a-zA-Z0-9\- ]/g, '').replace(/\s+/g, '-');
@@ -29,4 +34,50 @@ export const slugify = (str: string) => {
   }
 
   return string;
+};
+
+export const getImgExtension = (fileType: string): string | undefined => {
+  switch (fileType) {
+    case ImageType.JPG:
+      return '.jpg';
+    case ImageType.PNG:
+      return '.png';
+    case ImageType.SVG:
+      return '.svg';
+  }
+};
+
+export const isImgFormatValid = (file: File): boolean => {
+  return (
+    (file.type === ImageType.JPG || file.type === ImageType.PNG || file.type === ImageType.SVG) &&
+    file.size <= IMG_LIMIT_SIZE
+  );
+};
+
+export const uploadImage = async (
+  file: File,
+  setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void,
+  serErrorMessage: Dispatch<SetStateAction<string>>,
+  fieldName: string,
+  setLoader: Dispatch<SetStateAction<boolean>>,
+  handle?: string,
+) => {
+  setLoader(true);
+  serErrorMessage('');
+  if (!isImgFormatValid(file)) {
+    setLoader(false);
+    setFieldValue(fieldName, undefined);
+    serErrorMessage(
+      `Invalid image format - Please use ${
+        fieldName === 'cover' ? 'jpg or png' : 'svg or png'
+      } format and a size of 10mB max.`,
+    );
+    return;
+  }
+  const fileExtension = getImgExtension(file.type);
+  const fileName = handle ? `${fieldName}-${handle}${fileExtension}` : '';
+  const profilePictureUrl = await upload(file, fileName);
+  console.log({ logo: profilePictureUrl, url: profilePictureUrl?.variants[0] });
+  setFieldValue(fieldName, profilePictureUrl?.variants[0]);
+  setLoader(false);
 };

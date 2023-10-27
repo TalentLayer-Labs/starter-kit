@@ -1,14 +1,14 @@
-import { ErrorMessage, Field, Form, Formik } from 'formik';
+import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik';
 import { useUpdateBuilderPlace } from '../../../modules/BuilderPlace/hooks/UseUpdateBuilderPlace';
 import { useGetBuilderPlaceFromOwner } from '../../../modules/BuilderPlace/hooks/UseGetBuilderPlaceFromOwner';
-import { Dispatch, SetStateAction, useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import TalentLayerContext from '../../../context/talentLayer';
 import { useChainId, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
 import { useRouter } from 'next/router';
-import { upload } from '../../../modules/BuilderPlace/request';
 import { iBuilderPlacePalette } from '../../../modules/BuilderPlace/types';
 import Loading from '../../../components/Loading';
+import { uploadImage } from '../../../modules/BuilderPlace/utils';
 
 interface IFormValues {
   subdomain: string;
@@ -30,11 +30,12 @@ function onboardingStep3() {
   const router = useRouter();
   const [logoLoader, setLogoLoader] = useState(false);
   const [coverLoader, setCoverLoader] = useState(false);
+  const [logoErrorMessage, setLogoErrorMessage] = useState('');
+  const [coverErrorMessage, setCoverErrorMessage] = useState('');
 
   const initialValues: IFormValues = {
     subdomain: builderPlaceData?.subdomain || '',
   };
-
   const handleSubmit = async (
     values: IFormValues,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void },
@@ -71,19 +72,6 @@ function onboardingStep3() {
     }
   };
 
-  const uploadImage = async (
-    file: File,
-    setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void,
-    fieldName: string,
-    setLoader: Dispatch<SetStateAction<boolean>>,
-  ) => {
-    setLoader(true);
-    const profilePictureUrl = await upload(file);
-    console.log({ logo: profilePictureUrl, url: profilePictureUrl?.variants[0] });
-    setFieldValue(fieldName, profilePictureUrl?.variants[0]);
-    setLoader(false);
-  };
-
   return (
     <>
       <p>Hirer onboarding - step3</p>
@@ -93,21 +81,25 @@ function onboardingStep3() {
         onSubmit={handleSubmit}
         validationSchema={validationSchema}>
         {({ isSubmitting, setFieldValue, values }) => (
-          <Form>
-            <div className='grid grid-cols-1 gap-6'>
-              <label className='block'>
-                <span className='text-stone-800'>Subdomain</span>
-                <Field
-                  type='text'
-                  id='subdomain'
-                  name='subdomain'
-                  className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
-                  placeholder=''
-                />
-              </label>
-              <span className='text-red-500'>
-                <ErrorMessage name='subdomain' />
-              </span>
+          <>
+            {' '}
+            <h1>3</h1>
+            <p>Configure your workspace</p>
+            <Form>
+              <div className='grid grid-cols-1 gap-6'>
+                <label className='block'>
+                  <span className='text-stone-800'>custom domain</span>
+                  <Field
+                    type='text'
+                    id='subdomain'
+                    name='subdomain'
+                    className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
+                    placeholder=''
+                  />
+                </label>
+                <span className='text-red-500'>
+                  <ErrorMessage name='subdomain' />
+                </span>
 
                 <label className='block'>
                   <span className='text-stone-800'>Logo</span>
@@ -119,8 +111,10 @@ function onboardingStep3() {
                       await uploadImage(
                         event.currentTarget.files[0],
                         setFieldValue,
+                        setLogoErrorMessage,
                         'logo',
                         setLogoLoader,
+                        user.handle,
                       );
                     }}
                     className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
@@ -134,7 +128,7 @@ function onboardingStep3() {
                   )}
                 </label>
                 <span className='text-red-500'>
-                  <ErrorMessage name='logo' />
+                  <p>{logoErrorMessage}</p>
                 </span>
                 <label className='block'>
                   <span className='text-stone-800'>Cover</span>
@@ -146,8 +140,10 @@ function onboardingStep3() {
                       await uploadImage(
                         event.currentTarget.files[0],
                         setFieldValue,
+                        setCoverErrorMessage,
                         'cover',
                         setCoverLoader,
+                        user.handle,
                       );
                     }}
                     className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
@@ -161,7 +157,7 @@ function onboardingStep3() {
                   )}
                 </label>
                 <span className='text-red-500'>
-                  <ErrorMessage name='cover' />
+                  <p>{coverErrorMessage}</p>
                 </span>
 
                 <button

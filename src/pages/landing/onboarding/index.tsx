@@ -4,8 +4,7 @@ import { useCreateBuilderPlaceMutation } from '../../../modules/BuilderPlace/hoo
 import { showErrorTransactionToast } from '../../../utils/toast';
 import { PreferredWorkTypes } from '../../../types';
 import { useRouter } from 'next/router';
-import { upload } from '../../../modules/BuilderPlace/request';
-import { generateDomainName, slugify } from '../../../modules/BuilderPlace/utils';
+import { generateDomainName, slugify, uploadImage } from '../../../modules/BuilderPlace/utils';
 import { useState } from 'react';
 import Loading from '../../../components/Loading';
 
@@ -20,6 +19,7 @@ function onboardingStep1() {
     useCreateBuilderPlaceMutation();
   const router = useRouter();
   const [imgLoader, setImgLoader] = useState(false);
+  const [profilePictureErrorMessage, setProfilePictureErrorMessage] = useState('');
 
   const initialValues: IFormValues = {
     name: '',
@@ -86,17 +86,6 @@ function onboardingStep1() {
       showErrorTransactionToast(error);
       setSubmitting(false);
     }
-  };
-
-  const uploadImage = async (
-    file: File,
-    setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void,
-  ) => {
-    setImgLoader(true);
-    const profilePictureUrl = await upload(file);
-    console.log({ logo: profilePictureUrl, url: profilePictureUrl?.variants[0] });
-    setFieldValue('profilePicture', profilePictureUrl?.variants[0]);
-    setImgLoader(false);
   };
 
   return (
@@ -186,7 +175,13 @@ function onboardingStep1() {
                   id='profilePicture'
                   name='profilePicture'
                   onChange={async (event: any) => {
-                    await uploadImage(event.currentTarget.files[0], setFieldValue);
+                    await uploadImage(
+                      event.currentTarget.files[0],
+                      setFieldValue,
+                      setProfilePictureErrorMessage,
+                      'profilePicture',
+                      setImgLoader,
+                    );
                   }}
                   className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
                   placeholder=''
@@ -199,7 +194,7 @@ function onboardingStep1() {
                 )}
               </label>
               <span className='text-red-500'>
-                <ErrorMessage name='profilePicture' />
+                <p>{profilePictureErrorMessage}</p>
               </span>
 
               <button
