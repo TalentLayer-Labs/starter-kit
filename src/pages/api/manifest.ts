@@ -31,8 +31,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       ],
       start_url: '.',
       display: 'standalone',
-      theme_color: builderPlace?.pallete?.primary || '#000000',
-      background_color: builderPlace?.pallete?.primaryContent || '#ffffff',
+      theme_color: builderPlace?.palette?.primary || '#000000',
+      background_color: builderPlace?.palette?.primaryContent || '#ffffff',
     });
   } catch (error) {
     res.status(500).json({ error: error });

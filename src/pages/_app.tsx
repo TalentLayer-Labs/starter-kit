@@ -3,7 +3,6 @@ import { Web3Modal } from '@web3modal/react';
 import { DefaultSeo } from 'next-seo';
 import { ThemeProvider } from 'next-themes';
 import type { AppProps } from 'next/app';
-import Head from 'next/head';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -18,7 +17,7 @@ import { MessagingProvider } from '../modules/Messaging/context/messging';
 import '../styles/globals.css';
 import { NetworkEnum } from '../types';
 import Layout from './Layout';
-import CustomPallete from '../components/CustomPallete';
+import CustomPalette from '../components/CustomPalette';
 
 export let chains: Chain[] = [];
 if ((process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as unknown as NetworkEnum) == NetworkEnum.MUMBAI) {
@@ -56,7 +55,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   console.log('MyApp', { pageProps });
   return (
     <>
-      <CustomPallete builderPlace={pageProps.builderPlace} />
+      <CustomPalette builderPlace={pageProps.builderPlace} />
       <QueryClientProvider client={queryClient}>
         <DefaultSeo {...getSeoDefaultConfig(pageProps.builderPlace)} />
         <WagmiConfig config={wagmiConfig}>

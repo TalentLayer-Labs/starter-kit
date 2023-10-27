@@ -1,6 +1,6 @@
 import { PreferredWorkTypes } from '../../types';
 
-export interface iBuilderPlacePallete {
+export interface iBuilderPlacePalette {
   primary: string;
   primaryFocus: string;
   primaryContent: string;
@@ -20,7 +20,7 @@ export interface iBuilderPlacePallete {
 export interface UpdateBuilderPlace {
   subdomain: string;
   name: string | undefined;
-  pallete?: iBuilderPlacePallete;
+  palette?: iBuilderPlacePalette;
   ownerTalentLayerId: string | undefined;
   owners: string[] | undefined;
   status: string | undefined;
@@ -57,7 +57,7 @@ export enum DomainVerificationStatusProps {
 export interface CreateBuilderPlaceAction {
   name: string;
   subdomain: string;
-  pallete: iBuilderPlacePallete;
+  palette: iBuilderPlacePalette;
   presentation: string;
   preferredWorkTypes: PreferredWorkTypes[];
   logo: string;
@@ -66,7 +66,7 @@ export interface CreateBuilderPlaceAction {
 export interface CreateBuilderPlaceProps {
   name: string;
   subdomain: string;
-  pallete: iBuilderPlacePallete;
+  palette: iBuilderPlacePalette;
   presentation: string;
   preferredWorkTypes: PreferredWorkTypes[];
   logo: string;
@@ -79,7 +79,7 @@ export type IBuilderPlace = {
   customDomain: string | null;
   logo: string;
   cover: string;
-  pallete: iBuilderPlacePallete;
+  palette: iBuilderPlacePalette;
   presentation: string;
   owners: string[];
   ownerTalentLayerId: string;
