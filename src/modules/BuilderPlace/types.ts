@@ -20,7 +20,7 @@ export interface iBuilderPlacePallete {
 export interface UpdateBuilderPlace {
   subdomain: string;
   name: string | undefined;
-  pallete: iBuilderPlacePallete;
+  pallete?: iBuilderPlacePallete;
   ownerTalentLayerId: string | undefined;
   owners: string[] | undefined;
   status: string | undefined;
