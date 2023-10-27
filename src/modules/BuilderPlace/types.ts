@@ -69,7 +69,7 @@ export interface CreateBuilderPlaceProps {
   palette: iBuilderPlacePalette;
   presentation: string;
   preferredWorkTypes: PreferredWorkTypes[];
-  profilePicture: string;
+  profilePicture?: string;
 }
 
 export type IBuilderPlace = {

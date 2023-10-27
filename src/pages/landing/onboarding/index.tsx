@@ -35,7 +35,7 @@ function onboardingStep1() {
       .min(1, 'Chose at least one preferred word type')
       .max(4, 'You already chose all existing preferred word type')
       .required('Job Type is required'),
-    // profilePicture: Yup.string().required('Image is required'),
+    profilePicture: Yup.string().required('Image is required'),
   });
 
   const handleSubmit = async (
@@ -72,7 +72,7 @@ function onboardingStep1() {
         },
         presentation: values.presentation,
         preferredWorkTypes: values.preferred_work_types,
-        profilePicture: values.profilePicture || null,
+        profilePicture: values.profilePicture || undefined,
       });
 
       setSubmitting(false);
