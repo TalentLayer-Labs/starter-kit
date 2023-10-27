@@ -9,7 +9,9 @@ export const IntroducationSecion = () => {
   const [showVideo, setShowVideo] = useState(false);
 
   return (
-    <section className='relative bg-base-content py-0 md:py-24 text-center text-base-100'>
+    <section
+      id='video'
+      className='relative bg-base-content py-0 md:py-24 text-center text-base-100'>
       <div className='container flex flex-col items-center lg:max-w-[1305px] lg:px-10'>
         <div
           className='group relative text-center cursor-pointer'
