@@ -11,7 +11,7 @@ function Back() {
           <a
             href='#'
             onClick={() => router.back()}
-            className='text-sm font-medium text-stone-600 inline-flex items-center -ml-1'>
+            className='text-sm font-medium text-base-content inline-flex items-center -ml-1'>
             <ChevronLeft />
             Back
           </a>

@@ -1,22 +1,6 @@
+import { TalentLayerClient } from '@talentlayer/client';
 import { Connector } from 'wagmi';
-
-export type IHive = {
-  id: string;
-  handle: string;
-  address: string;
-  description?: IHiveDetails;
-  members: string[];
-  honeyFee: number;
-  owner: string;
-  ownerIdentity?: IUser;
-  identity: IUser;
-  paymasterAddress: string;
-};
-
-export type IHiveDetails = {
-  manifesto: string;
-  offeredServices: string;
-};
+import { ICompletionScores } from './utils/profile';
 
 export type IUser = {
   id: string;
@@ -272,9 +256,9 @@ export enum PaymentTypeEnum {
 }
 
 export enum NetworkEnum {
-  LOCAL = 1337,
   MUMBAI = 80001,
   IEXEC = 134,
+  POLYGON = 137,
 }
 
 export type IToken = {
@@ -331,4 +315,21 @@ export type Web3MailStats = {
   totalSentThisMonth: number;
   totalContact: number;
   totalCronRunning: number;
+};
+
+export enum PreferredWorkTypes {
+  jobs = 'jobs',
+  bounties = 'bounties',
+  grants = 'grants',
+  gigs = 'gigs',
+}
+
+export type iTalentLayerContext = {
+  loading: boolean;
+  isActiveDelegate: boolean;
+  refreshData: () => Promise<boolean>;
+  user?: IUser;
+  account?: IAccount;
+  completionScores?: ICompletionScores;
+  talentLayerClient?: TalentLayerClient;
 };

@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import TalentLayerContext from '../../context/talentLayer';
-import SpaceContext from '../../modules/MultiDomain/context/SpaceContext';
+import BuilderPlaceContext from '../../modules/BuilderPlace/context/BuilderPlaceContext';
 import SideLink from './SideLink';
 import {
   hirerNavigation,
@@ -11,22 +11,20 @@ import {
 
 function SideMenu() {
   const { user } = useContext(TalentLayerContext);
-  const { space } = useContext(SpaceContext);
-
-  const isSpaceOwner = space?.owners?.some(owner => owner.toLocaleLowerCase() === user?.address);
+  const { isBuilderPlaceOwner } = useContext(BuilderPlaceContext);
 
   return (
     <nav className='space-y-1 px-3'>
-      {isSpaceOwner && (
+      {isBuilderPlaceOwner && (
         <>
           <div className='pt-4'>
-            <div className='border-redpraha h-px mx-3'></div>
-            <h2 className='text-stone-600 ml-3 mt-6'>WORK</h2>
+            <div className='border-info h-px mx-3'></div>
+            <h2 className='text-base-content font-bold ml-3 mt-6'>WORK</h2>
             <nav className='space-y-1 mt-6'>
               {hirerNavigation.map(item => (
                 <SideLink key={item.name} href={item.href}>
                   <item.icon
-                    className='mr-3 h-5 w-5 flex-shrink-0 text-stone-600'
+                    className='mr-3 h-5 w-5 flex-shrink-0 text-base-content'
                     aria-hidden='true'
                   />
                   {item.name}
@@ -36,13 +34,12 @@ function SideMenu() {
           </div>
 
           <div className='pt-4'>
-            <div className='border-redpraha my-3 h-px border-t mx-3'></div>
-            <h2 className='text-stone-600 ml-3 mt-6'>ADMIN</h2>
+            <h2 className='text-base-content font-bold ml-3 mt-6'>ADMIN</h2>
             <nav className='space-y-1 mt-6'>
               {hirerAdminNavigation.map(item => (
                 <SideLink key={item.name} href={item.href}>
                   <item.icon
-                    className='mr-3 h-5 w-5 flex-shrink-0 text-stone-600'
+                    className='mr-3 h-5 w-5 flex-shrink-0 text-base-content'
                     aria-hidden='true'
                   />
                   {item.name}
@@ -53,11 +50,14 @@ function SideMenu() {
         </>
       )}
 
-      {!isSpaceOwner && (
+      {!isBuilderPlaceOwner && (
         <nav className='space-y-1 mt-6'>
           {workerNavigation.map(item => (
             <SideLink key={item.name} href={item.href}>
-              <item.icon className='mr-3 h-5 w-5 flex-shrink-0 text-stone-600' aria-hidden='true' />
+              <item.icon
+                className='mr-3 h-5 w-5 flex-shrink-0 text-base-content'
+                aria-hidden='true'
+              />
               {item.name}
             </SideLink>
           ))}
@@ -66,13 +66,12 @@ function SideMenu() {
 
       {user?.isAdmin && (
         <div className='pt-4'>
-          <div className='border-redpraha my-3 h-px border-t mx-3'></div>
-          <h2 className='text-stone-600 ml-3 mt-6'>PLATFORM</h2>
+          <h2 className='text-base-content font-bold ml-3 mt-6'>PLATFORM</h2>
           <nav className='space-y-1 mt-6'>
             {PlatformAdminNavigation.map(item => (
               <SideLink key={item.name} href={item.href}>
                 <item.icon
-                  className='mr-3 h-5 w-5 flex-shrink-0 text-stone-600'
+                  className='mr-3 h-5 w-5 flex-shrink-0 text-base-content'
                   aria-hidden='true'
                 />
                 {item.name}

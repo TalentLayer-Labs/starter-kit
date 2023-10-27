@@ -140,7 +140,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           payment.amount,
         )} for the gig ${payment.service.description?.title} on BuilderPlace !`,
         receiverHandle,
-        `${payment.service.platform.description?.website}/dashboard/services/${payment.service.id}`,
+        `${payment.service.platform.description?.website}/work/${payment.service.id}`,
         `Go to payment detail`,
       );
       try {

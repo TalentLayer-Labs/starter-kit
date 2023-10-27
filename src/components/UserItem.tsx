@@ -15,7 +15,7 @@ function UserItem({ user }: { user: IUser }) {
   }
 
   return (
-    <div className='flex flex-row gap-2 rounded-xl p-4 border border-redpraha text-stone-800 bg-white'>
+    <div className='flex flex-row gap-2 rounded-xl p-4 border border-info text-base-content bg-base-100'>
       <div className='flex flex-col items-top justify-between w-full'>
         <div className='flex flex-col justify-start items-start gap-4'>
           <div className='flex items-center justify-start mb-4'>
@@ -31,8 +31,10 @@ function UserItem({ user }: { user: IUser }) {
               alt='default avatar'
             />
             <div className='flex flex-col'>
-              <p className='text-stone-800 font-medium break-all'>{user.handle}</p>
-              <p className='text-xs text-stone-400'>{userDescription?.title || '-'}</p>
+              <p className='text-base-content font-medium break-all'>{user.handle}</p>
+              <p className='text-xs text-base-content opacity-50'>
+                {userDescription?.title || '-'}
+              </p>
             </div>
           </div>
         </div>
@@ -40,14 +42,14 @@ function UserItem({ user }: { user: IUser }) {
 
         <div className='flex flex-row gap-4 justify-end items-center'>
           <Link
-            className='text-stone-800 bg-stone-200 hover:bg-stone-300 px-5 py-2.5 rounded-xl text-sm-xl relative'
-            href={`/dashboard/profile/${user.id}`}>
+            className='text-primary bg-primary hover:opacity-70 px-5 py-2.5 rounded-xl text-md relative'
+            href={`/profiles/${user.id}`}>
             View profile
           </Link>
           {currentUser?.id === user.id && (
             <Link
-              className='text-green-600 bg-green-50 hover:bg-redpraha hover:text-stone-800 px-5 py-2 rounded'
-              href={`/dashboard/profile/edit`}>
+              className='text-success bg-success hover:bg-info hover:text-base-content px-5 py-2 rounded'
+              href={`/profiles/edit`}>
               Edit profile
             </Link>
           )}

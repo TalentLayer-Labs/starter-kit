@@ -101,7 +101,7 @@ function SingleValueForm({
                 id={valueName}
                 name={valueName}
                 step='any'
-                className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50 mr-4'
+                className='mt-1 mb-1 block w-full rounded-xl border border-info bg-base-200 shadow-sm focus:ring-opacity-50 mr-4'
                 placeholder=''>
                 {valueType === 'select' && selectOptions
                   ? selectOptions.map(option => (

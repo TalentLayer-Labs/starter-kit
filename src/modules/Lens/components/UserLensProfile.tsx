@@ -9,9 +9,9 @@ function UserLensProfile({ lensUser }: IProps) {
   return (
     <>
       {lensUser?.id && (
-        <div className='card bg-white border border-redpraha rounded'>
+        <div className='card bg-base-100 border border-info rounded'>
           {lensUser?.picture.original.url && (
-            <Image
+            <img
               width={200}
               height={200}
               className='w-32 pt-2  mx-auto rounded-full border-8 border-white'
@@ -19,8 +19,8 @@ function UserLensProfile({ lensUser }: IProps) {
               alt=''
             />
           )}
-          <div className='text-center text-stone-800 text-lg font-medium'>{lensUser?.name}</div>
-          <div className='text-center text-green-500 text-sm'>@{lensUser?.handle}</div>
+          <div className='text-center text-base-content text-lg font-medium'>{lensUser?.name}</div>
+          <div className='text-center text-success text-sm'>@{lensUser?.handle}</div>
           <span id='lens-follow-small' data-handle={'nader.lens'} />
           <div className='px-2 text-center mt-2 font-light text-sm'>
             <p>
@@ -31,7 +31,7 @@ function UserLensProfile({ lensUser }: IProps) {
             <a
               href={`https://lenster.xyz/u/${lensUser.handle}`}
               target='_blank'
-              className='bg-redpraha hover:bg-green-600 text-stone-800 font-bold py-2 px-4 rounded'>
+              className='bg-info hover:bg-success text-base-content font-bold py-2 px-4 rounded'>
               Follow me
             </a>
           </div>
@@ -39,7 +39,7 @@ function UserLensProfile({ lensUser }: IProps) {
             <div className='w-1/2 text-center'>
               <span className='font-bold'>{lensUser?.stats.totalFollowers}</span> Followers
             </div>
-            <div className='w-0 border border-gray-300'></div>
+            <div className='w-0 border border-info'></div>
             <div className='w-1/2 text-center'>
               <span className='font-bold'>{lensUser?.stats.totalFollowing}</span> Following
             </div>

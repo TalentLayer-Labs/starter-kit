@@ -2,7 +2,7 @@ import { ArrowSmallRightIcon } from '@heroicons/react/24/outline';
 
 function Web3mailCard() {
   return (
-    <div className='bg-midnight flex flex-col items-center rounded-2xl p-4 sm:flex-row'>
+    <div className='bg-base-200 flex flex-col items-center rounded-2xl p-4 sm:flex-row'>
       <div className='relative h-[120px] w-[240px] shrink-0 sm:h-[175px] flex items-center'>
         <svg
           className='pointer-events-none start-3'
@@ -78,13 +78,13 @@ function Web3mailCard() {
       </div>
       <div className='mt-6 grow sm:mt-0'>
         <div className='pb-4 text-center sm:pb-0 sm:text-left'>
-          <p className='font-heading text-xl font-semibold leading-normal mb-2 text-stone-800 opacity-90'>
+          <p className='font-heading text-xl font-semibold leading-normal mb-2 text-base-content opacity-90'>
             <span>
               {' '}
-              Take back control ! <span className='text-3xl'>🪄</span>
+              Take back control! <span className='text-3xl'>🪄</span>
             </span>
           </p>
-          <p className='font-alt text-sm font-normal leading-normal max-w-sm text-stone-800 opacity-70'>
+          <p className='font-alt text-sm font-normal leading-normal max-w-sm text-base-content opacity-70'>
             <span>
               {' '}
               Your email will never be stored by us or TalentLayer. With iExec web3mail, you can
@@ -95,7 +95,7 @@ function Web3mailCard() {
             <a
               href='https://medium.com/iex-ec/introducing-privacy-enhancing-marketing-the-future-of-marketing-in-web3-429283e7c7f0'
               target='_blank'
-              className='px-3 py-1 border border-gray-400 rounded-md hover:bg-gray-200 text-stone-800 hover:text-stone-800 inline-flex items-center text-xs'>
+              className='px-3 py-1 border border-info rounded-md hover:bg-base-200 text-base-content hover:text-base-content inline-flex items-center text-xs'>
               <span>Learn More</span>
               <ArrowSmallRightIcon width='16' height='16' className='ml-2' />
             </a>

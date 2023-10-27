@@ -15,17 +15,17 @@ function SearchServiceButton(props?: { value?: string }) {
     const searchQueryRef = formElm.querySelector('input')!.value;
     if (searchQueryRef.length > 0) {
       router.push({
-        pathname: '/dashboard/services',
+        pathname: '/work',
         query: { search: searchQueryRef },
       });
-    } else router.push('/dashboard/services');
+    } else router.push('/work');
   }, []);
 
   return (
     <form onSubmit={e => handleSubmit(e)} className='flex w-full'>
-      <div className='flex bg-white py-2 px-4 sm:px-2 justify-center items-center flex-row drop-shadow-lg rounded-xl w-full'>
+      <div className='flex bg-base-100 py-2 px-4 sm:px-2 justify-center items-center flex-row rounded-xl w-full bg-base-200 border border-info'>
         <div className='sm:px-6 flex flex-row items-center'>
-          <span className='text-stone-400'>
+          <span className='text-base-content opacity-50'>
             <svg
               xmlns='http://www.w3.org/2000/svg'
               className='h-6 w-6'
@@ -41,7 +41,7 @@ function SearchServiceButton(props?: { value?: string }) {
             </svg>
           </span>
           <input
-            className='text-stone-400 py-2 focus:ring-0 outline-none text-sm sm:text-lg border-0'
+            className='text-base-content opacity-50 py-2 focus:ring-0 outline-none text-sm sm:text-lg border-0'
             type='text'
             placeholder='Search by title'
             onChange={e => setSearchQuery(e.target.value)}
@@ -51,7 +51,7 @@ function SearchServiceButton(props?: { value?: string }) {
         <div className='sm:px-4 flex flex-row  sm:space-x-4 justify-between items-center'>
           <button
             type='submit'
-            className='px-5 py-2  rounded-xl hover:text-zinc-600 hover:bg-white text-stone-800 bg-midnight'>
+            className='px-5 py-2  rounded-xl hover:text-content hover:bg-base-100 text-base-content bg-base-300'>
             Search
           </button>
         </div>

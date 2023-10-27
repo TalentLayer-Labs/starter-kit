@@ -1,29 +1,39 @@
-import { useState, useEffect } from 'react';
+import { useQuery } from 'react-query';
 import { IService } from '../types';
 import { useChainId } from './useChainId';
 import useTalentLayerClient from './useTalentLayerClient';
 
-const useServiceById = (serviceId: string): IService | null => {
+interface IReturn {
+  service?: IService;
+  isLoading: boolean;
+  isError: boolean;
+  error: Error | null;
+}
+
+const useServiceById = (serviceId: string): IReturn => {
   const chainId = useChainId();
-  const [service, setService] = useState<IService | null>(null);
   const talentLayerClient = useTalentLayerClient();
 
-  useEffect(() => {
-    if (chainId && talentLayerClient) {
-      talentLayerClient.service
-        .getOne(serviceId)
-        .then(response => {
-          if (response) {
-            setService(response);
-          }
-        })
-        .catch((err: any) => {
-          console.error(err);
-        });
-    }
-  }, [serviceId, chainId, talentLayerClient]);
+  const queryKey = ['service', serviceId, chainId];
 
-  return service;
+  const fetchService = async (): Promise<IService> => {
+    if (!talentLayerClient) {
+      throw new Error('TalentLayer client is not available');
+    }
+    const response = await talentLayerClient.service.getOne(serviceId);
+    return response;
+  };
+
+  const {
+    data: service,
+    isLoading,
+    isError,
+    error,
+  } = useQuery<IService, Error>(queryKey, fetchService, {
+    enabled: !!serviceId && !!talentLayerClient,
+  });
+
+  return { service, isLoading, isError, error: error || null };
 };
 
 export default useServiceById;

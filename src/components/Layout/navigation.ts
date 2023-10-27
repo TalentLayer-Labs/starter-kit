@@ -10,14 +10,15 @@ import {
   PlusCircleIcon,
   WrenchIcon,
   CodeBracketSquareIcon,
+  HomeIcon,
 } from '@heroicons/react/24/outline';
 
 export const hirerNavigation = [
-  { name: 'Dashboard', href: '/dashboard', icon: UserIcon, current: false },
-  { name: 'My post', href: '/dashboard/services', icon: BriefcaseIcon, current: false },
-  { name: 'New post', href: '/dashboard/services/create', icon: PlusCircleIcon, current: false },
-  { name: 'My talents', href: '/dashboard/talents', icon: UserGroupIcon, current: false },
-  { name: 'Chat', href: '/dashboard/messaging', icon: ChatBubbleBottomCenterIcon, current: false },
+  { name: 'Dashboard', href: '/dashboard', icon: HomeIcon, current: false },
+  { name: 'My posts', href: '/', icon: BriefcaseIcon, current: false },
+  { name: 'New post', href: '/work/create', icon: PlusCircleIcon, current: false },
+  { name: 'Find worker', href: '/profiles', icon: UserGroupIcon, current: false },
+  { name: 'Chat', href: '/messaging', icon: ChatBubbleBottomCenterIcon, current: false },
 ];
 
 export const hirerAdminNavigation = [
@@ -37,34 +38,34 @@ export const hirerAdminNavigation = [
 ];
 
 export const workerNavigation = [
-  { name: 'Dashboard', href: '/dashboard', icon: UserIcon, current: false },
-  { name: 'Find work', href: '/dashboard/services', icon: BriefcaseIcon, current: false },
-  { name: 'My profile', href: '/dashboard/profile/edit', icon: UserGroupIcon, current: false },
-  { name: 'Chat', href: '/dashboard/messaging', icon: ChatBubbleBottomCenterIcon, current: false },
+  { name: 'Dashboard', href: '/dashboard', icon: HomeIcon, current: false },
+  { name: 'Find work', href: '/', icon: BriefcaseIcon, current: false },
+  { name: 'My profile', href: '/profiles/edit', icon: UserIcon, current: false },
+  { name: 'Chat', href: '/messaging', icon: ChatBubbleBottomCenterIcon, current: false },
 ];
 
 export const PlatformAdminNavigation = [
   {
     name: 'Presentation',
-    href: `/admin/presentation`,
+    href: `/superadmin/presentation`,
     icon: PresentationChartLineIcon,
     current: false,
   },
   {
     name: 'Fees strategies',
-    href: `/admin/fees`,
+    href: `/superadmin/fees`,
     icon: ShieldCheckIcon,
     current: false,
   },
   {
     name: 'Dispute',
-    href: `/admin/dispute`,
+    href: `/superadmin/dispute`,
     icon: ExclamationCircleIcon,
     current: false,
   },
   {
     name: 'Web3Mail',
-    href: `/admin/web3mail`,
+    href: `/superadmin/web3mail`,
     icon: EnvelopeIcon,
     current: false,
   },

@@ -160,7 +160,7 @@ function ServiceForm() {
         setSubmitting(false);
         resetForm();
         if (newId) {
-          router.push(`/dashboard/services/${newId}`);
+          router.push(`/work/${newId}`);
         }
         if (process.env.NEXT_PUBLIC_ACTIVE_WEB3MAIL == 'true' && !platformHasAccess) {
           createWeb3mailToast();
@@ -177,37 +177,37 @@ function ServiceForm() {
     <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
       {({ isSubmitting, setFieldValue }) => (
         <Form>
-          <div className='grid grid-cols-1 gap-6 border border-redpraha rounded-xl p-6 bg-white'>
+          <div className='grid grid-cols-1 gap-6 border border-info rounded-xl p-6 bg-base-100'>
             <label className='block'>
-              <span className='text-stone-800'>Title</span>
+              <span className='text-base-content'>Title</span>
               <Field
                 type='text'
                 id='title'
                 name='title'
-                className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
+                className='mt-1 mb-1 block w-full rounded-xl border border-info bg-base-200 shadow-sm focus:ring-opacity-50'
                 placeholder=''
               />
-              <span className='text-red-500'>
+              <span className='text-error'>
                 <ErrorMessage name='title' />
               </span>
             </label>
 
             <label className='block'>
-              <span className='text-stone-800'>About</span>
+              <span className='text-base-content'>About</span>
               <Field
                 as='textarea'
                 id='about'
                 name='about'
-                className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
+                className='mt-1 mb-1 block w-full rounded-xl border border-info bg-base-200 shadow-sm focus:ring-opacity-50'
                 placeholder=''
               />
-              <span className='text-red-500'>
+              <span className='text-error'>
                 <ErrorMessage name='about' />
               </span>
             </label>
 
             <label className='block'>
-              <span className='text-stone-800'>Keywords</span>
+              <span className='text-base-content'>Keywords</span>
 
               <SkillsInput entityId={'keywords'} />
 
@@ -216,31 +216,31 @@ function ServiceForm() {
 
             <div className='flex'>
               <label className='block flex-1 mr-4'>
-                <span className='text-stone-800'>Amount</span>
+                <span className='text-base-content'>Amount</span>
                 <Field
                   type='number'
                   id='rateAmount'
                   name='rateAmount'
-                  className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
+                  className='mt-1 mb-1 block w-full rounded-xl border border-info bg-base-200 shadow-sm focus:ring-opacity-50'
                   placeholder=''
                 />
-                <span className='text-red-500 mt-2'>
+                <span className='text-error mt-2'>
                   <ErrorMessage name='rateAmount' />
                 </span>
                 {servicePostingFeeFormat !== 0 && (
-                  <span className='text-stone-800'>
+                  <span className='text-base-content'>
                     Fee for posting a service: {servicePostingFeeFormat}{' '}
                     {currentChain?.nativeCurrency.symbol}
                   </span>
                 )}
               </label>
               <label className='block'>
-                <span className='text-stone-800'>Token</span>
+                <span className='text-base-content'>Token</span>
                 <Field
                   component='select'
                   id='rateToken'
                   name='rateToken'
-                  className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
+                  className='mt-1 mb-1 block w-full rounded-xl border border-info bg-base-200 shadow-sm focus:ring-opacity-50'
                   placeholder=''
                   onChange={(e: { target: { value: string } }) => {
                     const token = allowedTokenList.find(token => token.address === e.target.value);
@@ -254,7 +254,7 @@ function ServiceForm() {
                     </option>
                   ))}
                 </Field>
-                <span className='text-red-500'>
+                <span className='text-error'>
                   <ErrorMessage name='rateToken' />
                 </span>
               </label>

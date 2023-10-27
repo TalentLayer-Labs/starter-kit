@@ -126,7 +126,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                   
                   Be the first one to send a proposal !`,
                 contact.user.handle,
-                `${service.platform.description?.website}/dashboard/services/${service.id}`,
+                `${service.platform.description?.website}/work/${service.id}`,
                 `Go to gig detail`,
               );
               // @dev: This function needs to be throwable to avoid persisting the entity in the DB if the email is not sent

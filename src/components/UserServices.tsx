@@ -1,6 +1,8 @@
+import { useContext } from 'react';
 import useServices from '../hooks/useServices';
 import { IUser } from '../types';
 import UserServiceItem from './UserServiceItem';
+import BuilderPlaceContext from '../modules/BuilderPlace/context/BuilderPlaceContext';
 
 interface IProps {
   user: IUser;
@@ -8,9 +10,11 @@ interface IProps {
 }
 
 function UserServices({ user, type }: IProps) {
+  const { builderPlace } = useContext(BuilderPlaceContext);
+
   const { services } = useServices(
     undefined,
-    type == 'buyer' ? user.id : undefined,
+    builderPlace?.ownerTalentLayerId || undefined,
     type == 'seller' ? user.id : undefined,
   );
 
@@ -20,8 +24,8 @@ function UserServices({ user, type }: IProps) {
 
   return (
     <>
-      <h2 className='mb-6 pb-4 border-b border-gray-gray-200 text-stone-800 font-medium break-all'>
-        {type == 'buyer' ? 'Gigs posted' : 'Gigs applied'}
+      <h2 className='pb-4 text-base font-bold break-all'>
+        {type == 'buyer' ? 'Works posted' : 'Works applied'}
       </h2>
       <div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4'>
         {services.map((service, i) => {
@@ -32,7 +36,7 @@ function UserServices({ user, type }: IProps) {
       {services.length === 20 && (
         <a
           href='#'
-          className='px-5 py-2  border border-zinc-600 rounded-full text-zinc-600 hover:text-stone-800 hover:bg-midnight'>
+          className='px-5 py-2  border border-zinc-600 rounded-full text-content hover:text-base hover:bg-base-200'>
           Load More
         </a>
       )}

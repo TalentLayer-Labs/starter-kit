@@ -35,6 +35,9 @@ export const getAllProposalsByServiceId = (chainId: number, id: string): Promise
           userStats {
             numReceivedReviews
           }
+          description{
+            image_url
+          }
         }
         description {
           id
@@ -53,10 +56,14 @@ export const getAllProposalsByServiceId = (chainId: number, id: string): Promise
   return processRequest(chainId, query);
 };
 
-export const getAllProposalsByUser = (chainId: number, id: string): Promise<any> => {
+export const getAllProposalsByUsers = (
+  chainId: number,
+  sellerId: string,
+  buyerId: string,
+): Promise<any> => {
   const query = `
       {
-        proposals(where: {seller: "${id}", status: "Pending"}) {
+        proposals(where: {seller: "${sellerId}", buyer: "${buyerId}", status: "Pending"}) {
           id
           rateAmount
           rateToken {

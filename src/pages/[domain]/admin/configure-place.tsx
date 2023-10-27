@@ -1,4 +1,9 @@
 import Link from 'next/link';
+import { getBuilderPlace } from '../../../modules/BuilderPlace/queries';
+
+export async function getServerSideProps({ params }: any) {
+  return await getBuilderPlace(params.domain);
+}
 
 export default function ConfigurePlace() {
   return (

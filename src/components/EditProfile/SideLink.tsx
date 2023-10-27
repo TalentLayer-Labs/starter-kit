@@ -11,17 +11,17 @@ function SideLink({
   isCompleted: boolean;
 }) {
   const router = useRouter();
-  const isDashboard = href == '/dashboard/profile/edit';
+  const isDashboard = href == '/profiles/edit';
   let className = isDashboard
     ? router.asPath === href
-      ? 'text-primary-500 bg-redpraha'
+      ? 'text-info bg-info'
       : ''
     : router.asPath.includes(href)
-    ? 'text-primary-500 bg-redpraha'
+    ? 'text-info bg-info'
     : '';
 
   className +=
-    ' hover:text-muted-200 hover:bg-muted-700/50 flex items-center gap-2 rounded-lg p-3 transition-colors duration-300';
+    ' hover:text-primary-focus hover:bg-muted-700/50 flex items-center gap-2 rounded-lg p-3 transition-colors duration-300';
 
   const handleClick = (e: any) => {
     e.preventDefault();
@@ -33,7 +33,7 @@ function SideLink({
       {children}
       {isCompleted && (
         <span>
-          <CheckIcon width={20} height={20} className='bg-white p-1 text-redpraha rounded-full' />
+          <CheckIcon width={20} height={20} className='bg-base-100 p-1 text-primary rounded-full' />
         </span>
       )}
     </a>

@@ -17,7 +17,7 @@ function UserDetail({ user }: { user: IUser }) {
   }
 
   return (
-    <div className='rounded-xl p-4 border border-redpraha text-stone-800 bg-white'>
+    <div className='rounded-xl p-4 border border-info text-base-content bg-base-100'>
       <div className='w-full'>
         <div className='flex flex-col justify-start items-start gap-4'>
           <div className='flex items-center justify-start mb-4'>
@@ -33,8 +33,10 @@ function UserDetail({ user }: { user: IUser }) {
               alt='default avatar'
             />
             <div className='flex flex-col'>
-              <p className='text-stone-800 font-medium break-all'>{user?.handle}</p>
-              <p className='text-stone-600 text-xs'>{userDescription?.title}</p>
+              <p className='text-base-content font-medium break-all'>
+                {userDescription?.name || user?.handle}
+              </p>
+              <p className='text-base-content text-xs'>{userDescription?.title}</p>
             </div>
             <div className=''>
               <PohModule address={user.address} />
@@ -43,34 +45,22 @@ function UserDetail({ user }: { user: IUser }) {
         </div>
         <Stars rating={Number(user.rating)} numReviews={user.userStats.numReceivedReviews} />
       </div>
-      <div className=' border-t border-redpraha pt-2 w-full'>
-        {userDescription?.name && (
-          <p className='text-sm text-stone-600 mt-4'>
-            <strong>Name:</strong> {userDescription?.name}
-          </p>
-        )}
-        <p className='text-sm text-stone-600 mt-4'>
-          <strong>Skills:</strong> {userDescription?.skills_raw}
+      <div className=' border-t border-info pt-2 w-full'>
+        <p className='text-sm text-base-content mt-4'>
+          <strong>Skills:</strong>
+
+          {userDescription?.skills_raw?.split(',').map((skill, index) => (
+            <span key={index} className='text-xs border border-base-300 rounded-md px-2 py-1 ml-2'>
+              {skill.trim()}
+            </span>
+          ))}
         </p>
-        <p className='text-sm text-stone-600 mt-4'>
-          <strong>About:</strong> {userDescription?.about}
-        </p>
-        {userDescription?.role && (
-          <p className='text-sm text-stone-600 mt-4'>
-            <strong>Role:</strong> {userDescription?.role}
-          </p>
-        )}
       </div>
 
-      {currentUser?.id === user.id && (
-        <div className=' border-t border-redpraha pt-4 w-full mt-4'>
+      {currentUser?.id === user.id && process.env.NEXT_PUBLIC_ACTIVE_DELEGATE === 'true' && (
+        <div className=' border-t border-info pt-4 w-full mt-4'>
           <div className='flex flex-row gap-4 justify-end items-center'>
-            <Link
-              className='text-stone-800 bg-stone-200 hover:bg-stone-300 px-5 py-2.5 rounded-xl text-sm-xl relative'
-              href={`/dashboard/profile/incomes`}>
-              Your incomes
-            </Link>
-            {process.env.NEXT_PUBLIC_ACTIVE_DELEGATE === 'true' && <DelegateModal />}
+            <DelegateModal />
           </div>
         </div>
       )}

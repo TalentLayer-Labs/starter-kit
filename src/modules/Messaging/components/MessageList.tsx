@@ -58,8 +58,10 @@ const MessageList = ({
 };
 
 const ConversationBeginningNotice = (): JSX.Element => (
-  <div className='flex align-items-center justify-center pb-4 mt-4'>
-    <span className='text-stone-400 text-sm'>This is the beginning of the conversation</span>
+  <div className='flex justify-center pb-4 mt-4'>
+    <span className='text-base-content opacity-50 text-sm'>
+      This is the beginning of the conversation
+    </span>
   </div>
 );
 

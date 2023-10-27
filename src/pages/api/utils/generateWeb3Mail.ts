@@ -170,7 +170,7 @@ table, td { color: #000000; } #u_body a { color: #161a39; text-decoration: under
   <tr>
     <td style="padding-right: 0px;padding-left: 0px;" align="center">
       
-      <img align="center" border="0" src="https://assets.unlayer.com/projects/191243/1697535461939-logo-text-stone-800.png" alt="Image" title="Image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 29%;max-width: 168.2px;" width="168.2"/>
+      <img align="center" border="0" src="https://builder.place/logo-text-white.png" alt="Image" title="Image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 29%;max-width: 168.2px;" width="168.2"/>
       
     </td>
   </tr>
@@ -269,7 +269,7 @@ ${link && linkText ? renderLink(link, linkText) : ''}
       <td style="overflow-wrap:break-word;word-break:break-word;padding:40px 40px 30px;font-family:'Lato',sans-serif;" align="left">
         
   <div style="font-size: 14px; line-height: 140%; text-align: left; word-wrap: break-word;">
-    <p style="font-size: 14px; line-height: 140%;"><span style="color: #888888; font-size: 14px; line-height: 19.6px;"><em><span style="font-size: 16px; line-height: 22.4px;">We email has been sent with iExec web3mail, <a rel="noopener" href="https://bellecour.builderplace.work/dashboard/profile/edit/privacy" target="_blank"><span style="text-decoration: underline; line-height: 19.6px;">go here</span></a> to update your preferences</span></em></span></p>
+    <p style="font-size: 14px; line-height: 140%;"><span style="color: #888888; font-size: 14px; line-height: 19.6px;"><em><span style="font-size: 16px; line-height: 22.4px;">We email has been sent with iExec web3mail, <a rel="noopener" href="https://bellecour.builderplace.work/profiles/edit/privacy" target="_blank"><span style="text-decoration: underline; line-height: 19.6px;">go here</span></a> to update your preferences</span></em></span></p>
   </div>
 
       </td>

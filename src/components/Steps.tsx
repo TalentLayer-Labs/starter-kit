@@ -12,7 +12,7 @@ function Steps() {
   }
 
   return (
-    <div className='max-w-7xl mx-auto text-stone-800 sm:px-4 lg:px-0'>
+    <div className='max-w-7xl mx-auto text-base-content'>
       <div className='flex items-center justify-center w-full flex-col'>
         {!account?.isConnected && (
           <div className='p-8 flex flex-col items-center'>

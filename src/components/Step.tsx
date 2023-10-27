@@ -15,9 +15,9 @@ function Step({
         <span className='flex items-center px-6 py-4 text-sm font-medium'>
           {status === 'done' && (
             <>
-              <span className='flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-midnight group-hover:bg-midnight'>
+              <span className='flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-base-200 group-hover:bg-base-200'>
                 <svg
-                  className='h-6 w-6 text-stone-800'
+                  className='h-6 w-6 text-base-content'
                   xmlns='http://www.w3.org/2000/svg'
                   viewBox='0 0 24 24'
                   fill='currentColor'
@@ -29,23 +29,23 @@ function Step({
                   />
                 </svg>
               </span>
-              <span className='ml-4 text-sm font-medium text-stone-800'>{title}</span>
+              <span className='ml-4 text-sm font-medium text-base-content'>{title}</span>
             </>
           )}
           {status === 'inprogress' && (
             <span className='flex items-center animate-pulse'>
-              <span className='flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-2 border-redpraha'>
-                <span className='text-stone-800'>0{order}</span>
+              <span className='flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-2 border-info'>
+                <span className='text-base-content'>0{order}</span>
               </span>
-              <span className='ml-4 text-sm font-medium text-stone-800'>{title}</span>
+              <span className='ml-4 text-sm font-medium text-base-content'>{title}</span>
             </span>
           )}
           {status === 'todo' && (
             <>
-              <span className='flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-2 border-gray-400 group-hover:border-gray-400'>
-                <span className='text-stone-400 group-hover:text-stone-800'>0{order}</span>
+              <span className='flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-2 border-info group-hover:border-info'>
+                <span className='text-base-content opacity-50 '>0{order}</span>
               </span>
-              <span className='ml-4 text-sm font-medium text-stone-600 group-hover:text-stone-800'>
+              <span className='ml-4 text-sm font-medium text-base-content opacity-50 '>
                 {title}
               </span>
             </>
@@ -56,7 +56,7 @@ function Step({
       {!isLast && (
         <div className='absolute top-0 right-0 hidden h-full w-5 md:block' aria-hidden='true'>
           <svg
-            className='h-full w-full text-stone-800'
+            className='h-full w-full text-base-content opacity-50'
             viewBox='0 0 22 80'
             fill='none'
             preserveAspectRatio='none'>

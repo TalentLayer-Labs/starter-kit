@@ -125,7 +125,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           `${fromHandle} has left a review for the gig ${review.service.description?.title}.
             The gig was rated ${review.rating}/5 stars and the following comment was left: ${review.description?.content}.
             Congratulations on completing your gig and improving your reputation !`,
-          `${review.service.platform.description?.website}/dashboard/services/${review.service.id}`,
+          `${review.service.platform.description?.website}/work/${review.service.id}`,
           `Go to review detail`,
         );
         // @dev: This function needs to be throwable to avoid persisting the entity in the DB if the email is not sent

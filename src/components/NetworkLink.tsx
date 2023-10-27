@@ -15,8 +15,8 @@ function NetworkLink({ chaindId, chainName }: { chaindId: number; chainName: str
       onClick={() => {
         switchNetwork();
       }}
-      className={`cursor-pointer text-stone-800 block px-4 py-2 text-sm' ${
-        network?.chain?.id === chaindId ? 'bg-midnight ' : 'hover:opacity-80'
+      className={`cursor-pointer text-base-content block px-4 py-2 text-sm' ${
+        network?.chain?.id === chaindId ? 'bg-base-200 ' : 'hover:opacity-80'
       }`}>
       {chainName}
     </a>

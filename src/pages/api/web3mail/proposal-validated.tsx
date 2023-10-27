@@ -115,7 +115,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
               )}. 
               For the following work to be provided: ${proposal.description?.about}.`,
           proposal.seller.handle,
-          `${proposal.service.platform.description?.website}/dashboard/services/${proposal.service.id}`,
+          `${proposal.service.platform.description?.website}/work/${proposal.service.id}`,
           `Go to proposal detail`,
         );
         // @dev: This function needs to be throwable to avoid persisting the proposal in the DB if the email is not sent

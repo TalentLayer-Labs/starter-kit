@@ -1,8 +1,11 @@
+import CreateProfileLayout from '../../../components/CreateProfileLayout';
+import CreateWorkerProfileForm from '../../../components/Form/CreateWorkerProfileForm';
+
 function workerOnboardingStep2() {
   return (
-    <>
-      <p>Worker onboarding - step2</p>
-    </>
+    <CreateProfileLayout>
+      <CreateWorkerProfileForm />
+    </CreateProfileLayout>
   );
 }
 

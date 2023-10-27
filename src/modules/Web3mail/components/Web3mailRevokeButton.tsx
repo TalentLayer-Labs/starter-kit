@@ -35,8 +35,8 @@ function Web3mailRevokeButton() {
       className={`ml-3 px-3 font-sans transition-shadow duration-300 py-0.5 text-xs rounded-xl  border bg-transparent font-medium flex items-center
                     ${
                       isHovered
-                        ? 'bg-red-100 bg-opacity-5 border-red-500 text-red-500'
-                        : 'bg-green-100 bg-opacity-5 border-green-500 text-green-500'
+                        ? 'bg-error bg-opacity-5 border-error-500 text-error'
+                        : 'bg-success bg-opacity-5 border-success-500 text-success'
                     }`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}

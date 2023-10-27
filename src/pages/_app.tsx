@@ -3,23 +3,36 @@ import { Web3Modal } from '@web3modal/react';
 import { DefaultSeo } from 'next-seo';
 import { ThemeProvider } from 'next-themes';
 import type { AppProps } from 'next/app';
+import Head from 'next/head';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Chain, WagmiConfig, configureChains, createConfig } from 'wagmi';
-import { polygonMumbai } from 'wagmi/chains';
-import SEO from '../../next-seo.config';
+import { polygon, polygonMumbai } from 'wagmi/chains';
 import { iexec } from '../chains';
 import { TalentLayerProvider } from '../context/talentLayer';
+import { BuilderPlaceProvider } from '../modules/BuilderPlace/context/BuilderPlaceContext';
+import { getSeoDefaultConfig } from '../modules/BuilderPlace/seo';
 import { XmtpContextProvider } from '../modules/Messaging/context/XmtpContext';
 import { MessagingProvider } from '../modules/Messaging/context/messging';
-import { Web3MailProvider } from '../modules/Web3mail/context/web3mail';
 import '../styles/globals.css';
-import Layout from './Layout';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { SpaceProvider } from '../modules/MultiDomain/context/SpaceContext';
 import { NetworkEnum } from '../types';
+import Layout from './Layout';
+import CustomPallete from '../components/CustomPallete';
 
-export const chains: Chain[] = [polygonMumbai, iexec];
+export let chains: Chain[] = [];
+if ((process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as unknown as NetworkEnum) == NetworkEnum.MUMBAI) {
+  chains.push(polygonMumbai);
+} else if (
+  (process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as unknown as NetworkEnum) == NetworkEnum.POLYGON
+) {
+  chains.push(polygon);
+}
+
+if (process.env.NEXT_PUBLIC_ACTIVE_WEB3MAIL == 'true') {
+  chains.push(iexec);
+}
+
 export const defaultChain: Chain | undefined = chains.find(
   chain => chain.id === parseInt(process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as string),
 );
@@ -40,26 +53,26 @@ const ethereumClient = new EthereumClient(wagmiConfig, chains);
 const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }: AppProps) {
+  console.log('MyApp', { pageProps });
   return (
     <>
+      <CustomPallete builderPlace={pageProps.builderPlace} />
       <QueryClientProvider client={queryClient}>
-        <DefaultSeo {...SEO} />
+        <DefaultSeo {...getSeoDefaultConfig(pageProps.builderPlace)} />
         <WagmiConfig config={wagmiConfig}>
           <TalentLayerProvider>
-            <SpaceProvider>
-              <Web3MailProvider>
-                <XmtpContextProvider>
-                  <MessagingProvider>
-                    <ThemeProvider enableSystem={false}>
-                      <Layout>
-                        <Component {...pageProps} />
-                      </Layout>
-                    </ThemeProvider>
-                  </MessagingProvider>
-                </XmtpContextProvider>
-                <ToastContainer position='bottom-right' />
-              </Web3MailProvider>
-            </SpaceProvider>
+            <BuilderPlaceProvider data={pageProps.builderPlace}>
+              <XmtpContextProvider>
+                <MessagingProvider>
+                  <ThemeProvider enableSystem={false}>
+                    <Layout>
+                      <Component {...pageProps} />
+                    </Layout>
+                  </ThemeProvider>
+                </MessagingProvider>
+              </XmtpContextProvider>
+              <ToastContainer position='bottom-right' />
+            </BuilderPlaceProvider>
           </TalentLayerProvider>
           <Web3Modal
             projectId={projectId}

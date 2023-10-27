@@ -2,6 +2,8 @@ import React from 'react';
 import useTotalGainByUser from '../hooks/useTotalGainByUser';
 import { IUser } from '../types';
 import { renderTokenAmount } from '../utils/conversion';
+import Link from 'next/link';
+import DelegateModal from './Modal/DelegateModal';
 
 interface IProps {
   user: IUser;
@@ -9,24 +11,23 @@ interface IProps {
 
 function UserGains({ user }: IProps) {
   const userGains = useTotalGainByUser(user.id);
+
   if (userGains.length === 0) {
     return null;
   }
 
   return (
     <>
-      <h2 className='mb-6 pb-4 border-b border-gray-gray-200 text-stone-800 font-medium break-all'>
-        Your total gain
-      </h2>
+      <h2 className='pb-4 text-base-content font-bold break-all'>Your total gain</h2>
       <div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4'>
         {userGains.map((gain, i) => {
           return (
             <div
-              className='flex items-center p-4 bg-white rounded-xl border border-redpraha'
+              className='flex items-center p-4 bg-base-100 rounded-xl border border-info'
               key={i}>
-              <div className='flex flex-shrink-0 items-center justify-center bg-green-200 h-16 w-16 rounded'>
+              <div className='flex flex-shrink-0 items-center justify-center bg-success h-16 w-16 rounded'>
                 <svg
-                  className='w-6 h-6 fill-current text-green-700'
+                  className='w-6 h-6 fill-current text-success'
                   xmlns='http://www.w3.org/2000/svg'
                   viewBox='0 0 20 20'
                   fill='currentColor'>

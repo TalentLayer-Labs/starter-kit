@@ -112,33 +112,33 @@ function ReviewForm({ serviceId }: { serviceId: string }) {
           {/* {Object.keys(errors).map(errorKey => (
             <div key={errorKey}>{errors[errorKey]}</div>
           ))} */}
-          <div className='grid grid-cols-1 gap-6 border border-redpraha rounded-xl p-6 bg-white'>
+          <div className='grid grid-cols-1 gap-6 border border-info rounded-xl p-6 bg-base-100'>
             <label className='block'>
-              <span className='text-stone-800'>Message</span>
+              <span className='text-base-content'>Message</span>
               <Field
                 as='textarea'
                 id='content'
                 name='content'
-                className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
+                className='mt-1 mb-1 block w-full rounded-xl border border-info bg-base-200 shadow-sm focus:ring-opacity-50'
                 placeholder=''
                 rows={5}
               />
-              <span className='text-red-500'>
+              <span className='text-error'>
                 <ErrorMessage name='content' />
               </span>
             </label>
 
             <label className='block'>
-              <span className='text-stone-800'>Rating</span>
+              <span className='text-base-content'>Rating</span>
               <Field
                 type='number'
                 id='rating'
                 name='rating'
                 min={0}
                 max={5}
-                className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
+                className='mt-1 mb-1 block w-full rounded-xl border border-info bg-base-200 shadow-sm focus:ring-opacity-50'
               />
-              <span className='text-red-500'>
+              <span className='text-error'>
                 <ErrorMessage name='rating' />
               </span>
             </label>

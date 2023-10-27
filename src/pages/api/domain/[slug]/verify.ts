@@ -3,12 +3,12 @@ import {
   getDomainResponse,
   getConfigResponse,
   verifyDomain,
-} from '../../../../modules/MultiDomain/domains';
-import { DomainVerificationStatusProps } from '../../../../modules/MultiDomain/types';
+} from '../../../../modules/BuilderPlace/domains';
+import { DomainVerificationStatusProps } from '../../../../modules/BuilderPlace/types';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
-  const { slug: domain } = req.query
+  const { slug: domain } = req.query;
 
   let status: DomainVerificationStatusProps = DomainVerificationStatusProps.Valid;
 
@@ -19,25 +19,25 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 
   if (domainJson?.error?.code === 'not_found') {
     // domain not found on Vercel project
-    status = DomainVerificationStatusProps.NotFound
+    status = DomainVerificationStatusProps.NotFound;
 
     // unknown error
   } else if (domainJson.error) {
-    status = DomainVerificationStatusProps.Error
+    status = DomainVerificationStatusProps.Error;
 
     // if domain is not verified, we try to verify now
   } else if (!domainJson.verified) {
-    status = DomainVerificationStatusProps.Pending
+    status = DomainVerificationStatusProps.Pending;
     const verificationJson = await verifyDomain(domain as string);
 
     // domain was just verified
     if (verificationJson && verificationJson.verified) {
-      status = DomainVerificationStatusProps.Valid
+      status = DomainVerificationStatusProps.Valid;
     }
   } else if (configJson.misconfigured) {
-    status = DomainVerificationStatusProps.Invalid
+    status = DomainVerificationStatusProps.Invalid;
   } else {
-    status = DomainVerificationStatusProps.Valid
+    status = DomainVerificationStatusProps.Valid;
   }
 
   return res.json({

@@ -43,7 +43,7 @@ function UserIncomes({ id }: { id: string }) {
           Start date:{' '}
         </label>
         <input
-          className='rounded-lg border border-gray-500 px-2 py-1 bg-gray-600'
+          className='rounded-lg border border-info px-2 py-1 bg-gray-600'
           type='date'
           id='start'
           name='start'
@@ -55,7 +55,7 @@ function UserIncomes({ id }: { id: string }) {
             End date:{' '}
           </label>
           <input
-            className='rounded-lg border border-gray-500 px-2 py-1 bg-gray-600'
+            className='rounded-lg border border-info px-2 py-1 bg-gray-600'
             type='date'
             id='end'
             name='end'
@@ -65,7 +65,7 @@ function UserIncomes({ id }: { id: string }) {
         </span>
         <button
           type='button'
-          className='ml-4 px-3 py-1 border border-gray-400 rounded-xl text-stone-400 hover:bg-gray-200'
+          className='ml-4 px-3 py-1 border border-info rounded-xl text-base-content opacity-50 hover:bg-base-200'
           onClick={() => {
             setStartDate('');
             setEndDate('');
@@ -75,7 +75,7 @@ function UserIncomes({ id }: { id: string }) {
         {payments && payments.length > 0 && (
           <button
             type='button'
-            className='ml-4 px-3 py-1 border border-gray-400 rounded-xl text-stone-400 hover:bg-gray-200 '
+            className='ml-4 px-3 py-1 border border-info rounded-xl text-base-content opacity-50 hover:bg-base-200 '
             onClick={handleExportToCsv}>
             Export to CSV
           </button>
@@ -89,10 +89,10 @@ function UserIncomes({ id }: { id: string }) {
             <table className='p-4  w-full table-fixed'>
               <thead>
                 <tr>
-                  <th className='bg-gray-600 border-r border-gray-500 p-2'>Amount</th>
-                  <th className='bg-gray-600 border-r border-gray-500 p-2'>Date</th>
-                  <th className='bg-gray-600 border-r border-gray-500 p-2'>Token</th>
-                  <th className='bg-gray-600 border-r border-gray-500 p-2'>Service</th>
+                  <th className='bg-gray-600 border-r border-info p-2'>Amount</th>
+                  <th className='bg-gray-600 border-r border-info p-2'>Date</th>
+                  <th className='bg-gray-600 border-r border-info p-2'>Token</th>
+                  <th className='bg-gray-600 border-r border-info p-2'>Service</th>
                   <th className='bg-gray-600 p-2'>Transaction information</th>
                 </tr>
               </thead>
@@ -100,21 +100,21 @@ function UserIncomes({ id }: { id: string }) {
                 {payments.map((payment, i) => {
                   return (
                     <tr key={i}>
-                      <td className=' p-2 text-center font-bold border-r border-b border-gray-500'>
+                      <td className=' p-2 text-center font-bold border-r border-b border-info'>
                         {renderTokenAmount(payment.rateToken, payment.amount)}
                       </td>
-                      <td className=' p-2 text-center text-stone-500 border-r border-b border-gray-500'>
+                      <td className=' p-2 text-center text-base-content border-r border-b border-info'>
                         {formatStringCompleteDate(payment.createdAt)}
                       </td>
-                      <td className=' p-2 text-center text-stone-500 border-r border-b border-gray-500'>
+                      <td className=' p-2 text-center text-base-content border-r border-b border-info'>
                         {payment.rateToken.symbol}
                       </td>
-                      <td className=' p-2 text-center text-blue-500 border-r border-b border-gray-500'>
-                        <a target='_blank' href={`/dashboard/services/${payment.service.id}`}>
+                      <td className=' p-2 text-center text-info border-r border-b border-info'>
+                        <a target='_blank' href={`/work/${payment.service.id}`}>
                           Service n°{payment.service.id}{' '}
                         </a>
                       </td>
-                      <td className=' p-2 text-center text-blue-500 border-b border-gray-500'>
+                      <td className=' p-2 text-center text-info border-b border-info'>
                         {network.chain?.id === 137 || network.chain?.id === 80001 ? (
                           <a
                             target='_blank'
@@ -134,8 +134,8 @@ function UserIncomes({ id }: { id: string }) {
               <div className='flex justify-center items-center gap-10 flex-col pb-5'>
                 <button
                   type='submit'
-                  className={`px-5 py-2 mt-5 content-center border border-zinc-600 rounded-full text-zinc-600 
-              hover:text-stone-800 hover:bg-midnight
+                  className={`px-5 py-2 mt-5 content-center border border-zinc-600 rounded-full text-content 
+              hover:text-base-content hover:bg-base-200
             `}
                   disabled={!hasMoreData}
                   onClick={() => loadMore()}>

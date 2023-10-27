@@ -1,5 +1,7 @@
+import { ArrowUpRightIcon } from '@heroicons/react/24/outline';
 import { useWeb3Modal } from '@web3modal/react';
-import { Field, Form, Formik } from 'formik';
+import { Form, Formik } from 'formik';
+import Link from 'next/link';
 import { useContext } from 'react';
 import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
 import SubmitButton from '../../../components/Form/SubmitButton';
@@ -15,7 +17,6 @@ import { IWeb3mailPreferences } from '../../../types';
 import { postToIPFS } from '../../../utils/ipfs';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../../utils/toast';
 import Web3mailCard from './Web3mailCard';
-import Web3mailRevokeButton from './Web3mailRevokeButton';
 
 function Web3mailPreferencesForm() {
   const config = useConfig();
@@ -113,48 +114,44 @@ function Web3mailPreferencesForm() {
             <div className='grid grid-cols-1 gap-6'>
               <Web3mailCard />
 
-              <div className='border-b border-redpraha pb-6'>
+              <div className='border-b border-info pb-6'>
                 <label className='block'>
                   <div className='mb-2 ml-0.5'>
                     <div className='flex justify-between'>
                       <div>
-                        <p className='font-heading text-base font-medium leading-none'>
-                          Your email is protected
+                        <p className='font-heading text-base-content font-medium leading-none'>
+                          1. Setup your email
                         </p>
-                        <p className='font-sans text-xs font-normal leading-normal text-stone-600 mt-0.5'>
+                        <p className='font-sans text-xs font-normal leading-normal text-base-content mt-0.5'>
                           It allow you to configure your preferences to be notified every time an
                           important action happened.
                         </p>
                       </div>
-                      <Web3mailRevokeButton />
                     </div>
                   </div>
-                  <Field
-                    type='text'
-                    id='email'
-                    name='email'
-                    className='cursor-not-allowed mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
-                    placeholder='**********'
-                    readOnly
-                    disabled
-                  />
                 </label>
+                <Link
+                  href='/web3mail'
+                  className='grow px-5 py-2 rounded-xl bg-info text-base-content hover:bg-base-200 inline-flex align-center justify-center '>
+                  <span>Manage your email</span>
+                  <ArrowUpRightIcon width='16' height='16' className='ml-2 mt-1' />
+                </Link>
               </div>
 
               <label className='block'>
                 <div className='mb-2 ml-0.5'>
                   <div className='mb-4'>
-                    <p className='font-heading text-base font-medium leading-none'>
-                      Your notifications preferences
+                    <p className='font-heading text-base-content font-medium leading-none'>
+                      2. Setup your notifications preferences
                     </p>
-                    <p className='font-sans text-xs font-normal leading-normal text-stone-600 mt-0.5'>
+                    <p className='font-sans text-xs font-normal leading-normal text-base-content mt-0.5'>
                       Receive email when:
                     </p>
                   </div>
 
                   <Toogle
                     entityId={'activeOnNewProposal'}
-                    label='A new proposal is posted on your Gig'
+                    label='A new proposal is posted on your Work Post'
                   />
 
                   <Toogle
