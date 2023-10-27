@@ -27,7 +27,7 @@ function Layout({ children, className }: ContainerProps) {
 
             <Link
               href={`/profiles/${user.id}`}
-              className='hover:bg-primary-focus text-primary bg-primary px-3 py-2 text-sm flex items-center rounded-xl'>
+              className='hover:opacity-70 text-primary bg-primary px-3 py-2 text-sm flex items-center rounded-xl'>
               <EyeIcon className='w-[18px] h-[18px] mr-2' />
               Public page
             </Link>

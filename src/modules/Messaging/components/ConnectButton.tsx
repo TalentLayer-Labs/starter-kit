@@ -6,7 +6,7 @@ function ConnectButton() {
 
   return (
     <button
-      className='text-primary bg-primary hover:bg-primary-focus px-5 py-2.5 rounded-xl text-md relative'
+      className='text-primary bg-primary hover:opacity-70 px-5 py-2.5 rounded-xl text-md relative'
       onClick={() => handleRegisterToMessaging()}>
       Connect to XMTP
     </button>

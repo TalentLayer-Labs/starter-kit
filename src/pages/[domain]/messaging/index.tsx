@@ -40,7 +40,7 @@ function MessagingIndex() {
       {!providerState?.client && account && (
         <div className='flex items-center justify-center pt-16'>
           <button
-            className='text-primary bg-primary hover:bg-primary-focus px-5 py-2.5 rounded-xl text-md relative'
+            className='text-primary bg-primary hover:opacity-70 px-5 py-2.5 rounded-xl text-md relative'
             onClick={() => handleXmtpConnect()}>
             Connect to Messaging
           </button>

@@ -62,7 +62,7 @@ function UserProposalItem({ proposal }: { proposal: IProposal }) {
             {renderTokenAmount(proposal.rateToken, proposal.rateAmount)}
           </p>
           <Link
-            className='text-primary bg-primary hover:bg-primary-focus px-5 py-2.5 rounded-xl text-md relative'
+            className='text-primary bg-primary hover:opacity-70 px-5 py-2.5 rounded-xl text-md relative'
             href={`/work/${proposal.service.id}`}>
             Show Post
           </Link>

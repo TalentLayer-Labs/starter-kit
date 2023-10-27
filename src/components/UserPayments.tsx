@@ -16,7 +16,7 @@ function UserPayments({ user }: { user: IUser }) {
         <span className='flex-1 font-bold'>Your last incomes</span>
 
         <Link
-          className='hover:bg-primary-focus text-primary bg-primary px-3 py-2 text-sm  rounded-xl'
+          className='hover:opacity-70 text-primary bg-primary px-3 py-2 text-sm  rounded-xl'
           href={`/profiles/incomes`}>
           Sell all
         </Link>

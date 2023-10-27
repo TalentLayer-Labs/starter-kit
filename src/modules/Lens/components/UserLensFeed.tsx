@@ -90,7 +90,7 @@ function UserLensFeed({ lensUser }: IProps) {
         <a
           href={`https://lenster.xyz/u/${lensUser.handle}`}
           target='_blank'
-          className='text-primary bg-primary hover:bg-primary-focus px-5 py-2.5 rounded-xl text-md relative-xl active'>
+          className='text-primary bg-primary hover:opacity-70 px-5 py-2.5 rounded-xl text-md relative-xl active'>
           More posts
         </a>
       </div>

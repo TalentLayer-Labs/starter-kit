@@ -57,7 +57,7 @@ function Web3mailStats() {
           <p className='text-2xl font-bold flex-1 mt-6'>Stats Web3 Mails</p>
           <a
             href={`/admin/web3mail`}
-            className='hover:bg-primary-focus text-primary bg-primary px-3 py-2 text-sm flex items-center rounded-xl'>
+            className='hover:opacity-70 text-primary bg-primary px-3 py-2 text-sm flex items-center rounded-xl'>
             <PaperAirplane width={18} height={18} className='w-[18px] h-[18px] mr-2' />
             Send
           </a>
