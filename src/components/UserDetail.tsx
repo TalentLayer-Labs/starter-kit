@@ -33,7 +33,9 @@ function UserDetail({ user }: { user: IUser }) {
               alt='default avatar'
             />
             <div className='flex flex-col'>
-              <p className='text-base-content font-medium break-all'>{user?.handle}</p>
+              <p className='text-base-content font-medium break-all'>
+                {userDescription?.name || user?.handle}
+              </p>
               <p className='text-base-content text-xs'>{userDescription?.title}</p>
             </div>
             <div className=''>
@@ -44,22 +46,15 @@ function UserDetail({ user }: { user: IUser }) {
         <Stars rating={Number(user.rating)} numReviews={user.userStats.numReceivedReviews} />
       </div>
       <div className=' border-t border-info pt-2 w-full'>
-        {userDescription?.name && (
-          <p className='text-sm text-base-content mt-4'>
-            <strong>Name:</strong> {userDescription?.name}
-          </p>
-        )}
         <p className='text-sm text-base-content mt-4'>
-          <strong>Skills:</strong> {userDescription?.skills_raw}
+          <strong>Skills:</strong>
+
+          {userDescription?.skills_raw?.split(',').map((skill, index) => (
+            <span key={index} className='text-xs border border-base-300 rounded-md px-2 py-1 ml-2'>
+              {skill.trim()}
+            </span>
+          ))}
         </p>
-        <p className='text-sm text-base-content mt-4'>
-          <strong>About:</strong> {userDescription?.about}
-        </p>
-        {userDescription?.role && (
-          <p className='text-sm text-base-content mt-4'>
-            <strong>Role:</strong> {userDescription?.role}
-          </p>
-        )}
       </div>
 
       {currentUser?.id === user.id && process.env.NEXT_PUBLIC_ACTIVE_DELEGATE === 'true' && (
