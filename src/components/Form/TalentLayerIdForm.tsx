@@ -8,11 +8,7 @@ import { useChainId } from '../../hooks/useChainId';
 import useMintFee from '../../hooks/useMintFee';
 import useTalentLayerClient from '../../hooks/useTalentLayerClient';
 import { NetworkEnum } from '../../types';
-import {
-  createMultiStepsTransactionToast,
-  createTalentLayerIdTransactionToast,
-  showErrorTransactionToast,
-} from '../../utils/toast';
+import { createTalentLayerIdTransactionToast, showErrorTransactionToast } from '../../utils/toast';
 import HelpPopover from '../HelpPopover';
 import { delegateMintID } from '../request';
 import { HandlePrice } from './HandlePrice';
@@ -24,15 +20,7 @@ interface IFormValues {
   handle: string;
 }
 
-function TalentLayerIdForm({
-  handle,
-  description,
-  image,
-}: {
-  handle?: string;
-  description?: string;
-  image?: string;
-}) {
+function TalentLayerIdForm({ handle, callback }: { handle?: string; callback: () => void }) {
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
   const { platformHasAccess } = useContext(Web3MailContext);
@@ -91,32 +79,8 @@ function TalentLayerIdForm({
           account.address,
         );
 
-        if (image && description && talentLayerClient) {
-          const user = await talentLayerClient.profile.getByAddress(account.address);
-          const profile = {
-            title: user.title,
-            role: user.role,
-            image_url: image,
-            video_url: user.video_url,
-            name: user.name,
-            about: description,
-            skills: user.skills,
-          };
-
-          const res = await talentLayerClient?.profile.update(profile, user.id);
-
-          await createMultiStepsTransactionToast(
-            chainId,
-            {
-              pending: 'Updating profile...',
-              success: 'Congrats! Your profile has been updated',
-              error: 'An error occurred while updating your profile',
-            },
-            publicClient,
-            res.tx,
-            'user',
-            res.cid,
-          );
+        if (callback) {
+          callback();
         }
 
         setSubmitting(false);
