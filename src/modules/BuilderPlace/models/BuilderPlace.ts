@@ -53,12 +53,17 @@ const palette = new Schema({
 const builderPlace = new Schema({
   name: {
     type: String,
+    unique: true,
+    required: true,
   },
   subdomain: {
     type: String,
+    unique: true,
+    required: true,
   },
   customDomain: {
     type: String,
+    unique: true,
   },
   logo: {
     type: String,
@@ -69,12 +74,16 @@ const builderPlace = new Schema({
   cover: {
     type: String,
   },
+  profilePicture: {
+    type: String,
+  },
   palette: palette,
   presentation: {
     type: String,
   },
   ownerTalentLayerId: {
     type: String,
+    unique: true,
   },
   owners: {
     type: Array,

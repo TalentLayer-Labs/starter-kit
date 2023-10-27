@@ -11,7 +11,7 @@ interface IFormValues {
   name: string;
   presentation: string;
   preferred_work_types: PreferredWorkTypes[];
-  logo?: File;
+  profilePicture?: File;
 }
 function onboardingStep1() {
   const { data: createdBuilderPlace, mutateAsync: createBuilderPlaceAsync } =
@@ -32,7 +32,7 @@ function onboardingStep1() {
       .min(1, 'Chose at least one preferred word type')
       .max(4, 'You already chose all existing preferred word type')
       .required('Job Type is required'),
-    logo: Yup.string().required('Image is required'),
+    profilePicture: Yup.string().required('Image is required'),
   });
 
   const handleSubmit = async (
@@ -46,8 +46,8 @@ function onboardingStep1() {
       const subdomain = generateDomainName(name);
 
       let image;
-      if (values.logo) {
-        image = await upload(values.logo);
+      if (values.profilePicture) {
+        image = await upload(values.profilePicture);
         console.log({ image, url: image?.variants[0] });
       }
 
@@ -75,7 +75,7 @@ function onboardingStep1() {
         },
         presentation: values.presentation,
         preferredWorkTypes: values.preferred_work_types,
-        logo: image?.variants[0] || null,
+        profilePicture: image?.variants[0] || null,
       });
 
       setSubmitting(false);
@@ -175,17 +175,17 @@ function onboardingStep1() {
                 <span className='text-stone-800'>Picture Url</span>
                 <input
                   type='file'
-                  id='logo'
-                  name='logo'
+                  id='profilePicture'
+                  name='profilePicture'
                   onChange={(event: any) => {
-                    setFieldValue('logo', event.currentTarget.files[0]);
+                    setFieldValue('profilePicture', event.currentTarget.files[0]);
                   }}
                   className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
                   placeholder=''
                 />
               </label>
               <span className='text-red-500'>
-                <ErrorMessage name='logo' />
+                <ErrorMessage name='profilePicture' />
               </span>
 
               <button

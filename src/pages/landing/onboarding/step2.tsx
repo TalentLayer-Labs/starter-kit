@@ -14,7 +14,13 @@ function onboardingStep2() {
   const [subdomainState, setSubdomainState] = useState<string>('');
 
   if (!account?.isConnected || !user) {
-    return <Steps handle={data?.name} description={data?.presentation} image={data?.logo} />;
+    return (
+      <Steps
+        handle={data?.name}
+        description={data?.presentation}
+        profilePicture={data?.profilePicture}
+      />
+    );
   }
 
   const handleUpdateDomainOwner = async () => {

@@ -69,7 +69,7 @@ export interface CreateBuilderPlaceProps {
   palette: iBuilderPlacePalette;
   presentation: string;
   preferredWorkTypes: PreferredWorkTypes[];
-  logo: string;
+  profilePicture: string;
 }
 
 export type IBuilderPlace = {
@@ -78,7 +78,9 @@ export type IBuilderPlace = {
   subdomain: string;
   customDomain: string | null;
   logo: string;
+  icon: string;
   cover: string;
+  profilePicture: string;
   palette: iBuilderPlacePalette;
   presentation: string;
   owners: string[];
