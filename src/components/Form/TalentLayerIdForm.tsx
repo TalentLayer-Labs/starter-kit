@@ -8,7 +8,11 @@ import { useChainId } from '../../hooks/useChainId';
 import useMintFee from '../../hooks/useMintFee';
 import useTalentLayerClient from '../../hooks/useTalentLayerClient';
 import { NetworkEnum } from '../../types';
-import { createTalentLayerIdTransactionToast, showErrorTransactionToast } from '../../utils/toast';
+import {
+  createMultiStepsTransactionToast,
+  createTalentLayerIdTransactionToast,
+  showErrorTransactionToast,
+} from '../../utils/toast';
 import HelpPopover from '../HelpPopover';
 import { delegateMintID } from '../request';
 import { HandlePrice } from './HandlePrice';
@@ -20,11 +24,15 @@ interface IFormValues {
   handle: string;
 }
 
-const initialValues: IFormValues = {
-  handle: '',
-};
-
-function TalentLayerIdForm() {
+function TalentLayerIdForm({
+  handle,
+  description,
+  image,
+}: {
+  handle?: string;
+  description?: string;
+  image?: string;
+}) {
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
   const { platformHasAccess } = useContext(Web3MailContext);
@@ -33,6 +41,10 @@ function TalentLayerIdForm() {
   const publicClient = usePublicClient({ chainId });
   const talentLayerClient = useTalentLayerClient();
   const { calculateMintFee } = useMintFee();
+
+  const initialValues: IFormValues = {
+    handle: handle || '',
+  };
 
   const validationSchema = Yup.object().shape({
     handle: Yup.string()
@@ -79,6 +91,34 @@ function TalentLayerIdForm() {
           account.address,
         );
 
+        if (image && description && talentLayerClient) {
+          const user = await talentLayerClient.profile.getByAddress(account.address);
+          const profile = {
+            title: user.title,
+            role: user.role,
+            image_url: image,
+            video_url: user.video_url,
+            name: user.name,
+            about: description,
+            skills: user.skills,
+          };
+
+          const res = await talentLayerClient?.profile.update(profile, user.id);
+
+          await createMultiStepsTransactionToast(
+            chainId,
+            {
+              pending: 'Updating profile...',
+              success: 'Congrats! Your profile has been updated',
+              error: 'An error occurred while updating your profile',
+            },
+            publicClient,
+            res.tx,
+            'user',
+            res.cid,
+          );
+        }
+
         setSubmitting(false);
         refreshData();
 
@@ -94,7 +134,11 @@ function TalentLayerIdForm() {
   };
 
   return (
-    <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
+    <Formik
+      initialValues={initialValues}
+      onSubmit={onSubmit}
+      validationSchema={validationSchema}
+      enableReinitialize={true}>
       {({ isSubmitting, values }) => (
         <Form>
           <p className='text-center mb-8'>Mint your TalentLayer ID</p>

@@ -1,11 +1,11 @@
 import * as Yup from 'yup';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useCreateBuilderPlaceMutation } from '../../../modules/BuilderPlace/hooks/UseCreateBuilderPlaceMutation';
 import { showErrorTransactionToast } from '../../../utils/toast';
 import { PreferredWorkTypes } from '../../../types';
 import { useRouter } from 'next/router';
 import { upload } from '../../../modules/BuilderPlace/request';
-import { generateSubdomainPrefix, slugify } from '../../../modules/BuilderPlace/utils';
+import { generateDomainName, slugify } from '../../../modules/BuilderPlace/utils';
 
 interface IFormValues {
   name: string;
@@ -25,11 +25,7 @@ function onboardingStep1() {
   };
 
   const validationSchema = Yup.object({
-    name: Yup.string()
-      .min(2)
-      .max(10)
-      .matches(/^[a-z0-9][a-z0-9-_]*$/, 'Only a-z, 0-9 and -_ allowed, and cannot begin with -_')
-      .required('name is required'),
+    name: Yup.string().min(2).max(10).required('name is required'),
     presentation: Yup.string().required('presentation is required'),
     preferred_work_types: Yup.array()
       .of(Yup.string())
@@ -43,12 +39,11 @@ function onboardingStep1() {
     values: IFormValues,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void },
   ) => {
-    //TODO add un check sur handle taken (useUserByHandle)
-    console.log('values', values);
     try {
       setSubmitting(true);
-      const subdomainPrefix = generateSubdomainPrefix(values.name);
-      const subdomain = `${subdomainPrefix}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
+
+      const name = slugify(values.name);
+      const subdomain = generateDomainName(name);
 
       let image;
       if (values.logo) {
@@ -60,7 +55,7 @@ function onboardingStep1() {
 
       await createBuilderPlaceAsync({
         subdomain: subdomain,
-        name: slugify(values.name),
+        name: name,
         primaryColor: '#ffffff',
         secondaryColor: '#ffffff',
         presentation: values.presentation,

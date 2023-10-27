@@ -10,7 +10,6 @@ function onboardingStep2() {
   const router = useRouter();
   const { subdomain } = router.query;
   const { data } = useGetBuilderPlace({ domain: subdomain as string });
-  console.log('data', data);
   const setOwner = useSetBuilderPlaceOwner();
   const [subdomainState, setSubdomainState] = useState<string>('');
 
@@ -28,6 +27,10 @@ function onboardingStep2() {
       }
       try {
         await setOwner.mutate({
+          /**
+           * @dev: If the user modified his name, we must update it with his on-chain handle & regenerate the domain name
+           */
+          name: user.handle,
           subdomain: subdomainParam,
           owners: [account.address],
           ownerTalentLayerId: user.id,
@@ -45,7 +48,7 @@ function onboardingStep2() {
       <div className={'flex flex-col items-center justify-center'}>
         <h1>Hello {user.handle}</h1>
         {subdomain ? (
-          <p>You area about to like your TalentLayer ID to your domain: {subdomain}</p>
+          <p>You are about to link your TalentLayer ID to your domain: {subdomain}</p>
         ) : (
           <div className={'flex flex-row items-center justify-center'}>
             <p>Please input your domain name:</p>

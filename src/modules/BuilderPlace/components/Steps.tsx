@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
-import MintTlidFormStep2 from '../../../modules/BuilderPlace/components/form/MintTlidFormStep2';
 import ConnectBlock from '../../../components/ConnectBlock';
 import TalentLayerContext from '../../../context/talentLayer';
+import TalentLayerIdForm from '../../../components/Form/TalentLayerIdForm';
 
 function Steps({
   handle,
@@ -30,7 +30,7 @@ function Steps({
         </div>
       )}
       {account?.isConnected && !user && (
-        <MintTlidFormStep2 handle={handle} description={description} image={image} />
+        <TalentLayerIdForm handle={handle} description={description} image={image} />
       )}
     </>
   );
