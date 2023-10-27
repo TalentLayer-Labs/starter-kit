@@ -49,7 +49,7 @@ function Home() {
                       onClick={() => setIsOpen(false)}
                       href='#video'
                       className='menu-scroll inline-flex items-center text-base font-medium text-black hover:text-redpraha   lg:py-7'>
-                      About
+                      about
                     </a>
                   </li>
                   <li className='menu-item'>
@@ -57,7 +57,7 @@ function Home() {
                       onClick={() => setIsOpen(false)}
                       href='#features'
                       className='menu-scroll inline-flex items-center text-base font-medium text-black hover:text-redpraha   lg:py-7'>
-                      Features
+                      features
                     </a>
                   </li>
                   <li className='menu-item'>
@@ -65,7 +65,7 @@ function Home() {
                       onClick={() => setIsOpen(false)}
                       href='#pricing'
                       className='menu-scroll inline-flex items-center text-base font-medium text-black hover:text-redpraha   lg:py-7'>
-                      Pricing
+                      pricing
                     </a>
                   </li>
                   <li className='menu-item'>
@@ -73,7 +73,21 @@ function Home() {
                       onClick={() => setIsOpen(false)}
                       href='#contact'
                       className='menu-scroll inline-flex items-center text-base font-medium text-black hover:text-redpraha   lg:py-7'>
-                      Support
+                      support
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href='/onboarding'
+                      className='rounded-md text-center bg-landingprimary py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base font-medium text-stone-800 hover:bg-opacity-60'>
+                      register
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href='/onboarding'
+                      className='rounded-md text-center bg-redpraha py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base font-medium text-stone-800 hover:bg-opacity-60'>
+                      contribute
                     </a>
                   </li>
                 </ul>
@@ -84,17 +98,17 @@ function Home() {
       </header>
 
       <main>
-        <section id='home' className='pt-[165px] lg:pt-[90px]'>
+        <section id='home' className='pt-[100px] lg:pt-[120px]'>
           <div className='container lg:max-w-[1305px] lg:px-10'>
             <div className='-mx-4 flex flex-wrap items-center'>
-              <div className='w-full px-4 lg:w-7/12'>
+              <div className='w-full px-4  lg:w-5/12 mb-20'>
                 <div className='wow fadeInUp mb-12 lg:mb-0 lg:max-w-[570px]' data-wow-delay='.2s'>
-                  <h1 className='mb-6 text-3xl font-bold leading-tight text-black  sm:text-[40px] md:text-[50px] lg:text-[42px] xl:text-[50px]'>
-                    empower
-                    <span className='inline bg-landingprimary bg-clip-text text-transparent mx-2'>
-                      opens-source contributors
+                  <h1 className='mb-6 text-5xl font-bold leading-tight text-black  sm:text-[50px] md:text-[60px] lg:text-[50px] xl:text-[70px]'>
+                    grow your<br></br>
+                    <span className='inline bg-landingprimary bg-clip-text text-transparent'>
+                      open-source movement{' '}
                     </span>
-                    to build towards your mission
+                    today
                   </h1>
                   <p className='mb-10 max-w-[475px] text-base leading-relaxed text-body'>
                     BuilderPlace is your open-source community management platform + contributor
@@ -102,43 +116,36 @@ function Home() {
                   </p>
 
                   <div className='flex flex-wrap text-center items-center'>
-                    <div className='mr-[60px] mb-40 flex items-center text-center justify-end lg:mr-0'>
+                    <div className='mr-[60px] mb-10 flex items-center text-center justify-end lg:mr-0'>
                       <a
                         href='/onboarding'
-                        className='rounded-md text-center bg-landingprimary py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base font-medium text-stone-800 hover:bg-opacity-60'>
+                        className='rounded-md text-center bg-landingprimary py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base font-medium text-white font-bold hover:bg-opacity-60'>
                         create a <br></br>BuilderPlace
                       </a>
                       <a
                         href='/onboarding'
-                        className='w-1/2 rounded-md bg-redpraha mx-5 py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base font-medium text-stone-800 hover:bg-opacity-60'>
+                        className='w-1/2 rounded-md bg-redpraha mx-5 py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base font-medium text-stone-800 font-bold hover:bg-opacity-60'>
                         contribute to <br></br>projects
                       </a>
+                    </div>
+                  </div>
+                  <div className='w-full px-4  pb-10 sm:pb-40 block md:hidden lg:hidden w-[280px]'>
+                    <div
+                      className='wow fadeInUp relative z-10 mx-auto w-full max-w-[530px] pt-8 lg:mr-0'
+                      data-wow-delay='.3s'>
+                      <img src='/images/arrow.png' alt='hero image' />
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className='w-full px-4  pb-10 lg:w-5/12 sm:pb-40 hidden lg:block'>
+              <div className='w-full pt-4  pr-20 pb-10 lg:w-7/12 sm:pb-40 hidden lg:block'>
                 <div
                   className='wow fadeInUp relative z-10 mx-auto w-full max-w-[530px] pt-8 lg:mr-0'
                   data-wow-delay='.3s'>
-                  <img src='/images/brib.png' alt='hero image' />
+                  <img src='/images/arrow.png' alt='hero image' />
                 </div>
               </div>
-            </div>
-          </div>
-          <div className='container'>
-            <div
-              className='wow fadeInUp mx-auto mb-14 max-w-[690px] text-center lg:mb-[20px]'
-              data-wow-delay='.2s'>
-              <h2 className='mb-4 pt-10 text-3xl font-bold text-black  sm:text-4xl pt-10 md:text-[44px] md:leading-tight'>
-                white-label <a className='text-landingprimary'>open-source management</a> for your
-                ecosystem
-              </h2>
-              <p className='text-base text-body'>
-                every open-source movement starts with a first contributor. learn how your
-                BuilderPlace helps you grow a coalition around your product.
-              </p>
             </div>
           </div>
         </section>
@@ -238,7 +245,8 @@ function Home() {
                       the network
                     </h3>
                     <p className='text-base text-body pb-5 mx-auto max-w-[400px]'>
-                      your work posts are automatically shared across a network of platforms
+                      your work posts are automatically shared across a network of platforms where
+                      people are searching for open-source projects to help
                     </p>
                   </div>
                 </div>
@@ -870,10 +878,14 @@ function Home() {
                       </div>
                       <div>
                         <h5 className='text-xl font-medium text-black '>
-                          pay out contributors in any crypto on Polygon
+                          pay out contributors in USDC, MATIC, or WETH on Polygon
                         </h5>
                         <p className='text-base text-body'>
-                          want to have your ecosystem’s token supported? contact our team here.
+                          Do you have a token you'd like to see supported?{' '}
+                          <a href='#contact' className='underline'>
+                            Contact our team
+                          </a>
+                          .
                         </p>
                       </div>
                     </div>
@@ -1019,8 +1031,12 @@ function Home() {
                 </button>
                 <div className='pb-4 h-auto overflow-hidden px-[18px] sm:px-[26px]'>
                   <p className='text-base text-body'>
-                    BuilderPlace's escrow system supports any ERC-20 token on the Polygon network.
-                    We are working to expand support for other currencies.
+                    BuilderPlace's escrow system supports USDC, WETH, and MATIC on the Polygon
+                    network. Do you have a token you'd like to see supported?{' '}
+                    <a href='#contact' className='underline'>
+                      Contact our team
+                    </a>
+                    .
                   </p>
                 </div>
               </div>

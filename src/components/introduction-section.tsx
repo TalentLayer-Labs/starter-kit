@@ -12,6 +12,20 @@ export const IntroducationSecion = () => {
     <section
       id='video'
       className='relative bg-base-content py-0 md:py-24 text-center text-base-100'>
+      <div className='container'>
+        <div
+          className='wow fadeInUp mx-auto mb-14 max-w-[690px] text-center lg:mb-[20px]'
+          data-wow-delay='.2s'>
+          <h2 className='mb-4 pt-10 text-3xl font-bold text-black  sm:text-4xl pt-10 md:text-[44px] md:leading-tight'>
+            white-label <a className='text-landingprimary'>open-source management</a> for your
+            ecosystem
+          </h2>
+          <p className='text-base text-body'>
+            every open-source movement starts with a first contributor. learn how your BuilderPlace
+            helps you grow a coalition around your product.
+          </p>
+        </div>
+      </div>
       <div className='container flex flex-col items-center lg:max-w-[1305px] lg:px-10'>
         <div
           className='group relative text-center cursor-pointer'
