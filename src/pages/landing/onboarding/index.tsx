@@ -93,7 +93,7 @@ function onboardingStep1() {
   };
 
   return (
-    <HirerProfileLayout>
+    <HirerProfileLayout step={1}>
       <Formik
         initialValues={initialValues}
         enableReinitialize={true}
@@ -225,7 +225,7 @@ function onboardingStep1() {
                   <label
                     className={`inline-flex items-center p-3 rounded-lg ${
                       values.preferred_work_types.includes(PreferredWorkTypes.gigs)
-                      ? 'bg-green-200'
+                      ? 'bg-pink-200'
                       : 'bg-gray-200'
                     }`}>
                     <input
