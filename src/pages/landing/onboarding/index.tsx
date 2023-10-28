@@ -92,6 +92,10 @@ function onboardingStep1() {
     <>
       <h1>1</h1>
       <h1>Create your hirer profile</h1>
+      <p>
+        Your hirer profile helps workers get to know you - whether they are visiting your team's job
+        board, of whether they have found your job opportunity through a third-party platform
+      </p>
       <Formik
         initialValues={initialValues}
         enableReinitialize={true}
@@ -107,28 +111,28 @@ function onboardingStep1() {
                   id='name'
                   name='name'
                   className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
-                  placeholder=''
+                  placeholder='your name goes here'
                 />
               </label>
               <span className='text-red-500'>
                 <ErrorMessage name='name' />
               </span>
               <label className='block'>
-                <span className='text-stone-800'>presentation</span>
+                <span className='text-stone-800'>about your team</span>
                 <Field
                   as='textarea'
                   id='presentation'
                   name='presentation'
                   rows='4'
                   className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
-                  placeholder=''
+                  placeholder='tell everyone about what you work on and why you’re doing it'
                 />
               </label>
               <span className='text-red-500'>
                 <ErrorMessage name='presentation' />
               </span>
               <label className='block'>
-                <span className='text-stone-800'>I want to post</span>
+                <span className='text-stone-800'>Your work styles</span>
                 <div role='group' aria-labelledby='checkbox-group'>
                   <label>
                     <Field
@@ -169,7 +173,7 @@ function onboardingStep1() {
               </span>
 
               <label className='block'>
-                <span className='text-stone-800'>Picture Url</span>
+                <span className='text-stone-800'>Your profile picture</span>
                 <input
                   type='file'
                   id='profilePicture'
