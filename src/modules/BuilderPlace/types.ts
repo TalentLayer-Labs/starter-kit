@@ -40,7 +40,6 @@ export interface UpdateBuilderPlaceDomain {
 }
 
 export interface SetBuilderPlaceOwner {
-  name: string;
   subdomain: string;
   owners: string[];
   ownerTalentLayerId: string;
