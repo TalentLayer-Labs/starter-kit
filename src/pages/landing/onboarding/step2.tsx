@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import Steps from '../../../modules/BuilderPlace/components/Steps';
 import { useGetBuilderPlace } from '../../../modules/BuilderPlace/hooks/UseGetBuilderPlace';
 import { useSetBuilderPlaceOwner } from '../../../modules/BuilderPlace/hooks/UseSetBuilderPlaceOwner';
+import { slugify } from '../../../modules/BuilderPlace/utils';
 
 function onboardingStep2() {
   const { account, user, loading } = useContext(TalentLayerContext);
@@ -16,7 +17,7 @@ function onboardingStep2() {
   if (!account?.isConnected || !user) {
     return (
       <Steps
-        handle={data?.name}
+        handle={slugify(data?.name)}
         description={data?.presentation}
         profilePicture={data?.profilePicture}
       />

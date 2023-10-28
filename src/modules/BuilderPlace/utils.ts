@@ -19,7 +19,8 @@ export const generateDomainName = (name: string) => {
   return `${subdomainPrefix}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
 };
 
-export const slugify = (str: string) => {
+export const slugify = (str: string | undefined) => {
+  if (!str) return '';
   let string = String(str)
     .normalize('NFKD') // split accented characters into their base characters and diacritical marks
     .replace(/[\u0300-\u036f]/g, '') // remove all the accents, which happen to be all in the \u03xx UNICODE block.

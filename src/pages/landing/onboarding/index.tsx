@@ -4,7 +4,7 @@ import { useCreateBuilderPlaceMutation } from '../../../modules/BuilderPlace/hoo
 import { showErrorTransactionToast } from '../../../utils/toast';
 import { PreferredWorkTypes } from '../../../types';
 import { useRouter } from 'next/router';
-import { generateDomainName, slugify, uploadImage } from '../../../modules/BuilderPlace/utils';
+import { generateDomainName, uploadImage } from '../../../modules/BuilderPlace/utils';
 import { useState } from 'react';
 import Loading from '../../../components/Loading';
 
@@ -45,14 +45,13 @@ function onboardingStep1() {
     try {
       setSubmitting(true);
 
-      const name = slugify(values.name);
-      const subdomain = generateDomainName(name);
+      const subdomain = generateDomainName(values.name);
 
       // TODO: generate image url form response
 
       await createBuilderPlaceAsync({
         subdomain: subdomain,
-        name: name,
+        name: values.name,
         palette: {
           primary: '#FF71A2',
           primaryFocus: '#FFC2D1',
