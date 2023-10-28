@@ -76,9 +76,7 @@ export const createBuilderPlace = async (data: CreateBuilderPlaceAction) => {
       presentation: data.presentation,
       subdomain: data.subdomain,
       preferredWorkTypes: data.preferredWorkTypes,
-      customDomain: 'null',
-      logo: data.logo,
-      cover: 'null',
+      profilePicture: data.profilePicture,
       palette: {
         primary: '#FF71A2',
         primaryFocus: '#FFC2D1',

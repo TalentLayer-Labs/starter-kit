@@ -22,7 +22,6 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     try {
       builderSpace.ownerTalentLayerId = body.ownerTalentLayerId;
       builderSpace.owners = body.owners;
-      builderSpace.name = body.name;
       builderSpace.save();
       res.status(200).json({ message: 'BuilderPlace domain updated successfully' });
     } catch (error: any) {

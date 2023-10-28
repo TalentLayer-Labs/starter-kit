@@ -28,11 +28,7 @@ function onboardingStep2() {
     subdomain: Yup.string().required('Subdomain is required'),
   });
 
-  // console.log('subdomain', subdomain);
-  // console.log('data', data);
-
-  if (subdomain && !data) {
-    console.log('no data');
+  if (loading) {
     return (
       <div className='flex flex-col mt-5 pb-8'>
         <Loading />
@@ -65,10 +61,10 @@ function onboardingStep2() {
           owners: [account.address],
           ownerTalentLayerId: user.id,
         });
-        setSubmitting(false);
         router.push('/onboarding/step3');
       } catch (error) {
         console.error('Error updating domain:', error);
+      } finally {
         setSubmitting(false);
       }
     }

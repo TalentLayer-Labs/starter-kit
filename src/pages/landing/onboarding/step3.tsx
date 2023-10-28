@@ -39,6 +39,15 @@ function onboardingStep3() {
     logo: builderPlaceData?.logo || '',
     cover: builderPlaceData?.cover || '',
   };
+
+  if (loading) {
+    console.log('no data');
+    return (
+      <div className='flex flex-col mt-5 pb-8'>
+        <Loading />
+      </div>
+    );
+  }
   const handleSubmit = async (
     values: IFormValues,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void },
@@ -66,12 +75,11 @@ function onboardingStep3() {
             status: builderPlaceData.status,
             signature,
           });
-
-          setSubmitting(false);
           router.push(`${window.location.protocol}//${values.subdomain}/dashboard`);
         }
       } catch (e: any) {
         console.error(e);
+      } finally {
         setSubmitting(false);
       }
     }
@@ -87,7 +95,6 @@ function onboardingStep3() {
         validationSchema={validationSchema}>
         {({ isSubmitting, setFieldValue, values }) => (
           <>
-            {' '}
             <h1>3</h1>
             <p>Configure your workspace</p>
             <Form>
@@ -125,7 +132,7 @@ function onboardingStep3() {
                     placeholder=''
                   />
                   {logoLoader && <Loading />}
-                  {values.logo && (
+                  {!!values.logo && (
                     <div className='flex items-center justify-center py-3'>
                       <img width='300' height='300' src={values.logo} alt='' />
                     </div>
@@ -154,7 +161,7 @@ function onboardingStep3() {
                     placeholder=''
                   />
                   {coverLoader && <Loading />}
-                  {values.cover && (
+                  {!!values.cover && (
                     <div className='flex items-center justify-center py-3'>
                       <img width='300' height='300' src={values.cover} alt='' />
                     </div>

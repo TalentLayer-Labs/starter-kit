@@ -21,7 +21,7 @@ function Steps({
   const chainId = useChainId();
   const publicClient = usePublicClient({ chainId });
   const callBack = async () => {
-    if (profilePicture && description && talentLayerClient && account?.address) {
+    if ((profilePicture || description) && talentLayerClient && account?.address) {
       const user = await talentLayerClient.profile.getByAddress(account.address);
       const profile = {
         title: user.title,

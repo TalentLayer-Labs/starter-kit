@@ -75,7 +75,6 @@ function onboardingStep1() {
         profilePicture: values.profilePicture || undefined,
       });
 
-      setSubmitting(false);
       router.query.subdomain = subdomain;
       router.push({
         pathname: '/onboarding/step2',
@@ -84,6 +83,7 @@ function onboardingStep1() {
     } catch (error) {
       console.log(error);
       showErrorTransactionToast(error);
+    } finally {
       setSubmitting(false);
     }
   };

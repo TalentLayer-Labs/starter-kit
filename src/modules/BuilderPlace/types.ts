@@ -59,7 +59,7 @@ export interface CreateBuilderPlaceAction {
   palette: iBuilderPlacePalette;
   presentation: string;
   preferredWorkTypes: PreferredWorkTypes[];
-  logo: string;
+  profilePicture?: string;
 }
 
 export interface CreateBuilderPlaceProps {

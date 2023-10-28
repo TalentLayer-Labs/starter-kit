@@ -80,7 +80,7 @@ function TalentLayerIdForm({ handle, callback }: { handle?: string; callback?: (
         );
 
         if (callback) {
-          callback();
+          await callback();
         }
 
         setSubmitting(false);

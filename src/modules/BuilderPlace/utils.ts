@@ -5,7 +5,10 @@ import { upload } from './request';
 const IMG_LIMIT_SIZE = 10000000;
 export function generateSubdomainPrefix(name: string): string {
   // Remove any non-alphanumeric characters and replace spaces with hyphens
-  const alphanumericName = name.replace(/[^a-zA-Z0-9\- ]/g, '').replace(/\s+/g, '-');
+  const alphanumericName = name
+    .trim() // trim leading or trailing whitespace
+    .replace(/[^a-zA-Z0-9\- ]/g, '')
+    .replace(/\s+/g, '-');
   // Convert to lowercase and truncate to 63 characters (the maximum length for a subdomain)
   return alphanumericName.toLowerCase().substring(0, 63);
 }
@@ -22,6 +25,7 @@ export const generateDomainName = (name: string) => {
 export const slugify = (str: string | undefined) => {
   if (!str) return '';
   let string = String(str)
+    .trim() // trim leading or trailing whitespace
     .normalize('NFKD') // split accented characters into their base characters and diacritical marks
     .replace(/[\u0300-\u036f]/g, '') // remove all the accents, which happen to be all in the \u03xx UNICODE block.
     .trim() // trim leading or trailing whitespace
