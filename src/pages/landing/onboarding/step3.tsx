@@ -100,7 +100,6 @@ function onboardingStep3() {
                 <span className='text-red-500'>
                   <ErrorMessage name='subdomain' />
                 </span>
-
                 <label className='block'>
                   <span className='text-stone-800'>Logo</span>
                   <input
@@ -159,7 +158,6 @@ function onboardingStep3() {
                 <span className='text-red-500'>
                   <p>{coverErrorMessage}</p>
                 </span>
-
                 <button
                   type='submit'
                   className='grow px-5 py-2 rounded-xl bg-redpraha text-stone-800'>
