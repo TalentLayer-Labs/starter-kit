@@ -1,7 +1,7 @@
-import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useUpdateBuilderPlace } from '../../../modules/BuilderPlace/hooks/UseUpdateBuilderPlace';
 import { useGetBuilderPlaceFromOwner } from '../../../modules/BuilderPlace/hooks/UseGetBuilderPlaceFromOwner';
-import { useContext, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import TalentLayerContext from '../../../context/talentLayer';
 import { useChainId, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import { iBuilderPlacePalette } from '../../../modules/BuilderPlace/types';
 import Loading from '../../../components/Loading';
 import { uploadImage } from '../../../modules/BuilderPlace/utils';
+import SubmitButton from '../../../components/Form/SubmitButton';
 
 interface IFormValues {
   subdomain: string;
@@ -35,12 +36,15 @@ function onboardingStep3() {
 
   const initialValues: IFormValues = {
     subdomain: builderPlaceData?.subdomain || '',
+    logo: builderPlaceData?.logo || '',
+    cover: builderPlaceData?.cover || '',
   };
   const handleSubmit = async (
     values: IFormValues,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void },
   ) => {
     if (walletClient && account?.address) {
+      setSubmitting(true);
       try {
         /**
          * @dev Sign message to prove ownership of the address
@@ -68,6 +72,7 @@ function onboardingStep3() {
         }
       } catch (e: any) {
         console.error(e);
+        setSubmitting(false);
       }
     }
   };
@@ -158,11 +163,7 @@ function onboardingStep3() {
                 <span className='text-red-500'>
                   <p>{coverErrorMessage}</p>
                 </span>
-                <button
-                  type='submit'
-                  className='grow px-5 py-2 rounded-xl bg-redpraha text-stone-800'>
-                  I'm done
-                </button>
+                <SubmitButton isSubmitting={isSubmitting} label={"I'm done"} />
               </div>
             </Form>
           </>

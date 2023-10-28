@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import { generateDomainName, uploadImage } from '../../../modules/BuilderPlace/utils';
 import { useState } from 'react';
 import Loading from '../../../components/Loading';
+import SubmitButton from '../../../components/Form/SubmitButton';
 
 interface IFormValues {
   name: string;
@@ -195,12 +196,7 @@ function onboardingStep1() {
               <span className='text-red-500'>
                 <p>{profilePictureErrorMessage}</p>
               </span>
-
-              <button
-                type='submit'
-                className='grow px-5 py-2 rounded-xl bg-redpraha text-stone-800'>
-                Create My Profile
-              </button>
+              <SubmitButton isSubmitting={isSubmitting} label={'Create My Profile'} />
             </div>
           </Form>
         )}
