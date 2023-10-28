@@ -8,6 +8,7 @@ import * as Yup from 'yup';
 import { useRouter } from 'next/router';
 import { upload } from '../../../modules/BuilderPlace/request';
 import { iBuilderPlacePalette } from '../../../modules/BuilderPlace/types';
+import HirerProfileLayout from '../../../components/HirerProfileLayout';
 
 interface IFormValues {
   subdomain: string;
@@ -81,7 +82,8 @@ function onboardingStep3() {
   };
   return (
     <>
-      <p>Hirer onboarding - step3</p>
+      
+      <HirerProfileLayout step={3}>
       <Formik
         initialValues={initialValues}
         enableReinitialize={true}
@@ -146,6 +148,7 @@ function onboardingStep3() {
           </Form>
         )}
       </Formik>
+      </HirerProfileLayout>
     </>
   );
 }

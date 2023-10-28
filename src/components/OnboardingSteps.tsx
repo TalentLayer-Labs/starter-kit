@@ -40,7 +40,7 @@ function OnboardingSteps({ currentStep,type }: { currentStep: number, type:strin
               <div className='text-white text-xl font-semibold'>3</div>
             </div>
             <div className='ml-4 flex flex-col'>
-              <div className='text-light text-xl font-semibold'>View</div>
+              <div className='text-light text-xl font-semibold'>{type == "Hirer" ? "Customize" :"View"}</div>
               <div className='text-light text-sm'>Profile</div>
             </div>
           </div>
