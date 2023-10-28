@@ -7,16 +7,16 @@ interface ContainerProps {
   className?: string;
 }
 
-function CreateProfileLayout({ children, className }: ContainerProps) {
+function HirerProfileLayout({ children, className }: ContainerProps) {
   const { account, user } = useContext(TalentLayerContext);
 
   return (
     <>
-      <OnboardingSteps currentStep={2} type="Worker" />
+      <OnboardingSteps currentStep={1} type="Hirer" />
       <div className={`${className}`}>
         <div className='text-stone-800'>
           <p className='pb-10 pt-5 text-5xl font-bold mt-6 text-center'>
-            Create Your Worker Profile
+            Create Your Hirer Profile
           </p>
         
           {account?.isConnected && user && (
@@ -30,4 +30,4 @@ function CreateProfileLayout({ children, className }: ContainerProps) {
   );
 }
 
-export default CreateProfileLayout;
+export default HirerProfileLayout;

@@ -1,4 +1,4 @@
-function OnboardingSteps({ currentStep }: { currentStep: number }) {
+function OnboardingSteps({ currentStep,type }: { currentStep: number, type:string}) {
   const getCircleColor = (step: number) => {
     if (step === currentStep) {
       return 'bg-pink-500';
@@ -19,7 +19,7 @@ function OnboardingSteps({ currentStep }: { currentStep: number }) {
             </div>
             <div className='ml-4 flex flex-col'>
               <div className='text-light text-xl font-semibold'>Create</div>
-              <div className='text-light text-sm'>Hirer Profile</div>
+              <div className='text-light text-sm'>{type} Profile</div>
             </div>
           </div>
           <div className='md:flex-1 border-r border-dark bg-base-100 flex sm:mb-0 mb-2 items-center justify-center' >
