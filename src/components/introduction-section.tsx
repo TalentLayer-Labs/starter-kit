@@ -11,10 +11,10 @@ export const IntroducationSecion = () => {
   return (
     <section
       id='video'
-      className='relative bg-base-content py-0 md:py-24 text-center text-base-100'>
+      className='relative bg-base-content py-0 md:py-24 text-center text-base-100 hidden'>
       <div className='container'>
         <div
-          className='wow fadeInUp mx-auto mb-14 max-w-[690px] text-center lg:mb-[20px]'
+          className='wow fadeInUp mx-auto mb-14 max-w-[740px] text-center lg:mb-[20px]'
           data-wow-delay='.2s'>
           <h2 className='mb-4 pt-10 text-3xl font-bold text-black  sm:text-4xl pt-10 md:text-[44px] md:leading-tight'>
             white-label <a className='text-landingprimary'>open-source management</a> for your

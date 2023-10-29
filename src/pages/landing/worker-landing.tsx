@@ -11,8 +11,8 @@ function Home() {
         <div className='container relative lg:max-w-[1305px] lg:px-10'>
           <div className='flex items-center justify-between'>
             <div className='block py-4 lg:py-0'>
-              <a href='index.html' className='block max-w-[145px] sm:max-w-[180px]'>
-                <Image src='/logo-text-dark.png' alt='logo' width={125} height={15} />
+              <a href='index.html' className='block max-w-[145px] sm:max-w-[200px]'>
+                <Image src='/logo-text-dark.png' alt='logo' width={256} height={41} />
               </a>
             </div>
             <button
@@ -97,7 +97,7 @@ function Home() {
             <div className='-mx-4 flex flex-wrap items-center'>
               <div className='w-full px-4  lg:w-5/12 mb-20'>
                 <div className='fadeInUp mb-0 lg:mb-0 lg:max-w-[570px]' data-wow-delay='.2s'>
-                  <h1 className='text-center mb-6 text-5xl font-bold leading-tight text-black  sm:text-[50px] md:text-[60px] lg:text-[50px] lext-left xl:text-[70px] md:text-left'>
+                  <h1 className='text-center mb-6 text-3xl md:text-5xl font-bold leading-tight text-black  sm:text-[50px] md:text-[60px] lg:text-[50px] lext-left xl:text-[70px] md:text-left'>
                     contribute<br></br>
                     <span className='inline bg-landingprimary bg-clip-text text-transparent'>
                       meaningful{' '}
@@ -127,7 +127,7 @@ function Home() {
 
               <div className='w-full pt-4  pr-20 pb-10 lg:w-7/12 hidden lg:block'>
                 <div
-                  className='wow fadeInUp relative z-10 mx-auto w-full max-w-[530px] pt-8 lg:mr-0'
+                  className='wow fadeInUp relative z-10 mx-auto w-full max-w-[430px] pt-8 md:pt-12 lg:mr-0'
                   data-wow-delay='.3s'>
                   <img src='/images/brib.png' alt='hero image' />
                 </div>
@@ -139,7 +139,7 @@ function Home() {
         <section id='features' className='relative pt-[0px]'>
           <div className='container'>
             <div
-              className='wow fadeInUp mx-auto mb-14 max-w-[690px] text-center lg:mb-[70px]'
+              className='wow fadeInUp mx-auto mb-14 max-w-[740px] text-center lg:mb-[70px]'
               data-wow-delay='.2s'>
               <h2 className='mb-10 text-3xl font-bold text-black  sm:text-4xl pt-40 md:text-[44px] leading-tight'>
                 finding <a className='text-landingprimary'>open-source opportunities</a>
@@ -382,7 +382,7 @@ function Home() {
         <section id='testimonials' className='relative z-10 pt-[40px] pb-[60px]'>
           <div className='container'>
             <div
-              className='wow fadeInUp mx-auto mb-14 max-w-[690px] text-center lg:mb-[70px]'
+              className='wow fadeInUp mx-auto mb-14 max-w-[740px] text-center lg:mb-[70px]'
               data-wow-delay='.2s'>
               <h2 className='mb-4 text-3xl font-bold text-black  sm:text-4xl md:text-[44px] md:leading-tight'>
                 open-source impact
@@ -725,7 +725,7 @@ function Home() {
 
         <section id='about' className='relative pt-[40px]'>
           <div
-            className='wow fadeInUp mx-auto mb-14 max-w-[690px] text-center lg:mb-[70px]'
+            className='wow fadeInUp mx-auto mb-14 max-w-[740px] text-center lg:mb-[70px]'
             data-wow-delay='.2s'>
             <h2 className='mb-4 mt-10 text-3xl font-bold text-black  sm:text-4xl md:text-[44px] md:leading-tight'>
               start contributing <a className='text-landingprimary'>in less than 5 minutes</a>
@@ -1025,7 +1025,7 @@ function Home() {
         {/* <section id='faq' className='relative z-10 bg-redpraha bg-opacity-50 py-[110px] '>
           <div className='container'>
             <div
-              className='wow fadeInUp mx-auto mb-14 max-w-[690px] text-center lg:mb-[70px]'
+              className='wow fadeInUp mx-auto mb-14 max-w-[740px] text-center lg:mb-[70px]'
               data-wow-delay='.2s'>
               <h2 className='mb-4 text-3xl font-bold text-black  sm:text-4xl md:text-[44px] md:leading-tight'>
                 frequently asked questions
@@ -1147,7 +1147,7 @@ function Home() {
         <section id='contact' className='relative z-10 pt-[20px]'>
           <div className='container'>
             <div
-              className='wow fadeInUp mx-auto mb-14 max-w-[690px] text-center lg:mb-[70px]'
+              className='wow fadeInUp mx-auto mb-14 max-w-[740px] text-center lg:mb-[70px]'
               data-wow-delay='.2s'>
               <h2 className='mb-[40px] text-3xl font-bold text-black  sm:text-4xl md:text-[44px] md:leading-tight'>
                 start your open-source journey today!
