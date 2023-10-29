@@ -79,7 +79,7 @@ function Home() {
                   </li>
                   <li>
                     <a
-                      href='#'
+                      href='/onboarding'
                       className='rounded-md text-center bg-redpraha py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base font-bold text-stone-800 hover:bg-opacity-60'>
                       contribute
                     </a>
@@ -96,256 +96,94 @@ function Home() {
           <div className='container lg:max-w-[1305px] lg:px-10'>
             <div className='-mx-4 flex flex-wrap items-center'>
               <div className='w-full px-4  lg:w-5/12 mb-20'>
-                <div className='fadeInUp mb-12 lg:mb-0 lg:max-w-[570px]' data-wow-delay='.2s'>
+                <div className='fadeInUp mb-0 lg:mb-0 lg:max-w-[570px]' data-wow-delay='.2s'>
                   <h1 className='text-center mb-6 text-5xl font-bold leading-tight text-black  sm:text-[50px] md:text-[60px] lg:text-[50px] lext-left xl:text-[70px] md:text-left'>
-                    grow your<br></br>
+                    contribute<br></br>
                     <span className='inline bg-landingprimary bg-clip-text text-transparent'>
-                      open-source movement{' '}
+                      meaningful{' '}
                     </span>
-                    today
+                    open-source work
                   </h1>
                   <p className='mb-10 first-letter:max-w-[475px] text-base leading-relaxed text-body text-center md:text-left'>
-                    BuilderPlace is your open-source community management platform + contributor
-                    discovery engine
+                    build a reputation by helping open-source projects that need you
                   </p>
 
                   <div className='flex justify-center md:justify-start gap-4'>
                     <a
-                      href='/onboarding'
-                      className='max-w-[186px] flex-1 rounded-md text-center bg-landingprimary py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base font-medium text-white font-bold hover:bg-opacity-60'>
-                      create a <br></br>BuilderPlace
-                    </a>
-                    <a
-                      href='/onboarding'
-                      className='max-w-[186px] flex-1 text-center rounded-md bg-redpraha py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base font-medium text-stone-800 font-bold hover:bg-opacity-60'>
-                      contribute to <br></br>projects
+                      href='#work-process'
+                      className='max-w-[286px] flex-1 rounded-md text-center bg-landingprimary py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base font-medium text-white font-bold hover:bg-opacity-60'>
+                      explore the projects
                     </a>
                   </div>
-                  <div className='w-full px-4  pb-10 pt-5 sm:pb-40 block md:hidden lg:hidden'>
+                  <div className='w-full px-4  pb-10 pt-5 block md:hidden lg:hidden'>
                     <div
                       className='wow fadeInUp relative z-10 mx-auto w-full max-w-[300px] pt-8 lg:mr-0'
                       data-wow-delay='.3s'>
-                      <img src='/images/arrow.png' alt='hero image' />
+                      <img src='/images/brib.png' alt='hero image' />
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className='w-full pt-4  pr-20 pb-10 lg:w-7/12 sm:pb-40 hidden lg:block'>
+              <div className='w-full pt-4  pr-20 pb-10 lg:w-7/12 hidden lg:block'>
                 <div
                   className='wow fadeInUp relative z-10 mx-auto w-full max-w-[530px] pt-8 lg:mr-0'
                   data-wow-delay='.3s'>
-                  <img src='/images/arrow.png' alt='hero image' />
+                  <img src='/images/brib.png' alt='hero image' />
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        <IntroducationSecion />
-
-        <section id='features' className='relative lg:pt-[110px]'>
+        <section id='features' className='relative pt-[0px]'>
           <div className='container'>
             <div
               className='wow fadeInUp mx-auto mb-14 max-w-[690px] text-center lg:mb-[70px]'
               data-wow-delay='.2s'>
-              <h2 className='mb-4 text-3xl font-bold text-black  sm:text-4xl pt-40 md:text-[44px] leading-tight'>
-                what's included in <br></br>your <a className='text-landingprimary'>BuilderPlace</a>
-                ?
+              <h2 className='mb-10 text-3xl font-bold text-black  sm:text-4xl pt-40 md:text-[44px] leading-tight'>
+                finding <a className='text-landingprimary'>open-source opportunities</a>
+                <br></br>
+                shouldn't be hard
               </h2>
-              <p className='text-base text-body'>
-                your BuilderPlace helps you kick-start and grow your own passionate community of
-                open-source contributors. access tools that help new contributors discover you,
-                learn your stack, and complete important work tasks.
+              <p className='text-left text-[15px] md:text-[20px] lg:text-[25px]'>
+                have you ever…
+                <br></br>
+                🕒 spent endless hours sifting through open issues on Github to find open-source
+                projects to help
+                <br></br>
+                🤔 struggled to figure out unclear policies on bounties for contributions
+                <br></br>
+                😞 discovered only bug-bounties available when you hoped to contribute in a bigger
+                way
+                <br></br>
+                <br></br>
+                we’ve been there! BuilderPlace is a network of open-source ecosystems that need your
+                help, built by open-source contributors for open-source contributors.
               </p>
+              <img
+                src='/images/stats.png'
+                alt='about image'
+                className='mt-[60px] mx-auto max-w-full'
+              />
             </div>
-          </div>
-
-          <div className='container max-w-[1390px]'>
-            <div className='rounded-2xl bg-white px-5 pt-14 pb-14 md:pb-1 lg:pt-20 lg:pb-5 xl:px-10'>
-              <div className='-mx-4 flex flex-wrap justify-center'>
-                <div className='w-full px-4 md:w-1/2 lg:w-1/2'>
-                  <div
-                    className='wow fadeInUp group mx-auto mb-[60px] max-w-[510px] text-center'
-                    data-wow-delay='.3s'>
-                    <div className='mx-auto mb-8 flex h-[250px] w-[350px] items-center justify-center rounded-3 bg-opacity-20 text-redpraha duration-300   '>
-                      <img
-                        src='/images/myplace.png'
-                        alt='about image'
-                        className='mx-auto max-w-full'
-                      />
-                    </div>
-                    <h3 className='mb-4 text-xl font-semibold text-black  sm:text-[22px] xl:text-[26px]'>
-                      the place
-                    </h3>
-                    <p className='text-base mx-auto max-w-[400px] mx-auto text-body pb-5'>
-                      a custom-domain and branded open-source contribution center for your community
-                    </p>
-                  </div>
-                </div>
-                <div className='w-full px-4 md:w-1/2 lg:w-1/2'>
-                  <div
-                    className='wow fadeInUp group mx-auto mb-[60px] max-w-[510px] text-center'
-                    data-wow-delay='.2s'>
-                    <div className='mx-auto mb-8 flex h-[250px] w-[350px] items-center justify-center rounded-3 bg-opacity-20 text-redpraha duration-300   '>
-                      <img
-                        src='/images/iframe.png'
-                        alt='about image'
-                        className='mx-auto max-w-full'
-                      />
-                    </div>
-                    <h3 className='mb-4 text-xl font-semibold text-black  sm:text-[22px] xl:text-[26px]'>
-                      the embed
-                    </h3>
-                    <p className='text-base text-body max-w-[400px] mx-auto pb-5'>
-                      an embedable work board, hosted on your team's own website
-                    </p>
-                  </div>
-                </div>
-
-                <div className='w-full px-4 md:w-1/2 lg:w-1/2'>
-                  <div
-                    className='wow fadeInUp group mx-auto mb-[60px] max-w-[510px] text-center'
-                    data-wow-delay='.4s'>
-                    <div className='mx-auto mb-8 flex h-[250px] w-[350px] items-center justify-center rounded-3 bg-opacity-20 text-redpraha duration-300   '>
-                      <img
-                        src='/images/review.png'
-                        alt='about image'
-                        className='mx-auto max-w-full'
-                      />
-                    </div>
-                    <h3 className='mb-4 text-xl font-semibold text-black  sm:text-[22px] xl:text-[26px]'>
-                      the tools
-                    </h3>
-                    <p className='text-base text-body pb-5 mx-auto max-w-[400px]'>
-                      evaluate contributors with proposals and reviews, make payments with escrow
-                    </p>
-                  </div>
-                </div>
-                <div className='w-full px-4 md:w-1/2 lg:w-1/2'>
-                  <div
-                    className='wow fadeInUp group mx-auto mb-[60px] max-w-[510px] text-center'
-                    data-wow-delay='.4s'>
-                    <div className='mx-auto mb-8 flex h-[250px] w-[350px] items-center justify-center rounded-3 bg-opacity-20 text-redpraha duration-300   '>
-                      <img
-                        src='/images/network.png'
-                        alt='about image'
-                        className='mx-auto max-w-full'
-                      />
-                    </div>
-                    <h3 className='mb-4 text-xl font-semibold text-black  sm:text-[22px] xl:text-[26px]'>
-                      the network
-                    </h3>
-                    <p className='text-base text-body pb-5 mx-auto max-w-[400px]'>
-                      your work posts are automatically shared across a network of platforms where
-                      people are searching for open-source projects to help
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className='absolute -top-28 left-0 -z-10 hidden md:block'>
-            <svg
-              width='632'
-              height='1179'
-              viewBox='0 0 632 1179'
-              fill='none'
-              xmlns='http://www.w3.org/2000/svg'>
-              <g opacity='0.25' filter='url(#filter0_f_38_24)'>
-                <circle cx='42.5' cy='589.5' r='329.5' fill='url(#paint0_linear_38_24)' />
-              </g>
-              <defs>
-                <filter
-                  id='filter0_f_38_24'
-                  x='-547'
-                  y='0'
-                  width='1179'
-                  height='1179'
-                  filterUnits='userSpaceOnUse'
-                  colorInterpolationFilters='sRGB'>
-                  <feFlood floodOpacity='0' result='BackgroundImageFix' />
-                  <feBlend
-                    mode='normal'
-                    in='SourceGraphic'
-                    in2='BackgroundImageFix'
-                    result='shape'
-                  />
-                  <feGaussianBlur stdDeviation='130' result='effect1_foregroundBlur_38_24' />
-                </filter>
-                <linearGradient
-                  id='paint0_linear_38_24'
-                  x1='-366.218'
-                  y1='919'
-                  x2='451.176'
-                  y2='349.901'
-                  gradientUnits='userSpaceOnUse'>
-                  <stop stopColor='#8EA5FE' />
-                  <stop offset='0.541667' stopColor='#BEB3FD' />
-                  <stop offset='1' stopColor='#90D1FF' />
-                </linearGradient>
-              </defs>
-            </svg>
-          </div>
-
-          <div className='absolute right-0 top-20 -z-10'>
-            <svg
-              width='637'
-              height='1277'
-              viewBox='0 0 637 1277'
-              fill='none'
-              xmlns='http://www.w3.org/2000/svg'>
-              <g opacity='0.2' filter='url(#filter0_f_38_23)'>
-                <circle cx='638.5' cy='638.5' r='388.5' fill='url(#paint0_linear_38_23)' />
-              </g>
-              <defs>
-                <filter
-                  id='filter0_f_38_23'
-                  x='0'
-                  y='0'
-                  width='1277'
-                  height='1277'
-                  filterUnits='userSpaceOnUse'
-                  colorInterpolationFilters='sRGB'>
-                  <feFlood floodOpacity='0' result='BackgroundImageFix' />
-                  <feBlend
-                    mode='normal'
-                    in='SourceGraphic'
-                    in2='BackgroundImageFix'
-                    result='shape'
-                  />
-                  <feGaussianBlur stdDeviation='125' result='effect1_foregroundBlur_38_23' />
-                </filter>
-                <linearGradient
-                  id='paint0_linear_38_23'
-                  x1='250'
-                  y1='250'
-                  x2='1168.59'
-                  y2='782.957'
-                  gradientUnits='userSpaceOnUse'>
-                  <stop stopColor='#FF8FE8' />
-                  <stop offset='1' stopColor='#FFC960' />
-                </linearGradient>
-              </defs>
-            </svg>
           </div>
         </section>
 
-        <section id='work-process' className='relative lg:pt-[110px]'>
+        <section id='work-process' className='relative pt-[40px]'>
           <div className='container'>
             <div
-              className='wow fadeInUp mx-auto mb-5 max-w-[690px] text-center lg:mb-[70px]'
+              className='wow fadeInUp mx-auto mb-5 max-w-[690px] text-center lg:mb-[10px]'
               data-wow-delay='.2s'>
               <h2 className='mb-0 mt-10 text-3xl font-bold text-black  sm:text-4xl md:text-[44px] md:leading-tight'>
-                teams like yours are shipping faster thanks to{' '}
-                <a className='text-landingprimary'>open-source contributors</a>
+                projects that <br></br>
+                <a className='text-landingprimary'>need your help</a>
               </h2>
             </div>
           </div>
 
           <div className='container max-w-[1390px]'>
-            <div className='rounded-2xl bg-white px-5 pt-14 pb-14 md:pb-1 lg:pt-20 lg:pb-5 xl:px-10'>
+            <div className='rounded-2xl bg-white px-5 pt-0 pb-14 md:pb-1 lg:pt-20 lg:pb-5 xl:px-10'>
               <div className='-mx-4 flex flex-wrap justify-center'>
                 <div className='w-full px-4 md:w-1/2 lg:w-1/2'>
                   <div
@@ -451,46 +289,431 @@ function Home() {
                     </div>
                   </div>
                 </div> */}
-                <div className='w-full px-4 md:w-1/2 lg:w-1/2'>
-                  <div
-                    className='wow fadeInUp group mx-auto max-w-[510px] text-center pt-4 pb-1 wow fadeInUp bg-redpraha bg-opacity-60 shadow-lg hover:bg-opacity-20 rounded-3xl'
-                    data-wow-delay='.3s'>
-                    <div className='container overflow-hidden lg:max-w-[1160px]'>
-                      <div className='-mx-6 flex flex-wrap'>
-                        <div className='w-full px-6'>
-                          <div
-                            className='wow fadeInUp mb-[15px] rounded-lg bg-white py-9 px-7 shadow-md sm:px-9 lg:px-7 xl:px-9'
-                            data-wow-delay='.2s'>
-                            <div className='mb-5 border-b border-stroke'>
-                              <p className='pb-9 text-base text-body'>
-                                "At TalentLayer, in just under two months, we augmented our core
-                                team of three developers with 8 new open-source contributors, it
-                                completely boosted our production and helped us accomplish far more
-                                than expected. It also encouraged us to enhance our development
-                                process, making it robust and intuitive for anyone inspired to
-                                contribute."
-                              </p>
-                            </div>
+              </div>
+            </div>
+          </div>
 
-                            <div className='items-center justify-center sm:flex lg:block xl:flex'>
-                              <div className='mb-4 flex justify-center items-center sm:mb-0 lg:mb-4 xl:mb-0'>
-                                <div className='mr-4 h-[56px] w-full max-w-[56px] rounded-full'>
-                                  <img
-                                    src='/images/romain.png'
-                                    alt='author'
-                                    className='h-full w-full object-cover object-center'
-                                  />
-                                </div>
-                                <div>
-                                  <h5 className='text-base font-medium text-black '>
-                                    Romain Martin
-                                  </h5>
-                                  <p className='text-sm text-body'>Technical Lead, TalentLayer</p>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
+          <div className='absolute -top-28 left-0 -z-10 hidden md:block'>
+            <svg
+              width='632'
+              height='1179'
+              viewBox='0 0 632 1179'
+              fill='none'
+              xmlns='http://www.w3.org/2000/svg'>
+              <g opacity='0.25' filter='url(#filter0_f_38_24)'>
+                <circle cx='42.5' cy='589.5' r='329.5' fill='url(#paint0_linear_38_24)' />
+              </g>
+              <defs>
+                <filter
+                  id='filter0_f_38_24'
+                  x='-547'
+                  y='0'
+                  width='1179'
+                  height='1179'
+                  filterUnits='userSpaceOnUse'
+                  colorInterpolationFilters='sRGB'>
+                  <feFlood floodOpacity='0' result='BackgroundImageFix' />
+                  <feBlend
+                    mode='normal'
+                    in='SourceGraphic'
+                    in2='BackgroundImageFix'
+                    result='shape'
+                  />
+                  <feGaussianBlur stdDeviation='130' result='effect1_foregroundBlur_38_24' />
+                </filter>
+                <linearGradient
+                  id='paint0_linear_38_24'
+                  x1='-366.218'
+                  y1='919'
+                  x2='451.176'
+                  y2='349.901'
+                  gradientUnits='userSpaceOnUse'>
+                  <stop stopColor='#8EA5FE' />
+                  <stop offset='0.541667' stopColor='#BEB3FD' />
+                  <stop offset='1' stopColor='#90D1FF' />
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+
+          <div className='absolute right-0 top-20 -z-10'>
+            <svg
+              width='637'
+              height='1277'
+              viewBox='0 0 637 1277'
+              fill='none'
+              xmlns='http://www.w3.org/2000/svg'>
+              <g opacity='0.2' filter='url(#filter0_f_38_23)'>
+                <circle cx='638.5' cy='638.5' r='388.5' fill='url(#paint0_linear_38_23)' />
+              </g>
+              <defs>
+                <filter
+                  id='filter0_f_38_23'
+                  x='0'
+                  y='0'
+                  width='1277'
+                  height='1277'
+                  filterUnits='userSpaceOnUse'
+                  colorInterpolationFilters='sRGB'>
+                  <feFlood floodOpacity='0' result='BackgroundImageFix' />
+                  <feBlend
+                    mode='normal'
+                    in='SourceGraphic'
+                    in2='BackgroundImageFix'
+                    result='shape'
+                  />
+                  <feGaussianBlur stdDeviation='125' result='effect1_foregroundBlur_38_23' />
+                </filter>
+                <linearGradient
+                  id='paint0_linear_38_23'
+                  x1='250'
+                  y1='250'
+                  x2='1168.59'
+                  y2='782.957'
+                  gradientUnits='userSpaceOnUse'>
+                  <stop stopColor='#FF8FE8' />
+                  <stop offset='1' stopColor='#FFC960' />
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+        </section>
+
+        <section id='testimonials' className='relative z-10 pt-[40px] pb-[60px]'>
+          <div className='container'>
+            <div
+              className='wow fadeInUp mx-auto mb-14 max-w-[690px] text-center lg:mb-[70px]'
+              data-wow-delay='.2s'>
+              <h2 className='mb-4 text-3xl font-bold text-black  sm:text-4xl md:text-[44px] md:leading-tight'>
+                open-source impact
+              </h2>
+              <p className='text-base text-body'>
+                contributors are making an impact helping open-source projects move forward their
+                mission
+              </p>
+            </div>
+          </div>
+
+          <div className='container overflow-hidden lg:max-w-[1160px]'>
+            <div className='-mx-6 flex flex-wrap'>
+              <div className='w-full px-6 lg:w-1/2'>
+                <div
+                  className='wow fadeInUp mb-[50px] rounded-lg bg-white py-9 px-7 shadow-md sm:px-9 lg:px-7 xl:px-9'
+                  data-wow-delay='.2s'>
+                  <div className='mb-5 border-b border-stroke'>
+                    <p className='pb-9 text-base text-body'>
+                      Open source helps me make a big difference in public good software. It's not
+                      just code; it's about working together for a common goal. I can share my
+                      skills and time with others to create technology that helps people. It's not
+                      just about my code, but all of us coming together to make the world better
+                      with technology.
+                    </p>
+                  </div>
+
+                  <div className='items-center justify-between sm:flex lg:block xl:flex'>
+                    <div className='mb-4 flex items-center sm:mb-0 lg:mb-4 xl:mb-0'>
+                      <div className='mr-4 h-[56px] w-full max-w-[56px] rounded-full'>
+                        <img
+                          src='/images/bribpfp.png'
+                          alt='author'
+                          className='h-full w-full object-cover object-center'
+                        />
+                      </div>
+                      <div>
+                        <h5 className='text-base font-medium text-black '>Dercio H.</h5>
+                        <p className='text-sm text-body'>data engineer</p>
+                      </div>
+                    </div>
+
+                    <div className='flex items-center space-x-3 sm:justify-end lg:justify-start xl:justify-end'>
+                      <p className='text-base font-medium text-black '>5.0</p>
+                      <div className='flex items-center space-x-[6px]'>
+                        <span>
+                          <svg
+                            width='20'
+                            height='20'
+                            viewBox='0 0 20 20'
+                            fill='none'
+                            xmlns='http://www.w3.org/2000/svg'>
+                            <g clipPath='url(#clip0_49_480)'>
+                              <path
+                                d='M10 15.2171L4.1225 18.5071L5.435 11.9004L0.489166 7.32712L7.17833 6.53378L10 0.417114L12.8217 6.53378L19.5108 7.32712L14.565 11.9004L15.8775 18.5071L10 15.2171Z'
+                                fill='#EABF23'
+                              />
+                            </g>
+                            <defs>
+                              <clipPath id='clip0_49_480'>
+                                <rect
+                                  width='20'
+                                  height='20'
+                                  fill='white'
+                                  transform='translate(0 0.000488281)'
+                                />
+                              </clipPath>
+                            </defs>
+                          </svg>
+                        </span>
+                        <span>
+                          <svg
+                            width='20'
+                            height='20'
+                            viewBox='0 0 20 20'
+                            fill='none'
+                            xmlns='http://www.w3.org/2000/svg'>
+                            <g clipPath='url(#clip0_49_480)'>
+                              <path
+                                d='M10 15.2171L4.1225 18.5071L5.435 11.9004L0.489166 7.32712L7.17833 6.53378L10 0.417114L12.8217 6.53378L19.5108 7.32712L14.565 11.9004L15.8775 18.5071L10 15.2171Z'
+                                fill='#EABF23'
+                              />
+                            </g>
+                            <defs>
+                              <clipPath id='clip0_49_480'>
+                                <rect
+                                  width='20'
+                                  height='20'
+                                  fill='white'
+                                  transform='translate(0 0.000488281)'
+                                />
+                              </clipPath>
+                            </defs>
+                          </svg>
+                        </span>
+                        <span>
+                          <svg
+                            width='20'
+                            height='20'
+                            viewBox='0 0 20 20'
+                            fill='none'
+                            xmlns='http://www.w3.org/2000/svg'>
+                            <g clipPath='url(#clip0_49_480)'>
+                              <path
+                                d='M10 15.2171L4.1225 18.5071L5.435 11.9004L0.489166 7.32712L7.17833 6.53378L10 0.417114L12.8217 6.53378L19.5108 7.32712L14.565 11.9004L15.8775 18.5071L10 15.2171Z'
+                                fill='#EABF23'
+                              />
+                            </g>
+                            <defs>
+                              <clipPath id='clip0_49_480'>
+                                <rect
+                                  width='20'
+                                  height='20'
+                                  fill='white'
+                                  transform='translate(0 0.000488281)'
+                                />
+                              </clipPath>
+                            </defs>
+                          </svg>
+                        </span>
+                        <span>
+                          <svg
+                            width='20'
+                            height='20'
+                            viewBox='0 0 20 20'
+                            fill='none'
+                            xmlns='http://www.w3.org/2000/svg'>
+                            <g clipPath='url(#clip0_49_480)'>
+                              <path
+                                d='M10 15.2171L4.1225 18.5071L5.435 11.9004L0.489166 7.32712L7.17833 6.53378L10 0.417114L12.8217 6.53378L19.5108 7.32712L14.565 11.9004L15.8775 18.5071L10 15.2171Z'
+                                fill='#EABF23'
+                              />
+                            </g>
+                            <defs>
+                              <clipPath id='clip0_49_480'>
+                                <rect
+                                  width='20'
+                                  height='20'
+                                  fill='white'
+                                  transform='translate(0 0.000488281)'
+                                />
+                              </clipPath>
+                            </defs>
+                          </svg>
+                        </span>
+                        <span>
+                          <svg
+                            width='20'
+                            height='20'
+                            viewBox='0 0 20 20'
+                            fill='none'
+                            xmlns='http://www.w3.org/2000/svg'>
+                            <g clipPath='url(#clip0_49_480)'>
+                              <path
+                                d='M10 15.2171L4.1225 18.5071L5.435 11.9004L0.489166 7.32712L7.17833 6.53378L10 0.417114L12.8217 6.53378L19.5108 7.32712L14.565 11.9004L15.8775 18.5071L10 15.2171Z'
+                                fill='#EABF23'
+                              />
+                            </g>
+                            <defs>
+                              <clipPath id='clip0_49_480'>
+                                <rect
+                                  width='20'
+                                  height='20'
+                                  fill='white'
+                                  transform='translate(0 0.000488281)'
+                                />
+                              </clipPath>
+                            </defs>
+                          </svg>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className='w-full px-6 lg:w-1/2'>
+                <div
+                  className='wow fadeInUp mb-[50px] rounded-lg bg-white py-9 px-7 shadow-md sm:px-9 lg:px-7 xl:px-9'
+                  data-wow-delay='.3s'>
+                  <div className='mb-5 border-b border-stroke'>
+                    <p className='pb-9 text-base text-body'>
+                      Open source contributions gave me a big boost in learning new skills quickly
+                      and opened up many opportunities for remote work. It's like a superhighway for
+                      personal and professional growth!
+                    </p>
+                  </div>
+
+                  <div className='items-center justify-between sm:flex lg:block xl:flex'>
+                    <div className='mb-4 flex items-center sm:mb-0 lg:mb-4 xl:mb-0'>
+                      <div className='mr-4 h-[56px] w-full max-w-[56px] rounded-full'>
+                        <img
+                          src='/images/gathin.png'
+                          alt='author'
+                          className='h-full w-full object-cover object-center'
+                        />
+                      </div>
+                      <div>
+                        <h5 className='text-base font-medium text-black '>Gathin T.</h5>
+                        <p className='text-sm text-body'>full-stack engineer</p>
+                      </div>
+                    </div>
+
+                    <div className='flex items-center space-x-3 sm:justify-end lg:justify-start xl:justify-end'>
+                      <p className='text-base font-medium text-black '>5.0</p>
+                      <div className='flex items-center space-x-[6px]'>
+                        <span>
+                          <svg
+                            width='20'
+                            height='20'
+                            viewBox='0 0 20 20'
+                            fill='none'
+                            xmlns='http://www.w3.org/2000/svg'>
+                            <g clipPath='url(#clip0_49_480)'>
+                              <path
+                                d='M10 15.2171L4.1225 18.5071L5.435 11.9004L0.489166 7.32712L7.17833 6.53378L10 0.417114L12.8217 6.53378L19.5108 7.32712L14.565 11.9004L15.8775 18.5071L10 15.2171Z'
+                                fill='#EABF23'
+                              />
+                            </g>
+                            <defs>
+                              <clipPath id='clip0_49_480'>
+                                <rect
+                                  width='20'
+                                  height='20'
+                                  fill='white'
+                                  transform='translate(0 0.000488281)'
+                                />
+                              </clipPath>
+                            </defs>
+                          </svg>
+                        </span>
+                        <span>
+                          <svg
+                            width='20'
+                            height='20'
+                            viewBox='0 0 20 20'
+                            fill='none'
+                            xmlns='http://www.w3.org/2000/svg'>
+                            <g clipPath='url(#clip0_49_480)'>
+                              <path
+                                d='M10 15.2171L4.1225 18.5071L5.435 11.9004L0.489166 7.32712L7.17833 6.53378L10 0.417114L12.8217 6.53378L19.5108 7.32712L14.565 11.9004L15.8775 18.5071L10 15.2171Z'
+                                fill='#EABF23'
+                              />
+                            </g>
+                            <defs>
+                              <clipPath id='clip0_49_480'>
+                                <rect
+                                  width='20'
+                                  height='20'
+                                  fill='white'
+                                  transform='translate(0 0.000488281)'
+                                />
+                              </clipPath>
+                            </defs>
+                          </svg>
+                        </span>
+                        <span>
+                          <svg
+                            width='20'
+                            height='20'
+                            viewBox='0 0 20 20'
+                            fill='none'
+                            xmlns='http://www.w3.org/2000/svg'>
+                            <g clipPath='url(#clip0_49_480)'>
+                              <path
+                                d='M10 15.2171L4.1225 18.5071L5.435 11.9004L0.489166 7.32712L7.17833 6.53378L10 0.417114L12.8217 6.53378L19.5108 7.32712L14.565 11.9004L15.8775 18.5071L10 15.2171Z'
+                                fill='#EABF23'
+                              />
+                            </g>
+                            <defs>
+                              <clipPath id='clip0_49_480'>
+                                <rect
+                                  width='20'
+                                  height='20'
+                                  fill='white'
+                                  transform='translate(0 0.000488281)'
+                                />
+                              </clipPath>
+                            </defs>
+                          </svg>
+                        </span>
+                        <span>
+                          <svg
+                            width='20'
+                            height='20'
+                            viewBox='0 0 20 20'
+                            fill='none'
+                            xmlns='http://www.w3.org/2000/svg'>
+                            <g clipPath='url(#clip0_49_480)'>
+                              <path
+                                d='M10 15.2171L4.1225 18.5071L5.435 11.9004L0.489166 7.32712L7.17833 6.53378L10 0.417114L12.8217 6.53378L19.5108 7.32712L14.565 11.9004L15.8775 18.5071L10 15.2171Z'
+                                fill='#EABF23'
+                              />
+                            </g>
+                            <defs>
+                              <clipPath id='clip0_49_480'>
+                                <rect
+                                  width='20'
+                                  height='20'
+                                  fill='white'
+                                  transform='translate(0 0.000488281)'
+                                />
+                              </clipPath>
+                            </defs>
+                          </svg>
+                        </span>
+                        <span>
+                          <svg
+                            width='20'
+                            height='20'
+                            viewBox='0 0 20 20'
+                            fill='none'
+                            xmlns='http://www.w3.org/2000/svg'>
+                            <g clipPath='url(#clip0_49_480)'>
+                              <path
+                                d='M10 15.2171L4.1225 18.5071L5.435 11.9004L0.489166 7.32712L7.17833 6.53378L10 0.417114L12.8217 6.53378L19.5108 7.32712L14.565 11.9004L15.8775 18.5071L10 15.2171Z'
+                                fill='#EABF23'
+                              />
+                            </g>
+                            <defs>
+                              <clipPath id='clip0_49_480'>
+                                <rect
+                                  width='20'
+                                  height='20'
+                                  fill='white'
+                                  transform='translate(0 0.000488281)'
+                                />
+                              </clipPath>
+                            </defs>
+                          </svg>
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -498,260 +721,14 @@ function Home() {
               </div>
             </div>
           </div>
-
-          <div className='absolute -top-28 left-0 -z-10 hidden md:block'>
-            <svg
-              width='632'
-              height='1179'
-              viewBox='0 0 632 1179'
-              fill='none'
-              xmlns='http://www.w3.org/2000/svg'>
-              <g opacity='0.25' filter='url(#filter0_f_38_24)'>
-                <circle cx='42.5' cy='589.5' r='329.5' fill='url(#paint0_linear_38_24)' />
-              </g>
-              <defs>
-                <filter
-                  id='filter0_f_38_24'
-                  x='-547'
-                  y='0'
-                  width='1179'
-                  height='1179'
-                  filterUnits='userSpaceOnUse'
-                  colorInterpolationFilters='sRGB'>
-                  <feFlood floodOpacity='0' result='BackgroundImageFix' />
-                  <feBlend
-                    mode='normal'
-                    in='SourceGraphic'
-                    in2='BackgroundImageFix'
-                    result='shape'
-                  />
-                  <feGaussianBlur stdDeviation='130' result='effect1_foregroundBlur_38_24' />
-                </filter>
-                <linearGradient
-                  id='paint0_linear_38_24'
-                  x1='-366.218'
-                  y1='919'
-                  x2='451.176'
-                  y2='349.901'
-                  gradientUnits='userSpaceOnUse'>
-                  <stop stopColor='#8EA5FE' />
-                  <stop offset='0.541667' stopColor='#BEB3FD' />
-                  <stop offset='1' stopColor='#90D1FF' />
-                </linearGradient>
-              </defs>
-            </svg>
-          </div>
-
-          <div className='absolute right-0 top-20 -z-10'>
-            <svg
-              width='637'
-              height='1277'
-              viewBox='0 0 637 1277'
-              fill='none'
-              xmlns='http://www.w3.org/2000/svg'>
-              <g opacity='0.2' filter='url(#filter0_f_38_23)'>
-                <circle cx='638.5' cy='638.5' r='388.5' fill='url(#paint0_linear_38_23)' />
-              </g>
-              <defs>
-                <filter
-                  id='filter0_f_38_23'
-                  x='0'
-                  y='0'
-                  width='1277'
-                  height='1277'
-                  filterUnits='userSpaceOnUse'
-                  colorInterpolationFilters='sRGB'>
-                  <feFlood floodOpacity='0' result='BackgroundImageFix' />
-                  <feBlend
-                    mode='normal'
-                    in='SourceGraphic'
-                    in2='BackgroundImageFix'
-                    result='shape'
-                  />
-                  <feGaussianBlur stdDeviation='125' result='effect1_foregroundBlur_38_23' />
-                </filter>
-                <linearGradient
-                  id='paint0_linear_38_23'
-                  x1='250'
-                  y1='250'
-                  x2='1168.59'
-                  y2='782.957'
-                  gradientUnits='userSpaceOnUse'>
-                  <stop stopColor='#FF8FE8' />
-                  <stop offset='1' stopColor='#FFC960' />
-                </linearGradient>
-              </defs>
-            </svg>
-          </div>
         </section>
 
-        <section id='pricing' className='relative lg:pt-[50px]'>
-          <div className='container'>
-            <div
-              className='wow fadeInUp mx-auto mb-5 max-w-[690px] text-center lg:mb-[70px]'
-              data-wow-delay='.2s'>
-              <h2 className='mb-4 pt-40 text-3xl font-bold text-black  sm:text-4xl pt-40 md:text-[44px] md:leading-tight'>
-                pricing that <a className='text-landingprimary'>works</a> for you
-              </h2>
-              <p className='text-base text-body'>
-                BuilderPlace is designed to help small open-source teams grow. that's why we make
-                sure to keep costs low, every step of the way.
-              </p>
-            </div>
-          </div>
-
-          <div className='container max-w-[1390px]'>
-            <div className='rounded-2xl bg-white px-5 pt-0 pb-14 md:pb-1 lg:pt-20 lg:pb-5 xl:px-10'>
-              <div className='-mx-4 flex flex-wrap justify-center'>
-                <div className='w-full px-4 sm:w-1/3'>
-                  <div
-                    className='wow fadeInUp group mx-auto max-w-[510px] text-center pt-4 pb-1 wow fadeInUp mb-[50px] rounded-lg bg-redpraha bg-opacity-60 shadow-lg hover:bg-opacity-20 rounded-3xl'
-                    data-wow-delay='.3s'>
-                    <h3 className='mb-4 mt-4 font-semibold text-[50px]  text-black  xl:mt-10'>
-                      hosting
-                    </h3>
-                    <div className='mx-auto flex mb-10 mt-10  items-center justify-center bg-opacity-20 duration-300   '>
-                      <h3 className='mb-4 mt-4  text-landingprimary font-semibol text-[100px]'>
-                        free
-                      </h3>
-                    </div>
-
-                    <p className='text-base text-body pb-10 px-5'>
-                      your own BuilderPlace with a custom domain and branding
-                    </p>
-                  </div>
-                </div>
-                <div className='w-full px-4 sm:w-1/3'>
-                  <div
-                    className='wow fadeInUp group mx-auto max-w-[510px] text-center pt-4 pb-1 wow fadeInUp mb-[50px] rounded-lg bg-redpraha bg-opacity-60 shadow-lg hover:bg-opacity-20 rounded-3xl'
-                    data-wow-delay='.3s'>
-                    <h3 className='mb-4 mt-4 font-semibold text-[50px]  text-black  xl:mt-10'>
-                      distribution
-                    </h3>
-                    <div className='mx-auto flex mb-10 mt-10  items-center justify-center bg-opacity-20 duration-300   '>
-                      <h3 className='mb-4 mt-4  text-landingprimary font-semibol text-[100px]'>
-                        free
-                      </h3>
-                    </div>
-                    <p className='text-base text-body pb-10 px-5'>
-                      posts are automatically shared across a network of platforms
-                    </p>
-                  </div>
-                </div>
-                <div className='w-full px-4 sm:w-1/3'>
-                  <div
-                    className='wow fadeInUp group mx-auto max-w-[510px] text-center pt-4 pb-1 wow fadeInUp mb-[50px] rounded-lg bg-redpraha bg-opacity-60 shadow-lg hover:bg-opacity-20 rounded-3xl'
-                    data-wow-delay='.3s'>
-                    <h3 className='mb-4 mt-4 font-semibold text-[50px]  text-black  xl:mt-10'>
-                      payments
-                    </h3>
-                    <div className='mx-auto flex mb-10 mt-10  items-center justify-center bg-opacity-20 duration-300   '>
-                      <h3 className='mb-4 mt-4  text-landingprimary font-semibol text-[100px]'>
-                        2%
-                      </h3>
-                    </div>
-
-                    <p className='text-base text-body pb-10 px-5'>
-                      pay 2% of any payments you release to contributors
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className='absolute -top-28 left-0 -z-10 hidden md:block'>
-            <svg
-              width='632'
-              height='1179'
-              viewBox='0 0 632 1179'
-              fill='none'
-              xmlns='http://www.w3.org/2000/svg'>
-              <g opacity='0.25' filter='url(#filter0_f_38_24)'>
-                <circle cx='42.5' cy='589.5' r='329.5' fill='url(#paint0_linear_38_24)' />
-              </g>
-              <defs>
-                <filter
-                  id='filter0_f_38_24'
-                  x='-547'
-                  y='0'
-                  width='1179'
-                  height='1179'
-                  filterUnits='userSpaceOnUse'
-                  colorInterpolationFilters='sRGB'>
-                  <feFlood floodOpacity='0' result='BackgroundImageFix' />
-                  <feBlend
-                    mode='normal'
-                    in='SourceGraphic'
-                    in2='BackgroundImageFix'
-                    result='shape'
-                  />
-                  <feGaussianBlur stdDeviation='130' result='effect1_foregroundBlur_38_24' />
-                </filter>
-                <linearGradient
-                  id='paint0_linear_38_24'
-                  x1='-366.218'
-                  y1='919'
-                  x2='451.176'
-                  y2='349.901'
-                  gradientUnits='userSpaceOnUse'>
-                  <stop stopColor='#8EA5FE' />
-                  <stop offset='0.541667' stopColor='#BEB3FD' />
-                  <stop offset='1' stopColor='#90D1FF' />
-                </linearGradient>
-              </defs>
-            </svg>
-          </div>
-
-          <div className='absolute right-0 top-20 -z-10'>
-            <svg
-              width='637'
-              height='1277'
-              viewBox='0 0 637 1277'
-              fill='none'
-              xmlns='http://www.w3.org/2000/svg'>
-              <g opacity='0.2' filter='url(#filter0_f_38_23)'>
-                <circle cx='638.5' cy='638.5' r='388.5' fill='url(#paint0_linear_38_23)' />
-              </g>
-              <defs>
-                <filter
-                  id='filter0_f_38_23'
-                  x='0'
-                  y='0'
-                  width='1277'
-                  height='1277'
-                  filterUnits='userSpaceOnUse'
-                  colorInterpolationFilters='sRGB'>
-                  <feFlood floodOpacity='0' result='BackgroundImageFix' />
-                  <feBlend
-                    mode='normal'
-                    in='SourceGraphic'
-                    in2='BackgroundImageFix'
-                    result='shape'
-                  />
-                  <feGaussianBlur stdDeviation='125' result='effect1_foregroundBlur_38_23' />
-                </filter>
-                <linearGradient
-                  id='paint0_linear_38_23'
-                  x1='250'
-                  y1='250'
-                  x2='1168.59'
-                  y2='782.957'
-                  gradientUnits='userSpaceOnUse'>
-                  <stop stopColor='#FF8FE8' />
-                  <stop offset='1' stopColor='#FFC960' />
-                </linearGradient>
-              </defs>
-            </svg>
-          </div>
-        </section>
-
-        <section id='about' className='relative pt-[150px]'>
+        <section id='about' className='relative pt-[40px]'>
           <div
             className='wow fadeInUp mx-auto mb-14 max-w-[690px] text-center lg:mb-[70px]'
             data-wow-delay='.2s'>
             <h2 className='mb-4 mt-10 text-3xl font-bold text-black  sm:text-4xl md:text-[44px] md:leading-tight'>
-              create your BuilderPlace <a className='text-landingprimary'>in less than 5 minutes</a>
+              start contributing <a className='text-landingprimary'>in less than 5 minutes</a>
             </h2>
           </div>
           <div className='container pb-20 lg:max-w-[1120px]'>
@@ -762,7 +739,7 @@ function Home() {
                     className='wow fadeInUp relative z-10 mx-auto mb-14 w-full max-w-[470px] pb-6 lg:mx-0 lg:mb-0'
                     data-wow-delay='.2s'>
                     <img
-                      src='/images/iframe.png'
+                      src='/images/make-profile.png'
                       alt='about image'
                       className='mx-auto max-w-full'
                     />
@@ -775,10 +752,10 @@ function Home() {
                       step 1
                     </span>
                     <h2 className='mb-4 text-3xl font-bold text-black  sm:text-4xl md:text-[44px] md:leading-tight'>
-                      configure your BuilderPlace
+                      start your reputation
                     </h2>
                     <p className='mb-[30px] text-base leading-relaxed text-body'>
-                      set up your custom domain and branded open-source management center
+                      set up your profile and get ready to work
                     </p>
 
                     <div className='mb-[30px] flex items-center'>
@@ -787,12 +764,11 @@ function Home() {
                       </div>
                       <div>
                         <h5 className='text-xl font-medium text-black '>
-                          set up your hirer profile
+                          set up your contributor profile
                         </h5>
                         <p className='text-base text-body'>
-                          tell the world a bit about you and why you are building what you are
-                          building. mint a soul-bound work ID - the beginning of your on-chian work
-                          reputation.
+                          tell the world a bit about you and what types of projects you care about.
+                          link your github, portofolio, and other sites. reputation.
                         </p>
                       </div>
                     </div>
@@ -803,37 +779,12 @@ function Home() {
                       </div>
                       <div>
                         <h5 className='text-xl font-medium text-black '>
-                          configure your brand theme
+                          start your on-chain work reputation
                         </h5>
                         <p className='text-base text-body'>
-                          add a custom logo and configure your color pallet.
-                        </p>
-                      </div>
-                    </div>
-                    <div className='mb-[30px] flex items-center'>
-                      <div className='shrink-0 mr-3 flex h-[60px] w-[60px] items-center justify-center rounded-full border border-stroke text-xl font-semibold text-black  '>
-                        03
-                      </div>
-                      <div>
-                        <h5 className='text-xl font-medium text-black '>
-                          access yourbrand.builder.place
-                        </h5>
-                        <p className='text-base text-body'>
-                          get to know your new command center for open-source contribution.
-                        </p>
-                      </div>
-                    </div>
-                    <div className='mb-[30px] flex items-center'>
-                      <div className='shrink-0 mr-3 flex h-[60px] w-[60px] items-center justify-center rounded-full border border-stroke text-xl font-semibold text-black  '>
-                        04
-                      </div>
-                      <div>
-                        <h5 className='text-xl font-medium text-black '>
-                          embed your work board on your website
-                        </h5>
-                        <p className='text-base text-body'>
-                          copy a code snippet and have a live work board on your website in a few
-                          seconds.
+                          mint a soul-bound work ID - the beginning of your on-chian work history.
+                          your jobs completed, reviews, and other stats are linked to your on-chain
+                          work ID.
                         </p>
                       </div>
                     </div>
@@ -850,7 +801,7 @@ function Home() {
                     className='wow fadeInUp relative z-10 mx-auto mb-10 w-full max-w-[470px] lg:mx-0 lg:mb-0'
                     data-wow-delay='.2s'>
                     <img
-                      src='/images/myplace.png'
+                      src='/images/search.png'
                       alt='about image'
                       className='mx-auto max-w-full'
                     />
@@ -863,11 +814,10 @@ function Home() {
                       step 2
                     </span>
                     <h2 className='mb-4 text-3xl font-bold text-black  sm:text-4xl md:text-[44px] md:leading-tight'>
-                      post your work
+                      explore opportunities
                     </h2>
                     <p className='mb-[30px] text-base leading-relaxed text-body'>
-                      This project aims to help builders and hackers to start fast on using XMTP and
-                      TalentLayer protocols. It contains demo code for all the previous features.
+                      visit different team's BuilderPlaces and see what they need help with.
                     </p>
 
                     <div className='mb-[30px] flex items-center'>
@@ -876,12 +826,11 @@ function Home() {
                       </div>
                       <div>
                         <h5 className='text-xl font-medium text-black '>
-                          post what you need help with
+                          find projects that resonate with you
                         </h5>
                         <p className='text-base text-body'>
-                          request work ranging from logo design to software development. open-source
-                          contributors love to have impact - they appreciate working on tasks that
-                          are core to your project.
+                          discover opportunities ranging from app development and solidity
+                          programming to graphic design and copywriting.
                         </p>
                       </div>
                     </div>
@@ -892,12 +841,12 @@ function Home() {
                       </div>
                       <div>
                         <h5 className='text-xl font-medium text-black '>
-                          get applications from open-source workers across the ecosystem
+                          submit applications to projects you want to work on
                         </h5>
                         <p className='text-base text-body'>
-                          contributors will apply to handle a task for you. you white-list one
-                          contributor to handle the task - that way there’s no duplicative work, and
-                          contributors know what to focus on.
+                          one contributor is white-listed to handle each task - that way there’s no
+                          duplicative work, and you know you'll get paid for what you complete (no
+                          more battling for bug bounties).
                         </p>
                       </div>
                     </div>
@@ -913,7 +862,11 @@ function Home() {
                   <div
                     className='wow fadeInUp relative z-10 mx-auto mb-14 w-full max-w-[470px] pb-6 lg:mx-0 lg:mb-0'
                     data-wow-delay='.2s'>
-                    <img src='/images/list.png' alt='about image' className='mx-auto max-w-full' />
+                    <img
+                      src='/images/reviews.png'
+                      alt='about image'
+                      className='mx-auto max-w-full'
+                    />
                   </div>
                 </div>
 
@@ -923,11 +876,8 @@ function Home() {
                       step 3
                     </span>
                     <h2 className='mb-4 text-3xl font-bold text-black  sm:text-4xl md:text-[44px] md:leading-tight'>
-                      manage work and release payments
+                      earn bounties and grow your reputation
                     </h2>
-                    <p className='mb-[30px] text-base leading-relaxed text-body'>
-                      ship faster than ever before and compensate contributors for their help
-                    </p>
 
                     <div className='mb-[30px] flex items-center'>
                       <div className='shrink-0 mr-3 flex h-[60px] w-[60px] items-center justify-center rounded-full border border-stroke text-xl font-semibold text-black text-center '>
@@ -935,7 +885,7 @@ function Home() {
                       </div>
                       <div>
                         <h5 className='text-xl font-medium text-black '>
-                          pay out contributors in USDC, MATIC, or WETH on Polygon
+                          earn rewards in USDC, MATIC, or WETH on Polygon
                         </h5>
                         <p className='text-base text-body'>
                           Do you have a token you'd like to see supported?{' '}
@@ -953,11 +903,11 @@ function Home() {
                       </div>
                       <div>
                         <h5 className='text-xl font-medium text-black '>
-                          give reviews to help contributors build a reputation
+                          get reviews to build a reputation
                         </h5>
                         <p className='text-base text-body'>
-                          through completing work, contributors grow a strong reputation across
-                          open-source ecosystems
+                          through completing work, contributors grow a strong reputation that's
+                          visible across all BuilderPlace open-source ecosystems
                         </p>
                       </div>
                     </div>
@@ -1000,10 +950,10 @@ function Home() {
                       step 4
                     </span>
                     <h2 className='mb-4 text-3xl font-bold text-black  sm:text-4xl md:text-[44px] md:leading-tight'>
-                      grow your contributor community
+                      explore other open-source projects
                     </h2>
                     <p className='mb-[30px] text-base leading-relaxed text-body'>
-                      pull in passionate open-source builders from beyond your ecosystem
+                      contribute to projects from beyond your ecosystem
                     </p>
 
                     <div className='mb-[30px] flex items-center'>
@@ -1012,12 +962,18 @@ function Home() {
                       </div>
                       <div>
                         <h5 className='text-xl font-medium text-black '>
-                          get your posts shared across a network of hiring platforms
+                          explore BuilderPlace opportunities on network of hiring platforms
                         </h5>
                         <p className='text-base text-body'>
-                          posts on your BuilderPlace board are searchable by workers across a
-                          network of other hiring platforms - this is made possible by TalentLayer,
-                          an interoperability layer for hiring platforms
+                          visit marketplace platforms like{' '}
+                          <a href='https://workx.io' target='_blank' className='underline'>
+                            WorkX
+                          </a>{' '}
+                          and others in the{' '}
+                          <a href='https://talentlayer.org' target='_blank' className='underline'>
+                            TalentLayer
+                          </a>{' '}
+                          network to explore even more opportunities.
                         </p>
                       </div>
                     </div>
@@ -1028,11 +984,11 @@ function Home() {
                       </div>
                       <div>
                         <h5 className='text-xl font-medium text-black '>
-                          a steady funnel of new open-source contributors for your project
+                          watch out for new open-source communities joining BuilderPlace
                         </h5>
                         <p className='text-base text-body'>
-                          contributors are constantly looking for new projects to help - by posting
-                          your work publicly, you help them find you!
+                          new teams are joining BuilderPlace in the coming months! get ready to help
+                          them.
                         </p>
                       </div>
                     </div>
@@ -1066,7 +1022,7 @@ function Home() {
           </div>
         </section>
 
-        <section id='faq' className='relative z-10 bg-redpraha bg-opacity-50 py-[110px] '>
+        {/* <section id='faq' className='relative z-10 bg-redpraha bg-opacity-50 py-[110px] '>
           <div className='container'>
             <div
               className='wow fadeInUp mx-auto mb-14 max-w-[690px] text-center lg:mb-[70px]'
@@ -1186,26 +1142,21 @@ function Home() {
               </defs>
             </svg>
           </div>
-        </section>
-        <section id='contact' className='relative z-10 pt-[110px]'>
+        </section> */}
+
+        <section id='contact' className='relative z-10 pt-[20px]'>
           <div className='container'>
             <div
               className='wow fadeInUp mx-auto mb-14 max-w-[690px] text-center lg:mb-[70px]'
               data-wow-delay='.2s'>
-              <img src='/images/stats.png' alt='about image' className='mx-auto max-w-full' />
-              <h2 className='mb-4 mt-20 text-3xl font-bold text-black  sm:text-4xl md:text-[44px] md:leading-tight'>
-                grow your open-source movement today
+              <h2 className='mb-[40px] text-3xl font-bold text-black  sm:text-4xl md:text-[44px] md:leading-tight'>
+                start your open-source journey today!
               </h2>
               <div className='flex justify-center gap-4'>
                 <a
-                  href='/onboarding'
-                  className='max-w-[186px] flex-1 rounded-md text-center bg-landingprimary py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base font-medium text-white font-bold hover:bg-opacity-60'>
-                  launch my <br></br>BuilderPlace
-                </a>
-                <a
-                  href='/onboarding'
-                  className='max-w-[186px] flex-1 text-center rounded-md bg-redpraha py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base font-medium text-stone-800 font-bold hover:bg-opacity-60'>
-                  contact <br></br>the team
+                  href='#work-process'
+                  className='max-w-[286px] flex-1 rounded-md text-center bg-landingprimary py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base font-medium text-white font-bold hover:bg-opacity-60'>
+                  explore the projects
                 </a>
               </div>
               <div className='pb-6 pt-10 w-1/2'></div>
@@ -1221,7 +1172,7 @@ function Home() {
               <div className='order-last w-full text-center px-3 lg:order-first lg:w-1/3'>
                 <p className='text-center text-base text-stone-800'>
                   &copy; 2023 BuilderPlace |{' '}
-                  <a href='/terms' className='underline'>
+                  <a href='#' className='underline'>
                     Terms of Service
                   </a>
                 </p>
