@@ -96,7 +96,7 @@ function CustomPalette({ builderPlace }: { builderPlace: IBuilderPlace }) {
             border-color: var(--base-300);
           }
 
-          .text-base-content-content {
+          .text-base-content {
             color: var(--base-content);
           }
 

@@ -3,6 +3,8 @@ import useServices from '../hooks/useServices';
 import { IUser } from '../types';
 import UserServiceItem from './UserServiceItem';
 import BuilderPlaceContext from '../modules/BuilderPlace/context/BuilderPlaceContext';
+import Notification from './Notification';
+import Loading from './Loading';
 
 interface IProps {
   user: IUser;
@@ -10,22 +12,46 @@ interface IProps {
 }
 
 function UserServices({ user, type }: IProps) {
-  const { builderPlace } = useContext(BuilderPlaceContext);
+  const { builderPlace, isBuilderPlaceOwner } = useContext(BuilderPlaceContext);
 
-  const { services } = useServices(
+  const { services, loading } = useServices(
     undefined,
     builderPlace?.ownerTalentLayerId || undefined,
     type == 'seller' ? user.id : undefined,
   );
 
+  if (loading) {
+    return <Loading />;
+  }
+
   if (services.length === 0) {
-    return null;
+    if (isBuilderPlaceOwner && type == 'buyer') {
+      return (
+        <>
+          <h2 className='pb-4 text-base font-bold break-all'>works posted</h2>
+          <Notification
+            title='post your first work!'
+            text='create your first work post to share with your community'
+            link='/work/create'
+            linkText='post a job'
+            color='primary'
+            imageUrl={
+              user?.description?.image_url
+                ? user?.description?.image_url
+                : `/images/default-avatar-${Number(user?.id ? user.id : '1') % 9}.jpeg`
+            }
+          />
+        </>
+      );
+    } else {
+      return null;
+    }
   }
 
   return (
     <>
       <h2 className='pb-4 text-base font-bold break-all'>
-        {type == 'buyer' ? 'Works posted' : 'Works applied'}
+        {type == 'buyer' ? 'works posted' : 'works applied'}
       </h2>
       <div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4'>
         {services.map((service, i) => {
