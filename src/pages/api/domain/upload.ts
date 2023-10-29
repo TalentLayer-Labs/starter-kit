@@ -12,6 +12,8 @@ export const config = {
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
   const cloudflareToken = process.env.NEXT_CLOUDFLARE_TOKEN;
+  const { fileName } = req.query;
+  if (fileName) console.log('Specified file name:', fileName);
 
   if (cloudflareToken === undefined) {
     throw new Error('No cloudflare token defined');
@@ -41,7 +43,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     fileStream.on('error', function (error) {
       throw new Error('fileStream Error', error);
     });
-    formData.append('file', fileStream);
+    formData.append('file', fileStream, fileName as string);
     const headers = {
       Authorization: `Bearer ${cloudflareToken}`,
       ...formData.getHeaders(),

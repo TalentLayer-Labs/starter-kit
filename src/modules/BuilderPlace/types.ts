@@ -40,7 +40,6 @@ export interface UpdateBuilderPlaceDomain {
 }
 
 export interface SetBuilderPlaceOwner {
-  name: string;
   subdomain: string;
   owners: string[];
   ownerTalentLayerId: string;
@@ -60,7 +59,7 @@ export interface CreateBuilderPlaceAction {
   palette: iBuilderPlacePalette;
   presentation: string;
   preferredWorkTypes: PreferredWorkTypes[];
-  logo: string;
+  profilePicture?: string;
 }
 
 export interface CreateBuilderPlaceProps {
@@ -69,7 +68,7 @@ export interface CreateBuilderPlaceProps {
   palette: iBuilderPlacePalette;
   presentation: string;
   preferredWorkTypes: PreferredWorkTypes[];
-  logo: string;
+  profilePicture?: string;
 }
 
 export type IBuilderPlace = {
@@ -78,7 +77,9 @@ export type IBuilderPlace = {
   subdomain: string;
   customDomain: string | null;
   logo: string;
+  icon: string;
   cover: string;
+  profilePicture: string;
   palette: iBuilderPlacePalette;
   presentation: string;
   owners: string[];
@@ -144,4 +145,10 @@ export interface OrganizationProps {
   about: string;
   jobType: PreferredWorkTypes;
   imageUrl: string;
+}
+
+export enum ImageType {
+  PNG = 'image/png',
+  SVG = 'image/svg+xml',
+  JPG = 'image/jpeg',
 }

@@ -10,23 +10,23 @@ import { usePublicClient } from 'wagmi';
 function Steps({
   handle,
   description,
-  image,
+  profilePicture,
 }: {
   handle?: string;
   description?: string;
-  image?: string;
+  profilePicture?: string;
 }) {
   const { account, user } = useContext(TalentLayerContext);
   const talentLayerClient = useTalentLayerClient();
   const chainId = useChainId();
   const publicClient = usePublicClient({ chainId });
   const callBack = async () => {
-    if (image && description && talentLayerClient && account?.address) {
+    if ((profilePicture || description) && talentLayerClient && account?.address) {
       const user = await talentLayerClient.profile.getByAddress(account.address);
       const profile = {
         title: user.title,
         role: user.role,
-        image_url: image,
+        image_url: profilePicture,
         video_url: user.video_url,
         name: user.name,
         about: description,

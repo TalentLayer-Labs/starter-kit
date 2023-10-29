@@ -1,9 +1,9 @@
-export const upload = async (file: File): Promise<any> => {
+export const upload = async (file: File, fileName?: string): Promise<any> => {
   console.log(file);
   try {
     let formData = new FormData();
     formData.append('file', file);
-    const response = await fetch('/api/domain/upload', {
+    const response = await fetch(`/api/domain/upload${fileName ? `?fileName=${fileName}` : ''}`, {
       method: 'POST',
       body: formData,
     });

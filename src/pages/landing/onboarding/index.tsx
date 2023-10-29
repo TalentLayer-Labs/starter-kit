@@ -1,23 +1,26 @@
-import * as Yup from 'yup';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
-import { useCreateBuilderPlaceMutation } from '../../../modules/BuilderPlace/hooks/UseCreateBuilderPlaceMutation';
-import { showErrorTransactionToast } from '../../../utils/toast';
-import { PreferredWorkTypes } from '../../../types';
 import { useRouter } from 'next/router';
-import { upload } from '../../../modules/BuilderPlace/request';
-import { generateDomainName, slugify } from '../../../modules/BuilderPlace/utils';
+import { useState } from 'react';
+import * as Yup from 'yup';
 import HirerProfileLayout from '../../../components/HirerProfileLayout';
+import Loading from '../../../components/Loading';
+import { useCreateBuilderPlaceMutation } from '../../../modules/BuilderPlace/hooks/UseCreateBuilderPlaceMutation';
+import { generateDomainName, uploadImage } from '../../../modules/BuilderPlace/utils';
+import { PreferredWorkTypes } from '../../../types';
+import { showErrorTransactionToast } from '../../../utils/toast';
 
 interface IFormValues {
   name: string;
   presentation: string;
   preferred_work_types: PreferredWorkTypes[];
-  logo?: File;
+  profilePicture?: string;
 }
 function onboardingStep1() {
   const { data: createdBuilderPlace, mutateAsync: createBuilderPlaceAsync } =
     useCreateBuilderPlaceMutation();
   const router = useRouter();
+  const [imgLoader, setImgLoader] = useState(false);
+  const [profilePictureErrorMessage, setProfilePictureErrorMessage] = useState('');
 
   const initialValues: IFormValues = {
     name: '',
@@ -33,7 +36,7 @@ function onboardingStep1() {
       .min(1, 'Chose at least one preferred word type')
       .max(4, 'You already chose all existing preferred word type')
       .required('Job Type is required'),
-    logo: Yup.string().required('Image is required'),
+    profilePicture: Yup.string().required('Image is required'),
   });
 
   const handleSubmit = async (
@@ -43,18 +46,11 @@ function onboardingStep1() {
     try {
       setSubmitting(true);
 
-      const name = slugify(values.name);
-      const subdomain = generateDomainName(name);
-
-      let image;
-      if (values.logo) {
-        image = await upload(values.logo);
-        console.log({ image, url: image?.variants[0] });
-      }
+      const subdomain = generateDomainName(values.name);
 
       await createBuilderPlaceAsync({
         subdomain: subdomain,
-        name: name,
+        name: values.name,
         palette: {
           primary: '#FF71A2',
           primaryFocus: '#FFC2D1',
@@ -74,10 +70,9 @@ function onboardingStep1() {
         },
         presentation: values.presentation,
         preferredWorkTypes: values.preferred_work_types,
-        logo: image?.variants[0] || null,
+        profilePicture: values.profilePicture || undefined,
       });
 
-      setSubmitting(false);
       router.query.subdomain = subdomain;
       router.push({
         pathname: '/onboarding/step2',
@@ -86,6 +81,7 @@ function onboardingStep1() {
     } catch (error) {
       console.log(error);
       showErrorTransactionToast(error);
+    } finally {
       setSubmitting(false);
     }
   };
@@ -114,13 +110,13 @@ function onboardingStep1() {
                 <ErrorMessage name='name' />
               </span>
               <label className='block'>
-                <span className='text-stone-800 font-bold text-xl'>Presentation</span>
+                <span className='text-stone-800'>about your team</span>
                 <Field
                   as='textarea'
                   id='presentation'
                   name='presentation'
                   rows='4'
-                  className='mt-1 mb-1 block w-full rounded-xl border border-2 border-gray-200 bg-midnight shadow-sm focus:ring-opacity-50'
+                  className='mt-1 mb-1 block w-full rounded-xl border-2 border-gray-200 bg-midnight shadow-sm focus:ring-opacity-50'
                   placeholder='Tell everyone about what you work on and why you’re doing it '
                 />
               </label>
@@ -257,21 +253,33 @@ function onboardingStep1() {
               </span>
 
               <label className='block'>
-                <span className='text-stone-800 font-bold text-xl'>Picture Url</span>
+                <span className='text-stone-800 font-bold text-xl'>Your profile picture</span>
                 <input
                   type='file'
-                  id='logo'
-                  name='logo'
-                  onChange={(event: any) => {
-                    setFieldValue('logo', event.currentTarget.files[0]);
+                  id='profilePicture'
+                  name='profilePicture'
+                  onChange={async (event: any) => {
+                    await uploadImage(
+                      event.currentTarget.files[0],
+                      setFieldValue,
+                      setProfilePictureErrorMessage,
+                      'profilePicture',
+                      setImgLoader,
+                    );
                   }}
                   className='mt-1 mb-1 block w-full rounded-xl border-2 border-gray-200 bg-midnight shadow-sm focus:ring-opacity-50'
                   placeholder=''
                 />
+                {imgLoader && <Loading />}
+                {values.profilePicture && (
+                  <div className='flex items-center justify-center py-3'>
+                    <img width='300' height='300' src={values.profilePicture} alt='' />
+                  </div>
+                )}
               </label>
 
               <span className='text-red-500'>
-                <ErrorMessage name='logo' />
+                <p>{profilePictureErrorMessage}</p>
               </span>
 
               <button type='submit' className='grow px-5 py-2 rounded-xl bg-pink-500 text-white'>
