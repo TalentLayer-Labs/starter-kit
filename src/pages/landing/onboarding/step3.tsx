@@ -10,6 +10,7 @@ import { iBuilderPlacePalette } from '../../../modules/BuilderPlace/types';
 import Loading from '../../../components/Loading';
 import { uploadImage } from '../../../modules/BuilderPlace/utils';
 import SubmitButton from '../../../components/Form/SubmitButton';
+import HirerProfileLayout from '../../../components/HirerProfileLayout';
 
 interface IFormValues {
   subdomain: string;
@@ -87,33 +88,31 @@ function onboardingStep3() {
 
   return (
     <>
-      <p>Hirer onboarding - step3</p>
-      <Formik
-        initialValues={initialValues}
-        enableReinitialize={true}
-        onSubmit={handleSubmit}
-        validationSchema={validationSchema}>
-        {({ isSubmitting, setFieldValue, values }) => (
-          <>
-            <h1>3</h1>
-            <p>Configure your workspace</p>
+      <HirerProfileLayout step={3}>
+        <Formik
+          initialValues={initialValues}
+          enableReinitialize={true}
+          onSubmit={handleSubmit}
+          validationSchema={validationSchema}>
+          {({ isSubmitting, setFieldValue, values }) => (
             <Form>
               <div className='grid grid-cols-1 gap-6'>
                 <label className='block'>
-                  <span className='text-stone-800'>custom domain</span>
+                  <span className='text-stone-800 font-bold text-xl'>custom domain</span>
                   <Field
                     type='text'
                     id='subdomain'
                     name='subdomain'
-                    className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
+                    className='mt-1 mb-1 block w-full rounded-xl border-2 border-gray-200 bg-midnight shadow-sm focus:ring-opacity-50'
                     placeholder={`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`}
                   />
                 </label>
                 <span className='text-red-500'>
                   <ErrorMessage name='subdomain' />
                 </span>
+
                 <label className='block'>
-                  <span className='text-stone-800'>Logo</span>
+                  <span className='text-stone-800 font-bold text-xl'>Logo</span>
                   <input
                     type='file'
                     id='logo'
@@ -125,10 +124,10 @@ function onboardingStep3() {
                         setLogoErrorMessage,
                         'logo',
                         setLogoLoader,
-                        user.handle,
+                        user?.handle,
                       );
                     }}
-                    className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
+                    className='mt-1 mb-1 block w-full rounded-xl border-2 border-gray-200 shadow-sm focus:ring-opacity-50'
                     placeholder=''
                   />
                   {logoLoader && <Loading />}
@@ -154,7 +153,7 @@ function onboardingStep3() {
                         setCoverErrorMessage,
                         'cover',
                         setCoverLoader,
-                        user.handle,
+                        user?.handle,
                       );
                     }}
                     className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
@@ -173,9 +172,9 @@ function onboardingStep3() {
                 <SubmitButton isSubmitting={isSubmitting} label={"I'm done"} />
               </div>
             </Form>
-          </>
-        )}
-      </Formik>
+          )}
+        </Formik>
+      </HirerProfileLayout>
     </>
   );
 }

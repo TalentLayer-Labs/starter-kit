@@ -22,7 +22,7 @@ function workerOnboardingStep1() {
 
   return (
     <>
-      <OnboardingSteps currentStep={1} />
+      <OnboardingSteps currentStep={1} type="Worker" />
       <CreateWorkerId />
       <div className='flex flex-col items-center justify-center gap-10'>
         <Steps />

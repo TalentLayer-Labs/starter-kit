@@ -141,52 +141,52 @@ function CreateWorkerProfileForm({ callback }: { callback?: () => void }) {
         <Form>
           <div className='grid grid-cols-1 gap-6'>
             <label className='block'>
-              <span className='text-base-content'>Title</span>
+              <span className='text-xl font-bold '>Title</span>
               <Field
                 type='text'
                 id='title'
                 name='title'
-                className='mt-1 mb-1 block w-full rounded-xl border border-info bg-base-200 shadow-sm focus:ring-opacity-50'
+                className='mt-1 mb-1 block w-full rounded-xl border border-2 border-gray-200 bg-midnight shadow-sm focus:ring-opacity-50'
                 placeholder=''
               />
             </label>
             <label className='block'>
-              <span className='text-base-content'>Name</span>
+              <span className='text-xl font-bold '>Name</span>
               <Field
                 type='text'
                 id='name'
                 name='name'
-                className='mt-1 mb-1 block w-full rounded-xl border border-info bg-base-200 shadow-sm focus:ring-opacity-50'
+                className='mt-1 mb-1 block w-full rounded-xl border border-2 border-gray-200 bg-midnight shadow-sm focus:ring-opacity-50'
                 placeholder=''
               />
             </label>
             <label className='block'>
-              <span className='text-base-content'>Role</span>
+              <span className='text-xl font-bold '>Role</span>
               <Field
                 as='input'
                 type='text'
                 id='role'
                 name='role'
                 value='worker'
-                className='mt-1 mb-1 block w-full rounded-xl border border-info bg-base-200 shadow-sm focus:ring-opacity-50'
+                className='mt-1 mb-1 block w-full rounded-xl border border-2 border-gray-200 bg-midnight shadow-sm focus:ring-opacity-50'
                 readOnly
               />
             </label>
 
             <label className='block'>
-              <span className='text-base-content'>Picture Url</span>
+              <span className='text-xl font-bold '>Picture Url</span>
               <Field
                 type='text'
                 id='image_url'
                 name='image_url'
-                className='mt-1 mb-1 block w-full rounded-xl border border-info bg-base-200 shadow-sm focus:ring-opacity-50'
+                className='mt-1 mb-1 block w-full rounded-xl border border-2 border-gray-200 bg-midnight shadow-sm focus:ring-opacity-50'
                 placeholder=''
               />
-              <div className='border-info bg-info relative w-full border transition-all duration-300 rounded-xl p-4'>
+              <div className='border-2 border-gray-200 bg-midnight relative w-full border transition-all duration-300 rounded-xl p-4'>
                 <div className='flex w-full items-center gap-3'>
                   <QuestionMarkCircle className='hidden' />
                   <div>
-                    <h2 className='font-heading text-xs font-bold text-base-content mb-1'>
+                    <h2 className='font-heading text-xs font-bold text-xl font-bold  mb-1'>
                       <span>Need help?</span>
                     </h2>
                     <p className='font-alt text-xs font-normal'>
@@ -213,23 +213,23 @@ function CreateWorkerProfileForm({ callback }: { callback?: () => void }) {
             </label>
 
             <label className='block'>
-              <span className='text-base-content'>About</span>
+              <span className='text-xl font-bold '>About</span>
               <Field
                 as='textarea'
                 id='about'
                 name='about'
                 rows='4'
-                className='mt-1 mb-1 block w-full rounded-xl border border-info bg-base-200 shadow-sm focus:ring-opacity-50'
+                className='mt-1 mb-1 block w-full rounded-xl border border-2 border-gray-200 bg-midnight shadow-sm focus:ring-opacity-50'
                 placeholder=''
               />
             </label>
 
             <label className='block'>
-              <span className='text-base-content'>Skills</span>
+              <span className='text-xl font-bold '>Skills</span>
 
               <SkillsInput initialValues={userDescription?.skills_raw} entityId={'skills'} />
 
-              <Field type='hidden' id='skills' name='skills' />
+              <Field type='hidden' id='skills' name='skills'/>
             </label>
             <SubmitButton isSubmitting={isSubmitting} label='Create Profile' />
           </div>

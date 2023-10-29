@@ -9,6 +9,7 @@ import Loading from '../../../components/Loading';
 import SubmitButton from '../../../components/Form/SubmitButton';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
+import OnboardingSteps from '../../../components/OnboardingSteps';
 
 interface IFormValues {
   subdomain: string;
@@ -72,43 +73,48 @@ function onboardingStep2() {
   //TODO message si déjà updaté
 
   return (
-    <div className={'flex flex-col items-center justify-center'}>
-      <h1>Hello {user.handle}</h1>
-      <Formik
-        initialValues={initialValues}
-        enableReinitialize={true}
-        onSubmit={handleSubmit}
-        validationSchema={validationSchema}>
-        {({ isSubmitting }) => (
-          <Form>
-            <label className='flex flex-row'>
-              {subdomain ? (
-                <p>You are about to link your TalentLayer ID to your domain: {subdomain}</p>
-              ) : (
-                <>
-                  <p>Please input your domain name:</p>
-                  <Field
-                    type='text'
-                    id='subdomain'
-                    name='subdomain'
-                    className={`mt-1 mb-1 rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50`}
-                    disabled={subdomain}
-                  />
-                </>
-              )}
-            </label>
-            <p>
-              if you would like to use a different TalentLayer ID, please connect a different
-              wallet. you’ll then be prompted to create a new ID
-            </p>
-            <span className='text-red-500'>
-              <ErrorMessage name='subdomain' />
-            </span>
-            <SubmitButton isSubmitting={isSubmitting} label={'Use this Id'} />
-          </Form>
-        )}
-      </Formik>
-    </div>
+    <>
+      <OnboardingSteps currentStep={2} type='Hirer' />
+      <div className='flex flex-col items-center justify-center'>
+        <p className='pb-10 pt-5 text-5xl font-bold mt-6 text-center'>Hello {user.handle} 👋</p>
+        <Formik
+          initialValues={initialValues}
+          enableReinitialize={true}
+          onSubmit={handleSubmit}
+          validationSchema={validationSchema}>
+          {({ isSubmitting }) => (
+            <Form>
+              <label className='flex flex-row'>
+                {subdomain ? (
+                  <p>You are about to link your TalentLayer ID to your domain: {subdomain}</p>
+                ) : (
+                  <div className='flex flex-col items-center justify-center sm:flex-row mb-5'>
+                    <p className='text-2xl font-semibold text-center sm:mr-4'>
+                      Please input your domain name:
+                    </p>
+                    <Field
+                      type='text'
+                      id='subdomain'
+                      name='subdomain'
+                      className='border border-gray-300 rounded-xl p-2 m-2'
+                      disabled={subdomain}
+                    />
+                  </div>
+                )}
+              </label>
+              <p className='text-content-400 text-xl text-center max-w-3xl'>
+                If you would like to use a different TalentLayer ID, please connect a different
+                wallet. You’ll then be prompted to create a new ID.
+              </p>
+              <span className='text-red-500'>
+                <ErrorMessage name='subdomain' />
+              </span>
+              <SubmitButton isSubmitting={isSubmitting} label={'Use this Id'} />
+            </Form>
+          )}
+        </Formik>
+      </div>
+    </>
   );
 }
 
