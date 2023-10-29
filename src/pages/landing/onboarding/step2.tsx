@@ -74,9 +74,11 @@ function onboardingStep2() {
 
   return (
     <>
-      <OnboardingSteps currentStep={2} type='Hirer' />
+      <OnboardingSteps currentStep={2} type='hirer' />
       <div className='flex flex-col items-center justify-center'>
-        <p className='pb-10 pt-5 text-5xl font-bold mt-6 text-center'>Hello {user.handle} 👋</p>
+        <p className=' pb-5 sm:pb-10 pt-5 text-3xl sm:text-5xl font-bold mt-6 text-center'>
+          Hello {user.handle} 👋
+        </p>
         <Formik
           initialValues={initialValues}
           enableReinitialize={true}
@@ -84,32 +86,47 @@ function onboardingStep2() {
           validationSchema={validationSchema}>
           {({ isSubmitting }) => (
             <Form>
-              <label className='flex flex-row'>
+              <div className='grid grid-cols-1 gap-3 sm:gap-4'>
                 {subdomain ? (
-                  <p>You are about to link your TalentLayer ID to your domain: {subdomain}</p>
+                  <p className='text-center'>
+                    You are about to link your TalentLayer ID to your domain: {subdomain}
+                  </p>
                 ) : (
                   <div className='flex flex-col items-center justify-center sm:flex-row mb-5'>
-                    <p className='text-2xl font-semibold text-center sm:mr-4'>
-                      Please input your domain name:
-                    </p>
-                    <Field
-                      type='text'
-                      id='subdomain'
-                      name='subdomain'
-                      className='border border-gray-300 rounded-xl p-2 m-2'
-                      disabled={subdomain}
-                    />
+                    <label className='flex flex-row'>
+                      <p className='text-2xl font-semibold text-center sm:mr-4'>
+                        Please input your domain name:
+                      </p>
+                      <Field
+                        type='text'
+                        id='subdomain'
+                        name='subdomain'
+                        className='border border-gray-300 rounded-xl p-2 m-2'
+                        disabled={subdomain}
+                      />
+                    </label>
                   </div>
                 )}
-              </label>
-              <p className='text-content-400 text-xl text-center max-w-3xl'>
-                If you would like to use a different TalentLayer ID, please connect a different
-                wallet. You’ll then be prompted to create a new ID.
-              </p>
-              <span className='text-red-500'>
-                <ErrorMessage name='subdomain' />
-              </span>
-              <SubmitButton isSubmitting={isSubmitting} label={'Use this Id'} />
+
+                <span className='text-red-500'>
+                  <ErrorMessage name='subdomain' />
+                </span>
+
+                {isSubmitting ? (
+                  <button
+                    disabled
+                    type='submit'
+                    className='grow px-5 py-2 rounded-xl bg-pink-300 text-white'>
+                    Loading...
+                  </button>
+                ) : (
+                  <button
+                    type='submit'
+                    className='grow px-5 py-2 rounded-xl bg-pink-500 text-white'>
+                    Use this Id
+                  </button>
+                )}
+              </div>
             </Form>
           )}
         </Formik>

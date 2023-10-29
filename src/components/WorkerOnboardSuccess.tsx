@@ -12,11 +12,11 @@ function WorkerOnboardSuccess() {
   return (
     <>
       <div className='bg-base-100'>
-        <OnboardingSteps currentStep={3} type="Worker"/>
+        <OnboardingSteps currentStep={3} type='worker' />
         <div className='max-w-7xl mx-auto text-base-content sm:px-4 lg:px-0 py-20'>
           <div className='flex flex-col items-center justify-center gap-10'>
-            <p className='text-5xl sm:text-7xl font-medium font-bold tracking-wider max-w-5xl text-center'>
-              Done! 🎉 
+            <p className='text-5xl sm:text-7xl font-bold tracking-wider max-w-5xl text-center'>
+              Done! 🎉
             </p>
             <p className='text-3xl sm:text-5xl font-medium tracking-wider max-w-5xl text-center'>
               Looking good! Now, it's time to work.

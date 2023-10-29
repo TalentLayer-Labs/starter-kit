@@ -107,7 +107,7 @@ function onboardingStep3() {
             <Form>
               <div className='grid grid-cols-1 gap-6'>
                 <label className='block'>
-                  <span className='text-stone-800 font-bold text-xl'>custom domain</span>
+                  <span className='text-stone-800 font-bold text-md'>custom domain</span>
                   <Field
                     type='text'
                     id='subdomain'
@@ -120,12 +120,12 @@ function onboardingStep3() {
                   <ErrorMessage name='subdomain' />
                 </span>
                 <label className='block'>
-                  <span className='text-stone-800'>Choose a Color Palette</span>
+                  <span className='text-stone-800 font-bold text-md'>choose a Color Palette</span>
 
                   <div className='flex flex-col gap-2'>
                     {Object.keys(themes).map((value, index) => {
                       return (
-                        <div>
+                        <div className='mt-1'>
                           <input
                             type='radio'
                             className='hidden peer'
@@ -136,14 +136,14 @@ function onboardingStep3() {
                               setFieldValue('palette', value);
                             }}
                           />
-                          <label>{value} Palette</label>
                           <label
                             htmlFor={`palette-${index}`}
-                            className='h-24 peer-checked:border-blue-500 border-2 border-solid rounded-lg flex items-center px-1 gap-2 w-fit'>
+                            className=' peer-checked:border-blue-500 border-2 border-solid rounded-lg flex flex-wrap items-center p-2 w-full'>
+                            <span className='block w-full mb-1'>{value} Palette</span>
                             {Object.keys(themes[value as keyof typeof themes]).map(color => {
                               return (
                                 <div
-                                  className='group relative inline-block w-20 h-20 border'
+                                  className='group relative inline-block w-[36px] h-[36px]'
                                   style={{
                                     backgroundColor:
                                       themes[value as keyof typeof themes][
@@ -167,11 +167,21 @@ function onboardingStep3() {
                     })}
                   </div>
                 </label>
-                <button
-                  type='submit'
-                  className='grow px-5 py-2 rounded-xl bg-redpraha text-stone-800'>
-                  I'm done
-                </button>
+
+                {isSubmitting ? (
+                  <button
+                    disabled
+                    type='submit'
+                    className='grow px-5 py-2 rounded-xl bg-pink-300 text-white'>
+                    Loading...
+                  </button>
+                ) : (
+                  <button
+                    type='submit'
+                    className='grow px-5 py-2 rounded-xl bg-pink-500 text-white'>
+                    I'm done
+                  </button>
+                )}
               </div>
             </Form>
           )}

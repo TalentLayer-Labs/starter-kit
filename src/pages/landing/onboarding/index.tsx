@@ -74,6 +74,11 @@ function onboardingStep1() {
 
   return (
     <HirerProfileLayout step={1}>
+      <p className='text-center pb-10 sm:pb-16'>
+        your hirer profile helps workers get to know you - whether they’re visiting your team’s job
+        board, or if they’ve found your opportunity through a third-party platform
+      </p>
+
       <Formik
         initialValues={initialValues}
         enableReinitialize={true}
@@ -81,9 +86,9 @@ function onboardingStep1() {
         validationSchema={validationSchema}>
         {({ isSubmitting, setFieldValue, values }) => (
           <Form>
-            <div className='grid grid-cols-1 gap-6'>
+            <div className='grid grid-cols-1 gap-3 sm:gap-4'>
               <label className='block'>
-                <span className='text-stone-800 font-bold text-xl'>Organization Name</span>
+                <span className='text-stone-800 font-bold text-md'>organization Name</span>
                 <Field
                   type='text'
                   id='name'
@@ -96,7 +101,7 @@ function onboardingStep1() {
                 <ErrorMessage name='name' />
               </span>
               <label className='block'>
-                <span className='text-stone-800'>about your team</span>
+                <span className='text-stone-800 font-bold text-md'>about your team</span>
                 <Field
                   as='textarea'
                   id='presentation'
@@ -110,7 +115,7 @@ function onboardingStep1() {
                 <ErrorMessage name='presentation' />
               </span>
               <label className='block'>
-                <span className='text-stone-800 font-bold text-xl'>I want to post</span>
+                <span className='text-stone-800 font-bold text-md'>your work styles</span>
                 <div className='space-x-2'>
                   <label
                     className={`inline-flex items-center p-3 rounded-lg ${
@@ -239,7 +244,7 @@ function onboardingStep1() {
               </span>
 
               <label className='block'>
-                <span className='text-stone-800 font-bold text-xl'>Your profile picture</span>
+                <span className='text-stone-800 font-bold text-md'>your profile picture</span>
                 <input
                   type='file'
                   id='profilePicture'
