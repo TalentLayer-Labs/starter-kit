@@ -5,18 +5,20 @@ import OnboardingSteps from './OnboardingSteps';
 interface ContainerProps {
   children: ReactNode;
   className?: string;
+  step?: number;
 }
 
-function HirerProfileLayout({ children, className }: ContainerProps) {
+function HirerProfileLayout({ children, className,step }: ContainerProps) {
   const { account, user } = useContext(TalentLayerContext);
+  const stepNumber = step == 1 ? 1 : 3;
 
   return (
     <>
-      <OnboardingSteps currentStep={1} type="Hirer" />
+      <OnboardingSteps currentStep={stepNumber} type="Hirer" />
       <div className={`${className}`}>
         <div className='text-stone-800'>
           <p className='pb-10 pt-5 text-5xl font-bold mt-6 text-center'>
-            Create Your Hirer Profile
+            {step == 1 ? "Create Your Hirer Profile" : "Customize Your Hirer Profile"}
           </p>
         
           {account?.isConnected && user && (

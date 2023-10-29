@@ -8,6 +8,7 @@ import * as Yup from 'yup';
 import { useRouter } from 'next/router';
 import { upload } from '../../../modules/BuilderPlace/request';
 import { iBuilderPlacePalette } from '../../../modules/BuilderPlace/types';
+import HirerProfileLayout from '../../../components/HirerProfileLayout';
 
 interface IFormValues {
   subdomain: string;
@@ -81,71 +82,72 @@ function onboardingStep3() {
   };
   return (
     <>
-      <p>Hirer onboarding - step3</p>
-      <Formik
-        initialValues={initialValues}
-        enableReinitialize={true}
-        onSubmit={handleSubmit}
-        validationSchema={validationSchema}>
-        {({ isSubmitting, setFieldValue, values }) => (
-          <Form>
-            <div className='grid grid-cols-1 gap-6'>
-              <label className='block'>
-                <span className='text-stone-800'>Subdomain</span>
-                <Field
-                  type='text'
-                  id='subdomain'
-                  name='subdomain'
-                  className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
-                  placeholder=''
-                />
-              </label>
-              <span className='text-red-500'>
-                <ErrorMessage name='subdomain' />
-              </span>
+      <HirerProfileLayout step={3}>
+        <Formik
+          initialValues={initialValues}
+          enableReinitialize={true}
+          onSubmit={handleSubmit}
+          validationSchema={validationSchema}>
+          {({ isSubmitting, setFieldValue, values }) => (
+            <Form>
+              <div className='grid grid-cols-1 gap-6'>
+                <label className='block'>
+                  <span className='text-stone-800 font-bold text-xl'>Subdomain</span>
+                  <Field
+                    type='text'
+                    id='subdomain'
+                    name='subdomain'
+                    className='mt-1 mb-1 block w-full rounded-xl border border-2 border-gray-200 bg-midnight shadow-sm focus:ring-opacity-50'
+                    placeholder=''
+                  />
+                </label>
+                <span className='text-red-500'>
+                  <ErrorMessage name='subdomain' />
+                </span>
 
-              <label className='block'>
-                <span className='text-stone-800'>Logo</span>
-                <input
-                  type='file'
-                  id='logo'
-                  name='logo'
-                  onChange={(event: any) => {
-                    setFieldValue('logo', event.currentTarget.files[0]);
-                  }}
-                  className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
-                  placeholder=''
-                />
-              </label>
-              <span className='text-red-500'>
-                <ErrorMessage name='logo' />
-              </span>
-              <label className='block'>
-                <span className='text-stone-800'>Cover</span>
-                <input
-                  type='file'
-                  id='cover'
-                  name='cover'
-                  onChange={(event: any) => {
-                    setFieldValue('cover', event.currentTarget.files[0]);
-                  }}
-                  className='mt-1 mb-1 block w-full rounded-xl border border-redpraha bg-midnight shadow-sm focus:ring-opacity-50'
-                  placeholder=''
-                />
-              </label>
-              <span className='text-red-500'>
-                <ErrorMessage name='cover' />
-              </span>
+                <label className='block'>
+                  <span className='text-stone-800 font-bold text-xl'>Logo</span>
+                  <input
+                    type='file'
+                    id='logo'
+                    name='logo'
+                    onChange={(event: any) => {
+                      setFieldValue('logo', event.currentTarget.files[0]);
+                    }}
+                    className='mt-1 mb-1 block w-full rounded-xl border border-2 border-gray-200 shadow-sm focus:ring-opacity-50'
+                    placeholder=''
+                  />
+                </label>
+                <span className='text-red-500'>
+                  <ErrorMessage name='logo' />
+                </span>
+                <label className='block'>
+                  <span className='text-stone-800 font-bold text-xl'>Cover</span>
+                  <input
+                    type='file'
+                    id='cover'
+                    name='cover'
+                    onChange={(event: any) => {
+                      setFieldValue('cover', event.currentTarget.files[0]);
+                    }}
+                    className='mt-1 mb-1 block w-full rounded-xl border border-2 border-gray-200 shadow-sm focus:ring-opacity-50'
+                    placeholder=''
+                  />
+                </label>
+                <span className='text-red-500'>
+                  <ErrorMessage name='cover' />
+                </span>
 
-              <button
-                type='submit'
-                className='grow px-5 py-2 rounded-xl bg-redpraha text-stone-800'>
-                I'm done
-              </button>
-            </div>
-          </Form>
-        )}
-      </Formik>
+                <button
+                  type='submit'
+                  className='grow px-5 py-2 rounded-xl bg-pink-500 text-white text-stone-800'>
+                  I'm done
+                </button>
+              </div>
+            </Form>
+          )}
+        </Formik>
+      </HirerProfileLayout>
     </>
   );
 }
