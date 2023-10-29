@@ -34,6 +34,7 @@ function onboardingStep3() {
 
   const initialValues: IFormValues = {
     subdomain: builderPlaceData?.subdomain || '',
+    logo: builderPlaceData?.logo || '',
     palette: 'light',
   };
 
@@ -45,6 +46,15 @@ function onboardingStep3() {
       </div>
     );
   }
+
+  if (!builderPlaceData) {
+    return (
+      <div className='flex flex-col mt-5 pb-8'>
+        <p>No builderPlace found in link to this wallet</p>
+      </div>
+    );
+  }
+
   const handleSubmit = async (
     values: IFormValues,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void },
@@ -60,19 +70,17 @@ function onboardingStep3() {
           message: values.subdomain,
         });
 
-        if (builderPlaceData) {
-          await updateBuilderPlaceAsync({
-            subdomain: values.subdomain,
-            logo: values.logo,
-            name: builderPlaceData.name,
-            ownerTalentLayerId: builderPlaceData.ownerTalentLayerId,
-            palette: themes[values.palette],
-            owners: builderPlaceData.owners,
-            status: builderPlaceData.status,
-            signature,
-          });
-          router.push(`${window.location.protocol}//${values.subdomain}/dashboard`);
-        }
+        await updateBuilderPlaceAsync({
+          subdomain: values.subdomain,
+          logo: values.logo,
+          name: builderPlaceData.name,
+          ownerTalentLayerId: builderPlaceData.ownerTalentLayerId,
+          palette: themes[values.palette],
+          owners: builderPlaceData.owners,
+          status: 'validated',
+          signature,
+        });
+        router.push(`${window.location.protocol}//${values.subdomain}/dashboard`);
       } catch (e: any) {
         console.error(e);
       } finally {
