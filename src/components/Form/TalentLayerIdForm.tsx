@@ -37,7 +37,7 @@ function TalentLayerIdForm({ handle, callback }: { handle?: string; callback?: (
   const validationSchema = Yup.object().shape({
     handle: Yup.string()
       .min(2)
-      .max(10)
+      .max(20)
       .matches(/^[a-z0-9][a-z0-9-_]*$/, 'Only a-z, 0-9 and -_ allowed, and cannot begin with -_')
       .when('isConnected', {
         is: account && account.isConnected,

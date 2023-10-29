@@ -26,7 +26,7 @@ function onboardingStep1() {
   };
 
   const validationSchema = Yup.object({
-    name: Yup.string().min(2).max(10).required('name is required'),
+    name: Yup.string().min(2).max(20).required('name is required'),
     presentation: Yup.string().required('presentation is required'),
     preferred_work_types: Yup.array()
       .of(Yup.string())
@@ -51,8 +51,6 @@ function onboardingStep1() {
         image = await upload(values.logo);
         console.log({ image, url: image?.variants[0] });
       }
-
-      // TODO: generate image url form response
 
       await createBuilderPlaceAsync({
         subdomain: subdomain,
@@ -108,7 +106,7 @@ function onboardingStep1() {
                   type='text'
                   id='name'
                   name='name'
-                  className='mt-1 mb-1 block w-full rounded-xl border border-2 border-gray-200 bg-midnight shadow-sm focus:ring-opacity-50'
+                  className='mt-1 mb-1 block w-full rounded-xl border-2 border-gray-200 bg-midnight shadow-sm focus:ring-opacity-50'
                   placeholder='Your organization name goes here'
                 />
               </label>
@@ -165,8 +163,8 @@ function onboardingStep1() {
                   <label
                     className={`inline-flex items-center p-3 rounded-lg ${
                       values.preferred_work_types.includes(PreferredWorkTypes.bounties)
-                      ? 'bg-pink-200'
-                      : 'bg-gray-200'
+                        ? 'bg-pink-200'
+                        : 'bg-gray-200'
                     }`}>
                     <input
                       type='checkbox'
@@ -195,8 +193,8 @@ function onboardingStep1() {
                   <label
                     className={`inline-flex items-center p-3 rounded-lg ${
                       values.preferred_work_types.includes(PreferredWorkTypes.grants)
-                      ? 'bg-green-200'
-                      : 'bg-gray-200'
+                        ? 'bg-green-200'
+                        : 'bg-gray-200'
                     }`}>
                     <input
                       type='checkbox'
@@ -225,8 +223,8 @@ function onboardingStep1() {
                   <label
                     className={`inline-flex items-center p-3 rounded-lg ${
                       values.preferred_work_types.includes(PreferredWorkTypes.gigs)
-                      ? 'bg-green-200'
-                      : 'bg-gray-200'
+                        ? 'bg-green-200'
+                        : 'bg-gray-200'
                     }`}>
                     <input
                       type='checkbox'
@@ -267,7 +265,7 @@ function onboardingStep1() {
                   onChange={(event: any) => {
                     setFieldValue('logo', event.currentTarget.files[0]);
                   }}
-                  className='mt-1 mb-1 block w-full rounded-xl border border-2 border-gray-200 bg-midnight shadow-sm focus:ring-opacity-50'
+                  className='mt-1 mb-1 block w-full rounded-xl border-2 border-gray-200 bg-midnight shadow-sm focus:ring-opacity-50'
                   placeholder=''
                 />
               </label>
@@ -276,9 +274,7 @@ function onboardingStep1() {
                 <ErrorMessage name='logo' />
               </span>
 
-              <button
-                type='submit'
-                className='grow px-5 py-2 rounded-xl bg-pink-500 text-white text-stone-800'>
+              <button type='submit' className='grow px-5 py-2 rounded-xl bg-pink-500 text-white'>
                 Create My Profile
               </button>
             </div>
