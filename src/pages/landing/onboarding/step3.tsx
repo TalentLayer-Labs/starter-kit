@@ -204,7 +204,7 @@ function onboardingStep3() {
                   <button
                     type='submit'
                     className='grow px-5 py-2 rounded-xl bg-pink-500 text-white'>
-                    I'm done
+                    Sign and validate
                   </button>
                 )}
               </div>
