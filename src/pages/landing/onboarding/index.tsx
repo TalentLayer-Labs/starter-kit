@@ -273,9 +273,18 @@ function onboardingStep1() {
                 <p>{profilePictureErrorMessage}</p>
               </span>
 
-              <button type='submit' className='grow px-5 py-2 rounded-xl bg-pink-500 text-white'>
-                Create My Profile
-              </button>
+              {isSubmitting ? (
+                <button
+                  disabled
+                  type='submit'
+                  className='grow px-5 py-2 rounded-xl bg-pink-300 text-white'>
+                  Loading...
+                </button>
+              ) : (
+                <button type='submit' className='grow px-5 py-2 rounded-xl bg-pink-500 text-white'>
+                  Create My Profile
+                </button>
+              )}
             </div>
           </Form>
         )}

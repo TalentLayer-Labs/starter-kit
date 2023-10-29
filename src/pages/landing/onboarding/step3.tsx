@@ -11,11 +11,11 @@ import { useUpdateBuilderPlace } from '../../../modules/BuilderPlace/hooks/UseUp
 import { upload } from '../../../modules/BuilderPlace/request';
 import { iBuilderPlacePalette } from '../../../modules/BuilderPlace/types';
 import { themes } from '../../../utils/themes';
+import { uploadImage } from '../../../modules/BuilderPlace/utils';
 interface IFormValues {
   subdomain: string;
   palette: keyof typeof themes;
-  logo?: File;
-  cover?: File;
+  logo?: string;
 }
 
 const validationSchema = Yup.object({
@@ -30,9 +30,7 @@ function onboardingStep3() {
   const builderPlaceData = useGetBuilderPlaceFromOwner(user?.id as string);
   const router = useRouter();
   const [logoLoader, setLogoLoader] = useState(false);
-  const [coverLoader, setCoverLoader] = useState(false);
   const [logoErrorMessage, setLogoErrorMessage] = useState('');
-  const [coverErrorMessage, setCoverErrorMessage] = useState('');
 
   const initialValues: IFormValues = {
     subdomain: builderPlaceData?.subdomain || '',
@@ -62,22 +60,10 @@ function onboardingStep3() {
           message: values.subdomain,
         });
 
-        let logo;
-        if (values.logo) {
-          logo = await upload(values.logo);
-          console.log({ logo, url: logo?.variants[0] });
-        }
-        let cover;
-        if (values.cover) {
-          cover = await upload(values.cover);
-          console.log({ cover, url: cover?.variants[0] });
-        }
-
         if (builderPlaceData) {
           await updateBuilderPlaceAsync({
             subdomain: values.subdomain,
-            logo: logo?.variants[0] || null,
-            cover: cover?.variants[0] || null,
+            logo: values.logo,
             name: builderPlaceData.name,
             ownerTalentLayerId: builderPlaceData.ownerTalentLayerId,
             palette: themes[values.palette],
@@ -119,6 +105,37 @@ function onboardingStep3() {
                 <span className='text-red-500'>
                   <ErrorMessage name='subdomain' />
                 </span>
+
+                <label className='block'>
+                  <span className='text-stone-800 font-bold text-xl'>Logo</span>
+                  <input
+                    type='file'
+                    id='logo'
+                    name='logo'
+                    onChange={async (event: any) => {
+                      await uploadImage(
+                        event.currentTarget.files[0],
+                        setFieldValue,
+                        setLogoErrorMessage,
+                        'logo',
+                        setLogoLoader,
+                        user?.handle,
+                      );
+                    }}
+                    className='mt-1 mb-1 block w-full rounded-xl border-2 border-gray-200 shadow-sm focus:ring-opacity-50'
+                    placeholder=''
+                  />
+                  {logoLoader && <Loading />}
+                  {!!values.logo && (
+                    <div className='flex items-center justify-center py-3'>
+                      <img width='300' height='300' src={values.logo} alt='' />
+                    </div>
+                  )}
+                </label>
+                <span className='text-red-500'>
+                  <p>{logoErrorMessage}</p>
+                </span>
+
                 <label className='block'>
                   <span className='text-stone-800 font-bold text-md'>choose a Color Palette</span>
 
