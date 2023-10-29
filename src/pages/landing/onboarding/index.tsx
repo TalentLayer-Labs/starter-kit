@@ -1,13 +1,15 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
 import * as Yup from 'yup';
-import HirerProfileLayout from '../../../components/HirerProfileLayout';
-import Loading from '../../../components/Loading';
 import { useCreateBuilderPlaceMutation } from '../../../modules/BuilderPlace/hooks/UseCreateBuilderPlaceMutation';
+import { upload } from '../../../modules/BuilderPlace/request';
 import { generateDomainName, uploadImage } from '../../../modules/BuilderPlace/utils';
 import { PreferredWorkTypes } from '../../../types';
+import { themes } from '../../../utils/themes';
 import { showErrorTransactionToast } from '../../../utils/toast';
+import { useState } from 'react';
+import HirerProfileLayout from '../../../components/HirerProfileLayout';
+import Loading from '../../../components/Loading';
 
 interface IFormValues {
   name: string;
@@ -51,23 +53,7 @@ function onboardingStep1() {
       await createBuilderPlaceAsync({
         subdomain: subdomain,
         name: values.name,
-        palette: {
-          primary: '#FF71A2',
-          primaryFocus: '#FFC2D1',
-          primaryContent: '#ffffff',
-          base100: '#ffffff',
-          base200: '#fefcfa',
-          base300: '#fae4ce',
-          baseContent: '#000000',
-          info: '#f4dabe',
-          infoContent: '#000000',
-          success: '#C5F1A4',
-          successContent: '#000000',
-          warning: '#FFE768',
-          warningContent: '#000000',
-          error: '#FFC2D1',
-          errorContent: '#000000',
-        },
+        palette: themes['light'],
         presentation: values.presentation,
         preferredWorkTypes: values.preferred_work_types,
         profilePicture: values.profilePicture || undefined,
