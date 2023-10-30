@@ -85,10 +85,6 @@ function TalentLayerIdForm({ handle, callback }: { handle?: string; callback?: (
 
         setSubmitting(false);
         refreshData();
-
-        if (process.env.NEXT_PUBLIC_ACTIVE_WEB3MAIL == 'true' && !platformHasAccess) {
-          createWeb3mailToast();
-        }
       } catch (error: any) {
         showErrorTransactionToast(error);
       }
