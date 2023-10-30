@@ -18,8 +18,9 @@ export interface iBuilderPlacePalette {
   errorContent: string;
 }
 export interface UpdateBuilderPlace {
+  _id: string;
   subdomain: string;
-  name: string | undefined;
+  name: string;
   palette?: iBuilderPlacePalette;
   ownerTalentLayerId: string | undefined;
   owners: string[] | undefined;
@@ -28,11 +29,12 @@ export interface UpdateBuilderPlace {
   signature: `0x${string}` | Uint8Array;
 }
 export interface DeleteBuilderPlace {
-  subdomain: string;
+  _id: string;
   signature: `0x${string}` | Uint8Array;
 }
 
 export interface UpdateBuilderPlaceDomain {
+  _id: string;
   subdomain: string;
   customDomain: string;
   signature: `0x${string}` | Uint8Array;
@@ -69,7 +71,7 @@ export interface CreateBuilderPlaceProps {
 }
 
 export type IBuilderPlace = {
-  _id: Number;
+  _id: string;
   name: string;
   subdomain?: string;
   customDomain?: string | null;

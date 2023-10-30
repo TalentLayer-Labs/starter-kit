@@ -10,9 +10,9 @@ import {
 import { BuilderPlace } from './models/BuilderPlace';
 import { CreateBuilderPlaceAction, UpdateBuilderPlace, UpdateBuilderPlaceDomain } from './types';
 
-export const deleteBuilderPlace = async (subdomain: string) => {
+export const deleteBuilderPlace = async (_id: string) => {
   await connection();
-  const builderPlace = await BuilderPlace.deleteOne({ subdomain: subdomain });
+  const builderPlace = await BuilderPlace.deleteOne({ _id: _id });
   console.log(builderPlace, 'builderPlace deleted');
   if (builderPlace.deletedCount === 0) {
     return {
@@ -27,7 +27,10 @@ export const deleteBuilderPlace = async (subdomain: string) => {
 export const updateBuilderPlace = async (builderPlace: UpdateBuilderPlace) => {
   try {
     await connection();
-    await BuilderPlace.updateOne({ subdomain: builderPlace.subdomain }, builderPlace).exec();
+    await BuilderPlace.updateOne(
+      { ownerTalentLayerId: builderPlace.ownerTalentLayerId },
+      builderPlace,
+    ).exec();
     return {
       message: 'BuilderPlace updated successfully',
     };
@@ -130,16 +133,13 @@ export const getBuilderPlaceByOwnerId = async (id: string) => {
   }
 };
 
-export const getBuilderPlaceByOwnerAddressAndDomain = async (
-  address: string,
-  subdomain: string,
-) => {
+export const getBuilderPlaceByOwnerAddressAndId = async (address: string, _id: string) => {
   try {
     await connection();
-    console.log("getting builderPlace with owner's address & domain:", address, subdomain);
+    console.log("getting builderPlace with owner's address & mongo _id:", address, _id);
     const builderPlaceSubdomain = await BuilderPlace.findOne({
       owners: address,
-      subdomain: subdomain,
+      _id: _id,
     });
     console.log('fetched builderPlace, ', builderPlaceSubdomain);
     if (builderPlaceSubdomain) {

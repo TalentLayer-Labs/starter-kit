@@ -6,7 +6,7 @@ export function useDeleteBuilderPlaceMutation() {
 
   return useMutation(
     (deleteBuilderPlace: DeleteBuilderPlace): Promise<any> =>
-      fetch(`/api/domain/create-builder-place/?subDomain=${deleteBuilderPlace.subdomain}`, {
+      fetch(`/api/domain/delete-builder-place`, {
         body: JSON.stringify(deleteBuilderPlace),
         method: 'DELETE',
       }).then(res => {

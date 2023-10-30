@@ -1,9 +1,7 @@
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation } from 'react-query';
 import { UpdateBuilderPlace } from '../types';
 
 export function useUpdateBuilderPlace() {
-  const queryClient = useQueryClient();
-
   const updateBuilderPlaceDomainMutation = useMutation<void, Error, UpdateBuilderPlace>(
     (updateBuilderPlaceData: UpdateBuilderPlace) =>
       fetch('/api/domain/update-builder-place', {

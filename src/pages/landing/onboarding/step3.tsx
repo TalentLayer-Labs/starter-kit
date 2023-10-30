@@ -10,7 +10,7 @@ import { useGetBuilderPlaceFromOwner } from '../../../modules/BuilderPlace/hooks
 import { useUpdateBuilderPlace } from '../../../modules/BuilderPlace/hooks/UseUpdateBuilderPlace';
 import { iBuilderPlacePalette } from '../../../modules/BuilderPlace/types';
 import { themes } from '../../../utils/themes';
-import { uploadImage } from '../../../modules/BuilderPlace/utils';
+import { generateDomainName, slugify, uploadImage } from '../../../modules/BuilderPlace/utils';
 interface IFormValues {
   subdomain: string;
   palette: keyof typeof themes;
@@ -31,7 +31,7 @@ function onboardingStep3() {
   const [logoErrorMessage, setLogoErrorMessage] = useState('');
 
   const initialValues: IFormValues = {
-    subdomain: builderPlaceData?.subdomain || '',
+    subdomain: (builderPlaceData?.name && slugify(builderPlaceData.name)) || '',
     logo: builderPlaceData?.logo || '',
     palette: 'light',
   };
@@ -65,11 +65,12 @@ function onboardingStep3() {
          */
         const signature = await walletClient.signMessage({
           account: account.address,
-          message: values.subdomain,
+          message: builderPlaceData._id,
         });
 
         await updateBuilderPlaceAsync({
-          subdomain: values.subdomain,
+          _id: builderPlaceData._id,
+          subdomain: generateDomainName(values.subdomain),
           logo: values.logo,
           name: builderPlaceData.name,
           ownerTalentLayerId: builderPlaceData.ownerTalentLayerId,
@@ -100,13 +101,15 @@ function onboardingStep3() {
               <div className='grid grid-cols-1 gap-6'>
                 <label className='block'>
                   <span className='text-stone-800 font-bold text-md'>custom domain</span>
-                  <Field
-                    type='text'
-                    id='subdomain'
-                    name='subdomain'
-                    className='mt-1 mb-1 block w-full rounded-xl border-2 border-gray-200 bg-midnight shadow-sm focus:ring-opacity-50'
-                    placeholder={`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`}
-                  />
+                  <div className={'flex flex-row items-center ml-2 text-gray-500'}>
+                    <Field
+                      type='text'
+                      id='subdomain'
+                      name='subdomain'
+                      className='mt-1 mb-1 block w-full rounded-xl border-2 border-gray-200 bg-midnight shadow-sm focus:ring-opacity-50'
+                    />
+                    <span>.{process.env.NEXT_PUBLIC_ROOT_DOMAIN}</span>
+                  </div>
                 </label>
                 <span className='text-red-500'>
                   <ErrorMessage name='subdomain' />

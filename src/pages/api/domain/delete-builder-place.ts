@@ -9,9 +9,9 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     console.log('Received builderPlace:', body);
 
     // Check whether the address which provided the signature is an owner of the domain
-    await checkSignature(body.subdomain, body.signature, res);
+    await checkSignature(body._id, body.signature, res);
 
-    const result = await deleteBuilderPlace(body.subdomain);
+    const result = await deleteBuilderPlace(body._id);
 
     if (result.message) {
       res.status(200).json({ message: result.message });
