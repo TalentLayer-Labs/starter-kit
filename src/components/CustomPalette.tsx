@@ -52,103 +52,103 @@ function CustomPalette({ builderPlace }: { builderPlace: IBuilderPlace }) {
             --error-content: ${builderPlace?.palette?.errorContent || '#000000'};
           }
 
-          .bg-primary {
+          body .bg-primary {
             background-color: var(--primary);
           }
 
-          .bg-primary-50 {
+          body .bg-primary-50 {
             background-color: var(--primary-50);
           }
 
-          .text-primary {
+          body .text-primary {
             color: var(--primary-content);
           }
 
-          .text-primary-focus {
+          body .text-primary-focus {
             color: var(--primary-focus);
           }
 
-          .border-primary {
+          body .border-primary {
             border-color: var(--primary);
           }
 
-          .bg-base-100 {
+          body .bg-base-100 {
             background-color: var(--base-100);
           }
 
-          .bg-base-200 {
+          body .bg-base-200 {
             background-color: var(--base-200);
           }
 
-          .bg-base-300 {
+          body .bg-base-300 {
             background-color: var(--base-300);
           }
 
-          .border-base-100 {
+          body .border-base-100 {
             border-color: var(--base-100);
           }
 
-          .border-base-200 {
+          body .border-base-200 {
             border-color: var(--base-200);
           }
 
-          .border-base-300 {
+          body .border-base-300 {
             border-color: var(--base-300);
           }
 
-          .text-base-content {
+          body .text-base-content {
             color: var(--base-content);
           }
 
-          .bg-info {
+          body .bg-info {
             background-color: var(--info);
           }
 
-          .text-info {
+          body .text-info {
             color: var(--info-content);
           }
 
-          .border-info {
+          body .border-info {
             border-color: var(--info);
           }
 
-          .bg-success {
+          body .bg-success {
             background-color: var(--success);
           }
 
-          .bg-success-50 {
+          body .bg-success-50 {
             background-color: var(--success-50);
           }
 
-          .text-success {
+          body .text-success {
             color: var(--success-content);
           }
 
-          .border-success {
+          body .border-success {
             border-color: var(--success);
           }
 
-          .bg-warning {
+          body .bg-warning {
             background-color: var(--warning);
           }
 
-          .text-warning {
+          body .text-warning {
             color: var(--warning-content);
           }
 
-          .border-warning {
+          body .border-warning {
             border-color: var(--warning);
           }
 
-          .bg-error {
+          body .bg-error {
             background-color: var(--error);
           }
 
-          .text-error {
+          body .text-error {
             color: var(--error-content);
           }
 
-          .border-error {
+          body .border-error {
             border-color: var(--error);
           }
         `}
