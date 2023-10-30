@@ -2,8 +2,7 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useRouter } from 'next/router';
 import * as Yup from 'yup';
 import { useCreateBuilderPlaceMutation } from '../../../modules/BuilderPlace/hooks/UseCreateBuilderPlaceMutation';
-import { upload } from '../../../modules/BuilderPlace/request';
-import { generateDomainName, uploadImage } from '../../../modules/BuilderPlace/utils';
+import { uploadImage } from '../../../modules/BuilderPlace/utils';
 import { PreferredWorkTypes } from '../../../types';
 import { themes } from '../../../utils/themes';
 import { showErrorTransactionToast } from '../../../utils/toast';
@@ -18,8 +17,7 @@ interface IFormValues {
   profilePicture?: string;
 }
 function onboardingStep1() {
-  const { data: createdBuilderPlace, mutateAsync: createBuilderPlaceAsync } =
-    useCreateBuilderPlaceMutation();
+  const { mutateAsync: createBuilderPlaceAsync } = useCreateBuilderPlaceMutation();
   const router = useRouter();
   const [imgLoader, setImgLoader] = useState(false);
   const [profilePictureErrorMessage, setProfilePictureErrorMessage] = useState('');
@@ -38,7 +36,6 @@ function onboardingStep1() {
       .min(1, 'Chose at least one preferred word type')
       .max(4, 'You already chose all existing preferred word type')
       .required('Job Type is required'),
-    profilePicture: Yup.string().required('Image is required'),
   });
 
   const handleSubmit = async (
@@ -48,10 +45,7 @@ function onboardingStep1() {
     try {
       setSubmitting(true);
 
-      const subdomain = generateDomainName(values.name);
-
-      await createBuilderPlaceAsync({
-        subdomain: subdomain,
+      const response = await createBuilderPlaceAsync({
         name: values.name,
         palette: themes['light'],
         presentation: values.presentation,
@@ -59,10 +53,10 @@ function onboardingStep1() {
         profilePicture: values.profilePicture || undefined,
       });
 
-      router.query.subdomain = subdomain;
+      router.query.id = response.id;
       router.push({
         pathname: '/onboarding/step2',
-        query: { subdomain: subdomain },
+        query: { id: response.id },
       });
     } catch (error) {
       console.log(error);
@@ -245,6 +239,7 @@ function onboardingStep1() {
 
               <label className='block'>
                 <span className='text-stone-800 font-bold text-md'>your profile picture</span>
+                <span className='text-stone-800 italic text-md'> (square format)</span>
                 <input
                   type='file'
                   id='profilePicture'

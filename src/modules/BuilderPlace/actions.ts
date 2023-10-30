@@ -8,12 +8,7 @@ import {
   validDomainRegex,
 } from './domains';
 import { BuilderPlace } from './models/BuilderPlace';
-import {
-  CreateBuilderPlaceAction,
-  SetBuilderPlaceOwner,
-  UpdateBuilderPlace,
-  UpdateBuilderPlaceDomain,
-} from './types';
+import { CreateBuilderPlaceAction, UpdateBuilderPlace, UpdateBuilderPlaceDomain } from './types';
 
 export const deleteBuilderPlace = async (subdomain: string) => {
   await connection();
@@ -43,38 +38,14 @@ export const updateBuilderPlace = async (builderPlace: UpdateBuilderPlace) => {
   }
 };
 
-export const setBuilderPlaceOwner = async (builderPlace: SetBuilderPlaceOwner) => {
-  try {
-    await connection();
-    await BuilderPlace.updateOne({ subdomain: builderPlace.subdomain }, builderPlace).exec();
-    return {
-      message: 'BuilderPlace updated successfully',
-    };
-  } catch (error: any) {
-    return {
-      error: error.message,
-    };
-  }
-};
-
 export const createBuilderPlace = async (data: CreateBuilderPlaceAction) => {
   try {
     await connection();
-
-    const builderPlace = await BuilderPlace.findOne({ subdomain: data.subdomain });
-    console.log(builderPlace);
-    if (builderPlace) {
-      console.log('BuilderPlace already exists');
-      return {
-        error: 'BuilderPlace already exists',
-      };
-    }
 
     const newBuilderPlace = new BuilderPlace({
       _id: new mongoose.Types.ObjectId(),
       name: data.name,
       presentation: data.presentation,
-      subdomain: data.subdomain,
       preferredWorkTypes: data.preferredWorkTypes,
       profilePicture: data.profilePicture,
       palette: {
@@ -96,10 +67,10 @@ export const createBuilderPlace = async (data: CreateBuilderPlaceAction) => {
       },
       status: 'pending',
     });
-    await newBuilderPlace.save();
-
+    const { _id } = await newBuilderPlace.save();
     return {
       message: 'BuilderPlace created successfully',
+      _id: _id,
     };
   } catch (error: any) {
     console.log('Error creating new builderPlace:', error);

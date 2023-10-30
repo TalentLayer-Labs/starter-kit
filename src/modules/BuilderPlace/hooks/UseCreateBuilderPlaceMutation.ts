@@ -1,15 +1,10 @@
-import {
-  DomainVerificationStatusProps,
-  DomainResponse,
-  CreateBuilderPlaceProps,
-  IBuilderPlace,
-} from '../types';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { CreateBuilderPlaceProps } from '../types';
+import { useMutation, useQueryClient } from 'react-query';
 
 export function useCreateBuilderPlaceMutation() {
   const queryClient = useQueryClient();
 
-  return useMutation<IBuilderPlace, Error, CreateBuilderPlaceProps>(
+  return useMutation<{ message: string; id: string }, Error, CreateBuilderPlaceProps>(
     createBuilderPlace =>
       fetch('/api/domain/create-builder-place', {
         method: 'POST',

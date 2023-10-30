@@ -53,13 +53,11 @@ const palette = new Schema({
 const builderPlace = new Schema({
   name: {
     type: String,
-    unique: true,
     required: true,
   },
   subdomain: {
     type: String,
     unique: true,
-    required: true,
   },
   customDomain: {
     type: String,

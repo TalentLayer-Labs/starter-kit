@@ -54,7 +54,6 @@ export enum DomainVerificationStatusProps {
 
 export interface CreateBuilderPlaceAction {
   name: string;
-  subdomain: string;
   palette: iBuilderPlacePalette;
   presentation: string;
   preferredWorkTypes: PreferredWorkTypes[];
@@ -63,7 +62,6 @@ export interface CreateBuilderPlaceAction {
 
 export interface CreateBuilderPlaceProps {
   name: string;
-  subdomain: string;
   palette: iBuilderPlacePalette;
   presentation: string;
   preferredWorkTypes: PreferredWorkTypes[];
@@ -71,7 +69,7 @@ export interface CreateBuilderPlaceProps {
 }
 
 export type IBuilderPlace = {
-  id: Number;
+  _id: Number;
   name: string;
   subdomain: string;
   customDomain: string | null;
