@@ -14,7 +14,7 @@ function HirerProfileLayout({ children, className, step }: ContainerProps) {
 
   return (
     <div className='bg-white text-black'>
-      <header className='navbar w-full border-stroke bg-white duration-300'>
+      {step > 0 && <header className='navbar w-full border-stroke bg-white duration-300'>
         <div className='container relative lg:max-w-[1305px] lg:px-10'>
           <div className='flex items-center justify-between h-[80px]'>
             <div className='block py-4 lg:py-0'>
@@ -24,10 +24,10 @@ function HirerProfileLayout({ children, className, step }: ContainerProps) {
             </div>
           </div>
         </div>
-      </header>
+      </header>}
 
       <div>
-        <OnboardingSteps currentStep={step} type='hirer' />
+        {step > 0 && <OnboardingSteps currentStep={step} type='hirer' />}
         <div className={`${className}`}>
           <div className='text-stone-800'>
             <p className=' pb-5 sm:pb-10 pt-5 text-3xl sm:text-5xl font-bold mt-6 text-center'>

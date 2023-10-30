@@ -168,7 +168,7 @@ function onboardingStep3() {
                             {Object.keys(themes[value as keyof typeof themes]).map(color => {
                               return (
                                 <div
-                                  className='group relative inline-block w-[36px] h-[36px]'
+                                  className='group relative inline-block w-[36px] h-[36px] border'
                                   style={{
                                     backgroundColor:
                                       themes[value as keyof typeof themes][
