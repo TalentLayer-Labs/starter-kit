@@ -54,15 +54,41 @@ function ConfigurePlace(props: InferGetServerSidePropsType<typeof getServerSideP
     let timeoutId: string | number | NodeJS.Timeout | undefined;
     // Prevents max stack depth being called
     const delayedEffect = () => {
-
       setPalette(prevPalette => {
         return { ...prevPalette, [colorName]: color.hex };
       });
-    }
+    };
 
     timeoutId = setTimeout(delayedEffect, 10);
     return () => clearTimeout(timeoutId);
   }, [color]);
+
+  useEffect(() => {
+    let timeoutId: string | number | NodeJS.Timeout | undefined;
+    // Prevents max stack depth being called
+    const delayedEffect = () => {
+      document.documentElement.style.setProperty('--primary', palette.primary);
+      document.documentElement.style.setProperty('--primary-50', palette.primary + '60');
+      document.documentElement.style.setProperty('--primary-focus', palette.primaryFocus);
+      document.documentElement.style.setProperty('--primary-content', palette.primaryContent);
+      document.documentElement.style.setProperty('--base-100', palette.base100);
+      document.documentElement.style.setProperty('--base-200', palette.base200);
+      document.documentElement.style.setProperty('--base-300', palette.base300);
+      document.documentElement.style.setProperty('--base-content', palette.baseContent);
+      document.documentElement.style.setProperty('--info', palette.info);
+      document.documentElement.style.setProperty('--info-content', palette.infoContent);
+      document.documentElement.style.setProperty('--success', palette.success);
+      document.documentElement.style.setProperty('--success-50', palette.success + '60');
+      document.documentElement.style.setProperty('--success-content', palette.successContent);
+      document.documentElement.style.setProperty('--warning', palette.warning);
+      document.documentElement.style.setProperty('--warning-content', palette.warningContent);
+      document.documentElement.style.setProperty('--error', palette.error);
+      document.documentElement.style.setProperty('--error-content', palette.errorContent);
+    };
+
+    timeoutId = setTimeout(delayedEffect, 10);
+    return () => clearTimeout(timeoutId);
+  }, [palette]);
 
   if (loading) {
     console.log('no data');
