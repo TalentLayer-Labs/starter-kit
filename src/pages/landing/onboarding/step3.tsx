@@ -8,7 +8,6 @@ import Loading from '../../../components/Loading';
 import TalentLayerContext from '../../../context/talentLayer';
 import { useGetBuilderPlaceFromOwner } from '../../../modules/BuilderPlace/hooks/UseGetBuilderPlaceFromOwner';
 import { useUpdateBuilderPlace } from '../../../modules/BuilderPlace/hooks/UseUpdateBuilderPlace';
-import { upload } from '../../../modules/BuilderPlace/request';
 import { iBuilderPlacePalette } from '../../../modules/BuilderPlace/types';
 import { themes } from '../../../utils/themes';
 import { uploadImage } from '../../../modules/BuilderPlace/utils';
@@ -25,8 +24,7 @@ function onboardingStep3() {
   const { account, user, loading } = useContext(TalentLayerContext);
   const chainId = useChainId();
   const { data: walletClient } = useWalletClient({ chainId });
-  const { data: updateBuilderPlace, mutateAsync: updateBuilderPlaceAsync } =
-    useUpdateBuilderPlace();
+  const { mutateAsync: updateBuilderPlaceAsync } = useUpdateBuilderPlace();
   const builderPlaceData = useGetBuilderPlaceFromOwner(user?.id as string);
   const router = useRouter();
   const [logoLoader, setLogoLoader] = useState(false);
@@ -116,6 +114,7 @@ function onboardingStep3() {
 
                 <label className='block'>
                   <span className='text-stone-800 font-bold text-md'>logo</span>
+                  <span className='text-stone-800 italic text-sm'> (400 x 50 format)</span>
                   <input
                     type='file'
                     id='logo'

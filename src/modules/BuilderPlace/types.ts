@@ -39,7 +39,7 @@ export interface UpdateBuilderPlaceDomain {
 }
 
 export interface SetBuilderPlaceOwner {
-  subdomain: string;
+  id: string;
   owners: string[];
   ownerTalentLayerId: string;
 }
@@ -71,16 +71,16 @@ export interface CreateBuilderPlaceProps {
 export type IBuilderPlace = {
   _id: Number;
   name: string;
-  subdomain: string;
-  customDomain: string | null;
-  logo: string;
-  icon: string;
-  cover: string;
-  profilePicture: string;
-  palette: iBuilderPlacePalette;
-  presentation: string;
-  owners: string[];
-  ownerTalentLayerId: string;
+  subdomain?: string;
+  customDomain?: string | null;
+  logo?: string;
+  icon?: string;
+  cover?: string;
+  profilePicture?: string;
+  palette?: iBuilderPlacePalette;
+  presentation?: string;
+  owners?: string[];
+  ownerTalentLayerId?: string;
   status: 'Validated' | 'Pending';
   preferredWorkTypes: PreferredWorkTypes[];
 };

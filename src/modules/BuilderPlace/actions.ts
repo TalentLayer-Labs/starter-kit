@@ -94,6 +94,24 @@ export const getBuilderPlaceByDomain = async (domain: string) => {
   return builderPlace;
 };
 
+export const getBuilderPlaceById = async (id: string) => {
+  try {
+    await connection();
+    console.log('getting builderPlace with id:', id);
+    const builderPlaceSubdomain = await BuilderPlace.findOne({ _id: id });
+    console.log('fetched builderPlace, ', builderPlaceSubdomain);
+    if (builderPlaceSubdomain) {
+      return builderPlaceSubdomain;
+    }
+
+    return null;
+  } catch (error: any) {
+    return {
+      error: error.message,
+    };
+  }
+};
+
 export const getBuilderPlaceByOwnerId = async (id: string) => {
   try {
     await connection();

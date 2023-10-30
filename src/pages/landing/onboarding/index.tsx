@@ -239,7 +239,7 @@ function onboardingStep1() {
 
               <label className='block'>
                 <span className='text-stone-800 font-bold text-md'>your profile picture</span>
-                <span className='text-stone-800 italic text-md'> (square format)</span>
+                <span className='text-stone-800 italic text-sm'> (square format)</span>
                 <input
                   type='file'
                   id='profilePicture'
