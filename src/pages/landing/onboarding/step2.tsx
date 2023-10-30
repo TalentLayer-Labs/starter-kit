@@ -10,6 +10,7 @@ import SubmitButton from '../../../components/Form/SubmitButton';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import OnboardingSteps from '../../../components/OnboardingSteps';
+import HirerProfileLayout from '../../../components/HirerProfileLayout';
 
 interface IFormValues {
   subdomain: string;
@@ -39,11 +40,15 @@ function onboardingStep2() {
 
   if (!account?.isConnected || !user) {
     return (
-      <Steps
-        handle={slugify(data?.name)}
-        description={data?.presentation}
-        profilePicture={data?.profilePicture}
-      />
+      <HirerProfileLayout step={2}>
+        <div className='flex flex-col items-center justify-center'>
+          <Steps
+            handle={slugify(data?.name)}
+            description={data?.presentation}
+            profilePicture={data?.profilePicture}
+          />
+        </div>
+      </HirerProfileLayout>
     );
   }
 
@@ -74,63 +79,64 @@ function onboardingStep2() {
 
   return (
     <>
-      <OnboardingSteps currentStep={2} type='hirer' />
-      <div className='flex flex-col items-center justify-center'>
-        <p className=' pb-5 sm:pb-10 pt-5 text-3xl sm:text-5xl font-bold mt-6 text-center'>
-          Hello {user.handle} 👋
-        </p>
-        <Formik
-          initialValues={initialValues}
-          enableReinitialize={true}
-          onSubmit={handleSubmit}
-          validationSchema={validationSchema}>
-          {({ isSubmitting }) => (
-            <Form>
-              <div className='grid grid-cols-1 gap-3 sm:gap-4'>
-                {subdomain ? (
-                  <p className='text-center'>
-                    You are about to link your TalentLayer ID to your domain: {subdomain}
-                  </p>
-                ) : (
-                  <div className='flex flex-col items-center justify-center sm:flex-row mb-5'>
-                    <label className='flex flex-row'>
-                      <p className='text-2xl font-semibold text-center sm:mr-4'>
-                        Please input your domain name:
-                      </p>
-                      <Field
-                        type='text'
-                        id='subdomain'
-                        name='subdomain'
-                        className='border border-gray-300 rounded-xl p-2 m-2'
-                        disabled={subdomain}
-                      />
-                    </label>
-                  </div>
-                )}
+      <HirerProfileLayout step={2}>
+        <div className='flex flex-col items-center justify-center'>
+          <p className=' pb-5 sm:pb-10 pt-5 text-3xl sm:text-5xl font-bold mt-6 text-center'>
+            Hello {user.handle} 👋
+          </p>
+          <Formik
+            initialValues={initialValues}
+            enableReinitialize={true}
+            onSubmit={handleSubmit}
+            validationSchema={validationSchema}>
+            {({ isSubmitting }) => (
+              <Form>
+                <div className='grid grid-cols-1 gap-3 sm:gap-4'>
+                  {subdomain ? (
+                    <p className='text-center'>
+                      You are about to link your TalentLayer ID to your domain: {subdomain}
+                    </p>
+                  ) : (
+                    <div className='flex flex-col items-center justify-center sm:flex-row mb-5'>
+                      <label className='flex flex-row'>
+                        <p className='text-2xl font-semibold text-center sm:mr-4'>
+                          Please input your domain name:
+                        </p>
+                        <Field
+                          type='text'
+                          id='subdomain'
+                          name='subdomain'
+                          className='border border-gray-300 rounded-xl p-2 m-2'
+                          disabled={subdomain}
+                        />
+                      </label>
+                    </div>
+                  )}
 
-                <span className='text-red-500'>
-                  <ErrorMessage name='subdomain' />
-                </span>
+                  <span className='text-red-500'>
+                    <ErrorMessage name='subdomain' />
+                  </span>
 
-                {isSubmitting ? (
-                  <button
-                    disabled
-                    type='submit'
-                    className='grow px-5 py-2 rounded-xl bg-pink-300 text-white'>
-                    Loading...
-                  </button>
-                ) : (
-                  <button
-                    type='submit'
-                    className='grow px-5 py-2 rounded-xl bg-pink-500 text-white'>
-                    Use this Id
-                  </button>
-                )}
-              </div>
-            </Form>
-          )}
-        </Formik>
-      </div>
+                  {isSubmitting ? (
+                    <button
+                      disabled
+                      type='submit'
+                      className='grow px-5 py-2 rounded-xl bg-pink-300 text-white'>
+                      Loading...
+                    </button>
+                  ) : (
+                    <button
+                      type='submit'
+                      className='grow px-5 py-2 rounded-xl bg-pink-500 text-white'>
+                      Use this Id
+                    </button>
+                  )}
+                </div>
+              </Form>
+            )}
+          </Formik>
+        </div>
+      </HirerProfileLayout>
     </>
   );
 }

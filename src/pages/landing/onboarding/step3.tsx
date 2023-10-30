@@ -115,7 +115,7 @@ function onboardingStep3() {
                 </span>
 
                 <label className='block'>
-                  <span className='text-stone-800 font-bold text-xl'>Logo</span>
+                  <span className='text-stone-800 font-bold text-md'>logo</span>
                   <input
                     type='file'
                     id='logo'

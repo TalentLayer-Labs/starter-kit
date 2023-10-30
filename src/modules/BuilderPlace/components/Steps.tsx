@@ -52,14 +52,10 @@ function Steps({
 
   return (
     <>
-      <div className={'flex flex-col items-center justify-center'}>
-        <h1>2</h1>
-        <h1>Create your on-chain identity</h1>
-        <p>
-          details about TLIDs and benefits to hirers and workers, on chain reputation and other
-          details about this.{' '}
-        </p>
-      </div>
+      <p className='text-center pb-10 sm:pb-16'>
+        details about TLIDs and benefits to hirers and workers, on chain reputation and other
+        details about this.{' '}
+      </p>
       {!account?.isConnected && (
         <div className='p-8 flex flex-col items-center'>
           <ConnectBlock />
