@@ -42,12 +42,14 @@ function onboardingStep2() {
     if (account.address && id && user.id) {
       setIsSubmitting(true);
       try {
-        await setOwner({
+        const response = await setOwner({
           id: id as string,
           owners: [account.address],
           ownerTalentLayerId: user.id,
         });
-        router.push('/onboarding/step3');
+        if (response?.id) {
+          router.push('/onboarding/step3');
+        }
       } catch (error) {
         console.error('Error updating domain:', error);
       } finally {

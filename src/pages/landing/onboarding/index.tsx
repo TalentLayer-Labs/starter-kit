@@ -52,14 +52,14 @@ function onboardingStep1() {
         preferredWorkTypes: values.preferred_work_types,
         profilePicture: values.profilePicture || undefined,
       });
-
-      router.query.id = response.id;
-      router.push({
-        pathname: '/onboarding/step2',
-        query: { id: response.id },
-      });
-    } catch (error) {
-      console.log(error);
+      if (response?.id) {
+        router.query.id = response.id;
+        router.push({
+          pathname: '/onboarding/step2',
+          query: { id: response.id },
+        });
+      }
+    } catch (error: any) {
       showErrorTransactionToast(error);
     } finally {
       setSubmitting(false);

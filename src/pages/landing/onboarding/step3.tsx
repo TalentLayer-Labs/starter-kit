@@ -164,12 +164,14 @@ function onboardingStep3() {
                             }}
                           />
                           <label
+                            key={`palette-${value}`}
                             htmlFor={`palette-${index}`}
                             className=' peer-checked:border-blue-500 border-2 border-solid rounded-lg flex flex-wrap items-center p-2 w-full'>
                             <span className='block w-full mb-1'>{value} Palette</span>
                             {Object.keys(themes[value as keyof typeof themes]).map(color => {
                               return (
                                 <div
+                                  key={`palette-${value}-style-${color}`}
                                   className='group relative inline-block w-[36px] h-[36px]'
                                   style={{
                                     backgroundColor:
@@ -177,7 +179,9 @@ function onboardingStep3() {
                                         color as keyof iBuilderPlacePalette
                                       ],
                                   }}>
-                                  <span className="absolute hidden group-hover:flex -top-2 -right-3 translate-x-full w-auto px-2 py-1 bg-gray-700 rounded-lg text-center text-white text-sm before:content-[''] before:absolute before:top-1/2  before:right-[100%] before:-translate-y-1/2 before:border-8 before:border-y-transparent before:border-l-transparent before:border-r-gray-700 z-50">
+                                  <span
+                                    key={`palette-${value}-color-${color}`}
+                                    className="absolute hidden group-hover:flex -top-2 -right-3 translate-x-full w-auto px-2 py-1 bg-gray-700 rounded-lg text-center text-white text-sm before:content-[''] before:absolute before:top-1/2  before:right-[100%] before:-translate-y-1/2 before:border-8 before:border-y-transparent before:border-l-transparent before:border-r-gray-700 z-50">
                                     {color} <br />
                                     {
                                       themes[value as keyof typeof themes][
