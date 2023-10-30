@@ -13,10 +13,8 @@ function onboardingStep2() {
   const router = useRouter();
   const { id } = router.query;
   const builderPlaceData = useGetBuilderPlaceById(id as string);
-  const setOwner = useSetBuilderPlaceOwner();
+  const { mutateAsync: setOwner } = useSetBuilderPlaceOwner();
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  console.log('onboardingStep2', { builderPlaceData, id });
 
   if (loading) {
     return (
@@ -44,24 +42,19 @@ function onboardingStep2() {
     if (account.address && id && user.id) {
       setIsSubmitting(true);
       try {
-        await setOwner.mutate({
-          /**
-           * @dev: If the user modified his name, we must update it with his on-chain handle & regenerate the domain name
-           */
+        await setOwner({
           id: id as string,
           owners: [account.address],
           ownerTalentLayerId: user.id,
         });
         router.push('/onboarding/step3');
       } catch (error) {
-        //TODO check handling here
         console.error('Error updating domain:', error);
       } finally {
         setIsSubmitting(false);
       }
     }
   };
-  //TODO message si déjà updaté
 
   return (
     <>
