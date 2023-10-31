@@ -89,6 +89,7 @@ export const getNewPayments = (chainId: number, id: string, timestamp?: string):
           service {
             id
             buyer {
+              id
               address
               handle
             }

@@ -51,6 +51,7 @@ export const getNewReviews = (chainId: number, id: string, timestamp?: string): 
               }
             }
             buyer {
+              id
               address
               handle
             }

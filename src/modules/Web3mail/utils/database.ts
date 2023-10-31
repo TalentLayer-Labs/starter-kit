@@ -1,6 +1,7 @@
 import { EmailType } from '../../../types';
 import { Web3Mail } from '../schemas/web3mail';
 import { CronProbe } from '../schemas/cronProbe';
+import { getBuilderPlaceFromOwner } from '../../BuilderPlace/request';
 
 const getTimestampNowSeconds = () => Math.floor(new Date().getTime() / 1000);
 
@@ -79,4 +80,9 @@ export const getWeb3mailCountByMonth = async (): Promise<{ _id: number; count: n
 
 export const getCronProbeCount = async (): Promise<number> => {
   return CronProbe.count();
+};
+
+export const getDomain = async (buyerTlId: string): Promise<string> => {
+  const builderPlace = await getBuilderPlaceFromOwner(buyerTlId);
+  return builderPlace?.customDomain || builderPlace?.subdomain;
 };

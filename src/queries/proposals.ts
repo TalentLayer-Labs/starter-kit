@@ -145,6 +145,7 @@ export const getProposalsFromPlatformServices = (
           service {
             id
             buyer {
+              id
               address
               handle
             }
@@ -190,6 +191,7 @@ export const getAcceptedProposals = (
           service {
             id
             buyer {
+              id
               address
             }
             description {

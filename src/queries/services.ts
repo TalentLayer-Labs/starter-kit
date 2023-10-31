@@ -199,6 +199,7 @@ export const getNewServicesForPlatform = (
             title
           }
           buyer {
+            id
             address
             handle
           }
