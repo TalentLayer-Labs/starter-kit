@@ -16,9 +16,6 @@ function AdminSettingsLayout({ children, title, route, className }: ContainerPro
         <div className={`${className}`}>
           <div className='text-stone-800'>
             <p className='pb-5 sm:pb-10 pt-5 text-3xl sm:text-5xl font-bold mt-6 text-center flex justify-center items-center gap-8'>
-              <Link href={route}>
-                <ArrowLeft className='h-8 w-8 cursor-pointer' />
-              </Link>
               {title}
             </p>
 
