@@ -3,6 +3,7 @@ import { Web3Mail } from '../schemas/web3mail';
 import { CronProbe } from '../schemas/cronProbe';
 import { getBuilderPlaceFromOwner } from '../../BuilderPlace/request';
 import { getUserIdFromAddress } from '../../../queries/users';
+import { getPlatformAddress } from '../../../queries/platform';
 
 const getTimestampNowSeconds = () => Math.floor(new Date().getTime() / 1000);
 
@@ -83,14 +84,20 @@ export const getCronProbeCount = async (): Promise<number> => {
   return CronProbe.count();
 };
 
-export const getDomainFromPlatformAddress = async (
-  platformAddress: string,
+export const getDomainFromPlatformId = async (
   chainId: number,
+  platformId: string,
 ): Promise<string | null> => {
-  const response = await getUserIdFromAddress(chainId, platformAddress);
-  console.log(response);
-  if (response?.data?.data?.users[0]?.id) {
-    return getDomain(response.data.data.users[0].id);
+  const platformResponse = await getPlatformAddress(chainId, platformId);
+  console.log(platformResponse);
+  if (platformResponse?.data?.data?.platforms[0]?.address) {
+    const userResponse = await getUserIdFromAddress(
+      chainId,
+      platformResponse?.data?.data?.platforms[0]?.address,
+    );
+    if (userResponse?.data?.data?.users[0]?.id) {
+      return getDomain(userResponse.data.data.users[0].id);
+    }
   }
   return null;
 };

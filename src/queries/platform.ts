@@ -69,3 +69,15 @@ export const getPlatformId = (chainId: number, address: string): Promise<any> =>
     `;
   return processRequest(chainId, query);
 };
+
+export const getPlatformAddress = (chainId: number, id: string): Promise<any> => {
+  const query = `
+    {
+      platforms(where: {id: "${id}"}) {
+        id
+        address
+      }
+    }
+    `;
+  return processRequest(chainId, query);
+};
