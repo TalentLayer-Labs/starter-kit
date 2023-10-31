@@ -107,7 +107,7 @@ function ConfigurePlace(props: InferGetServerSidePropsType<typeof getServerSideP
          */
         const signature = await walletClient.signMessage({
           account: account.address,
-          message: values.subdomain,
+          message: builderPlace._id,
         });
 
         await updateBuilderPlaceAsync({
@@ -171,13 +171,13 @@ function ConfigurePlace(props: InferGetServerSidePropsType<typeof getServerSideP
                   <button
                     disabled
                     type='submit'
-                    className='grow px-5 py-2 rounded-xl bg-pink-300 text-white'>
+                    className='grow px-5 py-2 rounded-xl bg-primary-50 text-primary'>
                     Loading...
                   </button>
                 ) : (
                   <button
                     type='submit'
-                    className='grow px-5 py-2 rounded-xl bg-pink-500 text-white'>
+                    className='grow px-5 py-2 rounded-xl bg-primary text-primary'>
                     Sign and validate
                   </button>
                 )}

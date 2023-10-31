@@ -42,7 +42,7 @@ function Layout({ children, className }: ContainerProps) {
     return (
       <div className={'dashboard pb-[110px]'}>
         <div className='flex flex-1 flex-col '>
-          <div className='top-0 z-10 flex h-16 flex-shrink-0 bg-base-200'>
+          <div className='top-0 z-10 flex h-16 flex-shrink-0'>
             <div className='flex flex-1 items-center pl-6'>
               <div className=''>
                 <Logo />
@@ -63,7 +63,7 @@ function Layout({ children, className }: ContainerProps) {
       return (
         <div className={'dashboard pb-[110px]'}>
           <div className='flex flex-1 flex-col '>
-            <div className='top-0 z-10 flex h-16 flex-shrink-0 bg-base-200'>
+            <div className='top-0 z-10 flex h-16 flex-shrink-0'>
               <div className='flex flex-1 items-center pl-6'>
                 <div className=''>
                   <Logo />
@@ -152,7 +152,7 @@ function Layout({ children, className }: ContainerProps) {
           </div>
 
           <div className='flex flex-1 flex-col md:pl-72'>
-            <div className='top-0 z-10 flex h-16 flex-shrink-0 bg-base-200'>
+            <div className='top-0 z-10 flex h-16 flex-shrink-0'>
               <div className='flex flex-1 items-center pl-6'>
                 <div className='sm:hidden'>
                   <Logo />

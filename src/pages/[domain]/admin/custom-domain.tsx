@@ -30,14 +30,14 @@ export default function CustomDomain(
   const updateBuilderPlaceDomainMutation = useUpdateBuilderPlaceDomain();
 
   const handleUpdateDomainClick = async () => {
-    if (!walletClient || !account?.address) return;
+    if (!walletClient || !account?.address || !builderPlace) return;
     try {
       /**
        * @dev Sign message to prove ownership of the address
        */
       const signature = await walletClient.signMessage({
-        account: account?.address,
-        message: builderPlace?.subdomain!,
+        account: account.address,
+        message: builderPlace._id,
       });
 
       updateBuilderPlaceDomainMutation.mutate({
