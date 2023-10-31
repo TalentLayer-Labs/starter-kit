@@ -22,7 +22,7 @@ const BuilderPlaceProvider = ({ data, children }: { data: IBuilderPlace; childre
       owner => owner.toLocaleLowerCase() === user?.address.toLocaleLowerCase(),
     );
 
-    setIsBuilderPlaceOwner(isBuilderPlaceOwner);
+    setIsBuilderPlaceOwner(isBuilderPlaceOwner || false);
     setBuilderPlace(data);
   }, [data, user]);
 

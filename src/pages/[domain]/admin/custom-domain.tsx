@@ -41,6 +41,7 @@ export default function CustomDomain(
       });
 
       updateBuilderPlaceDomainMutation.mutate({
+        _id: builderPlace?._id!,
         customDomain: customDomain,
         subdomain: builderPlace?.subdomain!,
         signature: signature,
