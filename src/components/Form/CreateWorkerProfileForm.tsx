@@ -229,7 +229,7 @@ function CreateWorkerProfileForm({ callback }: { callback?: () => void }) {
 
               <SkillsInput initialValues={userDescription?.skills_raw} entityId={'skills'} />
 
-              <Field type='hidden' id='skills' name='skills'/>
+              <Field type='hidden' id='skills' name='skills' />
             </label>
             <SubmitButton isSubmitting={isSubmitting} label='Create Profile' />
           </div>
