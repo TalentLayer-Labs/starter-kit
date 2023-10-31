@@ -1,15 +1,15 @@
-import {
-  DomainVerificationStatusProps,
-  DomainResponse,
-  CreateBuilderPlaceProps,
-  IBuilderPlace,
-} from '../types';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { CreateBuilderPlaceProps } from '../types';
+import { useMutation, useQueryClient } from 'react-query';
+import { showMongoErrorTransactionToast } from '../../../utils/toast';
 
 export function useCreateBuilderPlaceMutation() {
   const queryClient = useQueryClient();
 
-  return useMutation<IBuilderPlace, Error, CreateBuilderPlaceProps>(
+  return useMutation<
+    { message: string; id: string; error?: string },
+    Error,
+    CreateBuilderPlaceProps
+  >(
     createBuilderPlace =>
       fetch('/api/domain/create-builder-place', {
         method: 'POST',
@@ -21,10 +21,21 @@ export function useCreateBuilderPlaceMutation() {
         if (res.status === 200) {
           return res.json();
         } else {
-          throw new Error('Failed to create builderPlace');
+          res
+            .json()
+            .then((data: any) => {
+              showMongoErrorTransactionToast(data.error);
+            })
+            .catch(err => {
+              throw new Error('Failed to create builderPlace', err);
+            });
         }
       }),
+
     {
+      onError: error => {
+        throw new Error('Failed to create builderPlace', error);
+      },
       onSuccess: () => {
         queryClient.invalidateQueries('createBuilderPlaces');
       },

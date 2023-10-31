@@ -1,20 +1,22 @@
 import { recoverMessageAddress } from 'viem';
-import { getBuilderPlaceByOwnerAddressAndDomain } from '../../../modules/BuilderPlace/actions';
+import { getBuilderPlaceByOwnerAddressAndId } from '../../../modules/BuilderPlace/actions';
 import { NextApiResponse } from 'next';
 
 export const checkSignature = async (
-  subdomain: string,
+  _id: string,
   signature: `0x${string}` | Uint8Array,
   res: NextApiResponse,
 ) => {
   const address = await recoverMessageAddress({
-    message: subdomain,
+    message: _id,
     signature: signature,
   });
 
-  const builderPlace = await getBuilderPlaceByOwnerAddressAndDomain(address, subdomain);
+  const builderPlace = await getBuilderPlaceByOwnerAddressAndId(address, _id);
 
   if (!builderPlace) {
     return res.status(500).json({ error: 'Not the owner.' });
   }
+
+  return { builderPlace, address };
 };

@@ -12,6 +12,7 @@ import TalentLayerContext from '../../../context/talentLayer';
 import { useGetBuilderPlaceFromOwner } from '../../../modules/BuilderPlace/hooks/UseGetBuilderPlaceFromOwner';
 import { useUpdateBuilderPlace } from '../../../modules/BuilderPlace/hooks/UseUpdateBuilderPlace';
 import { themes } from '../../../utils/themes';
+import { generateDomainName, slugify } from '../../../modules/BuilderPlace/utils';
 interface IFormValues {
   subdomain: string;
   palette: keyof typeof themes;
@@ -25,15 +26,14 @@ function onboardingStep3() {
   const { account, user, loading } = useContext(TalentLayerContext);
   const chainId = useChainId();
   const { data: walletClient } = useWalletClient({ chainId });
-  const { data: updateBuilderPlace, mutateAsync: updateBuilderPlaceAsync } =
-    useUpdateBuilderPlace();
+  const { mutateAsync: updateBuilderPlaceAsync } = useUpdateBuilderPlace();
   const builderPlaceData = useGetBuilderPlaceFromOwner(user?.id as string);
   const router = useRouter();
   const [logoLoader, setLogoLoader] = useState(false);
   const [logoErrorMessage, setLogoErrorMessage] = useState('');
 
   const initialValues: IFormValues = {
-    subdomain: builderPlaceData?.subdomain || '',
+    subdomain: (builderPlaceData?.name && slugify(builderPlaceData.name)) || '',
     logo: builderPlaceData?.logo || '',
     palette: 'light',
   };
@@ -50,7 +50,7 @@ function onboardingStep3() {
   if (!builderPlaceData) {
     return (
       <div className='flex flex-col mt-5 pb-8'>
-        <p>No builderPlace found in link to this wallet</p>
+        <p>No builderPlace found associated to this wallet</p>
       </div>
     );
   }
@@ -67,11 +67,14 @@ function onboardingStep3() {
          */
         const signature = await walletClient.signMessage({
           account: account.address,
-          message: values.subdomain,
+          message: builderPlaceData._id,
         });
 
-        await updateBuilderPlaceAsync({
-          subdomain: values.subdomain,
+        const subdomain = generateDomainName(values.subdomain);
+
+        const res = await updateBuilderPlaceAsync({
+          _id: builderPlaceData._id,
+          subdomain: subdomain,
           logo: values.logo,
           name: builderPlaceData.name,
           ownerTalentLayerId: builderPlaceData.ownerTalentLayerId,
@@ -80,7 +83,9 @@ function onboardingStep3() {
           status: 'validated',
           signature,
         });
-        router.push(`${window.location.protocol}//${values.subdomain}/dashboard`);
+        if (res?.id) {
+          router.push(`${window.location.protocol}//${subdomain}/dashboard`);
+        }
       } catch (e: any) {
         console.error(e);
       } finally {

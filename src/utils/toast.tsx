@@ -3,8 +3,12 @@ import { EthersError } from '@enzoferey/ethers-error-parser/dist/types';
 import { toast } from 'react-toastify';
 import MultiStepsTransactionToast from '../components/MultiStepsTransactionToast';
 import { graphIsSynced, graphUserIsSynced } from '../queries/global';
-import { Client, Hash, Transaction, WalletClient } from 'viem';
+import { Hash } from 'viem';
 import { PublicClient } from 'wagmi';
+
+export enum MONGO_ERROR_CODES {
+  DUPLICATE_KEY = 11000,
+}
 
 interface IMessages {
   pending: string;
@@ -90,6 +94,11 @@ export const showErrorTransactionToast = (error: any) => {
   toast.error(errorMessage);
 };
 
+export const showMongoErrorTransactionToast = (error: any) => {
+  let errorMessage = getParsedMongoErrorMessage(error);
+  toast.error(errorMessage);
+};
+
 export const createTalentLayerIdTransactionToast = async (
   chainId: number,
   messages: IMessages,
@@ -148,5 +157,13 @@ function getParsedErrorMessage(error: any) {
     return `${parsedEthersError.errorCode} - user rejected transaction`;
   } else {
     return `${parsedEthersError.errorCode} - ${parsedEthersError.context}`;
+  }
+}
+
+function getParsedMongoErrorMessage(error: string) {
+  if (error.includes(MONGO_ERROR_CODES.DUPLICATE_KEY.toString())) {
+    return `Organization already exists`;
+  } else {
+    return `${error}`;
   }
 }

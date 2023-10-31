@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react';
-import { getBuilderPlaceFromOwner } from '../request';
+import { getBuilderPlaceById } from '../request';
 import { IBuilderPlace } from '../types';
 
-export function useGetBuilderPlaceFromOwner(id: string): IBuilderPlace | null {
+export function useGetBuilderPlaceById(id: string): IBuilderPlace | null {
   const [builderPlace, setBuilderPlace] = useState<IBuilderPlace | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getBuilderPlaceFromOwner(id);
+        const response = await getBuilderPlaceById(id);
         const data = await response.json();
-        if (response) {
+        if (!data.error) {
           setBuilderPlace(data);
         }
       } catch (err: any) {

@@ -111,6 +111,7 @@ function ConfigurePlace(props: InferGetServerSidePropsType<typeof getServerSideP
         });
 
         await updateBuilderPlaceAsync({
+          _id: builderPlace._id,
           subdomain: values.subdomain,
           logo: values.logo,
           name: builderPlace.name,

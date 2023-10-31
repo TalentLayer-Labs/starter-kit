@@ -8,16 +8,11 @@ import {
   validDomainRegex,
 } from './domains';
 import { BuilderPlace } from './models/BuilderPlace';
-import {
-  CreateBuilderPlaceAction,
-  SetBuilderPlaceOwner,
-  UpdateBuilderPlace,
-  UpdateBuilderPlaceDomain,
-} from './types';
+import { CreateBuilderPlaceAction, UpdateBuilderPlace, UpdateBuilderPlaceDomain } from './types';
 
-export const deleteBuilderPlace = async (subdomain: string) => {
+export const deleteBuilderPlace = async (_id: string) => {
   await connection();
-  const builderPlace = await BuilderPlace.deleteOne({ subdomain: subdomain });
+  const builderPlace = await BuilderPlace.deleteOne({ _id: _id });
   console.log(builderPlace, 'builderPlace deleted');
   if (builderPlace.deletedCount === 0) {
     return {
@@ -32,23 +27,13 @@ export const deleteBuilderPlace = async (subdomain: string) => {
 export const updateBuilderPlace = async (builderPlace: UpdateBuilderPlace) => {
   try {
     await connection();
-    await BuilderPlace.updateOne({ subdomain: builderPlace.subdomain }, builderPlace).exec();
+    await BuilderPlace.updateOne(
+      { ownerTalentLayerId: builderPlace.ownerTalentLayerId },
+      builderPlace,
+    ).exec();
     return {
       message: 'BuilderPlace updated successfully',
-    };
-  } catch (error: any) {
-    return {
-      error: error.message,
-    };
-  }
-};
-
-export const setBuilderPlaceOwner = async (builderPlace: SetBuilderPlaceOwner) => {
-  try {
-    await connection();
-    await BuilderPlace.updateOne({ subdomain: builderPlace.subdomain }, builderPlace).exec();
-    return {
-      message: 'BuilderPlace updated successfully',
+      id: builderPlace._id,
     };
   } catch (error: any) {
     return {
@@ -61,20 +46,10 @@ export const createBuilderPlace = async (data: CreateBuilderPlaceAction) => {
   try {
     await connection();
 
-    const builderPlace = await BuilderPlace.findOne({ subdomain: data.subdomain });
-    console.log(builderPlace);
-    if (builderPlace) {
-      console.log('BuilderPlace already exists');
-      return {
-        error: 'BuilderPlace already exists',
-      };
-    }
-
     const newBuilderPlace = new BuilderPlace({
       _id: new mongoose.Types.ObjectId(),
       name: data.name,
       presentation: data.presentation,
-      subdomain: data.subdomain,
       preferredWorkTypes: data.preferredWorkTypes,
       profilePicture: data.profilePicture,
       palette: {
@@ -96,10 +71,10 @@ export const createBuilderPlace = async (data: CreateBuilderPlaceAction) => {
       },
       status: 'pending',
     });
-    await newBuilderPlace.save();
-
+    const { _id } = await newBuilderPlace.save();
     return {
       message: 'BuilderPlace created successfully',
+      _id: _id,
     };
   } catch (error: any) {
     console.log('Error creating new builderPlace:', error);
@@ -123,6 +98,24 @@ export const getBuilderPlaceByDomain = async (domain: string) => {
   return builderPlace;
 };
 
+export const getBuilderPlaceById = async (id: string) => {
+  try {
+    await connection();
+    console.log('getting builderPlace with id:', id);
+    const builderPlaceSubdomain = await BuilderPlace.findOne({ _id: id });
+    console.log('fetched builderPlace, ', builderPlaceSubdomain);
+    if (builderPlaceSubdomain) {
+      return builderPlaceSubdomain;
+    }
+
+    return null;
+  } catch (error: any) {
+    return {
+      error: error.message,
+    };
+  }
+};
+
 export const getBuilderPlaceByOwnerId = async (id: string) => {
   try {
     await connection();
@@ -141,16 +134,13 @@ export const getBuilderPlaceByOwnerId = async (id: string) => {
   }
 };
 
-export const getBuilderPlaceByOwnerAddressAndDomain = async (
-  address: string,
-  subdomain: string,
-) => {
+export const getBuilderPlaceByOwnerAddressAndId = async (address: string, _id: string) => {
   try {
     await connection();
-    console.log("getting builderPlace with owner's address & domain:", address, subdomain);
+    console.log("getting builderPlace with owner's address & mongo _id:", address, _id);
     const builderPlaceSubdomain = await BuilderPlace.findOne({
       owners: address,
-      subdomain: subdomain,
+      _id: _id,
     });
     console.log('fetched builderPlace, ', builderPlaceSubdomain);
     if (builderPlaceSubdomain) {

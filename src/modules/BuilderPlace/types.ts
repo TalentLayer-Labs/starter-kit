@@ -18,8 +18,9 @@ export interface iBuilderPlacePalette {
   errorContent: string;
 }
 export interface UpdateBuilderPlace {
+  _id: string;
   subdomain: string;
-  name: string | undefined;
+  name: string;
   palette?: iBuilderPlacePalette;
   ownerTalentLayerId: string | undefined;
   owners: string[] | undefined;
@@ -28,18 +29,19 @@ export interface UpdateBuilderPlace {
   signature: `0x${string}` | Uint8Array;
 }
 export interface DeleteBuilderPlace {
-  subdomain: string;
+  _id: string;
   signature: `0x${string}` | Uint8Array;
 }
 
 export interface UpdateBuilderPlaceDomain {
+  _id: string;
   subdomain: string;
   customDomain: string;
   signature: `0x${string}` | Uint8Array;
 }
 
 export interface SetBuilderPlaceOwner {
-  subdomain: string;
+  id: string;
   owners: string[];
   ownerTalentLayerId: string;
 }
@@ -54,7 +56,6 @@ export enum DomainVerificationStatusProps {
 
 export interface CreateBuilderPlaceAction {
   name: string;
-  subdomain: string;
   palette: iBuilderPlacePalette;
   presentation: string;
   preferredWorkTypes: PreferredWorkTypes[];
@@ -63,7 +64,6 @@ export interface CreateBuilderPlaceAction {
 
 export interface CreateBuilderPlaceProps {
   name: string;
-  subdomain: string;
   palette: iBuilderPlacePalette;
   presentation: string;
   preferredWorkTypes: PreferredWorkTypes[];
@@ -71,18 +71,18 @@ export interface CreateBuilderPlaceProps {
 }
 
 export type IBuilderPlace = {
-  id: Number;
+  _id: string;
   name: string;
-  subdomain: string;
-  customDomain: string | null;
-  logo: string;
-  icon: string;
-  cover: string;
-  profilePicture: string;
-  palette: iBuilderPlacePalette;
-  presentation: string;
-  owners: string[];
-  ownerTalentLayerId: string;
+  subdomain?: string;
+  customDomain?: string | null;
+  logo?: string;
+  icon?: string;
+  cover?: string;
+  profilePicture?: string;
+  palette?: iBuilderPlacePalette;
+  presentation?: string;
+  owners?: string[];
+  ownerTalentLayerId?: string;
   status: 'Validated' | 'Pending';
   preferredWorkTypes: PreferredWorkTypes[];
 };

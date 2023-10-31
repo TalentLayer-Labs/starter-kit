@@ -14,9 +14,26 @@ export const upload = async (file: File, fileName?: string): Promise<any> => {
   }
 };
 
-export const getBuilderPlaceFromOwner = async (id: string): Promise<any> => {
+export const getBuilderPlaceFromOwner = async (talentLayerId: string): Promise<any> => {
   try {
     return await fetch('/api/domain/get-builder-place-from-owner', {
+      method: 'POST',
+      body: JSON.stringify({
+        id: talentLayerId,
+      }),
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
+export const getBuilderPlaceById = async (id: string): Promise<any> => {
+  try {
+    return await fetch('/api/domain/get-builder-place-by-id', {
       method: 'POST',
       body: JSON.stringify({
         id: id,
