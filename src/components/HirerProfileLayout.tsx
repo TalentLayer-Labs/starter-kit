@@ -1,7 +1,7 @@
+import Image from 'next/image';
 import { ReactNode, useContext } from 'react';
 import TalentLayerContext from './../context/talentLayer';
 import OnboardingSteps from './OnboardingSteps';
-import Image from 'next/image';
 
 interface ContainerProps {
   children: ReactNode;
@@ -31,9 +31,9 @@ function HirerProfileLayout({ children, className, step }: ContainerProps) {
         <div className={`${className}`}>
           <div className='text-stone-800'>
             <p className=' pb-5 sm:pb-10 pt-5 text-3xl sm:text-5xl font-bold mt-6 text-center'>
-              {step == 1
+              {step === 1
                 ? 'create Your Hirer Profile'
-                : step == 2
+                : step === 2
                 ? 'create your on-chain hiring identity'
                 : 'customize Your BuilderPlace'}
             </p>
