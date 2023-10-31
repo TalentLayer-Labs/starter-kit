@@ -14,7 +14,10 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     const currentBuilderPlace = response?.builderPlace;
     const existingSubdomain = await getBuilderPlaceByDomain(body.subdomain);
 
-    if (existingSubdomain && existingSubdomain._id !== currentBuilderPlace._id) {
+    if (
+      existingSubdomain &&
+      existingSubdomain._id.toString() !== currentBuilderPlace._id.toString()
+    ) {
       return res.status(500).json({ error: 'Domain already taken.' });
     }
 
