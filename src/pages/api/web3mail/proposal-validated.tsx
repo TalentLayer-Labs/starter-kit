@@ -6,6 +6,7 @@ import { sendMailToAddresses } from '../../../scripts/iexec/sendMailToAddresses'
 import { getUsersWeb3MailPreference } from '../../../queries/users';
 import { calculateCronData } from '../../../modules/Web3mail/utils/cron';
 import {
+  getDomain,
   hasEmailBeenSent,
   persistCronProbe,
   persistEmail,
@@ -103,6 +104,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const { dataProtector, web3mail } = generateWeb3mailProviders(privateKey);
 
     for (const proposal of proposalEmailsToBeSent) {
+      const domain = await getDomain(proposal.service.buyer.id);
+
       try {
         const email = renderWeb3mail(
           `Your proposal got accepted!`,
@@ -114,8 +117,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 proposal.rateAmount,
               )}. 
               For the following work to be provided: ${proposal.description?.about}.`,
+          domain,
           proposal.seller.handle,
-          `${proposal.service.platform.description?.website}/work/${proposal.service.id}`,
+          `${domain}/work/${proposal.service.id}`,
           `Go to proposal detail`,
         );
         // @dev: This function needs to be throwable to avoid persisting the proposal in the DB if the email is not sent

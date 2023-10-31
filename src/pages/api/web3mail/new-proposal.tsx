@@ -6,6 +6,7 @@ import { sendMailToAddresses } from '../../../scripts/iexec/sendMailToAddresses'
 import { getUsersWeb3MailPreference } from '../../../queries/users';
 import { calculateCronData } from '../../../modules/Web3mail/utils/cron';
 import {
+  getDomain,
   hasEmailBeenSent,
   persistCronProbe,
   persistEmail,
@@ -108,6 +109,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const { dataProtector, web3mail } = generateWeb3mailProviders(privateKey);
 
     for (const proposal of proposalEmailsToBeSent) {
+      const domain = await getDomain(proposal.buyer.id);
+
       try {
         const email = renderWeb3mail(
           `You got a new proposal!`,
@@ -121,8 +124,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             proposal.rateAmount,
           )}.`,
           proposal.service.buyer.handle,
-          `${proposal.service.platform.description?.website}/work/${proposal.service.id}`,
+          `${domain}/work/${proposal.service.id}`,
           `Go to proposal detail`,
+          domain,
         );
         // @dev: This function needs to be throwable to avoid persisting the entity in the DB if the email is not sent
         await sendMailToAddresses(

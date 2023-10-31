@@ -6,6 +6,7 @@ import { sendMailToAddresses } from '../../../scripts/iexec/sendMailToAddresses'
 import { getUsersWeb3MailPreference } from '../../../queries/users';
 import { calculateCronData } from '../../../modules/Web3mail/utils/cron';
 import {
+  getDomain,
   hasEmailBeenSent,
   persistCronProbe,
   persistEmail,
@@ -133,6 +134,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         `New fund ${action} email to send to ${senderHandle} at address ${receiverAddress}`,
       );
 
+      const domain = await getDomain(payment.service.buyer.id);
+
       const email = renderWeb3mail(
         `Funds released!`,
         `${senderHandle} has ${action} ${renderTokenAmount(
@@ -140,8 +143,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           payment.amount,
         )} for the gig ${payment.service.description?.title} on BuilderPlace !`,
         receiverHandle,
-        `${payment.service.platform.description?.website}/work/${payment.service.id}`,
+        `${domain}/work/${payment.service.id}`,
         `Go to payment detail`,
+        domain,
       );
       try {
         // @dev: This function needs to be throwable to avoid persisting the entity in the DB if the email is not sent

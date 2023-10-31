@@ -5,6 +5,7 @@ import { sendMailToAddresses } from '../../../scripts/iexec/sendMailToAddresses'
 import { getWeb3mailUsersForNewServices } from '../../../queries/users';
 import { calculateCronData } from '../../../modules/Web3mail/utils/cron';
 import {
+  getDomain,
   hasEmailBeenSent,
   persistCronProbe,
   persistEmail,
@@ -35,7 +36,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   const { dataProtector, web3mail } = generateWeb3mailProviders(privateKey);
 
-  await mongoose.disconnect();
   await mongoose.connect(mongoUri as string);
 
   // Check whether the user provided a timestamp or if it will come from the cron config
@@ -112,6 +112,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 contact.user.handle
               } has which are required by this gig are: ${matchingSkills.join(', ')}`,
             );
+
+            const domain = await getDomain(service.buyer.id);
+
             try {
               const email = renderWeb3mail(
                 `New gig available on BuilderPlace!`,
@@ -126,8 +129,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                   
                   Be the first one to send a proposal !`,
                 contact.user.handle,
-                `${service.platform.description?.website}/work/${service.id}`,
+                `${domain}/work/${service.id}`,
                 `Go to gig detail`,
+                domain,
               );
               // @dev: This function needs to be throwable to avoid persisting the entity in the DB if the email is not sent
               await sendMailToAddresses(

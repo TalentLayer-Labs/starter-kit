@@ -181,7 +181,6 @@ export const getNewServicesForPlatform = (
           platform {
             id
             name
-            address
             description {
               website
             }

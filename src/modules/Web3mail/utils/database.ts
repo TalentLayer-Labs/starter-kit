@@ -2,8 +2,6 @@ import { EmailType } from '../../../types';
 import { Web3Mail } from '../schemas/web3mail';
 import { CronProbe } from '../schemas/cronProbe';
 import { getBuilderPlaceFromOwner } from '../../BuilderPlace/request';
-import { getUserIdFromAddress } from '../../../queries/users';
-import { getPlatformAddress } from '../../../queries/platform';
 
 const getTimestampNowSeconds = () => Math.floor(new Date().getTime() / 1000);
 
@@ -82,24 +80,6 @@ export const getWeb3mailCountByMonth = async (): Promise<{ _id: number; count: n
 
 export const getCronProbeCount = async (): Promise<number> => {
   return CronProbe.count();
-};
-
-export const getDomainFromPlatformId = async (
-  chainId: number,
-  platformId: string,
-): Promise<string | null> => {
-  const platformResponse = await getPlatformAddress(chainId, platformId);
-  console.log(platformResponse);
-  if (platformResponse?.data?.data?.platforms[0]?.address) {
-    const userResponse = await getUserIdFromAddress(
-      chainId,
-      platformResponse?.data?.data?.platforms[0]?.address,
-    );
-    if (userResponse?.data?.data?.users[0]?.id) {
-      return getDomain(userResponse.data.data.users[0].id);
-    }
-  }
-  return null;
 };
 
 export const getDomain = async (buyerTlId: string): Promise<string> => {

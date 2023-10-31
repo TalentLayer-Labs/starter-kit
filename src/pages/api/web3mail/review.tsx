@@ -5,6 +5,7 @@ import { sendMailToAddresses } from '../../../scripts/iexec/sendMailToAddresses'
 import { getUsersWeb3MailPreference } from '../../../queries/users';
 import { calculateCronData } from '../../../modules/Web3mail/utils/cron';
 import {
+  getDomain,
   hasEmailBeenSent,
   persistCronProbe,
   persistEmail,
@@ -118,15 +119,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       review.to.address === review.service.buyer.address
         ? console.log('Reviewer is the seller')
         : console.log('Reviewer is the buyer');
+
+      const domain = await getDomain(review.service.buyer.id);
+
       try {
         const email = renderWeb3mail(
           `You received a new review!`,
-          review.to.handle,
           `${fromHandle} has left a review for the gig ${review.service.description?.title}.
             The gig was rated ${review.rating}/5 stars and the following comment was left: ${review.description?.content}.
             Congratulations on completing your gig and improving your reputation !`,
-          `${review.service.platform.description?.website}/work/${review.service.id}`,
+          review.to.handle,
+          `${domain}/work/${review.service.id}`,
           `Go to review detail`,
+          domain,
         );
         // @dev: This function needs to be throwable to avoid persisting the entity in the DB if the email is not sent
         await sendMailToAddresses(
