@@ -33,6 +33,7 @@ export const updateBuilderPlace = async (builderPlace: UpdateBuilderPlace) => {
     ).exec();
     return {
       message: 'BuilderPlace updated successfully',
+      id: builderPlace._id,
     };
   } catch (error: any) {
     return {

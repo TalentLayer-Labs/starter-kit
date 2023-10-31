@@ -26,7 +26,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     if (result?.error) {
       res.status(400).json({ error: result.error });
     } else {
-      res.status(200).json({ message: 'BuilderPlace domain updated successfully' });
+      res.status(200).json({ message: 'BuilderPlace domain updated successfully', id: result.id });
     }
   } else {
     res.status(405).json({ message: 'Method not allowed' });

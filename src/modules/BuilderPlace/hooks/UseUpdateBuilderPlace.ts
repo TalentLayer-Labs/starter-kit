@@ -1,8 +1,13 @@
 import { useMutation } from 'react-query';
 import { UpdateBuilderPlace } from '../types';
+import { showMongoErrorTransactionToast } from '../../../utils/toast';
 
 export function useUpdateBuilderPlace() {
-  const updateBuilderPlaceDomainMutation = useMutation<void, Error, UpdateBuilderPlace>(
+  const updateBuilderPlaceDomainMutation = useMutation<
+    { message: string; id: string; error?: string },
+    Error,
+    UpdateBuilderPlace
+  >(
     (updateBuilderPlaceData: UpdateBuilderPlace) =>
       fetch('/api/domain/update-builder-place', {
         method: 'PUT',
@@ -14,7 +19,15 @@ export function useUpdateBuilderPlace() {
         if (res.status === 200) {
           return res.json();
         } else {
-          throw new Error('Failed to update builderPlace domain');
+          res
+            .json()
+            .then((data: any) => {
+              showMongoErrorTransactionToast(data.error);
+              return data;
+            })
+            .catch(err => {
+              throw new Error('Failed to update builderPlace', err.fileName);
+            });
         }
       }),
     {

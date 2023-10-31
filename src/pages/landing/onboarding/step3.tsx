@@ -68,7 +68,7 @@ function onboardingStep3() {
           message: builderPlaceData._id,
         });
 
-        await updateBuilderPlaceAsync({
+        const res = await updateBuilderPlaceAsync({
           _id: builderPlaceData._id,
           subdomain: generateDomainName(values.subdomain),
           logo: values.logo,
@@ -79,7 +79,9 @@ function onboardingStep3() {
           status: 'validated',
           signature,
         });
-        router.push(`${window.location.protocol}//${values.subdomain}/dashboard`);
+        if (res?.id) {
+          router.push(`${window.location.protocol}//${values.subdomain}/dashboard`);
+        }
       } catch (e: any) {
         console.error(e);
       } finally {
