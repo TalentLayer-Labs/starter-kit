@@ -237,3 +237,14 @@ export const getWeb3mailUsersForNewServices = (
     `;
   return processRequest(chainId, query);
 };
+
+export const getUserIdFromAddress = (chainId: number, address: string): Promise<any> => {
+  const query = `
+    {
+      users(where: {address: "${address.toLocaleLowerCase()}"}, first: 1) {
+        id
+      }
+    }
+    `;
+  return processRequest(chainId, query);
+};
