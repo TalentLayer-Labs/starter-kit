@@ -17,4 +17,6 @@ export const checkSignature = async (
   if (!builderPlace) {
     return res.status(500).json({ error: 'Not the owner.' });
   }
+
+  return { builderPlace, address };
 };
