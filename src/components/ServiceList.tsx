@@ -49,7 +49,7 @@ function ServiceList() {
         <div className='flex justify-center items-center gap-10 flex-col pb-5'>
           <button
             type='submit'
-            className={`px-5 py-2 mt-5 content-center border border-2 text-black border-black rounded-xl font-medium text-content 
+            className={`px-5 py-2 mt-5 content-center border-2 text-black border-black rounded-xl font-medium text-content 
                 `}
             disabled={!hasMoreData}
             onClick={() => loadMore()}>

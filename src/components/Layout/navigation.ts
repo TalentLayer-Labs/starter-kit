@@ -14,23 +14,23 @@ import {
 } from '@heroicons/react/24/outline';
 
 export const hirerNavigation = [
-  { name: 'Dashboard', href: '/dashboard', icon: HomeIcon, current: false },
-  { name: 'My posts', href: '/', icon: BriefcaseIcon, current: false },
-  { name: 'New post', href: '/work/create', icon: PlusCircleIcon, current: false },
-  { name: 'Find worker', href: '/profiles', icon: UserGroupIcon, current: false },
-  { name: 'Chat', href: '/messaging', icon: ChatBubbleBottomCenterIcon, current: false },
+  { name: 'dashboard', href: '/dashboard', icon: HomeIcon, current: false },
+  { name: 'my posts', href: '/', icon: BriefcaseIcon, current: false },
+  { name: 'new post', href: '/work/create', icon: PlusCircleIcon, current: false },
+  { name: 'find worker', href: '/profiles', icon: UserGroupIcon, current: false },
+  { name: 'chat', href: '/messaging', icon: ChatBubbleBottomCenterIcon, current: false },
 ];
 
 export const hirerAdminNavigation = [
-  { name: 'Hirer profile', href: '/admin/hirer-profile', icon: UserIcon, current: false },
+  { name: 'hirer profile', href: '/admin/hirer-profile', icon: UserIcon, current: false },
   {
-    name: 'Configure your place',
+    name: 'configure your place',
     href: '/admin/configure-place',
     icon: WrenchIcon,
     current: false,
   },
   {
-    name: 'Embed your place',
+    name: 'embed your place',
     href: '/admin/embed-place',
     icon: CodeBracketSquareIcon,
     current: false,
@@ -38,33 +38,33 @@ export const hirerAdminNavigation = [
 ];
 
 export const workerNavigation = [
-  { name: 'Dashboard', href: '/dashboard', icon: HomeIcon, current: false },
-  { name: 'Find work', href: '/', icon: BriefcaseIcon, current: false },
-  { name: 'My profile', href: '/profiles/edit', icon: UserIcon, current: false },
-  { name: 'Chat', href: '/messaging', icon: ChatBubbleBottomCenterIcon, current: false },
+  { name: 'dashboard', href: '/dashboard', icon: HomeIcon, current: false },
+  { name: 'find work', href: '/', icon: BriefcaseIcon, current: false },
+  { name: 'my profile', href: '/profiles/edit', icon: UserIcon, current: false },
+  { name: 'chat', href: '/messaging', icon: ChatBubbleBottomCenterIcon, current: false },
 ];
 
 export const PlatformAdminNavigation = [
   {
-    name: 'Presentation',
+    name: 'presentation',
     href: `/superadmin/presentation`,
     icon: PresentationChartLineIcon,
     current: false,
   },
   {
-    name: 'Fees strategies',
+    name: 'fees strategies',
     href: `/superadmin/fees`,
     icon: ShieldCheckIcon,
     current: false,
   },
   {
-    name: 'Dispute',
+    name: 'dispute',
     href: `/superadmin/dispute`,
     icon: ExclamationCircleIcon,
     current: false,
   },
   {
-    name: 'Web3Mail',
+    name: 'web3Mail',
     href: `/superadmin/web3mail`,
     icon: EnvelopeIcon,
     current: false,

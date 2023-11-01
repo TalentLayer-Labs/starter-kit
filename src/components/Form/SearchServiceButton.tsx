@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 function SearchServiceButton(props?: { value?: string }) {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
+  const [isFocused, setIsFocused] = useState(false);
 
   useEffect(() => {
     setSearchQuery(props!.value || '');
@@ -24,20 +25,25 @@ function SearchServiceButton(props?: { value?: string }) {
   return (
     <form onSubmit={e => handleSubmit(e)} className='flex w-full'>
       <div className='flex w-full justify-end'>
-        <div className='flex flex-row rounded-3xl border'>
+        <div
+          className={`flex flex-row rounded-3xl border ${
+            isFocused ? 'opacity-100' : 'opacity-60'
+          }`}>
           <div className='sm:px-6 flex flex-row items-center'>
             <input
-              className='text-base-content opacity-50 py-2 focus:ring-0 outline-none text-sm sm:text-lg border-0'
+              className='text-base-content opacity-50 py-3 pl-0 focus:ring-0 outline-none text-sm border-0'
               type='text'
               placeholder='Search by title'
-              onChange={e => setSearchQuery(e.target.value)}
               value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
+              onFocus={e => setIsFocused(true)}
+              onBlur={e => setIsFocused(false)}
             />
           </div>
-          <div className='sm:px-4 flex flex-row sm:space-x-4 justify-between items-center'>
+          <div className='sm:px-2 flex flex-row justify-between items-center'>
             <button
               type='submit'
-              className='px-5 py-1   rounded-3xl hover:text-content hover:bg-base-100 text-base-content bg-gray-400'>
+              className='px-5 py-1 rounded-3xl hover:bg-primary-focus bg-primary text-primary'>
               Search
             </button>
           </div>

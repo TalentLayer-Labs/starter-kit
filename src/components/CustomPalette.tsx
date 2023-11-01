@@ -37,6 +37,7 @@ function CustomPalette({ builderPlace }: { builderPlace: IBuilderPlace }) {
             --base-200: ${builderPlace?.palette?.base200 || '#fefcfa'};
             --base-300: ${builderPlace?.palette?.base300 || '#fae4ce'};
             --base-content: ${builderPlace?.palette?.baseContent || '#000000'};
+            --base-content-50: ${(builderPlace?.palette?.baseContent || '#000000') + '90'};
 
             --info: ${builderPlace?.palette?.info || '#f4dabe'};
             --info-content: ${builderPlace?.palette?.infoContent || '#000000'};
@@ -56,6 +57,10 @@ function CustomPalette({ builderPlace }: { builderPlace: IBuilderPlace }) {
             background-color: var(--primary);
           }
 
+          body .bg-primary-focus {
+            background-color: var(--primary-focus);
+          }
+
           body .bg-primary-50 {
             background-color: var(--primary-50);
           }
@@ -70,6 +75,10 @@ function CustomPalette({ builderPlace }: { builderPlace: IBuilderPlace }) {
 
           body .border-primary {
             border-color: var(--primary);
+          }
+
+          body .border-primary-focus {
+            border-color: var(--primary-focus);
           }
 
           body .bg-base-100 {
@@ -98,6 +107,10 @@ function CustomPalette({ builderPlace }: { builderPlace: IBuilderPlace }) {
 
           body .text-base-content {
             color: var(--base-content);
+          }
+
+          body .text-base-content-50 {
+            color: var(--base-content-50);
           }
 
           body .bg-info {

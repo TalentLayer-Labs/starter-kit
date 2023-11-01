@@ -5,6 +5,7 @@ import UserServiceItem from './UserServiceItem';
 import BuilderPlaceContext from '../modules/BuilderPlace/context/BuilderPlaceContext';
 import Notification from './Notification';
 import Loading from './Loading';
+import ServiceItem from './ServiceItem';
 
 interface IProps {
   user: IUser;
@@ -53,9 +54,9 @@ function UserServices({ user, type }: IProps) {
       <h2 className='pb-4 text-base font-bold break-all'>
         {type == 'buyer' ? 'works posted' : 'works applied'}
       </h2>
-      <div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4'>
+      <div className='grid grid-cols-1 gap-4'>
         {services.map((service, i) => {
-          return <UserServiceItem user={user} service={service} key={i} />;
+          return <ServiceItem service={service} key={i} />;
         })}
       </div>
 

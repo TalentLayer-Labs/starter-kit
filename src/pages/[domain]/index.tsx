@@ -10,7 +10,9 @@ export default function BuilderPlaceHome() {
     <div className='max-w-7xl mx-auto text-base-content'>
       <div className='-mx-6 -mt-6 sm:mx-0 sm:mt-0'>
         <div className='flex py-2 px-6 sm:px-0 justify-center items-center w-full mb-8'>
-          <p className='text-4xl font-bold mt-6'>Discover opportunities in our ecosystem</p>
+          <p className='text-2xl sm:text-4xl font-bold mt-6'>
+            discover opportunities in our ecosystem
+          </p>
         </div>
       </div>
       <ServiceList />

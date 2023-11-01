@@ -41,7 +41,7 @@ function SearchTalentButton(props?: { value?: string }) {
             </svg>
           </span>
           <input
-            className='text-base-content opacity-50 py-2 focus:ring-0 outline-none text-sm sm:text-lg border-0'
+            className='text-base-content opacity-50 py-3 pl-0 focus:ring-0 outline-none text-sm border-0'
             type='text'
             placeholder='Search by skills'
             onChange={e => setSearchQuery(e.target.value)}
