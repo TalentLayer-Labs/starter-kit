@@ -5,7 +5,7 @@ function Stars({ rating, numReviews }: { rating: number; numReviews: number }) {
         <svg
           key={i}
           className={`w-5 h-5 ${i < rating ? 'text-yellow-300' : 'text-base-content'}`}
-          fill='currentColor'
+          fill='gold'
           viewBox='0 0 20 20'
           xmlns='http://www.w3.org/2000/svg'>
           <title>First star</title>
@@ -16,8 +16,8 @@ function Stars({ rating, numReviews }: { rating: number; numReviews: number }) {
       <span className='bg-base-200 text-base-content text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-xl ml-3'>
         {rating}/5
       </span>
-      <span className='text-xs text-base-content'>
-        {numReviews} review{numReviews > 1 ? 's' : ''}
+      <span className='text-s  text-black font-medium'>
+        {numReviews} Review{numReviews > 1 ? 's' : ''}
       </span>
     </div>
   );
