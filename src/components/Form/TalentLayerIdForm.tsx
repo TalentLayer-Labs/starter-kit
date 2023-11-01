@@ -103,7 +103,7 @@ function TalentLayerIdForm({ handle, callback }: { handle?: string; callback?: (
         <Form>
           <p className='text-center mb-8'>Mint your TalentLayer ID</p>
           <div className='flex  bg-base-300 py-4 px-4 mb-2 sm:px-0 justify-center items-center flex-row drop-shadow-lg rounded'>
-            <div className='sm:px-6 flex flex-row items-center gap-2'>
+            <div className='px-6 flex flex-row items-center gap-2'>
               <Field
                 type='text'
                 className='text-base-content opacity-50 py-2 focus:ring-0 outline-none text-sm border-0 rounded-xl h-[40px]'

@@ -15,7 +15,7 @@ import {
 
 export const hirerNavigation = [
   { name: 'dashboard', href: '/dashboard', icon: HomeIcon, current: false },
-  { name: 'my posts', href: '/', icon: BriefcaseIcon, current: false },
+  { name: 'my place', href: '/', icon: BriefcaseIcon, current: false },
   { name: 'new post', href: '/work/create', icon: PlusCircleIcon, current: false },
   { name: 'find worker', href: '/profiles', icon: UserGroupIcon, current: false },
   { name: 'chat', href: '/messaging', icon: ChatBubbleBottomCenterIcon, current: false },

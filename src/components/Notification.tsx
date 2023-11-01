@@ -13,10 +13,10 @@ type NotificationProps = {
 function Notification({ title, text, link, linkText, imageUrl, color }: NotificationProps) {
   return (
     <div
-      className={`bg-${color}-50 border border-${color} text-content py-4 px-4 flex items-center justify-between rounded-xl`}>
+      className={`bg-${color}-50 border border-${color} text-content py-4 px-4 flex flex-wrap  items-center justify-between rounded-xl`}>
       <div className='flex items-center'>
         <div className='flex items-center justify-center relative'>
-          <img src={imageUrl} className='h-10 w-10 rounded-full' alt='default avatar' />
+          <img src={imageUrl} className='h-10 w-10 rounded-full ' alt='default avatar' />
           <div
             className={`bg-${color} rounded-full h-4 w-4 absolute top-[-4px] right-[-4px]`}></div>
         </div>
@@ -27,7 +27,7 @@ function Notification({ title, text, link, linkText, imageUrl, color }: Notifica
       </div>
       <Link
         href={link}
-        className={`bg-${color} hover:opacity-70 text-${color} px-4 py-2 rounded-xl`}>
+        className={`bg-${color} hover:opacity-70 text-${color} px-4 py-2 rounded-xl mt-2 sm:mt-0`}>
         {linkText}
       </Link>{' '}
     </div>

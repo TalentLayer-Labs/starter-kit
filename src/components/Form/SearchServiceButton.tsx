@@ -29,7 +29,7 @@ function SearchServiceButton(props?: { value?: string }) {
           className={`flex flex-row rounded-3xl border ${
             isFocused ? 'opacity-100' : 'opacity-60'
           }`}>
-          <div className='sm:px-6 flex flex-row items-center'>
+          <div className='px-6 flex flex-row items-center'>
             <input
               className='text-base-content opacity-50 py-3 pl-0 focus:ring-0 outline-none text-sm border-0'
               type='text'
@@ -40,7 +40,7 @@ function SearchServiceButton(props?: { value?: string }) {
               onBlur={e => setIsFocused(false)}
             />
           </div>
-          <div className='sm:px-2 flex flex-row justify-between items-center'>
+          <div className='px-2 flex flex-row justify-between items-center'>
             <button
               type='submit'
               className='px-5 py-1 rounded-3xl hover:bg-primary-focus bg-primary text-primary'>

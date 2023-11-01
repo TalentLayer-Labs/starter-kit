@@ -23,15 +23,17 @@ function SideMenu() {
             <div className='border-info h-px mx-3'></div>
             <h2 className='text-base-content font-bold ml-3'>WORK</h2>
             <nav className='space-y-1 mt-6'>
-              {hirerNavigation.map(item => (
-                <SideLink key={item.name} href={item.href}>
-                  <item.icon
-                    className='mr-3 h-5 w-5 flex-shrink-0 text-base-content'
-                    aria-hidden='true'
-                  />
-                  {item.name}
-                </SideLink>
-              ))}
+              {hirerNavigation
+                .filter(item => item.name !== 'my place')
+                .map(item => (
+                  <SideLink key={item.name} href={item.href}>
+                    <item.icon
+                      className='mr-3 h-5 w-5 flex-shrink-0 text-base-content'
+                      aria-hidden='true'
+                    />
+                    {item.name}
+                  </SideLink>
+                ))}
             </nav>
           </div>
 
