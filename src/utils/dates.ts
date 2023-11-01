@@ -56,3 +56,21 @@ export const formatStringCompleteDate = (timestamp: number) => {
     hour12: false,
   });
 };
+
+
+export const formatDaysAgo = (timestamp: number | undefined) => {
+  if (!timestamp) return '';
+
+  const currentDate = new Date();
+  const postDate = new Date(timestamp);
+  const timeDifference = currentDate.getTime() - postDate.getTime();
+  const daysAgo = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+
+  if (daysAgo === 0) {
+    return 'today';
+  } else if (daysAgo === 1) {
+    return 'yesterday';
+  } else {
+    return `Posted ${daysAgo} days ago`;
+  }
+};

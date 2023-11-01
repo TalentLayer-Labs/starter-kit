@@ -39,7 +39,7 @@ function ServiceList() {
         <SearchServiceButton value={searchQuery} />
       </div>
 
-      <div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4'>
+      <div className='grid grid-cols-1 gap-4'>
         {services.map((service: IService, i: number) => {
           return <ServiceItem service={service} key={i} />;
         })}
@@ -49,12 +49,11 @@ function ServiceList() {
         <div className='flex justify-center items-center gap-10 flex-col pb-5'>
           <button
             type='submit'
-            className={`px-5 py-2 mt-5 content-center border border-zinc-600 rounded-full text-content 
-                  hover:text-base-content hover:bg-base-200
+            className={`px-5 py-2 mt-5 content-center border border-2 text-black border-black rounded-xl font-medium text-content 
                 `}
             disabled={!hasMoreData}
             onClick={() => loadMore()}>
-            Load More
+            Load More Posts
           </button>
         </div>
       )}
