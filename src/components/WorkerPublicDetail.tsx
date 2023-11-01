@@ -51,7 +51,6 @@ function WorkerPublicDetail({ user }: { user: IUser }) {
             <p className='text-xl text-black font-bold'>Reviews</p>
             <Stars rating={Number(user.rating)} numReviews={user.userStats.numReceivedReviews} />
           </div>
-          
         </div>
       </div>
 

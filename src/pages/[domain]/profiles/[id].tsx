@@ -3,6 +3,8 @@ import Loading from '../../../components/Loading';
 import useUserById from '../../../hooks/useUserById';
 import { getBuilderPlace } from '../../../modules/BuilderPlace/queries';
 import WorkerPublicDetail from '../../../components/WorkerPublicDetail';
+import UserServices from '../../../components/UserServices';
+import LensModule from '../../../modules/Lens/LensModule';
 
 export async function getServerSideProps({ params }: any) {
   return await getBuilderPlace(params.domain);
@@ -21,15 +23,15 @@ function Profile() {
     <div className='mx-auto text-base-content'>
       {user && (
         <>
-            <div className='mb-6'>
-              <WorkerPublicDetail user={user} />
-            </div>
-            <div className='mb-6'>
-              <UserServices user={user} type='seller' />
-            </div>
-            <div className='mb-6'>
-              <LensModule address={user.address} />
-            </div>
+          <div className='mb-6'>
+            <WorkerPublicDetail user={user} />
+          </div>
+          <div className='mb-6'>
+            <UserServices user={user} type='seller' />
+          </div>
+          <div className='mb-6'>
+            <LensModule address={user.address} />
+          </div>
         </>
       )}
     </div>

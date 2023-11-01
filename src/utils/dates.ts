@@ -57,7 +57,6 @@ export const formatStringCompleteDate = (timestamp: number) => {
   });
 };
 
-
 export const formatDaysAgo = (timestamp: number | undefined) => {
   if (!timestamp) return '';
 
