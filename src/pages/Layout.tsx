@@ -10,6 +10,7 @@ import UserAccount from '../components/UserAccount';
 import TalentLayerContext from '../context/talentLayer';
 import BuilderPlaceContext from '../modules/BuilderPlace/context/BuilderPlaceContext';
 import Loading from '../components/Loading';
+import Image from 'next/image';
 
 interface ContainerProps {
   children: ReactNode;
@@ -18,7 +19,7 @@ interface ContainerProps {
 
 function Layout({ children, className }: ContainerProps) {
   const router = useRouter();
-  const { builderPlace } = useContext(BuilderPlaceContext);
+  const { builderPlace, isBuilderPlaceOwner } = useContext(BuilderPlaceContext);
   const { account } = useContext(TalentLayerContext);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -147,6 +148,24 @@ function Layout({ children, className }: ContainerProps) {
               </div>
               <div className='mt-8 flex flex-1 flex-col justify-between'>
                 <SideMenu />
+              </div>
+              <div className='mt-8 flex flex-1 flex-col items-center justify-end pb-4'>
+                {isBuilderPlaceOwner && (
+                  <div className='block mb-4'>
+                    <a
+                      href='/'
+                      className='text-primary bg-primary hover:opacity-70 px-4 py-2.5 rounded-xl text-sm relative'>
+                      view my place
+                    </a>
+                  </div>
+                )}
+                <div className='block py-4'>
+                  <a
+                    href='https://builder.place'
+                    className='block max-w-[128px] opacity-30 hover:opacity-100'>
+                    <Image src='/logo-text-dark.png' alt='logo' width={128} height={20} />
+                  </a>
+                </div>
               </div>
             </div>
           </div>

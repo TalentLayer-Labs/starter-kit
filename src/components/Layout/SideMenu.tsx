@@ -21,7 +21,7 @@ function SideMenu() {
         <>
           <div className='pt-4'>
             <div className='border-info h-px mx-3'></div>
-            <h2 className='text-base-content font-bold ml-3 mt-6'>WORK</h2>
+            <h2 className='text-base-content font-bold ml-3'>WORK</h2>
             <nav className='space-y-1 mt-6'>
               {hirerNavigation.map(item => (
                 <SideLink key={item.name} href={item.href}>

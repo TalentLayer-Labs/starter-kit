@@ -67,7 +67,7 @@ function UserServiceItem({ user, service }: { user: IUser; service: IService }) 
           <Link
             className='text-primary bg-primary hover:opacity-70 px-5 py-2.5 rounded-xl text-md relative'
             href={`/work/${service.id}`}>
-            Show details
+            show details
             {isBuyer && service.status == ServiceStatusEnum.Opened && (
               <div className='inline-flex absolute -top-2 -right-2 justify-center items-center w-6 h-6 text-xs font-bold text-base-content bg-base-200 rounded-full border-2 border-white'>
                 {service.proposals.length}
