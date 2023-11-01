@@ -27,7 +27,7 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
   // automatically switch to the default chain is the current one is not part of the config
   useEffect(() => {
     const talentLayerClient = new TalentLayerClient({
-      chainId: chainId || (process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as unknown as number),
+      chainId: process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as unknown as number,
       ipfsConfig: {
         clientId: process.env.NEXT_PUBLIC_INFURA_ID as string,
         clientSecret: process.env.NEXT_PUBLIC_INFURA_SECRET as string,
@@ -37,7 +37,7 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
       signatureApiUrl: process.env.NEXT_PUBLIC_SIGNATURE_API_URL as string,
     });
     setTalentLayerClient(talentLayerClient);
-  }, [chainId, account.address]);
+  }, [account.address]);
 
   const fetchData = async () => {
     if (!account.address || !account.isConnected || !talentLayerClient) {
