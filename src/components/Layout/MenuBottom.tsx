@@ -14,9 +14,7 @@ function MenuBottom({
 }) {
   const { isBuilderPlaceOwner } = useContext(BuilderPlaceContext);
 
-  const navigation = isBuilderPlaceOwner
-    ? hirerNavigation.filter(item => item.name !== 'find worker')
-    : workerNavigation;
+  const navigation = isBuilderPlaceOwner ? hirerNavigation : workerNavigation;
 
   const onClick = (e: any) => {
     e.preventDefault();
