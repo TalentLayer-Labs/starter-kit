@@ -79,6 +79,7 @@ export const XmtpContextProvider = ({ children }: { children: ReactNode }) => {
         const client = await Client.create(null, {
           env: process.env.NEXT_PUBLIC_MESSENGING_ENV as clientEnv,
           privateKeyOverride: keys,
+          useSnaps: true,
         });
         setProviderState({
           ...providerState,
@@ -103,7 +104,7 @@ export const XmtpContextProvider = ({ children }: { children: ReactNode }) => {
       }
     };
     autoInit();
-  }, [walletAddress]);
+  }, [walletAddress, walletClient]);
 
   useEffect(() => {
     const checkUserExistence = async (): Promise<void> => {
