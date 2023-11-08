@@ -1,9 +1,7 @@
-import { getParsedEthersError, RETURN_VALUE_ERROR_CODES } from '@enzoferey/ethers-error-parser';
-import { EthersError } from '@enzoferey/ethers-error-parser/dist/types';
 import { toast } from 'react-toastify';
 import MultiStepsTransactionToast from '../components/MultiStepsTransactionToast';
 import { graphIsSynced, graphUserIsSynced } from '../queries/global';
-import { Client, Hash, Transaction, WalletClient } from 'viem';
+import { BaseError, Hash } from 'viem';
 import { PublicClient } from 'wagmi';
 
 interface IMessages {
@@ -143,10 +141,11 @@ export const createTalentLayerIdTransactionToast = async (
 };
 
 function getParsedErrorMessage(error: any) {
-  const parsedEthersError = getParsedEthersError(error as EthersError);
-  if (parsedEthersError.errorCode === RETURN_VALUE_ERROR_CODES.REJECTED_TRANSACTION) {
-    return `${parsedEthersError.errorCode} - user rejected transaction`;
-  } else {
-    return `${parsedEthersError.errorCode} - ${parsedEthersError.context}`;
+  const parsedViemError  = error as BaseError;
+
+  if (parsedViemError && parsedViemError?.name && parsedViemError?.shortMessage) {
+    return `${parsedViemError.name} - ${parsedViemError.shortMessage}`
   }
+
+  return "Unknown error occurred";
 }
