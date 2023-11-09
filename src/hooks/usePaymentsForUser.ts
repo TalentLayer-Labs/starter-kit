@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { getPaymentsForUser } from '../queries/payments';
 import { IPayment } from '../types';
 import { useChainId } from './useChainId';
+import BuilderPlaceContext from '../modules/BuilderPlace/context/BuilderPlaceContext';
 
 const usePaymentsForUser = (
   id: string,
@@ -9,6 +10,7 @@ const usePaymentsForUser = (
   startDate?: string,
   endDate?: string,
 ): { hasMoreData: boolean; loading: boolean; payments: IPayment[]; loadMore: () => void } => {
+  const { builderPlace } = useContext(BuilderPlaceContext);
   const chainId = useChainId();
 
   const [payments, setPayments] = useState<IPayment[]>([]);
@@ -28,6 +30,7 @@ const usePaymentsForUser = (
         const response = await getPaymentsForUser(
           chainId,
           id,
+          builderPlace?.ownerTalentLayerId || '',
           total,
           0,
           start.toString(),

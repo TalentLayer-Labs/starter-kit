@@ -31,6 +31,7 @@ export const getPaymentsByService = (
 export const getPaymentsForUser = (
   chainId: number,
   userId: string,
+  buyerId: string,
   numberPerPage?: number,
   offset?: number,
   startDate?: string,
@@ -44,7 +45,7 @@ export const getPaymentsForUser = (
   const query = `
     {
       payments(where: {
-        service_: {seller: "${userId}"}
+        service_: {seller: "${userId}", buyer: "${buyerId}"}
         ${startDataCondition}
         ${endDateCondition}
       }, 
