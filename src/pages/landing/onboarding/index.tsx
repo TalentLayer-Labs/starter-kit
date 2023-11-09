@@ -29,8 +29,8 @@ function onboardingStep1() {
   };
 
   const validationSchema = Yup.object({
-    name: Yup.string().min(2).max(20).required('name is required'),
-    presentation: Yup.string().required('presentation is required'),
+    name: Yup.string().min(2).max(20).required('Enter your name'),
+    presentation: Yup.string().required('Give us a description about your team'),
     preferred_work_types: Yup.array()
       .of(Yup.string())
       .min(1, 'Chose at least one preferred word type')

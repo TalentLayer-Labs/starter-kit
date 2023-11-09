@@ -1221,13 +1221,22 @@ function Home() {
             <div className='flex justify-center flex-wrap'>
               <div className='order-last w-full text-center px-3 lg:order-first lg:w-1/3'>
                 <p className='text-center text-base text-stone-800'>
-                  &copy; 2023 BuilderPlace |{' '}
-                  <a href='/terms' className='underline'>
+                  <a href='#' className='hover:opacity-60'>
+                    &copy; 2023 BuilderPlace
+                  </a>{' '}
+                  |{' '}
+                  <a href='/terms' className='hover:opacity-60'>
                     Terms of Service
                   </a>
                 </p>
               </div>
             </div>
+            <a
+              href='https://github.com/TalentLayer-Labs/builder-place'
+              target='_blank'
+              className='hover:opacity-60'>
+              Powered by OpenSource
+            </a>
           </div>
         </div>
       </footer>
