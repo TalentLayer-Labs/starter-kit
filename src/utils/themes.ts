@@ -1,5 +1,5 @@
 export const themes = {
-  jaipur: {
+  lisboa: {
     primary: '#FF71A2',
     primaryFocus: '#FFC2D1',
     primaryContent: '#ffffff',
@@ -16,7 +16,7 @@ export const themes = {
     error: '#FFC2D1',
     errorContent: '#000000',
   },
-  tokyo: {
+  paris: {
     primary: '#756CC2',
     primaryFocus: '#E5D7FF',
     primaryContent: '#ffffff',
@@ -33,13 +33,13 @@ export const themes = {
     error: '#FFC2D1',
     errorContent: '#000000',
   },
-  ny: {
+  amsterdam: {
     primary: '#14FEB7',
     primaryFocus: '#1AC994',
     primaryContent: '#000000',
     base100: '#000000',
-    base200: '#0F0F0F',
-    base300: '#0F0F0F',
+    base200: '#0f0e0e',
+    base300: '#141414',
     baseContent: '#ffffff',
     info: '#09201F',
     infoContent: '#14FEB7',
@@ -50,7 +50,7 @@ export const themes = {
     error: '#C91A1A',
     errorContent: '#000000',
   },
-  lisboa: {
+  ericeira: {
     primary: '#ef9995',
     primaryFocus: '#E86E69',
     primaryContent: '#282425',
@@ -67,7 +67,7 @@ export const themes = {
     error: '#FFC2D1',
     errorContent: '#000000',
   },
-  helsinki: {
+  denver: {
     primary: '#65c3c8',
     primaryFocus: '#42B2B8',
     primaryContent: '#ffffff',
