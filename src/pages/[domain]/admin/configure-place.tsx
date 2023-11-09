@@ -48,7 +48,10 @@ function ConfigurePlace(props: InferGetServerSidePropsType<typeof getServerSideP
   const [color, setColor] = useColor(palette[colorName as keyof iBuilderPlacePalette]);
 
   const initialValues: IFormValues = {
-    subdomain: (builderPlace?.name && slugify(builderPlace.name)) || '',
+    subdomain:
+      builderPlace.subdomain?.replace(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN as string}`, '') ||
+      (builderPlace?.name && slugify(builderPlace.name)) ||
+      '',
     logo: builderPlace.logo || '',
     palette,
   };
@@ -109,10 +112,11 @@ function ConfigurePlace(props: InferGetServerSidePropsType<typeof getServerSideP
           account: account.address,
           message: builderPlace._id,
         });
+        const fullSubdomain = `${values.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
 
         await updateBuilderPlaceAsync({
           _id: builderPlace._id,
-          subdomain: values.subdomain,
+          subdomain: fullSubdomain,
           logo: values.logo,
           name: builderPlace.name,
           ownerTalentLayerId: builderPlace.ownerTalentLayerId,
@@ -121,7 +125,7 @@ function ConfigurePlace(props: InferGetServerSidePropsType<typeof getServerSideP
           status: 'validated',
           signature,
         });
-        router.push(`${window.location.protocol}//${values.subdomain}/dashboard`);
+        router.push(`${window.location.protocol}//${fullSubdomain}/dashboard`);
       } catch (e: any) {
         console.error(e);
       } finally {
