@@ -46,6 +46,10 @@ function DefaultPalettes({ onChange }: ContainerProps) {
           );
         })}
       </div>
+
+      <span className='text-stone-500 italic text-xs'>
+        You will be able later in your admin to create your own fully personnalized palette :)
+      </span>
     </label>
   );
 }
