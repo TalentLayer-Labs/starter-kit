@@ -17,11 +17,9 @@ function CreateWorkerId() {
           </p>
 
           <p className='text-content-400 text-center'>
-            Details about TLIDs and benefits to hirers and workers, on chain reputation and other
-            details about this.
+            mint a soul-bound work ID - the beginning of your on-chian work history.
             <br />
-            Explain how blockchain/wallets let you own your reputation fovever. Maybe link to an
-            other info center about benfits.
+            your jobs completed, reviews, and other stats are linked to your on-chain work ID.
           </p>
         </div>
       </div>
