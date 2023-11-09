@@ -35,7 +35,7 @@ const MessageComposer = ({
     <>
       <div className='flex flex-row pt-5 fixed bottom-[64px] md:bottom-0 w-full md:w-[calc(100vw-256px)]'>
         <input
-          className='w-full py-4 px-3 bg-base-300 border-0 text-base-content text-sm'
+          className='w-full py-4 px-3 bg-base-200 border-0 text-base-content text-sm'
           type='text'
           onChange={e => setMessageContent(e.target.value)}
           placeholder='Write a message'

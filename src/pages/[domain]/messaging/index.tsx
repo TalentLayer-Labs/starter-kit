@@ -49,7 +49,7 @@ function MessagingIndex() {
       {providerState?.client && (
         <div className='-mx-6 md:-mx-12 xl:-mx-24'>
           <div className='flex flex-row text-base-content'>
-            <div className='flex py-2 px-4 sm:px-0 items-center border-b w-full border-info'>
+            <div className='flex py-2 px-4 sm:px-3 items-center border-b w-full border-info'>
               <>
                 <p className='text-2xl font-bold flex-1 mt-3'>Chats</p>
 
