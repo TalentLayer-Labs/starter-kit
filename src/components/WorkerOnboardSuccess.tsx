@@ -6,8 +6,9 @@ import OnboardingSteps from './OnboardingSteps';
 function WorkerOnboardSuccess() {
   const { user } = useContext(TalentLayerContext);
   const router = useRouter();
-  const viewFullProfile = () => {
-    router.push(`/profiles/${user?.id}`);
+  const serviceId = new URL(window.location.href).searchParams.get('serviceId');
+  const openService = () => {
+    router.push(`/work/${serviceId}/proposal`);
   };
   return (
     <>
@@ -39,8 +40,8 @@ function WorkerOnboardSuccess() {
               </p>
               <button
                 className='bg-pink-500 text-content rounded-lg px-4 py-2 mt-4 text-lg text-white font-medium'
-                onClick={viewFullProfile}>
-                View My Full Profile
+                onClick={openService}>
+                Go back to proposal form
               </button>
             </div>
           </div>

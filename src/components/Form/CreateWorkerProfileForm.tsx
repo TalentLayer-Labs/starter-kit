@@ -43,6 +43,7 @@ function CreateWorkerProfileForm({ callback }: { callback?: () => void }) {
   const userDescription = user?.id ? useUserById(user?.id)?.description : null;
   const talentLayerClient = useTalentLayerClient();
   const router = useRouter();
+  const serviceId = new URL(window.location.href).searchParams.get('serviceId');
 
   if (!user?.id) {
     return <Loading />;
@@ -121,7 +122,7 @@ function CreateWorkerProfileForm({ callback }: { callback?: () => void }) {
           createWeb3mailToast();
         }
 
-        router.push('/worker-onboarding/step3');
+        router.push(`/worker-onboarding/step3?serviceId=${serviceId}`);
       } catch (error) {
         console.log(error);
         showErrorTransactionToast(error);
