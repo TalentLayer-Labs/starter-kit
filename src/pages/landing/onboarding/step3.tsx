@@ -35,7 +35,7 @@ function onboardingStep3() {
   const initialValues: IFormValues = {
     subdomain: (builderPlaceData?.name && slugify(builderPlaceData.name)) || '',
     logo: builderPlaceData?.logo || '',
-    palette: 'jaipur',
+    palette: 'lisboa',
   };
 
   if (loading) {

@@ -47,7 +47,7 @@ function onboardingStep1() {
 
       const response = await createBuilderPlaceAsync({
         name: values.name,
-        palette: themes['jaipur'],
+        palette: themes['lisboa'],
         presentation: values.presentation,
         preferredWorkTypes: values.preferred_work_types,
         profilePicture: values.profilePicture || undefined,
