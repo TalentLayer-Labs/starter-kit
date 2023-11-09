@@ -110,10 +110,11 @@ function ServiceDetail({ service }: { service: IService }) {
           <div className='flex flex-row gap-4 items-center border-t border-info pt-4'>
             {!isBuyer && service.status == ServiceStatusEnum.Opened && (
               <>
+              
                 {!userProposal && (
                   <Link
                     className='text-base-content bg-info hover:redpraha/80 hover:text-base-content px-5 py-2.5 rounded-xl text-md'
-                    href={`/work/${service.id}/proposal`}>
+                    href={account?.isConnected ? `/work/${service.id}/proposal` : `/worker-onboarding`}>
                     Create proposal
                   </Link>
                 )}
