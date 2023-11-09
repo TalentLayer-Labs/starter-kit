@@ -91,25 +91,6 @@ function ProposalForm({
     video_url: existingProposal?.description?.video_url || '',
   };
 
-  const askAI = async (input: string, setFieldValue: any) => {
-    setAiLoading(true);
-    const context = 'I am a freelance and I need help to generate a proposal for a gig.';
-    const serviceContext = `The is the job title:${service?.description?.title}.`;
-    const serviceBuyerContext = `This is the client name:${service.buyer.handle}.`;
-    const userContext = `My name is:${user.handle}. And this is a bit more about me: ${user?.description?.about}.`;
-    const proposalContext = `And this is some information about the proposal I want to makde: ${input}.`;
-    const agregatedContext =
-      context + serviceContext + serviceBuyerContext + userContext + proposalContext;
-    try {
-      const responseText = await postOpenAiRequest(agregatedContext);
-      setFieldValue('about', responseText);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setAiLoading(false);
-    }
-  };
-
   const onSubmit = async (
     values: IFormValues,
     {
@@ -222,32 +203,6 @@ function ProposalForm({
                 className='mt-1 mb-1 block w-full rounded-xl border border-info bg-base-200 shadow-sm focus:ring-opacity-50'
                 placeholder=''
               />
-              <div className='border-info bg-info relative w-full border transition-all duration-300 rounded-xl p-4'>
-                <div className='flex w-full items-center gap-3'>
-                  <QuestionMarkCircle className='hidden' />
-                  <div>
-                    <h2 className='font-heading text-xs font-bold text-base-content mb-1'>
-                      <span>Need help?</span>
-                    </h2>
-                    <p className='font-alt text-xs font-normal'>
-                      <span className='text-base-content'>
-                        Write few lines above and get some help from our AI
-                      </span>
-                    </p>
-                  </div>
-                  <div className='ms-auto'>
-                    <button
-                      disabled={aiLoading}
-                      onClick={e => {
-                        e.preventDefault();
-                        askAI(values.about, setFieldValue);
-                      }}
-                      className='border text-base-content bg-base-300 hover:bg-base-100 border-white rounded-md h-10 w-10 p-2 relative inline-flex items-center justify-center space-x-1 font-sans text-sm font-normal leading-5 no-underline outline-none transition-all duration-300'>
-                      {aiLoading ? <Loading /> : 'GO'}
-                    </button>
-                  </div>
-                </div>
-              </div>
               <span className='text-error'>
                 <ErrorMessage name='about' />
               </span>
