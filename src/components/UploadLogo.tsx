@@ -25,7 +25,10 @@ function UploadLogo({
     <>
       <label className='block'>
         <span className='text-stone-800 font-bold text-md'>logo</span>
-        <span className='text-stone-800 italic text-sm'> (400 x 50 format)</span>
+        <span className='text-stone-800 italic text-xs'>
+          {' '}
+          (rectangle format, used in top of your place)
+        </span>
         <input
           type='file'
           id='logo'
