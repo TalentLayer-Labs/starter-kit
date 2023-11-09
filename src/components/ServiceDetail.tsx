@@ -117,10 +117,12 @@ function ServiceDetail({ service }: { service: IService }) {
                     Create proposal
                   </Link>
                 )}
-                <ContactButton
-                  userAddress={service.buyer?.address}
-                  userHandle={service.buyer.handle}
-                />
+                {user && (
+                  <ContactButton
+                    userAddress={service.buyer?.address}
+                    userHandle={service.buyer.handle}
+                  />
+                )}
               </>
             )}
             {(isBuyer || isSeller) &&
