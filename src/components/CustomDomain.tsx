@@ -4,7 +4,7 @@ function CustomDomain() {
   return (
     <>
       <label className='block'>
-        <span className='text-stone-800 font-bold text-md'>custom subdomain</span>
+        <span className='font-bold text-md'>custom subdomain</span>
         <div className={'flex flex-row items-center ml-2 text-gray-500'}>
           <Field
             type='text'

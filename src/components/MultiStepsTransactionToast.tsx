@@ -34,11 +34,11 @@ function MultiStepsTransactionToast({
     },
     {
       title: 'Synchronize onChain data',
-      status: currentStep > 2 ? 'complete' : currentStep == 2 ? 'current' : 'upcomming',
+      status: currentStep > 2 ? 'complete' : currentStep == 2 ? 'current' : 'upcoming',
     },
     {
       title: 'Synchronize offChain data',
-      status: currentStep > 3 ? 'complete' : currentStep == 3 ? 'current' : 'upcomming',
+      status: currentStep > 3 ? 'complete' : currentStep == 3 ? 'current' : 'upcoming',
     },
   ];
 

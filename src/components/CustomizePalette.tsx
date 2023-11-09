@@ -11,7 +11,7 @@ interface ContainerProps {
 function CustomizePalette({ palette, color, setColor, setColorName }: ContainerProps) {
   return (
     <label className='block'>
-      <span className='text-stone-800 font-bold text-md'>customize your current palette</span>
+      <span className='font-bold text-md'>customize your current palette</span>
 
       <div className='flex flex-col gap-2 mt-1'>
         <label className=' peer-checked:border-blue-500 border-2 border-solid rounded-lg flex flex-wrap items-center p-2 w-full'>

@@ -13,7 +13,7 @@ function HirerProfileLayout({ children, className, step }: ContainerProps) {
   const { account, user } = useContext(TalentLayerContext);
 
   return (
-    <div className='bg-white text-black'>
+    <div className=''>
       <header className='navbar w-full border-stroke bg-white duration-300'>
         <div className='container relative lg:max-w-[1305px] lg:px-10'>
           <div className='flex items-center justify-between h-[80px]'>

@@ -11,10 +11,10 @@ interface ContainerProps {
 
 function AdminSettingsLayout({ children, title, route, className }: ContainerProps) {
   return (
-    <div className='bg-white text-black'>
+    <div className=''>
       <div>
         <div className={`${className}`}>
-          <div className='text-stone-800'>
+          <div className=''>
             <p className='pb-5 sm:pb-10 pt-5 text-3xl sm:text-5xl font-bold mt-6 text-center flex justify-center items-center gap-8'>
               {title}
             </p>

@@ -84,7 +84,7 @@ function onboardingStep1() {
           <Form>
             <div className='grid grid-cols-1 gap-3 sm:gap-4'>
               <label className='block'>
-                <span className='text-stone-800 font-bold text-md'>organization Name</span>
+                <span className='font-bold text-md'>organization Name</span>
                 <Field
                   type='text'
                   id='name'
@@ -97,7 +97,7 @@ function onboardingStep1() {
                 <ErrorMessage name='name' />
               </span>
               <label className='block'>
-                <span className='text-stone-800 font-bold text-md'>about your team</span>
+                <span className='font-bold text-md'>about your team</span>
                 <Field
                   as='textarea'
                   id='presentation'
@@ -111,7 +111,7 @@ function onboardingStep1() {
                 <ErrorMessage name='presentation' />
               </span>
               <label className='block'>
-                <span className='text-stone-800 font-bold text-md'>your work styles</span>
+                <span className='font-bold text-md'>your work styles</span>
                 <div className='space-x-2'>
                   <label
                     className={`inline-flex items-center p-3 rounded-lg ${
@@ -240,8 +240,8 @@ function onboardingStep1() {
               </span>
 
               <label className='block'>
-                <span className='text-stone-800 font-bold text-md'>your profile picture</span>
-                <span className='text-stone-800 italic text-sm'> (square format)</span>
+                <span className='font-bold text-md'>your profile picture</span>
+                <span className='italic text-sm'> (square format)</span>
                 <input
                   type='file'
                   id='profilePicture'

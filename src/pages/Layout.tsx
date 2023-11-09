@@ -41,7 +41,7 @@ function Layout({ children, className }: ContainerProps) {
 
   if (router.asPath.includes('web3mail')) {
     return (
-      <div className={'dashboard pb-[110px]'}>
+      <div className={'dashboard pb-[110px] text-base-content bg-base-200'}>
         <div className='flex flex-1 flex-col '>
           <div className='top-0 z-10 flex flex-shrink-0 h-20 sm:h-16'>
             <div className='flex flex-1 items-center pl-6'>
@@ -62,7 +62,7 @@ function Layout({ children, className }: ContainerProps) {
   if (builderPlace) {
     if (!account?.isConnected) {
       return (
-        <div className={'dashboard pb-[110px]'}>
+        <div className={'dashboard pb-[110px] text-base-content bg-base-200'}>
           <div className='flex flex-1 flex-col '>
             <div className='top-0 z-10 flex flex-shrink-0 h-20 sm:h-16'>
               <div className='flex flex-1 items-center pl-6'>
@@ -84,7 +84,7 @@ function Layout({ children, className }: ContainerProps) {
 
     return (
       <>
-        <div className={'dashboard pb-[110px]'}>
+        <div className={'dashboard pb-[110px] text-base-content bg-base-200'}>
           <Transition.Root show={sidebarOpen} as={Fragment}>
             <Dialog as='div' className='relative z-40 md:hidden' onClose={setSidebarOpen}>
               <Transition.Child
