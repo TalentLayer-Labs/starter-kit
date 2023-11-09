@@ -89,7 +89,9 @@ function onboardingStep3() {
       } catch (e: any) {
         console.error(e);
       } finally {
-        setSubmitting(false);
+        setTimeout(() => {
+          setSubmitting(false);
+        }, 1000);
       }
     }
   };

@@ -62,7 +62,9 @@ function onboardingStep1() {
     } catch (error: any) {
       showErrorTransactionToast(error);
     } finally {
-      setSubmitting(false);
+      setTimeout(() => {
+        setSubmitting(false);
+      }, 1000);
     }
   };
 
