@@ -17,6 +17,7 @@ import { useUpdateBuilderPlace } from '../../../modules/BuilderPlace/hooks/UseUp
 import { getBuilderPlace } from '../../../modules/BuilderPlace/queries';
 import { IBuilderPlace, iBuilderPlacePalette } from '../../../modules/BuilderPlace/types';
 import { themes } from '../../../utils/themes';
+import { slugify } from '../../../modules/BuilderPlace/utils';
 
 interface IFormValues {
   subdomain: string;
@@ -33,11 +34,10 @@ const validationSchema = Yup.object({
 });
 
 function ConfigurePlace(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const { account, user, loading } = useContext(TalentLayerContext);
+  const { account, loading } = useContext(TalentLayerContext);
   const chainId = useChainId();
   const { data: walletClient } = useWalletClient({ chainId });
-  const { data: updateBuilderPlace, mutateAsync: updateBuilderPlaceAsync } =
-    useUpdateBuilderPlace();
+  const { mutateAsync: updateBuilderPlaceAsync } = useUpdateBuilderPlace();
   const builderPlace = props.builderPlace as IBuilderPlace;
   const router = useRouter();
   const [logoLoader, setLogoLoader] = useState(false);
@@ -48,7 +48,7 @@ function ConfigurePlace(props: InferGetServerSidePropsType<typeof getServerSideP
   const [color, setColor] = useColor(palette[colorName as keyof iBuilderPlacePalette]);
 
   const initialValues: IFormValues = {
-    subdomain: builderPlace.subdomain || '',
+    subdomain: (builderPlace?.name && slugify(builderPlace.name)) || '',
     logo: builderPlace.logo || '',
     palette,
   };
