@@ -72,16 +72,16 @@ function Home() {
                   </li>
                   <li>
                     <a
-                      href='/onboarding'
+                      href='/worker-onboarding'
                       className='rounded-md text-center bg-landingprimary py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base font-bold text-white hover:bg-opacity-60'>
                       register
                     </a>
                   </li>
                   <li>
                     <a
-                      href='/onboarding'
+                      href='/'
                       className='rounded-md text-center bg-redpraha py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base font-bold text-stone-800 hover:bg-opacity-60'>
-                      contribute
+                      i'm an hirer
                     </a>
                   </li>
                 </ul>
@@ -110,9 +110,16 @@ function Home() {
 
                   <div className='flex justify-center md:justify-start gap-4'>
                     <a
+                      href='/worker-onboarding'
+                      className='max-w-[186px] flex-1 rounded-md text-center bg-landingprimary py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base font-medium text-white font-bold hover:bg-opacity-60'>
+                      create my <br />
+                      profile
+                    </a>
+                    <a
                       href='#work-process'
-                      className='max-w-[286px] flex-1 rounded-md text-center bg-landingprimary py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base font-medium text-white font-bold hover:bg-opacity-60'>
-                      explore the projects
+                      className='max-w-[186px] flex-1 text-center rounded-md bg-redpraha py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base text-stone-800 font-bold hover:bg-opacity-60'>
+                      explore the <br />
+                      projects
                     </a>
                   </div>
                   <div className='w-full px-4  pb-10 pt-5 block md:hidden lg:hidden'>
