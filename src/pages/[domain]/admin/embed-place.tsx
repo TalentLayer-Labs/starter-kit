@@ -5,6 +5,7 @@ import BuilderPlaceContext from '../../../modules/BuilderPlace/context/BuilderPl
 import useCopyToClipBoard from '../../../hooks/useCopyToClipBoard';
 import { ClipboardCopy, CheckCircle } from 'heroicons-react';
 import Loading from '../../../components/Loading';
+import AccessDenied from '../../../components/AccessDenied';
 
 export async function getServerSideProps({ params }: any) {
   return await getBuilderPlace(params.domain);
@@ -32,6 +33,10 @@ export default function EmbedPlace() {
         <Loading />
       </div>
     );
+  }
+
+  if (!isBuilderPlaceOwner) {
+    return <AccessDenied />;
   }
 
   return (

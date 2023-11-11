@@ -6,6 +6,7 @@ import DomainConfiguration from '../../../modules/BuilderPlace/components/Domain
 import BuilderPlaceContext from '../../../modules/BuilderPlace/context/BuilderPlaceContext';
 import { useUpdateBuilderPlaceDomain } from '../../../modules/BuilderPlace/hooks/UseUpdateBuilderPlaceDomain';
 import { getBuilderPlace } from '../../../modules/BuilderPlace/queries';
+import AccessDenied from '../../../components/AccessDenied';
 
 export async function getServerSideProps({ params }: any) {
   return await getBuilderPlace(params.domain);
@@ -18,7 +19,7 @@ export default function CustomDomain(
   const { data: walletClient } = useWalletClient({ chainId });
   const { account } = useContext(TalentLayerContext);
 
-  const { builderPlace } = useContext(BuilderPlaceContext);
+  const { builderPlace, isBuilderPlaceOwner } = useContext(BuilderPlaceContext);
   const [customDomain, setCustomDomain] = useState('');
 
   useEffect(() => {
@@ -50,6 +51,10 @@ export default function CustomDomain(
       console.error('Error updating domain:', error);
     }
   };
+
+  if (!isBuilderPlaceOwner) {
+    return <AccessDenied />;
+  }
 
   return (
     <div>
