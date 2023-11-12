@@ -23,7 +23,7 @@ function Dashboard(props: { address: string }) {
   const { providerState, setProviderState } = useContext(XmtpContext);
   const [messageContent, setMessageContent] = useState<string>('');
   const { address } = props;
-  const selectedConversationPeerAddress = address as string;
+  const selectedConversationPeerAddress = address as `0x${string}`;
   const [sendingPending, setSendingPending] = useState(false);
   const [messageSendingErrorMsg, setMessageSendingErrorMsg] = useState('');
 
@@ -31,7 +31,6 @@ function Dashboard(props: { address: string }) {
     (selectedConversationPeerAddress as string) ? selectedConversationPeerAddress : '',
     account?.address,
   );
-  const peerUser = useUser({ address: selectedConversationPeerAddress });
 
   // Listens to new conversations ? ==> Yes, & sets them in "xmtp context". Stream stops "onDestroy"
   useStreamConversations();

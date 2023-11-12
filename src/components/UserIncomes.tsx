@@ -1,13 +1,13 @@
-"use client"
+'use client';
 
 import { useState } from 'react';
 import Loading from './Loading';
 import { renderTokenAmount } from '../utils/conversion';
 import { formatStringCompleteDate } from '../utils/dates';
-import usePaymentsForUser from '../hooks/usePaymentsForUser';
 import { useNetwork } from 'wagmi';
 import { mkConfig, generateCsv, download } from 'export-to-csv';
 import { formatUnits } from 'viem';
+import { usePaymentsForUser } from '@talentlayer/react';
 
 function UserIncomes({ id }: { id: string }) {
   const ROW_SIZE = 50;
@@ -15,12 +15,12 @@ function UserIncomes({ id }: { id: string }) {
   const [endDate, setEndDate] = useState<string>('');
   const network = useNetwork();
 
-  const { payments, hasMoreData, loading, loadMore } = usePaymentsForUser(
+  const [{ items: payments, hasMoreData, loadMore }, loading] = usePaymentsForUser({
     id,
-    ROW_SIZE,
+    numberPerPage: ROW_SIZE,
     startDate,
     endDate,
-  );
+  });
 
   const csvConfig = mkConfig({ useKeysAsHeaders: true, filename: 'TL-Income' });
 

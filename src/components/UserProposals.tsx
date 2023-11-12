@@ -1,5 +1,4 @@
-import { useProposal } from '@talentlayer/react/dist';
-import useProposalsByUser from '../hooks/useProposalsByUser';
+import { useProposals } from '@talentlayer/react/dist';
 import { IUser } from '../types';
 import UserProposalItem from './UserProposalItem';
 
@@ -8,7 +7,7 @@ interface IProps {
 }
 
 function UserProposals({ user }: IProps) {
-  const [proposals] = useProposal({ userId: user.id });
+  const [proposals] = useProposals({ userId: user.id });
 
   if (!proposals || proposals.length === 0) {
     return null;

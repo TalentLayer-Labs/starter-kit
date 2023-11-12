@@ -60,6 +60,7 @@ export default function Page() {
       )}
       {loading && (
         <div className='flex justify-center items-center gap-10 flex-col pb-5 mt-5'>
+          <>someting</>
           <Loading />
         </div>
       )}

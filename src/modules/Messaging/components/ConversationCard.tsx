@@ -5,7 +5,7 @@ import { XmtpChatMessage } from '../utils/types';
 import { useUser } from '@talentlayer/react/dist';
 
 interface IConversationCardProps {
-  peerAddress: string;
+  peerAddress: `0x${string}`;
   latestMessage?: XmtpChatMessage;
 }
 
