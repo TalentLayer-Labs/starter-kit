@@ -203,7 +203,7 @@ function ProposalForm({
                 className='mt-1 mb-1 block w-full rounded-xl border border-info bg-base-200 shadow-sm focus:ring-opacity-50'
                 placeholder=''
               />
-              <span className='text-error'>
+              <span className='text-alone-error'>
                 <ErrorMessage name='about' />
               </span>
             </label>
@@ -218,7 +218,7 @@ function ProposalForm({
                   className='mt-1 mb-1 block w-full rounded-xl border border-info bg-base-200 shadow-sm focus:ring-opacity-50'
                   placeholder=''
                 />
-                <span className='text-error'>
+                <span className='text-alone-error'>
                   <ErrorMessage name='rateAmount' />
                 </span>
               </label>
@@ -237,7 +237,7 @@ function ProposalForm({
                     </option>
                   ))}
                 </Field>
-                <span className='text-error'>
+                <span className='text-alone-error'>
                   <ErrorMessage name='rateToken' />
                 </span>
               </label>
@@ -251,7 +251,7 @@ function ProposalForm({
                 className='mt-1 mb-2 block w-full rounded-xl border border-info bg-base-200 shadow-sm focus:ring-opacity-50'
                 placeholder=''
               />
-              <span className='text-error'>
+              <span className='text-alone-error'>
                 <ErrorMessage name='expirationDate' />
               </span>
             </label>
@@ -264,7 +264,7 @@ function ProposalForm({
                 className='mt-1 mb-2 block w-full rounded-xl border border-info bg-base-200 shadow-sm focus:ring-opacity-50'
                 placeholder='Enter  video URL'
               />
-              <span className='text-error'>
+              <span className='text-alone-error'>
                 <ErrorMessage name='video_url' />
               </span>
             </label>

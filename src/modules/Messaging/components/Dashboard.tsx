@@ -158,12 +158,12 @@ function Dashboard() {
           </div>
           {messageSendingErrorMsg && (
             <div className={'text-center text-xs px-4'}>
-              <p className={'text-error ml-1'}>{messageSendingErrorMsg}</p>
+              <p className={'text-alone-error ml-1'}>{messageSendingErrorMsg}</p>
             </div>
           )}
           {selectedConversationPeerAddress && !selectedConversationPeerAddress && (
             <div className={'text-center text-xs px-4'}>
-              <p className={'text-error ml-1'}>User is not registered</p>
+              <p className={'text-alone-error ml-1'}>User is not registered</p>
             </div>
           )}
         </div>

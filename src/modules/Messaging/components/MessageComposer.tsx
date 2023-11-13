@@ -33,17 +33,19 @@ const MessageComposer = ({
 
   return (
     <>
-      <div className='flex flex-row pt-5 fixed bottom-[64px] md:bottom-0 w-full md:w-[calc(100vw-256px)]'>
-        <input
-          className='w-full py-4 px-3 bg-base-200 border-0 text-base-content text-sm'
-          type='text'
-          onChange={e => setMessageContent(e.target.value)}
-          placeholder='Write a message'
-          disabled={!peerUserExistsOnXMTP || !peerUserExistsOnTalentLayer}
-          value={messageContent}
-        />
-        {sendingPending && <Loading />}
-        {renderSendButton(peerUserExistsOnXMTP, sendingPending)}
+      <div className='pt-5 fixed bottom-[64px] md:bottom-0 w-full md:w-[calc(100vw-288px)]'>
+        <div className=' m-2 md:m-4 border border-base-300 rounded-3xl flex overflow-hidden'>
+          <input
+            className='flex-1 py-4 px-3 pl-6 bg-base-200 text-base-content text-sm rounded-3xl focus:shadow-none focus:outline-none border-none focus:border-none'
+            type='text'
+            onChange={e => setMessageContent(e.target.value)}
+            placeholder='Write a message'
+            disabled={!peerUserExistsOnXMTP || !peerUserExistsOnTalentLayer}
+            value={messageContent}
+          />
+          {sendingPending && <Loading />}
+          {renderSendButton(peerUserExistsOnXMTP, sendingPending)}
+        </div>
       </div>
     </>
   );

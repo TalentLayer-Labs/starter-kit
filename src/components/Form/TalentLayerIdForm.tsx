@@ -161,7 +161,7 @@ function TalentLayerIdForm({ handle, callback }: { handle?: string; callback?: (
               </div>
             </div>
           </div>
-          <span className='label-text text-error mt-2'>
+          <span className='label-text text-alone-error mt-2'>
             <ErrorMessage name='handle' />
           </span>
         </Form>

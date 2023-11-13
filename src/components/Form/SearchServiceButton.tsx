@@ -31,7 +31,7 @@ function SearchServiceButton(props?: { value?: string }) {
           }`}>
           <div className='px-6 flex flex-row items-center'>
             <input
-              className='text-base-content opacity-50 py-3 pl-0 focus:ring-0 outline-none text-sm border-0'
+              className='text-base-content opacity-50 py-3 pl-0 focus:ring-0 outline-none text-sm border-0 bg-base-200'
               type='text'
               placeholder='Search by title'
               value={searchQuery}

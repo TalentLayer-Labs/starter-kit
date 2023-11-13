@@ -187,7 +187,7 @@ function ServiceForm() {
                 className='mt-1 mb-1 block w-full rounded-xl border border-info bg-base-200 shadow-sm focus:ring-opacity-50'
                 placeholder=''
               />
-              <span className='text-error'>
+              <span className='text-alone-error'>
                 <ErrorMessage name='title' />
               </span>
             </label>
@@ -201,7 +201,7 @@ function ServiceForm() {
                 className='mt-1 mb-1 block w-full rounded-xl border border-info bg-base-200 shadow-sm focus:ring-opacity-50'
                 placeholder=''
               />
-              <span className='text-error'>
+              <span className='text-alone-error'>
                 <ErrorMessage name='about' />
               </span>
             </label>
@@ -224,7 +224,7 @@ function ServiceForm() {
                   className='mt-1 mb-1 block w-full rounded-xl border border-info bg-base-200 shadow-sm focus:ring-opacity-50'
                   placeholder=''
                 />
-                <span className='text-error mt-2'>
+                <span className='text-alone-error mt-2'>
                   <ErrorMessage name='rateAmount' />
                 </span>
                 {servicePostingFeeFormat !== 0 && (
@@ -254,7 +254,7 @@ function ServiceForm() {
                     </option>
                   ))}
                 </Field>
-                <span className='text-error'>
+                <span className='text-alone-error'>
                   <ErrorMessage name='rateToken' />
                 </span>
               </label>

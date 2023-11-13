@@ -33,7 +33,7 @@ function NetworkSwitch() {
     return (
       <button
         onClick={() => switchToDefaultNetwork && switchToDefaultNetwork()}
-        className='text-error text-xs italic'>
+        className='text-alone-error text-xs italic'>
         wrong network, <span className='underline hover:text-red-700'>switch now</span>
       </button>
     );

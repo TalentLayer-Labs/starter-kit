@@ -37,12 +37,12 @@ const MessageCard = ({ message, dateHasChanged }: IMessageCardProps) => {
           <div
             className={`py-3 px-4 text-sm ${
               isSender && message.status === ChatMessageStatus.SENT
-                ? 'ml-12 bg-info text-base-content rounded-bl-2xl rounded-tl-2xl rounded-tr-xl'
+                ? 'ml-12 bg-info text-info rounded-bl-2xl rounded-tl-2xl rounded-tr-xl'
                 : isSender && message.status === ChatMessageStatus.ERROR
-                ? 'ml-12 bg-error rounded-br-2xl rounded-tl-2xl rounded-tr-xl'
+                ? 'ml-12 bg-error text-error rounded-br-2xl rounded-tl-2xl rounded-tr-xl'
                 : isSender && message.status === ChatMessageStatus.PENDING
-                ? 'ml-12 bg-base-200 text-base-content rounded-bl-2xl rounded-tl-2xl rounded-tr-xl'
-                : 'mr-12 bg-base-200 text-base-content rounded-br-2xl rounded-tr-2xl rounded-tl-xl'
+                ? 'ml-12 bg-base-300 text-base-content rounded-bl-2xl rounded-tl-2xl rounded-tr-xl'
+                : 'mr-12 bg-base-300 text-base-content rounded-br-2xl rounded-tr-2xl rounded-tl-xl'
             }
           text-base-content`}>
             <span className='pr-1 text-base-content opacity-50 text-xs w-[50px]'>

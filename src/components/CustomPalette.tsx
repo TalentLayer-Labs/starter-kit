@@ -3,6 +3,10 @@ import { IBuilderPlace } from '../modules/BuilderPlace/types';
 
 function CustomPalette({ builderPlace }: { builderPlace: IBuilderPlace }) {
   /*
+    Optim idea:
+      - pass all color in rgb mode.
+      - Create a loop to create automatically all classes
+      - for text, we need to have both ex: text-on-primary & text-primary
     Custom Palette:
         "Palette": {
             "primary": "#FF71A2",
@@ -137,6 +141,10 @@ function CustomPalette({ builderPlace }: { builderPlace: IBuilderPlace }) {
             color: var(--success-content);
           }
 
+          body .text-alone-success {
+            color: var(--success);
+          }
+
           body .border-success {
             border-color: var(--success);
           }
@@ -159,6 +167,10 @@ function CustomPalette({ builderPlace }: { builderPlace: IBuilderPlace }) {
 
           body .text-error {
             color: var(--error-content);
+          }
+
+          body .text-alone-error {
+            color: var(--error);
           }
 
           body .border-error {

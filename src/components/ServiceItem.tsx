@@ -57,7 +57,7 @@ function ServiceItem({ service }: { service: IService }) {
             )}
           </div>
           <Link
-            className='text-white text-center bg-primary hover:opacity-70 px-5 py-2.5 rounded-xl text-md w-full sm:w-auto mt-4 sm:mt-0'
+            className='text-primary text-center bg-primary hover:opacity-70 px-5 py-2.5 rounded-xl text-md w-full sm:w-auto mt-4 sm:mt-0'
             href={`/work/${service.id}`}>
             view post
           </Link>

@@ -64,7 +64,7 @@ function UserLensFeed({ lensUser }: IProps) {
                       <span>
                         <svg
                           xmlns='http://www.w3.org/2000/svg'
-                          className='h-5 w-5 text-error transition duration-100 cursor-pointer'
+                          className='h-5 w-5 text-alone-error transition duration-100 cursor-pointer'
                           viewBox='0 0 20 20'
                           fill='currentColor'>
                           <path

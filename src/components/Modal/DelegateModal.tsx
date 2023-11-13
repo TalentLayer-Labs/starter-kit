@@ -96,9 +96,9 @@ function DelegateModal() {
                 <div className='flex flex-row'>
                   <h3 className='font-semibold text-base-content'>Delegation state: </h3>
                   {hasPlatformAsDelegate == true ? (
-                    <p className='text-success pl-2'> is active</p>
+                    <p className='text-alone-success pl-2'> is active</p>
                   ) : (
-                    <p className='text-error pl-2'> is inactive</p>
+                    <p className='text-alone-error pl-2'> is inactive</p>
                   )}
                 </div>
                 <p>After activating the delegation, all fees will be delegated to the platform.</p>

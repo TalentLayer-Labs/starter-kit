@@ -41,7 +41,7 @@ function Layout({ children, className }: ContainerProps) {
 
   if (router.asPath.includes('web3mail')) {
     return (
-      <div className={'dashboard pb-[110px] text-base-content bg-base-200'}>
+      <div className={'dashboard pb-[110px] text-base-content bg-base-200 min-h-screen'}>
         <div className='flex flex-1 flex-col '>
           <div className='top-0 z-10 flex flex-shrink-0 h-20 sm:h-16'>
             <div className='flex flex-1 items-center pl-6'>
@@ -62,7 +62,7 @@ function Layout({ children, className }: ContainerProps) {
   if (builderPlace) {
     if (!account?.isConnected) {
       return (
-        <div className={'dashboard pb-[110px] text-base-content bg-base-200'}>
+        <div className={'dashboard pb-[110px] text-base-content bg-base-200 min-h-screen'}>
           <div className='flex flex-1 flex-col '>
             <div className='top-0 z-10 flex flex-shrink-0 h-20 sm:h-16'>
               <div className='flex flex-1 items-center pl-6'>
@@ -84,7 +84,7 @@ function Layout({ children, className }: ContainerProps) {
 
     return (
       <>
-        <div className={'dashboard pb-[110px] text-base-content bg-base-200'}>
+        <div className={'dashboard pb-[110px] text-base-content bg-base-200 min-h-screen'}>
           <Transition.Root show={sidebarOpen} as={Fragment}>
             <Dialog as='div' className='relative z-40 md:hidden' onClose={setSidebarOpen}>
               <Transition.Child
@@ -162,8 +162,18 @@ function Layout({ children, className }: ContainerProps) {
                 <div className='block py-4'>
                   <a
                     href='https://builder.place'
-                    className='block max-w-[128px] opacity-30 hover:opacity-100'>
-                    <Image src='/logo-text-dark.png' alt='logo' width={128} height={20} />
+                    className='block max-w-[128px] opacity-30 hover:opacity-100 relative '>
+                    <Image
+                      src='/logo-text-dark.png'
+                      alt='logo'
+                      width={128}
+                      height={20}
+                      className='drop-shadow-xl'
+                      style={{
+                        WebkitFilter: 'drop-shadow(0px 0px 10px #FFFFFF)',
+                        filter: 'drop-shadow(0px 0px 10px #FFFFFF)',
+                      }}
+                    />
                   </a>
                 </div>
               </div>

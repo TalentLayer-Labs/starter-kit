@@ -123,7 +123,7 @@ function ReviewForm({ serviceId }: { serviceId: string }) {
                 placeholder=''
                 rows={5}
               />
-              <span className='text-error'>
+              <span className='text-alone-error'>
                 <ErrorMessage name='content' />
               </span>
             </label>
@@ -138,7 +138,7 @@ function ReviewForm({ serviceId }: { serviceId: string }) {
                 max={5}
                 className='mt-1 mb-1 block w-full rounded-xl border border-info bg-base-200 shadow-sm focus:ring-opacity-50'
               />
-              <span className='text-error'>
+              <span className='text-alone-error'>
                 <ErrorMessage name='rating' />
               </span>
             </label>
