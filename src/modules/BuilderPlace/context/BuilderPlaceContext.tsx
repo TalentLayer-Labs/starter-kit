@@ -1,6 +1,7 @@
 import { createContext, ReactNode, useContext, useEffect, useMemo, useState } from 'react';
 import { IBuilderPlace } from '../types';
 import TalentLayerContext from '../../../context/talentLayer';
+import { useAccount } from 'wagmi';
 
 const BuilderPlaceContext = createContext<{
   builderPlace?: IBuilderPlace;
@@ -11,7 +12,7 @@ const BuilderPlaceContext = createContext<{
 });
 
 const BuilderPlaceProvider = ({ data, children }: { data: IBuilderPlace; children: ReactNode }) => {
-  const { user } = useContext(TalentLayerContext);
+  const account = useAccount();
   const [builderPlace, setBuilderPlace] = useState<IBuilderPlace | undefined>();
   const [isBuilderPlaceOwner, setIsBuilderPlaceOwner] = useState<boolean>(false);
 
@@ -19,12 +20,12 @@ const BuilderPlaceProvider = ({ data, children }: { data: IBuilderPlace; childre
     if (!data) return;
 
     const isBuilderPlaceOwner = data?.owners?.some(
-      owner => owner.toLocaleLowerCase() === user?.address.toLocaleLowerCase(),
+      owner => owner.toLocaleLowerCase() === account?.address?.toLocaleLowerCase(),
     );
 
     setIsBuilderPlaceOwner(isBuilderPlaceOwner || false);
     setBuilderPlace(data);
-  }, [data, user]);
+  }, [data, account]);
 
   const value = {
     builderPlace,
