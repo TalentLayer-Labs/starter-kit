@@ -22,7 +22,7 @@ function ServiceStatus({ status }: { status: ServiceStatusEnum }) {
 
   return (
     <span
-      className={`rounded-full px-2.5 py-1 text-xs font-medium bg-${color}-50 text-${color}-600`}>
+      className={`rounded-full px-2.5 py-1 text-xs font-medium bg-${color}-50 text-${color}-800`}>
       {status}
     </span>
   );

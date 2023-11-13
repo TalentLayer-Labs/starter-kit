@@ -110,11 +110,14 @@ function ServiceDetail({ service }: { service: IService }) {
           <div className='flex flex-row gap-4 items-center border-t border-info pt-4'>
             {!isBuyer && service.status == ServiceStatusEnum.Opened && (
               <>
-              
                 {!userProposal && (
                   <Link
                     className='text-base-content bg-info hover:redpraha/80 hover:text-base-content px-5 py-2.5 rounded-xl text-md'
-                    href={account?.isConnected ? `/work/${service.id}/proposal` : `/worker-onboarding?serviceId=${service.id}`}>
+                    href={
+                      account?.isConnected
+                        ? `/work/${service.id}/proposal`
+                        : `/worker-onboarding?serviceId=${service.id}`
+                    }>
                     Create proposal
                   </Link>
                 )}
@@ -185,9 +188,7 @@ function ServiceDetail({ service }: { service: IService }) {
               </div>
             </>
           ) : (
-            <div
-              className='flex p-4 text-sm text-base-content bg-gray-100 rounded-xl mt-4'
-              role='alert'>
+            <div className='flex p-4 text-sm text-info bg-info rounded-xl mt-4' role='alert'>
               <svg
                 className='flex-shrink-0 inline w-5 h-5 mr-3'
                 fill='currentColor'

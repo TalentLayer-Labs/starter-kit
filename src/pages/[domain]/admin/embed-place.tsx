@@ -12,14 +12,15 @@ export async function getServerSideProps({ params }: any) {
 }
 
 const BASE_URL = global?.location?.origin;
-const GIG_BOARD_IFRAME_PATH = 'services-embeddable';
+const IFRAME_PATH = 'embed/work';
 
-const generateServicesEmbedUrl = (buyerId: string, title: string) => {
-  return `${BASE_URL}/${GIG_BOARD_IFRAME_PATH}?buyerId=${buyerId}&title=${title}`;
+const generateEmbedWorkUrl = (title: string) => {
+  // ?title=${title}
+  return `${BASE_URL}/${IFRAME_PATH}`;
 };
 
-const generateServicesEmbedIframeCode = (servicesEmbedUrl: string): string => {
-  return `<iframe src="${servicesEmbedUrl}" width="600" height="400"></iframe>`;
+const generateServicesEmbedIframeCode = (embedUrl: string): string => {
+  return `<iframe src="${embedUrl}" width="800" height="600" style="width: 100%"></iframe>`;
 };
 
 export default function EmbedPlace() {
@@ -40,51 +41,42 @@ export default function EmbedPlace() {
   }
 
   return (
-    <div>
+    <>
       {isBuilderPlaceOwner && (
         <div className='max-w-7xl mx-auto text-base-content'>
           <div className='-mx-6 -mt-6 sm:mx-0 sm:mt-0'>
-            <div className='flex py-2 px-6 sm:px-0 items-center w-full mb-8'>
-              <p className='text-2xl font-bold flex-1 mt-6'>Embed your place</p>
-            </div>
+            <p className='flex py-2 items-center text-2xl font-bold tracking-wider mb-6 w-full px-6 sm:px-0 mt-6 '>
+              Embed your place
+            </p>
           </div>
-          <div className='flex flex-row justify-center gap-2'>
-            <div className={'flex-1 border border-gray-700 rounded-xl'}>
-              <p className={'text-xl font-bold flex-1 mt-6'}>Embeddable job board</p>
-              <p>embed your job board on a page in your website. read the guide</p>
-              <div className={'flex flex-row gap-2'}>
-                <code className={'basis-5/6 border border-t-gray-500 rounded-xl p-2'}>
+          <div className=''>
+            <h2 className='pb-4 text-base font-bold break-all'>copy the code</h2>
+            <div className='border border-info rounded-xl p-6'>
+              <p className='text-sm'>embed your job board on a page in your website.</p>
+              <div className='flex flex-row flex-wrap'>
+                <code className='bg-info text-info rounded-xl p-2 my-4 overflow-hidden'>
                   {user?.id &&
                     builderPlace?.name &&
-                    generateServicesEmbedIframeCode(
-                      generateServicesEmbedUrl(user.id, builderPlace.name),
-                    )}
+                    generateServicesEmbedIframeCode(generateEmbedWorkUrl(builderPlace.name))}
                 </code>
                 {!isIframeCopied ? (
-                  <span
-                    className={
-                      'flex flex-row basis-1/6 items-center border-l border-t-gray-500 ml-2 px-2 py-1 hover:rounded-xl hover:cursor-pointer hover:bg-gray-200 hover:transition-all duration-150'
-                    }
+                  <button
+                    className='flex items-center justify-center text-primary text-center bg-primary hover:opacity-70 px-5 py-2.5 rounded-xl text-md w-full sm:w-auto'
                     onClick={() =>
                       user?.id &&
                       builderPlace?.name &&
                       copyIframe(
-                        generateServicesEmbedIframeCode(
-                          generateServicesEmbedUrl(user.id, builderPlace.name),
-                        ),
+                        generateServicesEmbedIframeCode(generateEmbedWorkUrl(builderPlace.name)),
                       )
                     }>
                     <ClipboardCopy />
-                    <p className={'text-sm text-gray-500'}>Copy</p>
-                  </span>
+                    <span>copy</span>
+                  </button>
                 ) : (
-                  <span
-                    className={
-                      'flex flex-row basis-1/6 items-center border-l border-t-green-500 ml-2 px-2 py-1 rounded-xl bg-green-200'
-                    }>
+                  <button className='flex items-center justify-center text-primary text-center bg-primary hover:opacity-70 px-5 py-2.5 rounded-xl text-md w-full sm:w-auto'>
                     <CheckCircle />
-                    <p className={'text-sm text-gray-500'}>Copied !</p>
-                  </span>
+                    <span>copied!</span>
+                  </button>
                 )}
               </div>
             </div>
@@ -92,14 +84,16 @@ export default function EmbedPlace() {
         </div>
       )}
       {isBuilderPlaceOwner && user?.id && builderPlace?.name && (
-        <div className={'flex flex-col items-center justify-center mt-4'}>
-          <h1 className='text-title text-4xl mb-4 text-center'>Work Board Preview</h1>
-          <iframe
-            src={generateServicesEmbedUrl(user.id, builderPlace.name)}
-            width='600'
-            height='400'></iframe>
+        <div className='mt-6'>
+          <h2 className='pb-4 text-base font-bold break-all'>preview</h2>
+          <div
+            className='border border-info rounded-xl overflow-hidden'
+            dangerouslySetInnerHTML={{
+              __html: generateServicesEmbedIframeCode(generateEmbedWorkUrl(builderPlace.name)),
+            }}
+          />
         </div>
       )}
-    </div>
+    </>
   );
 }

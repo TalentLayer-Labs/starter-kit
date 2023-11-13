@@ -59,7 +59,7 @@ function UserSubMenu() {
             disconnect();
             router.push('/');
           }}
-          className={`text-alone-error bg-error hover:opacity-80 px-5 py-2.5 rounded-xl text-md relative w-full`}>
+          className={`text-error bg-error hover:opacity-80 px-5 py-2.5 rounded-xl text-md relative w-full`}>
           Log out
         </button>
       </div>

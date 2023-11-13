@@ -60,7 +60,19 @@ function Layout({ children, className }: ContainerProps) {
   }
 
   if (builderPlace) {
-    if (!account?.isConnected) {
+    if (router.asPath.includes('embed/')) {
+      return (
+        <div className={'dashboard pb-[110px] text-base-content bg-base-200 min-h-screen'}>
+          <div className='flex flex-1 flex-col '>
+            <main>
+              <div className={`px-6 py-6 md:px-12 xl:px-24`}>{children}</div>
+            </main>
+          </div>
+        </div>
+      );
+    }
+
+    if (!account?.isConnected || router.asPath.includes('embed/')) {
       return (
         <div className={'dashboard pb-[110px] text-base-content bg-base-200 min-h-screen'}>
           <div className='flex flex-1 flex-col '>

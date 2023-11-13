@@ -23,8 +23,8 @@ function SearchServiceButton(props?: { value?: string }) {
   }, []);
 
   return (
-    <form onSubmit={e => handleSubmit(e)} className='flex w-full'>
-      <div className='flex w-full justify-end'>
+    <form onSubmit={e => handleSubmit(e)} className='flex'>
+      <div className='flex justify-end'>
         <div
           className={`flex flex-row rounded-3xl border ${
             isFocused ? 'opacity-100' : 'opacity-60'
