@@ -70,13 +70,13 @@ function Home() {
                       support
                     </a>
                   </li>
-                  <li>
+                  {/* <li>
                     <a
                       href='/onboarding'
                       className='rounded-md text-center bg-landingprimary py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base font-bold text-white hover:bg-opacity-60'>
                       register
                     </a>
-                  </li>
+                  </li> */}
                   <li>
                     <a
                       href='/worker-landing'

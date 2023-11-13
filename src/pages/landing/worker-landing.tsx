@@ -70,13 +70,13 @@ function Home() {
                       support
                     </a>
                   </li>
-                  <li>
+                  {/* <li>
                     <a
                       href='/worker-onboarding'
                       className='rounded-md text-center bg-landingprimary py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base font-bold text-white hover:bg-opacity-60'>
                       register
                     </a>
-                  </li>
+                  </li> */}
                   <li>
                     <a
                       href='/'
@@ -146,27 +146,41 @@ function Home() {
         <section id='features' className='relative pt-[0px]'>
           <div className='container'>
             <div
-              className='wow fadeInUp mx-auto mb-14 max-w-[740px] text-center lg:mb-[70px]'
+              className='wow fadeInUp mx-auto mb-14 max-w-[780px] text-center lg:mb-[70px]'
               data-wow-delay='.2s'>
-              <h2 className='mb-10 text-3xl font-bold text-black  sm:text-4xl pt-40 md:text-[44px] leading-tight'>
+              <h2 className='mb-0 mt-10 text-3xl font-bold text-black  sm:text-4xl md:text-[44px] md:leading-tight'>
                 finding <a className='text-landingprimary'>open-source opportunities</a>
                 <br></br>
                 shouldn't be hard
               </h2>
-              <p className='text-left text-[15px] md:text-[20px] lg:text-[25px]'>
+              <p className='text-center text-md mt-3'>
                 have you ever…
+                <span className='flex bg-[#fef4e8] p-2 mt-3'>
+                  <span className='text-center flex-1'>
+                    <span className='mr-2'>🕒</span>
+                    spent endless hours sifting through open issues on Github to find open-source
+                    projects to help
+                  </span>
+                </span>
+                <span className='flex bg-[#fef4e8] p-2 mt-3'>
+                  <span className='text-center flex-1'>
+                    <span className='mr-2'>🤔</span>
+                    struggled to figure out unclear policies on bounties for contributions
+                  </span>
+                </span>
+                <span className='flex bg-[#fef4e8] p-2 mt-3'>
+                  <span className='text-center flex-1'>
+                    <span className='mr-2'>😞</span>
+                    discovered only bug-bounties available when you hoped to contribute in a bigger
+                    way
+                    <br></br>
+                  </span>
+                </span>
                 <br></br>
-                🕒 spent endless hours sifting through open issues on Github to find open-source
-                projects to help
-                <br></br>
-                🤔 struggled to figure out unclear policies on bounties for contributions
-                <br></br>
-                😞 discovered only bug-bounties available when you hoped to contribute in a bigger
-                way
-                <br></br>
-                <br></br>
-                we’ve been there! BuilderPlace is a network of open-source ecosystems that need your
-                help, built by open-source contributors for open-source contributors.
+                <span className='font-semibold'>
+                  we’ve been there! BuilderPlace is a network of open-source ecosystems that need
+                  your help, built by open-source contributors for open-source contributors.
+                </span>
               </p>
               <img
                 src='/images/stats.png'
