@@ -22,7 +22,7 @@ export const themes = {
     primaryContent: '#ffffff',
     base100: '#ffffff',
     base200: '#E5D7FF',
-    base300: '#E5D7FF',
+    base300: '#d5c0fc',
     baseContent: '#000000',
     info: '#756CC2',
     infoContent: '#ffffff',

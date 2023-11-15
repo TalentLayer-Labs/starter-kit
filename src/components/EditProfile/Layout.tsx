@@ -23,7 +23,7 @@ function Layout({ children, className }: ContainerProps) {
       <div className='max-w-7xl mx-auto text-base-content'>
         <div className='-mx-6 -mt-6 sm:mx-0 sm:mt-0'>
           <div className='flex py-2 px-6 sm:px-0 items-center w-full mb-8'>
-            <p className='text-2xl font-bold flex-1 mt-6'>Edit</p>
+            <p className='text-2xl font-bold flex-1 mt-6'>edit</p>
 
             <Link
               href={`/profiles/${user.id}`}

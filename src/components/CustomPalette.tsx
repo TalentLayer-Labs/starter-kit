@@ -89,7 +89,7 @@ function CustomPalette({ builderPlace }: { builderPlace: IBuilderPlace }) {
             background-color: var(--base-100);
           }
 
-          body .bg-base-200 {
+          body .bg-base-200, body .hover\\:bg-base-200:hover {
             background-color: var(--base-200);
           }
 

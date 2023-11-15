@@ -32,7 +32,7 @@ function HirerProfileLayout({ children, className, step }: ContainerProps) {
           <div className='text-stone-800'>
             <p className=' pb-5 sm:pb-10 pt-5 text-3xl sm:text-5xl font-bold mt-6 text-center'>
               {step === 1
-                ? 'create Your Hirer Profile'
+                ? 'create your hirer profile'
                 : step === 2
                 ? 'create your on-chain hiring identity'
                 : 'customize Your BuilderPlace'}

@@ -84,7 +84,7 @@ function onboardingStep1() {
           <Form>
             <div className='grid grid-cols-1 gap-3 sm:gap-4'>
               <label className='block'>
-                <span className='font-bold text-md'>organization Name</span>
+                <span className='font-bold text-md'>organization name</span>
                 <Field
                   type='text'
                   id='name'
@@ -279,7 +279,7 @@ function onboardingStep1() {
                 </button>
               ) : (
                 <button type='submit' className='grow px-5 py-2 rounded-xl bg-pink-500 text-white'>
-                  Create My Profile
+                  create my profile
                 </button>
               )}
             </div>

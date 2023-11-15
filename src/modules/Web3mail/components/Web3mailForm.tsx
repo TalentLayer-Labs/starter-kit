@@ -67,7 +67,7 @@ function Web3mailForm() {
 
             router.push('/profiles/edit/privacy');
           }}
-          className='grow px-5 py-2 rounded-xl bg-info text-base-content hover:bg-base-200 inline-flex align-center justify-center '>
+          className='grow px-5 py-2 rounded-xl text-primary bg-primary hover:opacity-70 inline-flex align-center justify-center mt-2'>
           <ArrowLeftCircleIcon className='w-[22px] h-[22px] mr-2 mt-05' />
           <span>Switch back to Polygon and go back to my profile</span>
         </button>
@@ -166,13 +166,15 @@ function Web3mailForm() {
                     </span>
                   </>
                 ) : (
-                  <Field
-                    type='text'
-                    id='email'
-                    name='email'
-                    className='mt-1 mb-1 block w-full rounded-xl border border-info bg-base-200 shadow-sm focus:ring-opacity-50'
-                    placeholder=''
-                  />
+                  <div className='py-4'>
+                    <Field
+                      type='text'
+                      id='email'
+                      name='email'
+                      className='mt-1 mb-1 block w-full rounded-xl border border-info bg-base-300 shadow-sm focus:ring-opacity-50'
+                      placeholder='enter your email'
+                    />
+                  </div>
                 )}
               </label>
 

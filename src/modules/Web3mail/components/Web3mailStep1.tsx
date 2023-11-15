@@ -30,7 +30,7 @@ function Web3mailStep1() {
       </label>
       <button
         onClick={() => switchNetwork && switchNetwork(NetworkEnum.IEXEC)}
-        className='grow px-5 py-2 rounded-xl bg-info text-base-content hover:bg-base-200 inline-flex align-center justify-center '>
+        className='grow px-5 py-2 rounded-xl bg-primary text-primary hover:opacity-70 inline-flex align-center justify-center mt-1'>
         <span>Switch to iExec chain</span>
       </button>
     </div>

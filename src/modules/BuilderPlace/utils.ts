@@ -67,6 +67,10 @@ export const uploadImage = async (
   setLoader: Dispatch<SetStateAction<boolean>>,
   handle?: string,
 ) => {
+  if (!file) {
+    return;
+  }
+
   setLoader(true);
   serErrorMessage('');
   if (!isImgFormatValid(file)) {

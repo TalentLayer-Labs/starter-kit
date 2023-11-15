@@ -18,8 +18,8 @@ function OnboardingSteps({ currentStep, type }: { currentStep: number; type: str
               )}`}>
               <div className='text-white text-xl font-semibold'>1</div>
             </div>
-            <div className='ml-4 flex flex-col'>
-              <div className='text-light text-xl font-semibold'>create</div>
+            <div className='ml-3 flex flex-col'>
+              <div className='text-light text-xl font-semibold leading-6'>create</div>
               <div className='text-light text-sm'>{type} profile</div>
             </div>
           </div>
@@ -30,8 +30,8 @@ function OnboardingSteps({ currentStep, type }: { currentStep: number; type: str
               )}`}>
               <div className='text-white text-xl font-semibold'>2</div>
             </div>
-            <div className='ml-4 flex flex-col'>
-              <div className='text-light text-xl font-semibold'>setup</div>
+            <div className='ml-3 flex flex-col'>
+              <div className='text-light text-xl font-semibold leading-6'>setup</div>
               <div className='text-light text-sm'>on-chain Identity</div>
             </div>
           </div>
@@ -42,8 +42,8 @@ function OnboardingSteps({ currentStep, type }: { currentStep: number; type: str
               )}`}>
               <div className='text-white text-xl font-semibold'>3</div>
             </div>
-            <div className='ml-4 flex flex-col'>
-              <div className='text-light text-xl font-semibold'>
+            <div className='ml-3 flex flex-col'>
+              <div className='text-light text-xl font-semibold leading-6'>
                 {type == 'hirer' ? 'customize' : 'view'}
               </div>
               <div className='text-light text-sm'>profile</div>

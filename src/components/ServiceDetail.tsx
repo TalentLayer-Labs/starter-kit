@@ -99,7 +99,7 @@ function ServiceDetail({ service }: { service: IService }) {
                 {service.description?.keywords_raw?.split(',').map((keyword, i) => (
                   <span
                     key={i}
-                    className='inline-block bg-gray-100 rounded-full px-2 py-1 text-xs font-semibold text-base-content mr-2 mb-2'>
+                    className='inline-block bg-info rounded-full px-2 py-1 text-xs font-semibold text-info mr-2 mb-2'>
                     {keyword}
                   </span>
                 ))}
@@ -112,7 +112,7 @@ function ServiceDetail({ service }: { service: IService }) {
               <>
                 {!userProposal && (
                   <Link
-                    className='text-base-content bg-info hover:redpraha/80 hover:text-base-content px-5 py-2.5 rounded-xl text-md'
+                    className='text-primary bg-primary hover:opacity-70 px-5 py-2.5 rounded-xl text-md relative'
                     href={
                       account?.isConnected
                         ? `/work/${service.id}/proposal`
