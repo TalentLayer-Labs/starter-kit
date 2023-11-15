@@ -201,7 +201,7 @@ function ServiceDetail({ service }: { service: IService }) {
               </svg>
               <span className='sr-only'>Info</span>
               <div>
-                <span className='font-medium'>There is no proposal yet</span>
+                <span className='font-medium'>no proposal has been submitted yet</span>
               </div>
             </div>
           )}

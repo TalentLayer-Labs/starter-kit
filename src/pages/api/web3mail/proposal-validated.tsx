@@ -109,7 +109,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       try {
         const email = renderWeb3mail(
           `Your proposal got accepted!`,
-          `The proposal you made for the gig "${
+          `The proposal you made for the open-source mission "${
             proposal.service.description?.title
           }" you posted on BuilderPlace got accepted by ${proposal.service.buyer.handle} !
               The following amount was agreed: ${renderTokenAmount(

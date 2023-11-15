@@ -142,7 +142,7 @@ function CreateWorkerProfileForm({ callback }: { callback?: () => void }) {
         <Form>
           <div className='grid grid-cols-1 gap-6'>
             <label className='block'>
-              <span className='text-xl font-bold '>Title</span>
+              <span className='text-xl font-bold '>title</span>
               <Field
                 type='text'
                 id='title'
@@ -152,7 +152,7 @@ function CreateWorkerProfileForm({ callback }: { callback?: () => void }) {
               />
             </label>
             <label className='block'>
-              <span className='text-xl font-bold '>Name</span>
+              <span className='text-xl font-bold '>name</span>
               <Field
                 type='text'
                 id='name'
@@ -162,7 +162,7 @@ function CreateWorkerProfileForm({ callback }: { callback?: () => void }) {
               />
             </label>
             <label className='block'>
-              <span className='text-xl font-bold '>Role</span>
+              <span className='text-xl font-bold '>role</span>
               <Field
                 as='input'
                 type='text'
@@ -175,7 +175,7 @@ function CreateWorkerProfileForm({ callback }: { callback?: () => void }) {
             </label>
 
             <label className='block'>
-              <span className='text-xl font-bold '>Picture Url</span>
+              <span className='text-xl font-bold '>picture url</span>
               <Field
                 type='text'
                 id='image_url'
@@ -214,7 +214,7 @@ function CreateWorkerProfileForm({ callback }: { callback?: () => void }) {
             </label>
 
             <label className='block'>
-              <span className='text-xl font-bold '>About</span>
+              <span className='text-xl font-bold '>about</span>
               <Field
                 as='textarea'
                 id='about'
@@ -226,13 +226,13 @@ function CreateWorkerProfileForm({ callback }: { callback?: () => void }) {
             </label>
 
             <label className='block'>
-              <span className='text-xl font-bold '>Skills</span>
+              <span className='text-xl font-bold '>skills</span>
 
               <SkillsInput initialValues={userDescription?.skills_raw} entityId={'skills'} />
 
               <Field type='hidden' id='skills' name='skills' />
             </label>
-            <SubmitButton isSubmitting={isSubmitting} label='Create Profile' />
+            <SubmitButton isSubmitting={isSubmitting} label='create profile' />
           </div>
         </Form>
       )}

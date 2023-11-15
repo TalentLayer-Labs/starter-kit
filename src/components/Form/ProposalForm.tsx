@@ -31,10 +31,10 @@ interface IFormValues {
 }
 
 const validationSchema = Yup.object({
-  about: Yup.string().required('Please provide a description of your service'),
-  rateToken: Yup.string().required('Please select a payment token'),
-  rateAmount: Yup.string().required('Please provide an amount for your service'),
-  expirationDate: Yup.number().integer().required('Please provide an expiration date'),
+  about: Yup.string().required('please provide a description of your service'),
+  rateToken: Yup.string().required('please select a payment currency'),
+  rateAmount: Yup.string().required('please provide an requested amount'),
+  expirationDate: Yup.number().integer().required('please provide an expiration date'),
 });
 
 function ProposalForm({
@@ -186,12 +186,14 @@ function ProposalForm({
     <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
       {({ isSubmitting, values, setFieldValue }) => (
         <Form>
-          <h2 className='mb-2 text-base-content font-bold'>For the job:</h2>
+          <h2 className='mb-2 text-base-content font-bold'>the mission</h2>
           <ServiceItem service={service} />
 
-          <h2 className=' mt-8 mb-2 text-base-content font-bold'>
-            Describe your proposal in details:
-          </h2>
+          <h2 className=' mt-8 mb-2 text-base-content font-bold'>how can you help?</h2>
+          <p className='text-sm mb-2'>
+            describe how you can help achive the goals of the open-source mission and why you want
+            to help
+          </p>
           <div className='grid grid-cols-1 gap-6 border border-info rounded-xl p-6 bg-base-100'>
             <label className='block'>
               <span className='text-base-content'>about</span>
@@ -210,7 +212,7 @@ function ProposalForm({
 
             <div className='flex'>
               <label className='block flex-1 mr-4'>
-                <span className='text-base-content'>Amount</span>
+                <span className='text-base-content'>amount requested</span>
                 <Field
                   type='number'
                   id='rateAmount'
@@ -223,14 +225,14 @@ function ProposalForm({
                 </span>
               </label>
               <label className='block'>
-                <span className='text-base-content'>Token</span>
+                <span className='text-base-content'>token</span>
                 <Field
                   component='select'
                   id='rateToken'
                   name='rateToken'
                   className='mt-1 mb-2 block w-full rounded-xl border border-info bg-base-200 shadow-sm focus:ring-opacity-50'
                   placeholder=''>
-                  <option value=''>Select a token</option>
+                  <option value=''>select a currency</option>
                   {allowedTokenList.map((token, index) => (
                     <option key={index} value={token.address}>
                       {token.symbol}
@@ -243,7 +245,7 @@ function ProposalForm({
               </label>
             </div>
             <label className='block flex-1'>
-              <span className='text-base-content'>Expiration Date (Days)</span>
+              <span className='text-base-content'>proposal expiration date</span>
               <Field
                 type='number'
                 id='expirationDate'
@@ -255,8 +257,8 @@ function ProposalForm({
                 <ErrorMessage name='expirationDate' />
               </span>
             </label>
-            <label className='block flex-1'>
-              <span className='text-base-content'>Video URL (optional)</span>
+            {/* <label className='block flex-1'>
+              <span className='text-base-content'>video proposal url (optional)</span>
               <Field
                 type='text'
                 id='video_url'
@@ -267,7 +269,7 @@ function ProposalForm({
               <span className='text-alone-error'>
                 <ErrorMessage name='video_url' />
               </span>
-            </label>
+            </label> */}
             {proposalPostingFeeFormat !== 0 && !existingProposal && (
               <span className='text-base-content'>
                 Fee for making a proposal: {proposalPostingFeeFormat}{' '}

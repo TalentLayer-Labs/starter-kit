@@ -8,7 +8,7 @@ export async function getServerSideProps({ params }: any) {
 
 const EmbedWork = () => {
   const router = useRouter();
-  const boardTitle = (router.query?.title as string) || 'discover opportunities in our ecosystem';
+  const boardTitle = (router.query?.title as string) || '';
 
   return (
     <div className={'text-base-content bg-base-200'}>

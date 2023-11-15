@@ -30,11 +30,11 @@ function WorkerPublicDetail({ user }: { user: IUser }) {
             </div>
           </div>
           <div className='mt-5 flex w-full flex-col gap-4 justify-start items-start'>
-            <p className='text-xl text-black font-bold'>About</p>
+            <p className='text-xl text-black font-bold'>about</p>
             <p className='text-xl text-gray-500 font-medium '>{user?.description?.about}</p>
           </div>
           <div className='mt-5 flex w-full flex-col gap-4 justify-start items-start'>
-            <p className='text-xl text-black font-bold'>Skills</p>
+            <p className='text-xl text-black font-bold'>skills</p>
             <div className='mt-2 flex w-full flex-col lg:flex-row sm:felx-col gap-4 justify-start items-start -ml-1'>
               {userDescription?.skills_raw?.split(',').map((skill, index) => (
                 <span
@@ -48,7 +48,7 @@ function WorkerPublicDetail({ user }: { user: IUser }) {
             </div>
           </div>
           <div className='mt-5 flex w-full flex-col gap-4 justify-start items-start'>
-            <p className='text-xl text-black font-bold'>Reviews</p>
+            <p className='text-xl text-black font-bold'>reviews</p>
             <Stars rating={Number(user.rating)} numReviews={user.userStats.numReceivedReviews} />
           </div>
         </div>

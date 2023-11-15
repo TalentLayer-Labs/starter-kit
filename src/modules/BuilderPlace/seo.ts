@@ -2,7 +2,7 @@ import { IBuilderPlace } from './types';
 
 export const getSeoDefaultConfig = (builderPlace: IBuilderPlace) => {
   if (!builderPlace) {
-    const title = 'Builder Place';
+    const title = 'BuilderPlace';
     const description = 'Empower opens-source contributors to help you achieve your goals';
     const canonical = 'https://builder.place';
 
@@ -20,7 +20,7 @@ export const getSeoDefaultConfig = (builderPlace: IBuilderPlace) => {
     };
   }
 
-  const title = `${builderPlace.name} Builder Place`;
+  const title = `${builderPlace.name} BuilderPlace`;
   const description = `${builderPlace.name} open source community, find open work and contribute!`;
 
   return {

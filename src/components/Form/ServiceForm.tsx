@@ -148,9 +148,9 @@ function ServiceForm() {
         const newId = await createMultiStepsTransactionToast(
           chainId,
           {
-            pending: 'Creating your job...',
-            success: 'Congrats! Your job has been added',
-            error: 'An error occurred while creating your job',
+            pending: 'Creating your project...',
+            success: 'Congrats! Your open-source post has been created',
+            error: 'An error occurred while creating your post',
           },
           publiClient,
           tx,

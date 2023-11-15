@@ -29,7 +29,7 @@ function Dashboard() {
       <div className='-mx-6 -mt-6 sm:mx-0 sm:mt-0'>
         <div className='flex py-2 px-6 sm:px-0 items-center w-full mb-8'>
           <p className='text-2xl font-bold flex-1 mt-6'>
-            your <span className='text-base-content ml-1'> dashboard </span>
+            <span className='text-base-content ml-1'> dashboard </span>
           </p>
         </div>
       </div>
@@ -40,12 +40,12 @@ function Dashboard() {
             <>
               <div className='mb-12'>
                 <h2 className='pb-4 text-base-content  break-all flex justify-between items-center'>
-                  <span className='flex-1 font-bold'>your builderPlace</span>
+                  <span className='flex-1 font-bold'>your BuilderPlace</span>
                 </h2>
 
                 <Notification
                   title='personalize your space!'
-                  text='customize your builder place to match your brand'
+                  text='customize your BuilderPlace to match your brand'
                   link='/admin/configure-place'
                   linkText='personalize my space'
                   color='success'
@@ -66,7 +66,7 @@ function Dashboard() {
             <>
               <div className='mb-12'>
                 <h2 className='pb-4 text-base-content  break-all flex justify-between items-center'>
-                  <span className='flex-1 font-bold'>worker profile</span>
+                  <span className='flex-1 font-bold'>contributor profile</span>
                   <Link
                     className='hover:opacity-70 text-primary bg-primary px-3 py-2 text-sm  rounded-xl'
                     href={`/profiles/edit`}>

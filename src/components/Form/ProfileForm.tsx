@@ -137,7 +137,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
         <Form>
           <div className='grid grid-cols-1 gap-6'>
             <label className='block'>
-              <span className='text-base-content'>Title</span>
+              <span className='text-base-content'>title</span>
               <Field
                 type='text'
                 id='title'
@@ -147,7 +147,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
               />
             </label>
             <label className='block'>
-              <span className='text-base-content'>Name</span>
+              <span className='text-base-content'>name</span>
               <Field
                 type='text'
                 id='name'
@@ -157,7 +157,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
               />
             </label>
             <label className='block'>
-              <span className='text-base-content'>Role</span>
+              <span className='text-base-content'>role</span>
               <Field
                 as='select'
                 id='role'
@@ -165,14 +165,14 @@ function ProfileForm({ callback }: { callback?: () => void }) {
                 className='mt-1 mb-1 block w-full rounded-xl border border-info bg-base-200 shadow-sm focus:ring-opacity-50'
                 placeholder=''>
                 <option value=''></option>
-                <option value='buyer'>Freelance</option>
-                <option value='seller'>Hirer</option>
-                <option value='buyer-seller'>Both</option>
+                <option value='buyer'>freelancer</option>
+                <option value='seller'>hirer</option>
+                <option value='buyer-seller'>both</option>
               </Field>
             </label>
 
             <label className='block'>
-              <span className='text-base-content'>Picture Url</span>
+              <span className='text-base-content'>picture url</span>
               <Field
                 type='text'
                 id='image_url'
@@ -180,11 +180,11 @@ function ProfileForm({ callback }: { callback?: () => void }) {
                 className='mt-1 mb-1 block w-full rounded-xl border border-info bg-base-200 shadow-sm focus:ring-opacity-50'
                 placeholder=''
               />
-              <div className='border-info bg-info relative w-full border transition-all duration-300 rounded-xl p-4'>
+              <div className='border-2 border-gray-200 bg-midnight relative w-full border transition-all duration-300 rounded-xl p-4'>
                 <div className='flex w-full items-center gap-3'>
                   <QuestionMarkCircle className='hidden' />
                   <div>
-                    <h2 className='font-heading text-xs font-bold text-base-content mb-1'>
+                    <h2 className='font-heading text-xs font-bold text-xl font-bold  mb-1'>
                       <span>Need help?</span>
                     </h2>
                     <p className='font-alt text-xs font-normal'>
@@ -211,7 +211,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
             </label>
 
             <label className='block'>
-              <span className='text-base-content'>About</span>
+              <span className='text-base-content'>about</span>
               <Field
                 as='textarea'
                 id='about'
@@ -223,7 +223,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
             </label>
 
             <label className='block'>
-              <span className='text-base-content'>Skills</span>
+              <span className='text-base-content'>skills</span>
 
               <SkillsInput initialValues={userDescription?.skills_raw} entityId={'skills'} />
 

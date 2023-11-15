@@ -47,7 +47,7 @@ function UserSubMenu() {
               href='/profiles/edit'
               className='mt-2 border border-info rounded-xl hover:bg-base-300 text-base-content bg-base-200 px-5 py-2 w-full'
               role='none'>
-              Manage Account
+              manage account
             </Link>
           )}
         </div>
@@ -60,7 +60,7 @@ function UserSubMenu() {
             router.push('/');
           }}
           className={`text-error bg-error hover:opacity-80 px-5 py-2.5 rounded-xl text-md relative w-full`}>
-          Log out
+          log out
         </button>
       </div>
     </div>

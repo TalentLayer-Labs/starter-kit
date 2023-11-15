@@ -8,10 +8,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const builderPlace = data?.props?.builderPlace as IBuilderPlace;
 
   try {
-    if (!builderPlace) throw new Error('Builder Place not found');
+    if (!builderPlace) throw new Error('BuilderPlace not found');
     res.status(200).json({
-      short_name: `${builderPlace.name} Builder Place`,
-      name: `${builderPlace.name} Builder Place`,
+      short_name: `${builderPlace.name} BuilderPlace`,
+      name: `${builderPlace.name} BuilderPlace`,
       description: `${builderPlace.name} open source community, find open work and contribute!`,
       icons: [
         {

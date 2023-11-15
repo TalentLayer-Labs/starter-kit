@@ -16,7 +16,7 @@ export default function HirerProfile() {
 
   return (
     <div>
-      <h1>hirer profile</h1>
+      <h1>organization profile</h1>
     </div>
   );
 }

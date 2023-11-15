@@ -8,7 +8,7 @@ import {
 export const navigation = () => {
   const config = [
     {
-      name: 'Your profile',
+      name: 'your profile',
       href: '/profiles/edit',
       icon: UserCircleIcon,
       current: false,
@@ -21,7 +21,7 @@ export const navigation = () => {
     //   current: false,
     // },
     {
-      name: 'Notifications',
+      name: 'notifications',
       href: '/profiles/edit/privacy',
       icon: BellAlertIcon,
       current: false,

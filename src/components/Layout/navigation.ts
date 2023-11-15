@@ -38,8 +38,8 @@ export const hirerAdminNavigation = [
 
 export const workerNavigation = [
   { name: 'dashboard', href: '/dashboard', icon: HomeIcon, current: false },
-  { name: 'find work', href: '/', icon: BriefcaseIcon, current: false },
-  { name: 'my profile', href: '/profiles/edit', icon: UserIcon, current: false },
+  { name: 'missions', href: '/', icon: BriefcaseIcon, current: false },
+  { name: 'profile', href: '/profiles/edit', icon: UserIcon, current: false },
   { name: 'chat', href: '/messaging', icon: ChatBubbleBottomCenterIcon, current: false },
 ];
 

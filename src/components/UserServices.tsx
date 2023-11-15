@@ -29,12 +29,12 @@ function UserServices({ user, type }: IProps) {
     if (isBuilderPlaceOwner && type == 'buyer') {
       return (
         <>
-          <h2 className='pb-4 text-base font-bold break-all'>works posted</h2>
+          <h2 className='pb-4 text-base font-bold break-all'>projects posted</h2>
           <Notification
-            title='post your first work!'
-            text='create your first work post to share with your community'
+            title='post your first project!'
+            text='post something your team needs help with'
             link='/work/create'
-            linkText='post a job'
+            linkText='post a project'
             color='primary'
             imageUrl={
               user?.description?.image_url
@@ -52,7 +52,7 @@ function UserServices({ user, type }: IProps) {
   return (
     <>
       <h2 className='pb-4 text-base font-bold break-all'>
-        {type == 'buyer' ? 'my work posts' : 'works applied'}
+        {type == 'buyer' ? 'my posts' : 'posts applied to'}
       </h2>
       <div className='grid grid-cols-1 gap-4'>
         {services.map((service, i) => {

@@ -118,7 +118,7 @@ function Dashboard() {
           <button
             className='text-primary bg-primary hover:opacity-70 px-5 py-2.5 rounded-xl text-md relative'
             onClick={() => handleXmtpConnect()}>
-            Connect to Messaging
+            connect messaging
           </button>
         </div>
       )}

@@ -81,14 +81,15 @@ function Web3mailCard() {
           <p className='font-heading text-xl font-semibold leading-normal mb-2 text-base-content opacity-90'>
             <span>
               {' '}
-              Take back control! <span className='text-3xl'>🪄</span>
+              configure private email alerts <span className='text-3xl'>🪄</span>
             </span>
           </p>
           <p className='font-alt text-sm font-normal leading-normal max-w-sm text-base-content opacity-70'>
             <span>
               {' '}
-              Your email will never be stored by us or TalentLayer. With iExec web3mail, you can
-              allow your email to be used without being disclosed to us.
+              your email will never be stored by us, BuilderPlace, or TalentLayer. private email is
+              powered by iExec Web3Mail - allowing us to send you email alerts without your data
+              being disclosed to us.
             </span>
           </p>
           <div className='mt-3'>
@@ -96,7 +97,7 @@ function Web3mailCard() {
               href='https://medium.com/iex-ec/introducing-privacy-enhancing-marketing-the-future-of-marketing-in-web3-429283e7c7f0'
               target='_blank'
               className='px-3 py-1 border border-info rounded-md hover:bg-base-200 text-base-content hover:text-base-content inline-flex items-center text-xs'>
-              <span>Learn More</span>
+              <span>learn more</span>
               <ArrowSmallRightIcon width='16' height='16' className='ml-2' />
             </a>
           </div>
