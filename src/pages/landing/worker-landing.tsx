@@ -222,7 +222,7 @@ function Home() {
                     </p>
                     <div className='flex justify-center gap-4'>
                       <a
-                        href='https://www.talentlayer.builder.place'
+                        href='https://talentlayer.builder.place'
                         className='max-w-[250px] flex-1 mb-5 rounded-md text-center bg-landingprimary py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base text-white font-bold hover:bg-opacity-60'>
                         talentlayer.builder.place
                       </a>
@@ -279,7 +279,7 @@ function Home() {
                     </p>
                     <div className='flex justify-center gap-4'>
                       <a
-                        href='https://www.thebadge.builder.place'
+                        href='https://thebadge.builder.place'
                         className='max-w-[250px] flex-1 mb-5 rounded-md text-center bg-landingprimary py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base text-white font-bold hover:bg-opacity-60'>
                         thebadge.builder.place
                       </a>

@@ -374,18 +374,18 @@ function Home() {
                     </p>
                     <div className='flex justify-center gap-4'>
                       <a
-                        href='https://www.talentlayer.builder.place'
+                        href='https://talentlayer.builder.place'
                         target='_blank'
-                        className='max-w-[210px] flex-1 mb-5 rounded-md text-center bg-landingprimary py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base text-white font-bold hover:bg-opacity-60'>
+                        className='max-w-[300px] flex-1 mb-5 rounded-md text-center bg-landingprimary py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base text-white font-bold hover:bg-opacity-60'>
                         talentlayer.builder.place
                       </a>
-                      <a
-                        href='https://www.talentlayer.org'
-                        target='_blank'
-                        className='max-w-[210px] flex-1 mb-5 rounded-md text-center bg-landingprimary py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base text-white font-bold hover:bg-opacity-60'>
-                        meet the project
-                      </a>
                     </div>
+                    {/* <a
+                      href='https://www.talentlayer.org'
+                      target='_blank'
+                      className='max-w-[210px] flex-1 mb-5 rounded-md text-center bg-landingprimary py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base text-white font-bold hover:bg-opacity-60'>
+                      meet the project
+                    </a> */}
                   </div>
                 </div>
                 {/* <div className='w-full px-4 md:w-1/2 lg:w-1/2'>
@@ -433,17 +433,17 @@ function Home() {
                     </p>
                     <div className='flex justify-center gap-4'>
                       <a
-                        href='https://www.thebadge.builder.place'
+                        href='https://thebadge.builder.place'
                         target='_blank'
-                        className='max-w-[210px] flex-1 mb-5 rounded-md text-center bg-landingprimary py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base text-white font-bold hover:bg-opacity-60'>
+                        className='max-w-[300px] flex-1 mb-5 rounded-md text-center bg-landingprimary py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base text-white font-bold hover:bg-opacity-60'>
                         thebadge.builder.place
                       </a>
-                      <a
+                      {/* <a
                         href='https://www.thebadge.xyz'
                         target='_blank'
                         className='max-w-[210px] flex-1 mb-5 rounded-md text-center bg-landingprimary py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base text-white font-bold hover:bg-opacity-60'>
                         meet the project
-                      </a>
+                      </a> */}
                     </div>
                   </div>
                 </div>
