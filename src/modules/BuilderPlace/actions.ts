@@ -155,6 +155,27 @@ export const getBuilderPlaceByOwnerAddressAndId = async (address: string, _id: s
   }
 };
 
+export const getBuilderPlaceByOwnerTlIdAndId = async (ownerId: string, _id: string) => {
+  try {
+    await connection();
+    console.log("getting builderPlace with owner's TlId & mongo _id:", ownerId, _id);
+    const builderPlaceSubdomain = await BuilderPlace.findOne({
+      ownerTalentLayerId: ownerId,
+      _id: _id,
+    });
+    console.log('fetched builderPlace, ', builderPlaceSubdomain);
+    if (builderPlaceSubdomain) {
+      return builderPlaceSubdomain;
+    }
+
+    return null;
+  } catch (error: any) {
+    return {
+      error: error.message,
+    };
+  }
+};
+
 // TODO! createBuilderPlace, can be used for the onboarding workflow maybe for the creating the subdomain & deleteBuilderPlace
 export const updateDomain = async (builderPlace: UpdateBuilderPlaceDomain) => {
   try {

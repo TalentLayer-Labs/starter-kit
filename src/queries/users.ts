@@ -237,3 +237,14 @@ export const getWeb3mailUsersForNewServices = (
     `;
   return processRequest(chainId, query);
 };
+
+export const getDelegates = (chainId: number, userId: string): Promise<any> => {
+  const query = `
+    {
+      user(id: "${userId}") {
+        delegates
+      }
+    }
+    `;
+  return processRequest(chainId, query);
+};

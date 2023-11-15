@@ -1,8 +1,8 @@
 import {
   BriefcaseIcon,
   ChatBubbleBottomCenterIcon,
-  UserGroupIcon,
   UserIcon,
+  UserPlusIcon,
   PresentationChartLineIcon,
   ExclamationCircleIcon,
   ShieldCheckIcon,
@@ -32,6 +32,12 @@ export const hirerAdminNavigation = [
     name: 'embed your place',
     href: '/admin/embed-place',
     icon: CodeBracketSquareIcon,
+    current: false,
+  },
+  {
+    name: 'add collaborators',
+    href: '/admin/add-collaborators',
+    icon: UserPlusIcon,
     current: false,
   },
 ];

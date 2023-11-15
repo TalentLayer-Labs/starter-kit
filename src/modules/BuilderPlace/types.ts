@@ -40,6 +40,13 @@ export interface UpdateBuilderPlaceDomain {
   signature: `0x${string}` | Uint8Array;
 }
 
+export interface AddBuilderPlaceOwner {
+  id: string;
+  // chainId: number;
+  signature: `0x${string}` | Uint8Array;
+  owner: string;
+}
+
 export interface SetBuilderPlaceOwner {
   id: string;
   owners: string[];
