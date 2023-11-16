@@ -8,7 +8,7 @@ function Logo() {
   return (
     <div>
       <Link href='/' className='flex items-end flex-wrap pt-2 pb-2 sm:pt-0 sm:pb-0'>
-        <h1 className='text-base-content text-3xl font-bold'>
+        <h1 className='text-base-content text-3xl font-bold max-w-[160px]'>
           {builderPlace?.logo ? (
             <img src={builderPlace?.logo} alt={builderPlace.name} className='' />
           ) : (
