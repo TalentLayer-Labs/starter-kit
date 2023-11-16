@@ -21,7 +21,7 @@ export const hirerNavigation = [
 ];
 
 export const hirerAdminNavigation = [
-  { name: 'hirer profile', href: '/admin/hirer-profile', icon: UserIcon, current: false },
+  // { name: 'hirer profile', href: '/admin/hirer-profile', icon: UserIcon, current: false },
   {
     name: 'configure your place',
     href: '/admin/configure-place',
