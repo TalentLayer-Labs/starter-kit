@@ -49,12 +49,20 @@ function DisputeButton({
 
   const payFee = () => {
     if (walletClient && arbitrationFee) {
-      return payArbitrationFee(walletClient, publicClient, arbitrationFee, isSender, transactionId, router,config);
+      return payArbitrationFee(
+        walletClient,
+        publicClient,
+        arbitrationFee,
+        isSender,
+        transactionId,
+        router,
+        config,
+      );
     }
   };
   const timeout = () => {
     if (walletClient) {
-      return arbitrationFeeTimeout(walletClient, publicClient, transactionId, router,config);
+      return arbitrationFeeTimeout(walletClient, publicClient, transactionId, router, config);
     }
   };
 
@@ -63,7 +71,8 @@ function DisputeButton({
       {userIsSenderAndHasNotPaid && (
         <button
           className={`ml-2 mt-4 px-5 py-2 border rounded-md hover:text-indigo-600 hover:bg-white border-indigo-600 bg-indigo-600 text-white'
-                }`}>
+                }`}
+          onClick={() => payFee()}>
           Pay fee
         </button>
       )}
