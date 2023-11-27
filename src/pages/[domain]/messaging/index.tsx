@@ -39,11 +39,25 @@ function MessagingIndex() {
     <div className='mx-auto text-base-content sm:px-4 lg:px-0'>
       {!providerState?.client && account && (
         <div className='flex items-center justify-center pt-16'>
-          <button
-            className='text-primary bg-primary hover:opacity-70 px-5 py-2.5 rounded-xl text-md relative'
-            onClick={() => handleXmtpConnect()}>
-            Connect to Messaging
-          </button>
+          <div className='-mx-6 -mt-6 sm:mx-0 sm:mt-0'>
+            <p className='flex py-2 items-center text-2xl font-bold tracking-wider mb-2 w-full px-6 sm:px-0 mt-6 '>
+              set up messaging
+            </p>
+            <p className='text-sm mb-6'>
+              in order to communicate with contributors about your open-source missions, please set
+              up decentralized messaging for your organization. decentralized messaging on
+              BuilderPlace platforms is powered by{' '}
+              <a className='underline' href='https://xmtp.org/' target='_blank'>
+                XMTP
+              </a>
+              .
+            </p>
+            <button
+              className='text-primary bg-primary hover:opacity-70 px-5 py-2.5 rounded-xl text-md relative'
+              onClick={() => handleXmtpConnect()}>
+              connect messaging
+            </button>
+          </div>
         </div>
       )}
       {providerState?.client && (
@@ -51,7 +65,7 @@ function MessagingIndex() {
           <div className='flex flex-row text-base-content'>
             <div className='flex py-2 px-4 sm:px-3 items-center border-b w-full border-info'>
               <>
-                <p className='text-2xl font-bold flex-1 mt-3'>Chats</p>
+                <p className='text-2xl font-bold flex-1 mt-3'>chats</p>
 
                 <SearchModal />
                 <ShareModal />

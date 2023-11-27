@@ -143,7 +143,7 @@ function ConfigurePlace(props: InferGetServerSidePropsType<typeof getServerSideP
 
   return (
     <>
-      <AdminSettingsLayout title={'customize Your BuilderPlace'} route={'/admin'}>
+      <AdminSettingsLayout title={'configure your place'} route={'/admin'}>
         <Formik
           initialValues={initialValues}
           enableReinitialize={true}

@@ -8,7 +8,7 @@ interface ContainerProps {
 function DefaultPalettes({ onChange }: ContainerProps) {
   return (
     <label className='block'>
-      <span className='font-bold text-md'>choose a color palette</span>
+      <span className='font-bold text-md'>custom color palette</span>
 
       <div className='flex flex-col gap-2'>
         {Object.keys(themes).map((value, index) => {

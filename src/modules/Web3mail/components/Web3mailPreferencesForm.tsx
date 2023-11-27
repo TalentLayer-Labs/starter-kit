@@ -120,11 +120,11 @@ function Web3mailPreferencesForm() {
                     <div className='flex justify-between'>
                       <div>
                         <p className='font-heading text-base-content font-medium leading-none'>
-                          1. Setup your email
+                          1. setup your email
                         </p>
                         <p className='font-sans text-xs font-normal leading-normal text-base-content mt-0.5'>
-                          It allow you to configure your preferences to be notified every time an
-                          important action happened.
+                          configure your preferences to be notified every time an important event
+                          happens on your profile.
                         </p>
                       </div>
                     </div>
@@ -133,7 +133,7 @@ function Web3mailPreferencesForm() {
                 <Link
                   href='/web3mail'
                   className='grow px-5 py-2 rounded-xl bg-info text-base-content hover:bg-base-200 inline-flex align-center justify-center '>
-                  <span>Manage your email</span>
+                  <span>manage your email</span>
                   <ArrowUpRightIcon width='16' height='16' className='ml-2 mt-1' />
                 </Link>
               </div>
@@ -142,40 +142,40 @@ function Web3mailPreferencesForm() {
                 <div className='mb-2 ml-0.5'>
                   <div className='mb-4'>
                     <p className='font-heading text-base-content font-medium leading-none'>
-                      2. Setup your notifications preferences
+                      2. setup your notification preferences
                     </p>
                     <p className='font-sans text-xs font-normal leading-normal text-base-content mt-0.5'>
-                      Receive email when:
+                      receive email when:
                     </p>
                   </div>
 
                   <Toogle
                     entityId={'activeOnNewProposal'}
-                    label='A new proposal is posted on your Work Post'
+                    label='a new proposal is posted on your open-source mission'
                   />
 
                   <Toogle
                     entityId={'activeOnProposalValidated'}
-                    label='Your proposal has been validated'
+                    label='your proposal has been validated'
                   />
 
-                  <Toogle entityId={'activeOnFundRelease'} label='You received new fund' />
+                  <Toogle entityId={'activeOnFundRelease'} label='You receive new income' />
 
-                  <Toogle entityId={'activeOnReview'} label='You received a new review' />
+                  <Toogle entityId={'activeOnReview'} label='You receive a new review' />
 
                   <Toogle
                     entityId={'activeOnNewService'}
-                    label='A new gig corresponding to your skills is open'
+                    label='a new open-source contribution mission corresponding to your skills is open'
                   />
 
                   <Toogle
                     entityId={'activeOnPlatformMarketing'}
-                    label='Important annoucement, new features, new partnerships..'
+                    label='important annoucements, new features, new partnerships..'
                   />
                 </div>
               </label>
 
-              <SubmitButton isSubmitting={isSubmitting} label='Update' />
+              <SubmitButton isSubmitting={isSubmitting} label='update preferences' />
             </div>
           </Form>
         )}

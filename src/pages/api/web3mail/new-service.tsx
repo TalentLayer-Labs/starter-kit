@@ -110,32 +110,34 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             console.log(
               `The skills ${
                 contact.user.handle
-              } has which are required by this gig are: ${matchingSkills.join(', ')}`,
+              } has which are required by this open-source contribution mission are: ${matchingSkills.join(
+                ', ',
+              )}`,
             );
 
             const domain = await getDomain(service.buyer.id);
 
             try {
               const email = renderWeb3mail(
-                `New gig available on BuilderPlace!`,
-                `Good news, the following gig: "${
+                `New mission available on BuilderPlace!`,
+                `Good news, the following open-source contribution mission: "${
                   service.description?.title
                 }" was recently posted by ${service.buyer.handle} and you are a good match for it.
                   Here is what is proposed: ${service.description?.about}.
                   
-                  The skills you have which are required by this gig are: ${matchingSkills.join(
+                  The skills you have which are required by this open-source contribution mission are: ${matchingSkills.join(
                     ', ',
                   )}.
                   
                   Be the first one to send a proposal !`,
                 contact.user.handle,
                 `${domain}/work/${service.id}`,
-                `Go to gig detail`,
+                `Go to open-source mission details`,
                 domain,
               );
               // @dev: This function needs to be throwable to avoid persisting the entity in the DB if the email is not sent
               await sendMailToAddresses(
-                `A new gig matching your skills is available on BuilderPlace !`,
+                `A new open-source contribution mission matching your skills is available on BuilderPlace !`,
                 email,
                 [contact.user.address],
                 true,

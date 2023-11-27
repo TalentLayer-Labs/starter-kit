@@ -16,12 +16,12 @@ import {
 export const hirerNavigation = [
   { name: 'dashboard', href: '/dashboard', icon: HomeIcon, current: false },
   { name: 'my place', href: '/', icon: BriefcaseIcon, current: false },
-  { name: 'new post', href: '/work/create', icon: PlusCircleIcon, current: false },
+  { name: 'new mission', href: '/work/create', icon: PlusCircleIcon, current: false },
   { name: 'chat', href: '/messaging', icon: ChatBubbleBottomCenterIcon, current: false },
 ];
 
 export const hirerAdminNavigation = [
-  { name: 'hirer profile', href: '/admin/hirer-profile', icon: UserIcon, current: false },
+  // { name: 'hirer profile', href: '/admin/hirer-profile', icon: UserIcon, current: false },
   {
     name: 'configure your place',
     href: '/admin/configure-place',
@@ -44,8 +44,8 @@ export const hirerAdminNavigation = [
 
 export const workerNavigation = [
   { name: 'dashboard', href: '/dashboard', icon: HomeIcon, current: false },
-  { name: 'find work', href: '/', icon: BriefcaseIcon, current: false },
-  { name: 'my profile', href: '/profiles/edit', icon: UserIcon, current: false },
+  { name: 'missions', href: '/', icon: BriefcaseIcon, current: false },
+  { name: 'profile', href: '/profiles/edit', icon: UserIcon, current: false },
   { name: 'chat', href: '/messaging', icon: ChatBubbleBottomCenterIcon, current: false },
 ];
 

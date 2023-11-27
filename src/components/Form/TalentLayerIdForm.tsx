@@ -101,13 +101,22 @@ function TalentLayerIdForm({ handle, callback }: { handle?: string; callback?: (
       enableReinitialize={true}>
       {({ isSubmitting, values }) => (
         <Form>
-          <p className='text-center mb-8'>Mint your TalentLayer ID</p>
+          <p className='text-2xl text-center sm:text-4xl font-bold mb-3 mt-6'>
+            mint a TalentLayer ID
+          </p>
+          <p className='text-center mb-8'>
+            your TalentLayerID is a work identity that allows ownership and growth of reputation
+            across many hiring marketplaces. TalentLayer IDs live inside crypto wallets; this means
+            that reputation is self-custodied by the wallet owner and lives separately from
+            integrated platforms; meaning you can use it across any integrated platform and retain
+            full control of your reputation.
+          </p>
           <div className='flex  bg-base-300 py-4 px-4 mb-2 sm:px-0 justify-center items-center flex-row drop-shadow-lg rounded'>
             <div className='px-6 flex flex-row items-center gap-2'>
               <Field
                 type='text'
                 className='text-base-content opacity-50 py-2 focus:ring-0 outline-none text-sm border-0 rounded-xl h-[40px]'
-                placeholder='Choose your handle'
+                placeholder='choose your handle'
                 id='handle'
                 name='handle'
                 required
@@ -126,18 +135,19 @@ function TalentLayerIdForm({ handle, callback }: { handle?: string; callback?: (
                       What is a TalentLayerID?
                     </h3>
                     <p>
-                      AnonID is a work identity that allows ownership and growth of reputation
-                      across many gig marketplaces. Anon IDs are ERC-721 NFTs that live inside
-                      crypto wallets; this means that reputation is self-custodied by the wallet
-                      owner and lives separately from integrated platforms.
+                      TalentLayerID is a work identity that allows ownership and growth of
+                      reputation across many marketplaces. Anon IDs are ERC-721 NFTs that live
+                      inside crypto wallets; this means that reputation is self-custodied by the
+                      wallet owner and lives separately from integrated platforms.
                     </p>
                     <h3 className='font-semibold text-base-content dark:text-base-content'>
                       What is the handle?
                     </h3>
                     <p>
-                      Your Anon ID Handle is a unique string of characters and numbers that you can
-                      choose when you create your Anon ID. This handle is how others can search for
-                      your reputation. You can have a maximum of 10 characters in your Anon ID.
+                      Your TalentLayerID Handle is a unique string of characters and numbers that
+                      you can choose when you create your TalentLayerID. This handle is how others
+                      can search for your reputation. You can have a maximum of 10 characters in
+                      your TalentLayerID.
                     </p>
                     <a
                       target='_blank'

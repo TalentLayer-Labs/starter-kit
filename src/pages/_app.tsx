@@ -1,7 +1,6 @@
 import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum';
 import { Web3Modal } from '@web3modal/react';
 import { DefaultSeo } from 'next-seo';
-import { ThemeProvider } from 'next-themes';
 import type { AppProps } from 'next/app';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ToastContainer } from 'react-toastify';
@@ -63,11 +62,9 @@ function MyApp({ Component, pageProps }: AppProps) {
             <BuilderPlaceProvider data={pageProps.builderPlace}>
               <XmtpContextProvider>
                 <MessagingProvider>
-                  <ThemeProvider enableSystem={false}>
-                    <Layout>
-                      <Component {...pageProps} />
-                    </Layout>
-                  </ThemeProvider>
+                  <Layout>
+                    <Component {...pageProps} />
+                  </Layout>
                 </MessagingProvider>
               </XmtpContextProvider>
               <ToastContainer position='bottom-right' />

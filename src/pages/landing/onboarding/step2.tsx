@@ -85,7 +85,7 @@ function onboardingStep2() {
           </p>
           <div className='grid grid-cols-1 gap-3 sm:gap-4'>
             <p className='text-center'>
-              You are about to link your TalentLayer ID to your BuilderPlace:{' '}
+              You are about to link your TalentLayer ID to your BuilderPlace{' '}
               {builderPlaceData?.name}
             </p>
             {isSubmitting ? (

@@ -71,8 +71,8 @@ function onboardingStep1() {
   return (
     <HirerProfileLayout step={1}>
       <p className='text-center pb-10 sm:pb-16'>
-        your hirer profile helps workers get to know you - whether they’re visiting your team’s job
-        board, or if they’ve found your opportunity through a third-party platform
+        your organization profile helps contributors get to know you - whether they’re visiting your
+        team’s job board, or if they’ve found your mission through a third-party platform
       </p>
 
       <Formik
@@ -84,13 +84,13 @@ function onboardingStep1() {
           <Form>
             <div className='grid grid-cols-1 gap-3 sm:gap-4'>
               <label className='block'>
-                <span className='font-bold text-md'>organization Name</span>
+                <span className='font-bold text-md'>organization name</span>
                 <Field
                   type='text'
                   id='name'
                   name='name'
                   className='mt-1 mb-1 block w-full rounded-xl border-2 border-gray-200 bg-midnight shadow-sm focus:ring-opacity-50'
-                  placeholder='Your organization name goes here'
+                  placeholder='your organization name goes here'
                 />
               </label>
               <span className='text-red-500'>
@@ -104,7 +104,7 @@ function onboardingStep1() {
                   name='presentation'
                   rows='4'
                   className='mt-1 mb-1 block w-full rounded-xl border-2 border-gray-200 bg-midnight shadow-sm focus:ring-opacity-50'
-                  placeholder='Tell everyone about what you work on and why you’re doing it '
+                  placeholder='tell everyone about what you work on and why you’re doing it (ps: open-source contributors love to hear about your mission and vision)'
                 />
               </label>
               <span className='text-red-500'>
@@ -279,7 +279,7 @@ function onboardingStep1() {
                 </button>
               ) : (
                 <button type='submit' className='grow px-5 py-2 rounded-xl bg-pink-500 text-white'>
-                  Create My Profile
+                  create my profile
                 </button>
               )}
             </div>

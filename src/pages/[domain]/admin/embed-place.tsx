@@ -45,14 +45,24 @@ export default function EmbedPlace() {
       {isBuilderPlaceOwner && (
         <div className='max-w-7xl mx-auto text-base-content'>
           <div className='-mx-6 -mt-6 sm:mx-0 sm:mt-0'>
-            <p className='flex py-2 items-center text-2xl font-bold tracking-wider mb-6 w-full px-6 sm:px-0 mt-6 '>
-              Embed your place
+            <p className='flex py-2 items-center text-2xl font-bold tracking-wider mb-2 w-full px-6 sm:px-0 mt-6 '>
+              embed your place
+            </p>
+            <p className='text-sm mb-2'>
+              here you can embed your work board directly on your own website. this helps create a
+              seamless user journey for contributors in your ecosystem - users can discover missions
+              on your website, and then be re-directed to your hosted builder.place platform.
+            </p>
+            <p className='text-sm mb-6 text-landingprimary italic'>
+              coming soon: host your entire BuilderPlace platform on your own website domain.
             </p>
           </div>
           <div className=''>
             <h2 className='pb-4 text-base font-bold break-all'>copy the code</h2>
             <div className='border border-info rounded-xl p-6'>
-              <p className='text-sm'>embed your job board on a page in your website.</p>
+              <p className='text-sm'>
+                copy the iFrame code below to embed your work board on a page in your website
+              </p>
               <div className='flex flex-row flex-wrap'>
                 <code className='bg-info text-info rounded-xl p-2 my-4 overflow-hidden'>
                   {user?.id &&
@@ -86,6 +96,9 @@ export default function EmbedPlace() {
       {isBuilderPlaceOwner && user?.id && builderPlace?.name && (
         <div className='mt-6'>
           <h2 className='pb-4 text-base font-bold break-all'>preview</h2>
+          <p className='text-sm mb-6 text-landingprimary italic'>
+            when you post your open-source missions, they will show up here
+          </p>
           <div
             className='border border-info rounded-xl overflow-hidden'
             dangerouslySetInnerHTML={{

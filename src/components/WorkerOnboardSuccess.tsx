@@ -23,7 +23,7 @@ function WorkerOnboardSuccess() {
               Looking good! Now, it's time to work.
             </p>
             <p className='text-xl sm:text-2xl text-base-content opacity-50 text-center'>
-              Your profile looks great - you are all set to apply for opportunities.
+              Your profile looks great - you are all set to apply for open-source missions.
             </p>
             <div className='flex flex-col items-center gap-8'>
               <div className='w-48 h-48 rounded-full overflow-hidden'>

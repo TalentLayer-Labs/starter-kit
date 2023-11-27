@@ -11,7 +11,7 @@ function Home() {
         <div className='container relative lg:max-w-[1305px] lg:px-10'>
           <div className='flex items-center justify-between'>
             <div className='block py-4 lg:py-0'>
-              <a href='index.html' className='block max-w-[145px] sm:max-w-[200px]'>
+              <a href='/' className='block max-w-[145px] sm:max-w-[200px]'>
                 <Image src='/logo-text-dark.png' alt='logo' width={256} height={41} />
               </a>
             </div>
@@ -79,7 +79,7 @@ function Home() {
                   </li>
                   <li>
                     <a
-                      href='/onboarding'
+                      href='/worker-landing'
                       className='rounded-md text-center bg-redpraha py-[6px] px-[12px] xl:py-[10px] xl:px-[30px] text-base font-bold text-stone-800 hover:bg-opacity-60'>
                       contribute
                     </a>
@@ -181,12 +181,12 @@ function Home() {
             <div className='flex justify-center flex-wrap'>
               <div className='order-last w-full text-center px-3 lg:order-first lg:w-1/3'>
                 <p className='text-center text-base text-stone-800'>
-                  <a href='/' className='hover:opacity-60'>
+                  <a href='#' className='hover:opacity-60'>
                     &copy; 2023 BuilderPlace
                   </a>{' '}
                   |{' '}
-                  <a href='/terms' className='hover:opacity-60'>
-                    Terms of Service
+                  <a href='/terms' className='underline hover:opacity-60'>
+                    terms of service
                   </a>
                 </p>
               </div>
@@ -194,8 +194,8 @@ function Home() {
             <a
               href='https://github.com/TalentLayer-Labs/builder-place'
               target='_blank'
-              className='hover:opacity-60'>
-              Powered by OpenSource
+              className='text-landingprimary underline hover:opacity-60'>
+              100% opens-source
             </a>
           </div>
         </div>

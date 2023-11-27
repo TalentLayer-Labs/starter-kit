@@ -23,13 +23,13 @@ function Layout({ children, className }: ContainerProps) {
       <div className='max-w-7xl mx-auto text-base-content'>
         <div className='-mx-6 -mt-6 sm:mx-0 sm:mt-0'>
           <div className='flex py-2 px-6 sm:px-0 items-center w-full mb-8'>
-            <p className='text-2xl font-bold flex-1 mt-6'>Edit</p>
+            <p className='text-2xl font-bold flex-1 mt-6'>profile management</p>
 
             <Link
               href={`/profiles/${user.id}`}
               className='hover:opacity-70 text-primary bg-primary px-3 py-2 text-sm flex items-center rounded-xl'>
               <EyeIcon className='w-[18px] h-[18px] mr-2' />
-              Public page
+              view public profile
             </Link>
           </div>
         </div>
@@ -67,7 +67,7 @@ function Layout({ children, className }: ContainerProps) {
                       </div>
                       <div className='mb-1 mt-6 flex items-center justify-between'>
                         <h3 className='font-heading text-sm font-semibold leading-tight '>
-                          <span>Profile Completion</span>
+                          <span>profile completion</span>
                         </h3>
                         <div>
                           <span className='text-base-content opacity-50 font-sans text-sm'>
@@ -86,8 +86,8 @@ function Layout({ children, className }: ContainerProps) {
                         </div>
                         <div className='mt-2'>
                           <p className='text-base-content opacity-50 font-sans text-xs leading-tight'>
-                            Reach out higher levels to increase your visibility and trust inside the
-                            network while preserving your privacy.
+                            add more details to your profile to increase your visibility and trust
+                            as an open-source contributor.
                           </p>
                         </div>
                       </div>

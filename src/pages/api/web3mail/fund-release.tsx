@@ -141,7 +141,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         `${senderHandle} has ${action} ${renderTokenAmount(
           payment.rateToken,
           payment.amount,
-        )} for the gig ${payment.service.description?.title} on BuilderPlace !`,
+        )} for the project ${payment.service.description?.title} on BuilderPlace !`,
         receiverHandle,
         `${domain}/work/${payment.service.id}`,
         `Go to payment detail`,
@@ -150,7 +150,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       try {
         // @dev: This function needs to be throwable to avoid persisting the entity in the DB if the email is not sent
         await sendMailToAddresses(
-          `Funds ${action} for the gig - ${payment.service.description?.title}`,
+          `Funds ${action} for the open-source work project - ${payment.service.description?.title}`,
           email,
           [receiverAddress],
           true,

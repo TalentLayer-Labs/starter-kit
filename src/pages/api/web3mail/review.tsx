@@ -114,7 +114,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         fromAddress = review.service.buyer.address;
       }
       console.log(
-        `A review with id ${review.id} was created from ${fromHandle} owning the address ${fromAddress} for the gig ${review.service.id}!`,
+        `A review with id ${review.id} was created from ${fromHandle} owning the address ${fromAddress} for the open-source contribution ${review.service.id}!`,
       );
       review.to.address === review.service.buyer.address
         ? console.log('Reviewer is the seller')
@@ -125,9 +125,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       try {
         const email = renderWeb3mail(
           `You received a new review!`,
-          `${fromHandle} has left a review for the gig ${review.service.description?.title}.
-            The gig was rated ${review.rating}/5 stars and the following comment was left: ${review.description?.content}.
-            Congratulations on completing your gig and improving your reputation !`,
+          `${fromHandle} has left a review for the open-source contribution ${review.service.description?.title}.
+            The open-source contribution was rated ${review.rating}/5 stars and the following comment was left: ${review.description?.content}.
+            Congratulations on completing your open-source contribution and improving your reputation !`,
           review.to.handle,
           `${domain}/work/${review.service.id}`,
           `Go to review detail`,
@@ -135,7 +135,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         );
         // @dev: This function needs to be throwable to avoid persisting the entity in the DB if the email is not sent
         await sendMailToAddresses(
-          `A review was created for the gig - ${review.service.description?.title}`,
+          `A review was created for the open-source contribution - ${review.service.description?.title}`,
           email,
           [review.to.address],
           true,

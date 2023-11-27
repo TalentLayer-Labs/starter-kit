@@ -6,7 +6,7 @@ export const getBuilderPlace = async (domain: string) => {
   const builderPlace = await getBuilderPlaceByDomain(domain);
 
   if (!builderPlace) {
-    throw new Error(`Builder Place not found for domain ${domain}`);
+    throw new Error(`BuilderPlace not found for domain ${domain}`);
   }
 
   const serializedBuilderPlace = JSON.parse(JSON.stringify(builderPlace));
