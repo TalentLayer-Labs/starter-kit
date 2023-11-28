@@ -6,6 +6,7 @@ import { useColor } from 'react-color-palette';
 import 'react-color-palette/css';
 import { useChainId, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
+import AccessDenied from '../../../components/AccessDenied';
 import AdminSettingsLayout from '../../../components/AdminSettingsLayout';
 import CustomDomain from '../../../components/CustomDomain';
 import CustomizePalette from '../../../components/CustomizePalette';
@@ -13,13 +14,11 @@ import DefaultPalettes from '../../../components/DefaultPalettes';
 import Loading from '../../../components/Loading';
 import UploadLogo from '../../../components/UploadLogo';
 import TalentLayerContext from '../../../context/talentLayer';
-import { useUpdateBuilderPlace } from '../../../modules/BuilderPlace/hooks/UseUpdateBuilderPlace';
-import { getBuilderPlace } from '../../../modules/BuilderPlace/queries';
-import { IBuilderPlace, iBuilderPlacePalette } from '../../../modules/BuilderPlace/types';
-import { themes } from '../../../utils/themes';
-import { slugify } from '../../../modules/BuilderPlace/utils';
 import BuilderPlaceContext from '../../../modules/BuilderPlace/context/BuilderPlaceContext';
-import AccessDenied from '../../../components/AccessDenied';
+import { useUpdateBuilderPlace } from '../../../modules/BuilderPlace/hooks/UseUpdateBuilderPlace';
+import { IBuilderPlace, iBuilderPlacePalette } from '../../../modules/BuilderPlace/types';
+import { slugify } from '../../../modules/BuilderPlace/utils';
+import { themes } from '../../../utils/themes';
 
 interface IFormValues {
   subdomain: string;
@@ -27,8 +26,11 @@ interface IFormValues {
   logo?: string;
 }
 
-export async function getServerSideProps({ params }: any) {
-  return await getBuilderPlace(params.domain);
+import { GetServerSidePropsContext } from 'next';
+import { sharedGetServerSideProps } from '../../../utils/sharedGetServerSideProps';
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  return sharedGetServerSideProps(context);
 }
 
 const validationSchema = Yup.object({

@@ -1,15 +1,16 @@
+import { GetServerSidePropsContext } from 'next';
 import { useContext } from 'react';
+import AccessDenied from '../../../components/AccessDenied';
 import ServiceForm from '../../../components/Form/ServiceForm';
 import Steps from '../../../components/Steps';
 import TalentLayerContext from '../../../context/talentLayer';
+import BuilderPlaceContext from '../../../modules/BuilderPlace/context/BuilderPlaceContext';
 import ConnectButton from '../../../modules/Messaging/components/ConnectButton';
 import MessagingContext from '../../../modules/Messaging/context/messging';
-import BuilderPlaceContext from '../../../modules/BuilderPlace/context/BuilderPlaceContext';
-import AccessDenied from '../../../components/AccessDenied';
-import { getBuilderPlace } from '../../../modules/BuilderPlace/queries';
+import { sharedGetServerSideProps } from '../../../utils/sharedGetServerSideProps';
 
-export async function getServerSideProps({ params }: any) {
-  return await getBuilderPlace(params.domain);
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  return sharedGetServerSideProps(context);
 }
 
 function CreateService() {

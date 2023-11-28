@@ -1,11 +1,13 @@
 import { useContext } from 'react';
-import TalentLayerContext from '../../../context/talentLayer';
 import Loading from '../../../components/Loading';
 import UserIncomes from '../../../components/UserIncomes';
-import { getBuilderPlace } from '../../../modules/BuilderPlace/queries';
+import TalentLayerContext from '../../../context/talentLayer';
 
-export async function getServerSideProps({ params }: any) {
-  return await getBuilderPlace(params.domain);
+import { GetServerSidePropsContext } from 'next';
+import { sharedGetServerSideProps } from '../../../utils/sharedGetServerSideProps';
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  return sharedGetServerSideProps(context);
 }
 
 function Incomes() {

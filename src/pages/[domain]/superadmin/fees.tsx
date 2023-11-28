@@ -1,5 +1,7 @@
+import { GetServerSidePropsContext } from 'next';
 import { useContext } from 'react';
 import { formatEther } from 'viem';
+import { useChainId } from 'wagmi';
 import * as Yup from 'yup';
 import SingleValueForm from '../../../components/Form/SingleValueForm';
 import Loading from '../../../components/Loading';
@@ -10,12 +12,11 @@ import TalentLayerContext from '../../../context/talentLayer';
 import TalentLayerPlatformID from '../../../contracts/ABI/TalentLayerPlatformID.json';
 import { useConfig } from '../../../hooks/useConfig';
 import usePlatform from '../../../hooks/usePlatform';
+import { sharedGetServerSideProps } from '../../../utils/sharedGetServerSideProps';
 import { chains } from '../../_app';
-import { useChainId } from 'wagmi';
-import { getBuilderPlace } from '../../../modules/BuilderPlace/queries';
 
-export async function getServerSideProps({ params }: any) {
-  return await getBuilderPlace(params.domain);
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  return sharedGetServerSideProps(context);
 }
 
 function AdminFees() {

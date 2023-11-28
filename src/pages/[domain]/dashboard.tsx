@@ -1,3 +1,4 @@
+import { GetServerSidePropsContext } from 'next';
 import Link from 'next/link';
 import { useContext } from 'react';
 import Notification from '../../components/Notification';
@@ -9,11 +10,10 @@ import UserProposals from '../../components/UserProposals';
 import UserServices from '../../components/UserServices';
 import TalentLayerContext from '../../context/talentLayer';
 import BuilderPlaceContext from '../../modules/BuilderPlace/context/BuilderPlaceContext';
-import { getBuilderPlace } from '../../modules/BuilderPlace/queries';
+import { sharedGetServerSideProps } from '../../utils/sharedGetServerSideProps';
 
-export async function getServerSideProps({ params }: any) {
-  console.log('getServerSideProps', { params });
-  return await getBuilderPlace(params.domain);
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  return sharedGetServerSideProps(context);
 }
 
 function Dashboard() {

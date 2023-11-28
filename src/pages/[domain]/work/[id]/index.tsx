@@ -1,17 +1,15 @@
+import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
+import { useContext } from 'react';
 import Loading from '../../../../components/Loading';
+import NotFound from '../../../../components/NotFound';
 import ServiceDetail from '../../../../components/ServiceDetail';
 import useServiceById from '../../../../hooks/useServiceById';
-import { getBuilderPlace } from '../../../../modules/BuilderPlace/queries';
-import { useContext } from 'react';
 import BuilderPlaceContext from '../../../../modules/BuilderPlace/context/BuilderPlaceContext';
-import AccessDenied from '../../../../components/AccessDenied';
-import NotFound from '../../../../components/NotFound';
+import { sharedGetServerSideProps } from '../../../../utils/sharedGetServerSideProps';
 
-export async function getServerSideProps({ params }: any) {
-  const data = await getBuilderPlace(params.domain);
-  console.log({ data });
-  return data;
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  return sharedGetServerSideProps(context);
 }
 
 function Service() {

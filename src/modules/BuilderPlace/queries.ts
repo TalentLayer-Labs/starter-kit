@@ -14,9 +14,5 @@ export const getBuilderPlace = async (domain: string) => {
   console.log({
     serializedBuilderPlace,
   });
-  return {
-    props: {
-      builderPlace: serializedBuilderPlace,
-    },
-  };
+  return serializedBuilderPlace;
 };

@@ -1,15 +1,16 @@
 import { ChartBarIcon } from '@heroicons/react/24/outline';
+import { GetServerSidePropsContext } from 'next';
 import { useContext } from 'react';
 import { ContactListForm } from '../../../../components/Form/ContactSelectForm';
 import Loading from '../../../../components/Loading';
 import Steps from '../../../../components/Steps';
 import UserNeedsMoreRights from '../../../../components/UserNeedsMoreRights';
 import TalentLayerContext from '../../../../context/talentLayer';
-import { getBuilderPlace } from '../../../../modules/BuilderPlace/queries';
 import useFetchMyContacts from '../../../../modules/Web3mail/hooks/useFetchMyContacts';
+import { sharedGetServerSideProps } from '../../../../utils/sharedGetServerSideProps';
 
-export async function getServerSideProps({ params }: any) {
-  return await getBuilderPlace(params.domain);
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  return sharedGetServerSideProps(context);
 }
 
 function Web3mail() {

@@ -1,14 +1,15 @@
-import { getBuilderPlace } from '../../../modules/BuilderPlace/queries';
-import React, { useContext } from 'react';
-import TalentLayerContext from '../../../context/talentLayer';
-import BuilderPlaceContext from '../../../modules/BuilderPlace/context/BuilderPlaceContext';
-import useCopyToClipBoard from '../../../hooks/useCopyToClipBoard';
-import { ClipboardCopy, CheckCircle } from 'heroicons-react';
-import Loading from '../../../components/Loading';
+import { CheckCircle, ClipboardCopy } from 'heroicons-react';
+import { GetServerSidePropsContext } from 'next';
+import { useContext } from 'react';
 import AccessDenied from '../../../components/AccessDenied';
+import Loading from '../../../components/Loading';
+import TalentLayerContext from '../../../context/talentLayer';
+import useCopyToClipBoard from '../../../hooks/useCopyToClipBoard';
+import BuilderPlaceContext from '../../../modules/BuilderPlace/context/BuilderPlaceContext';
+import { sharedGetServerSideProps } from '../../../utils/sharedGetServerSideProps';
 
-export async function getServerSideProps({ params }: any) {
-  return await getBuilderPlace(params.domain);
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  return sharedGetServerSideProps(context);
 }
 
 const BASE_URL = global?.location?.origin;
