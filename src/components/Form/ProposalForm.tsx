@@ -20,7 +20,7 @@ import { delegateCreateOrUpdateProposal } from '../request';
 import SubmitButton from './SubmitButton';
 import useTalentLayerClient from '../../hooks/useTalentLayerClient';
 import usePlatform from '../../hooks/usePlatform';
-import { chains } from '../../pages/_app';
+import { chains } from '../../context/web3modal';
 
 interface IFormValues {
   about: string;

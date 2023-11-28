@@ -1,10 +1,9 @@
 import { Menu, Transition } from '@headlessui/react';
 import { Fragment, useContext, useEffect, useState } from 'react';
 import TalentLayerContext from '../context/talentLayer';
-import UserSubMenu from './UserSubMenu';
-import ConnectButton from '../modules/Messaging/components/ConnectButton';
 import ConnectBlock from './ConnectBlock';
 import ProfileImage from './ProfileImage';
+import UserSubMenu from './UserSubMenu';
 
 function UserAccount() {
   const { account, user } = useContext(TalentLayerContext);

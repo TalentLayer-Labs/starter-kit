@@ -44,7 +44,7 @@ function ServiceItem({ service }: { service: IService }) {
               <span className='w-[6px] h-[6px] rounded-full bg-base-300 block'></span>
             </p>
             {service.description?.rateToken && service.description?.rateAmount && (
-              <p className='text-sm max-w-[100px]'>
+              <p className='text-sm max-w-[150px] text-ellipsis'>
                 💰{' '}
                 <span className='text-base-content-50'>
                   {renderTokenAmountFromConfig(

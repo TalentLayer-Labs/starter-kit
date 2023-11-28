@@ -1,5 +1,5 @@
 import { ArrowLeftCircleIcon } from '@heroicons/react/24/outline';
-import { useWeb3Modal } from '@web3modal/react';
+import { useWeb3Modal } from '@web3modal/wagmi/react';
 import { Field, Form, Formik } from 'formik';
 import { useRouter } from 'next/router';
 import { useContext } from 'react';

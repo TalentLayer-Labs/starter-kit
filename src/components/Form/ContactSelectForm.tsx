@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 import Loading from '../Loading';
 import { useChainId } from '../../hooks/useChainId';
 import { useAccount, useWalletClient } from 'wagmi';
-import { useWeb3Modal } from '@web3modal/react';
+import { useWeb3Modal } from '@web3modal/wagmi/react';
 import { IUserDetails } from '../../types';
 import { sendPlatformMarketingWeb3mail } from '../request';
 

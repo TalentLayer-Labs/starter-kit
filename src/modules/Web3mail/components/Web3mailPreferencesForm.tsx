@@ -1,5 +1,5 @@
 import { ArrowUpRightIcon } from '@heroicons/react/24/outline';
-import { useWeb3Modal } from '@web3modal/react';
+import { useWeb3Modal } from '@web3modal/wagmi/react';
 import { Form, Formik } from 'formik';
 import Link from 'next/link';
 import { useContext } from 'react';

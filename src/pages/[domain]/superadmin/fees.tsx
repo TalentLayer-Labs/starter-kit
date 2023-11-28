@@ -13,7 +13,7 @@ import TalentLayerPlatformID from '../../../contracts/ABI/TalentLayerPlatformID.
 import { useConfig } from '../../../hooks/useConfig';
 import usePlatform from '../../../hooks/usePlatform';
 import { sharedGetServerSideProps } from '../../../utils/sharedGetServerSideProps';
-import { chains } from '../../_app';
+import { chains } from '../../../context/web3modal';
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   return sharedGetServerSideProps(context);
