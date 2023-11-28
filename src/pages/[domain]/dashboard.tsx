@@ -49,11 +49,7 @@ function Dashboard() {
                   link='/admin/configure-place'
                   linkText='personalize my space'
                   color='success'
-                  imageUrl={
-                    user?.description?.image_url
-                      ? user?.description?.image_url
-                      : `/images/default-avatar-${Number(user?.id ? user.id : '1') % 9}.jpeg`
-                  }
+                  imageUrl={user?.description?.image_url}
                 />
               </div>
 

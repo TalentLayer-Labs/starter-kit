@@ -5,6 +5,7 @@ import useUserById from '../hooks/useUserById';
 import { IUser } from '../types';
 import Loading from './Loading';
 import Stars from './Stars';
+import ProfileImage from './ProfileImage';
 
 function UserItem({ user }: { user: IUser }) {
   const { user: currentUser } = useContext(TalentLayerContext);
@@ -19,17 +20,7 @@ function UserItem({ user }: { user: IUser }) {
       <div className='flex flex-col items-top justify-between w-full'>
         <div className='flex flex-col justify-start items-start gap-4'>
           <div className='flex items-center justify-start mb-4'>
-            <img
-              src={
-                user?.description?.image_url
-                  ? user?.description?.image_url
-                  : `/images/default-avatar-${Number(user?.id ? user.id : '1') % 9}.jpeg`
-              }
-              className='w-10 mr-4 rounded-full'
-              width={50}
-              height={50}
-              alt='default avatar'
-            />
+            <ProfileImage size={50} url={user?.description?.image_url} />
             <div className='flex flex-col'>
               <p className='text-base-content font-medium break-all'>{user.handle}</p>
               <p className='text-xs text-base-content opacity-50'>

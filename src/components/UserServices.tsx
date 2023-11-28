@@ -36,11 +36,7 @@ function UserServices({ user, type }: IProps) {
             link='/work/create'
             linkText='post a project'
             color='primary'
-            imageUrl={
-              user?.description?.image_url
-                ? user?.description?.image_url
-                : `/images/default-avatar-${Number(user?.id ? user.id : '1') % 9}.jpeg`
-            }
+            imageUrl={user?.description?.image_url}
           />
         </>
       );

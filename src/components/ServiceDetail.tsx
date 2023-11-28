@@ -11,6 +11,7 @@ import { renderTokenAmountFromConfig } from '../utils/conversion';
 import { formatDate } from '../utils/dates';
 import PaymentModal from './Modal/PaymentModal';
 import ReviewModal from './Modal/ReviewModal';
+import ProfileImage from './ProfileImage';
 import ProposalItem from './ProposalItem';
 import ReviewItem from './ReviewItem';
 import ServiceStatus from './ServiceStatus';
@@ -42,16 +43,7 @@ function ServiceDetail({ service }: { service: IService }) {
         <div className='flex flex-col items-top justify-between gap-4 w-full'>
           <div className='flex flex-col justify-start items-start gap-4'>
             <div className='flex items-center justify-start w-full relative'>
-              <img
-                src={
-                  service?.buyer?.description?.image_url ||
-                  `/images/default-avatar-${Number(service.buyer.id) % 9}.jpeg`
-                }
-                className='w-10 mr-4 rounded-full'
-                width={50}
-                height={50}
-                alt='default avatar'
-              />
+              <ProfileImage size={50} url={service?.buyer?.description?.image_url} />
               <div className='flex flex-col'>
                 <p className='text-base-content font-medium break-all'>
                   {service.description?.title}

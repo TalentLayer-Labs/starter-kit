@@ -1,8 +1,8 @@
 import { EyeIcon } from '@heroicons/react/24/outline';
-import Image from 'next/image';
 import Link from 'next/link';
 import { ReactNode, useContext } from 'react';
 import TalentLayerContext from '../../context/talentLayer';
+import ProfileImage from '../ProfileImage';
 import Steps from '../Steps';
 import SideMenu from './SideMenu';
 
@@ -44,16 +44,7 @@ function Layout({ children, className }: ContainerProps) {
                       <div className='flex items-center'>
                         <div className='relative inline-flex shrink-0 items-center justify-center outline-none h-12 w-12 rounded-full mr-4'>
                           <div className='flex h-full w-full items-center justify-center overflow-hidden text-center transition-all duration-300 rounded-full'>
-                            <img
-                              src={
-                                user.description?.image_url ||
-                                `/images/default-avatar-${Number(user.id) % 9}.jpeg`
-                              }
-                              className='max-h-full max-w-full object-cover shadow-sm border-transparent h-12 w-12'
-                              width={48}
-                              height={48}
-                              alt='default avatar'
-                            />
+                            <ProfileImage size={50} url={user?.description?.image_url} />
                           </div>
                         </div>
                         <div className=''>

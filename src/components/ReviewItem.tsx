@@ -1,5 +1,6 @@
 import { IReview } from '../types';
 import { formatDate } from '../utils/dates';
+import ProfileImage from './ProfileImage';
 
 function ReviewItem({ review }: { review: IReview }) {
   if (!review) {
@@ -11,16 +12,7 @@ function ReviewItem({ review }: { review: IReview }) {
       <div className='flex flex-col items-top justify-between gap-4'>
         <div className='flex flex-col justify-start items-start gap-4'>
           <div className='flex items-center justify-start w-full  relative'>
-            <img
-              src={
-                review.to.description?.image_url ||
-                `/images/default-avatar-${Number(review.to.id) % 9}.jpeg`
-              }
-              className='w-10 mr-4 rounded-full'
-              width={50}
-              height={50}
-              alt='default avatar'
-            />
+            <ProfileImage size={50} url={review.to.description?.image_url} />
             <div className='flex flex-col'>
               <p className='text-base-content font-medium break-all'>{review.to.handle}</p>
               <p className='text-xs text-base-content opacity-50'>
