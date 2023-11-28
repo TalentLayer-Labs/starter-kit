@@ -141,7 +141,7 @@ function Layout({ children, className }: ContainerProps) {
                     <div className='flex flex-shrink-0 items-center px-4'>
                       <Logo />
                     </div>
-                    <div className='mt-5 h-0 flex-1 overflow-y-auto'>
+                    <div className='mt-5 h-0 flex-1 overflow-y-auto flex flex-grow flex-col pb-[50px]'>
                       <SideMenu />
                     </div>
                   </Dialog.Panel>
@@ -158,37 +158,8 @@ function Layout({ children, className }: ContainerProps) {
               <div className='flex flex-shrink-0 items-center px-6'>
                 <Logo />
               </div>
-              <div className='mt-8 flex flex-1 flex-col justify-between'>
-                <SideMenu />
-              </div>
-              <div className='mt-8 flex flex-1 flex-col items-center justify-end pb-4'>
-                {isBuilderPlaceOwner && (
-                  <div className='block mb-4'>
-                    <a
-                      href='/'
-                      className='text-primary bg-primary hover:opacity-70 px-4 py-2.5 rounded-xl text-sm relative'>
-                      view my place
-                    </a>
-                  </div>
-                )}
-                <div className='block py-4'>
-                  <a
-                    href='https://builder.place'
-                    className='block max-w-[128px] opacity-30 hover:opacity-100 relative '>
-                    <Image
-                      src='/logo-text-dark.png'
-                      alt='logo'
-                      width={128}
-                      height={20}
-                      className='drop-shadow-xl'
-                      style={{
-                        WebkitFilter: 'drop-shadow(0px 0px 10px #FFFFFF)',
-                        filter: 'drop-shadow(0px 0px 10px #FFFFFF)',
-                      }}
-                    />
-                  </a>
-                </div>
-              </div>
+
+              <SideMenu />
             </div>
           </div>
 
