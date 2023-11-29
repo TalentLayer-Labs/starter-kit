@@ -129,12 +129,12 @@ function ServiceDetail({ service }: { service: IService }) {
                         )
                       }>
                       <ClipboardCopy />
-                      <p className={'text-sm text-gray-500'}>Copy referral link</p>
+                      <p className={'ml-2 text-sm text-gray-500'}>Copy referral link</p>
                     </span>
                   ) : (
                     <span
                       className={
-                        'flex flex-row border-l border-t-green-500 ml-2 px-2 py-1 rounded-full bg-green-200'
+                        'flex flex-row border-l border-t-green-500 ml-2 px-2 py-1 rounded-full bg-gray-400'
                       }>
                       <CheckCircle />
                       <p className={'text-sm text-gray-500'}>Copied !</p>
