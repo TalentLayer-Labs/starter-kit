@@ -13,7 +13,7 @@ const useServiceById = (serviceId: string): IService | null => {
       talentLayerClient.service
         .getOne(serviceId)
         .then(response => {
-          if (response) {
+          if (response.id) {
             setService(response);
           }
         })
