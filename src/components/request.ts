@@ -6,12 +6,37 @@ export const delegateCreateService = async (
   userId: string,
   userAddress: string,
   cid: string,
+  token: string,
+  referralAmount: string,
 ): Promise<any> => {
   try {
     return await axios.post('/api/delegate/create-service', {
       chainId,
       userId,
       userAddress,
+      cid,
+      token,
+      referralAmount,
+    });
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
+export const delegateUpdateService = async (
+  userId: string,
+  userAddress: string,
+  serviceId: string,
+  referralAmount: BigInt,
+  cid: string,
+): Promise<any> => {
+  try {
+    return await axios.post('/api/delegate/update-service', {
+      userId,
+      userAddress,
+      serviceId,
+      referralAmount,
       cid,
     });
   } catch (err) {
@@ -48,7 +73,8 @@ export const delegateCreateOrUpdateProposal = async (
   parsedRateAmountString: string,
   cid: string,
   convertExpirationDateString: string,
-  existingProposalStatus?: string,
+  existingProposal: boolean,
+  referrerId: string,
 ): Promise<any> => {
   try {
     return await axios.post('/api/delegate/create-update-proposal', {
@@ -60,7 +86,8 @@ export const delegateCreateOrUpdateProposal = async (
       parsedRateAmountString,
       cid,
       convertExpirationDateString,
-      existingProposalStatus,
+      existingProposal,
+      referrerId,
     });
   } catch (err) {
     console.error(err);

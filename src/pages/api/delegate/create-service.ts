@@ -6,7 +6,7 @@ import { getDelegationSigner, isPlatformAllowedToDelegate } from '../utils/deleg
 import { getConfig } from '../../../config';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { userId, userAddress, cid, chainId } = req.body;
+  const { userId, userAddress, cid, chainId, token, referralAmount } = req.body;
   const config = getConfig(chainId);
 
   // @dev : you can add here all the check you need to confirm the delagation for a user
@@ -23,7 +23,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       address: config.contracts.serviceRegistry,
       abi: TalentLayerService.abi,
       functionName: 'createService',
-      args: [userId, process.env.NEXT_PUBLIC_PLATFORM_ID, cid, signature],
+      args: [userId, process.env.NEXT_PUBLIC_PLATFORM_ID, cid, signature, token, referralAmount],
     });
 
     res.status(200).json({ transaction: transaction });

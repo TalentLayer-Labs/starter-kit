@@ -10,12 +10,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     userId,
     userAddress,
     serviceId,
-    valuesRateToken,
     parsedRateAmountString,
     cid,
     convertExpirationDateString,
-    existingProposalStatus,
     chainId,
+    existingProposal,
+    referrerId,
   } = req.body;
   const config = getConfig(chainId);
 
@@ -30,7 +30,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     let transaction;
 
-    if (existingProposalStatus) {
+    if (existingProposal) {
       transaction = await walletClient.writeContract({
         address: config.contracts.serviceRegistry,
         abi: TalentLayerService.abi,
@@ -38,10 +38,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         args: [
           userId,
           serviceId,
-          valuesRateToken,
           parsedRateAmountString,
           cid,
           convertExpirationDateString,
+          referrerId,
         ],
       });
     } else {
@@ -58,12 +58,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         args: [
           userId,
           serviceId,
-          valuesRateToken,
           parsedRateAmountString,
           process.env.NEXT_PUBLIC_PLATFORM_ID,
           cid,
           convertExpirationDateString,
           signature,
+          referrerId,
         ],
       });
     }
