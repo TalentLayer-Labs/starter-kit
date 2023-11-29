@@ -19,6 +19,7 @@ import Web3MailContext from '../../modules/Web3mail/context/web3mail';
 import useTalentLayerClient from '../../hooks/useTalentLayerClient';
 import usePlatform from '../../hooks/usePlatform';
 import { chains } from '../../pages/_app';
+import useServiceById from '../../hooks/useServiceById';
 
 interface IFormValues {
   title: string;
@@ -26,17 +27,10 @@ interface IFormValues {
   keywords: string;
   rateToken: string;
   rateAmount: number;
+  referralAmount: number;
 }
 
-const initialValues: IFormValues = {
-  title: '',
-  about: '',
-  keywords: '',
-  rateToken: '',
-  rateAmount: 0,
-};
-
-function ServiceForm() {
+function ServiceForm({ serviceId }: { serviceId?: string }) {
   const chainId = useChainId();
 
   const { open: openConnectModal } = useWeb3Modal();
@@ -45,7 +39,11 @@ function ServiceForm() {
   const publiClient = usePublicClient({ chainId });
   const { data: walletClient } = useWalletClient({ chainId });
   const router = useRouter();
+  const existingService = useServiceById(serviceId as string);
   const allowedTokenList = useAllowedTokens();
+  const existingToken = allowedTokenList.find(value => {
+    return value.address === existingService?.rateToken?.address;
+  });
   const [selectedToken, setSelectedToken] = useState<IToken>();
   const { isActiveDelegate } = useContext(TalentLayerContext);
   const talentLayerClient = useTalentLayerClient();
@@ -56,6 +54,34 @@ function ServiceForm() {
   const servicePostingFeeFormat = servicePostingFee
     ? Number(formatUnits(BigInt(servicePostingFee), Number(currentChain?.nativeCurrency?.decimals)))
     : 0;
+
+  const initialValues: IFormValues = {
+    title: existingService?.description?.title || '',
+    about: existingService?.description?.about || '',
+    keywords: existingService?.description?.keywords_raw || '',
+    rateToken: existingService?.rateToken?.address || '',
+    rateAmount:
+      existingService?.description?.rateAmount &&
+      allowedTokenList &&
+      existingToken &&
+      existingToken.decimals
+        ? parseFloat(
+            formatUnits(
+              BigInt(existingService?.description?.rateAmount ?? 0n),
+              Number(existingToken.decimals),
+            ),
+          )
+        : 0,
+    referralAmount:
+      existingService?.referralAmount && allowedTokenList && existingToken && existingToken.decimals
+        ? parseFloat(
+            formatUnits(
+              BigInt(existingService?.referralAmount ?? 0n),
+              Number(existingToken.decimals),
+            ),
+          )
+        : 0,
+  };
 
   const validationSchema = Yup.object({
     title: Yup.string().required('Please provide a title for your service'),
@@ -87,6 +113,12 @@ function ServiceForm() {
       }),
   });
 
+  const validateReferralAmount = (value: number) => {
+    if (value < initialValues.referralAmount && initialValues.referralAmount !== 0) {
+      return 'Referral amount cannot be inferior to previous amount';
+    }
+  };
+
   const onSubmit = async (
     values: IFormValues,
     {
@@ -110,6 +142,12 @@ function ServiceForm() {
           token.decimals,
         );
         const parsedRateAmountString = parsedRateAmount.toString();
+        const parsedReferralAmount = await parseRateAmount(
+          values.referralAmount.toString(),
+          values.rateToken,
+          token.decimals,
+        );
+        const parsedReferralAmountString = parsedReferralAmount.toString();
 
         let tx, cid;
 
@@ -117,12 +155,19 @@ function ServiceForm() {
           title: values.title,
           about: values.about,
           keywords: values.keywords,
-          rateToken: values.rateToken,
+          role: 'buyer',
           rateAmount: parsedRateAmountString,
         });
 
         if (isActiveDelegate) {
-          const response = await delegateCreateService(chainId, user.id, user.address, cid);
+          const response = await delegateCreateService(
+            chainId,
+            user.id,
+            user.address,
+            cid,
+            values.rateToken,
+            parsedRateAmountString,
+          );
           tx = response.data.transaction;
         } else {
           if (talentLayerClient) {
@@ -131,11 +176,12 @@ function ServiceForm() {
                 title: values.title,
                 about: values.about,
                 keywords: values.keywords,
-                rateToken: values.rateToken,
                 rateAmount: parsedRateAmountString,
               },
               user.id,
               parseInt(process.env.NEXT_PUBLIC_PLATFORM_ID as string),
+              values.rateToken,
+              parsedReferralAmountString,
             );
 
             cid = serviceResponse.cid;
@@ -174,7 +220,11 @@ function ServiceForm() {
   };
 
   return (
-    <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
+    <Formik
+      initialValues={initialValues}
+      onSubmit={onSubmit}
+      validationSchema={validationSchema}
+      validateOnChange={true}>
       {({ isSubmitting, setFieldValue }) => (
         <Form>
           <div className='grid grid-cols-1 gap-6 border border-gray-700 rounded-xl p-6 bg-endnight'>
@@ -236,29 +286,52 @@ function ServiceForm() {
               </label>
               <label className='block'>
                 <span className='text-gray-100'>Token</span>
-                <Field
-                  component='select'
-                  id='rateToken'
-                  name='rateToken'
-                  className='mt-1 mb-1 block w-full rounded-xl border border-gray-700 bg-midnight shadow-sm focus:ring-opacity-50'
-                  placeholder=''
-                  onChange={(e: { target: { value: string } }) => {
-                    const token = allowedTokenList.find(token => token.address === e.target.value);
-                    setSelectedToken(token);
-                    setFieldValue('rateToken', e.target.value);
-                  }}>
-                  <option value=''>Select a token</option>
-                  {allowedTokenList.map((token, index) => (
-                    <option key={index} value={token.address}>
-                      {token.symbol}
-                    </option>
-                  ))}
-                </Field>
+                {!existingService ? (
+                  <Field
+                    component='select'
+                    id='rateToken'
+                    name='rateToken'
+                    className='mt-1 mb-1 block w-full rounded-xl border border-gray-700 bg-midnight shadow-sm focus:ring-opacity-50'
+                    placeholder=''
+                    onChange={(e: { target: { value: string } }) => {
+                      const token = allowedTokenList.find(
+                        token => token.address === e.target.value,
+                      );
+                      setSelectedToken(token);
+                      setFieldValue('rateToken', e.target.value);
+                    }}>
+                    <option value=''>Select a token</option>
+                    {allowedTokenList.map((token, index) => (
+                      <option key={index} value={token.address}>
+                        {token.symbol}
+                      </option>
+                    ))}
+                  </Field>
+                ) : (
+                  <p className='my-2 block w-full text-gray-500'>
+                    {existingService?.rateToken?.symbol}
+                  </p>
+                )}
                 <span className='text-red-500'>
                   <ErrorMessage name='rateToken' />
                 </span>
               </label>
             </div>
+
+            <label className='block'>
+              <span className='text-gray-100'>Referral amount (Opt)</span>
+              <Field
+                type='number'
+                id='referralAmount'
+                name='referralAmount'
+                className='mt-1 mb-1 block w-full rounded-xl border border-gray-700 bg-midnight shadow-sm focus:ring-opacity-50'
+                placeholder=''
+                validate={validateReferralAmount}
+              />
+              <span className='text-red-500'>
+                <ErrorMessage name='referralAmount' />
+              </span>
+            </label>
 
             <SubmitButton isSubmitting={isSubmitting} label='Post' />
           </div>
