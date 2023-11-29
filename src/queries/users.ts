@@ -18,7 +18,7 @@ export const getUsers = (
         id
         address
         handle
-        userStats {
+        userStat {
           numReceivedReviews
         }
         rating
@@ -37,8 +37,10 @@ export const getUserById = (chainId: number, id: string): Promise<any> => {
         handle
         rating
         delegates
-        userStats {
+        userStat {
           numReceivedReviews
+          numReferredUsers
+          averageReferredRating
         }
         updatedAt
         createdAt
@@ -79,8 +81,18 @@ export const getUserByAddress = (chainId: number, address: string): Promise<any>
         handle
         rating
         delegates
-        userStats {
+        userStat {
           numReceivedReviews
+          numReferredUsers
+          averageReferredRating
+        }
+        referralGains {
+          totalGain
+          availableBalance
+          token {
+            address
+            symbol
+          }
         }
         updatedAt
         createdAt
@@ -141,7 +153,7 @@ export const getUserByIds = (chainId: number, ids: string[]): Promise<any> => {
         handle
         rating
         delegates
-        userStats {
+        userStat {
           numReceivedReviews
         }
         updatedAt
