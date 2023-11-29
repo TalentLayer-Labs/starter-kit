@@ -16,6 +16,9 @@ import ReviewItem from './ReviewItem';
 import ServiceStatus from './ServiceStatus';
 import Stars from './Stars';
 import { useChainId } from '../hooks/useChainId';
+import { useRouter } from 'next/router';
+import useCopyToClipBoard from '../hooks/useCopyToClipBoard';
+import { ClipboardCopy, CheckCircle } from 'heroicons-react';
 
 function ServiceDetail({ service }: { service: IService }) {
   const chainId = useChainId();
@@ -23,6 +26,8 @@ function ServiceDetail({ service }: { service: IService }) {
   const { reviews } = useReviewsByService(service.id);
   const proposals = useProposalsByService(service.id);
   const payments = usePaymentsByService(service.id);
+  const [isCopied, copyToClipboard] = useCopyToClipBoard();
+  const { push } = useRouter();
 
   const isBuyer = user?.id === service.buyer.id;
   const isSeller = user?.id === service.seller?.id;
@@ -74,23 +79,23 @@ function ServiceDetail({ service }: { service: IService }) {
                 <strong>Employer rating:</strong>
                 <Stars
                   rating={Number(service.buyer.rating)}
-                  numReviews={service.buyer.userStats.numReceivedReviews}
+                  numReviews={service.buyer.userStat.numReceivedReviews}
                 />
               </div>
               <p className='text-sm text-gray-400 mt-4'>
                 <strong>About:</strong> {service.description?.about}
               </p>
-              {service.description?.rateToken && service.description?.rateAmount && (
+              {service.rateToken && service.description?.rateAmount && (
                 <p className='text-sm text-gray-400 mt-4'>
                   <strong>Budget:</strong>{' '}
                   {renderTokenAmountFromConfig(
                     chainId,
-                    service.description.rateToken,
+                    service.rateToken.address,
                     service.description.rateAmount,
                   )}
                 </p>
               )}
-              <p className='text-sm text-gray-400 mt-4'>
+              <p className='text-sm text-gray-400 mt-2'>
                 <strong>Keywords:</strong>{' '}
                 {service.description?.keywords_raw?.split(',').map((keyword, i) => (
                   <span
@@ -100,6 +105,43 @@ function ServiceDetail({ service }: { service: IService }) {
                   </span>
                 ))}
               </p>
+              {!!Number(service.referralAmount) && (
+                <div className={'flex flex-row mt-2'}>
+                  <p className='text-sm text-gray-500 mt-1'>
+                    <strong>Referral amount:</strong>{' '}
+                    <span className='text-sm text-gray-500 '>
+                      {service.referralAmount &&
+                        renderTokenAmountFromConfig(
+                          chainId,
+                          service.rateToken.address,
+                          service.referralAmount,
+                        )}
+                    </span>
+                  </p>
+                  {!isCopied ? (
+                    <span
+                      className={
+                        'flex flex-row border-l border-t-gray-500 ml-2 px-2 py-1 hover:rounded-full hover:cursor-pointer hover:bg-gray-200 hover:transition-all duration-150'
+                      }
+                      onClick={() =>
+                        copyToClipboard(
+                          `${window.location.origin}/services/${service.id}/proposal?referrerId=${user?.id}`,
+                        )
+                      }>
+                      <ClipboardCopy />
+                      <p className={'text-sm text-gray-500'}>Copy referral link</p>
+                    </span>
+                  ) : (
+                    <span
+                      className={
+                        'flex flex-row border-l border-t-green-500 ml-2 px-2 py-1 rounded-full bg-green-200'
+                      }>
+                      <CheckCircle />
+                      <p className={'text-sm text-gray-500'}>Copied !</p>
+                    </span>
+                  )}
+                </div>
+              )}
             </div>
           </div>
 
