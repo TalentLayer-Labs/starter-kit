@@ -1,7 +1,7 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { QuestionMarkCircle } from 'heroicons-react';
 import { useRouter } from 'next/router';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { formatUnits } from 'viem';
 import { usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
@@ -28,6 +28,7 @@ interface IFormValues {
   rateAmount: number;
   expirationDate: number;
   video_url: string;
+  referrerId: number;
 }
 
 const validationSchema = Yup.object({
@@ -63,6 +64,12 @@ function ProposalForm({
     ? Number(formatUnits(BigInt(proposalPostingFee), Number(currentChain?.nativeCurrency.decimals)))
     : 0;
 
+  //Store referrerId in local storage if any
+  useEffect(() => {
+    if(!router.query.referrerId) return;
+    localStorage.setItem(`${service.id}-${user.id}`, router.query.referrerId as string);
+  }, [router.query.referrerId]);
+
   if (allowedTokenList.length === 0) {
     return <div>Loading...</div>;
   }
@@ -74,9 +81,7 @@ function ProposalForm({
       (Number(existingProposal?.expirationDate) - Date.now() / 1000) / (60 * 60 * 24),
     );
 
-    const token = allowedTokenList.find(
-      token => token.address === existingProposal?.rateToken.address,
-    );
+    const token = allowedTokenList.find(token => token.address === service.rateToken.address);
 
     existingRateTokenAmount = parseFloat(
       formatUnits(BigInt(existingProposal.rateAmount), Number(token?.decimals)),
@@ -85,10 +90,16 @@ function ProposalForm({
 
   const initialValues: IFormValues = {
     about: existingProposal?.description?.about || '',
-    rateToken: existingProposal?.rateToken.address || '',
+    rateToken: service.rateToken.address,
     rateAmount: existingRateTokenAmount || 0,
     expirationDate: existingExpirationDate || 15,
     video_url: existingProposal?.description?.video_url || '',
+    referrerId:
+      (service.referralAmount &&
+        (Number(existingProposal?.referrer?.id) ||
+          Number(localStorage.getItem(`${service.id}-${user.id}`)) ||
+          Number(router.query.referrerId as string))) ||
+      0,
   };
 
   const askAI = async (input: string, setFieldValue: any) => {
@@ -117,12 +128,12 @@ function ProposalForm({
       resetForm,
     }: { setSubmitting: (isSubmitting: boolean) => void; resetForm: () => void },
   ) => {
-    const token = allowedTokenList.find(token => token.address === values.rateToken);
+    const token = allowedTokenList.find(token => token.address === service.rateToken.address);
     if (publicClient && token && walletClient) {
       try {
         const parsedRateAmount = await parseRateAmount(
           values.rateAmount.toString(),
-          values.rateToken,
+          service.rateToken.address,
           token.decimals,
         );
         const now = Math.floor(Date.now() / 1000);
@@ -150,7 +161,8 @@ function ProposalForm({
             parsedRateAmountString,
             cid || '',
             convertExpirationDateString,
-            existingProposal?.status,
+            !!existingProposal,
+            values.referrerId.toString(),
           );
           tx = proposalResponse.data.transaction;
         } else {
@@ -159,9 +171,9 @@ function ProposalForm({
               proposal,
               user.id,
               service.id,
-              values.rateToken,
               parsedRateAmountString,
               convertExpirationDateString,
+              values.referrerId.toString(),
             );
           } else {
             proposalResponse = await talentLayerClient?.proposal.create(
@@ -169,8 +181,8 @@ function ProposalForm({
               user.id,
               service.id,
               values.rateToken,
-              parsedRateAmountString,
               convertExpirationDateString,
+              values.referrerId.toString(),
             );
           }
           tx = proposalResponse?.tx;
@@ -268,17 +280,12 @@ function ProposalForm({
               <label className='block'>
                 <span className='text-gray-100'>Token</span>
                 <Field
-                  component='select'
+                  component='text'
                   id='rateToken'
                   name='rateToken'
-                  className='mt-1 mb-2 block w-full rounded-xl border border-gray-700 bg-midnight shadow-sm focus:ring-opacity-50'
+                  className='mt-2 mb-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
                   placeholder=''>
-                  <option value=''>Select a token</option>
-                  {allowedTokenList.map((token, index) => (
-                    <option key={index} value={token.address}>
-                      {token.symbol}
-                    </option>
-                  ))}
+                  {service.rateToken.symbol}
                 </Field>
                 <span className='text-red-500'>
                   <ErrorMessage name='rateToken' />
@@ -310,6 +317,23 @@ function ProposalForm({
               <span className='text-red-500'>
                 <ErrorMessage name='video_url' />
               </span>
+              {!!Number(service.referralAmount) && (
+                <>
+                  <label className='block flex-1'>
+                    <span className='text-gray-700'>Referrer id (optional)</span>
+                    <Field
+                      type='text'
+                      id='referrerId'
+                      name='referrerId'
+                      className='mt-1 mb-2 block w-full rounded-xl border border-gray-700 bg-midnight shadow-sm focus:ring-opacity-50'
+                      placeholder='TalentLayer id of referrer'
+                    />
+                    <span className='text-red-500'>
+                      <ErrorMessage name='referrerId' />
+                    </span>
+                  </label>
+                </>
+              )}
             </label>
             {proposalPostingFeeFormat !== 0 && !existingProposal && (
               <span className='text-gray-100'>
