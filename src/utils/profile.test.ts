@@ -6,8 +6,11 @@ const defaultUser: IUser = {
   address: '0xdbf0bbe459bc3d2cbd7d7f334af3b12e36b40d0f',
   handle: 'test',
   rating: '0',
-  userStats: {
+  userStat: {
     numReceivedReviews: 0,
+    numReferredUsers: 0,
+    numReferredUsersReviewsReceived: 0,
+    averageReferredRating: 0,
   },
 };
 
