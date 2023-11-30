@@ -10,7 +10,8 @@ import Image from 'next/image';
 function UserProposalItem({ proposal }: { proposal: IProposal }) {
   const { user } = useContext(TalentLayerContext);
   const service = useServiceById(proposal.service.id);
-
+  console.log('proposal', proposal);
+    console.log('service', service);
   if (!service) {
     return null;
   }
@@ -62,7 +63,7 @@ function UserProposalItem({ proposal }: { proposal: IProposal }) {
           <Link
             className='text-zinc-600 bg-white hover:bg-zinc-200 hover:text-white px-5 py-2.5 rounded-xl text-sm'
             href={`/dashboard/services/${proposal.service.id}`}>
-            Show Proposal
+            Show Gig
           </Link>
           {isBuyer && proposal.status === ProposalStatusEnum.Pending && (
             <button className='text-green-600 bg-green-50 hover:bg-redpraha hover:text-white px-5 py-2 rounded'>
