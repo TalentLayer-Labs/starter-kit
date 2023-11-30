@@ -125,7 +125,7 @@ function ServiceDetail({ service }: { service: IService }) {
                       }
                       onClick={() =>
                         copyToClipboard(
-                          `${window.location.origin}/services/${service.id}/proposal?referrerId=${user?.id}`,
+                          `${window.location.origin}/dashboard/services/${service.id}/proposal?referrerId=${user?.id}`,
                         )
                       }>
                       <ClipboardCopy />
