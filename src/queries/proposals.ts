@@ -5,8 +5,9 @@ export const getAllProposalsByServiceId = (chainId: number, id: string): Promise
     {
       proposals(where: {service_: {id: "${id}"}}) {
         service {
-          id,
+          id
           cid
+          referralAmount
           buyer {
             id
           }
@@ -17,12 +18,6 @@ export const getAllProposalsByServiceId = (chainId: number, id: string): Promise
         cid
         id
         status
-        rateToken {
-          address
-          decimals
-          name
-          symbol
-        }
         rateAmount
         createdAt
         updatedAt
@@ -32,7 +27,7 @@ export const getAllProposalsByServiceId = (chainId: number, id: string): Promise
           address
           cid
           rating
-          userStats {
+          userStat {
             numReceivedReviews
           }
         }
@@ -59,12 +54,6 @@ export const getAllProposalsByUser = (chainId: number, id: string): Promise<any>
         proposals(where: {seller: "${id}", status: "Pending"}) {
           id
           rateAmount
-          rateToken {
-            address
-            decimals
-            name
-            symbol
-          }
           status
           cid
           createdAt
@@ -79,6 +68,12 @@ export const getAllProposalsByUser = (chainId: number, id: string): Promise<any>
             buyer {
               id
               handle
+            }
+            rateToken {
+              address
+              decimals
+              name
+              symbol
             }
           }
           description {
@@ -99,13 +94,17 @@ export const getProposalById = (chainId: number, id: string): Promise<any> => {
   const query = `
       {
         proposals(where: {id: "${id}"}) {
-          rateToken {
-            address
-          }
+          service {
+            rateToken {
+                address
+            }
           rateAmount
           description {
             about
             video_url
+          }
+          referrer {
+            id
           }
           status
           expirationDate
