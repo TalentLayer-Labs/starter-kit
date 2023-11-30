@@ -16,7 +16,6 @@ import ReviewItem from './ReviewItem';
 import ServiceStatus from './ServiceStatus';
 import Stars from './Stars';
 import { useChainId } from '../hooks/useChainId';
-import { useRouter } from 'next/router';
 import useCopyToClipBoard from '../hooks/useCopyToClipBoard';
 import { ClipboardCopy, CheckCircle } from 'heroicons-react';
 
