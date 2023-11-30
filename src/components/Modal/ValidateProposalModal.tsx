@@ -5,14 +5,22 @@ import { FEE_RATE_DIVIDER } from '../../config';
 import { validateProposal } from '../../contracts/acceptProposal';
 import useFees from '../../hooks/useFees';
 import ContactButton from '../../modules/Messaging/components/ContactButton';
-import { IAccount, IProposal } from '../../types';
+import { IAccount, IProposal, IToken } from '../../types';
 import { renderTokenAmount } from '../../utils/conversion';
 import Step from '../Step';
 import { useChainId } from '../../hooks/useChainId';
 import useTalentLayerClient from '../../hooks/useTalentLayerClient';
 import { ZERO_ADDRESS } from '../../utils/constant';
 
-function ValidateProposalModal({ proposal, account }: { proposal: IProposal; account: IAccount }) {
+function ValidateProposalModal({
+  proposal,
+  account,
+  token,
+}: {
+  proposal: IProposal;
+  account: IAccount;
+  token: IToken;
+}) {
   const chainId = useChainId();
   const { data: walletClient } = useWalletClient({
     chainId,
@@ -20,11 +28,11 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
   const publicClient = usePublicClient({ chainId });
   const [show, setShow] = useState(false);
   const { data: ethBalance } = useBalance({ address: account.address });
-  const isProposalUseEth: boolean = proposal.rateToken.address === ZERO_ADDRESS;
+  const isProposalUseEth: boolean = token.address === ZERO_ADDRESS;
   const { data: tokenBalance } = useBalance({
     address: account.address,
     enabled: !isProposalUseEth,
-    token: proposal.rateToken.address,
+    token: token.address,
   });
 
   const talentLayerClient = useTalentLayerClient();
@@ -38,12 +46,17 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
   );
 
   const jobRateAmount = BigInt(proposal.rateAmount);
-  const protocolFee = (jobRateAmount * BigInt(protocolEscrowFeeRate)) / BigInt(FEE_RATE_DIVIDER);
+  const referralAmount = BigInt(proposal.service.referralAmount || '0');
+  const totalAmountBeforeFees = jobRateAmount + referralAmount;
+  //Calculate fees
+  const protocolFee =
+    (totalAmountBeforeFees * BigInt(protocolEscrowFeeRate)) / BigInt(FEE_RATE_DIVIDER);
   const originServiceFee =
-    (jobRateAmount * BigInt(originServiceFeeRate)) / BigInt(FEE_RATE_DIVIDER);
+    (totalAmountBeforeFees * BigInt(originServiceFeeRate)) / BigInt(FEE_RATE_DIVIDER);
   const originValidatedProposalFee =
-    (jobRateAmount * BigInt(originValidatedProposalFeeRate)) / BigInt(FEE_RATE_DIVIDER);
-  const totalAmount = jobRateAmount + originServiceFee + originValidatedProposalFee + protocolFee;
+    (totalAmountBeforeFees * BigInt(originValidatedProposalFeeRate)) / BigInt(FEE_RATE_DIVIDER);
+  const totalAmount =
+    totalAmountBeforeFees + originServiceFee + originValidatedProposalFee + protocolFee;
 
   const onSubmit = async () => {
     if (!walletClient || !publicClient || !talentLayerClient) {
@@ -55,7 +68,7 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
       publicClient,
       proposal.service.id,
       proposal.id,
-      proposal.rateToken.address,
+      token.address,
     );
     setShow(false);
   };
@@ -128,9 +141,17 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
                   <div className='flex justify-between w-full'>
                     <p className='text-base leading-4 text-gray-400'>Rate</p>
                     <p className='text-base  leading-4 text-gray-200'>
-                      {renderTokenAmount(proposal.rateToken, proposal.rateAmount)}
+                      {renderTokenAmount(token, proposal.rateAmount)}
                     </p>
                   </div>
+                  {!!Number(referralAmount) && (
+                    <div className='flex justify-between items-center w-full'>
+                      <p className='text-base leading-4 text-gray-800'>Referral amount</p>
+                      <p className='text-base  leading-4 text-gray-600'>
+                        +{renderTokenAmount(token, referralAmount.toString())}
+                      </p>
+                    </div>
+                  )}
                   <div className='flex justify-between items-center w-full'>
                     <p className='text-base leading-4 text-gray-400'>
                       Fees from the marketplace originating the service{' '}
@@ -139,7 +160,7 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
                       </span>
                     </p>
                     <p className='text-base  leading-4 text-gray-200'>
-                      +{renderTokenAmount(proposal.rateToken, originServiceFee.toString())}
+                      +{renderTokenAmount(token, originServiceFee.toString())}
                     </p>
                   </div>
                   <div className='flex justify-between items-center w-full'>
@@ -154,8 +175,7 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
                       </span>
                     </p>
                     <p className='text-base  leading-4 text-gray-200'>
-                      +
-                      {renderTokenAmount(proposal.rateToken, originValidatedProposalFee.toString())}
+                      +{renderTokenAmount(token, originValidatedProposalFee.toString())}
                     </p>
                   </div>
                   <div className='flex justify-between items-center w-full'>
@@ -166,14 +186,14 @@ function ValidateProposalModal({ proposal, account }: { proposal: IProposal; acc
                       </span>
                     </p>
                     <p className='text-base  leading-4 text-gray-200'>
-                      +{renderTokenAmount(proposal.rateToken, protocolFee.toString())}
+                      +{renderTokenAmount(token, protocolFee.toString())}
                     </p>
                   </div>
                 </div>
                 <div className='flex justify-between items-center w-full'>
                   <p className='text-base font-semibold leading-4 text-gray-200'>Total</p>
                   <p className='text-base  font-semibold leading-4 text-gray-200'>
-                    {renderTokenAmount(proposal.rateToken, totalAmount.toString())}
+                    {renderTokenAmount(token, totalAmount.toString())}
                   </p>
                 </div>
               </div>
