@@ -1,5 +1,4 @@
 import { useContext } from 'react';
-import { useRouter } from 'next/router';
 import TalentLayerContext from '../context/talentLayer';
 import { renderTokenAmount } from '../utils/conversion';
 import { IProposal, ProposalStatusEnum } from '../types';
@@ -49,7 +48,7 @@ function UserProposalItem({ proposal }: { proposal: IProposal }) {
               {formatDate(Number(proposal.createdAt) * 1000)}
             </p>
             <p className='text-sm text-gray-400 mt-4'>
-              <strong>Message:</strong> {proposal.description?.title}
+              <strong>Message:</strong> {proposal.description?.about}
             </p>
             <p className='text-sm text-gray-400 mt-4'>
               <strong>Expiration Date:</strong> {formatDate(Number(proposal.expirationDate) * 1000)}
@@ -58,12 +57,12 @@ function UserProposalItem({ proposal }: { proposal: IProposal }) {
         </div>
         <div className='flex flex-row gap-4 justify-between items-center border-t border-gray-700 pt-4'>
           <p className='text-gray-400 font-bold line-clamp-1 flex-1'>
-            {renderTokenAmount(proposal.rateToken, proposal.rateAmount)}
+            {renderTokenAmount(service.rateToken, proposal.rateAmount)}
           </p>
           <Link
             className='text-zinc-600 bg-white hover:bg-zinc-200 hover:text-white px-5 py-2.5 rounded-xl text-sm'
             href={`/dashboard/services/${proposal.service.id}`}>
-            Show Gig
+            Show Proposal
           </Link>
           {isBuyer && proposal.status === ProposalStatusEnum.Pending && (
             <button className='text-green-600 bg-green-50 hover:bg-redpraha hover:text-white px-5 py-2 rounded'>
