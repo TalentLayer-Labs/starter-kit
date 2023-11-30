@@ -2,11 +2,11 @@ import { Field, Form, Formik } from 'formik';
 import { useContext, useMemo, useState } from 'react';
 import { usePublicClient } from 'wagmi';
 import TalentLayerContext from '../../context/talentLayer';
-import { executePayment } from '../../contracts/executePayment';
 import { IService, IToken, ServiceStatusEnum } from '../../types';
 import { renderTokenAmount } from '../../utils/conversion';
 import { useChainId } from '../../hooks/useChainId';
 import useTalentLayerClient from '../../hooks/useTalentLayerClient';
+import { executePayment } from '../../contracts/escrowFunctions';
 
 interface IFormValues {
   percentField: string;

@@ -27,7 +27,6 @@ function ServiceDetail({ service }: { service: IService }) {
   const proposals = useProposalsByService(service.id);
   const payments = usePaymentsByService(service.id);
   const [isCopied, copyToClipboard] = useCopyToClipBoard();
-  const { push } = useRouter();
 
   const isBuyer = user?.id === service.buyer.id;
   const isSeller = user?.id === service.seller?.id;
