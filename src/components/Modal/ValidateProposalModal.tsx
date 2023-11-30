@@ -146,8 +146,8 @@ function ValidateProposalModal({
                   </div>
                   {!!Number(referralAmount) && (
                     <div className='flex justify-between items-center w-full'>
-                      <p className='text-base leading-4 text-gray-800'>Referral amount</p>
-                      <p className='text-base  leading-4 text-gray-600'>
+                      <p className='text-base leading-4 text-gray-400'>Referral amount</p>
+                      <p className='text-base leading-4 text-gray-200'>
                         +{renderTokenAmount(token, referralAmount.toString())}
                       </p>
                     </div>
