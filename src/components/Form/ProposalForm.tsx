@@ -136,6 +136,9 @@ function ProposalForm({
           service.rateToken.address,
           token.decimals,
         );
+
+        console.log('RateAmount', values.rateAmount.toString())
+        console.log('parsedRateAmount', parsedRateAmount)
         const now = Math.floor(Date.now() / 1000);
         const convertExpirationDate = now + 60 * 60 * 24 * values.expirationDate;
         const convertExpirationDateString = convertExpirationDate.toString();
@@ -180,7 +183,7 @@ function ProposalForm({
               proposal,
               user.id,
               service.id,
-              values.rateToken,
+              parsedRateAmountString,
               convertExpirationDateString,
               values.referrerId.toString(),
             );
