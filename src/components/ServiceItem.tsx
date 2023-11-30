@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import { useChainId } from '../hooks/useChainId';
 import { IService } from '../types';
-import { renderTokenAmountFromConfig } from '../utils/conversion';
 import { formatDaysAgo } from '../utils/dates';
+import TokenAmount from './TokenAmount';
 
 function limitText(text: string, maxLength: number) {
   if (text.length <= maxLength) return text;
@@ -47,11 +47,10 @@ function ServiceItem({ service }: { service: IService }) {
               <p className='text-sm max-w-[150px] text-ellipsis'>
                 💰{' '}
                 <span className='text-base-content-50'>
-                  {renderTokenAmountFromConfig(
-                    chainId,
-                    service.description.rateToken,
-                    service.description.rateAmount,
-                  )}
+                  <TokenAmount
+                    amount={service.description.rateAmount}
+                    address={service.description.rateToken}
+                  />
                 </span>
               </p>
             )}

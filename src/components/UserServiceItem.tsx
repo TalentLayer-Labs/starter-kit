@@ -1,10 +1,10 @@
 import Link from 'next/link';
 import { useChainId } from '../hooks/useChainId';
 import { IService, IUser, ServiceStatusEnum } from '../types';
-import { renderTokenAmountFromConfig } from '../utils/conversion';
 import { formatDate } from '../utils/dates';
-import ServiceStatus from './ServiceStatus';
 import ProfileImage from './ProfileImage';
+import ServiceStatus from './ServiceStatus';
+import TokenAmount from './TokenAmount';
 
 function UserServiceItem({ user, service }: { user: IUser; service: IService }) {
   const chainId = useChainId();
@@ -49,11 +49,10 @@ function UserServiceItem({ user, service }: { user: IUser; service: IService }) 
         <div className='flex flex-row gap-4 justify-between items-center border-t border-info pt-4'>
           {service.description?.rateToken && service.description?.rateAmount && (
             <p className='text-base-content font-bold line-clamp-1 max-w-[100px]'>
-              {renderTokenAmountFromConfig(
-                chainId,
-                service.description.rateToken,
-                service.description.rateAmount,
-              )}
+              <TokenAmount
+                amount={service.description.rateAmount}
+                address={service.description.rateToken}
+              />
             </p>
           )}
           <Link

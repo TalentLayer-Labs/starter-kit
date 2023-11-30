@@ -7,7 +7,6 @@ import useProposalsByService from '../hooks/useProposalsByService';
 import useReviewsByService from '../hooks/useReviewsByService';
 import ContactButton from '../modules/Messaging/components/ContactButton';
 import { IService, ProposalStatusEnum, ServiceStatusEnum } from '../types';
-import { renderTokenAmountFromConfig } from '../utils/conversion';
 import { formatDate } from '../utils/dates';
 import PaymentModal from './Modal/PaymentModal';
 import ReviewModal from './Modal/ReviewModal';
@@ -16,6 +15,7 @@ import ProposalItem from './ProposalItem';
 import ReviewItem from './ReviewItem';
 import ServiceStatus from './ServiceStatus';
 import Stars from './Stars';
+import TokenAmount from './TokenAmount';
 
 function ServiceDetail({ service }: { service: IService }) {
   const chainId = useChainId();
@@ -79,11 +79,10 @@ function ServiceDetail({ service }: { service: IService }) {
               {service.description?.rateToken && service.description?.rateAmount && (
                 <p className='text-sm text-base-content mt-4'>
                   <strong>Budget:</strong>{' '}
-                  {renderTokenAmountFromConfig(
-                    chainId,
-                    service.description.rateToken,
-                    service.description.rateAmount,
-                  )}
+                  <TokenAmount
+                    amount={service.description.rateAmount}
+                    address={service.description.rateToken}
+                  />
                 </p>
               )}
               <p className='text-sm text-base-content mt-4'>
