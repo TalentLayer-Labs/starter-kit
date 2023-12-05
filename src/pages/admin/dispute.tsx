@@ -53,11 +53,10 @@ function AdminDispute() {
   if (config) {
     availableArbitrators = [
       {
-        value: config.contracts.talentLayerArbitrator,
+        value: '0xEd016d125211C719d59824A05DABE0aA1280605f',
         label: 'TalentLayer Arbitrator',
       },
       { value: ZERO_ADDRESS, label: 'None' },
-      { value: '0x05a782977eD60B53148bf6cCCC435812073909Bb', label: 'Testing Arbitrator'}
     ];
   }
 
@@ -73,7 +72,7 @@ function AdminDispute() {
         <SingleValueForm
           validationData={{
             valueType: 'select',
-            initialValue: platform?.arbitrator || ZERO_ADDRESS || '0x05a782977eD60B53148bf6cCCC435812073909Bb',
+            initialValue: platform?.arbitrator || ZERO_ADDRESS,
             selectOptions: availableArbitrators,
           }}
           contractParams={{
