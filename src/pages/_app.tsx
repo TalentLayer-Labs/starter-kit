@@ -12,6 +12,7 @@ import { getSeoDefaultConfig } from '../modules/BuilderPlace/seo';
 import { XmtpContextProvider } from '../modules/Messaging/context/XmtpContext';
 import { MessagingProvider } from '../modules/Messaging/context/messging';
 import '../styles/globals.css';
+import '../styles/markdown.css';
 import Layout from './Layout';
 
 // react-query client

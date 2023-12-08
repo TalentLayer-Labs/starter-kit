@@ -66,9 +66,9 @@ function ServiceDetail({ service }: { service: IService }) {
                   Work handle by <span className='text-base-content'>{service.seller.handle}</span>
                 </Link>
               )}
-              <p className='text-sm text-base-content mt-4'>
+              <div className='markdown-body text-sm text-base-content mt-4'>
                 <Markdown>{service.description?.about}</Markdown>
-              </p>
+              </div>
               {service.description?.rateToken && service.description?.rateAmount && (
                 <p className='text-sm text-base-content mt-4'>
                   <strong>Budget:</strong>{' '}
