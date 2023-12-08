@@ -4,8 +4,7 @@ import { IBuilderPlace } from '../../modules/BuilderPlace/types';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const host = req.headers.host as string;
-  const data = await getBuilderPlace(host);
-  const builderPlace = data?.props?.builderPlace as IBuilderPlace;
+  const builderPlace = await getBuilderPlace(host);
 
   try {
     if (!builderPlace) throw new Error('BuilderPlace not found');
