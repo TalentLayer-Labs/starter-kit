@@ -22,7 +22,7 @@ function onboardingStep2() {
         <div className='flex flex-col items-center justify-center'>
           <Steps
             handle={slugify(builderPlaceData?.name)}
-            description={builderPlaceData?.presentation}
+            description={builderPlaceData?.about}
             profilePicture={builderPlaceData?.profilePicture}
           />
         </div>

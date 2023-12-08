@@ -40,7 +40,7 @@ function UploadImage({ label, fieldName, legend, src, handle, setFieldValue }: C
         {loading && <Loading />}
         {!!src && (
           <div className='flex items-center justify-center py-3'>
-            <img width='300' src={src} alt='' />
+            <img width='200' src={src} alt='' />
           </div>
         )}
       </label>

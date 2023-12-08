@@ -21,11 +21,16 @@ export interface UpdateBuilderPlace {
   _id: string;
   subdomain: string;
   name: string;
+  baseline: string;
+  about?: string;
+  aboutTech?: string;
   palette?: iBuilderPlacePalette;
   ownerTalentLayerId: string | undefined;
   owners: string[] | undefined;
   status: string | undefined;
-  logo: string | undefined;
+  logo?: string;
+  cover?: string;
+  profilePicture?: string;
   signature: `0x${string}` | Uint8Array;
 }
 export interface DeleteBuilderPlace {
@@ -57,7 +62,7 @@ export enum DomainVerificationStatusProps {
 export interface CreateBuilderPlaceAction {
   name: string;
   palette: iBuilderPlacePalette;
-  presentation: string;
+  about: string;
   preferredWorkTypes: PreferredWorkTypes[];
   profilePicture?: string;
 }
@@ -65,7 +70,7 @@ export interface CreateBuilderPlaceAction {
 export interface CreateBuilderPlaceProps {
   name: string;
   palette: iBuilderPlacePalette;
-  presentation: string;
+  about: string;
   preferredWorkTypes: PreferredWorkTypes[];
   profilePicture?: string;
 }
@@ -80,7 +85,9 @@ export type IBuilderPlace = {
   cover?: string;
   profilePicture?: string;
   palette?: iBuilderPlacePalette;
-  presentation?: string;
+  about?: string;
+  aboutTech?: string;
+  baseline?: string;
   owners?: string[];
   ownerTalentLayerId?: string;
   status: 'Validated' | 'Pending';

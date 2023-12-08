@@ -55,6 +55,9 @@ const builderPlace = new Schema({
     type: String,
     required: true,
   },
+  baseline: {
+    type: String,
+  },
   subdomain: {
     type: String,
     required: false,
@@ -80,7 +83,10 @@ const builderPlace = new Schema({
     type: String,
   },
   palette: palette,
-  presentation: {
+  about: {
+    type: String,
+  },
+  aboutTech: {
     type: String,
   },
   ownerTalentLayerId: {
