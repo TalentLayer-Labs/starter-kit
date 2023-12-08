@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { useContext } from 'react';
+import Markdown from 'react-markdown';
 import TalentLayerContext from '../context/talentLayer';
 import { useChainId } from '../hooks/useChainId';
 import usePaymentsByService from '../hooks/usePaymentsByService';
@@ -14,7 +15,6 @@ import ProfileImage from './ProfileImage';
 import ProposalItem from './ProposalItem';
 import ReviewItem from './ReviewItem';
 import ServiceStatus from './ServiceStatus';
-import Stars from './Stars';
 import TokenAmount from './TokenAmount';
 
 function ServiceDetail({ service }: { service: IService }) {
@@ -66,15 +66,8 @@ function ServiceDetail({ service }: { service: IService }) {
                   Work handle by <span className='text-base-content'>{service.seller.handle}</span>
                 </Link>
               )}
-              <div className='text-sm text-base-content mt-4'>
-                <strong>Employer rating:</strong>
-                <Stars
-                  rating={Number(service.buyer.rating)}
-                  numReviews={service.buyer.userStats.numReceivedReviews}
-                />
-              </div>
               <p className='text-sm text-base-content mt-4'>
-                <strong>About:</strong> {service.description?.about}
+                <Markdown>{service.description?.about}</Markdown>
               </p>
               {service.description?.rateToken && service.description?.rateAmount && (
                 <p className='text-sm text-base-content mt-4'>
