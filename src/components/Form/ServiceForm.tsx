@@ -19,6 +19,8 @@ import Web3MailContext from '../../modules/Web3mail/context/web3mail';
 import useTalentLayerClient from '../../hooks/useTalentLayerClient';
 import usePlatform from '../../hooks/usePlatform';
 import { chains } from '../../context/web3modal';
+import { InformationCircle } from 'heroicons-react';
+import { InformationCircleIcon } from '@heroicons/react/24/outline';
 
 interface IFormValues {
   title: string;
@@ -205,6 +207,25 @@ function ServiceForm() {
               <span className='text-alone-error'>
                 <ErrorMessage name='about' />
               </span>
+              <div className='bg-info relative w-full transition-all duration-300 rounded-xl p-4'>
+                <div className='flex w-full items-center gap-3'>
+                  <InformationCircleIcon width={24} height={24} />
+                  <div>
+                    <h2 className='font-heading text-xs font-bold  mb-1'>
+                      <span>Tips</span>
+                    </h2>
+                    <p className='font-alt text-xs font-normal'>
+                      <span className='text-base-content'>
+                        Your post supports markdown format. Learn more about how to write markdown{' '}
+                        <a href='' className='underline text-info'>
+                          here
+                        </a>
+                        .
+                      </span>
+                    </p>
+                  </div>
+                </div>
+              </div>
             </label>
 
             <label className='block'>
