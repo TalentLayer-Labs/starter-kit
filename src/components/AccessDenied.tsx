@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 
 function AccessDenied() {
@@ -12,14 +13,14 @@ function AccessDenied() {
           Sorry, only the owner of this place can access this page.
         </p>
         <div className='mt-10 flex items-center justify-center gap-x-6'>
-          <a
+          <Link
             href='/'
             className='rounded-md bg-info px-3.5 py-2.5 text-sm font-semibold text-base-content shadow-sm hover:bg-base-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2'>
             Go back home
-          </a>
-          <a href='/messaging' className='text-sm font-semibold text-base-content'>
+          </Link>
+          <Link href='/messaging' className='text-sm font-semibold text-base-content'>
             Contact support <span aria-hidden='true'>&rarr;</span>
-          </a>
+          </Link>
         </div>
       </div>
     </main>

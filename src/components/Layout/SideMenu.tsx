@@ -9,6 +9,7 @@ import {
   workerNavigation,
 } from './navigation';
 import Image from 'next/image';
+import Link from 'next/link';
 
 function SideMenu() {
   const { user } = useContext(TalentLayerContext);
@@ -92,11 +93,11 @@ function SideMenu() {
       <div className='mt-8 flex flex-1 flex-col items-center justify-end pb-4'>
         {isBuilderPlaceOwner && (
           <div className='block mb-4'>
-            <a
+            <Link
               href='/'
               className='text-primary bg-primary hover:opacity-70 px-4 py-2.5 rounded-xl text-sm relative'>
               view my place
-            </a>
+            </Link>
           </div>
         )}
         <div className='block py-4 text-center'>

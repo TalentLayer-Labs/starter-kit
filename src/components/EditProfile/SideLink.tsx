@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { CheckIcon } from '@heroicons/react/24/outline';
+import Link from 'next/link';
 
 function SideLink({
   children,
@@ -29,14 +30,14 @@ function SideLink({
   };
 
   return (
-    <a href={href} onClick={handleClick} className={className}>
+    <Link href={href} onClick={handleClick} className={className}>
       {children}
       {isCompleted && (
         <span>
           <CheckIcon width={20} height={20} className='bg-base-100 p-1 text-primary rounded-full' />
         </span>
       )}
-    </a>
+    </Link>
   );
 }
 
