@@ -21,7 +21,7 @@ export interface UpdateBuilderPlace {
   _id: string;
   subdomain: string;
   name: string;
-  baseline: string;
+  baseline?: string;
   about?: string;
   aboutTech?: string;
   palette?: iBuilderPlacePalette;
