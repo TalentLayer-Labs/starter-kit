@@ -29,12 +29,12 @@ function UserServices({ user, type }: IProps) {
     if (isBuilderPlaceOwner && type == 'buyer') {
       return (
         <>
-          <h2 className='pb-4 text-base font-bold break-all'>projects posted</h2>
+          <h2 className='pb-4 text-base font-bold break-all'>missions posted</h2>
           <Notification
-            title='post your first project!'
+            title='post your first missions!'
             text='post something your team needs help with'
             link='/work/create'
-            linkText='post a project'
+            linkText='post a missions'
             color='primary'
             imageUrl={user?.description?.image_url}
           />
