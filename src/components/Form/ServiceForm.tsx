@@ -60,11 +60,11 @@ function ServiceForm() {
     : 0;
 
   const validationSchema = Yup.object({
-    title: Yup.string().required('Please provide a title for your service'),
-    about: Yup.string().required('Please provide a description of your service'),
+    title: Yup.string().required('Please provide a title for your mission'),
+    about: Yup.string().required('Please provide a description of your mission'),
     rateToken: Yup.string().required('Please select a payment token'),
     rateAmount: Yup.number()
-      .required('Please provide an amount for your service')
+      .required('Please provide an amount for your mission')
       .when('rateToken', {
         is: (rateToken: string) => rateToken !== '',
         then: schema =>
@@ -217,7 +217,10 @@ function ServiceForm() {
                     <p className='font-alt text-xs font-normal'>
                       <span className='text-base-content'>
                         Your post supports markdown format. Learn more about how to write markdown{' '}
-                        <a href='' className='underline text-info'>
+                        <a
+                          href='https://stackedit.io/app#'
+                          target='_blank'
+                          className='underline text-info'>
                           here
                         </a>
                         .
