@@ -25,7 +25,7 @@ function ServiceItem({ service }: { service: IService }) {
             </button>
           </div>
         </div>
-        {service.description?.about && (
+        {/* {service.description?.about && (
           <div className='flex flex-col justify-start items-start gap-4'>
             <div className='flex items-center justify-start'>
               <div className='flex flex-col'>
@@ -33,7 +33,7 @@ function ServiceItem({ service }: { service: IService }) {
               </div>
             </div>
           </div>
-        )}
+        )} */}
 
         <div className='flex flex-wrap flew-row justify-between items-center pt-2'>
           <div className='flex flex-wrap gap-3 items-center'>
