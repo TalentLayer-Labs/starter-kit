@@ -58,12 +58,22 @@ function TalentLayerIdForm({ handle, callback }: { handle?: string; callback?: (
         const handlePrice = calculateMintFee(submittedValues.handle);
 
         if (process.env.NEXT_PUBLIC_ACTIVE_DELEGATE_MINT === 'true') {
+          /**
+           * @dev Sign message to prove ownership of the address asking the mint
+           */
+          const signature = await walletClient.signMessage({
+            account: account.address,
+            message: submittedValues.handle,
+          });
+
           const response = await delegateMintID(
             chainId,
             submittedValues.handle,
             String(handlePrice),
             account.address,
+            signature,
           );
+
           tx = response.data.transaction;
         } else {
           if (talentLayerClient) {
