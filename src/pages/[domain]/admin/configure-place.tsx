@@ -12,22 +12,21 @@ import CustomDomain from '../../../components/CustomDomain';
 import CustomizePalette from '../../../components/CustomizePalette';
 import DefaultPalettes from '../../../components/DefaultPalettes';
 import Loading from '../../../components/Loading';
-import UploadLogo from '../../../components/UploadLogo';
 import TalentLayerContext from '../../../context/talentLayer';
 import BuilderPlaceContext from '../../../modules/BuilderPlace/context/BuilderPlaceContext';
 import { useUpdateBuilderPlace } from '../../../modules/BuilderPlace/hooks/UseUpdateBuilderPlace';
 import { IBuilderPlace, iBuilderPlacePalette } from '../../../modules/BuilderPlace/types';
 import { slugify } from '../../../modules/BuilderPlace/utils';
 import { themes } from '../../../utils/themes';
+import { GetServerSidePropsContext } from 'next';
+import { sharedGetServerSideProps } from '../../../utils/sharedGetServerSideProps';
+import UploadImage from '../../../components/UploadImage';
 
 interface IFormValues {
   subdomain: string;
   palette: iBuilderPlacePalette;
   logo?: string;
 }
-
-import { GetServerSidePropsContext } from 'next';
-import { sharedGetServerSideProps } from '../../../utils/sharedGetServerSideProps';
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   return sharedGetServerSideProps(context);
@@ -156,13 +155,12 @@ function ConfigurePlace(props: InferGetServerSidePropsType<typeof getServerSideP
               <div className='grid grid-cols-1 gap-6'>
                 <CustomDomain />
 
-                <UploadLogo
-                  logo={values.logo}
-                  logoLoader={logoLoader}
-                  logoErrorMessage={logoErrorMessage}
-                  setLogoLoader={setLogoLoader}
+                <UploadImage
+                  fieldName='logo'
+                  label='logo'
+                  legend='rectangle format, used in top of your place'
+                  src={values.logo}
                   setFieldValue={setFieldValue}
-                  setLogoErrorMessage={setLogoErrorMessage}
                 />
 
                 <DefaultPalettes
