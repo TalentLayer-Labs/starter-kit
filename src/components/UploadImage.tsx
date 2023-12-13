@@ -1,60 +1,54 @@
-import { Dispatch, SetStateAction } from 'react';
+import { useState } from 'react';
 import { uploadImage } from '../modules/BuilderPlace/utils';
 import Loading from './Loading';
 
 interface ContainerProps {
-  logo?: string;
+  label: string;
+  legend: string;
+  fieldName: string;
+  src?: string;
   handle?: string;
-  logoLoader: boolean;
-  logoErrorMessage: string;
-  setLogoLoader: Dispatch<SetStateAction<boolean>>;
   setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => void;
-  setLogoErrorMessage: Dispatch<SetStateAction<string>>;
 }
 
-function UploadLogo({
-  logo,
-  handle,
-  logoLoader,
-  logoErrorMessage,
-  setLogoLoader,
-  setFieldValue,
-  setLogoErrorMessage,
-}: ContainerProps) {
+function UploadImage({ label, fieldName, legend, src, handle, setFieldValue }: ContainerProps) {
+  const [errorMessage, setErrorMessage] = useState('');
+  const [loading, setLoading] = useState(false);
+
   return (
     <>
       <label className='block'>
-        <span className='font-bold text-md'>logo</span>
-        <span className='italic text-xs'> (rectangle format, used in top of your place)</span>
+        <span className='font-bold text-md'>{label}</span>
+        <span className='italic text-xs'> ({legend})</span>
         <input
           type='file'
-          id='logo'
-          name='logo'
+          id={fieldName}
+          name={fieldName}
           onChange={async (event: any) => {
             await uploadImage(
               event.currentTarget.files[0],
               setFieldValue,
-              setLogoErrorMessage,
-              'logo',
-              setLogoLoader,
+              setErrorMessage,
+              fieldName,
+              setLoading,
               handle,
             );
           }}
           className='mt-1 mb-1 block w-full rounded-xl border-2 border-gray-200 shadow-sm focus:ring-opacity-50'
           placeholder=''
         />
-        {logoLoader && <Loading />}
-        {!!logo && (
+        {loading && <Loading />}
+        {!!src && (
           <div className='flex items-center justify-center py-3'>
-            <img width='300' height='300' src={logo} alt='' />
+            <img width='300' src={src} alt='' />
           </div>
         )}
       </label>
       <span className='text-red-500'>
-        <p>{logoErrorMessage}</p>
+        <p>{errorMessage}</p>
       </span>
     </>
   );
 }
 
-export default UploadLogo;
+export default UploadImage;

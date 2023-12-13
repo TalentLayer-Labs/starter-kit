@@ -41,6 +41,7 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
 
   const fetchData = async () => {
     if (!account.address || !account.isConnected || !talentLayerClient) {
+      setLoading(false);
       return false;
     }
 

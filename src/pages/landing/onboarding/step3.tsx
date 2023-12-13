@@ -7,7 +7,7 @@ import CustomDomain from '../../../components/CustomDomain';
 import DefaultPalettes from '../../../components/DefaultPalettes';
 import HirerProfileLayout from '../../../components/HirerProfileLayout';
 import Loading from '../../../components/Loading';
-import UploadLogo from '../../../components/UploadLogo';
+import UploadImage from '../../../components/UploadImage';
 import TalentLayerContext from '../../../context/talentLayer';
 import { useGetBuilderPlaceFromOwner } from '../../../modules/BuilderPlace/hooks/UseGetBuilderPlaceFromOwner';
 import { useUpdateBuilderPlace } from '../../../modules/BuilderPlace/hooks/UseUpdateBuilderPlace';
@@ -29,8 +29,6 @@ function onboardingStep3() {
   const { mutateAsync: updateBuilderPlaceAsync } = useUpdateBuilderPlace();
   const builderPlaceData = useGetBuilderPlaceFromOwner(user?.id as string);
   const router = useRouter();
-  const [logoLoader, setLogoLoader] = useState(false);
-  const [logoErrorMessage, setLogoErrorMessage] = useState('');
 
   const initialValues: IFormValues = {
     subdomain: (builderPlaceData?.name && slugify(builderPlaceData.name)) || '',
@@ -109,13 +107,12 @@ function onboardingStep3() {
               <div className='grid grid-cols-1 gap-6'>
                 <CustomDomain />
 
-                <UploadLogo
-                  logo={values.logo}
-                  logoLoader={logoLoader}
-                  logoErrorMessage={logoErrorMessage}
-                  setLogoLoader={setLogoLoader}
+                <UploadImage
+                  fieldName='logo'
+                  label='logo'
+                  legend='rectangle format, used in top of your place'
+                  src={values.logo}
                   setFieldValue={setFieldValue}
-                  setLogoErrorMessage={setLogoErrorMessage}
                 />
 
                 <DefaultPalettes
