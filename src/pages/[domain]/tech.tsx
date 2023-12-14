@@ -1,6 +1,6 @@
 import { GetServerSidePropsContext } from 'next';
 import { useContext } from 'react';
-import Markdown from 'react-markdown';
+import CustomMarkdown from '../../components/CustomMarkdown';
 import Loading from '../../components/Loading';
 import OrganizationHeader from '../../components/OrganizationHeader';
 import BuilderPlaceContext from '../../modules/BuilderPlace/context/BuilderPlaceContext';
@@ -25,7 +25,7 @@ export default function BuilderPlaceTech() {
         </div>
       </div>
       <div className='markdown-body text-sm text-base-content mt-4'>
-        <Markdown>{builderPlace.aboutTech}</Markdown>
+        <CustomMarkdown content={builderPlace.aboutTech} />
       </div>
     </div>
   );

@@ -1,10 +1,10 @@
 import { GetServerSidePropsContext } from 'next';
 import OrganizationHeader from '../../components/OrganizationHeader';
 import { sharedGetServerSideProps } from '../../utils/sharedGetServerSideProps';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import BuilderPlaceContext from '../../modules/BuilderPlace/context/BuilderPlaceContext';
 import Loading from '../../components/Loading';
-import Markdown from 'react-markdown';
+import CustomMarkdown from '../../components/CustomMarkdown';
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   return sharedGetServerSideProps(context);
@@ -25,7 +25,7 @@ export default function BuilderPlaceAbout() {
         </div>
       </div>
       <div className='markdown-body text-sm text-base-content mt-4'>
-        <Markdown>{builderPlace.about}</Markdown>
+        <CustomMarkdown content={builderPlace.about} />
       </div>
     </div>
   );
