@@ -43,11 +43,10 @@ const validationSchema = Yup.object({
 
 function ConfigurePlace(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const { account, loading } = useContext(TalentLayerContext);
-  const { isBuilderPlaceOwner } = useContext(BuilderPlaceContext);
+  const { isBuilderPlaceOwner, builderPlace } = useContext(BuilderPlaceContext);
   const chainId = useChainId();
   const { data: walletClient } = useWalletClient({ chainId });
   const { mutateAsync: updateBuilderPlaceAsync } = useUpdateBuilderPlace();
-  const builderPlace = props.builderPlace as IBuilderPlace;
   const router = useRouter();
   const [palette, setPalette] = useState<iBuilderPlacePalette>(props.builderPlace?.palette);
 
@@ -56,17 +55,17 @@ function ConfigurePlace(props: InferGetServerSidePropsType<typeof getServerSideP
 
   const initialValues: IFormValues = {
     subdomain:
-      builderPlace.subdomain?.replace(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN as string}`, '') ||
+      builderPlace?.subdomain?.replace(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN as string}`, '') ||
       (builderPlace?.name && slugify(builderPlace.name)) ||
       '',
-    logo: builderPlace.logo || '',
+    logo: builderPlace?.logo || '',
     palette,
-    name: builderPlace.name || '',
-    baseline: builderPlace.baseline || '',
-    about: builderPlace.about || '',
-    aboutTech: builderPlace.aboutTech || '',
-    profilePicture: builderPlace.profilePicture || '',
-    cover: builderPlace.cover || '',
+    name: builderPlace?.name || '',
+    baseline: builderPlace?.baseline || '',
+    about: builderPlace?.about || '',
+    aboutTech: builderPlace?.aboutTech || '',
+    profilePicture: builderPlace?.profilePicture || '',
+    cover: builderPlace?.cover || '',
   };
 
   useEffect(() => {
@@ -119,7 +118,7 @@ function ConfigurePlace(props: InferGetServerSidePropsType<typeof getServerSideP
     values: IFormValues,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void },
   ) => {
-    if (walletClient && account?.address) {
+    if (walletClient && account?.address && builderPlace) {
       setSubmitting(true);
       try {
         /**
@@ -167,7 +166,7 @@ function ConfigurePlace(props: InferGetServerSidePropsType<typeof getServerSideP
           {({ isSubmitting, setFieldValue, values }) => (
             <Form>
               <div className='grid grid-cols-1 gap-6'>
-                <>
+                <div>
                   <label className='block'>
                     <span className='font-bold text-md'>organization name</span>
                     <Field
@@ -181,9 +180,9 @@ function ConfigurePlace(props: InferGetServerSidePropsType<typeof getServerSideP
                   <span className='text-red-500'>
                     <ErrorMessage name='name' />
                   </span>
-                </>
+                </div>
 
-                <>
+                <div>
                   <label className='block'>
                     <span className='font-bold text-md'>organization baseline</span>
                     <Field
@@ -197,9 +196,9 @@ function ConfigurePlace(props: InferGetServerSidePropsType<typeof getServerSideP
                   <span className='text-red-500'>
                     <ErrorMessage name='baseline' />
                   </span>
-                </>
+                </div>
 
-                <>
+                <div>
                   <label className='block'>
                     <span className='font-bold text-md'>about your organization</span>
                     <Field
@@ -211,12 +210,24 @@ function ConfigurePlace(props: InferGetServerSidePropsType<typeof getServerSideP
                       placeholder='tell everyone about what you work on and why you’re doing it (ps: open-source contributors love to hear about your mission and vision)'
                     />
                   </label>
+                  <p className='font-alt text-xs font-normal opacity-60'>
+                    <span className='text-base-content'>
+                      This supports markdown format. Learn more about how to write markdown{' '}
+                      <a
+                        href='https://stackedit.io/app#'
+                        target='_blank'
+                        className='underline text-info'>
+                        here
+                      </a>
+                      .
+                    </span>
+                  </p>
                   <span className='text-red-500'>
                     <ErrorMessage name='about' />
                   </span>
-                </>
+                </div>
 
-                <>
+                <div>
                   <label className='block'>
                     <span className='font-bold text-md'>about your tech</span>
                     <Field
@@ -227,10 +238,22 @@ function ConfigurePlace(props: InferGetServerSidePropsType<typeof getServerSideP
                       className='mt-1 mb-1 block w-full rounded-xl border-2 border-info bg-base-200 shadow-sm focus:ring-opacity-50'
                     />
                   </label>
+                  <p className='font-alt text-xs font-normal opacity-60'>
+                    <span className='text-base-content'>
+                      This supports markdown format. Learn more about how to write markdown{' '}
+                      <a
+                        href='https://stackedit.io/app#'
+                        target='_blank'
+                        className='underline text-info'>
+                        here
+                      </a>
+                      .
+                    </span>
+                  </p>
                   <span className='text-red-500'>
                     <ErrorMessage name='aboutTech' />
                   </span>
-                </>
+                </div>
 
                 <CustomDomain />
 
