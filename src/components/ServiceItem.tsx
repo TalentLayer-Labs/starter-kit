@@ -9,7 +9,7 @@ function limitText(text: string, maxLength: number) {
   return text.substr(0, maxLength - 3) + '...';
 }
 
-function ServiceItem({ service }: { service: IService }) {
+function ServiceItem({ service, embedded }: { service: IService; embedded?: boolean }) {
   const chainId = useChainId();
   const createdAt = Number(service.createdAt) * 1000;
   const daysAgo = formatDaysAgo(createdAt);
@@ -57,7 +57,8 @@ function ServiceItem({ service }: { service: IService }) {
           </div>
           <Link
             className='text-primary text-center bg-primary hover:opacity-70 px-5 py-2.5 rounded-xl text-md w-full sm:w-auto mt-4 sm:mt-0'
-            href={`/work/${service.id}`}>
+            href={`/work/${service.id}`}
+            target={embedded ? 'blank' : ''}>
             view post
           </Link>
         </div>
