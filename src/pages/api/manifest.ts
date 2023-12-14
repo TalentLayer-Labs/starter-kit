@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getBuilderPlace } from '../../modules/BuilderPlace/queries';
-import { IBuilderPlace } from '../../modules/BuilderPlace/types';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const host = req.headers.host as string;
