@@ -1,6 +1,5 @@
 import { createContext, ReactNode, useContext, useEffect, useMemo, useState } from 'react';
 import { IBuilderPlace } from '../types';
-import TalentLayerContext from '../../../context/talentLayer';
 import { useAccount } from 'wagmi';
 
 const BuilderPlaceContext = createContext<{
