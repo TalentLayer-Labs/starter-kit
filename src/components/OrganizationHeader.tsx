@@ -22,10 +22,12 @@ function OrganizationHeader() {
     <header className='relative bg-base-300 rounded-xl'>
       <div className='relative h-48 sm:h-96 overflow-hidden'>
         <div className='cover'>
-          <img
-            className='bottom-0 left-0 object-cover absolute top-0 w-full h-full overflow-hidden rounded-xl'
-            src='https://cdn.discordapp.com/attachments/996792682896691231/1182714903207874601/Copy_of_Copy_of_Copy_of_1440x3120_1440_900_px.png?ex=6585b416&is=65733f16&hm=a80f059f8d9db5b951262ab060619676dabecf7365a2dcccfdbf2f3fdf0ab600&'
-          />
+          {builderPlace.cover && (
+            <img
+              className='bottom-0 left-0 object-cover absolute top-0 w-full h-full overflow-hidden rounded-xl'
+              src={builderPlace.cover}
+            />
+          )}
         </div>
         <div className='h-full m-auto'>
           <div className='text-white left-3 sm:left-[260px] flex justify-center flex-col absolute bottom-[1rem]'>
@@ -41,10 +43,13 @@ function OrganizationHeader() {
         </div>
       </div>
       <div className='relative h-full m-auto'>
-        <img
-          src={builderPlace.profilePicture}
-          className={`object-coverrounded-3xl bottom-[-2.00rem] left-[40px] absolute top-[-5.75rem] z-[2] w-48 h-48 -mt-8 sm:block hidden`}
-        />
+        {builderPlace.profilePicture && (
+          <img
+            src={builderPlace.profilePicture}
+            className={`object-coverrounded-3xl bottom-[-2.00rem] left-[40px] absolute top-[-5.75rem] z-[2] w-48 h-48 -mt-8 sm:block hidden`}
+          />
+        )}
+
         <div className='pl-3 sm:pl-[260px] px-0 overflow-x-auto pr-3 sm:pr-8 xl:pr-0'>
           <div className='items-center justify-between flex w-full h-full'>
             <div className='relative flex w-full h-full mr-3 overflow-x-auto'>
