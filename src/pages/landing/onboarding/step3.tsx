@@ -82,7 +82,7 @@ function onboardingStep3() {
           signature,
         });
         if (res?.id) {
-          router.push(`${window.location.protocol}//${subdomain}/dashboard`);
+          router.push(`${window.location.protocol}//${subdomain}/dashboard?onboarding=1`);
         }
       } catch (e: any) {
         console.error(e);
