@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { useState } from 'react';
 import { IntroducationSecion } from '../../components/introduction-section';
+import Link from 'next/link';
 
 function Home() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -11,9 +12,9 @@ function Home() {
         <div className='container relative lg:max-w-[1305px] lg:px-10'>
           <div className='flex items-center justify-between'>
             <div className='block py-4 lg:py-0'>
-              <a href='/' className='block max-w-[145px] sm:max-w-[200px]'>
+              <Link href='/' className='block max-w-[145px] sm:max-w-[200px]'>
                 <Image src='/logo-text-dark.png' alt='logo' width={256} height={41} />
-              </a>
+              </Link>
             </div>
             <button
               onClick={() => setIsOpen(true)}
@@ -185,9 +186,9 @@ function Home() {
                     &copy; 2023 BuilderPlace
                   </a>{' '}
                   |{' '}
-                  <a href='/terms' className='underline hover:opacity-60'>
+                  <Link href='/terms' className='underline hover:opacity-60'>
                     terms of service
-                  </a>
+                  </Link>
                 </p>
               </div>
             </div>

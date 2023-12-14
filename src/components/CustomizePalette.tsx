@@ -19,6 +19,7 @@ function CustomizePalette({ palette, color, setColor, setColorName }: ContainerP
             if (color !== '_id')
               return (
                 <div
+                  key={color}
                   className='group relative inline-block w-[36px] h-[36px] border'
                   style={{
                     backgroundColor: palette[color as keyof iBuilderPlacePalette],

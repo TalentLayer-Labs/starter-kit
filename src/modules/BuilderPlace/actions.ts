@@ -49,7 +49,7 @@ export const createBuilderPlace = async (data: CreateBuilderPlaceAction) => {
     const newBuilderPlace = new BuilderPlace({
       _id: new mongoose.Types.ObjectId(),
       name: data.name,
-      presentation: data.presentation,
+      about: data.about,
       preferredWorkTypes: data.preferredWorkTypes,
       profilePicture: data.profilePicture,
       palette: {

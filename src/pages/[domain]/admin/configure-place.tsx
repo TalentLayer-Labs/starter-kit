@@ -1,5 +1,5 @@
-import { Form, Formik } from 'formik';
-import { InferGetServerSidePropsType } from 'next';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
+import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
 import { useColor } from 'react-color-palette';
@@ -12,20 +12,25 @@ import CustomDomain from '../../../components/CustomDomain';
 import CustomizePalette from '../../../components/CustomizePalette';
 import DefaultPalettes from '../../../components/DefaultPalettes';
 import Loading from '../../../components/Loading';
+import UploadImage from '../../../components/UploadImage';
 import TalentLayerContext from '../../../context/talentLayer';
 import BuilderPlaceContext from '../../../modules/BuilderPlace/context/BuilderPlaceContext';
 import { useUpdateBuilderPlace } from '../../../modules/BuilderPlace/hooks/UseUpdateBuilderPlace';
 import { IBuilderPlace, iBuilderPlacePalette } from '../../../modules/BuilderPlace/types';
 import { slugify } from '../../../modules/BuilderPlace/utils';
-import { themes } from '../../../utils/themes';
-import { GetServerSidePropsContext } from 'next';
 import { sharedGetServerSideProps } from '../../../utils/sharedGetServerSideProps';
-import UploadImage from '../../../components/UploadImage';
+import { themes } from '../../../utils/themes';
 
 interface IFormValues {
   subdomain: string;
   palette: iBuilderPlacePalette;
   logo?: string;
+  name: string;
+  baseline: string;
+  about: string;
+  aboutTech: string;
+  profilePicture?: string;
+  cover?: string;
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
@@ -44,8 +49,6 @@ function ConfigurePlace(props: InferGetServerSidePropsType<typeof getServerSideP
   const { mutateAsync: updateBuilderPlaceAsync } = useUpdateBuilderPlace();
   const builderPlace = props.builderPlace as IBuilderPlace;
   const router = useRouter();
-  const [logoLoader, setLogoLoader] = useState(false);
-  const [logoErrorMessage, setLogoErrorMessage] = useState('');
   const [palette, setPalette] = useState<iBuilderPlacePalette>(props.builderPlace?.palette);
 
   const [colorName, setColorName] = useState('primary');
@@ -58,6 +61,12 @@ function ConfigurePlace(props: InferGetServerSidePropsType<typeof getServerSideP
       '',
     logo: builderPlace.logo || '',
     palette,
+    name: builderPlace.name || '',
+    baseline: builderPlace.baseline || '',
+    about: builderPlace.about || '',
+    aboutTech: builderPlace.aboutTech || '',
+    profilePicture: builderPlace.profilePicture || '',
+    cover: builderPlace.cover || '',
   };
 
   useEffect(() => {
@@ -126,7 +135,12 @@ function ConfigurePlace(props: InferGetServerSidePropsType<typeof getServerSideP
           _id: builderPlace._id,
           subdomain: fullSubdomain,
           logo: values.logo,
-          name: builderPlace.name,
+          name: values.name,
+          baseline: values.baseline,
+          about: values.about,
+          aboutTech: values.aboutTech,
+          profilePicture: values.profilePicture,
+          cover: values.cover,
           ownerTalentLayerId: builderPlace.ownerTalentLayerId,
           palette,
           owners: builderPlace.owners,
@@ -153,6 +167,71 @@ function ConfigurePlace(props: InferGetServerSidePropsType<typeof getServerSideP
           {({ isSubmitting, setFieldValue, values }) => (
             <Form>
               <div className='grid grid-cols-1 gap-6'>
+                <>
+                  <label className='block'>
+                    <span className='font-bold text-md'>organization name</span>
+                    <Field
+                      type='text'
+                      id='name'
+                      name='name'
+                      className='mt-1 mb-1 block w-full rounded-xl border-2 border-info bg-base-200 shadow-sm focus:ring-opacity-50'
+                      placeholder='your organization name goes here'
+                    />
+                  </label>
+                  <span className='text-red-500'>
+                    <ErrorMessage name='name' />
+                  </span>
+                </>
+
+                <>
+                  <label className='block'>
+                    <span className='font-bold text-md'>organization baseline</span>
+                    <Field
+                      type='text'
+                      id='baseline'
+                      name='baseline'
+                      className='mt-1 mb-1 block w-full rounded-xl border-2 border-info bg-base-200 shadow-sm focus:ring-opacity-50'
+                      placeholder='your organization baseline'
+                    />
+                  </label>
+                  <span className='text-red-500'>
+                    <ErrorMessage name='baseline' />
+                  </span>
+                </>
+
+                <>
+                  <label className='block'>
+                    <span className='font-bold text-md'>about your organization</span>
+                    <Field
+                      as='textarea'
+                      id='about'
+                      name='about'
+                      rows='9'
+                      className='mt-1 mb-1 block w-full rounded-xl border-2 border-info bg-base-200 shadow-sm focus:ring-opacity-50'
+                      placeholder='tell everyone about what you work on and why you’re doing it (ps: open-source contributors love to hear about your mission and vision)'
+                    />
+                  </label>
+                  <span className='text-red-500'>
+                    <ErrorMessage name='about' />
+                  </span>
+                </>
+
+                <>
+                  <label className='block'>
+                    <span className='font-bold text-md'>about your tech</span>
+                    <Field
+                      as='textarea'
+                      id='aboutTech'
+                      name='aboutTech'
+                      rows='9'
+                      className='mt-1 mb-1 block w-full rounded-xl border-2 border-info bg-base-200 shadow-sm focus:ring-opacity-50'
+                    />
+                  </label>
+                  <span className='text-red-500'>
+                    <ErrorMessage name='aboutTech' />
+                  </span>
+                </>
+
                 <CustomDomain />
 
                 <UploadImage
@@ -160,6 +239,22 @@ function ConfigurePlace(props: InferGetServerSidePropsType<typeof getServerSideP
                   label='logo'
                   legend='rectangle format, used in top of your place'
                   src={values.logo}
+                  setFieldValue={setFieldValue}
+                />
+
+                <UploadImage
+                  fieldName='profilePicture'
+                  label='profile picture'
+                  legend='large rectangle format, used in top of your place'
+                  src={values.profilePicture}
+                  setFieldValue={setFieldValue}
+                />
+
+                <UploadImage
+                  fieldName='cover'
+                  label='cover'
+                  legend='large rectangle format, used in top of your place'
+                  src={values.cover}
                   setFieldValue={setFieldValue}
                 />
 

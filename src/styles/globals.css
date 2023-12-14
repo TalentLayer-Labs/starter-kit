@@ -194,3 +194,12 @@ body .menuBottom {
     animation-iteration-count: 1 !important;
   }
 }
+
+.cover:after {
+  content: "";
+  position: absolute;
+  inset: 0px;
+  background-color: rgba(0, 0, 0, 0.4);
+  transition: all 300ms ease 0s;
+  border-radius: 0.75rem;
+}

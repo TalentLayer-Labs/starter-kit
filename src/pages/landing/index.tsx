@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { useState } from 'react';
 import { IntroducationSecion } from '../../components/introduction-section';
+import Link from 'next/link';
 
 function Home() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -11,9 +12,9 @@ function Home() {
         <div className='container relative lg:max-w-[1305px] lg:px-10'>
           <div className='flex items-center justify-between'>
             <div className='block py-4 lg:py-0'>
-              <a href='/' className='block max-w-[145px] sm:max-w-[200px]'>
+              <Link href='/' className='block max-w-[145px] sm:max-w-[200px]'>
                 <Image src='/logo-text-dark.png' alt='logo' width={256} height={41} />
-              </a>
+              </Link>
             </div>
             <button
               onClick={() => setIsOpen(true)}
@@ -157,8 +158,8 @@ function Home() {
               className='wow fadeInUp mx-auto mb-14 max-w-[740px] text-center lg:mb-[70px]'
               data-wow-delay='.2s'>
               <h2 className='mb-4 text-3xl font-bold text-black  sm:text-4xl pt-10 md:text-[44px] leading-tight'>
-                what's included in <br></br>your <a className='text-landingprimary'>BuilderPlace</a>
-                ?
+                what's included in <br></br>your{' '}
+                <span className='text-landingprimary'>BuilderPlace</span>?
               </h2>
               <p className='text-base text-body'>
                 your BuilderPlace helps you kick-start and grow your own passionate community of
@@ -347,7 +348,7 @@ function Home() {
               data-wow-delay='.2s'>
               <h2 className='mb-0 mt-10 text-3xl font-bold text-black  sm:text-4xl md:text-[44px] md:leading-tight'>
                 teams like yours are shipping faster thanks to{' '}
-                <a className='text-landingprimary'>open-source contributors</a>
+                <span className='text-landingprimary'>open-source contributors</span>
               </h2>
             </div>
           </div>
@@ -611,7 +612,7 @@ function Home() {
               className='wow fadeInUp mx-auto mb-5 max-w-[740px] text-center lg:mb-[30px]'
               data-wow-delay='.2s'>
               <h2 className='mb-4 pt-40 text-3xl font-bold text-black  sm:text-4xl pt-40 md:text-[44px] md:leading-tight'>
-                pricing that <a className='text-landingprimary'>works</a> for you
+                pricing that <span className='text-landingprimary'>works</span> for you
               </h2>
               <p className='text-base text-body'>
                 BuilderPlace is designed to help small open-source teams grow. that's why we make
@@ -771,7 +772,8 @@ function Home() {
             className='wow fadeInUp mx-auto mb-14 max-w-[740px] text-center lg:mb-[70px]'
             data-wow-delay='.2s'>
             <h2 className='mb-4 mt-10 text-3xl font-bold text-black  sm:text-4xl md:text-[44px] md:leading-tight'>
-              create your BuilderPlace <a className='text-landingprimary'>in less than 5 minutes</a>
+              create your BuilderPlace{' '}
+              <span className='text-landingprimary'>in less than 5 minutes</span>
             </h2>
           </div>
           <div className='container pb-20 lg:max-w-[1120px]'>

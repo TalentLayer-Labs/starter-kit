@@ -9,7 +9,7 @@ function OnboardingSteps({ currentStep, type }: { currentStep: number; type: str
 
   return (
     <div className='mt-6 hidden sm:flex justify-center items-center '>
-      <div className='w-full md:w-3/4 bg-FFF8F1 border-2 border-solid border-opacity-10 rounded-2xl p-4 mx-6'>
+      <div className='w-full md:w-3/4 bg-FFF8F1 border-2 border-solid border-opacity-10 border-info rounded-2xl p-4 mx-6'>
         <div className='flex flex-col sm:flex-row'>
           <div className='sm:flex-1 border-r border-dark bg-base-100 flex sm:mb-0 mb-2 items-center justify-center'>
             <div
@@ -23,7 +23,7 @@ function OnboardingSteps({ currentStep, type }: { currentStep: number; type: str
               <div className='text-light text-sm'>{type} profile</div>
             </div>
           </div>
-          <div className='sm:flex-1 border-r border-dark bg-base-100 flex sm:mb-0 mb-2 items-center justify-center'>
+          <div className='sm:flex-1 border-r border-info bg-base-100 flex sm:mb-0 mb-2 items-center justify-center'>
             <div
               className={`w-12 h-12 p-2 rounded-full flex items-center justify-center ${getCircleColor(
                 2,

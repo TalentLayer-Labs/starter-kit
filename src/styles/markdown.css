@@ -95,8 +95,6 @@
     -ms-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
     margin: 0;
-    color: var(--color-fg-default);
-    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
     font-size: 16px;
     line-height: 1.5;
     word-wrap: break-word;
@@ -168,7 +166,6 @@
   
   .markdown-body mark {
     background-color: var(--color-attention-subtle);
-    color: var(--color-fg-default);
   }
   
   .markdown-body small {
@@ -344,7 +341,6 @@
     padding: 3px 5px;
     font: 11px ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;
     line-height: 10px;
-    color: var(--color-fg-default);
     vertical-align: middle;
     background-color: var(--color-canvas-subtle);
     border: solid 1px var(--color-neutral-muted);
@@ -551,7 +547,6 @@
   .markdown-body h4 .octicon-link,
   .markdown-body h5 .octicon-link,
   .markdown-body h6 .octicon-link {
-    color: var(--color-fg-default);
     vertical-align: middle;
     visibility: hidden;
   }
@@ -742,7 +737,6 @@
     display: block;
     padding: 5px 0 0;
     clear: both;
-    color: var(--color-fg-default);
   }
   
   .markdown-body span.align-center {
@@ -857,7 +851,6 @@
     overflow: auto;
     font-size: 85%;
     line-height: 1.45;
-    color: var(--color-fg-default);
     background-color: var(--color-canvas-subtle);
     border-radius: 6px;
   }
@@ -940,10 +933,6 @@
     content: "";
     border: 2px solid var(--color-accent-emphasis);
     border-radius: 6px;
-  }
-  
-  .markdown-body .footnotes li:target {
-    color: var(--color-fg-default);
   }
   
   .markdown-body .footnotes .data-footnote-backref g-emoji {

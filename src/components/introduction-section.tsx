@@ -17,7 +17,7 @@ export const IntroducationSecion = () => {
           className='wow fadeInUp mx-auto mb-14 max-w-[740px] text-center lg:mb-[20px]'
           data-wow-delay='.2s'>
           <h2 className='mb-4 pt-10 text-3xl font-bold text-black  sm:text-4xl pt-10 md:text-[44px] md:leading-tight'>
-            white-label <a className='text-landingprimary'>open-source management</a> for your
+            white-label <span className='text-landingprimary'>open-source management</span> for your
             ecosystem
           </h2>
           <p className='text-base text-body'>

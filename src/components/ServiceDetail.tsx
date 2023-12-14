@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { useContext } from 'react';
-import Markdown from 'react-markdown';
 import TalentLayerContext from '../context/talentLayer';
 import { useChainId } from '../hooks/useChainId';
 import usePaymentsByService from '../hooks/usePaymentsByService';
@@ -9,6 +8,7 @@ import useReviewsByService from '../hooks/useReviewsByService';
 import ContactButton from '../modules/Messaging/components/ContactButton';
 import { IService, ProposalStatusEnum, ServiceStatusEnum } from '../types';
 import { formatDate } from '../utils/dates';
+import CustomMarkdown from './CustomMarkdown';
 import PaymentModal from './Modal/PaymentModal';
 import ReviewModal from './Modal/ReviewModal';
 import ProfileImage from './ProfileImage';
@@ -67,7 +67,7 @@ function ServiceDetail({ service }: { service: IService }) {
                 </Link>
               )}
               <div className='markdown-body text-sm text-base-content mt-4'>
-                <Markdown>{service.description?.about}</Markdown>
+                <CustomMarkdown content={service.description?.about} />
               </div>
               {service.description?.rateToken && service.description?.rateAmount && (
                 <p className='text-sm text-base-content mt-4'>

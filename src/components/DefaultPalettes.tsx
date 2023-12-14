@@ -13,7 +13,7 @@ function DefaultPalettes({ onChange }: ContainerProps) {
       <div className='flex flex-col gap-2'>
         {Object.keys(themes).map((value, index) => {
           return (
-            <div className='mt-1'>
+            <div className='mt-1' key={index}>
               <input
                 type='radio'
                 className='hidden peer'
@@ -29,6 +29,7 @@ function DefaultPalettes({ onChange }: ContainerProps) {
                 {Object.keys(themes[value as keyof typeof themes]).map(color => {
                   return (
                     <div
+                      key={color}
                       className='group relative inline-block w-[36px] h-[36px] border'
                       style={{
                         backgroundColor:
