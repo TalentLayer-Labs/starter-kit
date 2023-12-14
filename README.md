@@ -4,6 +4,7 @@ A Ready to Use NextJS dapp using [TalentLayer](https://docs.talentlayer.org/).
 
 ## Start building in few seconds
 
+### Basic configuration
 - Fork the code
 - Clone your new repository
 - Copy .env.example file into a new .env file: `cp .env.example .env`
@@ -17,6 +18,26 @@ A Ready to Use NextJS dapp using [TalentLayer](https://docs.talentlayer.org/).
 - Install the dependencies: `npm install`
 - Run local server for development `npm run dev`
 - That's it!
+
+### GasLess Transactions / Delegation (optional)
+To activate gasless transactions and delegation you will need a dedicated Seed & Address which will be used to execute transactions on behalf of your users, and set the following environment variables:
+
+- Set NEXT_PRIVATE_DELEGATE_SEED_PHRASE: Dedicated Seed phrase for your delegate
+- Set NEXT_PUBLIC_DELEGATE_ADDRESS: Address of your delegate
+- Add matic to NEXT_PUBLIC_DELEGATE_ADDRESS: To pay for transactions on behalf of your users
+- Set NEXT_PUBLIC_ACTIVE_DELEGATE_MINT to true
+
+To use this feature your Users will need to activate delegation by calling the following function on the TalentLayerId smart contract:
+```solidity
+/**
+ * @notice Allows to give rights to a delegate to perform actions for a user's profile
+ * @param _profileId The TalentLayer ID of the user
+ * @param _delegate Address of the delegate to add
+ */
+function addDelegate(uint256 _profileId, address _delegate);
+``` 
+
+
 
 ## 🛠️ TalentLayer
 

@@ -1,14 +1,22 @@
-// pages/api/createService.ts
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getConfig } from '../../../config';
 import TalentLayerID from '../../../contracts/ABI/TalentLayerID.json';
 import { getDelegationSigner } from '../utils/delegate';
+import { recoverMessageAddress } from 'viem';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { handle, handlePrice, userAddress, chainId } = req.body;
+  const { handle, handlePrice, userAddress, chainId, signature } = req.body;
   const config = getConfig(chainId);
 
-  // @dev : you can add here all the check you need to confirm the delagation for a user
+  const address = await recoverMessageAddress({
+    message: handle,
+    signature: signature,
+  });
+
+  if (address.toLowerCase() !== userAddress.toLowerCase()) {
+    res.status(500).json('Signature is not valid');
+    return;
+  }
 
   try {
     if (process.env.NEXT_PUBLIC_ACTIVE_DELEGATE_MINT !== 'true') {
