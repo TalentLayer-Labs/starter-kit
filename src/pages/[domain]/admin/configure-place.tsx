@@ -1,5 +1,5 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
-import { InferGetServerSidePropsType } from 'next';
+import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
 import { useColor } from 'react-color-palette';
@@ -18,6 +18,7 @@ import BuilderPlaceContext from '../../../modules/BuilderPlace/context/BuilderPl
 import { useUpdateBuilderPlace } from '../../../modules/BuilderPlace/hooks/UseUpdateBuilderPlace';
 import { IBuilderPlace, iBuilderPlacePalette } from '../../../modules/BuilderPlace/types';
 import { slugify } from '../../../modules/BuilderPlace/utils';
+import { sharedGetServerSideProps } from '../../../utils/sharedGetServerSideProps';
 import { themes } from '../../../utils/themes';
 
 interface IFormValues {
@@ -31,9 +32,6 @@ interface IFormValues {
   profilePicture?: string;
   cover?: string;
 }
-
-import { GetServerSidePropsContext } from 'next';
-import { sharedGetServerSideProps } from '../../../utils/sharedGetServerSideProps';
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   return sharedGetServerSideProps(context);

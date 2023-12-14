@@ -41,7 +41,9 @@ function ServiceList() {
 
       <div className='grid grid-cols-1 gap-4'>
         {services.map((service: IService, i: number) => {
-          return <ServiceItem service={service} key={i} />;
+          return (
+            <ServiceItem service={service} embedded={router.asPath.includes('embed/')} key={i} />
+          );
         })}
       </div>
 
