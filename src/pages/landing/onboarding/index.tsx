@@ -86,7 +86,7 @@ function onboardingStep1() {
                   type='text'
                   id='name'
                   name='name'
-                  className='mt-1 mb-1 block w-full rounded-xl border-2 border-gray-200 bg-midnight shadow-sm focus:ring-opacity-50'
+                  className='mt-1 mb-1 block w-full rounded-xl border-2 border-info bg-base-200 shadow-sm focus:ring-opacity-50'
                   placeholder='your organization name goes here'
                 />
               </label>
@@ -100,7 +100,7 @@ function onboardingStep1() {
                   id='about'
                   name='about'
                   rows='4'
-                  className='mt-1 mb-1 block w-full rounded-xl border-2 border-gray-200 bg-midnight shadow-sm focus:ring-opacity-50'
+                  className='mt-1 mb-1 block w-full rounded-xl border-2 border-info bg-base-200 shadow-sm focus:ring-opacity-50'
                   placeholder='tell everyone about what you work on and why you’re doing it (ps: open-source contributors love to hear about your mission and vision)'
                 />
               </label>
@@ -238,7 +238,7 @@ function onboardingStep1() {
 
               <UploadImage
                 fieldName='profilePicture'
-                label='profilePicture'
+                label='profile picture'
                 legend='square format'
                 src={values.profilePicture}
                 setFieldValue={setFieldValue}
