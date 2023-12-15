@@ -21,9 +21,13 @@ import { slugify } from '../../../modules/BuilderPlace/utils';
 import { sharedGetServerSideProps } from '../../../utils/sharedGetServerSideProps';
 import { themes } from '../../../utils/themes';
 
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  return sharedGetServerSideProps(context);
+}
+
 interface IFormValues {
   subdomain: string;
-  palette: iBuilderPlacePalette;
+  palette?: iBuilderPlacePalette;
   logo?: string;
   name: string;
   baseline: string;
@@ -31,10 +35,6 @@ interface IFormValues {
   aboutTech: string;
   profilePicture?: string;
   cover?: string;
-}
-
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  return sharedGetServerSideProps(context);
 }
 
 const validationSchema = Yup.object({
@@ -48,10 +48,11 @@ function ConfigurePlace(props: InferGetServerSidePropsType<typeof getServerSideP
   const { data: walletClient } = useWalletClient({ chainId });
   const { mutateAsync: updateBuilderPlaceAsync } = useUpdateBuilderPlace();
   const router = useRouter();
-  const [palette, setPalette] = useState<iBuilderPlacePalette>(props.builderPlace?.palette);
-
+  const [palette, setPalette] = useState<iBuilderPlacePalette | undefined>(builderPlace?.palette);
   const [colorName, setColorName] = useState('primary');
-  const [color, setColor] = useColor(palette[colorName as keyof iBuilderPlacePalette]);
+  const [color, setColor] = useColor(
+    palette ? palette[colorName as keyof iBuilderPlacePalette] : '#FF71A2',
+  );
 
   const initialValues: IFormValues = {
     subdomain:
@@ -73,6 +74,7 @@ function ConfigurePlace(props: InferGetServerSidePropsType<typeof getServerSideP
     // Prevents max stack depth being called
     const delayedEffect = () => {
       setPalette(prevPalette => {
+        if (!prevPalette) return;
         return { ...prevPalette, [colorName]: color.hex };
       });
     };
