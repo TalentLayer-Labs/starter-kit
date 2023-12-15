@@ -30,7 +30,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(500).json('Private key is not set');
   }
 
-  const mongoUri = process.env.NEXT_MONGO_URI as string;
+  const mongoUri = (process.env.MONGO_URI || process.env.NEXT_MONGO_URI) as string;
 
   if (!mongoUri) {
     return res.status(500).json('MongoDb URI is not set');
