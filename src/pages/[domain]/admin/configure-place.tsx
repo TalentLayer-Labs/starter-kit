@@ -82,6 +82,8 @@ function ConfigurePlace(props: InferGetServerSidePropsType<typeof getServerSideP
   }, [color]);
 
   useEffect(() => {
+    if (!palette) return;
+
     document.documentElement.style.setProperty('--primary', palette.primary);
     document.documentElement.style.setProperty('--primary-50', palette.primary + '60');
     document.documentElement.style.setProperty('--primary-focus', palette.primaryFocus);
