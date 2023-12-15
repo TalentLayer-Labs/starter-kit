@@ -1,9 +1,9 @@
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { DefaultSeo } from 'next-seo';
 import type { AppProps } from 'next/app';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { WagmiConfig } from 'wagmi';
 import CustomPalette from '../components/CustomPalette';
 import { TalentLayerProvider } from '../context/talentLayer';
 import { Web3Modal } from '../context/web3modal';
@@ -40,6 +40,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           </TalentLayerProvider>
         </Web3Modal>
       </QueryClientProvider>
+      <SpeedInsights />
     </>
   );
 }
