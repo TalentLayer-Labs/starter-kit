@@ -14,6 +14,7 @@ import { MessagingProvider } from '../modules/Messaging/context/messging';
 import '../styles/globals.css';
 import '../styles/markdown.css';
 import Layout from './Layout';
+import { Analytics } from '@vercel/analytics/react';
 
 // react-query client
 const queryClient = new QueryClient();
@@ -22,12 +23,12 @@ function MyApp({ Component, pageProps }: AppProps) {
   console.log('MyApp', { pageProps });
   return (
     <>
-      <CustomPalette builderPlace={pageProps.builderPlace} />
       <QueryClientProvider client={queryClient}>
         <DefaultSeo {...getSeoDefaultConfig(pageProps.builderPlace)} />
         <Web3Modal>
           <TalentLayerProvider>
             <BuilderPlaceProvider data={pageProps.builderPlace}>
+              <CustomPalette />
               <XmtpContextProvider>
                 <MessagingProvider>
                   <Layout>
@@ -41,6 +42,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         </Web3Modal>
       </QueryClientProvider>
       <SpeedInsights />
+      <Analytics />
     </>
   );
 }
