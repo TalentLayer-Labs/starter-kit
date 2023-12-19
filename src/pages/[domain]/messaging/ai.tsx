@@ -1,6 +1,7 @@
+import { GetServerSidePropsContext } from 'next';
 import { useState } from 'react';
 import { postOpenAiRequest } from '../../../modules/OpenAi/utils';
-import { getBuilderPlace } from '../../../modules/BuilderPlace/queries';
+import { sharedGetServerSideProps } from '../../../utils/sharedGetServerSideProps';
 
 enum Creator {
   Me = 0,
@@ -18,8 +19,8 @@ interface InputProps {
   disable: boolean;
 }
 
-export async function getServerSideProps({ params }: any) {
-  return await getBuilderPlace(params.domain);
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  return sharedGetServerSideProps(context);
 }
 
 const ChatMessage = ({ text, from }: MessageProps) => {

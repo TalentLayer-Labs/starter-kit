@@ -1,7 +1,9 @@
+import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
 import { useContext } from 'react';
 import ProposalForm from '../../../../components/Form/ProposalForm';
 import Loading from '../../../../components/Loading';
+import NotFound from '../../../../components/NotFound';
 import Steps from '../../../../components/Steps';
 import TalentLayerContext from '../../../../context/talentLayer';
 import useProposalById from '../../../../hooks/useProposalById';
@@ -9,11 +11,10 @@ import useServiceById from '../../../../hooks/useServiceById';
 import ConnectButton from '../../../../modules/Messaging/components/ConnectButton';
 import MessagingContext from '../../../../modules/Messaging/context/messging';
 import { ProposalStatusEnum, ServiceStatusEnum } from '../../../../types';
-import { getBuilderPlace } from '../../../../modules/BuilderPlace/queries';
-import NotFound from '../../../../components/NotFound';
+import { sharedGetServerSideProps } from '../../../../utils/sharedGetServerSideProps';
 
-export async function getServerSideProps({ params }: any) {
-  return await getBuilderPlace(params.domain);
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  return sharedGetServerSideProps(context);
 }
 
 function CreateOrEditProposal() {

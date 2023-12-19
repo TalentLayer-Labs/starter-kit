@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { ReactNode, useContext } from 'react';
 import TalentLayerContext from './../context/talentLayer';
 import OnboardingSteps from './OnboardingSteps';
+import Link from 'next/link';
 
 interface ContainerProps {
   children: ReactNode;
@@ -18,9 +19,9 @@ function HirerProfileLayout({ children, className, step }: ContainerProps) {
         <div className='container relative lg:max-w-[1305px] lg:px-10'>
           <div className='flex items-center justify-between h-[80px]'>
             <div className='block py-4 lg:py-0'>
-              <a href='/' className='block max-w-[145px] sm:max-w-[200px]'>
+              <Link href='/' className='block max-w-[145px] sm:max-w-[200px]'>
                 <Image src='/logo-text-dark.png' alt='logo' width={256} height={41} />
-              </a>
+              </Link>
             </div>
           </div>
         </div>

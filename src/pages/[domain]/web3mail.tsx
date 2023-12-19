@@ -1,11 +1,11 @@
-import React from 'react';
+import { GetServerSidePropsContext } from 'next';
+import Web3mailCard from '../../modules/Web3mail/components/Web3mailCard';
 import Web3mailForm from '../../modules/Web3mail/components/Web3mailForm';
 import { Web3MailProvider } from '../../modules/Web3mail/context/web3mail';
-import Web3mailCard from '../../modules/Web3mail/components/Web3mailCard';
-import { getBuilderPlace } from '../../modules/BuilderPlace/queries';
+import { sharedGetServerSideProps } from '../../utils/sharedGetServerSideProps';
 
-export async function getServerSideProps({ params }: any) {
-  return await getBuilderPlace(params.domain);
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  return sharedGetServerSideProps(context);
 }
 
 export default function web3mail() {

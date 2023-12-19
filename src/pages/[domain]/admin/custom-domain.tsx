@@ -1,15 +1,15 @@
-import { InferGetServerSidePropsType } from 'next';
+import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
 import { useContext, useEffect, useState } from 'react';
 import { useChainId, useWalletClient } from 'wagmi';
+import AccessDenied from '../../../components/AccessDenied';
 import TalentLayerContext from '../../../context/talentLayer';
 import DomainConfiguration from '../../../modules/BuilderPlace/components/DomainConfiguration';
 import BuilderPlaceContext from '../../../modules/BuilderPlace/context/BuilderPlaceContext';
 import { useUpdateBuilderPlaceDomain } from '../../../modules/BuilderPlace/hooks/UseUpdateBuilderPlaceDomain';
-import { getBuilderPlace } from '../../../modules/BuilderPlace/queries';
-import AccessDenied from '../../../components/AccessDenied';
+import { sharedGetServerSideProps } from '../../../utils/sharedGetServerSideProps';
 
-export async function getServerSideProps({ params }: any) {
-  return await getBuilderPlace(params.domain);
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  return sharedGetServerSideProps(context);
 }
 
 export default function CustomDomain(

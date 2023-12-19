@@ -5,6 +5,7 @@ import useServiceById from '../hooks/useServiceById';
 import { IProposal, ProposalStatusEnum } from '../types';
 import { renderTokenAmount } from '../utils/conversion';
 import { formatDate } from '../utils/dates';
+import ProfileImage from './ProfileImage';
 
 function UserProposalItem({ proposal }: { proposal: IProposal }) {
   const { user } = useContext(TalentLayerContext);
@@ -21,16 +22,7 @@ function UserProposalItem({ proposal }: { proposal: IProposal }) {
       <div className='flex flex-col items-top justify-between gap-4 w-full'>
         <div className='flex flex-col justify-start items-start gap-4'>
           <div className='flex items-center justify-start w-full  relative'>
-            <img
-              src={
-                proposal.service.buyer.description?.image_url ||
-                `/images/default-avatar-${Number(proposal.service.buyer.id) % 9}.jpeg`
-              }
-              className='w-10 mr-4 rounded-full'
-              width={50}
-              height={50}
-              alt='default avatar'
-            />
+            <ProfileImage size={50} url={proposal.service.buyer.description?.image_url} />
             <div className='flex flex-col'>
               <p className='text-base-content font-medium break-all'>
                 {service.description?.title}

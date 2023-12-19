@@ -1,13 +1,14 @@
+import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
 import Loading from '../../../components/Loading';
-import useUserById from '../../../hooks/useUserById';
-import { getBuilderPlace } from '../../../modules/BuilderPlace/queries';
-import WorkerPublicDetail from '../../../components/WorkerPublicDetail';
 import UserServices from '../../../components/UserServices';
+import WorkerPublicDetail from '../../../components/WorkerPublicDetail';
+import useUserById from '../../../hooks/useUserById';
 import LensModule from '../../../modules/Lens/LensModule';
+import { sharedGetServerSideProps } from '../../../utils/sharedGetServerSideProps';
 
-export async function getServerSideProps({ params }: any) {
-  return await getBuilderPlace(params.domain);
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  return sharedGetServerSideProps(context);
 }
 
 function Profile() {

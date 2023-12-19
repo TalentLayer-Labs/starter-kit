@@ -1,9 +1,9 @@
 import { Menu, Transition } from '@headlessui/react';
 import { Fragment, useContext, useEffect, useState } from 'react';
 import TalentLayerContext from '../context/talentLayer';
-import UserSubMenu from './UserSubMenu';
-import ConnectButton from '../modules/Messaging/components/ConnectButton';
 import ConnectBlock from './ConnectBlock';
+import ProfileImage from './ProfileImage';
+import UserSubMenu from './UserSubMenu';
 
 function UserAccount() {
   const { account, user } = useContext(TalentLayerContext);
@@ -36,16 +36,7 @@ function UserAccount() {
             <div className='flex items-center relative group'>
               <Menu.Button className='group-hover:ring-redpraha ring-offset-midnight inline-flex h-9 w-9 items-center justify-center rounded-full ring-1 ring-transparent transition-all duration-300 group-hover:ring-offset-4'>
                 <span className='sr-only'>Open user menu</span>
-                <img
-                  className='h-9 w-9 rounded-full'
-                  alt=''
-                  src={
-                    user?.description?.image_url ||
-                    `/images/default-avatar-${Number(user?.id ? user.id : '1') % 9}.jpeg`
-                  }
-                  width={50}
-                  height={50}
-                />
+                <ProfileImage size={50} url={user?.description?.image_url} />
               </Menu.Button>
             </div>
           </div>

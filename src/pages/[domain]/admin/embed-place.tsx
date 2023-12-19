@@ -1,14 +1,15 @@
-import { getBuilderPlace } from '../../../modules/BuilderPlace/queries';
-import React, { useContext } from 'react';
-import TalentLayerContext from '../../../context/talentLayer';
-import BuilderPlaceContext from '../../../modules/BuilderPlace/context/BuilderPlaceContext';
-import useCopyToClipBoard from '../../../hooks/useCopyToClipBoard';
-import { ClipboardCopy, CheckCircle } from 'heroicons-react';
-import Loading from '../../../components/Loading';
+import { CheckCircle, ClipboardCopy } from 'heroicons-react';
+import { GetServerSidePropsContext } from 'next';
+import { useContext } from 'react';
 import AccessDenied from '../../../components/AccessDenied';
+import Loading from '../../../components/Loading';
+import TalentLayerContext from '../../../context/talentLayer';
+import useCopyToClipBoard from '../../../hooks/useCopyToClipBoard';
+import BuilderPlaceContext from '../../../modules/BuilderPlace/context/BuilderPlaceContext';
+import { sharedGetServerSideProps } from '../../../utils/sharedGetServerSideProps';
 
-export async function getServerSideProps({ params }: any) {
-  return await getBuilderPlace(params.domain);
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  return sharedGetServerSideProps(context);
 }
 
 const BASE_URL = global?.location?.origin;
@@ -24,7 +25,7 @@ const generateServicesEmbedIframeCode = (embedUrl: string): string => {
 };
 
 export default function EmbedPlace() {
-  const { user, loading } = useContext(TalentLayerContext);
+  const { loading } = useContext(TalentLayerContext);
   const { builderPlace, isBuilderPlaceOwner } = useContext(BuilderPlaceContext);
   const { isCopied: isIframeCopied, copyToClipboard: copyIframe } = useCopyToClipBoard();
 
@@ -65,15 +66,13 @@ export default function EmbedPlace() {
               </p>
               <div className='flex flex-row flex-wrap'>
                 <code className='bg-info text-info rounded-xl p-2 my-4 overflow-hidden'>
-                  {user?.id &&
-                    builderPlace?.name &&
+                  {builderPlace?.name &&
                     generateServicesEmbedIframeCode(generateEmbedWorkUrl(builderPlace.name))}
                 </code>
                 {!isIframeCopied ? (
                   <button
                     className='flex items-center justify-center text-primary text-center bg-primary hover:opacity-70 px-5 py-2.5 rounded-xl text-md w-full sm:w-auto'
                     onClick={() =>
-                      user?.id &&
                       builderPlace?.name &&
                       copyIframe(
                         generateServicesEmbedIframeCode(generateEmbedWorkUrl(builderPlace.name)),
@@ -93,7 +92,7 @@ export default function EmbedPlace() {
           </div>
         </div>
       )}
-      {isBuilderPlaceOwner && user?.id && builderPlace?.name && (
+      {isBuilderPlaceOwner && builderPlace?.name && (
         <div className='mt-6'>
           <h2 className='pb-4 text-base font-bold break-all'>preview</h2>
           <p className='text-sm mb-6 text-landingprimary italic'>

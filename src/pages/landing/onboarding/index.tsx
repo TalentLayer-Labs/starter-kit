@@ -1,36 +1,33 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 import * as Yup from 'yup';
+import HirerProfileLayout from '../../../components/HirerProfileLayout';
+import UploadImage from '../../../components/UploadImage';
 import { useCreateBuilderPlaceMutation } from '../../../modules/BuilderPlace/hooks/UseCreateBuilderPlaceMutation';
-import { uploadImage } from '../../../modules/BuilderPlace/utils';
 import { PreferredWorkTypes } from '../../../types';
 import { themes } from '../../../utils/themes';
 import { showErrorTransactionToast } from '../../../utils/toast';
-import { useState } from 'react';
-import HirerProfileLayout from '../../../components/HirerProfileLayout';
-import Loading from '../../../components/Loading';
 
 interface IFormValues {
   name: string;
-  presentation: string;
+  about: string;
   preferred_work_types: PreferredWorkTypes[];
   profilePicture?: string;
 }
 function onboardingStep1() {
   const { mutateAsync: createBuilderPlaceAsync } = useCreateBuilderPlaceMutation();
   const router = useRouter();
-  const [imgLoader, setImgLoader] = useState(false);
-  const [profilePictureErrorMessage, setProfilePictureErrorMessage] = useState('');
 
   const initialValues: IFormValues = {
     name: '',
-    presentation: '',
+    about: '',
     preferred_work_types: [PreferredWorkTypes.jobs],
   };
 
   const validationSchema = Yup.object({
     name: Yup.string().min(2).max(20).required('Enter your name'),
-    presentation: Yup.string().required('Give us a description about your team'),
+    about: Yup.string().required('Give us a description about your team'),
     preferred_work_types: Yup.array()
       .of(Yup.string())
       .min(1, 'Chose at least one preferred word type')
@@ -48,7 +45,7 @@ function onboardingStep1() {
       const response = await createBuilderPlaceAsync({
         name: values.name,
         palette: themes['lisboa'],
-        presentation: values.presentation,
+        about: values.about,
         preferredWorkTypes: values.preferred_work_types,
         profilePicture: values.profilePicture || undefined,
       });
@@ -89,7 +86,7 @@ function onboardingStep1() {
                   type='text'
                   id='name'
                   name='name'
-                  className='mt-1 mb-1 block w-full rounded-xl border-2 border-gray-200 bg-midnight shadow-sm focus:ring-opacity-50'
+                  className='mt-1 mb-1 block w-full rounded-xl border-2 border-info bg-base-200 shadow-sm focus:ring-opacity-50'
                   placeholder='your organization name goes here'
                 />
               </label>
@@ -97,18 +94,18 @@ function onboardingStep1() {
                 <ErrorMessage name='name' />
               </span>
               <label className='block'>
-                <span className='font-bold text-md'>about your team</span>
+                <span className='font-bold text-md'>about your orgnanization</span>
                 <Field
                   as='textarea'
-                  id='presentation'
-                  name='presentation'
+                  id='about'
+                  name='about'
                   rows='4'
-                  className='mt-1 mb-1 block w-full rounded-xl border-2 border-gray-200 bg-midnight shadow-sm focus:ring-opacity-50'
+                  className='mt-1 mb-1 block w-full rounded-xl border-2 border-info bg-base-200 shadow-sm focus:ring-opacity-50'
                   placeholder='tell everyone about what you work on and why you’re doing it (ps: open-source contributors love to hear about your mission and vision)'
                 />
               </label>
               <span className='text-red-500'>
-                <ErrorMessage name='presentation' />
+                <ErrorMessage name='about' />
               </span>
               <label className='block'>
                 <span className='font-bold text-md'>your work styles</span>
@@ -239,36 +236,13 @@ function onboardingStep1() {
                 <ErrorMessage name='preferred_work_types' />
               </span>
 
-              <label className='block'>
-                <span className='font-bold text-md'>your profile picture</span>
-                <span className='italic text-sm'> (square format)</span>
-                <input
-                  type='file'
-                  id='profilePicture'
-                  name='profilePicture'
-                  onChange={async (event: any) => {
-                    await uploadImage(
-                      event.currentTarget.files[0],
-                      setFieldValue,
-                      setProfilePictureErrorMessage,
-                      'profilePicture',
-                      setImgLoader,
-                    );
-                  }}
-                  className='mt-1 mb-1 block w-full rounded-xl border-2 border-gray-200 bg-midnight shadow-sm focus:ring-opacity-50'
-                  placeholder=''
-                />
-                {imgLoader && <Loading />}
-                {values.profilePicture && (
-                  <div className='flex items-center justify-center py-3'>
-                    <img width='300' height='300' src={values.profilePicture} alt='' />
-                  </div>
-                )}
-              </label>
-
-              <span className='text-red-500'>
-                <p>{profilePictureErrorMessage}</p>
-              </span>
+              <UploadImage
+                fieldName='profilePicture'
+                label='profile picture'
+                legend='square format'
+                src={values.profilePicture}
+                setFieldValue={setFieldValue}
+              />
 
               {isSubmitting ? (
                 <button

@@ -1,4 +1,6 @@
+import { GetServerSidePropsContext } from 'next';
 import { useContext, useEffect, useState } from 'react';
+import { formatEther } from 'viem';
 import * as Yup from 'yup';
 import SingleValueForm from '../../../components/Form/SingleValueForm';
 import Loading from '../../../components/Loading';
@@ -9,13 +11,12 @@ import TalentLayerArbitrator from '../../../contracts/ABI/TalentLayerArbitrator.
 import TalentLayerPlatformID from '../../../contracts/ABI/TalentLayerPlatformID.json';
 import { useConfig } from '../../../hooks/useConfig';
 import usePlatform from '../../../hooks/usePlatform';
-import { formatEther } from 'viem';
-import { ZERO_ADDRESS } from '../../../utils/constant';
 import useTalentLayerClient from '../../../hooks/useTalentLayerClient';
-import { getBuilderPlace } from '../../../modules/BuilderPlace/queries';
+import { ZERO_ADDRESS } from '../../../utils/constant';
+import { sharedGetServerSideProps } from '../../../utils/sharedGetServerSideProps';
 
-export async function getServerSideProps({ params }: any) {
-  return await getBuilderPlace(params.domain);
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  return sharedGetServerSideProps(context);
 }
 
 function AdminDispute() {

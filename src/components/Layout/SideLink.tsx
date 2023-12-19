@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 function SideLink({ children, href }: { children: React.ReactNode; href: string }) {
@@ -20,9 +21,9 @@ function SideLink({ children, href }: { children: React.ReactNode; href: string 
   };
 
   return (
-    <a href={href} onClick={handleClick} className={className}>
+    <Link href={href} onClick={handleClick} className={className}>
       {children}
-    </a>
+    </Link>
   );
 }
 

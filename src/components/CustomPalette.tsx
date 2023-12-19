@@ -1,7 +1,10 @@
 import Head from 'next/head';
-import { IBuilderPlace } from '../modules/BuilderPlace/types';
+import { useContext } from 'react';
+import BuilderPlaceContext from '../modules/BuilderPlace/context/BuilderPlaceContext';
 
-function CustomPalette({ builderPlace }: { builderPlace: IBuilderPlace }) {
+function CustomPalette() {
+  const { builderPlace, isBuilderPlaceOwner } = useContext(BuilderPlaceContext);
+
   /*
     Optim idea:
       - pass all color in rgb mode.

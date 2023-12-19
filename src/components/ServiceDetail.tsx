@@ -7,14 +7,15 @@ import useProposalsByService from '../hooks/useProposalsByService';
 import useReviewsByService from '../hooks/useReviewsByService';
 import ContactButton from '../modules/Messaging/components/ContactButton';
 import { IService, ProposalStatusEnum, ServiceStatusEnum } from '../types';
-import { renderTokenAmountFromConfig } from '../utils/conversion';
 import { formatDate } from '../utils/dates';
+import CustomMarkdown from './CustomMarkdown';
 import PaymentModal from './Modal/PaymentModal';
 import ReviewModal from './Modal/ReviewModal';
+import ProfileImage from './ProfileImage';
 import ProposalItem from './ProposalItem';
 import ReviewItem from './ReviewItem';
 import ServiceStatus from './ServiceStatus';
-import Stars from './Stars';
+import TokenAmount from './TokenAmount';
 
 function ServiceDetail({ service }: { service: IService }) {
   const chainId = useChainId();
@@ -42,16 +43,7 @@ function ServiceDetail({ service }: { service: IService }) {
         <div className='flex flex-col items-top justify-between gap-4 w-full'>
           <div className='flex flex-col justify-start items-start gap-4'>
             <div className='flex items-center justify-start w-full relative'>
-              <img
-                src={
-                  service?.buyer?.description?.image_url ||
-                  `/images/default-avatar-${Number(service.buyer.id) % 9}.jpeg`
-                }
-                className='w-10 mr-4 rounded-full'
-                width={50}
-                height={50}
-                alt='default avatar'
-              />
+              <ProfileImage size={50} url={service?.buyer?.description?.image_url} />
               <div className='flex flex-col'>
                 <p className='text-base-content font-medium break-all'>
                   {service.description?.title}
@@ -74,24 +66,16 @@ function ServiceDetail({ service }: { service: IService }) {
                   Work handle by <span className='text-base-content'>{service.seller.handle}</span>
                 </Link>
               )}
-              <div className='text-sm text-base-content mt-4'>
-                <strong>Employer rating:</strong>
-                <Stars
-                  rating={Number(service.buyer.rating)}
-                  numReviews={service.buyer.userStats.numReceivedReviews}
-                />
+              <div className='markdown-body text-sm text-base-content mt-4'>
+                <CustomMarkdown content={service.description?.about} />
               </div>
-              <p className='text-sm text-base-content mt-4'>
-                <strong>About:</strong> {service.description?.about}
-              </p>
               {service.description?.rateToken && service.description?.rateAmount && (
                 <p className='text-sm text-base-content mt-4'>
                   <strong>Budget:</strong>{' '}
-                  {renderTokenAmountFromConfig(
-                    chainId,
-                    service.description.rateToken,
-                    service.description.rateAmount,
-                  )}
+                  <TokenAmount
+                    amount={service.description.rateAmount}
+                    address={service.description.rateToken}
+                  />
                 </p>
               )}
               <p className='text-sm text-base-content mt-4'>

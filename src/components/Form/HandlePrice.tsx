@@ -1,9 +1,9 @@
 import Image from 'next/image';
 import { formatUnits } from 'viem';
-import { chains } from '../../pages/_app';
 import { useChainId } from '../../hooks/useChainId';
 import { useEffect, useState } from 'react';
 import useMintFee from '../../hooks/useMintFee';
+import { chains } from '../../context/web3modal';
 
 export function HandlePrice({ handle }: { handle: string }) {
   const [price, setPrice] = useState(0);

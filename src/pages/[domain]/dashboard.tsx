@@ -1,3 +1,4 @@
+import { GetServerSidePropsContext } from 'next';
 import Link from 'next/link';
 import { useContext } from 'react';
 import Notification from '../../components/Notification';
@@ -9,19 +10,49 @@ import UserProposals from '../../components/UserProposals';
 import UserServices from '../../components/UserServices';
 import TalentLayerContext from '../../context/talentLayer';
 import BuilderPlaceContext from '../../modules/BuilderPlace/context/BuilderPlaceContext';
-import { getBuilderPlace } from '../../modules/BuilderPlace/queries';
+import { sharedGetServerSideProps } from '../../utils/sharedGetServerSideProps';
+import { useRouter } from 'next/router';
 
-export async function getServerSideProps({ params }: any) {
-  console.log('getServerSideProps', { params });
-  return await getBuilderPlace(params.domain);
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  return sharedGetServerSideProps(context);
 }
 
 function Dashboard() {
+  const router = useRouter();
   const { account, user } = useContext(TalentLayerContext);
   const { isBuilderPlaceOwner, builderPlace } = useContext(BuilderPlaceContext);
+  const isComingFromOnboarding = router.asPath.includes('onboarding');
 
   if (!user) {
-    return <Steps />;
+    return (
+      <>
+        {isComingFromOnboarding ? (
+          <div className='max-w-7xl mx-auto text-base-content text-center'>
+            <div className='-mx-6 -mt-6 sm:mx-0 sm:mt-0'>
+              <div className='py-2 px-6 sm:px-0 w-full mb-8'>
+                <p className='text-2xl font-bold flex-1 mt-6'>
+                  <span className='text-base-content ml-1'> your new Builder Place is ready!</span>
+                </p>
+                <p>Please connect your wallet to your new custom domain to access your dashboard</p>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className='max-w-7xl mx-auto text-base-content text-center'>
+            <div className='-mx-6 -mt-6 sm:mx-0 sm:mt-0'>
+              <div className='py-2 px-6 sm:px-0 w-full mb-8'>
+                <p className='text-2xl font-bold flex-1 mt-6'>
+                  <span className='text-base-content ml-1'> Connect your wallet </span>
+                </p>
+                <p>You need first to connect your wallet to access your dashboard</p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <Steps />
+      </>
+    );
   }
 
   return (
@@ -49,11 +80,7 @@ function Dashboard() {
                   link='/admin/configure-place'
                   linkText='personalize my space'
                   color='success'
-                  imageUrl={
-                    user?.description?.image_url
-                      ? user?.description?.image_url
-                      : `/images/default-avatar-${Number(user?.id ? user.id : '1') % 9}.jpeg`
-                  }
+                  imageUrl={user?.description?.image_url}
                 />
               </div>
 

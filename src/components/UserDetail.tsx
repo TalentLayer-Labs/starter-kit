@@ -4,9 +4,9 @@ import useUserById from '../hooks/useUserById';
 import PohModule from '../modules/Poh/PohModule';
 import { IUser } from '../types';
 import Loading from './Loading';
-import Stars from './Stars';
 import DelegateModal from './Modal/DelegateModal';
-import Link from 'next/link';
+import ProfileImage from './ProfileImage';
+import Stars from './Stars';
 
 function UserDetail({ user }: { user: IUser }) {
   const { user: currentUser } = useContext(TalentLayerContext);
@@ -21,17 +21,7 @@ function UserDetail({ user }: { user: IUser }) {
       <div className='w-full'>
         <div className='flex flex-col justify-start items-start gap-4'>
           <div className='flex items-center justify-start mb-4'>
-            <img
-              src={
-                user?.description?.image_url
-                  ? user?.description?.image_url
-                  : `/images/default-avatar-${Number(user?.id ? user.id : '1') % 9}.jpeg`
-              }
-              className='w-10 mr-4 rounded-full'
-              width={50}
-              height={50}
-              alt='default avatar'
-            />
+            <ProfileImage size={50} url={user?.description?.image_url} />
             <div className='flex flex-col'>
               <p className='text-base-content font-medium break-all'>
                 {userDescription?.name || user?.handle}

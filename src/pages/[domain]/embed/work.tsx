@@ -1,9 +1,10 @@
+import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
 import ServiceList from '../../../components/ServiceList';
-import { getBuilderPlace } from '../../../modules/BuilderPlace/queries';
+import { sharedGetServerSideProps } from '../../../utils/sharedGetServerSideProps';
 
-export async function getServerSideProps({ params }: any) {
-  return await getBuilderPlace(params.domain);
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  return sharedGetServerSideProps(context);
 }
 
 const EmbedWork = () => {

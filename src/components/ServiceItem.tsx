@@ -1,15 +1,15 @@
 import Link from 'next/link';
 import { useChainId } from '../hooks/useChainId';
 import { IService } from '../types';
-import { renderTokenAmountFromConfig } from '../utils/conversion';
 import { formatDaysAgo } from '../utils/dates';
+import TokenAmount from './TokenAmount';
 
 function limitText(text: string, maxLength: number) {
   if (text.length <= maxLength) return text;
   return text.substr(0, maxLength - 3) + '...';
 }
 
-function ServiceItem({ service }: { service: IService }) {
+function ServiceItem({ service, embedded }: { service: IService; embedded?: boolean }) {
   const chainId = useChainId();
   const createdAt = Number(service.createdAt) * 1000;
   const daysAgo = formatDaysAgo(createdAt);
@@ -25,7 +25,7 @@ function ServiceItem({ service }: { service: IService }) {
             </button>
           </div>
         </div>
-        {service.description?.about && (
+        {/* {service.description?.about && (
           <div className='flex flex-col justify-start items-start gap-4'>
             <div className='flex items-center justify-start'>
               <div className='flex flex-col'>
@@ -33,7 +33,7 @@ function ServiceItem({ service }: { service: IService }) {
               </div>
             </div>
           </div>
-        )}
+        )} */}
 
         <div className='flex flex-wrap flew-row justify-between items-center pt-2'>
           <div className='flex flex-wrap gap-3 items-center'>
@@ -44,21 +44,21 @@ function ServiceItem({ service }: { service: IService }) {
               <span className='w-[6px] h-[6px] rounded-full bg-base-300 block'></span>
             </p>
             {service.description?.rateToken && service.description?.rateAmount && (
-              <p className='text-sm max-w-[100px]'>
+              <p className='text-sm max-w-[150px] text-ellipsis'>
                 💰{' '}
                 <span className='text-base-content-50'>
-                  {renderTokenAmountFromConfig(
-                    chainId,
-                    service.description.rateToken,
-                    service.description.rateAmount,
-                  )}
+                  <TokenAmount
+                    amount={service.description.rateAmount}
+                    address={service.description.rateToken}
+                  />
                 </span>
               </p>
             )}
           </div>
           <Link
             className='text-primary text-center bg-primary hover:opacity-70 px-5 py-2.5 rounded-xl text-md w-full sm:w-auto mt-4 sm:mt-0'
-            href={`/work/${service.id}`}>
+            href={`/work/${service.id}`}
+            target={embedded ? 'blank' : ''}>
             view post
           </Link>
         </div>

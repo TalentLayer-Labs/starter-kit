@@ -92,7 +92,7 @@ function UserIncomes({ id }: { id: string }) {
                   <th className='bg-gray-600 border-r border-info p-2'>Amount</th>
                   <th className='bg-gray-600 border-r border-info p-2'>Date</th>
                   <th className='bg-gray-600 border-r border-info p-2'>Token</th>
-                  <th className='bg-gray-600 border-r border-info p-2'>Service</th>
+                  <th className='bg-gray-600 border-r border-info p-2'>Mission</th>
                   <th className='bg-gray-600 p-2'>Transaction information</th>
                 </tr>
               </thead>
@@ -111,7 +111,7 @@ function UserIncomes({ id }: { id: string }) {
                       </td>
                       <td className=' p-2 text-center text-info border-r border-b border-info'>
                         <a target='_blank' href={`/work/${payment.service.id}`}>
-                          Service n°{payment.service.id}{' '}
+                          Mission n°{payment.service.id}{' '}
                         </a>
                       </td>
                       <td className=' p-2 text-center text-info border-b border-info'>

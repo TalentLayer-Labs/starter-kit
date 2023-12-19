@@ -1,10 +1,12 @@
-import { getBuilderPlace } from '../../../modules/BuilderPlace/queries';
-import AccessDenied from '../../../components/AccessDenied';
 import { useContext } from 'react';
+import AccessDenied from '../../../components/AccessDenied';
 import BuilderPlaceContext from '../../../modules/BuilderPlace/context/BuilderPlaceContext';
 
-export async function getServerSideProps({ params }: any) {
-  return await getBuilderPlace(params.domain);
+import { GetServerSidePropsContext } from 'next';
+import { sharedGetServerSideProps } from '../../../utils/sharedGetServerSideProps';
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  return sharedGetServerSideProps(context);
 }
 
 export default function HirerProfile() {

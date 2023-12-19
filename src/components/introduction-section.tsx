@@ -11,13 +11,13 @@ export const IntroducationSecion = () => {
   return (
     <section
       id='video'
-      className='relative bg-base-content py-0 md:py-24 text-center text-base-100 hidden'>
+      className='relative bg-base-content py-0 md:py-24 text-center text-base-100'>
       <div className='container'>
         <div
           className='wow fadeInUp mx-auto mb-14 max-w-[740px] text-center lg:mb-[20px]'
           data-wow-delay='.2s'>
           <h2 className='mb-4 pt-10 text-3xl font-bold text-black  sm:text-4xl pt-10 md:text-[44px] md:leading-tight'>
-            white-label <a className='text-landingprimary'>open-source management</a> for your
+            white-label <span className='text-landingprimary'>open-source management</span> for your
             ecosystem
           </h2>
           <p className='text-base text-body'>
@@ -51,7 +51,7 @@ export const IntroducationSecion = () => {
                       className='absolute inset-0'
                       width='100%'
                       height='100%'
-                      src='https://www.youtube.com/embed/sk48U8fxd6w?autoplay=1'
+                      src='https://www.youtube.com/embed/HeWLn6BE9NQ?si=O4PER1AOMpeykVMj?autoplay=1&mute=1'
                       title='YouTube video player'
                       allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
                       allowFullScreen></iframe>

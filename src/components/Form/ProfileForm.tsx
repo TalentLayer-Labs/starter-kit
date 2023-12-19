@@ -1,4 +1,4 @@
-import { useWeb3Modal } from '@web3modal/react';
+import { useWeb3Modal } from '@web3modal/wagmi/react';
 import { Field, Form, Formik } from 'formik';
 import { QuestionMarkCircle } from 'heroicons-react';
 import { useContext, useState } from 'react';
@@ -180,7 +180,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
                 className='mt-1 mb-1 block w-full rounded-xl border border-info bg-base-200 shadow-sm focus:ring-opacity-50'
                 placeholder=''
               />
-              <div className='border-2 border-gray-200 bg-midnight relative w-full border transition-all duration-300 rounded-xl p-4'>
+              <div className='border border-info bg-base-200 relative w-full border transition-all duration-300 rounded-xl p-4'>
                 <div className='flex w-full items-center gap-3'>
                   <QuestionMarkCircle className='hidden' />
                   <div>

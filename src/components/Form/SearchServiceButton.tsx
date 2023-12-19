@@ -26,10 +26,10 @@ function SearchServiceButton(props?: { value?: string }) {
     <form onSubmit={e => handleSubmit(e)} className='flex'>
       <div className='flex justify-end'>
         <div
-          className={`flex flex-row rounded-3xl border ${
+          className={`flex flex-row flex-wrap rounded-3xl border ${
             isFocused ? 'opacity-100' : 'opacity-60'
           }`}>
-          <div className='px-6 flex flex-row items-center'>
+          <div className='px-4 flex flex-row items-center'>
             <input
               className='text-base-content opacity-50 py-3 pl-0 focus:ring-0 outline-none text-sm border-0 bg-base-200'
               type='text'
@@ -43,7 +43,7 @@ function SearchServiceButton(props?: { value?: string }) {
           <div className='px-2 flex flex-row justify-between items-center'>
             <button
               type='submit'
-              className='px-5 py-1 rounded-3xl hover:bg-primary-focus bg-primary text-primary'>
+              className='px-4 py-1 rounded-3xl text-sm hover:bg-primary-focus bg-primary text-primary'>
               Search
             </button>
           </div>

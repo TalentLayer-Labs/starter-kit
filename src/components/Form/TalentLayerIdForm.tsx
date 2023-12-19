@@ -1,7 +1,7 @@
-import { useWeb3Modal } from '@web3modal/react';
+import { useWeb3Modal } from '@web3modal/wagmi/react';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useContext } from 'react';
-import { usePublicClient, useWalletClient } from 'wagmi';
+import { usePublicClient, useSwitchNetwork, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
 import TalentLayerContext from '../../context/talentLayer';
 import { useChainId } from '../../hooks/useChainId';
@@ -10,11 +10,10 @@ import useTalentLayerClient from '../../hooks/useTalentLayerClient';
 import { NetworkEnum } from '../../types';
 import { createTalentLayerIdTransactionToast, showErrorTransactionToast } from '../../utils/toast';
 import HelpPopover from '../HelpPopover';
+import Loading from '../Loading';
 import { delegateMintID } from '../request';
 import { HandlePrice } from './HandlePrice';
 import SubmitButton from './SubmitButton';
-import Web3MailContext from '../../modules/Web3mail/context/web3mail';
-import { createWeb3mailToast } from '../../modules/Web3mail/utils/toast';
 
 interface IFormValues {
   handle: string;
@@ -23,12 +22,16 @@ interface IFormValues {
 function TalentLayerIdForm({ handle, callback }: { handle?: string; callback?: () => void }) {
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
-  const { platformHasAccess } = useContext(Web3MailContext);
-  const { account, refreshData } = useContext(TalentLayerContext);
+  const { account, refreshData, loading } = useContext(TalentLayerContext);
   const { data: walletClient } = useWalletClient({ chainId });
   const publicClient = usePublicClient({ chainId });
   const talentLayerClient = useTalentLayerClient();
   const { calculateMintFee } = useMintFee();
+  const { switchNetwork: switchToDefaultNetwork } = useSwitchNetwork({
+    chainId: process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as unknown as number,
+  });
+  const needToSwitch =
+    chainId != (process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as unknown as NetworkEnum);
 
   const initialValues: IFormValues = {
     handle: handle || '',
@@ -55,12 +58,22 @@ function TalentLayerIdForm({ handle, callback }: { handle?: string; callback?: (
         const handlePrice = calculateMintFee(submittedValues.handle);
 
         if (process.env.NEXT_PUBLIC_ACTIVE_DELEGATE_MINT === 'true') {
+          /**
+           * @dev Sign message to prove ownership of the address asking the mint
+           */
+          const signature = await walletClient.signMessage({
+            account: account.address,
+            message: submittedValues.handle,
+          });
+
           const response = await delegateMintID(
             chainId,
             submittedValues.handle,
             String(handlePrice),
             account.address,
+            signature,
           );
+
           tx = response.data.transaction;
         } else {
           if (talentLayerClient) {
@@ -92,6 +105,20 @@ function TalentLayerIdForm({ handle, callback }: { handle?: string; callback?: (
       openConnectModal();
     }
   };
+
+  if (needToSwitch) {
+    return (
+      <button
+        onClick={() => switchToDefaultNetwork && switchToDefaultNetwork()}
+        className='text-alone-error text-xs italic'>
+        wrong network, <span className='underline hover:text-red-700'>switch now</span>
+      </button>
+    );
+  }
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <Formik

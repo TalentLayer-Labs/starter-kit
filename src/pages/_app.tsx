@@ -1,51 +1,20 @@
-import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum';
-import { Web3Modal } from '@web3modal/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { DefaultSeo } from 'next-seo';
 import type { AppProps } from 'next/app';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Chain, WagmiConfig, configureChains, createConfig } from 'wagmi';
-import { polygon, polygonMumbai } from 'wagmi/chains';
-import { iexec } from '../chains';
+import CustomPalette from '../components/CustomPalette';
 import { TalentLayerProvider } from '../context/talentLayer';
+import { Web3Modal } from '../context/web3modal';
 import { BuilderPlaceProvider } from '../modules/BuilderPlace/context/BuilderPlaceContext';
 import { getSeoDefaultConfig } from '../modules/BuilderPlace/seo';
 import { XmtpContextProvider } from '../modules/Messaging/context/XmtpContext';
 import { MessagingProvider } from '../modules/Messaging/context/messging';
 import '../styles/globals.css';
-import { NetworkEnum } from '../types';
+import '../styles/markdown.css';
 import Layout from './Layout';
-import CustomPalette from '../components/CustomPalette';
-
-export let chains: Chain[] = [];
-if ((process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as unknown as NetworkEnum) == NetworkEnum.MUMBAI) {
-  chains.push(polygonMumbai);
-} else if (
-  (process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as unknown as NetworkEnum) == NetworkEnum.POLYGON
-) {
-  chains.push(polygon);
-}
-
-if (process.env.NEXT_PUBLIC_ACTIVE_WEB3MAIL == 'true') {
-  chains.push(iexec);
-}
-
-export const defaultChain: Chain | undefined = chains.find(
-  chain => chain.id === parseInt(process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as string),
-);
-const projectId = `${process.env.NEXT_PUBLIC_WALLECT_CONNECT_PROJECT_ID}`;
-
-// Wagmi Client
-const { publicClient } = configureChains(chains, [w3mProvider({ projectId })], {
-  pollingInterval: 10_000,
-});
-const wagmiConfig = createConfig({
-  autoConnect: true,
-  connectors: w3mConnectors({ projectId, chains }),
-  publicClient,
-});
-const ethereumClient = new EthereumClient(wagmiConfig, chains);
+import { Analytics } from '@vercel/analytics/react';
 
 // react-query client
 const queryClient = new QueryClient();
@@ -54,12 +23,12 @@ function MyApp({ Component, pageProps }: AppProps) {
   console.log('MyApp', { pageProps });
   return (
     <>
-      <CustomPalette builderPlace={pageProps.builderPlace} />
       <QueryClientProvider client={queryClient}>
         <DefaultSeo {...getSeoDefaultConfig(pageProps.builderPlace)} />
-        <WagmiConfig config={wagmiConfig}>
+        <Web3Modal>
           <TalentLayerProvider>
             <BuilderPlaceProvider data={pageProps.builderPlace}>
+              <CustomPalette />
               <XmtpContextProvider>
                 <MessagingProvider>
                   <Layout>
@@ -70,14 +39,10 @@ function MyApp({ Component, pageProps }: AppProps) {
               <ToastContainer position='bottom-right' />
             </BuilderPlaceProvider>
           </TalentLayerProvider>
-          <Web3Modal
-            projectId={projectId}
-            ethereumClient={ethereumClient}
-            defaultChain={defaultChain}
-            chainImages={{ [NetworkEnum.IEXEC]: `/images/blockchain/${[NetworkEnum.IEXEC]}.png` }}
-          />
-        </WagmiConfig>
+        </Web3Modal>
       </QueryClientProvider>
+      <SpeedInsights />
+      <Analytics />
     </>
   );
 }

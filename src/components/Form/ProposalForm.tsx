@@ -20,7 +20,7 @@ import { delegateCreateOrUpdateProposal } from '../request';
 import SubmitButton from './SubmitButton';
 import useTalentLayerClient from '../../hooks/useTalentLayerClient';
 import usePlatform from '../../hooks/usePlatform';
-import { chains } from '../../pages/_app';
+import { chains } from '../../context/web3modal';
 
 interface IFormValues {
   about: string;
@@ -31,7 +31,7 @@ interface IFormValues {
 }
 
 const validationSchema = Yup.object({
-  about: Yup.string().required('please provide a description of your service'),
+  about: Yup.string().required('please provide a description of your mission'),
   rateToken: Yup.string().required('please select a payment currency'),
   rateAmount: Yup.string().required('please provide an requested amount'),
   expirationDate: Yup.number().integer().required('please provide an expiration date'),

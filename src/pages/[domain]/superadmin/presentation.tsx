@@ -1,5 +1,6 @@
-import { useWeb3Modal } from '@web3modal/react';
+import { useWeb3Modal } from '@web3modal/wagmi/react';
 import { Field, Form, Formik } from 'formik';
+import { GetServerSidePropsContext } from 'next';
 import { useContext } from 'react';
 import { usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
@@ -11,8 +12,8 @@ import TalentLayerContext from '../../../context/talentLayer';
 import { useChainId } from '../../../hooks/useChainId';
 import usePlatform from '../../../hooks/usePlatform';
 import useTalentLayerClient from '../../../hooks/useTalentLayerClient';
+import { sharedGetServerSideProps } from '../../../utils/sharedGetServerSideProps';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../../utils/toast';
-import { getBuilderPlace } from '../../../modules/BuilderPlace/queries';
 
 interface IFormValues {
   about: string;
@@ -25,8 +26,8 @@ const validationSchema = Yup.object({
   // nothing required
 });
 
-export async function getServerSideProps({ params }: any) {
-  return await getBuilderPlace(params.domain);
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  return sharedGetServerSideProps(context);
 }
 
 function AdminPresentation() {

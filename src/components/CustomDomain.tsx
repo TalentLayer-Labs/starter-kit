@@ -10,7 +10,7 @@ function CustomDomain() {
             type='text'
             id='subdomain'
             name='subdomain'
-            className='mt-1 mb-1 block w-full rounded-xl border-2 border-gray-200 bg-midnight shadow-sm focus:ring-opacity-50'
+            className='mt-1 mb-1 block w-full rounded-xl border-2  border-info bg-base-200 shadow-sm focus:ring-opacity-50'
           />
           <span>.{process.env.NEXT_PUBLIC_ROOT_DOMAIN}</span>
         </div>
