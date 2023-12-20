@@ -9,7 +9,7 @@ export function useRemoveBuilderPlaceOwnerMutation() {
     Error,
     RemoveBuilderPlaceCollaborator
   >((addBuilderPlaceOwner: RemoveBuilderPlaceCollaborator) =>
-    fetch('/api/domain/remove-builder-place-owner', {
+    fetch('/api/domain/remove-builder-place-collaborator', {
       method: 'PUT',
       body: JSON.stringify(addBuilderPlaceOwner),
       headers: {

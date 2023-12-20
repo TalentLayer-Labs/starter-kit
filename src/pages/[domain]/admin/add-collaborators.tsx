@@ -40,7 +40,6 @@ export default function AddCollaborators() {
   }
 
   const onRemove = async (address: string): Promise<void> => {
-    console.log('onRemove', address);
     try {
       if (walletClient && account?.address && builderPlace?._id) {
         setSubmitting(true);

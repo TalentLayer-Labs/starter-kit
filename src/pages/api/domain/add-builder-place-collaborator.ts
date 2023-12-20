@@ -18,14 +18,14 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     // Checks if the user is already a collaborator
     if (response?.builderPlace?.owners?.includes(body.newCollaborator)) {
       res.status(400).json({ error: 'Already a Collaborator' });
-    }
-
-    const result = await addBuilderPlaceCollaborator(body);
-
-    if (result?.error) {
-      res.status(400).json({ error: result.error });
     } else {
-      res.status(200).json({ message: result.message, address: result.collaborator });
+      const result = await addBuilderPlaceCollaborator(body);
+
+      if (result?.error) {
+        res.status(400).json({ error: result.error });
+      } else {
+        res.status(200).json({ message: result.message, address: result.collaborator });
+      }
     }
   } else {
     res.status(405).json({ message: 'Method not allowed' });
