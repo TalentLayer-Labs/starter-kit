@@ -1,13 +1,17 @@
 import { useMutation, useQueryClient } from 'react-query';
-import { AddBuilderPlaceOwner, SetBuilderPlaceOwner } from '../types';
+import { AddBuilderPlaceCollaborator } from '../types';
 import { showMongoErrorTransactionToast } from '../../../utils/toast';
 
 export function useRemoveBuilderPlaceOwnerMutation() {
   const queryClient = useQueryClient();
   //TODO ne pas autoriser de remove l'address du owner du TLID.
 
-  return useMutation<{ message: string; id: string; error?: string }, Error, AddBuilderPlaceOwner>(
-    (addBuilderPlaceOwner: AddBuilderPlaceOwner) =>
+  return useMutation<
+    { message: string; id: string; error?: string },
+    Error,
+    AddBuilderPlaceCollaborator
+  >(
+    (addBuilderPlaceOwner: AddBuilderPlaceCollaborator) =>
       fetch('/api/domain/add-builder-place-owner', {
         method: 'PUT',
         body: JSON.stringify(addBuilderPlaceOwner),

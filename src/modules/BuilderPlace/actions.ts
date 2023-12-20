@@ -8,7 +8,12 @@ import {
   validDomainRegex,
 } from './domains';
 import { BuilderPlace } from './models/BuilderPlace';
-import { CreateBuilderPlaceAction, UpdateBuilderPlace, UpdateBuilderPlaceDomain } from './types';
+import {
+  AddBuilderPlaceCollaborator,
+  CreateBuilderPlaceAction,
+  UpdateBuilderPlace,
+  UpdateBuilderPlaceDomain,
+} from './types';
 
 export const deleteBuilderPlace = async (_id: string) => {
   await connection();
@@ -34,6 +39,29 @@ export const updateBuilderPlace = async (builderPlace: UpdateBuilderPlace) => {
     return {
       message: 'BuilderPlace updated successfully',
       id: builderPlace._id,
+    };
+  } catch (error: any) {
+    return {
+      error: error.message,
+    };
+  }
+};
+
+export const addBuilderPlaceCollaborator = async (body: AddBuilderPlaceCollaborator) => {
+  try {
+    await connection();
+    await BuilderPlace.updateOne(
+      { _id: body.builderPlaceId },
+      {
+        $push: {
+          owners: body.newCollaborator,
+        },
+      },
+    ).exec();
+    console.log('Collaborator added successfully', body.newCollaborator);
+    return {
+      message: 'Collaborator added successfully',
+      collaborator: body.newCollaborator,
     };
   } catch (error: any) {
     return {

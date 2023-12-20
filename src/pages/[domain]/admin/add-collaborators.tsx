@@ -1,13 +1,13 @@
-import { getBuilderPlace } from '../../../modules/BuilderPlace/queries';
 import AccessDenied from '../../../components/AccessDenied';
 import { useContext } from 'react';
 import BuilderPlaceContext from '../../../modules/BuilderPlace/context/BuilderPlaceContext';
 import CollaboratorForm from '../../../components/Form/CollaboratorForm';
-import useDelegates from '../../../hooks/useDelegates';
 import TalentLayerContext from '../../../context/talentLayer';
+import { GetServerSidePropsContext } from 'next';
+import { sharedGetServerSideProps } from '../../../utils/sharedGetServerSideProps';
 
-export async function getServerSideProps({ params }: any) {
-  return await getBuilderPlace(params.domain);
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  return sharedGetServerSideProps(context);
 }
 
 export default function AddCollaborators() {

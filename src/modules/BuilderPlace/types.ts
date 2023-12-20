@@ -45,11 +45,11 @@ export interface UpdateBuilderPlaceDomain {
   signature: `0x${string}` | Uint8Array;
 }
 
-export interface AddBuilderPlaceOwner {
-  id: string;
-  // chainId: number;
+export interface AddBuilderPlaceCollaborator {
+  ownerId: string;
+  builderPlaceId: string;
+  newCollaborator: string;
   signature: `0x${string}` | Uint8Array;
-  owner: string;
 }
 
 export interface SetBuilderPlaceOwner {
