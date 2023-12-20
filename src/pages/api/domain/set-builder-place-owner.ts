@@ -10,7 +10,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     const body: SetBuilderPlaceOwner = req.body;
     console.log('Received data:', body);
 
-    if (!body.id || !body.owners || !body.ownerTalentLayerId) {
+    if (!body.id || !body.ownerAddress || !body.ownerTalentLayerId) {
       return res.status(500).json({ error: 'Missing data.' });
     }
 
@@ -29,7 +29,8 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 
     try {
       builderSpace.ownerTalentLayerId = body.ownerTalentLayerId;
-      builderSpace.owners = body.owners;
+      builderSpace.ownerAddress = body.ownerAddress;
+      builderSpace.owners = [body.ownerAddress];
       builderSpace.save();
       res
         .status(200)

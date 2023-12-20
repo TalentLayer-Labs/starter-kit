@@ -95,6 +95,12 @@ const builderPlace = new Schema({
     unique: true,
     sparse: true,
   },
+  ownerAddress: {
+    type: String,
+    required: false,
+    unique: true,
+    sparse: true,
+  },
   owners: {
     type: Array,
   },
