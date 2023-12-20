@@ -19,8 +19,8 @@ import Web3MailContext from '../../modules/Web3mail/context/web3mail';
 import useTalentLayerClient from '../../hooks/useTalentLayerClient';
 import usePlatform from '../../hooks/usePlatform';
 import { chains } from '../../context/web3modal';
-import { InformationCircle } from 'heroicons-react';
 import { InformationCircleIcon } from '@heroicons/react/24/outline';
+import BuilderPlaceContext from '../../modules/BuilderPlace/context/BuilderPlaceContext';
 
 interface IFormValues {
   title: string;
@@ -42,14 +42,14 @@ function ServiceForm() {
   const chainId = useChainId();
 
   const { open: openConnectModal } = useWeb3Modal();
-  const { user, account } = useContext(TalentLayerContext);
+  const { user, account, isActiveDelegate } = useContext(TalentLayerContext);
+  const { isBuilderPlaceOwner, builderPlace } = useContext(BuilderPlaceContext);
   const { platformHasAccess } = useContext(Web3MailContext);
   const publiClient = usePublicClient({ chainId });
   const { data: walletClient } = useWalletClient({ chainId });
   const router = useRouter();
   const allowedTokenList = useAllowedTokens();
   const [selectedToken, setSelectedToken] = useState<IToken>();
-  const { isActiveDelegate } = useContext(TalentLayerContext);
   const talentLayerClient = useTalentLayerClient();
 
   const currentChain = chains.find(chain => chain.id === chainId);
@@ -58,6 +58,7 @@ function ServiceForm() {
   const servicePostingFeeFormat = servicePostingFee
     ? Number(formatUnits(BigInt(servicePostingFee), Number(currentChain?.nativeCurrency?.decimals)))
     : 0;
+  const isCollaborator = isBuilderPlaceOwner && user?.id !== builderPlace?.ownerTalentLayerId;
 
   const validationSchema = Yup.object({
     title: Yup.string().required('Please provide a title for your mission'),
@@ -124,26 +125,45 @@ function ServiceForm() {
         });
 
         if (isActiveDelegate) {
+          // Use gassless delegation for User
           const response = await delegateCreateService(chainId, user.id, user.address, cid);
           tx = response.data.transaction;
         } else {
-          if (talentLayerClient) {
-            const serviceResponse = await talentLayerClient.service.create(
-              {
-                title: values.title,
-                about: values.about,
-                keywords: values.keywords,
-                rateToken: values.rateToken,
-                rateAmount: parsedRateAmountString,
-              },
-              user.id,
-              parseInt(process.env.NEXT_PUBLIC_PLATFORM_ID as string),
+          if (
+            // Collaborator executes a gassless function on behalf of the Builderplace's owner
+            isActiveDelegate &&
+            isCollaborator &&
+            builderPlace?.ownerTalentLayerId &&
+            account.address
+          ) {
+            const response = await delegateCreateService(
+              chainId,
+              builderPlace.ownerTalentLayerId,
+              account.address,
+              cid,
             );
-
-            cid = serviceResponse.cid;
-            tx = serviceResponse.tx;
+            tx = response.data.transaction;
           } else {
-            throw new Error('TL client not initialised');
+            if (talentLayerClient) {
+              const serviceResponse = await talentLayerClient.service.create(
+                {
+                  title: values.title,
+                  about: values.about,
+                  keywords: values.keywords,
+                  rateToken: values.rateToken,
+                  rateAmount: parsedRateAmountString,
+                },
+                isCollaborator && builderPlace?.ownerTalentLayerId
+                  ? builderPlace.ownerTalentLayerId
+                  : user.id,
+                parseInt(process.env.NEXT_PUBLIC_PLATFORM_ID as string),
+              );
+
+              cid = serviceResponse.cid;
+              tx = serviceResponse.tx;
+            } else {
+              throw new Error('TL client not initialised');
+            }
           }
         }
 
