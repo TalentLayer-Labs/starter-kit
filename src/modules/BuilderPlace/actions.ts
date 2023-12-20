@@ -11,6 +11,7 @@ import { BuilderPlace } from './models/BuilderPlace';
 import {
   AddBuilderPlaceCollaborator,
   CreateBuilderPlaceAction,
+  RemoveBuilderPlaceCollaborator,
   UpdateBuilderPlace,
   UpdateBuilderPlaceDomain,
 } from './types';
@@ -61,6 +62,29 @@ export const addBuilderPlaceCollaborator = async (body: AddBuilderPlaceCollabora
     console.log('Collaborator added successfully', body.newCollaborator);
     return {
       message: 'Collaborator added successfully',
+      collaborator: body.newCollaborator,
+    };
+  } catch (error: any) {
+    return {
+      error: error.message,
+    };
+  }
+};
+
+export const removeBuilderPlaceCollaborator = async (body: RemoveBuilderPlaceCollaborator) => {
+  try {
+    await connection();
+    await BuilderPlace.updateOne(
+      { _id: body.builderPlaceId },
+      {
+        $pull: {
+          owners: body.newCollaborator,
+        },
+      },
+    ).exec();
+    console.log('Collaborator removed successfully', body.newCollaborator);
+    return {
+      message: 'Collaborator removed successfully',
       collaborator: body.newCollaborator,
     };
   } catch (error: any) {
