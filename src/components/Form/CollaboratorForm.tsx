@@ -4,13 +4,10 @@ import { usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
 import TalentLayerContext from '../../context/talentLayer';
 import { useChainId } from '../../hooks/useChainId';
-import Web3MailContext from '../../modules/Web3mail/context/web3mail';
 import { showErrorTransactionToast } from '../../utils/toast';
 import Loading from '../Loading';
 import SubmitButton from './SubmitButton';
-import useTalentLayerClient from '../../hooks/useTalentLayerClient';
 import { useAddBuilderPlaceCollaborator } from '../../modules/BuilderPlace/hooks/UseAddBuilderPlaceCollaborator';
-import { useRemoveBuilderPlaceOwnerMutation } from '../../modules/BuilderPlace/hooks/UseRemoveBuilderPlaceOwner';
 import { useWeb3Modal } from '@web3modal/wagmi/react';
 import BuilderPlaceContext from '../../modules/BuilderPlace/context/BuilderPlaceContext';
 import { toggleDelegation } from '../../contracts/toggleDelegation';
@@ -30,16 +27,12 @@ const initialValues: IFormValues = {
 export const CollaboratorForm = ({ callback }: { callback?: () => void }) => {
   const chainId = useChainId();
   const config = useConfig();
-  const { mutateAsync: useAddBuilderPlaceCollaboratorAsync } = useAddBuilderPlaceCollaborator();
-  const { mutateAsync: useRemoveBuilderPlaceCollaboratorAsync } =
-    useRemoveBuilderPlaceOwnerMutation();
+  const { mutateAsync: addBuilderPlaceCollaboratorAsync } = useAddBuilderPlaceCollaborator();
   const { data: walletClient } = useWalletClient({ chainId });
   const { open: openConnectModal } = useWeb3Modal();
   const { user, account, refreshData } = useContext(TalentLayerContext);
   const { builderPlace } = useContext(BuilderPlaceContext);
-  const { platformHasAccess } = useContext(Web3MailContext);
   const publicClient = usePublicClient({ chainId });
-  const talentLayerClient = useTalentLayerClient();
 
   if (!user?.id) {
     return <Loading />;
@@ -49,9 +42,6 @@ export const CollaboratorForm = ({ callback }: { callback?: () => void }) => {
     values: IFormValues,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void },
   ) => {
-    if (user && publicClient && talentLayerClient && walletClient && account?.address) {
-    }
-
     try {
       if (walletClient && account?.address && builderPlace?._id) {
         setSubmitting(true);
@@ -66,7 +56,7 @@ export const CollaboratorForm = ({ callback }: { callback?: () => void }) => {
         /**
          * @dev Add new collaborator to the BuilderPlace
          */
-        const response = await useAddBuilderPlaceCollaboratorAsync({
+        const response = await addBuilderPlaceCollaboratorAsync({
           ownerId: user.id,
           builderPlaceId: builderPlace._id,
           newCollaborator: values.collaborator,
@@ -112,7 +102,7 @@ export const CollaboratorForm = ({ callback }: { callback?: () => void }) => {
       enableReinitialize={true}
       onSubmit={onSubmit}
       validationSchema={validationSchema}>
-      {({ isSubmitting, setFieldValue, values }) => (
+      {({ isSubmitting }) => (
         <Form>
           <div className='grid grid-cols-1 gap-6'>
             <label className='block'>
