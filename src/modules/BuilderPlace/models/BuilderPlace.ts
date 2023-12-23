@@ -108,6 +108,15 @@ const builderPlace = new Schema({
     required: true,
     unique: false,
   },
-});
+  email: {
+    type: String,
+    required: false,
+  },
+  emailValidated: {
+    type: Boolean,
+    default: false,
+  },
+}
+);
 
 export const BuilderPlace = models.BuilderPlace || model('BuilderPlace', builderPlace);

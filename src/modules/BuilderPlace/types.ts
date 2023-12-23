@@ -61,14 +61,20 @@ export enum DomainVerificationStatusProps {
 
 export interface CreateBuilderPlaceAction {
   name: string;
+  email: string;
   palette: iBuilderPlacePalette;
   about: string;
   preferredWorkTypes: PreferredWorkTypes[];
   profilePicture?: string;
 }
 
+export interface ValidateEmailProps {
+  builderPlaceId: string;
+}
+
 export interface CreateBuilderPlaceProps {
   name: string;
+  email: string;
   palette: iBuilderPlacePalette;
   about: string;
   preferredWorkTypes: PreferredWorkTypes[];

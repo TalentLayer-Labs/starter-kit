@@ -8,7 +8,7 @@ import {
   validDomainRegex,
 } from './domains';
 import { BuilderPlace } from './models/BuilderPlace';
-import { CreateBuilderPlaceAction, UpdateBuilderPlace, UpdateBuilderPlaceDomain } from './types';
+import { CreateBuilderPlaceAction, UpdateBuilderPlace, UpdateBuilderPlaceDomain, ValidateEmailProps } from './types';
 
 export const deleteBuilderPlace = async (_id: string) => {
   await connection();
@@ -42,6 +42,23 @@ export const updateBuilderPlace = async (builderPlace: UpdateBuilderPlace) => {
   }
 };
 
+export const validateEmail = async (data: ValidateEmailProps) => {
+  try {
+    await connection();
+    await BuilderPlace.updateOne(
+      { _id: data.builderPlaceId },
+      { emailValidated: true }
+    ).exec();
+    return {
+      message: 'Email Validated successfully',
+      id: data.builderPlaceId,
+    };
+  } catch (error: any) {
+    return {
+      error: error.message,
+    };
+  }
+}
 export const createBuilderPlace = async (data: CreateBuilderPlaceAction) => {
   try {
     await connection();
@@ -49,6 +66,8 @@ export const createBuilderPlace = async (data: CreateBuilderPlaceAction) => {
     const newBuilderPlace = new BuilderPlace({
       _id: new mongoose.Types.ObjectId(),
       name: data.name,
+      email: data.email,
+      emailValidated: false,
       about: data.about,
       preferredWorkTypes: data.preferredWorkTypes,
       profilePicture: data.profilePicture,

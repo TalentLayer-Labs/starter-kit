@@ -11,6 +11,7 @@ import { showErrorTransactionToast } from '../../../utils/toast';
 
 interface IFormValues {
   name: string;
+  email: string;
   about: string;
   preferred_work_types: PreferredWorkTypes[];
   profilePicture?: string;
@@ -21,12 +22,14 @@ function onboardingStep1() {
 
   const initialValues: IFormValues = {
     name: '',
+    email: '',
     about: '',
     preferred_work_types: [PreferredWorkTypes.jobs],
   };
 
   const validationSchema = Yup.object({
     name: Yup.string().min(2).max(20).required('Enter your name'),
+    email: Yup.string().email().required('Enter your email address'),
     about: Yup.string().required('Give us a description about your team'),
     preferred_work_types: Yup.array()
       .of(Yup.string())
@@ -44,6 +47,7 @@ function onboardingStep1() {
 
       const response = await createBuilderPlaceAsync({
         name: values.name,
+        email: values.email,
         palette: themes['lisboa'],
         about: values.about,
         preferredWorkTypes: values.preferred_work_types,
@@ -93,6 +97,21 @@ function onboardingStep1() {
               <span className='text-red-500'>
                 <ErrorMessage name='name' />
               </span>
+              <div>
+                <label className='block'>
+                  <span className='font-bold text-md'>your email</span>
+                  <Field
+                    type='email'
+                    id='email'
+                    name='email'
+                    className='mt-1 mb-1 block w-full rounded-xl border-2 border-info bg-base-200 shadow-sm focus:ring-opacity-50'
+                    placeholder='your email goes here'
+                  />
+                </label>
+                <span className='text-red-500'>
+                  <ErrorMessage name='email' />
+                </span>
+              </div>
               <label className='block'>
                 <span className='font-bold text-md'>about your orgnanization</span>
                 <Field
