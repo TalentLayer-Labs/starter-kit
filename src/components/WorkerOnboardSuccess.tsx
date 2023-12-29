@@ -17,7 +17,8 @@ function WorkerOnboardSuccess() {
 
   const openDasboard = async () => {
     await refreshWorkerProfile();
-    router.push(`/dashboard`);
+    // TODO: redirect to BP missions page
+    router.push(`/`);
   };
 
   return (
