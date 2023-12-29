@@ -11,17 +11,20 @@ import UserServices from '../../components/UserServices';
 import TalentLayerContext from '../../context/talentLayer';
 import BuilderPlaceContext from '../../modules/BuilderPlace/context/BuilderPlaceContext';
 import { sharedGetServerSideProps } from '../../utils/sharedGetServerSideProps';
+import EmailModal from '../../components/Modal/EmailModal';
 import { useRouter } from 'next/router';
+import VerifyEmailNotification from '../../components/VerifyEmailNotification';
+import DelegationNotification from '../../components/DelegationNotification';
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   return sharedGetServerSideProps(context);
 }
 
 function Dashboard() {
+  const { account, user, workerData } = useContext(TalentLayerContext);
   const router = useRouter();
-  const { account, user } = useContext(TalentLayerContext);
-  const { isBuilderPlaceCollaborator, builderPlace } = useContext(BuilderPlaceContext);
-  const isComingFromOnboarding = router.asPath.includes('onboarding');
+  const { isBuilderPlaceOwner, isBuilderPlaceCollaborator, builderPlace } = useContext(BuilderPlaceContext);
+  const isComingFromOnboarding = router.asPath.includes('onboarding') && isBuilderPlaceOwner;
 
   if (!user) {
     return (
@@ -70,7 +73,7 @@ function Dashboard() {
           {isBuilderPlaceCollaborator && (!builderPlace?.logo || !builderPlace?.icon) && (
             <>
               <div className='mb-12'>
-                <h2 className='pb-4 text-base-content  break-all flex justify-between items-center'>
+                <h2 className='pb-4 text-base-content break-all flex justify-between items-center'>
                   <span className='flex-1 font-bold'>your BuilderPlace</span>
                 </h2>
 
@@ -91,7 +94,10 @@ function Dashboard() {
           )}
           {!isBuilderPlaceCollaborator && (
             <>
-              <div className='mb-12'>
+              <EmailModal />
+              <VerifyEmailNotification />
+              <DelegationNotification />
+              <div className='mb-12 mt-2'>
                 <h2 className='pb-4 text-base-content  break-all flex justify-between items-center'>
                   <span className='flex-1 font-bold'>contributor profile</span>
                   <Link

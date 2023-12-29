@@ -47,3 +47,38 @@ export const getBuilderPlaceById = async (id: string): Promise<any> => {
     throw err;
   }
 };
+
+export const getWorkerProfileByOwnerId = async (id: string): Promise<any> => {
+  try {
+    return await fetch('/api/domain/get-worker-profile-by-owner-id', {
+      method: 'POST',
+      body: JSON.stringify({
+        id: id,
+      }),
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
+export const verifyEmail = async (email: string, userId: string): Promise<any> => {
+  try {
+    return await fetch('/api/domain/verify-email', {
+      method: 'PUT',
+      body: JSON.stringify({
+        email: email,
+        userId: userId,
+      }),
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};

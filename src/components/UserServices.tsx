@@ -1,7 +1,6 @@
 import { useContext } from 'react';
 import useServices from '../hooks/useServices';
 import { IUser } from '../types';
-import UserServiceItem from './UserServiceItem';
 import BuilderPlaceContext from '../modules/BuilderPlace/context/BuilderPlaceContext';
 import Notification from './Notification';
 import Loading from './Loading';

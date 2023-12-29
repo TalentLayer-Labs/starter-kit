@@ -9,21 +9,22 @@ export const executePayment = async (
   chainId: number,
   userAddress: string,
   publicClient: PublicClient,
-  profileId: string,
+  userId: string,
   transactionId: string,
   amount: bigint,
   isBuyer: boolean,
-  isActiveDelegate: boolean,
+  canUseDelegation: boolean,
   talentLayerClient: TalentLayerClient,
   serviceId: string,
+  refreshWorkerData: () => Promise<boolean>,
 ): Promise<void> => {
   try {
     let tx: Address;
-    if (isActiveDelegate) {
+    if (canUseDelegation) {
       const response = await delegateReleaseOrReimburse(
         chainId,
         userAddress,
-        profileId,
+        userId,
         parseInt(transactionId, 10),
         amount.toString(),
         isBuyer,
@@ -31,9 +32,9 @@ export const executePayment = async (
       tx = response.data.transaction;
     } else {
       if (isBuyer) {
-        tx = await talentLayerClient.escrow.release(serviceId, amount, parseInt(profileId));
+        tx = await talentLayerClient.escrow.release(serviceId, amount, parseInt(userId));
       } else {
-        tx = await talentLayerClient.escrow.reimburse(serviceId, amount, parseInt(profileId));
+        tx = await talentLayerClient.escrow.reimburse(serviceId, amount, parseInt(userId));
       }
     }
 
@@ -55,5 +56,7 @@ export const executePayment = async (
     }
   } catch (error: any) {
     showErrorTransactionToast(error);
+  } finally {
+    if (canUseDelegation) await refreshWorkerData();
   }
 };

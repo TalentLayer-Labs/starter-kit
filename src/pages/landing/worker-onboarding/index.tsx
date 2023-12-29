@@ -1,33 +1,20 @@
-import { useContext, useEffect } from 'react';
-import CreateWorkerId from '../../../components/Home/CreateWorkerId';
-import Steps from '../../../components/Steps';
+import CreateProfileLayout from '../../../components/CreateProfileLayout';
+import CreateWorkerProfileForm from '../../../components/Form/CreateWorkerProfileForm';
+import { useContext } from 'react';
 import TalentLayerContext from '../../../context/talentLayer';
-import Loading from '../../../components/Loading';
 import { useRouter } from 'next/router';
-import OnboardingSteps from '../../../components/OnboardingSteps';
 
 function workerOnboardingStep1() {
-  const { account, loading, user } = useContext(TalentLayerContext);
   const router = useRouter();
-
-  useEffect(() => {
-    if (account?.isConnected && user) {
-      router.push('/worker-onboarding/step2');
-    }
-  }, [user]);
-
-  if (loading) {
-    return <Loading />;
+  const { workerData } = useContext(TalentLayerContext);
+  if (workerData?.status === 'validated') {
+    router.push('/worker-onboarding/step3');
   }
 
   return (
-    <>
-      <OnboardingSteps currentStep={1} type='worker' />
-      <CreateWorkerId />
-      <div className='flex flex-col items-center justify-center gap-10'>
-        <Steps />
-      </div>
-    </>
+    <CreateProfileLayout step={1}>
+      <CreateWorkerProfileForm />
+    </CreateProfileLayout>
   );
 }
 

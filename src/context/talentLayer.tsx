@@ -6,11 +6,17 @@ import { useChainId } from '../hooks/useChainId';
 import { getUserByAddress } from '../queries/users';
 import { iTalentLayerContext, IUser } from '../types';
 import { getCompletionScores, ICompletionScores } from '../utils/profile';
+import { getWorkerProfileByOwnerId } from '../modules/BuilderPlace/request';
+import { IWorkerProfile } from '../modules/BuilderPlace/types';
+import { MAX_TRANSACTION_AMOUNT } from '../config';
 
 const TalentLayerContext = createContext<iTalentLayerContext>({
   loading: true,
-  isActiveDelegate: false,
+  canUseDelegation: false,
   refreshData: async () => {
+    return false;
+  },
+  refreshWorkerData: async () => {
     return false;
   },
 });
@@ -18,8 +24,9 @@ const TalentLayerContext = createContext<iTalentLayerContext>({
 const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
   const chainId = useChainId();
   const [user, setUser] = useState<IUser | undefined>();
+  const [workerData, setWorkerData] = useState<IWorkerProfile | undefined>();
   const account = useAccount();
-  const [isActiveDelegate, setIsActiveDelegate] = useState(false);
+  const [canUseDelegation, setCanUseDelegation] = useState(false);
   const [loading, setLoading] = useState(true);
   const [completionScores, setCompletionScores] = useState<ICompletionScores | undefined>();
   const [talentLayerClient, setTalentLayerClient] = useState<TalentLayerClient>();
@@ -61,12 +68,17 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
       currentUser.isAdmin = platform?.address === currentUser?.address;
 
       setUser(currentUser);
-      setIsActiveDelegate(
-        process.env.NEXT_PUBLIC_ACTIVE_DELEGATE === 'true' &&
+
+      setCanUseDelegation(
+        (process.env.NEXT_PUBLIC_ACTIVE_DELEGATE === 'true' &&
           userResponse.data.data.users[0].delegates &&
           userResponse.data.data.users[0].delegates.indexOf(
             (process.env.NEXT_PUBLIC_DELEGATE_ADDRESS as string).toLowerCase(),
-          ) !== -1,
+          ) !== -1 &&
+          //TODO should be ZERO by default, line 79 should not be needed
+          !workerData?.weeklyTransactionCounter) ||
+          (!!workerData?.weeklyTransactionCounter &&
+            workerData?.weeklyTransactionCounter < MAX_TRANSACTION_AMOUNT),
       );
       setLoading(false);
       return true;
@@ -92,23 +104,65 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
     fetchData();
   }, [chainId, account.address, talentLayerClient]);
 
+  const getWorkerData = async (userId: string) => {
+    const response = await getWorkerProfileByOwnerId(userId);
+    const data = await response.json();
+    if (data) {
+      setWorkerData({
+        ...data,
+        weeklyTransactionCounter: data.weeklyTransactionCounter ?? 0,
+      });
+    }
+  };
+
+  const refreshWorkerData = async () => {
+    try {
+      setLoading(true);
+      if (user?.id) {
+        console.log('refreshing worker data');
+        await getWorkerData(user.id);
+      }
+      return true;
+    } catch (err: any) {
+      // eslint-disable-next-line no-console
+      console.error(err);
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (!user) return;
     const completionScores = getCompletionScores(user);
     setCompletionScores(completionScores);
+
+    if (user?.id) {
+      getWorkerData(user.id);
+    }
   }, [user]);
 
   const value = useMemo(() => {
     return {
       user,
       account: account ? account : undefined,
-      isActiveDelegate,
+      workerData,
+      canUseDelegation,
       refreshData: fetchData,
+      refreshWorkerData: refreshWorkerData,
       loading,
       completionScores,
       talentLayerClient,
     };
-  }, [account.address, user?.id, isActiveDelegate, loading, completionScores, talentLayerClient]);
+  }, [
+    account.address,
+    user?.id,
+    canUseDelegation,
+    workerData,
+    loading,
+    completionScores,
+    talentLayerClient,
+  ]);
 
   return <TalentLayerContext.Provider value={value}>{children}</TalentLayerContext.Provider>;
 };

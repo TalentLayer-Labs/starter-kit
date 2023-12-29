@@ -22,7 +22,7 @@ function Web3mailPreferencesForm() {
   const config = useConfig();
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
-  const { user, isActiveDelegate, refreshData } = useContext(TalentLayerContext);
+  const { user, canUseDelegation, refreshData } = useContext(TalentLayerContext);
   const { data: walletClient } = useWalletClient({ chainId });
   const { address } = useAccount();
   const publicClient = usePublicClient({ chainId });
@@ -70,7 +70,7 @@ function Web3mailPreferencesForm() {
         );
 
         let tx;
-        if (isActiveDelegate) {
+        if (canUseDelegation) {
           const response = await delegateUpdateProfileData(chainId, user.id, user.address, cid);
           tx = response.data.transaction;
         } else {

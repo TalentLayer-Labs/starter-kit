@@ -1,5 +1,3 @@
-import { ArrowLeft } from 'heroicons-react';
-import Link from 'next/link';
 import { ReactNode } from 'react';
 
 interface ContainerProps {

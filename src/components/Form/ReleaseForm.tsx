@@ -29,7 +29,7 @@ function ReleaseForm({
   isBuyer,
 }: IReleaseFormProps) {
   const chainId = useChainId();
-  const { user, isActiveDelegate } = useContext(TalentLayerContext);
+  const { user, canUseDelegation, refreshWorkerData } = useContext(TalentLayerContext);
   const { isBuilderPlaceCollaborator, builderPlace } = useContext(BuilderPlaceContext);
   const publicClient = usePublicClient({ chainId });
   const talentLayerClient = useTalentLayerClient();
@@ -40,25 +40,28 @@ function ReleaseForm({
    * @dev If the user is a Collaborator, use the owner's TalentLayerId
    */
   const handleSubmit = async () => {
-    if (user && publicClient && builderPlace?.ownerTalentLayerId) {
-      const percentToToken = (totalInEscrow * BigInt(percent)) / BigInt(100);
-      if (talentLayerClient) {
-        await executePayment(
-          chainId,
-          user.address,
-          publicClient,
-          isBuilderPlaceCollaborator ? builderPlace.ownerTalentLayerId : user.id,
-          service.transaction.id,
-          percentToToken,
-          isBuyer,
-          isActiveDelegate,
-          talentLayerClient,
-          service.id,
-        );
-      }
-
-      closeModal();
+    if (!user || !publicClient) {
+      return;
     }
+    const percentToToken = (totalInEscrow * BigInt(percent)) / BigInt(100);
+
+    if (talentLayerClient) {
+      await executePayment(
+        chainId,
+        user.address,
+        publicClient,
+        user.id,
+        service.transaction.id,
+        percentToToken,
+        isBuyer,
+        canUseDelegation,
+        talentLayerClient,
+        service.id,
+        refreshWorkerData,
+      );
+    }
+
+    closeModal();
   };
 
   const releaseMax = () => {

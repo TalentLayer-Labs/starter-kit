@@ -15,7 +15,7 @@ export const toggleDelegation = async (
   try {
     let tx: Address;
     let toastMessages;
-    if (validateState === true) {
+    if (validateState) {
       const { request } = await publicClient.simulateContract({
         address: config.contracts.talentLayerId,
         abi: TalentLayerID.abi,

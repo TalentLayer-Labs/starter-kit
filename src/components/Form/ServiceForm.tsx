@@ -42,7 +42,7 @@ function ServiceForm() {
   const chainId = useChainId();
 
   const { open: openConnectModal } = useWeb3Modal();
-  const { user, account, isActiveDelegate } = useContext(TalentLayerContext);
+  const { user, account, refreshWorkerData, canUseDelegation } = useContext(TalentLayerContext);
   const { builderPlace } = useContext(BuilderPlaceContext);
   const { platformHasAccess } = useContext(Web3MailContext);
   const publiClient = usePublicClient({ chainId });
@@ -130,13 +130,8 @@ function ServiceForm() {
           rateAmount: parsedRateAmountString,
         });
 
-        if (isActiveDelegate) {
-          const response = await delegateCreateService(
-            chainId,
-            builderPlace.ownerTalentLayerId,
-            user.address,
-            cid,
-          );
+        if (canUseDelegation) {
+          const response = await delegateCreateService(chainId, builderPlace.ownerTalentLayerId, user.address, cid);
           tx = response.data.transaction;
         } else {
           const serviceResponse = await talentLayerClient.service.create(
@@ -177,6 +172,8 @@ function ServiceForm() {
         }
       } catch (error) {
         showErrorTransactionToast(error);
+      } finally {
+        if (canUseDelegation) await refreshWorkerData();
       }
     } else {
       openConnectModal();
@@ -184,7 +181,11 @@ function ServiceForm() {
   };
 
   return (
-    <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
+    <Formik
+      initialValues={initialValues}
+      onSubmit={onSubmit}
+      validationSchema={validationSchema}
+      enableReinitialize={true}>
       {({ isSubmitting, setFieldValue }) => (
         <Form>
           <div className='grid grid-cols-1 gap-6 border border-info rounded-xl p-6 bg-base-100'>

@@ -30,12 +30,11 @@ export async function getDelegationSigner(res: NextApiResponse): Promise<WalletC
 
   if (delegateSeedPhrase) {
     const account = mnemonicToAccount(delegateSeedPhrase);
-    const walletClient = createWalletClient({
+    return createWalletClient({
       account,
       chain: polygonMumbai,
       transport: http(),
     });
-    return walletClient;
   } else {
     res.status(500).json('Delegate seed phrase is not set');
     return null;

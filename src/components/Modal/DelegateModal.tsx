@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from 'react';
 import { usePublicClient, useWalletClient } from 'wagmi';
 import { toggleDelegation } from '../../contracts/toggleDelegation';
 import TalentLayerContext from '../../context/talentLayer';
-import { getUserByAddress } from '../../queries/users';
 import { useChainId } from '../../hooks/useChainId';
 import { useConfig } from '../../hooks/useConfig';
 
@@ -13,7 +12,7 @@ function DelegateModal() {
   const [hasPlatformAsDelegate, setHasPlatformAsDelegate] = useState(false);
   const { data: walletClient } = useWalletClient({ chainId });
   const publicClient = usePublicClient({ chainId });
-  const { user } = useContext(TalentLayerContext);
+  const { user, refreshData } = useContext(TalentLayerContext);
   const delegateAddress = process.env.NEXT_PUBLIC_DELEGATE_ADDRESS as string;
 
   if (!user) {
@@ -21,10 +20,7 @@ function DelegateModal() {
   }
 
   const checkDelegateState = async () => {
-    const getUser = await getUserByAddress(chainId, user.address);
-    const delegateAddresses = getUser.data?.data?.users[0].delegates;
-
-    if (delegateAddresses && delegateAddresses.indexOf(delegateAddress.toLowerCase()) != -1) {
+    if (user?.delegates?.indexOf(delegateAddress.toLowerCase()) != -1) {
       setHasPlatformAsDelegate(true);
     } else {
       setHasPlatformAsDelegate(false);
@@ -48,17 +44,18 @@ function DelegateModal() {
       );
     }
     setShow(false);
+    await refreshData();
   };
 
   return (
     <>
-      {process.env.NEXT_PUBLIC_ACTIVE_DELEGATE === 'true' && (
+      {process.env.NEXT_PUBLIC_ACTIVE_DELEGATE === 'true' && hasPlatformAsDelegate && (
         <button
           onClick={() => setShow(true)}
           className='block text-info bg-error hover:bg-info hover:text-base-content rounded-xl px-5 py-2.5 text-center'
           type='button'
           data-modal-toggle='defaultModal'>
-          Active Delegation
+          Deactivate delegation
         </button>
       )}
 
@@ -95,7 +92,7 @@ function DelegateModal() {
               <div className='flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full bg-base-200 space-y-6 text-base-content'>
                 <div className='flex flex-row'>
                   <h3 className='font-semibold text-base-content'>Delegation state: </h3>
-                  {hasPlatformAsDelegate == true ? (
+                  {hasPlatformAsDelegate ? (
                     <p className='text-alone-success pl-2'> is active</p>
                   ) : (
                     <p className='text-alone-error pl-2'> is inactive</p>

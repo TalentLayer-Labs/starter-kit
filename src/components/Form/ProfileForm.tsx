@@ -34,7 +34,7 @@ const validationSchema = Yup.object({
 function ProfileForm({ callback }: { callback?: () => void }) {
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
-  const { user, isActiveDelegate, refreshData } = useContext(TalentLayerContext);
+  const { user, canUseDelegation, refreshData, refreshWorkerData } = useContext(TalentLayerContext);
   const { platformHasAccess } = useContext(Web3MailContext);
   const { data: walletClient } = useWalletClient({ chainId });
   const publicClient = usePublicClient({ chainId });
@@ -86,7 +86,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
         let cid = await talentLayerClient.profile.upload(profile);
 
         let tx;
-        if (isActiveDelegate) {
+        if (canUseDelegation) {
           const response = await delegateUpdateProfileData(chainId, user.id, user.address, cid);
           tx = response.data.transaction;
         } else {
@@ -121,6 +121,8 @@ function ProfileForm({ callback }: { callback?: () => void }) {
       } catch (error) {
         console.log(error);
         showErrorTransactionToast(error);
+      } finally {
+        if (canUseDelegation) await refreshWorkerData();
       }
     } else {
       openConnectModal();

@@ -5,6 +5,7 @@ import { useDisconnect } from 'wagmi';
 import TalentLayerContext from '../context/talentLayer';
 import { truncateAddress } from '../utils';
 import ProfileImage from './ProfileImage';
+import DelegatedTransactionCounter from './DelegatedTransactionCounter';
 
 function UserSubMenu() {
   const { account, user } = useContext(TalentLayerContext);
@@ -36,12 +37,15 @@ function UserSubMenu() {
             {account?.address && truncateAddress(account.address)}
           </p>
           {user && (
-            <Link
-              href='/profiles/edit'
-              className='mt-2 border border-info rounded-xl hover:bg-base-300 text-base-content bg-base-200 px-5 py-2 w-full'
-              role='none'>
-              manage account
-            </Link>
+            <div>
+              <Link
+                href='/profiles/edit'
+                className='mt-2 border border-info rounded-xl hover:bg-base-300 text-base-content bg-base-200 px-5 py-2 w-full'
+                role='none'>
+                manage account
+              </Link>
+              <DelegatedTransactionCounter />
+            </div>
           )}
         </div>
       </div>

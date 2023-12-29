@@ -10,7 +10,6 @@ import UserAccount from '../components/UserAccount';
 import TalentLayerContext from '../context/talentLayer';
 import BuilderPlaceContext from '../modules/BuilderPlace/context/BuilderPlaceContext';
 import Loading from '../components/Loading';
-import Image from 'next/image';
 
 interface ContainerProps {
   children: ReactNode;

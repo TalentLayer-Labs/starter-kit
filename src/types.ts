@@ -1,6 +1,7 @@
 import { TalentLayerClient } from '@talentlayer/client';
 import { Connector } from 'wagmi';
 import { ICompletionScores } from './utils/profile';
+import { IWorkerProfile } from './modules/BuilderPlace/types';
 
 export type IUser = {
   id: string;
@@ -326,10 +327,12 @@ export enum PreferredWorkTypes {
 
 export type iTalentLayerContext = {
   loading: boolean;
-  isActiveDelegate: boolean;
+  canUseDelegation: boolean;
   refreshData: () => Promise<boolean>;
+  refreshWorkerData: () => Promise<boolean>;
   user?: IUser;
   account?: IAccount;
+  workerData?: IWorkerProfile;
   completionScores?: ICompletionScores;
   talentLayerClient?: TalentLayerClient;
 };

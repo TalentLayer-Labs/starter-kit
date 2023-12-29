@@ -48,7 +48,7 @@ function ProposalForm({
   const { data: walletClient } = useWalletClient({ chainId });
   const router = useRouter();
   const allowedTokenList = useAllowedTokens();
-  const { isActiveDelegate } = useContext(TalentLayerContext);
+  const { canUseDelegation, refreshWorkerData } = useContext(TalentLayerContext);
   const { platformHasAccess } = useContext(Web3MailContext);
   const talentLayerClient = useTalentLayerClient();
 
@@ -117,7 +117,7 @@ function ProposalForm({
 
         cid = await talentLayerClient?.proposal?.upload(proposal);
 
-        if (isActiveDelegate) {
+        if (canUseDelegation) {
           const proposalResponse = await delegateCreateOrUpdateProposal(
             chainId,
             user.id,
@@ -174,12 +174,18 @@ function ProposalForm({
         }
       } catch (error) {
         showErrorTransactionToast(error);
+      } finally {
+        if (canUseDelegation) await refreshWorkerData();
       }
     }
   };
 
   return (
-    <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
+    <Formik
+      initialValues={initialValues}
+      onSubmit={onSubmit}
+      validationSchema={validationSchema}
+      enableReinitialize={true}>
       {({ isSubmitting }) => (
         <Form>
           <h2 className='mb-2 text-base-content font-bold'>the mission</h2>
