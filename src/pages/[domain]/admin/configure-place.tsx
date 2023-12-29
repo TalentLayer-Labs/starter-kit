@@ -150,7 +150,6 @@ function ConfigurePlace(props: InferGetServerSidePropsType<typeof getServerSideP
           status: 'validated',
           signature,
         });
-        router.push(`${window.location.protocol}//${fullSubdomain}/dashboard`);
       } catch (e: any) {
         console.error(e);
       } finally {
