@@ -13,17 +13,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       description: `${builderPlace.name} open source community, find open work and contribute!`,
       icons: [
         {
-          src: builderPlace.icon || '/favicon.ico',
+          src: builderPlace.icon || builderPlace.profilePicture || '/favicon.ico',
           sizes: '64x64 32x32 24x24 16x16',
           type: 'image/x-icon',
         },
         {
-          src: builderPlace.icon || '/logo192.png',
+          src: builderPlace.icon || builderPlace.profilePicture || '/logo192.png',
           type: 'image/png',
           sizes: '192x192',
         },
         {
-          src: builderPlace.icon || '/logo512.png',
+          src: builderPlace.icon || builderPlace.profilePicture || '/logo512.png',
           type: 'image/png',
           sizes: '512x512',
         },
