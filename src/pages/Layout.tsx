@@ -18,8 +18,8 @@ interface ContainerProps {
 
 function Layout({ children, className }: ContainerProps) {
   const router = useRouter();
-  const { builderPlace } = useContext(BuilderPlaceContext);
-  const { account } = useContext(TalentLayerContext);
+  const { builderPlace, isBuilderPlaceCollaborator } = useContext(BuilderPlaceContext);
+  const { account, workerProfile } = useContext(TalentLayerContext);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -71,7 +71,7 @@ function Layout({ children, className }: ContainerProps) {
       );
     }
 
-    if (!account?.isConnected || router.asPath.includes('embed/')) {
+    if ((!isBuilderPlaceCollaborator && !workerProfile) || router.asPath.includes('embed/')) {
       return (
         <div className={'dashboard pb-[110px] text-base-content bg-base-200 min-h-screen'}>
           <div className='flex flex-1 flex-col '>
