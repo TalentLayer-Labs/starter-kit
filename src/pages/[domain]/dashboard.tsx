@@ -23,13 +23,13 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 function Dashboard() {
   const { account, user, workerData } = useContext(TalentLayerContext);
   const router = useRouter();
-  const { isBuilderPlaceOwner, isBuilderPlaceCollaborator, builderPlace } = useContext(BuilderPlaceContext);
-  const isComingFromOnboarding = router.asPath.includes('onboarding') && isBuilderPlaceOwner;
+  const { isBuilderPlaceCollaborator, builderPlace } = useContext(BuilderPlaceContext);
+  const isComingFromHirerOnboarding = router.asPath.includes('hireronboarding');
 
   if (!user) {
     return (
       <>
-        {isComingFromOnboarding ? (
+        {isComingFromHirerOnboarding ? (
           <div className='max-w-7xl mx-auto text-base-content text-center'>
             <div className='-mx-6 -mt-6 sm:mx-0 sm:mt-0'>
               <div className='py-2 px-6 sm:px-0 w-full mb-8'>
