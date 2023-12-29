@@ -69,16 +69,19 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
 
       setUser(currentUser);
 
+      const userHasDelegatedToPlatform =
+        userResponse.data.data.users[0].delegates &&
+        userResponse.data.data.users[0].delegates.indexOf(
+          (process.env.NEXT_PUBLIC_DELEGATE_ADDRESS as string).toLowerCase(),
+        ) !== -1;
+
+      const userHasReachedDelegationLimit =
+        (workerProfile?.weeklyTransactionCounter || 0) > MAX_TRANSACTION_AMOUNT;
+
       setCanUseDelegation(
-        (process.env.NEXT_PUBLIC_ACTIVE_DELEGATE === 'true' &&
-          userResponse.data.data.users[0].delegates &&
-          userResponse.data.data.users[0].delegates.indexOf(
-            (process.env.NEXT_PUBLIC_DELEGATE_ADDRESS as string).toLowerCase(),
-          ) !== -1 &&
-          //TODO should be ZERO by default, line 79 should not be needed
-          !workerProfile?.weeklyTransactionCounter) ||
-          (!!workerProfile?.weeklyTransactionCounter &&
-            workerProfile?.weeklyTransactionCounter < MAX_TRANSACTION_AMOUNT),
+        process.env.NEXT_PUBLIC_ACTIVE_DELEGATE === 'true' &&
+          userHasDelegatedToPlatform &&
+          !userHasReachedDelegationLimit,
       );
       setLoading(false);
       return true;
@@ -108,10 +111,7 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
     const response = await getWorkerProfileByOwnerId(userId);
     const data = await response.json();
     if (data) {
-      setWorkerProfile({
-        ...data,
-        weeklyTransactionCounter: data.weeklyTransactionCounter ?? 0,
-      });
+      setWorkerProfile(data);
     }
   };
 
@@ -136,10 +136,7 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
     if (!user) return;
     const completionScores = getCompletionScores(user);
     setCompletionScores(completionScores);
-
-    if (user?.id) {
-      getWorkerProfile(user.id);
-    }
+    getWorkerProfile(user.id);
   }, [user]);
 
   const value = useMemo(() => {
