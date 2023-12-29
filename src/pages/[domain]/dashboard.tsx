@@ -95,7 +95,7 @@ function Dashboard() {
           {!isBuilderPlaceCollaborator && (
             <>
               <EmailModal />
-              <VerifyEmailNotification />
+              {/* <VerifyEmailNotification /> */}
               <DelegationNotification />
               <div className='mb-12 mt-2'>
                 <h2 className='pb-4 text-base-content  break-all flex justify-between items-center'>
