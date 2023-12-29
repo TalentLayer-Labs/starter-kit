@@ -39,7 +39,10 @@ export const CollaboratorForm = ({ callback }: { callback?: () => void }) => {
 
   const onSubmit = async (
     values: IFormValues,
-    { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void },
+    {
+      setSubmitting,
+      resetForm,
+    }: { setSubmitting: (isSubmitting: boolean) => void; resetForm: () => void },
   ) => {
     try {
       if (walletClient && account?.address && builderPlace?._id) {
@@ -63,9 +66,11 @@ export const CollaboratorForm = ({ callback }: { callback?: () => void }) => {
         });
 
         if (response?.error) {
-          console.log(response.error);
-          showErrorTransactionToast(response.error);
-        } else if (user.delegates?.indexOf(values.collaborator) === -1) {
+          throw new Error(response.error);
+        }
+
+        // if address is not a delegated yet on chain
+        if (user.delegates?.indexOf(values.collaborator) === -1) {
           /**
            * @dev Add the new collaborator as a delegate to the BuilderPlace owner
            */
@@ -79,12 +84,12 @@ export const CollaboratorForm = ({ callback }: { callback?: () => void }) => {
             true,
           );
 
+          resetForm();
+
           if (callback) {
             callback();
           }
         }
-      } else {
-        openConnectModal();
       }
     } catch (error) {
       console.log(error);
