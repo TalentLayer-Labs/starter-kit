@@ -109,6 +109,12 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
 
   const getWorkerProfile = async (userId: string) => {
     const response = await getWorkerProfileByOwnerId(userId);
+
+    if (response.status !== 200) {
+      console.error('Error while fetching worker profile');
+      return;
+    }
+
     const data = await response.json();
     if (data) {
       setWorkerProfile(data);

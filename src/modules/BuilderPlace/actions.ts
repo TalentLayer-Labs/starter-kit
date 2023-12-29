@@ -360,11 +360,11 @@ export const getWorkerProfileByTalentLayerId = async (
     console.log('Getting Worker Profile with TalentLayer id:', id);
     const workerProfile = await Worker.findOne({ talentLayerId: id });
     console.log('Fetched Worker Profile, ', workerProfile);
-    if (workerProfile) {
-      return workerProfile;
-    } else {
-      throw new Error('worker not found');
+    if (!workerProfile) {
+      return null;
     }
+
+    return workerProfile;
   } catch (error: any) {
     if (res) {
       res.status(500).json({ error: error.message });
