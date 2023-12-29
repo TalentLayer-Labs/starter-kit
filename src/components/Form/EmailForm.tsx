@@ -35,7 +35,7 @@ function EmailForm({ user, callback }: { user: IUser; callback?: () => void }) {
       await createWorkerProfileAsync({
         email: values.email,
         name: user.handle,
-        image_url: user?.description?.image_url,
+        picture: user?.description?.image_url,
         about: user?.description?.about,
         skills: user?.description?.skills_raw,
         talentLayerId: user.id,
