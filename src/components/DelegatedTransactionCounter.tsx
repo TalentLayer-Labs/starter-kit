@@ -20,21 +20,21 @@ const renderWaitPeriod = (lastTxTime: number) => {
 };
 
 const DelegatedTransactionCounter = () => {
-  const { workerData, canUseDelegation } = useContext(TalentLayerContext);
+  const { workerProfile, canUseDelegation } = useContext(TalentLayerContext);
 
   return (
     <>
-      {canUseDelegation && workerData && (
+      {canUseDelegation && workerProfile && (
         <>
           <p className='text-base-content mt-2'>
             <span className='text-xs'>Free Weekly Tx : </span>
-            {renderTxNumber(workerData?.weeklyTransactionCounter)}
+            {renderTxNumber(workerProfile?.weeklyTransactionCounter)}
             <span className='text-xs'>/{MAX_TRANSACTION_AMOUNT}</span>
           </p>
-          {workerData?.weeklyTransactionCounter === MAX_TRANSACTION_AMOUNT && (
+          {workerProfile?.weeklyTransactionCounter === MAX_TRANSACTION_AMOUNT && (
             <>
               <p className='text-base-content text-xs'>Max tx reached, please wait</p>
-              {workerData?.counterStartDate && renderWaitPeriod(workerData.counterStartDate)}
+              {workerProfile?.counterStartDate && renderWaitPeriod(workerProfile.counterStartDate)}
               <span className='text-xs'> days</span>
             </>
           )}

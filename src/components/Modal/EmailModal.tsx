@@ -4,7 +4,7 @@ import EmailForm from '../Form/EmailForm';
 import Notification from '../Notification';
 
 function EmailModal() {
-  const { user, workerData } = useContext(TalentLayerContext);
+  const { user, workerProfile } = useContext(TalentLayerContext);
   const [show, setShow] = useState(false);
 
   if (!user) {
@@ -20,7 +20,7 @@ function EmailModal() {
 
   return (
     <>
-      {!workerData?.email && (
+      {!workerProfile?.email && (
         <div>
           <Notification
             title='Verify your email !'

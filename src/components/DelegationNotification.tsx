@@ -10,7 +10,7 @@ type DelegationNotificationProps = {
 };
 
 const DelegationNotification = ({ callback }: DelegationNotificationProps) => {
-  const { account, user, refreshData, talentLayerClient, workerData } =
+  const { account, user, refreshData, talentLayerClient, workerProfile } =
     useContext(TalentLayerContext);
   const chainId = useChainId();
   const { data: walletClient } = useWalletClient({ chainId });
@@ -55,17 +55,18 @@ const DelegationNotification = ({ callback }: DelegationNotificationProps) => {
 
   return (
     <div>
-      {!!workerData?.emailVerified && !user?.delegates?.includes(delegateAddress.toLowerCase()) && (
-        <Notification
-          title='Activate Gasless Transactions'
-          text='You can now activate gassless transactions'
-          link=''
-          linkText='Activate Gassless'
-          color='success'
-          imageUrl={user?.description?.image_url}
-          callback={onActivateDelegation}
-        />
-      )}
+      {!!workerProfile?.emailVerified &&
+        !user?.delegates?.includes(delegateAddress.toLowerCase()) && (
+          <Notification
+            title='Activate Gasless Transactions'
+            text='You can now activate gassless transactions'
+            link=''
+            linkText='Activate Gassless'
+            color='success'
+            imageUrl={user?.description?.image_url}
+            callback={onActivateDelegation}
+          />
+        )}
     </div>
   );
 };

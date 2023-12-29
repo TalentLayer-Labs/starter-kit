@@ -42,7 +42,7 @@ function ServiceForm() {
   const chainId = useChainId();
 
   const { open: openConnectModal } = useWeb3Modal();
-  const { user, account, refreshWorkerData, canUseDelegation } = useContext(TalentLayerContext);
+  const { user, account, refreshWorkerProfile, canUseDelegation } = useContext(TalentLayerContext);
   const { builderPlace } = useContext(BuilderPlaceContext);
   const { platformHasAccess } = useContext(Web3MailContext);
   const publiClient = usePublicClient({ chainId });
@@ -131,7 +131,12 @@ function ServiceForm() {
         });
 
         if (canUseDelegation) {
-          const response = await delegateCreateService(chainId, builderPlace.ownerTalentLayerId, user.address, cid);
+          const response = await delegateCreateService(
+            chainId,
+            builderPlace.ownerTalentLayerId,
+            user.address,
+            cid,
+          );
           tx = response.data.transaction;
         } else {
           const serviceResponse = await talentLayerClient.service.create(
@@ -173,7 +178,7 @@ function ServiceForm() {
       } catch (error) {
         showErrorTransactionToast(error);
       } finally {
-        if (canUseDelegation) await refreshWorkerData();
+        if (canUseDelegation) await refreshWorkerProfile();
       }
     } else {
       openConnectModal();

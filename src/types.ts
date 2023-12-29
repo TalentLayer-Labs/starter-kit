@@ -329,10 +329,10 @@ export type iTalentLayerContext = {
   loading: boolean;
   canUseDelegation: boolean;
   refreshData: () => Promise<boolean>;
-  refreshWorkerData: () => Promise<boolean>;
+  refreshWorkerProfile: () => Promise<boolean>;
   user?: IUser;
   account?: IAccount;
-  workerData?: IWorkerProfile;
+  workerProfile?: IWorkerProfile;
   completionScores?: ICompletionScores;
   talentLayerClient?: TalentLayerClient;
 };

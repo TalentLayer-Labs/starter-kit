@@ -9,12 +9,12 @@ type VerifyEmailNotificationProps = {
 };
 
 const VerifyEmailNotification = ({ callback }: VerifyEmailNotificationProps) => {
-  const { user, workerData, refreshWorkerData } = useContext(TalentLayerContext);
+  const { user, workerProfile, refreshWorkerProfile } = useContext(TalentLayerContext);
 
   const onVerifyMail = async () => {
-    if (workerData?.email && !workerData.emailVerified && user?.id) {
+    if (workerProfile?.email && !workerProfile.emailVerified && user?.id) {
       try {
-        const response = await verifyEmail(workerData.email, user.id);
+        const response = await verifyEmail(workerProfile.email, user.id);
         console.log('response', response);
       } catch (e) {
         console.log('Error', e);
@@ -23,13 +23,13 @@ const VerifyEmailNotification = ({ callback }: VerifyEmailNotificationProps) => 
       if (callback) {
         await callback();
       }
-      await refreshWorkerData();
+      await refreshWorkerProfile();
     }
   };
 
   return (
     <div>
-      {!!workerData?.email && !workerData?.emailVerified && (
+      {!!workerProfile?.email && !workerProfile?.emailVerified && (
         <Notification
           title='Verify your email !'
           text='Tired of paying gas fees ? Verify your email and get gassless transactions !'

@@ -6,8 +6,8 @@ import { useRouter } from 'next/router';
 
 function workerOnboardingStep1() {
   const router = useRouter();
-  const { workerData } = useContext(TalentLayerContext);
-  if (workerData?.status === 'validated') {
+  const { workerProfile } = useContext(TalentLayerContext);
+  if (workerProfile?.status === 'validated') {
     router.push('/worker-onboarding/step3');
   }
 

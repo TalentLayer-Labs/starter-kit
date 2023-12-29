@@ -16,7 +16,7 @@ const TalentLayerContext = createContext<iTalentLayerContext>({
   refreshData: async () => {
     return false;
   },
-  refreshWorkerData: async () => {
+  refreshWorkerProfile: async () => {
     return false;
   },
 });
@@ -24,7 +24,7 @@ const TalentLayerContext = createContext<iTalentLayerContext>({
 const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
   const chainId = useChainId();
   const [user, setUser] = useState<IUser | undefined>();
-  const [workerData, setWorkerData] = useState<IWorkerProfile | undefined>();
+  const [workerProfile, setWorkerProfile] = useState<IWorkerProfile | undefined>();
   const account = useAccount();
   const [canUseDelegation, setCanUseDelegation] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -76,9 +76,9 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
             (process.env.NEXT_PUBLIC_DELEGATE_ADDRESS as string).toLowerCase(),
           ) !== -1 &&
           //TODO should be ZERO by default, line 79 should not be needed
-          !workerData?.weeklyTransactionCounter) ||
-          (!!workerData?.weeklyTransactionCounter &&
-            workerData?.weeklyTransactionCounter < MAX_TRANSACTION_AMOUNT),
+          !workerProfile?.weeklyTransactionCounter) ||
+          (!!workerProfile?.weeklyTransactionCounter &&
+            workerProfile?.weeklyTransactionCounter < MAX_TRANSACTION_AMOUNT),
       );
       setLoading(false);
       return true;
@@ -104,23 +104,23 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
     fetchData();
   }, [chainId, account.address, talentLayerClient]);
 
-  const getWorkerData = async (userId: string) => {
+  const getWorkerProfile = async (userId: string) => {
     const response = await getWorkerProfileByOwnerId(userId);
     const data = await response.json();
     if (data) {
-      setWorkerData({
+      setWorkerProfile({
         ...data,
         weeklyTransactionCounter: data.weeklyTransactionCounter ?? 0,
       });
     }
   };
 
-  const refreshWorkerData = async () => {
+  const refreshWorkerProfile = async () => {
     try {
       setLoading(true);
       if (user?.id) {
         console.log('refreshing worker data');
-        await getWorkerData(user.id);
+        await getWorkerProfile(user.id);
       }
       return true;
     } catch (err: any) {
@@ -138,7 +138,7 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
     setCompletionScores(completionScores);
 
     if (user?.id) {
-      getWorkerData(user.id);
+      getWorkerProfile(user.id);
     }
   }, [user]);
 
@@ -146,10 +146,10 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
     return {
       user,
       account: account ? account : undefined,
-      workerData,
+      workerProfile,
       canUseDelegation,
       refreshData: fetchData,
-      refreshWorkerData: refreshWorkerData,
+      refreshWorkerProfile: refreshWorkerProfile,
       loading,
       completionScores,
       talentLayerClient,
@@ -158,7 +158,7 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
     account.address,
     user?.id,
     canUseDelegation,
-    workerData,
+    workerProfile,
     loading,
     completionScores,
     talentLayerClient,

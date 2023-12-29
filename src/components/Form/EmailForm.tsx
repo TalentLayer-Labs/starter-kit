@@ -17,7 +17,7 @@ const validationSchema = Yup.object({
 });
 
 function EmailForm({ user, callback }: { user: IUser; callback?: () => void }) {
-  const { refreshWorkerData } = useContext(TalentLayerContext);
+  const { refreshWorkerProfile } = useContext(TalentLayerContext);
   const { mutateAsync: createWorkerProfileAsync } = useCreateWorkerProfileMutation();
 
   const initialValues: IFormValues = {
@@ -44,7 +44,7 @@ function EmailForm({ user, callback }: { user: IUser; callback?: () => void }) {
 
       const response: any = await verifyEmail(values.email, user.id);
 
-      await refreshWorkerData();
+      await refreshWorkerProfile();
 
       if (response.status !== 200) {
         showMongoErrorTransactionToast(response.statusText);
