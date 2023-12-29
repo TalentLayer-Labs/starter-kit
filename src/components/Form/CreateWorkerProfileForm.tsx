@@ -1,21 +1,19 @@
 import { Field, Form, Formik } from 'formik';
-import { QuestionMarkCircle } from 'heroicons-react';
-import { useContext, useState } from 'react';
+import { useRouter } from 'next/router';
+import { useContext } from 'react';
 import * as Yup from 'yup';
 import TalentLayerContext from '../../context/talentLayer';
-import { generatePicture } from '../../utils/ai-picture-gen';
+import { useCreateWorkerProfileMutation } from '../../modules/BuilderPlace/hooks/UseCreateWorkerProfileMutation';
 import { showErrorTransactionToast } from '../../utils/toast';
-import Loading from '../Loading';
+import UploadImage from '../UploadImage';
 import SubmitButton from './SubmitButton';
 import { SkillsInput } from './skills-input';
-import { useRouter } from 'next/router';
-import { useCreateWorkerProfileMutation } from '../../modules/BuilderPlace/hooks/UseCreateWorkerProfileMutation';
 
 interface IFormValues {
   email: string;
   name: string;
   about?: string;
-  image_url?: string;
+  picture?: string;
   skills?: string;
 }
 
@@ -27,7 +25,6 @@ const validationSchema = Yup.object({
 function CreateWorkerProfileForm({ callback }: { callback?: () => void }) {
   const { mutateAsync: createWorkerProfileAsync } = useCreateWorkerProfileMutation();
   const { user } = useContext(TalentLayerContext);
-  const [aiLoading, setAiLoading] = useState(false);
   const router = useRouter();
   const serviceId = new URL(window.location.href).searchParams.get('serviceId');
 
@@ -35,18 +32,8 @@ function CreateWorkerProfileForm({ callback }: { callback?: () => void }) {
     email: '',
     name: user?.description?.name || '',
     about: user?.description?.about || '',
-    image_url: user?.description?.image_url || '',
+    picture: user?.description?.image_url || '',
     skills: user?.description?.skills_raw || '',
-  };
-
-  const generatePictureUrl = async (e: React.FormEvent, callback: (string: string) => void) => {
-    e.preventDefault();
-    setAiLoading(true);
-    const image_url = await generatePicture();
-    if (image_url) {
-      callback(image_url);
-    }
-    setAiLoading(false);
   };
 
   const onSubmit = async (
@@ -59,7 +46,7 @@ function CreateWorkerProfileForm({ callback }: { callback?: () => void }) {
       const response = await createWorkerProfileAsync({
         email: values.email,
         name: values.name,
-        image_url: values.image_url,
+        picture: values.picture,
         about: values.about,
         skills: values.skills,
         status: 'pending',
@@ -114,47 +101,16 @@ function CreateWorkerProfileForm({ callback }: { callback?: () => void }) {
               />
             </label>
 
-            <label className='block'>
-              <span className='text-xl font-bold '>picture url</span>
-              <Field
-                type='text'
-                id='image_url'
-                name='image_url'
-                className='mt-1 mb-1 block w-full rounded-xl border-2 border-info bg-base-200 shadow-sm focus:ring-opacity-50'
-                placeholder=''
-              />
-              <div className='border-2 border-info bg-base-200 relative w-full transition-all duration-300 rounded-xl p-4'>
-                <div className='flex w-full items-center gap-3'>
-                  <QuestionMarkCircle className='hidden' />
-                  <div>
-                    <h2 className='font-heading text-xl font-bold  mb-1'>
-                      <span>Need help?</span>
-                    </h2>
-                    <p className='font-alt text-xs font-normal'>
-                      <span className='text-base-content'>Use our AI to generate a cool one</span>
-                    </p>
-                  </div>
-                  <div className='ms-auto'>
-                    <button
-                      disabled={aiLoading}
-                      onClick={e =>
-                        generatePictureUrl(e, newUrl => setFieldValue('image_url', newUrl))
-                      }
-                      className='border text-base-content bg-base-300 hover:bg-base-100 border-white rounded-md h-10 w-10 p-2 relative inline-flex items-center justify-center space-x-1 font-sans text-sm font-normal leading-5 no-underline outline-none transition-all duration-300'>
-                      {aiLoading ? <Loading /> : 'GO'}
-                    </button>
-                  </div>
-                </div>
-                {values.image_url && (
-                  <div className='flex items-center justify-center py-3'>
-                    <img width='300' height='300' src={values.image_url} alt='' />
-                  </div>
-                )}
-              </div>
-            </label>
+            <UploadImage
+              fieldName='picture'
+              label='profile picture'
+              legend='square format'
+              src={values.picture}
+              setFieldValue={setFieldValue}
+            />
 
             <label className='block'>
-              <span className='text-xl font-bold '>about</span>
+              <span className='text-xl font-bold'>about</span>
               <Field
                 as='textarea'
                 id='about'

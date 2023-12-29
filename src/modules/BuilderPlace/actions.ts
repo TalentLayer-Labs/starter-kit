@@ -315,7 +315,7 @@ export const createWorkerProfile = async (data: CreateWorkerProfileAction) => {
       email: data.email,
       status: data.status,
       name: data.name,
-      picture: data.image_url,
+      picture: data.picture,
       about: data.about,
       skills: data.skills,
       talentLayerId: data.talentLayerId,

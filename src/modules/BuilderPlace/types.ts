@@ -95,7 +95,7 @@ export interface CreateBuilderPlaceAction {
 export interface CreateWorkerProfileAction {
   email: string;
   name: string;
-  image_url?: string;
+  picture?: string;
   about?: string;
   skills?: string;
   status?: string;
@@ -113,7 +113,7 @@ export interface CreateBuilderPlaceProps {
 export interface CreateWorkerProfileProps {
   email: string;
   name: string;
-  image_url?: string;
+  picture?: string;
   about?: string;
   skills?: string;
   status?: string;
