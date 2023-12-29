@@ -139,24 +139,20 @@ function ServiceForm() {
           );
           tx = response.data.transaction;
         } else {
-          if (talentLayerClient) {
-            const serviceResponse = await talentLayerClient.service.create(
-              {
-                title: values.title,
-                about: values.about,
-                keywords: values.keywords,
-                rateToken: values.rateToken,
-                rateAmount: parsedRateAmountString,
-              },
-              builderPlace.ownerTalentLayerId,
-              parseInt(process.env.NEXT_PUBLIC_PLATFORM_ID as string),
-            );
+          const serviceResponse = await talentLayerClient.service.create(
+            {
+              title: values.title,
+              about: values.about,
+              keywords: values.keywords,
+              rateToken: values.rateToken,
+              rateAmount: parsedRateAmountString,
+            },
+            builderPlace.ownerTalentLayerId,
+            parseInt(process.env.NEXT_PUBLIC_PLATFORM_ID as string),
+          );
 
-            cid = serviceResponse.cid;
-            tx = serviceResponse.tx;
-          } else {
-            throw new Error('TL client not initialised');
-          }
+          cid = serviceResponse.cid;
+          tx = serviceResponse.tx;
         }
 
         const newId = await createMultiStepsTransactionToast(
