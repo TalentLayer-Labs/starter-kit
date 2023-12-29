@@ -16,13 +16,13 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 function CreateService() {
   const { account, user } = useContext(TalentLayerContext);
   const { userExists } = useContext(MessagingContext);
-  const { builderPlace } = useContext(BuilderPlaceContext);
+  const { isBuilderPlaceCollaborator } = useContext(BuilderPlaceContext);
 
   if (!user) {
     return <Steps />;
   }
 
-  if (builderPlace?.ownerTalentLayerId !== user?.id) {
+  if (!isBuilderPlaceCollaborator) {
     return <AccessDenied />;
   }
 

@@ -85,8 +85,11 @@ export const createMultiStepsTransactionToast = async (
 
 export const showErrorTransactionToast = (error: any) => {
   console.error(error);
-  let errorMessage = getParsedErrorMessage(error);
-  if (error.response && error.response.status === 500) {
+  let errorMessage = error;
+  if (error.name === 'AxiosError') {
+    errorMessage = error.response.data.error;
+  } else if (error.response && error.response.status === 500) {
+    errorMessage = getParsedErrorMessage(error);
     errorMessage = error.response.data;
   }
   toast.error(errorMessage);
@@ -161,7 +164,7 @@ function getParsedErrorMessage(error: any) {
 
 function getParsedMongoErrorMessage(error: string) {
   if (error.includes(MONGO_ERROR_CODES.DUPLICATE_KEY.toString())) {
-    return `Organization already exists`;
+    return `Already exists`;
   } else {
     return `${error}`;
   }

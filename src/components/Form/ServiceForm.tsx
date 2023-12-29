@@ -19,8 +19,8 @@ import Web3MailContext from '../../modules/Web3mail/context/web3mail';
 import useTalentLayerClient from '../../hooks/useTalentLayerClient';
 import usePlatform from '../../hooks/usePlatform';
 import { chains } from '../../context/web3modal';
-import { InformationCircle } from 'heroicons-react';
 import { InformationCircleIcon } from '@heroicons/react/24/outline';
+import BuilderPlaceContext from '../../modules/BuilderPlace/context/BuilderPlaceContext';
 
 interface IFormValues {
   title: string;
@@ -42,14 +42,14 @@ function ServiceForm() {
   const chainId = useChainId();
 
   const { open: openConnectModal } = useWeb3Modal();
-  const { user, account } = useContext(TalentLayerContext);
+  const { user, account, isActiveDelegate } = useContext(TalentLayerContext);
+  const { builderPlace } = useContext(BuilderPlaceContext);
   const { platformHasAccess } = useContext(Web3MailContext);
   const publiClient = usePublicClient({ chainId });
   const { data: walletClient } = useWalletClient({ chainId });
   const router = useRouter();
   const allowedTokenList = useAllowedTokens();
   const [selectedToken, setSelectedToken] = useState<IToken>();
-  const { isActiveDelegate } = useContext(TalentLayerContext);
   const talentLayerClient = useTalentLayerClient();
 
   const currentChain = chains.find(chain => chain.id === chainId);
@@ -89,6 +89,12 @@ function ServiceForm() {
       }),
   });
 
+  /**
+   * @dev Only the owner's TalentLayerId is used here (by owners of delegates)
+   * @param values
+   * @param setSubmitting
+   * @param resetForm
+   */
   const onSubmit = async (
     values: IFormValues,
     {
@@ -103,7 +109,8 @@ function ServiceForm() {
       walletClient &&
       token &&
       user &&
-      talentLayerClient
+      talentLayerClient &&
+      builderPlace?.ownerTalentLayerId
     ) {
       try {
         const parsedRateAmount = await parseRateAmount(
@@ -124,7 +131,12 @@ function ServiceForm() {
         });
 
         if (isActiveDelegate) {
-          const response = await delegateCreateService(chainId, user.id, user.address, cid);
+          const response = await delegateCreateService(
+            chainId,
+            builderPlace.ownerTalentLayerId,
+            user.address,
+            cid,
+          );
           tx = response.data.transaction;
         } else {
           if (talentLayerClient) {
@@ -136,7 +148,7 @@ function ServiceForm() {
                 rateToken: values.rateToken,
                 rateAmount: parsedRateAmountString,
               },
-              user.id,
+              builderPlace.ownerTalentLayerId,
               parseInt(process.env.NEXT_PUBLIC_PLATFORM_ID as string),
             );
 

@@ -5,7 +5,7 @@ import { ReactNode } from 'react';
 interface ContainerProps {
   children: ReactNode;
   title: string;
-  route: string;
+  route?: string;
   className?: string;
 }
 

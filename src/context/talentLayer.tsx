@@ -74,7 +74,7 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
       setLoading(false);
       // eslint-disable-next-line no-console
       console.error(err);
-      toast.error(`An error happened while loading you account: ${err.message}.`, {
+      toast.error(`An error happened while loading your account: ${err.message}.`, {
         position: 'bottom-right',
         autoClose: 5000,
         hideProgressBar: false,

@@ -20,7 +20,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 function Dashboard() {
   const router = useRouter();
   const { account, user } = useContext(TalentLayerContext);
-  const { isBuilderPlaceOwner, builderPlace } = useContext(BuilderPlaceContext);
+  const { isBuilderPlaceCollaborator, builderPlace } = useContext(BuilderPlaceContext);
   const isComingFromOnboarding = router.asPath.includes('onboarding');
 
   if (!user) {
@@ -67,7 +67,7 @@ function Dashboard() {
 
       {account?.isConnected && user && (
         <div>
-          {isBuilderPlaceOwner && (!builderPlace?.logo || !builderPlace?.icon) && (
+          {isBuilderPlaceCollaborator && (!builderPlace?.logo || !builderPlace?.icon) && (
             <>
               <div className='mb-12'>
                 <h2 className='pb-4 text-base-content  break-all flex justify-between items-center'>
@@ -89,7 +89,7 @@ function Dashboard() {
               </div>
             </>
           )}
-          {!isBuilderPlaceOwner && (
+          {!isBuilderPlaceCollaborator && (
             <>
               <div className='mb-12'>
                 <h2 className='pb-4 text-base-content  break-all flex justify-between items-center'>

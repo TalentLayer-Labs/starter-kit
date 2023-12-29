@@ -7,10 +7,10 @@ import TalentLayerContext from '../../context/talentLayer';
 import { postToIPFS } from '../../utils/ipfs';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../utils/toast';
 import SubmitButton from './SubmitButton';
-import { getUserByAddress } from '../../queries/users';
 import { delegateMintReview } from '../request';
 import { useChainId } from '../../hooks/useChainId';
 import useTalentLayerClient from '../../hooks/useTalentLayerClient';
+import BuilderPlaceContext from '../../modules/BuilderPlace/context/BuilderPlaceContext';
 
 interface IFormValues {
   content: string;
@@ -30,12 +30,18 @@ const initialValues: IFormValues = {
 function ReviewForm({ serviceId }: { serviceId: string }) {
   const chainId = useChainId();
   const { open: openConnectModal } = useWeb3Modal();
-  const { user } = useContext(TalentLayerContext);
-  const { isActiveDelegate } = useContext(TalentLayerContext);
+  const { user, isActiveDelegate } = useContext(TalentLayerContext);
+  const { isBuilderPlaceCollaborator, builderPlace } = useContext(BuilderPlaceContext);
   const publicClient = usePublicClient({ chainId });
   const { data: walletClient } = useWalletClient({ chainId });
   const talentLayerClient = useTalentLayerClient();
 
+  /**
+   * @dev If the user is a Collaborator, use the owner's TalentLayerId
+   * @param values
+   * @param setSubmitting
+   * @param resetForm
+   */
   const onSubmit = async (
     values: IFormValues,
     {
@@ -43,7 +49,7 @@ function ReviewForm({ serviceId }: { serviceId: string }) {
       resetForm,
     }: { setSubmitting: (isSubmitting: boolean) => void; resetForm: () => void },
   ) => {
-    if (user && publicClient && walletClient) {
+    if (user && publicClient && walletClient && builderPlace?.ownerTalentLayerId) {
       try {
         const uri = await postToIPFS(
           JSON.stringify({
@@ -52,13 +58,11 @@ function ReviewForm({ serviceId }: { serviceId: string }) {
           }),
         );
 
-        const getUser = await getUserByAddress(chainId, user.address);
-        const delegateAddresses = getUser.data?.data?.users[0].delegates;
         let tx;
         if (isActiveDelegate) {
           const response = await delegateMintReview(
             chainId,
-            user.id,
+            isBuilderPlaceCollaborator ? builderPlace.ownerTalentLayerId : user.id,
             user.address,
             serviceId,
             uri,
@@ -73,7 +77,7 @@ function ReviewForm({ serviceId }: { serviceId: string }) {
                 content: values.content,
               },
               serviceId,
-              user.id,
+              isBuilderPlaceCollaborator ? builderPlace.ownerTalentLayerId : user.id,
             );
             tx = res.tx;
           }

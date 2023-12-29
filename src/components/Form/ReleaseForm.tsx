@@ -7,6 +7,7 @@ import { IService, IToken, ServiceStatusEnum } from '../../types';
 import { renderTokenAmount } from '../../utils/conversion';
 import { useChainId } from '../../hooks/useChainId';
 import useTalentLayerClient from '../../hooks/useTalentLayerClient';
+import BuilderPlaceContext from '../../modules/BuilderPlace/context/BuilderPlaceContext';
 
 interface IFormValues {
   percentField: string;
@@ -29,33 +30,35 @@ function ReleaseForm({
 }: IReleaseFormProps) {
   const chainId = useChainId();
   const { user, isActiveDelegate } = useContext(TalentLayerContext);
+  const { isBuilderPlaceCollaborator, builderPlace } = useContext(BuilderPlaceContext);
   const publicClient = usePublicClient({ chainId });
   const talentLayerClient = useTalentLayerClient();
 
   const [percent, setPercentage] = useState(0);
 
+  /**
+   * @dev If the user is a Collaborator, use the owner's TalentLayerId
+   */
   const handleSubmit = async () => {
-    if (!user || !publicClient) {
-      return;
-    }
-    const percentToToken = (totalInEscrow * BigInt(percent)) / BigInt(100);
+    if (user && publicClient && builderPlace?.ownerTalentLayerId) {
+      const percentToToken = (totalInEscrow * BigInt(percent)) / BigInt(100);
+      if (talentLayerClient) {
+        await executePayment(
+          chainId,
+          user.address,
+          publicClient,
+          isBuilderPlaceCollaborator ? builderPlace.ownerTalentLayerId : user.id,
+          service.transaction.id,
+          percentToToken,
+          isBuyer,
+          isActiveDelegate,
+          talentLayerClient,
+          service.id,
+        );
+      }
 
-    if (talentLayerClient) {
-      await executePayment(
-        chainId,
-        user.address,
-        publicClient,
-        user.id,
-        service.transaction.id,
-        percentToToken,
-        isBuyer,
-        isActiveDelegate,
-        talentLayerClient,
-        service.id,
-      );
+      closeModal();
     }
-
-    closeModal();
   };
 
   const releaseMax = () => {

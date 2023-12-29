@@ -19,7 +19,7 @@ export default function CustomDomain(
   const { data: walletClient } = useWalletClient({ chainId });
   const { account } = useContext(TalentLayerContext);
 
-  const { builderPlace, isBuilderPlaceOwner } = useContext(BuilderPlaceContext);
+  const { builderPlace, isBuilderPlaceCollaborator } = useContext(BuilderPlaceContext);
   const [customDomain, setCustomDomain] = useState('');
 
   useEffect(() => {
@@ -52,7 +52,7 @@ export default function CustomDomain(
     }
   };
 
-  if (!isBuilderPlaceOwner) {
+  if (!isBuilderPlaceCollaborator) {
     return <AccessDenied />;
   }
 

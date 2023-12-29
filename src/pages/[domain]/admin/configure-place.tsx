@@ -16,7 +16,7 @@ import UploadImage from '../../../components/UploadImage';
 import TalentLayerContext from '../../../context/talentLayer';
 import BuilderPlaceContext from '../../../modules/BuilderPlace/context/BuilderPlaceContext';
 import { useUpdateBuilderPlace } from '../../../modules/BuilderPlace/hooks/UseUpdateBuilderPlace';
-import { IBuilderPlace, iBuilderPlacePalette } from '../../../modules/BuilderPlace/types';
+import { iBuilderPlacePalette } from '../../../modules/BuilderPlace/types';
 import { slugify } from '../../../modules/BuilderPlace/utils';
 import { sharedGetServerSideProps } from '../../../utils/sharedGetServerSideProps';
 import { themes } from '../../../utils/themes';
@@ -43,7 +43,7 @@ const validationSchema = Yup.object({
 
 function ConfigurePlace(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const { account, loading } = useContext(TalentLayerContext);
-  const { isBuilderPlaceOwner, builderPlace } = useContext(BuilderPlaceContext);
+  const { isBuilderPlaceCollaborator, builderPlace } = useContext(BuilderPlaceContext);
   const chainId = useChainId();
   const { data: walletClient } = useWalletClient({ chainId });
   const { mutateAsync: updateBuilderPlaceAsync } = useUpdateBuilderPlace();
@@ -114,7 +114,7 @@ function ConfigurePlace(props: InferGetServerSidePropsType<typeof getServerSideP
     );
   }
 
-  if (!isBuilderPlaceOwner) {
+  if (!isBuilderPlaceCollaborator) {
     return <AccessDenied />;
   }
 

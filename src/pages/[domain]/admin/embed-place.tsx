@@ -26,7 +26,7 @@ const generateServicesEmbedIframeCode = (embedUrl: string): string => {
 
 export default function EmbedPlace() {
   const { loading } = useContext(TalentLayerContext);
-  const { builderPlace, isBuilderPlaceOwner } = useContext(BuilderPlaceContext);
+  const { builderPlace, isBuilderPlaceCollaborator } = useContext(BuilderPlaceContext);
   const { isCopied: isIframeCopied, copyToClipboard: copyIframe } = useCopyToClipBoard();
 
   if (loading) {
@@ -37,13 +37,13 @@ export default function EmbedPlace() {
     );
   }
 
-  if (!isBuilderPlaceOwner) {
+  if (!isBuilderPlaceCollaborator) {
     return <AccessDenied />;
   }
 
   return (
     <>
-      {isBuilderPlaceOwner && (
+      {isBuilderPlaceCollaborator && (
         <div className='max-w-7xl mx-auto text-base-content'>
           <div className='-mx-6 -mt-6 sm:mx-0 sm:mt-0'>
             <p className='flex py-2 items-center text-2xl font-bold tracking-wider mb-2 w-full px-6 sm:px-0 mt-6 '>
@@ -92,7 +92,7 @@ export default function EmbedPlace() {
           </div>
         </div>
       )}
-      {isBuilderPlaceOwner && builderPlace?.name && (
+      {isBuilderPlaceCollaborator && builderPlace?.name && (
         <div className='mt-6'>
           <h2 className='pb-4 text-base font-bold break-all'>preview</h2>
           <p className='text-sm mb-6 text-landingprimary italic'>

@@ -1,6 +1,6 @@
 import { Form, Formik } from 'formik';
 import { useRouter } from 'next/router';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { useChainId, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
 import CustomDomain from '../../../components/CustomDomain';

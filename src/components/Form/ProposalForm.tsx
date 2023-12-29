@@ -1,20 +1,17 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
-import { QuestionMarkCircle } from 'heroicons-react';
 import { useRouter } from 'next/router';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { formatUnits } from 'viem';
 import { usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
 import TalentLayerContext from '../../context/talentLayer';
 import useAllowedTokens from '../../hooks/useAllowedTokens';
 import { useChainId } from '../../hooks/useChainId';
-import { postOpenAiRequest } from '../../modules/OpenAi/utils';
 import Web3MailContext from '../../modules/Web3mail/context/web3mail';
 import { createWeb3mailToast } from '../../modules/Web3mail/utils/toast';
 import { IProposal, IService, IUser } from '../../types';
 import { parseRateAmount } from '../../utils/currency';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../utils/toast';
-import Loading from '../Loading';
 import ServiceItem from '../ServiceItem';
 import { delegateCreateOrUpdateProposal } from '../request';
 import SubmitButton from './SubmitButton';
@@ -53,7 +50,6 @@ function ProposalForm({
   const allowedTokenList = useAllowedTokens();
   const { isActiveDelegate } = useContext(TalentLayerContext);
   const { platformHasAccess } = useContext(Web3MailContext);
-  const [aiLoading, setAiLoading] = useState(false);
   const talentLayerClient = useTalentLayerClient();
 
   const currentChain = chains.find(chain => chain.id === chainId);
@@ -184,7 +180,7 @@ function ProposalForm({
 
   return (
     <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
-      {({ isSubmitting, values, setFieldValue }) => (
+      {({ isSubmitting }) => (
         <Form>
           <h2 className='mb-2 text-base-content font-bold'>the mission</h2>
           <ServiceItem service={service} />

@@ -7,21 +7,19 @@ import {
   hirerAdminNavigation,
   PlatformAdminNavigation,
   workerNavigation,
+  ownerAdminNavigation,
 } from './navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 
 function SideMenu() {
   const { user } = useContext(TalentLayerContext);
-  const { isBuilderPlaceOwner } = useContext(BuilderPlaceContext);
-
-  console.log({ isBuilderPlaceOwner });
-
+  const { isBuilderPlaceCollaborator, isBuilderPlaceOwner } = useContext(BuilderPlaceContext);
   return (
     <>
       <div className='sm:mt-8 flex flex-1 flex-col justify-between'>
         <nav className='space-y-1 px-3'>
-          {isBuilderPlaceOwner && (
+          {isBuilderPlaceCollaborator && (
             <>
               <div className='pt-4'>
                 <div className='border-info h-px mx-3'></div>
@@ -53,12 +51,22 @@ function SideMenu() {
                       {item.name}
                     </SideLink>
                   ))}
+                  {isBuilderPlaceOwner &&
+                    ownerAdminNavigation.map(item => (
+                      <SideLink key={item.name} href={item.href}>
+                        <item.icon
+                          className='mr-3 h-5 w-5 flex-shrink-0 text-base-content'
+                          aria-hidden='true'
+                        />
+                        {item.name}
+                      </SideLink>
+                    ))}
                 </nav>
               </div>
             </>
           )}
 
-          {!isBuilderPlaceOwner && (
+          {!isBuilderPlaceCollaborator && (
             <nav className='space-y-1 mt-6'>
               {workerNavigation.map(item => (
                 <SideLink key={item.name} href={item.href}>
@@ -91,7 +99,7 @@ function SideMenu() {
         </nav>
       </div>
       <div className='mt-8 flex flex-1 flex-col items-center justify-end pb-4'>
-        {isBuilderPlaceOwner && (
+        {isBuilderPlaceCollaborator && (
           <div className='block mb-4'>
             <Link
               href='/'

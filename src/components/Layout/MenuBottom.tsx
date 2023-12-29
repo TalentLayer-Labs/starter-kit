@@ -12,9 +12,9 @@ function MenuBottom({
   sidebarOpen: boolean;
   setSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const { isBuilderPlaceOwner } = useContext(BuilderPlaceContext);
+  const { isBuilderPlaceCollaborator } = useContext(BuilderPlaceContext);
 
-  const navigation = isBuilderPlaceOwner ? hirerNavigation : workerNavigation;
+  const navigation = isBuilderPlaceCollaborator ? hirerNavigation : workerNavigation;
 
   const onClick = (e: any) => {
     e.preventDefault();

@@ -1,5 +1,8 @@
 import { recoverMessageAddress } from 'viem';
-import { getBuilderPlaceByOwnerAddressAndId } from '../../../modules/BuilderPlace/actions';
+import {
+  getBuilderPlaceByOwnerAddressAndId,
+  getBuilderPlaceByOwnerTlIdAndId,
+} from '../../../modules/BuilderPlace/actions';
 import { NextApiResponse } from 'next';
 
 export const checkSignature = async (
@@ -16,6 +19,33 @@ export const checkSignature = async (
 
   if (!builderPlace) {
     return res.status(500).json({ error: 'Not the owner.' });
+  }
+
+  return { builderPlace, address };
+};
+
+/**
+ * Checks if the signature is from the BuilderPlace owner
+ * @param builderPlaceId
+ * @param ownerId
+ * @param signature
+ * @param res
+ */
+export const checkOwnerSignature = async (
+  builderPlaceId: string,
+  ownerId: string,
+  signature: `0x${string}` | Uint8Array,
+  res: NextApiResponse,
+) => {
+  const address = await recoverMessageAddress({
+    message: ownerId,
+    signature: signature,
+  });
+
+  const builderPlace = await getBuilderPlaceByOwnerTlIdAndId(ownerId, builderPlaceId);
+
+  if (!builderPlace) {
+    return res.status(500).json({ error: 'Not Builderplace owner' });
   }
 
   return { builderPlace, address };
