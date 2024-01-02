@@ -59,6 +59,7 @@ function onboardingStep2() {
         const response = await setOwner({
           id: id as string,
           owners: [account.address],
+          ownerAddress: account.address,
           ownerTalentLayerId: user.id,
         });
         if (response?.id) {

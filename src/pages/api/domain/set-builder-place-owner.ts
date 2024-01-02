@@ -29,6 +29,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 
     try {
       builderSpace.ownerTalentLayerId = body.ownerTalentLayerId;
+      builderSpace.ownerAddress = body.ownerAddress;
       builderSpace.owners = body.owners;
       builderSpace.save();
       res

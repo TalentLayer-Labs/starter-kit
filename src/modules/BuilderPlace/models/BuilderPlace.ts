@@ -98,6 +98,12 @@ const builderPlace = new Schema({
   owners: {
     type: Array,
   },
+  ownerAddress: {
+    type: String,
+    required: false,
+    unique: true,
+    sparse: true,
+  },
   status: {
     type: String,
     default: 'pending',

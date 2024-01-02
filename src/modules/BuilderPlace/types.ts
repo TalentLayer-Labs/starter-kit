@@ -63,6 +63,7 @@ export interface RemoveBuilderPlaceCollaborator {
 export interface SetBuilderPlaceOwner {
   id: string;
   owners: string[];
+  ownerAddress: string;
   ownerTalentLayerId: string;
 }
 
@@ -134,6 +135,7 @@ export type IBuilderPlace = {
   aboutTech?: string;
   baseline?: string;
   owners?: string[];
+  ownerAddress?: string;
   ownerTalentLayerId?: string;
   status: 'Validated' | 'Pending';
   preferredWorkTypes: PreferredWorkTypes[];
