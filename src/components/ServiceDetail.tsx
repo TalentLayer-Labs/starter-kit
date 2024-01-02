@@ -16,10 +16,12 @@ import ProposalItem from './ProposalItem';
 import ReviewItem from './ReviewItem';
 import ServiceStatus from './ServiceStatus';
 import TokenAmount from './TokenAmount';
+import BuilderPlaceContext from '../modules/BuilderPlace/context/BuilderPlaceContext';
 
 function ServiceDetail({ service }: { service: IService }) {
   const chainId = useChainId();
   const { account, user, workerProfile } = useContext(TalentLayerContext);
+  const { isBuilderPlaceCollaborator } = useContext(BuilderPlaceContext);
   const { reviews } = useReviewsByService(service.id);
   const proposals = useProposalsByService(service.id);
   const payments = usePaymentsByService(service.id);
@@ -44,7 +46,7 @@ function ServiceDetail({ service }: { service: IService }) {
           <div className='flex flex-col justify-start items-start gap-4'>
             <div className='flex items-center justify-start w-full relative'>
               <ProfileImage size={50} url={service?.buyer?.description?.image_url} />
-              <div className='flex flex-col'>
+              <div className='flex flex-col flex-1'>
                 <p className='text-base-content font-medium break-all'>
                   {service.description?.title}
                 </p>
@@ -53,6 +55,13 @@ function ServiceDetail({ service }: { service: IService }) {
                   {formatDate(Number(service.createdAt) * 1000)}
                 </p>
               </div>
+              {service.status === ServiceStatusEnum.Opened && isBuilderPlaceCollaborator && (
+                <Link
+                  href={`/work/${service.id}/edit`}
+                  className='px-5 py-2 rounded-xl bg-primary text-primary'>
+                  Edit
+                </Link>
+              )}
               <span className='absolute right-[-25px] top-[-25px] inline-flex items-center'>
                 <ServiceStatus status={service.status} />
               </span>

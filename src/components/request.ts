@@ -1,18 +1,20 @@
 /* eslint-disable no-console */
 import axios from 'axios';
 
-export const delegateCreateService = async (
+export const delegateCreateOrUpdateService = async (
   chainId: number,
   userId: string,
   userAddress: string,
   cid: string,
+  existingService: boolean,
 ): Promise<any> => {
   try {
-    return await axios.post('/api/delegate/create-service', {
+    return await axios.post('/api/delegate/create-update-service', {
       chainId,
       userId,
       userAddress,
       cid,
+      existingService,
     });
   } catch (err) {
     console.error(err);

@@ -12,7 +12,7 @@ import {
 } from '../../../modules/BuilderPlace/actions';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { userId, userAddress, cid, chainId } = req.body;
+  const { userId, userAddress, cid, chainId, existingService } = req.body;
   const config = getConfig(chainId);
 
   // @dev : you can add here all the check you need to confirm the delegation for a user
@@ -29,13 +29,24 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return;
       }
 
+    let transaction;
+
+    if (existingService) {
+      transaction = await walletClient.writeContract({
+        address: config.contracts.serviceRegistry,
+        abi: TalentLayerService.abi,
+        functionName: 'updateServiceData',
+        args: [userId, existingService.id, cid],
+      });
+    } else {
       const signature = await getServiceSignature({ profileId: Number(userId), cid });
-      const transaction = await walletClient.writeContract({
+      transaction = await walletClient.writeContract({
         address: config.contracts.serviceRegistry,
         abi: TalentLayerService.abi,
         functionName: 'createService',
         args: [userId, process.env.NEXT_PUBLIC_PLATFORM_ID, cid, signature],
       });
+    }
 
       await incrementWeeklyTransactionCounter(worker, res);
 
