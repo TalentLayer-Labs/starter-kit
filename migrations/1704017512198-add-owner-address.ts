@@ -2,7 +2,8 @@ import { connection } from '../src/mongo/mongodb';
 import { BuilderPlace } from '../src/modules/BuilderPlace/models/BuilderPlace';
 import { getUserById } from '../src/queries/users';
 
-const chainId = 80001;
+const chainId = process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID || '137';
+
 let builderPlacesWithOwners: any[] = [];
 export async function up(): Promise<void> {
   await connection();
@@ -15,7 +16,7 @@ export async function up(): Promise<void> {
 
   for (let builderPlace of builderPlacesWithOwners) {
     console.log('Owner TLID', builderPlace.ownerTalentLayerId);
-    const owner = await getUserById(chainId, builderPlace.ownerTalentLayerId);
+    const owner = await getUserById(parseInt(chainId), builderPlace.ownerTalentLayerId);
     if (!owner?.data?.data?.user?.address) {
       console.log('No owner found for builderPlace', builderPlace._id);
       continue;
