@@ -1,4 +1,7 @@
 import { defineChain } from 'viem';
+import { NetworkEnum } from './types';
+import { Chain } from 'wagmi';
+import { polygon, polygonMumbai } from 'viem/chains';
 
 export const iexec = defineChain({
   id: 134,
@@ -23,42 +26,16 @@ export const iexec = defineChain({
   testnet: false,
 });
 
-export const polygonMumbai = defineChain({
-  id: 80_001,
-  name: 'Polygon Mumbai',
-  network: 'maticmum',
-  nativeCurrency: { name: 'MATIC', symbol: 'MATIC', decimals: 18 },
-  rpcUrls: {
-    alchemy: {
-      http: ['https://polygon-mumbai.g.alchemy.com/v2'],
-      webSocket: ['wss://polygon-mumbai.g.alchemy.com/v2'],
-    },
-    infura: {
-      http: ['https://polygon-mumbai.infura.io/v3'],
-      webSocket: ['wss://polygon-mumbai.infura.io/ws/v3'],
-    },
-    default: {
-      http: ['https://rpc-mumbai.maticvigil.com'],
-    },
-    public: {
-      http: ['https://rpc-mumbai.maticvigil.com'],
-    },
-  },
-  blockExplorers: {
-    etherscan: {
-      name: 'PolygonScan',
-      url: 'https://mumbai.polygonscan.com',
-    },
-    default: {
-      name: 'PolygonScan',
-      url: 'https://mumbai.polygonscan.com',
-    },
-  },
-  contracts: {
-    multicall3: {
-      address: '0xca11bde05977b3631167028862be2a173976ca11',
-      blockCreated: 25770160,
-    },
-  },
-  testnet: true,
-});
+const viemFormattedChains: {
+  [networkId in NetworkEnum]?: Chain;
+} = {
+  [NetworkEnum.MUMBAI]: polygonMumbai,
+  [NetworkEnum.POLYGON]: polygon,
+  [NetworkEnum.IEXEC]: iexec,
+};
+
+export const getDefaultViemFormattedChain = (): Chain =>
+  viemFormattedChains[process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as unknown as NetworkEnum] as Chain;
+
+export const getViemFormattedChain = (networkId: NetworkEnum): Chain =>
+  viemFormattedChains[networkId] || getDefaultViemFormattedChain();

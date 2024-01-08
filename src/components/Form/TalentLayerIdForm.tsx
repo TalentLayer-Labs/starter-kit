@@ -17,6 +17,7 @@ import SubmitButton from './SubmitButton';
 
 interface IFormValues {
   handle: string;
+  activateGassless: boolean;
 }
 
 function TalentLayerIdForm({ handle, callback }: { handle?: string; callback?: () => void }) {
@@ -35,6 +36,7 @@ function TalentLayerIdForm({ handle, callback }: { handle?: string; callback?: (
 
   const initialValues: IFormValues = {
     handle: handle || '',
+    activateGassless: true,
   };
 
   const validationSchema = Yup.object().shape({
@@ -72,6 +74,9 @@ function TalentLayerIdForm({ handle, callback }: { handle?: string; callback?: (
             String(handlePrice),
             account.address,
             signature,
+            process.env.NEXT_PUBLIC_ACTIVATE_DELEGATE_ON_MINT === 'true'
+              ? submittedValues.activateGassless
+              : false,
           );
 
           tx = response.data.transaction;
@@ -138,8 +143,8 @@ function TalentLayerIdForm({ handle, callback }: { handle?: string; callback?: (
             integrated platforms; meaning you can use it across any integrated platform and retain
             full control of your reputation.
           </p>
-          <div className='flex  bg-base-300 py-4 px-4 mb-2 sm:px-0 justify-center items-center flex-row drop-shadow-lg rounded'>
-            <div className='px-6 flex flex-row items-center gap-2'>
+          <div className='flex bg-base-300 py-4 px-4 sm:px-0 justify-center items-center flex-col drop-shadow-lg rounded'>
+            <div className='px-6 flex items-center justify-center w-full gap-2'>
               <Field
                 type='text'
                 className='text-base-content opacity-50 py-2 focus:ring-0 outline-none text-sm border-0 rounded-xl h-[40px]'
@@ -148,9 +153,7 @@ function TalentLayerIdForm({ handle, callback }: { handle?: string; callback?: (
                 name='handle'
                 required
               />
-            </div>
 
-            <div className='flex items-center'>
               {values.handle && chainId != NetworkEnum.IEXEC && (
                 <HandlePrice handle={values.handle} />
               )}
@@ -197,6 +200,21 @@ function TalentLayerIdForm({ handle, callback }: { handle?: string; callback?: (
                 </div>
               </div>
             </div>
+            {process.env.NEXT_PUBLIC_ACTIVE_DELEGATE_MINT === 'true' && (
+              <div className='flex items-center justify-center w-full mt-4'>
+                <Field
+                  type='checkbox'
+                  id='activateGassless'
+                  name='activateGassless'
+                  className='checked:bg-info h-4 w-4 text-info border-gray-300 rounded focus:ring-info'
+                />
+                <label
+                  htmlFor='activateGassless'
+                  className='ml-2 text-sm font-medium text-base-content'>
+                  Activate Gasless Experience !
+                </label>
+              </div>
+            )}
           </div>
           <span className='label-text text-alone-error mt-2'>
             <ErrorMessage name='handle' />

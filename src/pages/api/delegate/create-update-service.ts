@@ -16,6 +16,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const config = getConfig(chainId);
 
   // @dev : you can add here all the check you need to confirm the delegation for a user
+
+  if (process.env.NEXT_PUBLIC_ACTIVE_DELEGATE !== 'true') {
+    res.status(500).json('Delegation is not activated');
+    return null;
+  }
+
   try {
     const worker = await getWorkerProfileByTalentLayerId(userId, res);
 
@@ -29,24 +35,24 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return;
       }
 
-    let transaction;
+      let transaction;
 
-    if (existingService) {
-      transaction = await walletClient.writeContract({
-        address: config.contracts.serviceRegistry,
-        abi: TalentLayerService.abi,
-        functionName: 'updateServiceData',
-        args: [userId, existingService.id, cid],
-      });
-    } else {
-      const signature = await getServiceSignature({ profileId: Number(userId), cid });
-      transaction = await walletClient.writeContract({
-        address: config.contracts.serviceRegistry,
-        abi: TalentLayerService.abi,
-        functionName: 'createService',
-        args: [userId, process.env.NEXT_PUBLIC_PLATFORM_ID, cid, signature],
-      });
-    }
+      if (existingService) {
+        transaction = await walletClient.writeContract({
+          address: config.contracts.serviceRegistry,
+          abi: TalentLayerService.abi,
+          functionName: 'updateServiceData',
+          args: [userId, existingService.id, cid],
+        });
+      } else {
+        const signature = await getServiceSignature({ profileId: Number(userId), cid });
+        transaction = await walletClient.writeContract({
+          address: config.contracts.serviceRegistry,
+          abi: TalentLayerService.abi,
+          functionName: 'createService',
+          args: [userId, process.env.NEXT_PUBLIC_PLATFORM_ID, cid, signature],
+        });
+      }
 
       await incrementWeeklyTransactionCounter(worker, res);
 

@@ -15,6 +15,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const config = getConfig(chainId);
 
   // @dev : you can add here all the check you need to confirm the delegation for a user
+
+  if (process.env.NEXT_PUBLIC_ACTIVE_DELEGATE !== 'true') {
+    res.status(500).json('Delegation is not activated');
+    return null;
+  }
+
   try {
     const worker = await getWorkerProfileByTalentLayerId(userId, res);
 
