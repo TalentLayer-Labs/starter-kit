@@ -20,6 +20,11 @@ import {
 } from './types';
 import { NextApiResponse } from 'next';
 import { MAX_TRANSACTION_AMOUNT } from '../../config';
+import {
+  EMAIL_ALREADY_VERIFIED,
+  EMAIL_VERIFIED_SUCCESSFULLY,
+  ERROR_VERIFYING_EMAIL,
+} from './apiResponses';
 
 export const deleteBuilderPlace = async (_id: string) => {
   await connection();
@@ -79,18 +84,23 @@ export const addBuilderPlaceCollaborator = async (body: AddBuilderPlaceCollabora
 export const removeBuilderPlaceCollaborator = async (body: RemoveBuilderPlaceCollaborator) => {
   try {
     await connection();
+    const builderPlace = await BuilderPlace.findOne({ _id: body.builderPlaceId });
+    if (body.collaborator === builderPlace.ownerTalentLayerId) {
+      console.log('Cannot remove the owner of the BuilderPlace');
+      throw new Error('Cannot remove the owner of the BuilderPlace');
+    }
     await BuilderPlace.updateOne(
       { _id: body.builderPlaceId },
       {
         $pull: {
-          owners: body.newCollaborator,
+          owners: body.collaborator,
         },
       },
     ).exec();
-    console.log('Collaborator removed successfully', body.newCollaborator);
+    console.log('Collaborator removed successfully', body.collaborator);
     return {
       message: 'Collaborator removed successfully',
-      collaborator: body.newCollaborator,
+      collaborator: body.collaborator,
     };
   } catch (error: any) {
     return {
@@ -436,30 +446,31 @@ export async function incrementWeeklyTransactionCounter(
   }
 }
 
-export const validateWorkerProfileEmail = async (userId: string, email: string) => {
+export const verifyWorkerProfileEmail = async (id: string) => {
   try {
     await connection();
-    const existingWorker = await Worker.findOne({ email: email, talentLayerId: userId });
+    const existingWorker = await Worker.findOne({ _id: id });
     if (existingWorker) {
-      const resp = await Worker.updateOne(
-        { email: email, talentLayerId: userId },
-        { emailVerified: true },
-      ).exec();
+      const resp = await Worker.updateOne({ _id: id }, { emailVerified: true }).exec();
       if (resp.modifiedCount === 0 && resp.matchedCount === 1) {
+        console.log(EMAIL_ALREADY_VERIFIED);
         return {
-          error: 'Email already validated',
+          error: EMAIL_ALREADY_VERIFIED,
         };
       }
       console.log('Updated worker profile email', resp);
     } else {
+      console.log(ERROR_VERIFYING_EMAIL);
       return {
-        error: 'Error while validating email',
+        error: ERROR_VERIFYING_EMAIL,
       };
     }
     return {
-      message: 'Email verified successfully',
+      message: EMAIL_VERIFIED_SUCCESSFULLY,
+      email: existingWorker.email,
     };
   } catch (error: any) {
+    console.log(error.message);
     return {
       error: error.message,
     };

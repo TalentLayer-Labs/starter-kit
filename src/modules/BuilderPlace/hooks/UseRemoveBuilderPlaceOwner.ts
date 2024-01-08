@@ -2,16 +2,14 @@ import { useMutation } from 'react-query';
 import { RemoveBuilderPlaceCollaborator } from '../types';
 
 export function useRemoveBuilderPlaceOwnerMutation() {
-  //TODO ne pas autoriser de remove l'address du owner du TLID.
-
   return useMutation<
     { message: string; id: string; error?: string },
     Error,
     RemoveBuilderPlaceCollaborator
-  >((addBuilderPlaceOwner: RemoveBuilderPlaceCollaborator) =>
+  >((removeBuilderPlaceCollaborator: RemoveBuilderPlaceCollaborator) =>
     fetch('/api/domain/remove-builder-place-collaborator', {
       method: 'PUT',
-      body: JSON.stringify(addBuilderPlaceOwner),
+      body: JSON.stringify(removeBuilderPlaceCollaborator),
       headers: {
         'Content-type': 'application/json',
       },

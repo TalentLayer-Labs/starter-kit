@@ -1,12 +1,16 @@
 import { useMutation, useQueryClient } from 'react-query';
-import { SetBuilderPlaceOwner } from '../types';
+import { SetBuilderPlaceAndHirerOwner } from '../types';
 
-export function useSetBuilderPlaceOwner() {
+export function useSetBuilderPlaceAndHirerOwner() {
   const queryClient = useQueryClient();
 
-  return useMutation<{ message: string; id: string; error?: string }, Error, SetBuilderPlaceOwner>(
-    (updateBuilderPlaceData: SetBuilderPlaceOwner) =>
-      fetch('/api/domain/set-builder-place-owner', {
+  return useMutation<
+    { message: string; builderPlaceId: string; hirerId: string; error?: string },
+    Error,
+    SetBuilderPlaceAndHirerOwner
+  >(
+    (updateBuilderPlaceData: SetBuilderPlaceAndHirerOwner) =>
+      fetch('/api/domain/set-builder-place-and-hirer-owner', {
         method: 'PUT',
         body: JSON.stringify(updateBuilderPlaceData),
         headers: {

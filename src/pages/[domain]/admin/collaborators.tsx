@@ -58,7 +58,7 @@ export default function Collaborators() {
         const response = await removeBuilderPlaceCollaboratorAsync({
           ownerId: user.id,
           builderPlaceId: builderPlace._id,
-          newCollaborator: address,
+          collaborator: address,
           signature,
         });
 

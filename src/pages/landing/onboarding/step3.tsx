@@ -13,6 +13,8 @@ import { useGetBuilderPlaceFromOwner } from '../../../modules/BuilderPlace/hooks
 import { useUpdateBuilderPlace } from '../../../modules/BuilderPlace/hooks/UseUpdateBuilderPlace';
 import { themes } from '../../../utils/themes';
 import { generateDomainName, slugify } from '../../../modules/BuilderPlace/utils';
+import { sendVerificationEmail } from '../../../modules/BuilderPlace/request';
+import { createVerificationEmailToast } from '../../../modules/BuilderPlace/utils/toast';
 interface IFormValues {
   subdomain: string;
   palette: keyof typeof themes;
@@ -23,12 +25,13 @@ const validationSchema = Yup.object({
   subdomain: Yup.string().required('subdomain is required'),
 });
 function onboardingStep3() {
-  const { account, user, loading } = useContext(TalentLayerContext);
+  const { account, user, workerProfile, loading } = useContext(TalentLayerContext);
   const chainId = useChainId();
+  const router = useRouter();
+  const { userId } = router.query;
   const { data: walletClient } = useWalletClient({ chainId });
   const { mutateAsync: updateBuilderPlaceAsync } = useUpdateBuilderPlace();
   const builderPlaceData = useGetBuilderPlaceFromOwner(user?.id as string);
-  const router = useRouter();
 
   const initialValues: IFormValues = {
     subdomain: (builderPlaceData?.name && slugify(builderPlaceData.name)) || '',
@@ -60,6 +63,21 @@ function onboardingStep3() {
     if (walletClient && account?.address) {
       setSubmitting(true);
       try {
+        const subdomain = generateDomainName(values.subdomain);
+
+        /**
+         * @dev: send validadion email to owner to validate email
+         */
+        if (workerProfile && userId) {
+          await sendVerificationEmail(
+            workerProfile.email,
+            userId as string,
+            workerProfile.name,
+            subdomain,
+          );
+          await createVerificationEmailToast();
+        }
+
         /**
          * @dev Sign message to prove ownership of the address
          */
@@ -67,8 +85,6 @@ function onboardingStep3() {
           account: account.address,
           message: builderPlaceData._id,
         });
-
-        const subdomain = generateDomainName(values.subdomain);
 
         const res = await updateBuilderPlaceAsync({
           _id: builderPlaceData._id,
@@ -81,6 +97,7 @@ function onboardingStep3() {
           status: 'validated',
           signature,
         });
+
         if (res?.id) {
           router.push(`${window.location.protocol}//${subdomain}/dashboard?hireronboarding=1`);
         }

@@ -21,10 +21,10 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 
     const workerProfile = await getWorkerProfileById(body.id as string);
     if (!workerProfile) {
-      return res.status(500).json({ error: "Profile doesn't exist." });
+      return res.status(400).json({ error: "Profile doesn't exist." });
     }
     if (!!workerProfile.talentLayerId) {
-      return res.status(500).json({ error: 'Profile already has an owner.' });
+      return res.status(401).json({ error: 'Profile already has an owner.' });
     }
 
     try {

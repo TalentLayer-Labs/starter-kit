@@ -9,7 +9,7 @@ function OnboardingSteps({ currentStep, type }: { currentStep: number; type: str
 
   return (
     <div className='mt-6 hidden sm:flex justify-center items-center '>
-      <div className='w-full md:w-3/4 bg-FFF8F1 border-2 border-solid border-opacity-10 border-info rounded-2xl p-4 mx-6'>
+      <div className='w-full md:w-3/4 border-2 bg-base-100 border-solid border-opacity-10 border-info rounded-2xl p-4 mx-6'>
         <div className='flex flex-col sm:flex-row'>
           <div className='sm:flex-1 border-r border-dark bg-base-100 flex sm:mb-0 mb-2 items-center justify-center'>
             <div

@@ -15,6 +15,7 @@ import EmailModal from '../../components/Modal/EmailModal';
 import { useRouter } from 'next/router';
 import VerifyEmailNotification from '../../components/VerifyEmailNotification';
 import DelegationNotification from '../../components/DelegationNotification';
+import { toast } from 'react-toastify';
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   return sharedGetServerSideProps(context);
@@ -41,16 +42,18 @@ function Dashboard() {
             </div>
           </div>
         ) : (
-          <div className='max-w-7xl mx-auto text-base-content text-center'>
-            <div className='-mx-6 -mt-6 sm:mx-0 sm:mt-0'>
-              <div className='py-2 px-6 sm:px-0 w-full mb-8'>
-                <p className='text-2xl font-bold flex-1 mt-6'>
-                  <span className='text-base-content ml-1'> Connect your wallet </span>
-                </p>
-                <p>You need first to connect your wallet to access your dashboard</p>
+          !account?.isConnected && (
+            <div className='max-w-7xl mx-auto text-base-content text-center'>
+              <div className='-mx-6 -mt-6 sm:mx-0 sm:mt-0'>
+                <div className='py-2 px-6 sm:px-0 w-full mb-8'>
+                  <p className='text-2xl font-bold flex-1 mt-6'>
+                    <span className='text-base-content ml-1'> Connect your wallet </span>
+                  </p>
+                  <p>You need first to connect your wallet to access your dashboard</p>
+                </div>
               </div>
             </div>
-          </div>
+          )
         )}
 
         <Steps />
@@ -95,8 +98,12 @@ function Dashboard() {
           {!isBuilderPlaceCollaborator && (
             <>
               <EmailModal />
-              {/* <VerifyEmailNotification /> */}
-              <DelegationNotification />
+              <VerifyEmailNotification
+                callback={() => {
+                  toast.success('Verification email sent!');
+                }}
+              />
+              {process.env.NEXT_PUBLIC_ACTIVE_DELEGATE === 'true' && <DelegationNotification />}
               <div className='mb-12 mt-2'>
                 <h2 className='pb-4 text-base-content  break-all flex justify-between items-center'>
                   <span className='flex-1 font-bold'>contributor profile</span>

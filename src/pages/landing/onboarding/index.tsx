@@ -1,33 +1,37 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
 import * as Yup from 'yup';
 import HirerProfileLayout from '../../../components/HirerProfileLayout';
 import UploadImage from '../../../components/UploadImage';
 import { useCreateBuilderPlaceMutation } from '../../../modules/BuilderPlace/hooks/UseCreateBuilderPlaceMutation';
 import { PreferredWorkTypes } from '../../../types';
 import { themes } from '../../../utils/themes';
-import { showErrorTransactionToast } from '../../../utils/toast';
+import { showMongoErrorTransactionToast } from '../../../utils/toast';
+import { useCreateWorkerProfileMutation } from '../../../modules/BuilderPlace/hooks/UseCreateWorkerProfileMutation';
 
 interface IFormValues {
   name: string;
   about: string;
+  email: string;
   preferred_work_types: PreferredWorkTypes[];
   profilePicture?: string;
 }
 function onboardingStep1() {
   const { mutateAsync: createBuilderPlaceAsync } = useCreateBuilderPlaceMutation();
+  const { mutateAsync: createUserProfileAsync } = useCreateWorkerProfileMutation();
   const router = useRouter();
 
   const initialValues: IFormValues = {
     name: '',
     about: '',
+    email: '',
     preferred_work_types: [PreferredWorkTypes.jobs],
   };
 
   const validationSchema = Yup.object({
     name: Yup.string().min(2).max(20).required('Enter your name'),
     about: Yup.string().required('Give us a description about your team'),
+    email: Yup.string().required('Please provide your email'),
     preferred_work_types: Yup.array()
       .of(Yup.string())
       .min(1, 'Chose at least one preferred word type')
@@ -41,23 +45,37 @@ function onboardingStep1() {
   ) => {
     try {
       setSubmitting(true);
+      /**
+       * @dev: Create User first so that it will revert if email already exists & not create the BuilderPlace
+       */
+      const userResponse = await createUserProfileAsync({
+        email: values.email,
+        name: values.name,
+        picture: values.profilePicture || undefined,
+        about: values.about,
+        status: 'pending',
+      });
 
-      const response = await createBuilderPlaceAsync({
+      if (userResponse.error) {
+        throw new Error(userResponse.error);
+      }
+
+      const builderPlaceResponse = await createBuilderPlaceAsync({
         name: values.name,
         palette: themes['lisboa'],
         about: values.about,
         preferredWorkTypes: values.preferred_work_types,
         profilePicture: values.profilePicture || undefined,
       });
-      if (response?.id) {
-        router.query.id = response.id;
-        router.push({
-          pathname: '/onboarding/step2',
-          query: { id: response.id },
-        });
-      }
+
+      router.query.builderPlaceId = builderPlaceResponse.id;
+      router.query.userId = userResponse.id;
+      router.push({
+        pathname: '/onboarding/step2',
+        query: { builderPlaceId: builderPlaceResponse.id, userId: userResponse.id },
+      });
     } catch (error: any) {
-      showErrorTransactionToast(error);
+      showMongoErrorTransactionToast(error.message);
     } finally {
       setTimeout(() => {
         setSubmitting(false);
@@ -92,6 +110,19 @@ function onboardingStep1() {
               </label>
               <span className='text-red-500'>
                 <ErrorMessage name='name' />
+              </span>
+              <label className='block'>
+                <span className='font-bold text-md'>organization email</span>
+                <Field
+                  type='text'
+                  id='email'
+                  name='email'
+                  className='mt-1 mb-1 block w-full rounded-xl border-2 border-info bg-base-200 shadow-sm focus:ring-opacity-50'
+                  placeholder="your organization's email goes here"
+                />
+              </label>
+              <span className='text-red-500'>
+                <ErrorMessage name='email' />
               </span>
               <label className='block'>
                 <span className='font-bold text-md'>about your orgnanization</span>

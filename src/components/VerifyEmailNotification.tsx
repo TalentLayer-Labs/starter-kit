@@ -1,21 +1,33 @@
 import Notification from './Notification';
-import { verifyEmail } from '../modules/BuilderPlace/request';
+import { sendVerificationEmail } from '../modules/BuilderPlace/request';
 import { showMongoErrorTransactionToast } from '../utils/toast';
 import { useContext, useState } from 'react';
 import TalentLayerContext from '../context/talentLayer';
+import { useRouter } from 'next/router';
 
 type VerifyEmailNotificationProps = {
   callback?: () => void | Promise<void>;
 };
 
 const VerifyEmailNotification = ({ callback }: VerifyEmailNotificationProps) => {
-  const { user, workerProfile, refreshWorkerProfile } = useContext(TalentLayerContext);
+  const { user, workerProfile } = useContext(TalentLayerContext);
+  const router = useRouter();
+  const [showNotification, setShowNotification] = useState(true);
 
   const onVerifyMail = async () => {
-    if (workerProfile?.email && !workerProfile.emailVerified && user?.id) {
+    const domain =
+      typeof router.query.domain === 'object' && !!router.query.domain
+        ? router.query.domain[0]
+        : router.query.domain;
+    if (workerProfile?.email && !workerProfile.emailVerified && user?.id && domain) {
       try {
-        const response = await verifyEmail(workerProfile.email, user.id);
-        console.log('response', response);
+        await sendVerificationEmail(
+          workerProfile.email,
+          workerProfile._id,
+          workerProfile.name,
+          domain,
+        );
+        setShowNotification(false);
       } catch (e) {
         console.log('Error', e);
         showMongoErrorTransactionToast(e);
@@ -23,24 +35,23 @@ const VerifyEmailNotification = ({ callback }: VerifyEmailNotificationProps) => 
       if (callback) {
         await callback();
       }
-      await refreshWorkerProfile();
     }
   };
 
+  if (!workerProfile?.email || workerProfile?.emailVerified || !showNotification) {
+    return null;
+  }
+
   return (
-    <div>
-      {!!workerProfile?.email && !workerProfile?.emailVerified && (
-        <Notification
-          title='Verify your email !'
-          text='Tired of paying gas fees ? Verify your email and get gassless transactions !'
-          link=''
-          linkText={'Verify my email'}
-          color='success'
-          imageUrl={user?.description?.image_url}
-          callback={onVerifyMail}
-        />
-      )}
-    </div>
+    <Notification
+      title='Verify your email!'
+      text='Tired of paying gas fees? Verify your email and get gassless transactions!'
+      link=''
+      linkText={'Verify my email'}
+      color='success'
+      imageUrl={user?.description?.image_url}
+      callback={onVerifyMail}
+    />
   );
 };
 

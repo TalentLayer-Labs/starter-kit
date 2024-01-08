@@ -11,20 +11,20 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     console.log('Received data:', body);
 
     if (!body.id || !body.owners || !body.ownerTalentLayerId) {
-      return res.status(500).json({ error: 'Missing data.' });
+      return res.status(400).json({ error: 'Missing data.' });
     }
 
     const existingSpace = await getBuilderPlaceByOwnerId(body.ownerTalentLayerId);
     if (existingSpace) {
-      return res.status(500).json({ error: 'You already own a domain' });
+      return res.status(401).json({ error: 'You already own a domain' });
     }
 
     const builderSpace = await getBuilderPlaceById(body.id as string);
     if (!builderSpace) {
-      return res.status(500).json({ error: "Domain doesn't exist." });
+      return res.status(400).json({ error: "Domain doesn't exist." });
     }
     if (builderSpace.owners.length !== 0 || !!builderSpace.ownerTalentLayerId) {
-      return res.status(500).json({ error: 'Domain already taken.' });
+      return res.status(401).json({ error: 'Domain already taken.' });
     }
 
     try {

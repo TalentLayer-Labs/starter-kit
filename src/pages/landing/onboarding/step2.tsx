@@ -2,18 +2,19 @@ import React, { useContext, useState } from 'react';
 import TalentLayerContext from '../../../context/talentLayer';
 import { useRouter } from 'next/router';
 import Steps from '../../../modules/BuilderPlace/components/Steps';
-import { useSetBuilderPlaceOwner } from '../../../modules/BuilderPlace/hooks/UseSetBuilderPlaceOwner';
 import { slugify } from '../../../modules/BuilderPlace/utils';
 import Loading from '../../../components/Loading';
 import HirerProfileLayout from '../../../components/HirerProfileLayout';
 import { useGetBuilderPlaceById } from '../../../modules/BuilderPlace/hooks/UseGetBuilderPlaceById';
+import { showMongoErrorTransactionToast } from '../../../utils/toast';
+import { useSetBuilderPlaceAndHirerOwner } from '../../../modules/BuilderPlace/hooks/UseSetBuilderPlaceAndHirerOwner';
 
 function onboardingStep2() {
-  const { account, user, loading } = useContext(TalentLayerContext);
+  const { account, user, refreshWorkerProfile, loading } = useContext(TalentLayerContext);
   const router = useRouter();
-  const { id } = router.query;
-  const builderPlaceData = useGetBuilderPlaceById(id as string);
-  const { mutateAsync: setOwner } = useSetBuilderPlaceOwner();
+  const { builderPlaceId, userId } = router.query;
+  const builderPlaceData = useGetBuilderPlaceById(builderPlaceId as string);
+  const { mutateAsync: setBuilderPlaceAndHirerOwner } = useSetBuilderPlaceAndHirerOwner();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   if (!account?.isConnected || !user) {
@@ -53,21 +54,31 @@ function onboardingStep2() {
   }
 
   const handleSubmit = async () => {
-    if (account.address && id && user.id) {
+    if (account.address && builderPlaceId && user.id && userId) {
       setIsSubmitting(true);
       try {
-        const response = await setOwner({
-          id: id as string,
+        const response = await setBuilderPlaceAndHirerOwner({
+          builderPlaceId: builderPlaceId as string,
+          hirerId: userId as string,
           owners: [account.address],
           ownerAddress: account.address,
           ownerTalentLayerId: user.id,
         });
-        if (response?.id) {
-          router.push('/onboarding/step3');
+
+        if (response.error) {
+          throw new Error(response.error);
         }
-      } catch (error) {
-        console.error('Error updating domain:', error);
+
+        if (response?.hirerId && response?.builderPlaceId) {
+          router.push({
+            pathname: '/onboarding/step3',
+            query: { userId: response.builderPlaceId },
+          });
+        }
+      } catch (error: any) {
+        showMongoErrorTransactionToast(error.message);
       } finally {
+        refreshWorkerProfile();
         setIsSubmitting(false);
       }
     }

@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
 import { useColor } from 'react-color-palette';
 import 'react-color-palette/css';
+import { toast } from 'react-toastify';
 import { useChainId, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
 import AccessDenied from '../../../components/AccessDenied';
@@ -150,6 +151,8 @@ function ConfigurePlace(props: InferGetServerSidePropsType<typeof getServerSideP
           status: 'validated',
           signature,
         });
+
+        toast.success('Configuration updated!');
       } catch (e: any) {
         console.error(e);
       } finally {

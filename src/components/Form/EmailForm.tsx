@@ -32,15 +32,7 @@ function EmailForm({ user, callback }: { user: IUser; callback?: () => void }) {
   ) => {
     setSubmitting(true);
     try {
-      await createWorkerProfileAsync({
-        email: values.email,
-        name: user.handle,
-        picture: user?.description?.image_url,
-        about: user?.description?.about,
-        skills: user?.description?.skills_raw,
-        talentLayerId: user.id,
-        status: 'validated',
-      });
+      // TODO: update email in existing user
 
       const response: any = await verifyEmail(values.email, user.id);
 

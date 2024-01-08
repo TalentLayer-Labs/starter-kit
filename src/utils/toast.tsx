@@ -162,10 +162,13 @@ function getParsedErrorMessage(error: any) {
   return 'Unknown error occurred';
 }
 
-function getParsedMongoErrorMessage(error: string) {
+const getParsedMongoErrorMessage = (error: string) => {
   if (error.includes(MONGO_ERROR_CODES.DUPLICATE_KEY.toString())) {
-    return `Already exists`;
+    if (error.includes('email')) return `Email already used`;
+    else if (error.includes('handle')) return `Handle already exists`;
+    else if (error.includes('username')) return `Username already exists`;
+    else return `Already exists`;
   } else {
     return `${error}`;
   }
-}
+};

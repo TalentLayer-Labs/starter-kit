@@ -56,7 +56,7 @@ export interface AddBuilderPlaceCollaborator {
 export interface RemoveBuilderPlaceCollaborator {
   ownerId: string;
   builderPlaceId: string;
-  newCollaborator: string;
+  collaborator: string;
   signature: `0x${string}` | Uint8Array;
 }
 
@@ -72,9 +72,27 @@ export interface SetWorkerProfileOwner {
   talentLayerId: string;
 }
 
+export interface SetBuilderPlaceAndHirerOwner {
+  builderPlaceId: string;
+  hirerId: string;
+  owners: string[];
+  ownerAddress: string;
+  ownerTalentLayerId: string;
+}
+
 export interface VerifyEmail {
-  email: string;
   userId: string;
+}
+
+export interface VerifyEmailProps {
+  userId: string;
+}
+
+export interface SendVerificationEmail {
+  to: string;
+  userId: string;
+  name: string;
+  domain: string;
 }
 
 export enum DomainVerificationStatusProps {
@@ -103,6 +121,15 @@ export interface CreateWorkerProfileAction {
   talentLayerId?: string;
 }
 
+export interface CreateHirerProfileAction {
+  email: string;
+  name: string;
+  picture?: string;
+  about?: string;
+  status?: string;
+  talentLayerId?: string;
+}
+
 export interface CreateBuilderPlaceProps {
   name: string;
   palette: iBuilderPlacePalette;
@@ -117,6 +144,14 @@ export interface CreateWorkerProfileProps {
   picture?: string;
   about?: string;
   skills?: string;
+  status?: string;
+  talentLayerId?: string;
+}
+export interface CreateHirerProfileProps {
+  email: string;
+  name: string;
+  picture?: string;
+  about?: string;
   status?: string;
   talentLayerId?: string;
 }
@@ -141,7 +176,26 @@ export type IBuilderPlace = {
   preferredWorkTypes: PreferredWorkTypes[];
 };
 
-export type IWorkerProfile = {
+export interface IUserProfile {
+  _id: string;
+  email: string;
+  emailVerified: boolean;
+  status: 'validated' | 'pending';
+  talentLayerId?: string;
+  name: string;
+  picture?: string;
+  about?: string;
+  weeklyTransactionCounter: number;
+  counterStartDate: number;
+}
+
+export interface IWorkerProfile extends IUserProfile {
+  skills?: string[];
+}
+
+export interface IHirerProfile extends IUserProfile {}
+
+export interface IWorkerMongooseSchema extends Document {
   _id: string;
   email: string;
   emailVerified: boolean;
@@ -153,18 +207,16 @@ export type IWorkerProfile = {
   skills?: string[];
   weeklyTransactionCounter: number;
   counterStartDate: number;
-};
-
-export interface IWorkerMongooseSchema extends Document {
+}
+export interface IHirerMongooseSchema extends Document {
   _id: string;
   email: string;
   emailVerified: boolean;
-  status: 'Validated' | 'Pending';
+  status: 'validated' | 'pending';
   talentLayerId?: string;
   name: string;
   picture?: string;
   about?: string;
-  skills?: string[];
   weeklyTransactionCounter: number;
   counterStartDate: number;
 }

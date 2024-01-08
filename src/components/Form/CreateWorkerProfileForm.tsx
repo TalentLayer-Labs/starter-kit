@@ -8,6 +8,8 @@ import { showErrorTransactionToast } from '../../utils/toast';
 import UploadImage from '../UploadImage';
 import SubmitButton from './SubmitButton';
 import { SkillsInput } from './skills-input';
+import { sendVerificationEmail } from '../../modules/BuilderPlace/request';
+import { createVerificationEmailToast } from '../../modules/BuilderPlace/utils/toast';
 
 interface IFormValues {
   email: string;
@@ -53,6 +55,18 @@ function CreateWorkerProfileForm({ callback }: { callback?: () => void }) {
       });
 
       if (response?.id) {
+        /**
+         * @dev: send verification email to user to verify email
+         */
+        const domain =
+          typeof router.query.domain === 'object' && !!router.query.domain
+            ? router.query.domain[0]
+            : router.query.domain;
+
+        if (domain) {
+          await sendVerificationEmail(values.email, response.id, values.name, domain);
+          createVerificationEmailToast();
+        }
         router.query.id = response.id;
         router.push({
           pathname: `/worker-onboarding/step2`,

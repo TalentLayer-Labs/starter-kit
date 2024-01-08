@@ -11,34 +11,55 @@ const renderTxNumber = (sentTransactionsNumber: number) => {
     return <span className='text-xs text-red-500'>{sentTransactionsNumber}</span>;
 };
 
-const renderWaitPeriod = (lastTxTime: number) => {
+const getWaitingPeriodInDays = (lastTxTime: number) => {
   const oneWeekAgoMilliseconds = new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000).getTime();
   const differenceInMilliseconds = lastTxTime - oneWeekAgoMilliseconds;
 
-  const days = Math.ceil(differenceInMilliseconds / (1000 * 60 * 60 * 24));
+  return Math.ceil(differenceInMilliseconds / (1000 * 60 * 60 * 24));
+};
 
-  return <span className='text-xs font-bold text-yellow-500'>{days}</span>;
+const renderWaitPeriod = (lastTxTime: number) => {
+  const days = getWaitingPeriodInDays(lastTxTime);
+
+  return <span className='text-xs font-bold text-yellow-500'>{days > 0 ? days : 0}</span>;
 };
 
 const DelegatedTransactionCounter = () => {
-  const { workerProfile, canUseDelegation } = useContext(TalentLayerContext);
+  const { workerProfile, user } = useContext(TalentLayerContext);
+
+  /**
+   * @dev: Checks whether next transaction will reset the counter if max free tx amount reached.
+   */
+  const resetTxAmount =
+    (workerProfile?.weeklyTransactionCounter || 0) === MAX_TRANSACTION_AMOUNT &&
+    !!workerProfile?.counterStartDate &&
+    getWaitingPeriodInDays(workerProfile.counterStartDate) < 0;
+
+  const userHasDelegatedToPlatform =
+    user?.delegates &&
+    user.delegates.indexOf((process.env.NEXT_PUBLIC_DELEGATE_ADDRESS as string).toLowerCase()) !==
+      -1;
 
   return (
     <>
-      {canUseDelegation && workerProfile && (
+      {userHasDelegatedToPlatform && workerProfile && (
         <>
           <p className='text-base-content mt-2'>
             <span className='text-xs'>Free Weekly Tx : </span>
-            {renderTxNumber(workerProfile?.weeklyTransactionCounter || 0)}
+            {/*If next transaction will reset counter, display zero*/}
+            {renderTxNumber(resetTxAmount ? 0 : workerProfile?.weeklyTransactionCounter || 0)}
             <span className='text-xs'>/{MAX_TRANSACTION_AMOUNT}</span>
           </p>
-          {(workerProfile?.weeklyTransactionCounter || 0) === MAX_TRANSACTION_AMOUNT && (
-            <>
-              <p className='text-base-content text-xs'>Max tx reached, please wait</p>
-              {workerProfile?.counterStartDate && renderWaitPeriod(workerProfile.counterStartDate)}
-              <span className='text-xs'> days</span>
-            </>
-          )}
+          {(workerProfile?.weeklyTransactionCounter || 0) === MAX_TRANSACTION_AMOUNT &&
+            workerProfile?.counterStartDate &&
+            getWaitingPeriodInDays(workerProfile.counterStartDate) > 0 && (
+              <>
+                <p className='text-base-content text-xs'>Max tx reached, please wait</p>
+                {workerProfile?.counterStartDate &&
+                  renderWaitPeriod(workerProfile.counterStartDate)}
+                <span className='text-xs'> days</span>
+              </>
+            )}
         </>
       )}
     </>

@@ -23,7 +23,7 @@ function WorkerOnboardSuccess() {
 
   return (
     <>
-      <div className='bg-base-100'>
+      <div>
         <OnboardingSteps currentStep={3} type='worker' />
         <div className='max-w-7xl mx-auto text-base-content sm:px-4 lg:px-0 py-20'>
           <div className='flex flex-col items-center justify-center gap-10'>

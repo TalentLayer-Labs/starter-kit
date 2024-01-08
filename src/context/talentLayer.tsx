@@ -1,7 +1,7 @@
 import { TalentLayerClient } from '@talentlayer/client';
 import { createContext, ReactNode, useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
-import { useAccount } from 'wagmi';
+import { useAccount, useWalletClient } from 'wagmi';
 import { useChainId } from '../hooks/useChainId';
 import { getUserByAddress } from '../queries/users';
 import { iTalentLayerContext, IUser } from '../types';
@@ -23,6 +23,7 @@ const TalentLayerContext = createContext<iTalentLayerContext>({
 
 const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
   const chainId = useChainId();
+  const { data: walletClient } = useWalletClient();
   const [user, setUser] = useState<IUser | undefined>();
   const [workerProfile, setWorkerProfile] = useState<IWorkerProfile | undefined>();
   const account = useAccount();
@@ -33,6 +34,8 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
 
   // automatically switch to the default chain is the current one is not part of the config
   useEffect(() => {
+    if (!walletClient) return;
+
     const talentLayerClient = new TalentLayerClient({
       chainId: process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as unknown as number,
       ipfsConfig: {
@@ -42,9 +45,12 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
       },
       platformId: parseInt(process.env.NEXT_PUBLIC_PLATFORM_ID as string),
       signatureApiUrl: process.env.NEXT_PUBLIC_SIGNATURE_API_URL as string,
+      walletConfig: {
+        walletClient,
+      },
     });
     setTalentLayerClient(talentLayerClient);
-  }, [account.address]);
+  }, [account.address, walletClient]);
 
   const fetchData = async () => {
     if (!account.address || !account.isConnected || !talentLayerClient) {
@@ -53,6 +59,7 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
     }
 
     try {
+      console.log('fetching data', chainId, account.address);
       const userResponse = await getUserByAddress(chainId, account.address);
 
       if (userResponse?.data?.data?.users?.length == 0) {
