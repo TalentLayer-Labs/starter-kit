@@ -65,6 +65,23 @@ export const getWorkerProfileByOwnerId = async (id: string): Promise<any> => {
   }
 };
 
+export const getWorkerProfileById = async (id: string): Promise<any> => {
+  try {
+    return await fetch('/api/domain/get-worker-profile-by-id', {
+      method: 'POST',
+      body: JSON.stringify({
+        id: id,
+      }),
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
 export const verifyEmail = async (email: string, userId: string): Promise<any> => {
   try {
     return await fetch('/api/domain/verify-email', {
