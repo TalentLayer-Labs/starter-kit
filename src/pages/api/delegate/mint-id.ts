@@ -19,7 +19,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    if (process.env.NEXT_PUBLIC_ACTIVE_DELEGATE_MINT !== 'true') {
+    if (process.env.NEXT_PUBLIC_ACTIVATE_DELEGATE_MINT !== 'true') {
       res.status(500).json('Delegation is not activated');
       return null;
     }

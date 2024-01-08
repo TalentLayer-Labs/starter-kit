@@ -16,7 +16,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 function Web3mail() {
   const { user, loading } = useContext(TalentLayerContext);
   const { contacts: contactList, contactsLoaded } = useFetchMyContacts();
-  const isWeb3mailActive = process.env.NEXT_PUBLIC_ACTIVE_WEB3MAIL as string;
+  const isWeb3mailActive = process.env.NEXT_PUBLIC_ACTIVATE_WEB3MAIL as string;
 
   if (loading) {
     return <Loading />;

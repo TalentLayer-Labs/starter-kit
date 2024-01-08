@@ -86,7 +86,7 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
         (workerProfile?.weeklyTransactionCounter || 0) > MAX_TRANSACTION_AMOUNT;
 
       setCanUseDelegation(
-        process.env.NEXT_PUBLIC_ACTIVE_DELEGATE === 'true' &&
+        process.env.NEXT_PUBLIC_ACTIVATE_DELEGATE === 'true' &&
           userHasDelegatedToPlatform &&
           !userHasReachedDelegationLimit,
       );

@@ -24,7 +24,7 @@ if ((process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as unknown as NetworkEnum) == Netw
   chains.push(polygon);
 }
 
-if (process.env.NEXT_PUBLIC_ACTIVE_WEB3MAIL == 'true') {
+if (process.env.NEXT_PUBLIC_ACTIVATE_WEB3MAIL == 'true') {
   chains.push(iexec);
 }
 

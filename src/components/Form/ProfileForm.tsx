@@ -116,7 +116,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
 
         refreshData();
         setSubmitting(false);
-        if (process.env.NEXT_PUBLIC_ACTIVE_WEB3MAIL == 'true' && !platformHasAccess) {
+        if (process.env.NEXT_PUBLIC_ACTIVATE_WEB3MAIL == 'true' && !platformHasAccess) {
           createWeb3mailToast();
         }
       } catch (error) {

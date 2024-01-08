@@ -57,7 +57,7 @@ function TalentLayerIdForm({ handle, callback }: { handle?: string; callback?: (
         let tx;
         const handlePrice = calculateMintFee(submittedValues.handle);
 
-        if (process.env.NEXT_PUBLIC_ACTIVE_DELEGATE_MINT === 'true') {
+        if (process.env.NEXT_PUBLIC_ACTIVATE_DELEGATE_MINT === 'true') {
           /**
            * @dev Sign message to prove ownership of the address asking the mint
            */

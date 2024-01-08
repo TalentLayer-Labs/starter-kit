@@ -13,7 +13,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const chainId = process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID;
   const platformId = process.env.NEXT_PUBLIC_PLATFORM_ID;
   const privateKey = process.env.NEXT_WEB3MAIL_PLATFORM_PRIVATE_KEY as string;
-  const isWeb3mailActive = process.env.NEXT_PUBLIC_ACTIVE_WEB3MAIL as string;
+  const isWeb3mailActive = process.env.NEXT_PUBLIC_ACTIVATE_WEB3MAIL as string;
 
   let sentEmails = 0,
     nonSentEmails = 0;
