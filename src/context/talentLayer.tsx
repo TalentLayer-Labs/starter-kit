@@ -77,9 +77,10 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
       setUser(currentUser);
 
       const userHasDelegatedToPlatform =
+        process.env.NEXT_PUBLIC_DELEGATE_ADDRESS &&
         userResponse.data.data.users[0].delegates &&
         userResponse.data.data.users[0].delegates.indexOf(
-          (process.env.NEXT_PUBLIC_DELEGATE_ADDRESS as string).toLowerCase(),
+          process.env.NEXT_PUBLIC_DELEGATE_ADDRESS.toLowerCase(),
         ) !== -1;
 
       const userHasReachedDelegationLimit =
