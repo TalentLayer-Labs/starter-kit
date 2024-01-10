@@ -37,8 +37,8 @@ const DelegatedTransactionCounter = () => {
 
   const userHasDelegatedToPlatform =
     user?.delegates &&
-    user.delegates.indexOf((process.env.NEXT_PUBLIC_DELEGATE_ADDRESS as string).toLowerCase()) !==
-      -1;
+    process.env.NEXT_PUBLIC_DELEGATE_ADDRESS &&
+    user.delegates.indexOf(process.env.NEXT_PUBLIC_DELEGATE_ADDRESS.toLowerCase()) !== -1;
 
   return (
     <>

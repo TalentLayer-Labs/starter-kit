@@ -44,7 +44,7 @@ function UserSubMenu() {
                 role='none'>
                 manage account
               </Link>
-              <DelegatedTransactionCounter />
+              {process.env.NEXT_PUBLIC_DELEGATE_ADDRESS && <DelegatedTransactionCounter />}
             </div>
           )}
         </div>
