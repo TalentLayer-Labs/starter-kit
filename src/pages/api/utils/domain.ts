@@ -44,7 +44,7 @@ export const checkOwnerSignature = async (
 
   const builderPlace = await getBuilderPlaceByOwnerTlIdAndId(ownerId, builderPlaceId);
 
-  if (address !== builderPlace?.ownerAddress) {
+  if (address.toLocaleLowerCase() !== builderPlace?.ownerAddress) {
     return res.status(500).json({ error: 'Not BuilderPlace owner' });
   }
 
