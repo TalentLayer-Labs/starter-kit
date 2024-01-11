@@ -22,6 +22,7 @@ function Service() {
     return <Loading />;
   }
 
+  console.log(builderPlace?.ownerTalentLayerId, service?.buyer.id);
   if (builderPlace?.ownerTalentLayerId !== service?.buyer.id) {
     return <NotFound />;
   }
