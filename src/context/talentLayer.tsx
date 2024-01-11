@@ -34,8 +34,6 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
 
   // automatically switch to the default chain is the current one is not part of the config
   useEffect(() => {
-    if (!walletClient) return;
-
     const talentLayerClient = new TalentLayerClient({
       chainId: process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as unknown as number,
       ipfsConfig: {
@@ -45,9 +43,11 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
       },
       platformId: parseInt(process.env.NEXT_PUBLIC_PLATFORM_ID as string),
       signatureApiUrl: process.env.NEXT_PUBLIC_SIGNATURE_API_URL as string,
-      walletConfig: {
-        walletClient,
-      },
+      walletConfig: walletClient
+        ? {
+            walletClient,
+          }
+        : undefined,
     });
     setTalentLayerClient(talentLayerClient);
   }, [account.address, walletClient]);
