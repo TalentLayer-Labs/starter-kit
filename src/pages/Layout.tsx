@@ -36,7 +36,12 @@ function Layout({ children, className }: ContainerProps) {
     );
   }
 
-  console.log('Layout render', { builderPlace, account });
+  console.log('Layout render', {
+    builderPlace,
+    account,
+    isBuilderPlaceCollaborator,
+    workerProfile,
+  });
 
   if (router.asPath.includes('web3mail')) {
     return (
