@@ -9,7 +9,7 @@
     "@iexec/web3mail": "0.5.1",
     "@leap-ai/sdk": "^0.0.119",
     "@sendgrid/mail": "^8.1.0",
-    "@talentlayer/client": "^0.1.10",
+    "@talentlayer/client": "^0.1.11",
     "@vercel/analytics": "^1.1.1",
     "@vercel/speed-insights": "^1.0.2",
     "@web3modal/wagmi": "^3.4.0",
