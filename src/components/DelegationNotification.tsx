@@ -16,7 +16,7 @@ const DelegationNotification = ({ callback }: DelegationNotificationProps) => {
   const { data: walletClient } = useWalletClient({ chainId });
   const publicClient = usePublicClient({ chainId });
   const talentLayerClientConfig = talentLayerClient?.getChainConfig(chainId);
-  const delegateAddress = process.env.NEXT_PUBLIC_DELEGATE_ADDRESS as string;
+  const delegateAddress = process.env.NEXT_PUBLIC_DELEGATE_ADDRESS;
 
   const onActivateDelegation = async () => {
     try {
@@ -56,6 +56,7 @@ const DelegationNotification = ({ callback }: DelegationNotificationProps) => {
   return (
     <div>
       {!!workerProfile?.emailVerified &&
+        delegateAddress &&
         !user?.delegates?.includes(delegateAddress.toLowerCase()) && (
           <Notification
             title='Activate Gasless Transactions'

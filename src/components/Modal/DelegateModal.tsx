@@ -13,14 +13,14 @@ function DelegateModal() {
   const { data: walletClient } = useWalletClient({ chainId });
   const publicClient = usePublicClient({ chainId });
   const { user, refreshData } = useContext(TalentLayerContext);
-  const delegateAddress = process.env.NEXT_PUBLIC_DELEGATE_ADDRESS as string;
+  const delegateAddress = process.env.NEXT_PUBLIC_DELEGATE_ADDRESS;
 
   if (!user) {
     return null;
   }
 
   const checkDelegateState = async () => {
-    if (user?.delegates?.indexOf(delegateAddress.toLowerCase()) != -1) {
+    if (delegateAddress && user?.delegates?.indexOf(delegateAddress.toLowerCase()) != -1) {
       setHasPlatformAsDelegate(true);
     } else {
       setHasPlatformAsDelegate(false);
@@ -32,7 +32,7 @@ function DelegateModal() {
   }, [user, show]);
 
   const onSubmit = async (validateState: boolean) => {
-    if (walletClient && publicClient && user) {
+    if (walletClient && publicClient && user && delegateAddress) {
       await toggleDelegation(
         chainId,
         user.id,
