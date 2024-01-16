@@ -10,7 +10,7 @@ function UserLensProfile({ lensUser }: IProps) {
     <>
       {lensUser?.id && (
         <div className='card bg-white border border-redpraha rounded'>
-          {lensUser?.picture.original.url && (
+          {lensUser?.picture?.original?.url && (
             <Image
               width={200}
               height={200}
