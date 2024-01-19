@@ -16,7 +16,7 @@ function UserServices({ user, type }: IProps) {
 
   const { services, loading } = useServices(
     undefined,
-    builderPlace?.ownerId || undefined,
+    builderPlace?.owner.talentLayerId || undefined,
     type == 'seller' ? user.id : undefined,
   );
 
