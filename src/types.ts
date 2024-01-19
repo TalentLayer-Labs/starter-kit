@@ -318,12 +318,12 @@ export type Web3MailStats = {
   totalCronRunning: number;
 };
 
-export enum PreferredWorkTypes {
-  jobs = 'jobs',
-  bounties = 'bounties',
-  grants = 'grants',
-  gigs = 'gigs',
-}
+// export enum PreferredWorkTypes {
+//   jobs = 'jobs',
+//   bounties = 'bounties',
+//   grants = 'grants',
+//   gigs = 'gigs',
+// }
 
 export type iTalentLayerContext = {
   loading: boolean;

@@ -3,12 +3,12 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { getConfig } from '../../../config';
 import TalentLayerEscrow from '../../../contracts/ABI/TalentLayerEscrow.json';
 import { getDelegationSigner, isPlatformAllowedToDelegate } from '../utils/delegate';
+import { getUserByTalentLayerId } from '../../../modules/BuilderPlace/actions/user';
+import { checkUserEmailVerificationStatus } from '../../../modules/BuilderPlace/actions/email';
 import {
   checkOrResetTransactionCounter,
-  checkUserEmailVerificationStatus,
-  getWorkerProfileByTalentLayerId,
   incrementWeeklyTransactionCounter,
-} from '../../../modules/BuilderPlace/actions';
+} from '../../../modules/BuilderPlace/actions/transactionCounter';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { userAddress, userId, transactionId, amount, isBuyer, chainId } = req.body;
@@ -22,7 +22,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    const worker = await getWorkerProfileByTalentLayerId(userId, res);
+    const worker = await getUserByTalentLayerId(userId, res);
 
     if (worker) {
       await checkUserEmailVerificationStatus(worker, res);

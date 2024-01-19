@@ -1,3 +1,6 @@
+export const ETH_ADDRESS_REGEX = /^0x[a-fA-F0-9]{40}$/;
+export const ETH_ADDRESS_LENGTH = 42;
+
 export const truncateAddress = (address: string, length = 3) => {
   return `${address.substring(0, length + 1)}...${address.substring(
     address.length - length,

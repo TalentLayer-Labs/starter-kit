@@ -32,7 +32,7 @@ export default function Collaborators() {
   const publicClient = usePublicClient({ chainId });
   const [submitting, setSubmitting] = useState('');
 
-  if (user?.id !== builderPlace?.ownerTalentLayerId) {
+  if (user?.id != builderPlace?.owner.talentLayerId) {
     return <AccessDenied />;
   }
 
@@ -42,8 +42,24 @@ export default function Collaborators() {
 
   const onRemove = async (address: string): Promise<void> => {
     try {
-      if (walletClient && account?.address && builderPlace?._id) {
+      if (walletClient && account?.address && builderPlace?.id) {
         setSubmitting(address);
+
+        if (user.delegates?.indexOf(address) !== -1) {
+          /**
+           * @dev Remove the new collaborator as a delegate to the BuilderPlace owner
+           */
+          await toggleDelegation(
+            chainId,
+            user.id,
+            config,
+            address,
+            publicClient,
+            walletClient,
+            false,
+          );
+        }
+
         /**
          * @dev Sign message to prove ownership of the address
          */
@@ -57,26 +73,13 @@ export default function Collaborators() {
          */
         const response = await removeBuilderPlaceCollaboratorAsync({
           ownerId: user.id,
-          builderPlaceId: builderPlace._id,
-          collaborator: address,
+          builderPlaceId: builderPlace.id,
+          collaboratorAddress: address.toLocaleLowerCase(),
           signature,
         });
 
         if (response?.error) {
           showErrorTransactionToast(response.error);
-        } else if (user.delegates?.indexOf(address) !== -1) {
-          /**
-           * @dev Remove the new collaborator as a delegate to the BuilderPlace owner
-           */
-          await toggleDelegation(
-            chainId,
-            user.id,
-            config,
-            address,
-            publicClient,
-            walletClient,
-            false,
-          );
         }
       } else {
         openConnectModal();
@@ -92,13 +95,17 @@ export default function Collaborators() {
 
   return (
     <div>
-      <AdminSettingsLayout title={'Add / Remove Collaborators'}>
+      <AdminSettingsLayout
+        title={'Add / Remove Collaborators'}
+        subTitle={'Collaborators must have a Verified BuilderPlace account'}>
         <div className={'flex flex-col'}>
           <CollaboratorForm />
           {!!delegates && (
             <div className={'flew flex-row mt-2'}>
               {delegates.map(delegate => (
-                <span key={delegate} className='flex items-center mb-2 bg-gray-100 p-2 rounded'>
+                <span
+                  key={delegate}
+                  className='flex items-center mt-2 mb-2 bg-gray-100 p-2 rounded'>
                   <span className='mr-4 font-mono text-gray-800'>{delegate}</span>
                   <RemoveButton
                     isSubmitting={submitting}

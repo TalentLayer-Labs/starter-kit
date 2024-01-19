@@ -17,7 +17,7 @@ const useProposalsByUser = (id?: string | undefined): IProposal[] => {
           const response = await getAllProposalsByUsers(
             chainId,
             id,
-            builderPlace?.ownerTalentLayerId as string,
+            builderPlace?.owner?.talentLayerId as string,
           );
 
           if (response?.data?.data?.proposals) {

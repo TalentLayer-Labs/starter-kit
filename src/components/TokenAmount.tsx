@@ -29,7 +29,6 @@ const TokenAmount: React.FC<TokenAmountProps> = ({ amount, address }) => {
           }
         }
         `);
-        console.log(address, data);
         setToken(data?.data?.tokens[0]);
         setLoading(false);
       } catch (error) {

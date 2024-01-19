@@ -14,7 +14,7 @@ export const prepareCronApi = (
   isWeb3mailActive: string | undefined,
   chainId: string | undefined,
   platformId: string | undefined,
-  mongoUri: string | undefined,
+  databaseUrl: string | undefined,
   cronSecurityKey: string | undefined,
   privateKey: string | undefined,
   res: NextApiResponse,
@@ -34,9 +34,9 @@ export const prepareCronApi = (
     return res.status(500).json('Chain Id is not set');
   }
 
-  if (!mongoUri) {
-    console.warn('MongoDb URI is not set');
-    return res.status(500).json('MongoDb URI is not set');
+  if (!databaseUrl) {
+    console.warn('Database URL is not set');
+    return res.status(500).json('Database URL is not set');
   }
 
   if (!platformId) {

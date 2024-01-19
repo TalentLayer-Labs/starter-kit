@@ -1,0 +1,27 @@
+[{
+  "_id": {
+    "$oid": "65a040b3227f685968c190fd"
+  },
+  "email": "kirsten",
+  "emailVerified": false,
+  "status": "validated",
+  "name": "KirstenBuilderPlace",
+  "about": "I'm Kirsten and this is my BP platform where I will manage editing old posts.",
+  "skills": [],
+  "__v": 0,
+  "talentLayerId": "248"
+},{
+  "_id": {
+    "$oid": "65a85c1d971e2a7734632ace"
+  },
+  "email": "alfonso@alioit.com",
+  "emailVerified": true,
+  "status": "pending",
+  "name": "Alio IT Solutions",
+  "picture": "https://imagedelivery.net/3FRscrZr469XnyiCbQpTrA/656a8508-b9cd-44e6-c978-ba18a0531000/public",
+  "about": "We are a Software Development Boutique with presence in the United States, Mexico, India and South America focusing on developing innovative technology. We help companies bridge the gap between people, process and platform so it is all tightly knit and working towards the same company goals. In our core think about how new technology like AI/ML, Blockchain and overall Software Engineering among others can help bring your company to the next level and exceed customer expectations.\n\nWeb3\nEdTech\nDigital Manufacturing\nOpen Source Development (REACT.js, NODE.js, Angular.js, React Native)\nDevOps (AWS)\nProject Management Services\nApplication maintenance and support services\nCloud software development (.NET and Open Source) services\nSalesforce\n\nWe strive in a collaborative environment where change is a given and part of our DNA, we are adaptive to change (AGILE) and results oriented.",
+  "skills": [
+    "Solidity Development,Java,JavaScript,Python,React,C#,Web3,Ethereum"
+  ],
+  "__v": 0
+}]

@@ -1,5 +1,5 @@
-import { getBuilderPlaceByDomain } from './actions';
 import { IBuilderPlace } from './types';
+import { getBuilderPlaceByDomain } from './actions/builderPlace';
 
 // Used inside getServerSideProps
 export const getBuilderPlace = async (domain: string): Promise<IBuilderPlace> => {

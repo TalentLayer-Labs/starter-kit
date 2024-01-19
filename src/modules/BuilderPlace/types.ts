@@ -1,5 +1,4 @@
-import { PreferredWorkTypes } from '../../types';
-import { Document } from 'mongoose';
+import { EntityStatus, User, WorkType } from '.prisma/client';
 
 export interface iBuilderPlacePalette {
   primary: string;
@@ -19,28 +18,43 @@ export interface iBuilderPlacePalette {
   errorContent: string;
 }
 export interface UpdateBuilderPlace {
-  _id: string;
-  subdomain: string;
-  name: string;
+  builderPlaceId: string;
+  subdomain?: string;
+  name?: string;
+  icon?: string;
+  presentation?: string;
+  preferredWorkTypes?: WorkType[];
   baseline?: string;
   about?: string;
   aboutTech?: string;
   palette?: iBuilderPlacePalette;
-  ownerTalentLayerId: string | undefined;
-  owners: string[] | undefined;
-  status: string | undefined;
+  owners?: string[];
+  logo?: string;
+  cover?: string;
+  profilePicture?: string;
+  signature: `0x${string}` | Uint8Array;
+}
+export interface ValidateBuilderPlaceAndOwner {
+  builderPlaceId: string;
+  ownerId: string;
+  subdomain: string;
+  owners?: string[];
+  baseline?: string;
+  about?: string;
+  aboutTech?: string;
+  palette?: iBuilderPlacePalette;
   logo?: string;
   cover?: string;
   profilePicture?: string;
   signature: `0x${string}` | Uint8Array;
 }
 export interface DeleteBuilderPlace {
-  _id: string;
+  id: string;
   signature: `0x${string}` | Uint8Array;
 }
 
 export interface UpdateBuilderPlaceDomain {
-  _id: string;
+  id: string;
   subdomain: string;
   customDomain: string;
   signature: `0x${string}` | Uint8Array;
@@ -49,39 +63,61 @@ export interface UpdateBuilderPlaceDomain {
 export interface AddBuilderPlaceCollaborator {
   ownerId: string;
   builderPlaceId: string;
-  newCollaborator: string;
+  newCollaboratorAddress: string;
   signature: `0x${string}` | Uint8Array;
 }
 
 export interface RemoveBuilderPlaceCollaborator {
   ownerId: string;
   builderPlaceId: string;
-  collaborator: string;
+  collaboratorAddress: string;
   signature: `0x${string}` | Uint8Array;
 }
 
 export interface SetBuilderPlaceOwner {
   id: string;
-  owners: string[];
-  ownerAddress: string;
-  ownerTalentLayerId: string;
+  ownerId: string;
 }
 
-export interface SetWorkerProfileOwner {
+export interface RemoveBuilderPlaceOwner {
+  id: number;
+  ownerId: number;
+}
+
+export interface RemoveUserAddress {
+  id: number;
+  userAddress: string;
+}
+
+export interface SetUserProfileOwner {
   id: string;
+  userAddress: string;
   talentLayerId: string;
 }
 
 export interface SetBuilderPlaceAndHirerOwner {
   builderPlaceId: string;
   hirerId: string;
-  owners: string[];
   ownerAddress: string;
   ownerTalentLayerId: string;
 }
 
 export interface VerifyEmail {
   userId: string;
+}
+
+export interface UpdateUserEmail {
+  userId: string;
+  email: string;
+  userAddress: string;
+  name: string;
+  domain: string;
+  signature: `0x${string}` | Uint8Array;
+}
+
+export interface VerifyAccount {
+  userId: string;
+  signature: `0x${string}` | Uint8Array;
 }
 
 export interface VerifyEmailProps {
@@ -107,7 +143,7 @@ export interface CreateBuilderPlaceAction {
   name: string;
   palette: iBuilderPlacePalette;
   about: string;
-  preferredWorkTypes: PreferredWorkTypes[];
+  preferredWorkTypes: WorkType[];
   profilePicture?: string;
 }
 
@@ -117,8 +153,6 @@ export interface CreateWorkerProfileAction {
   picture?: string;
   about?: string;
   skills?: string;
-  status?: string;
-  talentLayerId?: string;
 }
 
 export interface CreateHirerProfileAction {
@@ -130,11 +164,37 @@ export interface CreateHirerProfileAction {
   talentLayerId?: string;
 }
 
+export interface UpdateHirerProfileAction {
+  id: number;
+  email: string;
+  name?: string;
+  picture?: string;
+  about?: string;
+  status?: string;
+  talentLayerId?: string;
+}
+
+export interface UpdateWorkerProfileAction {
+  id: number;
+  email: string;
+  name?: string;
+  picture?: string;
+  about?: string;
+  status?: string;
+  skills?: string;
+  talentLayerId?: string;
+}
+
+export interface UpdateUserEmailAction {
+  id: number;
+  email: string;
+}
+
 export interface CreateBuilderPlaceProps {
   name: string;
   palette: iBuilderPlacePalette;
   about: string;
-  preferredWorkTypes: PreferredWorkTypes[];
+  preferredWorkTypes: WorkType[];
   profilePicture?: string;
 }
 
@@ -144,8 +204,6 @@ export interface CreateWorkerProfileProps {
   picture?: string;
   about?: string;
   skills?: string;
-  status?: string;
-  talentLayerId?: string;
 }
 export interface CreateHirerProfileProps {
   email: string;
@@ -153,40 +211,43 @@ export interface CreateHirerProfileProps {
   picture?: string;
   about?: string;
   status?: string;
-  talentLayerId?: string;
 }
 
 export type IBuilderPlace = {
-  _id: string;
-  name: string;
-  subdomain?: string;
-  customDomain?: string | null;
-  logo?: string;
-  icon?: string;
-  cover?: string;
-  profilePicture?: string;
-  palette?: iBuilderPlacePalette;
+  id: string;
   about?: string;
   aboutTech?: string;
   baseline?: string;
-  owners?: string[];
-  ownerAddress?: string;
-  ownerTalentLayerId?: string;
-  status: 'Validated' | 'Pending';
-  preferredWorkTypes: PreferredWorkTypes[];
+  cover?: string;
+  customDomain?: string | null;
+  icon?: string;
+  logo?: string;
+  name: string;
+  owner: User;
+  collaborators?: User[];
+  palette?: iBuilderPlacePalette;
+  preferredWorkTypes: WorkType[];
+  presentation?: string;
+  profilePicture?: string;
+  status: EntityStatus;
+  ownerId?: string;
+  // ownerAddress?: string;
+  // ownerTalentLayerId?: string;
+  subdomain?: string;
 };
 
 export interface IUserProfile {
-  _id: string;
+  id: string;
+  about?: string;
+  address?: string;
+  counterStartDate: number;
   email: string;
-  emailVerified: boolean;
-  status: 'validated' | 'pending';
-  talentLayerId?: string;
+  isEmailVerified: boolean;
   name: string;
   picture?: string;
-  about?: string;
+  status: EntityStatus;
+  talentLayerId?: string;
   weeklyTransactionCounter: number;
-  counterStartDate: number;
 }
 
 export interface IWorkerProfile extends IUserProfile {
@@ -194,32 +255,6 @@ export interface IWorkerProfile extends IUserProfile {
 }
 
 export interface IHirerProfile extends IUserProfile {}
-
-export interface IWorkerMongooseSchema extends Document {
-  _id: string;
-  email: string;
-  emailVerified: boolean;
-  status: 'validated' | 'pending';
-  talentLayerId?: string;
-  name: string;
-  picture?: string;
-  about?: string;
-  skills?: string[];
-  weeklyTransactionCounter: number;
-  counterStartDate: number;
-}
-export interface IHirerMongooseSchema extends Document {
-  _id: string;
-  email: string;
-  emailVerified: boolean;
-  status: 'validated' | 'pending';
-  talentLayerId?: string;
-  name: string;
-  picture?: string;
-  about?: string;
-  weeklyTransactionCounter: number;
-  counterStartDate: number;
-}
 
 // From https://vercel.com/docs/rest-api/endpoints#get-a-project-domain
 export interface DomainResponse {
@@ -276,7 +311,7 @@ export interface DomainVerificationResponse {
 export interface OrganizationProps {
   name: string;
   about: string;
-  jobType: PreferredWorkTypes;
+  jobType: WorkType;
   imageUrl: string;
 }
 

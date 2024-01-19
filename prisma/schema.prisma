@@ -1,0 +1,70 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model BuilderPlace {
+  id                 Int          @id @default(autoincrement())
+  about              String?
+  aboutTech          String?
+  baseline           String?
+  cover              String?
+  customDomain       String?      @unique
+  icon               String?
+  logo               String?
+  name               String
+  owner              User?        @relation(fields: [ownerId], references: [id])
+  ownerId            Int?         @unique
+  collaborators      User[]       @relation("BuilderPlaceCollaborators")
+  palette            Json
+  preferredWorkTypes WorkType[]
+  presentation       String?
+  profilePicture     String?
+  status             EntityStatus @default(PENDING)
+  subdomain          String?      @unique
+}
+
+model User {
+  id                       Int            @id @default(autoincrement())
+  about                    String?
+  address                  String?        @unique
+  counterStartDate         Int            @default(0)
+  email                    String?        @unique
+  isEmailVerified          Boolean        @default(false)
+  name                     String
+  picture                  String?
+  status                   EntityStatus   @default(PENDING)
+  talentLayerId            String?        @unique
+  weeklyTransactionCounter Int            @default(0)
+  workerProfile            WorkerProfile? @relation("WorkerProfile")
+  hirerProfile             HirerProfile?  @relation("HirerProfile")
+  ownedBuilderPlace        BuilderPlace?
+  managedPlaces            BuilderPlace[] @relation("BuilderPlaceCollaborators")
+}
+
+model WorkerProfile {
+  id     Int      @id
+  user   User     @relation("WorkerProfile", fields: [id], references: [id])
+  skills String[]
+}
+
+model HirerProfile {
+  id   Int  @id
+  user User @relation("HirerProfile", fields: [id], references: [id])
+}
+
+enum EntityStatus {
+  PENDING
+  VALIDATED
+}
+
+enum WorkType {
+  BOUNTIES
+  GRANTS
+  GIGS
+  JOBS
+}

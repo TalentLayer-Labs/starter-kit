@@ -3,11 +3,12 @@ import CreateWorkerProfileForm from '../../../components/Form/CreateWorkerProfil
 import { useContext } from 'react';
 import TalentLayerContext from '../../../context/talentLayer';
 import { useRouter } from 'next/router';
+import { EntityStatus } from '@prisma/client';
 
 function workerOnboardingStep1() {
   const router = useRouter();
   const { workerProfile } = useContext(TalentLayerContext);
-  if (workerProfile?.status === 'validated') {
+  if (workerProfile?.status === EntityStatus.VALIDATED) {
     router.push('/worker-onboarding/step3');
   }
 

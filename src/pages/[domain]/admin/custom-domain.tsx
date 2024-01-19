@@ -27,7 +27,7 @@ export default function CustomDomain(
       setCustomDomain(builderPlace.customDomain);
     }
   }, [builderPlace]);
-
+  //TODO Prisma: test this
   const updateBuilderPlaceDomainMutation = useUpdateBuilderPlaceDomain();
 
   const handleUpdateDomainClick = async () => {
@@ -38,11 +38,11 @@ export default function CustomDomain(
        */
       const signature = await walletClient.signMessage({
         account: account.address,
-        message: builderPlace._id,
+        message: builderPlace.id.toString(),
       });
 
       updateBuilderPlaceDomainMutation.mutate({
-        _id: builderPlace?._id!,
+        id: builderPlace?.id!.toString(),
         customDomain: customDomain,
         subdomain: builderPlace?.subdomain!,
         signature: signature,

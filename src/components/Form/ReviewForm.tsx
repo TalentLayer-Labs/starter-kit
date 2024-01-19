@@ -49,7 +49,7 @@ function ReviewForm({ serviceId }: { serviceId: string }) {
       resetForm,
     }: { setSubmitting: (isSubmitting: boolean) => void; resetForm: () => void },
   ) => {
-    if (user && publicClient && walletClient && builderPlace?.ownerTalentLayerId) {
+    if (user && publicClient && walletClient && builderPlace?.owner?.talentLayerId) {
       try {
         const uri = await postToIPFS(
           JSON.stringify({
@@ -62,7 +62,7 @@ function ReviewForm({ serviceId }: { serviceId: string }) {
         if (canUseDelegation) {
           const response = await delegateMintReview(
             chainId,
-            isBuilderPlaceCollaborator ? builderPlace.ownerTalentLayerId : user.id,
+            isBuilderPlaceCollaborator ? builderPlace.owner?.talentLayerId : user.id,
             user.address,
             serviceId,
             uri,
@@ -77,7 +77,7 @@ function ReviewForm({ serviceId }: { serviceId: string }) {
                 content: values.content,
               },
               serviceId,
-              isBuilderPlaceCollaborator ? builderPlace.ownerTalentLayerId : user.id,
+              isBuilderPlaceCollaborator ? builderPlace.owner?.talentLayerId : user.id,
             );
             tx = res.tx;
           }

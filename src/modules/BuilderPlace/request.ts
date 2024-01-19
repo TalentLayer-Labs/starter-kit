@@ -124,3 +124,40 @@ export const sendVerificationEmail = async (
     throw err;
   }
 };
+
+export const verifyAccount = async (userId: string, signature: string): Promise<any> => {
+  try {
+    const response = await fetch('/api/domain/verify-account', {
+      method: 'PUT',
+      body: JSON.stringify({
+        userId: userId,
+        signature: signature,
+      }),
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+    return await response.json();
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
+export const getUserByEmail = async (email: string): Promise<any> => {
+  try {
+    const response = await fetch('/api/domain/get-user-by-email', {
+      method: 'POST',
+      body: JSON.stringify({
+        email,
+      }),
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+    return await response.json();
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};

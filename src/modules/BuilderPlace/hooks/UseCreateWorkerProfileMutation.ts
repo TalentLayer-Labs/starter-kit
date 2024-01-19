@@ -21,9 +21,9 @@ export function useCreateWorkerProfileMutation() {
       }),
 
     {
-      onError: error => {
-        throw new Error('Failed to create worker profile', error);
-      },
+      // onError: error => {
+      //   throw new Error('Failed to create worker profile', error);
+      // },
       onSuccess: () => {
         queryClient.invalidateQueries('createWorkerProfile');
       },

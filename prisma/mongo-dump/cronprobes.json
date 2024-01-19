@@ -1,0 +1,51 @@
+[{
+  "_id": {
+    "$oid": "654ca31cbb74be1ca3ccdfef"
+  },
+  "type": "review",
+  "lastRanAt": 1705568433,
+  "successCount": 0,
+  "errorCount": 0,
+  "duration": 300,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "654ca31cbb74be1ca3ccdff3"
+  },
+  "type": "newProposal",
+  "lastRanAt": 1705568433,
+  "successCount": 0,
+  "errorCount": 0,
+  "duration": 300,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "654ca320c141fa7cb1da784b"
+  },
+  "type": "proposalValidated",
+  "lastRanAt": 1705568420,
+  "successCount": 0,
+  "errorCount": 0,
+  "duration": 300,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "654ca330c141fa7cb1da784f"
+  },
+  "type": "fundRelease",
+  "lastRanAt": 1705568411,
+  "successCount": 0,
+  "errorCount": 0,
+  "duration": 300,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "654ca3371f1ec0261e386e87"
+  },
+  "type": "newService",
+  "lastRanAt": 1705568452,
+  "successCount": 0,
+  "errorCount": 0,
+  "duration": 300,
+  "__v": 0
+}]

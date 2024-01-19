@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useVerifyEmailMutation } from '../../modules/BuilderPlace/hooks/UseVerifyEmailMutation';
-import { showMongoErrorTransactionToast } from '../../utils/toast';
 import Loading from '../../components/Loading';
 import {
   EMAIL_ALREADY_VERIFIED,
@@ -30,20 +29,16 @@ const verifyEmail = () => {
   };
 
   const verifyEmail = async (id: string) => {
-    try {
-      const response = await verifyEmailAsync({
-        userId: id.toString(),
-      });
-      if (response.error) {
-        setPageResponse(response.error);
-      } else {
-        setPageResponse(response.message);
-      }
-    } catch (err: any) {
-      showMongoErrorTransactionToast(err);
-    } finally {
-      setLoading(false);
+    const response = await verifyEmailAsync({
+      userId: id.toString(),
+    });
+    if (response.error) {
+      setPageResponse(response.error);
+    } else {
+      setPageResponse(response.message);
     }
+    console.log('Response', response);
+    setLoading(false);
   };
 
   if (loading) {

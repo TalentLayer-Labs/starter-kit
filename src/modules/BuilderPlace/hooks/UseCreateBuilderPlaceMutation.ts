@@ -1,6 +1,5 @@
 import { CreateBuilderPlaceProps } from '../types';
 import { useMutation, useQueryClient } from 'react-query';
-import { showMongoErrorTransactionToast } from '../../../utils/toast';
 
 export function useCreateBuilderPlaceMutation() {
   const queryClient = useQueryClient();
@@ -18,24 +17,10 @@ export function useCreateBuilderPlaceMutation() {
           'Content-type': 'application/json',
         },
       }).then(res => {
-        if (res.status === 200) {
-          return res.json();
-        } else {
-          res
-            .json()
-            .then((data: any) => {
-              showMongoErrorTransactionToast(data.error);
-            })
-            .catch(err => {
-              throw new Error('Failed to create builderPlace', err);
-            });
-        }
+        return res.json();
       }),
 
     {
-      onError: error => {
-        throw new Error('Failed to create builderPlace', error);
-      },
       onSuccess: () => {
         queryClient.invalidateQueries('createBuilderPlaces');
       },

@@ -1,6 +1,6 @@
 import Notification from './Notification';
 import { sendVerificationEmail } from '../modules/BuilderPlace/request';
-import { showMongoErrorTransactionToast } from '../utils/toast';
+import { showErrorTransactionToast } from '../utils/toast';
 import { useContext, useState } from 'react';
 import TalentLayerContext from '../context/talentLayer';
 import { useRouter } from 'next/router';
@@ -19,26 +19,31 @@ const VerifyEmailNotification = ({ callback }: VerifyEmailNotificationProps) => 
       typeof router.query.domain === 'object' && !!router.query.domain
         ? router.query.domain[0]
         : router.query.domain;
-    if (workerProfile?.email && !workerProfile.emailVerified && user?.id && domain) {
+    if (workerProfile?.email && !workerProfile.isEmailVerified && user?.id && domain) {
       try {
-        await sendVerificationEmail(
+        const response = await sendVerificationEmail(
           workerProfile.email,
-          workerProfile._id,
+          workerProfile.id,
           workerProfile.name,
           domain,
         );
+
+        if (response.status !== 200) {
+          throw new Error('Error sending verification email');
+        }
+
         setShowNotification(false);
-      } catch (e) {
-        console.log('Error', e);
-        showMongoErrorTransactionToast(e);
-      }
-      if (callback) {
-        await callback();
+
+        if (callback) {
+          await callback();
+        }
+      } catch (err: any) {
+        showErrorTransactionToast(err.message);
       }
     }
   };
 
-  if (!workerProfile?.email || workerProfile?.emailVerified || !showNotification) {
+  if (!workerProfile?.email || workerProfile?.isEmailVerified || !showNotification) {
     return null;
   }
 

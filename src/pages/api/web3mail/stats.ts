@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import mongoose from 'mongoose';
 import {
   getCronProbeCount,
   getWeb3mailCount,
@@ -30,10 +29,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(500).json('Private key is not set');
   }
 
-  const mongoUri = (process.env.MONGO_URI || process.env.NEXT_MONGO_URI) as string;
+  const databaseUrl = process.env.DATABASE_URL as string;
 
-  if (!mongoUri) {
-    return res.status(500).json('MongoDb URI is not set');
+  if (!databaseUrl) {
+    return res.status(500).json('database Url is not set');
   }
 
   const stats: Web3MailStats = {
@@ -45,7 +44,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   };
 
   try {
-    await mongoose.connect(mongoUri as string);
     stats.totalSent = await getWeb3mailCount();
     stats.totalCronRunning = await getCronProbeCount();
     stats.totalSentByMonth = await getWeb3mailCountByMonth();

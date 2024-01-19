@@ -1,15 +1,18 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getBuilderPlaceById } from '../../../modules/BuilderPlace/actions';
+import { getBuilderPlaceById } from '../../../modules/BuilderPlace/actions/builderPlace';
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
-  const body: any = req.body;
+  const body: { id: string } = req.body;
   console.log('Received data:', body);
 
   if (!body.id) {
-    return res.status(500).json({ error: 'No id.' });
+    return res.status(400).json({ error: 'Missing id' });
   }
 
-  const result = await getBuilderPlaceById(body.id);
-
-  return res.json(result);
+  try {
+    const result = await getBuilderPlaceById(body.id);
+    res.status(200).json({ result: result });
+  } catch (error: any) {
+    res.status(400).json({ error: error.message });
+  }
 }

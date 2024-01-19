@@ -12,7 +12,9 @@ export async function isPlatformAllowedToDelegate(
   res: NextApiResponse,
 ): Promise<boolean> {
   const getUser = await getUserByAddress(chainId, userAddress);
-  const delegateAddresses = getUser.data?.data?.users[0].delegates;
+  const delegateAddresses: string[] = getUser.data?.data?.users[0]?.delegates.map((delegate: any) =>
+    delegate.address.toLowerCase(),
+  );
 
   if (
     process.env.NEXT_PUBLIC_DELEGATE_ADDRESS &&

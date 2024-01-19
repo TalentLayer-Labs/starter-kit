@@ -127,7 +127,7 @@ function ServiceForm({
       token &&
       user &&
       talentLayerClient &&
-      builderPlace?.ownerTalentLayerId
+      builderPlace?.owner?.talentLayerId
     ) {
       try {
         const parsedRateAmount = await parseRateAmount(
@@ -148,7 +148,9 @@ function ServiceForm({
           });
           const response = await delegateCreateOrUpdateService(
             chainId,
-            existingService?.buyer.id ? existingService.buyer.id : builderPlace.ownerTalentLayerId,
+            existingService?.buyer.id
+              ? existingService.buyer.id
+              : builderPlace.owner?.talentLayerId,
             user.address.toLowerCase(),
             cid,
             !!existingService,
@@ -166,7 +168,7 @@ function ServiceForm({
                   rateToken: values.rateToken,
                   rateAmount: parsedRateAmountString,
                 },
-                builderPlace.ownerTalentLayerId,
+                builderPlace.owner?.talentLayerId,
                 parseInt(process.env.NEXT_PUBLIC_PLATFORM_ID as string),
               );
               cid = serviceResponse.cid;

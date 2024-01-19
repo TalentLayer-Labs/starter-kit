@@ -6,15 +6,18 @@ import * as Yup from 'yup';
 import CustomDomain from '../../../components/CustomDomain';
 import DefaultPalettes from '../../../components/DefaultPalettes';
 import HirerProfileLayout from '../../../components/HirerProfileLayout';
-import Loading from '../../../components/Loading';
 import UploadImage from '../../../components/UploadImage';
 import TalentLayerContext from '../../../context/talentLayer';
-import { useGetBuilderPlaceFromOwner } from '../../../modules/BuilderPlace/hooks/UseGetBuilderPlaceFromOwner';
-import { useUpdateBuilderPlace } from '../../../modules/BuilderPlace/hooks/UseUpdateBuilderPlace';
 import { themes } from '../../../utils/themes';
 import { generateDomainName, slugify } from '../../../modules/BuilderPlace/utils';
 import { sendVerificationEmail } from '../../../modules/BuilderPlace/request';
 import { createVerificationEmailToast } from '../../../modules/BuilderPlace/utils/toast';
+import { useGetBuilderPlaceById } from '../../../modules/BuilderPlace/hooks/UseGetBuilderPlaceById';
+import { useValidateBuilderPlaceAndOwner } from '../../../modules/BuilderPlace/hooks/UseValidateBuilderPlaceAndOwner';
+import ConnectBlock from '../../../components/ConnectBlock';
+import { showErrorTransactionToast } from '../../../utils/toast';
+import Loading from '../../../components/Loading';
+
 interface IFormValues {
   subdomain: string;
   palette: keyof typeof themes;
@@ -28,10 +31,10 @@ function onboardingStep3() {
   const { account, user, workerProfile, loading } = useContext(TalentLayerContext);
   const chainId = useChainId();
   const router = useRouter();
-  const { userId } = router.query;
+  const { userId, builderPlaceId } = router.query;
   const { data: walletClient } = useWalletClient({ chainId });
-  const { mutateAsync: updateBuilderPlaceAsync } = useUpdateBuilderPlace();
-  const builderPlaceData = useGetBuilderPlaceFromOwner(user?.id as string);
+  const { mutateAsync: validate } = useValidateBuilderPlaceAndOwner();
+  const builderPlaceData = useGetBuilderPlaceById(builderPlaceId as string);
 
   const initialValues: IFormValues = {
     subdomain: (builderPlaceData?.name && slugify(builderPlaceData.name)) || '',
@@ -40,19 +43,40 @@ function onboardingStep3() {
   };
 
   if (loading) {
-    console.log('no data');
     return (
-      <div className='flex flex-col mt-5 pb-8'>
-        <Loading />
-      </div>
+      <HirerProfileLayout step={3}>
+        <div className='p-8 flex flex-col items-center'>
+          <Loading />
+        </div>
+      </HirerProfileLayout>
+    );
+  }
+
+  if (!account?.isConnected) {
+    return (
+      <HirerProfileLayout step={3}>
+        <div className='p-8 flex flex-col items-center'>
+          <ConnectBlock />
+        </div>
+      </HirerProfileLayout>
     );
   }
 
   if (!builderPlaceData) {
     return (
-      <div className='flex flex-col mt-5 pb-8'>
-        <p>No builderPlace found associated to this wallet</p>
-      </div>
+      <HirerProfileLayout step={2}>
+        <div className={'flex items-center justify-center'}>
+          <span>
+            You first need to{' '}
+            <strong
+              className={`cursor-pointer text-pink-500`}
+              onClick={() => router.push(`/onboarding`)}>
+              {' '}
+              create a BuilderPlace
+            </strong>
+          </span>
+        </div>
+      </HirerProfileLayout>
     );
   }
 
@@ -60,15 +84,15 @@ function onboardingStep3() {
     values: IFormValues,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void },
   ) => {
-    if (walletClient && account?.address) {
+    if (walletClient && account?.address && userId && user?.id) {
       setSubmitting(true);
       try {
         const subdomain = generateDomainName(values.subdomain);
 
         /**
-         * @dev: send validadion email to owner to validate email
+         * @dev: send validation email to owner to validate email
          */
-        if (workerProfile && userId) {
+        if (workerProfile) {
           await sendVerificationEmail(
             workerProfile.email,
             userId as string,
@@ -83,26 +107,30 @@ function onboardingStep3() {
          */
         const signature = await walletClient.signMessage({
           account: account.address,
-          message: builderPlaceData._id,
+          message: builderPlaceData.id.toString(),
         });
 
-        const res = await updateBuilderPlaceAsync({
-          _id: builderPlaceData._id,
+        /**
+         * @dev: validate builderPlace and owner with signature
+         */
+        const res = await validate({
+          builderPlaceId: builderPlaceData.id.toString(),
+          ownerId: typeof userId === 'string' ? userId : userId[0],
           subdomain: subdomain,
-          logo: values.logo,
-          name: builderPlaceData.name,
-          ownerTalentLayerId: builderPlaceData.ownerTalentLayerId,
           palette: themes[values.palette],
-          owners: builderPlaceData.owners,
-          status: 'validated',
+          logo: values.logo,
           signature,
         });
 
-        if (res?.id) {
+        if (res?.error) {
+          throw new Error(res.error);
+        }
+
+        if (res?.message) {
           router.push(`${window.location.protocol}//${subdomain}/dashboard?hireronboarding=1`);
         }
-      } catch (e: any) {
-        console.error(e);
+      } catch (error: any) {
+        showErrorTransactionToast(error.message);
       } finally {
         setTimeout(() => {
           setSubmitting(false);

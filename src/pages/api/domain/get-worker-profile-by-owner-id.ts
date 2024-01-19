@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getWorkerProfileByTalentLayerId } from '../../../modules/BuilderPlace/actions';
+import { getUserByTalentLayerId } from '../../../modules/BuilderPlace/actions/user';
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
   const body: any = req.body;
@@ -9,6 +9,6 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     return res.status(500).json({ error: 'No id.' });
   }
 
-  const result = await getWorkerProfileByTalentLayerId(body.id, res);
+  const result = await getUserByTalentLayerId(body.id, res);
   return res.json(result);
 }

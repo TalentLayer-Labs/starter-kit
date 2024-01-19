@@ -1,6 +1,5 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
-import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
 import { useColor } from 'react-color-palette';
 import 'react-color-palette/css';
@@ -21,6 +20,7 @@ import { iBuilderPlacePalette } from '../../../modules/BuilderPlace/types';
 import { slugify } from '../../../modules/BuilderPlace/utils';
 import { sharedGetServerSideProps } from '../../../utils/sharedGetServerSideProps';
 import { themes } from '../../../utils/themes';
+import { showErrorTransactionToast } from '../../../utils/toast';
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   return sharedGetServerSideProps(context);
@@ -48,7 +48,6 @@ function ConfigurePlace(props: InferGetServerSidePropsType<typeof getServerSideP
   const chainId = useChainId();
   const { data: walletClient } = useWalletClient({ chainId });
   const { mutateAsync: updateBuilderPlaceAsync } = useUpdateBuilderPlace();
-  const router = useRouter();
   const [palette, setPalette] = useState<iBuilderPlacePalette | undefined>(builderPlace?.palette);
   const [colorName, setColorName] = useState('primary');
   const [color, setColor] = useColor(
@@ -131,12 +130,13 @@ function ConfigurePlace(props: InferGetServerSidePropsType<typeof getServerSideP
          */
         const signature = await walletClient.signMessage({
           account: account.address,
-          message: builderPlace._id,
+          message: builderPlace.id.toString(),
         });
+
         const fullSubdomain = `${values.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
 
-        await updateBuilderPlaceAsync({
-          _id: builderPlace._id,
+        const response = await updateBuilderPlaceAsync({
+          builderPlaceId: builderPlace.id.toString(),
           subdomain: fullSubdomain,
           logo: values.logo,
           name: values.name,
@@ -145,16 +145,18 @@ function ConfigurePlace(props: InferGetServerSidePropsType<typeof getServerSideP
           aboutTech: values.aboutTech,
           profilePicture: values.profilePicture,
           cover: values.cover,
-          ownerTalentLayerId: builderPlace.ownerTalentLayerId,
           palette,
-          owners: builderPlace.owners,
-          status: 'validated',
           signature,
         });
 
+        if (response?.error) {
+          throw new Error(response.error);
+        }
+
         toast.success('Configuration updated!');
-      } catch (e: any) {
-        console.error(e);
+      } catch (error: any) {
+        console.error(error);
+        showErrorTransactionToast(error.message);
       } finally {
         setSubmitting(false);
       }

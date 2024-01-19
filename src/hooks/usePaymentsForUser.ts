@@ -30,7 +30,7 @@ const usePaymentsForUser = (
         const response = await getPaymentsForUser(
           chainId,
           id,
-          builderPlace?.ownerTalentLayerId || '',
+          builderPlace?.owner?.talentLayerId || '',
           total,
           0,
           start.toString(),

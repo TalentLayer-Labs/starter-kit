@@ -1,9 +1,9 @@
 import { useMutation } from 'react-query';
-import { SetWorkerProfileOwner } from '../types';
+import { SetUserProfileOwner } from '../types';
 
 export function useSetWorkerProfileOwner() {
-  return useMutation<{ message: string; id: string; error?: string }, Error, SetWorkerProfileOwner>(
-    (updateWorkerProfileData: SetWorkerProfileOwner) =>
+  return useMutation<{ message: string; id: string; error?: string }, Error, SetUserProfileOwner>(
+    (updateWorkerProfileData: SetUserProfileOwner) =>
       fetch('/api/domain/set-worker-profile-owner', {
         method: 'PUT',
         body: JSON.stringify(updateWorkerProfileData),

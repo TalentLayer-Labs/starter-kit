@@ -4,10 +4,6 @@ import { graphIsSynced, graphUserIsSynced } from '../queries/global';
 import { BaseError, Hash } from 'viem';
 import { PublicClient } from 'wagmi';
 
-export enum MONGO_ERROR_CODES {
-  DUPLICATE_KEY = 11000,
-}
-
 interface IMessages {
   pending: string;
   success: string;
@@ -95,11 +91,6 @@ export const showErrorTransactionToast = (error: any) => {
   toast.error(errorMessage);
 };
 
-export const showMongoErrorTransactionToast = (error: any) => {
-  let errorMessage = getParsedMongoErrorMessage(error);
-  toast.error(errorMessage);
-};
-
 export const createTalentLayerIdTransactionToast = async (
   chainId: number,
   messages: IMessages,
@@ -161,14 +152,3 @@ function getParsedErrorMessage(error: any) {
 
   return 'Unknown error occurred';
 }
-
-const getParsedMongoErrorMessage = (error: string) => {
-  if (error.includes(MONGO_ERROR_CODES.DUPLICATE_KEY.toString())) {
-    if (error.includes('email')) return `Email already used`;
-    else if (error.includes('handle')) return `Handle already exists`;
-    else if (error.includes('username')) return `Username already exists`;
-    else return `Already exists`;
-  } else {
-    return `${error}`;
-  }
-};

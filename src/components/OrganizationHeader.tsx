@@ -12,7 +12,9 @@ function OrganizationHeader() {
 
   const { services } = useFilteredServices(
     ServiceStatusEnum.Opened,
-    builderPlace?.ownerTalentLayerId,
+    !!builderPlace?.owner?.talentLayerId
+      ? builderPlace?.owner?.talentLayerId?.toString()
+      : undefined,
   );
 
   if (!builderPlace) return <Loading />;
@@ -26,6 +28,7 @@ function OrganizationHeader() {
             <img
               className='bottom-0 left-0 object-cover absolute top-0 w-full h-full overflow-hidden rounded-xl'
               src={builderPlace.cover}
+              alt={'BuilderPlace cover image'}
             />
           )}
         </div>
@@ -46,6 +49,7 @@ function OrganizationHeader() {
         {builderPlace.profilePicture && (
           <img
             src={builderPlace.profilePicture}
+            alt={'BuilderPlace profile picture'}
             className={`object-coverrounded-3xl bottom-[-2.00rem] left-[40px] absolute top-[-5.75rem] z-[2] w-48 h-48 -mt-8 sm:block hidden`}
           />
         )}

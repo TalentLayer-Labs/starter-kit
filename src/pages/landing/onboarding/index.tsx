@@ -4,28 +4,29 @@ import * as Yup from 'yup';
 import HirerProfileLayout from '../../../components/HirerProfileLayout';
 import UploadImage from '../../../components/UploadImage';
 import { useCreateBuilderPlaceMutation } from '../../../modules/BuilderPlace/hooks/UseCreateBuilderPlaceMutation';
-import { PreferredWorkTypes } from '../../../types';
 import { themes } from '../../../utils/themes';
-import { showMongoErrorTransactionToast } from '../../../utils/toast';
-import { useCreateWorkerProfileMutation } from '../../../modules/BuilderPlace/hooks/UseCreateWorkerProfileMutation';
+import { showErrorTransactionToast } from '../../../utils/toast';
+import { useCreateHirerProfileMutation } from '../../../modules/BuilderPlace/hooks/UseCreateHirerProfileMutation';
+import { EntityStatus, WorkType } from '.prisma/client';
+import { getUserByEmail } from '../../../modules/BuilderPlace/request';
 
 interface IFormValues {
   name: string;
   about: string;
   email: string;
-  preferred_work_types: PreferredWorkTypes[];
+  preferred_work_types: WorkType[];
   profilePicture?: string;
 }
 function onboardingStep1() {
   const { mutateAsync: createBuilderPlaceAsync } = useCreateBuilderPlaceMutation();
-  const { mutateAsync: createUserProfileAsync } = useCreateWorkerProfileMutation();
+  const { mutateAsync: createHirerProfileAsync } = useCreateHirerProfileMutation();
   const router = useRouter();
 
   const initialValues: IFormValues = {
     name: '',
     about: '',
     email: '',
-    preferred_work_types: [PreferredWorkTypes.jobs],
+    preferred_work_types: [WorkType.JOBS],
   };
 
   const validationSchema = Yup.object({
@@ -45,19 +46,35 @@ function onboardingStep1() {
   ) => {
     try {
       setSubmitting(true);
-      /**
-       * @dev: Create User first so that it will revert if email already exists & not create the BuilderPlace
-       */
-      const userResponse = await createUserProfileAsync({
-        email: values.email,
-        name: values.name,
-        picture: values.profilePicture || undefined,
-        about: values.about,
-        status: 'pending',
-      });
 
-      if (userResponse.error) {
-        throw new Error(userResponse.error);
+      /**
+       * @dev: Check if user already exists
+       */
+      let userId: string;
+      const existingUser = await getUserByEmail(values.email);
+      if (
+        existingUser &&
+        existingUser.status === EntityStatus.VALIDATED &&
+        !!existingUser.ownedBuilderPlace
+      ) {
+        throw new Error('A User with this email already owns a BuilderPlace');
+      }
+
+      if (existingUser && existingUser.status === EntityStatus.VALIDATED) {
+        userId = existingUser.id;
+      } else {
+        const userResponse = await createHirerProfileAsync({
+          email: values.email,
+          name: values.name,
+          picture: values.profilePicture || undefined,
+          about: values.about,
+        });
+
+        userId = userResponse.id;
+
+        if (userResponse.error) {
+          throw new Error(userResponse.error);
+        }
       }
 
       const builderPlaceResponse = await createBuilderPlaceAsync({
@@ -68,14 +85,18 @@ function onboardingStep1() {
         profilePicture: values.profilePicture || undefined,
       });
 
+      if (builderPlaceResponse.error) {
+        throw new Error(builderPlaceResponse.error);
+      }
+
       router.query.builderPlaceId = builderPlaceResponse.id;
-      router.query.userId = userResponse.id;
+      router.query.userId = userId;
       router.push({
         pathname: '/onboarding/step2',
-        query: { builderPlaceId: builderPlaceResponse.id, userId: userResponse.id },
+        query: { builderPlaceId: builderPlaceResponse.id, userId: userId },
       });
     } catch (error: any) {
-      showMongoErrorTransactionToast(error.message);
+      showErrorTransactionToast(error.message);
     } finally {
       setTimeout(() => {
         setSubmitting(false);
@@ -143,123 +164,115 @@ function onboardingStep1() {
                 <div className='space-x-2'>
                   <label
                     className={`inline-flex items-center p-3 rounded-lg ${
-                      values.preferred_work_types.includes(PreferredWorkTypes.jobs)
+                      values.preferred_work_types.includes(WorkType.JOBS)
                         ? 'bg-green-200'
                         : 'bg-gray-200'
                     }`}>
                     <input
                       type='checkbox'
                       name='preferred_work_types'
-                      value={PreferredWorkTypes.jobs}
+                      value={WorkType.JOBS}
                       className='hidden'
-                      checked={values.preferred_work_types.includes(PreferredWorkTypes.jobs)}
+                      checked={values.preferred_work_types.includes(WorkType.JOBS)}
                       onChange={e => {
                         if (e.target.checked) {
                           setFieldValue('preferred_work_types', [
                             ...values.preferred_work_types,
-                            PreferredWorkTypes.jobs,
+                            WorkType.JOBS,
                           ]);
                         } else {
                           setFieldValue(
                             'preferred_work_types',
-                            values.preferred_work_types.filter(
-                              type => type !== PreferredWorkTypes.jobs,
-                            ),
+                            values.preferred_work_types.filter(type => type !== WorkType.JOBS),
                           );
                         }
                       }}
                     />
-                    <span className='text-sm'>{PreferredWorkTypes.jobs}</span>
+                    <span className='text-sm'>{WorkType.JOBS.toLowerCase()}</span>
                   </label>
                   <label
                     className={`inline-flex items-center p-3 rounded-lg ${
-                      values.preferred_work_types.includes(PreferredWorkTypes.bounties)
+                      values.preferred_work_types.includes(WorkType.BOUNTIES)
                         ? 'bg-pink-200'
                         : 'bg-gray-200'
                     }`}>
                     <input
                       type='checkbox'
                       name='preferred_work_types'
-                      value={PreferredWorkTypes.bounties}
+                      value={WorkType.BOUNTIES}
                       className='hidden'
-                      checked={values.preferred_work_types.includes(PreferredWorkTypes.bounties)}
+                      checked={values.preferred_work_types.includes(WorkType.BOUNTIES)}
                       onChange={e => {
                         if (e.target.checked) {
                           setFieldValue('preferred_work_types', [
                             ...values.preferred_work_types,
-                            PreferredWorkTypes.bounties,
+                            WorkType.BOUNTIES,
                           ]);
                         } else {
                           setFieldValue(
                             'preferred_work_types',
-                            values.preferred_work_types.filter(
-                              type => type !== PreferredWorkTypes.bounties,
-                            ),
+                            values.preferred_work_types.filter(type => type !== WorkType.BOUNTIES),
                           );
                         }
                       }}
                     />
-                    <span className='text-sm'>{PreferredWorkTypes.bounties}</span>
+                    <span className='text-sm'>{WorkType.BOUNTIES.toLowerCase()}</span>
                   </label>
                   <label
                     className={`inline-flex items-center p-3 rounded-lg ${
-                      values.preferred_work_types.includes(PreferredWorkTypes.grants)
+                      values.preferred_work_types.includes(WorkType.GRANTS)
                         ? 'bg-green-200'
                         : 'bg-gray-200'
                     }`}>
                     <input
                       type='checkbox'
                       name='preferred_work_types'
-                      value={PreferredWorkTypes.grants}
+                      value={WorkType.GRANTS}
                       className='hidden'
-                      checked={values.preferred_work_types.includes(PreferredWorkTypes.grants)}
+                      checked={values.preferred_work_types.includes(WorkType.GRANTS)}
                       onChange={e => {
                         if (e.target.checked) {
                           setFieldValue('preferred_work_types', [
                             ...values.preferred_work_types,
-                            PreferredWorkTypes.grants,
+                            WorkType.GRANTS,
                           ]);
                         } else {
                           setFieldValue(
                             'preferred_work_types',
-                            values.preferred_work_types.filter(
-                              type => type !== PreferredWorkTypes.grants,
-                            ),
+                            values.preferred_work_types.filter(type => type !== WorkType.GRANTS),
                           );
                         }
                       }}
                     />
-                    <span className='text-sm'>{PreferredWorkTypes.grants}</span>
+                    <span className='text-sm'>{WorkType.GRANTS.toLowerCase()}</span>
                   </label>
                   <label
                     className={`inline-flex items-center p-3 rounded-lg ${
-                      values.preferred_work_types.includes(PreferredWorkTypes.gigs)
+                      values.preferred_work_types.includes(WorkType.GIGS)
                         ? 'bg-pink-200'
                         : 'bg-gray-200'
                     }`}>
                     <input
                       type='checkbox'
                       name='preferred_work_types'
-                      value={PreferredWorkTypes.gigs}
+                      value={WorkType.GIGS}
                       className='hidden'
-                      checked={values.preferred_work_types.includes(PreferredWorkTypes.gigs)}
+                      checked={values.preferred_work_types.includes(WorkType.GIGS)}
                       onChange={e => {
                         if (e.target.checked) {
                           setFieldValue('preferred_work_types', [
                             ...values.preferred_work_types,
-                            PreferredWorkTypes.gigs,
+                            WorkType.GIGS,
                           ]);
                         } else {
                           setFieldValue(
                             'preferred_work_types',
-                            values.preferred_work_types.filter(
-                              type => type !== PreferredWorkTypes.gigs,
-                            ),
+                            values.preferred_work_types.filter(type => type !== WorkType.GIGS),
                           );
                         }
                       }}
                     />
-                    <span className='text-sm'>{PreferredWorkTypes.gigs}</span>
+                    <span className='text-sm'>{WorkType.GIGS.toLowerCase()}</span>
                   </label>
                 </div>
               </label>

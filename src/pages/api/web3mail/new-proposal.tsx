@@ -1,4 +1,3 @@
-import mongoose from 'mongoose';
 import { getProposalsFromPlatformServices } from '../../../queries/proposals';
 import { EmailType, IProposal, NotificationApiUri } from '../../../types';
 import { NextApiRequest, NextApiResponse } from 'next';
@@ -27,7 +26,7 @@ export const config = {
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const chainId = process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as string;
   const platformId = process.env.NEXT_PUBLIC_PLATFORM_ID as string;
-  const mongoUri = (process.env.MONGO_URI || process.env.NEXT_MONGO_URI) as string;
+  const databaseUrl = process.env.DATABASE_URL as string;
   const cronSecurityKey = req.headers.authorization as string;
   const privateKey = process.env.NEXT_WEB3MAIL_PLATFORM_PRIVATE_KEY as string;
   const isWeb3mailActive = process.env.NEXT_PUBLIC_ACTIVATE_WEB3MAIL as string;
@@ -38,9 +37,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   let sentEmails = 0,
     nonSentEmails = 0;
 
-  prepareCronApi(isWeb3mailActive, chainId, platformId, mongoUri, cronSecurityKey, privateKey, res);
-
-  await mongoose.connect(mongoUri as string);
+  prepareCronApi(
+    isWeb3mailActive,
+    chainId,
+    platformId,
+    databaseUrl,
+    cronSecurityKey,
+    privateKey,
+    res,
+  );
 
   // Check whether the user provided a timestamp or if it will come from the cron config
   const { sinceTimestamp, cronDuration } = calculateCronData(

@@ -1,76 +1,146 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import { SetBuilderPlaceAndHirerOwner } from '../../../modules/BuilderPlace/types';
+import { EntityStatus } from '@prisma/client';
+import { getUserByAddress as getTalentLayerUserByAddress } from '../../../queries/users';
 import {
   getBuilderPlaceById,
-  getBuilderPlaceByOwnerId,
-  getWorkerProfileById,
-  getWorkerProfileByTalentLayerId,
-} from '../../../modules/BuilderPlace/actions';
-import { SetBuilderPlaceAndHirerOwner } from '../../../modules/BuilderPlace/types';
+  getBuilderPlaceByOwnerTalentLayerId,
+  removeBuilderPlaceOwner,
+  setBuilderPlaceOwner,
+} from '../../../modules/BuilderPlace/actions/builderPlace';
+import {
+  getUserByAddress,
+  getUserById,
+  removeOwnerFromUser,
+  setUserOwner,
+} from '../../../modules/BuilderPlace/actions/user';
+import { MISSING_DATA } from '../../../modules/BuilderPlace/apiResponses';
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === 'PUT') {
-    const body: SetBuilderPlaceAndHirerOwner = req.body;
-    console.log('Received data:', body);
+  if (req.method !== 'PUT') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
 
-    if (!body.builderPlaceId || !body.hirerId || !body.owners || !body.ownerTalentLayerId) {
-      return res.status(400).json({ error: 'Missing data.' });
+  const body: SetBuilderPlaceAndHirerOwner = req.body;
+  console.log('Received data:', body);
+
+  if (!body.builderPlaceId || !body.hirerId || !body.ownerAddress || !body.ownerTalentLayerId) {
+    return res.status(400).json({ error: MISSING_DATA });
+  }
+
+  if (!process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID) {
+    return res.status(500).json({ error: 'Missing default chain config' });
+  }
+
+  try {
+    const [
+      existingSpace,
+      builderSpace,
+      talentLayerUser,
+      existingProfileWithSameAddress,
+      userProfile,
+    ] = await Promise.all([
+      getBuilderPlaceByOwnerTalentLayerId(body.ownerTalentLayerId),
+      getBuilderPlaceById(body.builderPlaceId as string),
+      getTalentLayerUserByAddress(
+        Number(process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID),
+        body.ownerAddress,
+      ),
+      getUserByAddress(body.ownerAddress),
+      getUserById(body.hirerId as string),
+    ]);
+
+    // Validations
+    if (existingSpace && existingSpace.status === EntityStatus.VALIDATED) {
+      throw new Error('You already own a domain');
     }
-
-    /**
-     * @dev: Checks on the domain
-     */
-    const existingSpace = await getBuilderPlaceByOwnerId(body.ownerTalentLayerId);
-    if (existingSpace) {
-      return res.status(401).json({ error: 'You already own a domain' });
-    }
-
-    const builderSpace = await getBuilderPlaceById(body.builderPlaceId as string);
     if (!builderSpace) {
-      return res.status(400).json({ error: "Domain doesn't exist." });
+      throw new Error("Domain doesn't exist");
     }
-
-    if (builderSpace.owners.length !== 0 || !!builderSpace.ownerTalentLayerId) {
-      return res.status(401).json({ error: 'Domain already taken.' });
+    if (builderSpace.status === EntityStatus.VALIDATED) {
+      throw new Error('BuilderPlace already has an owner');
+    }
+    if (!talentLayerUser) {
+      throw new Error('Your address does not own a TalentLayer Id');
+    }
+    if (!userProfile) {
+      throw new Error("Profile doesn't exist");
+    }
+    if (
+      existingProfileWithSameAddress &&
+      existingProfileWithSameAddress.status === EntityStatus.VALIDATED &&
+      existingProfileWithSameAddress.ownedBuilderPlace?.status === EntityStatus.VALIDATED
+    ) {
+      return res.status(401).json({ error: 'You already own a BuilderPlace' });
     }
 
     /**
-     * @dev: Checks on the Hirer
+     * @dev: If profile Validated and owner already set, skip the owner setting step
      */
-    const existingProfile = await getWorkerProfileByTalentLayerId(body.ownerTalentLayerId);
-    if (existingProfile) {
-      return res.status(401).json({ error: 'You already have a profile' });
-    }
-
-    const hirerProfile = await getWorkerProfileById(body.hirerId as string);
-    if (!hirerProfile) {
-      return res.status(400).json({ error: "Profile doesn't exist." });
-    }
-    if (!!hirerProfile.talentLayerId) {
-      return res.status(401).json({ error: 'Profile already has an owner.' });
-    }
-
-    try {
+    if (
+      userProfile.status === EntityStatus.VALIDATED &&
+      userProfile.talentLayerId === body.ownerTalentLayerId &&
+      userProfile.address?.toLocaleLowerCase() === body.ownerAddress.toLocaleLowerCase()
+    ) {
       /**
-       * @dev: Update BuilderPlace & Hirer profile
+       * @dev: Remove owner from pending domain to avoid conflicts on field "unique" constraint
        */
-      builderSpace.ownerTalentLayerId = body.ownerTalentLayerId;
-      builderSpace.ownerAddress = body.ownerAddress;
-      builderSpace.owners = body.owners;
-      builderSpace.save();
+      if (existingSpace && existingSpace.ownerId && existingSpace.status === EntityStatus.PENDING) {
+        //TODO: Prisma carrément suppr la BP ?
+        await removeBuilderPlaceOwner({
+          id: existingSpace.id,
+          ownerId: existingSpace.ownerId,
+        });
+      }
 
-      hirerProfile.talentLayerId = body.ownerTalentLayerId;
-      hirerProfile.status = 'validated';
-      hirerProfile.save();
-
-      res.status(200).json({
-        message: 'BuilderPlace domain & Hirer profile updated successfully',
-        builderPlaceId: builderSpace._id,
-        hirerId: hirerProfile._id,
+      await setBuilderPlaceOwner({
+        id: body.builderPlaceId,
+        ownerId: body.hirerId,
       });
-    } catch (error: any) {
-      res.status(400).json({ error: error });
+    } else {
+      /**
+       * @dev: If existing pending profile with same address, remove address
+       * from pending profile to avoid conflicts on field "unique" constraint
+       */
+      if (
+        existingProfileWithSameAddress &&
+        existingProfileWithSameAddress.status === EntityStatus.PENDING
+      ) {
+        //TODO: Prisma carrément suppr le user ?
+        await removeOwnerFromUser(existingProfileWithSameAddress.id.toString());
+      }
+
+      /**
+       * @dev: Set Hirer profile owner
+       */
+      await setUserOwner({
+        id: body.hirerId,
+        userAddress: body.ownerAddress.toLocaleLowerCase(),
+        talentLayerId: talentLayerUser.id,
+      });
+
+      /**
+       * @dev: Remove owner from pending domain to avoid conflicts on field "unique" constraint
+       */
+      if (existingSpace && existingSpace.ownerId && existingSpace.status === EntityStatus.PENDING) {
+        await removeBuilderPlaceOwner({
+          id: existingSpace.id,
+          ownerId: existingSpace.ownerId,
+        });
+      }
+
+      await setBuilderPlaceOwner({
+        id: body.builderPlaceId,
+        ownerId: body.hirerId,
+      });
     }
-  } else {
-    res.status(405).json({ message: 'Method not allowed' });
+
+    res.status(200).json({
+      message: 'BuilderPlace domain & Hirer profile updated successfully',
+      builderPlaceId: body.builderPlaceId,
+      hirerId: body.hirerId,
+    });
+  } catch (error: any) {
+    res.status(400).json({ error: error.message });
   }
 }

@@ -7,15 +7,17 @@ export function useGetBuilderPlaceFromOwner(id: string): IBuilderPlace | null {
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await getBuilderPlaceFromOwner(id);
-        const data = await response.json();
-        if (response) {
-          setBuilderPlace(data);
+      if (id) {
+        try {
+          const response = await getBuilderPlaceFromOwner(id);
+          const data = await response.json();
+          if (response) {
+            setBuilderPlace(data);
+          }
+        } catch (err: any) {
+          // eslint-disable-next-line no-console
+          console.error(err);
         }
-      } catch (err: any) {
-        // eslint-disable-next-line no-console
-        console.error(err);
       }
     };
     fetchData();

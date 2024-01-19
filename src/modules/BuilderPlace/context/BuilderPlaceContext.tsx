@@ -21,24 +21,25 @@ const BuilderPlaceProvider = ({ data, children }: { data: IBuilderPlace; childre
   const [builderPlace, setBuilderPlace] = useState<IBuilderPlace | undefined>();
   const [isBuilderPlaceCollaborator, setIsBuilderPlaceCollaborator] = useState<boolean>(false);
   const [isBuilderPlaceOwner, setIsBuilderPlaceOwner] = useState(false);
-
+  const ownerTalentLayerId = data?.owner?.talentLayerId;
   const fetchBuilderPlaceOwner = async () => {
-    if (!data?.ownerTalentLayerId) {
+    if (!ownerTalentLayerId) {
       return;
     }
-    const isUserBuilderPlaceOwner = user?.id === data.ownerTalentLayerId;
+    const isUserBuilderPlaceOwner = user?.id === ownerTalentLayerId.toString();
     setIsBuilderPlaceOwner(isUserBuilderPlaceOwner || false);
   };
 
   useEffect(() => {
     fetchBuilderPlaceOwner();
-  }, [chainId, data?.ownerTalentLayerId, user?.id]);
+  }, [chainId, data?.ownerId, user?.id]);
 
   useEffect(() => {
-    if (!data || !data.ownerTalentLayerId) return;
+    if (!ownerTalentLayerId) return;
 
-    const isBuilderPlaceCollaborator = data?.owners?.some(
-      owner => owner.toLocaleLowerCase() === account?.address?.toLocaleLowerCase(),
+    const isBuilderPlaceCollaborator = data?.collaborators?.some(
+      collaborator =>
+        collaborator?.address?.toLocaleLowerCase() === account?.address?.toLocaleLowerCase(),
     );
 
     setIsBuilderPlaceCollaborator(isBuilderPlaceCollaborator || false);

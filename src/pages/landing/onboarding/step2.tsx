@@ -6,8 +6,8 @@ import { slugify } from '../../../modules/BuilderPlace/utils';
 import Loading from '../../../components/Loading';
 import HirerProfileLayout from '../../../components/HirerProfileLayout';
 import { useGetBuilderPlaceById } from '../../../modules/BuilderPlace/hooks/UseGetBuilderPlaceById';
-import { showMongoErrorTransactionToast } from '../../../utils/toast';
 import { useSetBuilderPlaceAndHirerOwner } from '../../../modules/BuilderPlace/hooks/UseSetBuilderPlaceAndHirerOwner';
+import { showErrorTransactionToast } from '../../../utils/toast';
 
 function onboardingStep2() {
   const { account, user, refreshWorkerProfile, loading } = useContext(TalentLayerContext);
@@ -29,9 +29,11 @@ function onboardingStep2() {
 
   if (loading) {
     return (
-      <div className='flex flex-col mt-5 pb-8'>
-        <Loading />
-      </div>
+      <HirerProfileLayout step={2}>
+        <div className='flex flex-col mt-5 pb-8'>
+          <Loading />
+        </div>
+      </HirerProfileLayout>
     );
   }
 
@@ -60,7 +62,6 @@ function onboardingStep2() {
         const response = await setBuilderPlaceAndHirerOwner({
           builderPlaceId: builderPlaceId as string,
           hirerId: userId as string,
-          owners: [account.address],
           ownerAddress: account.address,
           ownerTalentLayerId: user.id,
         });
@@ -72,11 +73,11 @@ function onboardingStep2() {
         if (response?.hirerId && response?.builderPlaceId) {
           router.push({
             pathname: '/onboarding/step3',
-            query: { userId: response.builderPlaceId },
+            query: { builderPlaceId: response.builderPlaceId, userId: response.hirerId },
           });
         }
       } catch (error: any) {
-        showMongoErrorTransactionToast(error.message);
+        showErrorTransactionToast(error.message);
       } finally {
         refreshWorkerProfile();
         setIsSubmitting(false);

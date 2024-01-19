@@ -1,0 +1,514 @@
+[{
+  "_id": {
+    "$oid": "6568500154b907c8d4eb3365"
+  },
+  "name": "builders garden",
+  "palette": {
+    "primary": "#FF71A2",
+    "primaryFocus": "#FFC2D1",
+    "primaryContent": "#ffffff",
+    "base100": "#ffffff",
+    "base200": "#fefcfa",
+    "base300": "#fae4ce",
+    "baseContent": "#000000",
+    "info": "#f4dabe",
+    "infoContent": "#000000",
+    "success": "#C5F1A4",
+    "successContent": "#000000",
+    "warning": "#FFE768",
+    "warningContent": "#000000",
+    "error": "#FFC2D1",
+    "errorContent": "#000000",
+    "_id": {
+      "$oid": "6568500154b907c8d4eb3367"
+    }
+  },
+  "presentation": "we are a dynamic assembly of web3 builders committed to crafting groundbreaking projects within the ethereum ecosystem. ",
+  "owners": [],
+  "status": "pending",
+  "preferredWorkTypes": [
+    "jobs",
+    "grants"
+  ],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "656859a219f700337b153ea1"
+  },
+  "name": "asdf",
+  "palette": {
+    "primary": "#FF71A2",
+    "primaryFocus": "#FFC2D1",
+    "primaryContent": "#ffffff",
+    "base100": "#ffffff",
+    "base200": "#fefcfa",
+    "base300": "#fae4ce",
+    "baseContent": "#000000",
+    "info": "#f4dabe",
+    "infoContent": "#000000",
+    "success": "#C5F1A4",
+    "successContent": "#000000",
+    "warning": "#FFE768",
+    "warningContent": "#000000",
+    "error": "#FFC2D1",
+    "errorContent": "#000000",
+    "_id": {
+      "$oid": "656859a219f700337b153ea3"
+    }
+  },
+  "presentation": "adf",
+  "owners": [],
+  "status": "pending",
+  "preferredWorkTypes": [
+    "jobs"
+  ],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "65685c326184b34a6f893ef5"
+  },
+  "name": "asdf",
+  "palette": {
+    "primary": "#FF71A2",
+    "primaryFocus": "#FFC2D1",
+    "primaryContent": "#ffffff",
+    "base100": "#ffffff",
+    "base200": "#fefcfa",
+    "base300": "#fae4ce",
+    "baseContent": "#000000",
+    "info": "#f4dabe",
+    "infoContent": "#000000",
+    "success": "#C5F1A4",
+    "successContent": "#000000",
+    "warning": "#FFE768",
+    "warningContent": "#000000",
+    "error": "#FFC2D1",
+    "errorContent": "#000000",
+    "_id": {
+      "$oid": "65685c326184b34a6f893ef7"
+    }
+  },
+  "presentation": "adsf",
+  "owners": [],
+  "status": "pending",
+  "preferredWorkTypes": [
+    "jobs"
+  ],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "65944043f81c20572a9824fa"
+  },
+  "name": "Developer DAO",
+  "baseline": "Build web3 with friends.",
+  "subdomain": "developerdao.builder.place",
+  "logo": "https://imagedelivery.net/3FRscrZr469XnyiCbQpTrA/0b6c49be-3a26-419a-de9e-45ba1829a400/public",
+  "cover": "https://imagedelivery.net/3FRscrZr469XnyiCbQpTrA/31152105-e6cb-4578-58ac-86d5380c5200/public",
+  "profilePicture": "https://imagedelivery.net/3FRscrZr469XnyiCbQpTrA/728ac6e5-0e6d-4f2f-730a-561aa8c1ea00/public",
+  "palette": {
+    "primary": "#ffffff",
+    "primaryFocus": "#f5ffa7",
+    "primaryContent": "#000000",
+    "base100": "#000000",
+    "base200": "#1b1b1b",
+    "base300": "#262626",
+    "baseContent": "#ffffff",
+    "info": "#69c5b4",
+    "infoContent": "#000000",
+    "success": "#C5F1A4",
+    "successContent": "#000000",
+    "warning": "#FFE768",
+    "warningContent": "#000000",
+    "error": "#FFC2D1",
+    "errorContent": "#000000",
+    "_id": {
+      "$oid": "65561c9b22a08e6ec4f6600f"
+    }
+  },
+  "about": "### Developer DAO is a community of thousands of web3 builders creating a better internet. Join us and create the future.\n\nWe partner with leading protocol ecosystems on educational opportunities, open-source contribution, and more.\n\n# Values\n### Transparency\nOpen source everything, conversations In public, document and share journey\n\n### Diversity and Inclusion\nSeek to foster as diverse a membership as possible and support everyone to contribute\n\n### Responsibility\nAs self-governed community we rely on members to be personally responsible for their actions and commitments to the community\n\n### Kindness and Empathy\nWe know that we are living in a complex, stressful, and diverse world and go out of our way to make people’s lives and days better through our interactions\n\n\n# Mission\n\nDeveloper DAO exists to accelerate the education and impact of a new wave of web3 builders.\n\n### Goals\n\n1.  Onboard, Educate & Support Web3 Developers\n    \n2.  Foster & Build Web3 Tools & Public Goods\n\n\n# Learn More\n\n[The Developer DAO Wiki](https://developerdao.notion.site/Developer-DAO-Wiki-eff4dcb00bef46fbaa93e9e4cf940e2e)\n[Website](https://www.developerdao.com/)\n",
+  "aboutTech": "We partner with leading protocol ecosystems on educational opportunities, open-source contribution, and more.\n\nWe're chain-agnostic and tech agnostic. Whether you write Solidity or PHP, you're welcome here. \n\nOur open-source opportunities can vary tech stack wise - please check out specific posts for more information. ",
+  "ownerTalentLayerId": "12005",
+  "owners": [
+    "0xeFFB282259291e05060927ec1205E49751a5a97A",
+    "0x0553b35743639be26870CEe5a1Fd2BEC457878d6"
+  ],
+  "ownerAddress": "0xeffb282259291e05060927ec1205e49751a5a97a",
+  "status": "validated",
+  "preferredWorkTypes": [
+    "bounties"
+  ],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "65944043f81c20572a9824fe"
+  },
+  "name": "BuilderPlace",
+  "baseline": "growing open-source one mission at a time",
+  "subdomain": "build.builder.place",
+  "logo": "https://imagedelivery.net/3FRscrZr469XnyiCbQpTrA/82d5e03d-385f-40f1-59b3-6b9835ee0c00/public",
+  "cover": "https://imagedelivery.net/3FRscrZr469XnyiCbQpTrA/3cbf5bab-81a0-40d0-cac6-4eb100fb8900/public",
+  "profilePicture": "https://imagedelivery.net/3FRscrZr469XnyiCbQpTrA/af63c67d-f405-42cd-0edf-aed71b17d900/public",
+  "palette": {
+    "primary": "#FF71A2",
+    "primaryFocus": "#FFC2D1",
+    "primaryContent": "#ffffff",
+    "base100": "#ffffff",
+    "base200": "#fefcfa",
+    "base300": "#fae4ce",
+    "baseContent": "#000000",
+    "info": "#f4dabe",
+    "infoContent": "#000000",
+    "success": "#C5F1A4",
+    "successContent": "#000000",
+    "warning": "#FFE768",
+    "warningContent": "#000000",
+    "error": "#FFC2D1",
+    "errorContent": "#000000",
+    "_id": {
+      "$oid": "6568f00c4afce98a4e09cfa8"
+    }
+  },
+  "about": "# growing open-source one mission at a time\n\nBuilderPlace is your open-source community management platform + contributor discovery engine!\n    \n[Read more about us here!](https://builder.place/) \n\n\n## who's building?\nBuilderPlace is currently supported by open-source contributors form the TalentLayer Community. The main folks working on it day to day are below!\n\n![](https://pbs.twimg.com/profile_images/1721873020073947136/nx9wLtdf_400x400.jpg)\n\n[Kirsten - Onboarding and product design.](https://twitter.com/kirstenrpomales)\n\n![](https://pbs.twimg.com/profile_images/1607416495474081792/F5aLIdU-_400x400.jpg)\n\n[Romain - Managing engineering. Shipping frontend bits.](https://twitter.com/Romain__TL)\n\n![](https://pbs.twimg.com/profile_images/1632131846426464257/V5fdtJgz_400x400.jpg)\n\n[Quentin - Frontend.](https://twitter.com/quentdc043/photo)\n\n![](https://pbs.twimg.com/profile_images/1703851779971063809/CYEvPWNQ_400x400.jpg)\n\n[Dercio - Integrations and onboarding.](https://twitter.com/spanish_vanish/status/1703853290100846642) \n\n![](https://pbs.twimg.com/profile_images/1702560678148726784/oREM6tnm_400x400.jpg)\n\n[Gathin - Frontend and onboarding.](https://twitter.com/gathin_twt)\n\n# join us!\nDo you care about making open-source more accessible? There's always ways to contribute! Let's chat.\n\nWe specifically need more frontend engineers. Most of our work is adding more features to our NextJS frontend. \n\nWe also have room for more folks to help on onboarding and open-source community relations - onboarding more organizations to use BuilderPlace. \n\nDM us on Twitter to see how u can help!\n\n[Our Twitter](https://twitter.com/builderplace/) \n\n\n# connect with us\n[Website](https://builder.place/) \n[Twitter](https://twitter.com/builderplace/) \n[Github](https://github.com/TalentLayer-Labs/builder-place)\n\n\n\n\n\n\n\n\n\n\n\n",
+  "aboutTech": "# the stack\n\nBuilderPlace is a NextJS dapp that uses TalentLayer API to handle most of it's backend (usr profiles, pay transactions, mission posts, etc). \n\nIt also has a Mongo DB that stores some centralized information.\n\n[Explore our code on Github](https://github.com/TalentLayer-Labs/builder-place)\n\n# What development tools are we using?[](https://docs.talentlayer.org/technical-guides/introduction#what-development-tools-are-we-using)\n\nWe mostly use [VisualStudio](https://code.visualstudio.com/) to code.\n\nFor the frontend we are using ReacJS which is the most common one used in the space. We are using Typescript, we are using [Tailwind CSS](https://tailwindcss.com/docs/font-style) for the styling, and some libraries like [iterate.js](https://github.com/topics/iterate-js-library) to make it simple to communicate with RPC client.\n\nWe are using TalentLayer API for all of the work functionality. ",
+  "ownerTalentLayerId": "12006",
+  "owners": [
+    "0x65690102665Ba08243D36F684E5F051AC3aE0257",
+    "0xdBf0BbE459bC3D2cbD7d7F334af3B12E36b40D0f"
+  ],
+  "ownerAddress": "0x65690102665ba08243d36f684e5f051ac3ae0257",
+  "status": "validated",
+  "preferredWorkTypes": [
+    "bounties"
+  ],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "65944044f81c20572a982502"
+  },
+  "name": "TheBadge",
+  "baseline": "the decentralized certification platform",
+  "subdomain": "thebadge.builder.place",
+  "logo": "https://imagedelivery.net/3FRscrZr469XnyiCbQpTrA/3929684a-f9e5-4ffd-1786-77d11d0dc700/public",
+  "cover": "https://imagedelivery.net/3FRscrZr469XnyiCbQpTrA/6b6a9ae6-358a-4d6c-afd2-840fb9d71400/public",
+  "profilePicture": "https://imagedelivery.net/3FRscrZr469XnyiCbQpTrA/3c0aca0b-a662-4705-857e-774f083c3700/public",
+  "palette": {
+    "primary": "#56ffd2",
+    "primaryFocus": "#000028",
+    "primaryContent": "#000028",
+    "base100": "#ffffff",
+    "base200": "#eef5ff",
+    "base300": "#c9b7ff",
+    "baseContent": "#000028",
+    "info": "#42d1ff",
+    "infoContent": "#000028",
+    "success": "#51ed98",
+    "successContent": "#000028",
+    "warning": "#FFE768",
+    "warningContent": "#000028",
+    "error": "#ff1756",
+    "errorContent": "#000028",
+    "_id": {
+      "$oid": "6554ded84008f21059a8d3df"
+    }
+  },
+  "about": "# Decentralized certification platform\n\nTheBadge is a decentralized certification platform powered by Ethereum. It provides users the opportunity to tokenize information from the real world in the form of certifications (badges). These badges are verified and validated by the community, which decides what should be accepted and what not.\n\nWe've been building for a little over one year and are set to launch on mainnet in January 2024! Our team is based across Argentina and Barcelona. \n\n![](https://pbs.twimg.com/media/F6dQGmAWIAAJZnH?format=jpg&name=large)\n\n## Why we need decentralized certifications\n\nTo ensure that our initiatives to attract more people to the crypto ecosystem are fruitful, we must make the ecosystem trustworthy. To create a decentralized future, having accurate information is essential. If we as a decentralized community entrust all verification duty only to centralized entities, the entire ecosystem will suffer the consequences of bad actors' wrongdoings.\n    \n\n## Who's building?\nThe Badge team is led by Agustin and Federico and backed by a passionate team.\n![](https://www.thebadge.xyz/avatars/agu.webp)\n\n[Agu Pane, COO](https://twitter.com/agupane)\nFormer engineer at Gnosis SAFE.\n![](https://www.thebadge.xyz/avatars/fede.webp)\n\n[Fede Madoery, Product Lead](https://www.linkedin.com/in/federico-madoery)\n\n[Lucia Fenoglio, Graphics Designer](https://www.behance.net/luciafenoglio)\n\n[Fernando Ramirez, Business & Web3 Developer](https://github.com/ramabit)\n\n[Agustin Lombardi, Business Developer](https://www.linkedin.com/in/agustin-lombardi-485627207)\n\nChristian Malfesi, Business Developer\n\n\n# join us!\nDo you care about making open-source more accessible? There's always ways to contribute! Let's chat.\n\nWe specifically need more frontend engineers. Most of our work is adding more features to our NextJS frontend. \n\nWe also have room for more folks to help on onboarding and open-source community relations - onboarding more organizations to use BuilderPlace. \n\nDM us on Twitter to see how u can help!\n\n[Our Twitter](https://twitter.com/builderplace/) \n\n\n# connect with us\n[Website](https://builder.place/) \n[Twitter](https://twitter.com/builderplace/) \n[Github](https://github.com/TalentLayer-Labs/builder-place)\n",
+  "aboutTech": "# TheBadge: Decentralized Certification Platform\n\nTheBadge is an innovative decentralized certification platform built on Ethereum's blockchain technology. It empowers users to tokenize real-world information through certifications, known as badges. These badges undergo community-driven verification and validation, ensuring a trustworthy ecosystem.\n\n## [](https://github.com/thebadge#what-is-thebadge)What is TheBadge?\n\nAt its core, TheBadge is a platform that revolutionizes certification through decentralization. Key features include:\n\n### [](https://github.com/thebadge#-certification-generation)📖 Certification Generation:\n\nBadges are generated based on specific criteria and supporting evidence. Each badge issuance requires substantiating evidence.\n\n### [](https://github.com/thebadge#-community-verification)🔍 Community Verification:\n\nTheBadge relies on a decentralized community of curators who meticulously review and verify badge authenticity. Curators are incentivized for identifying fraudulent badges.\n\nThe Need for Decentralized Certifications To foster a reliable crypto ecosystem, accurate information is crucial. Decentralization promotes trust, but relying solely on centralized entities for verification can lead to undesirable consequences. TheBadge addresses this by decentralizing the certification process, safeguarding against bad actors.\n\n## [](https://github.com/thebadge#badge-categories)Badge Categories\n\n### [](https://github.com/thebadge#-community-badges)🤝 Community Badges\n\nRepresent real-world information in the form of blockchain-based certifications. To obtain a badge, users must provide evidence and pass through TheBadge's curation process, where our community of curators will review and verify the authenticity of the evidence. For example, a web3 company can apply to get a proof of reserves certification. People from the community can then always verify that this process is transparent.\n\n### [](https://github.com/thebadge#%EF%B8%8F-third-party-badges)⚖️ Third-Party Badges\n\nAlso known as \"Blockchain certifications as a service\". These are badges generated and backed by a public or private entity. Entities that are willing to generate these badges have to be registered on the platform before they can start emitting them. For example, an online courses platform could become a third-party entity of TheBadge, by doing so, it will be able to grant its certifications on-chain without having to develop its own mechanism.\n\n## The Tech\n\nThe Badge's application is written in Typescript. \n\nThe Badge's smart contracts are written in Solidity. \n\nThe Badge is multi-chain and we will manage deployments across a few major blockchains. \n\n[Explore more on Github](https://github.com/TalentLayer-Labs/builder-place)",
+  "ownerTalentLayerId": "12004",
+  "owners": [
+    "0x0dc0dfD22C6Beab74672EADE5F9Be5234AAa43cC",
+    "0x65690102665Ba08243D36F684E5F051AC3aE0257",
+    "0xdBf0BbE459bC3D2cbD7d7F334af3B12E36b40D0f"
+  ],
+  "ownerAddress": "0x0dc0dfd22c6beab74672eade5f9be5234aaa43cc",
+  "status": "validated",
+  "preferredWorkTypes": [
+    "bounties",
+    "grants"
+  ],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "65944044f81c20572a982506"
+  },
+  "name": "PoolClub",
+  "subdomain": "poolclub.builder.place",
+  "logo": "https://imagedelivery.net/3FRscrZr469XnyiCbQpTrA/26ba1a4f-8981-43cc-5eb0-dd1277355100/public",
+  "profilePicture": "https://imagedelivery.net/3FRscrZr469XnyiCbQpTrA/b87201fd-d9af-4dcf-6ff0-026dde29df00/public",
+  "palette": {
+    "primary": "#65c8b6",
+    "primaryFocus": "#42B2B8",
+    "primaryContent": "#ffffff",
+    "base100": "#ffffff",
+    "base200": "#ebfbf4",
+    "base300": "#d1f9ec",
+    "baseContent": "#291334",
+    "info": "#B7F5F9",
+    "infoContent": "#000000",
+    "success": "#C5F1A4",
+    "successContent": "#000000",
+    "warning": "#FFE768",
+    "warningContent": "#000000",
+    "error": "#FFC2D1",
+    "errorContent": "#000000",
+    "_id": {
+      "$oid": "6565ff3b04459944cf354b26"
+    }
+  },
+  "ownerTalentLayerId": "12017",
+  "owners": [
+    "0xcf50d8Be3eF746BDBb8DD6ba269779cd3d40235E",
+    "0x65690102665Ba08243D36F684E5F051AC3aE0257",
+    "0xdBf0BbE459bC3D2cbD7d7F334af3B12E36b40D0f"
+  ],
+  "ownerAddress": "0xcf50d8be3ef746bdbb8dd6ba269779cd3d40235e",
+  "status": "validated",
+  "preferredWorkTypes": [
+    "gigs"
+  ],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "65944044f81c20572a98250a"
+  },
+  "name": "Peanut Protocol",
+  "subdomain": "peanut.builder.place",
+  "logo": "https://imagedelivery.net/3FRscrZr469XnyiCbQpTrA/ee3e0a60-2021-4c5c-f29f-d45d67464f00/public",
+  "profilePicture": "https://imagedelivery.net/3FRscrZr469XnyiCbQpTrA/04c27956-4b4d-4d68-bd7c-41aaaa806d00/public",
+  "palette": {
+    "primary": "#8470e0",
+    "primaryFocus": "#FFC2D1",
+    "primaryContent": "#ffffff",
+    "base100": "#ffffff",
+    "base200": "#fefcfa",
+    "base300": "#fc86c4",
+    "baseContent": "#000000",
+    "info": "#f4dabe",
+    "infoContent": "#000000",
+    "success": "#C5F1A4",
+    "successContent": "#000000",
+    "warning": "#FFE768",
+    "warningContent": "#000000",
+    "error": "#FFC2D1",
+    "errorContent": "#000000",
+    "_id": {
+      "$oid": "65674aaccf3426b52ca6c9c9"
+    }
+  },
+  "ownerTalentLayerId": "12018",
+  "owners": [
+    "0x4f73235220371E3f2dDe9C8aFc1C310BcA7889F3",
+    "0x65690102665Ba08243D36F684E5F051AC3aE0257",
+    "0xdBf0BbE459bC3D2cbD7d7F334af3B12E36b40D0f"
+  ],
+  "ownerAddress": "0x4f73235220371e3f2dde9c8afc1c310bca7889f3",
+  "status": "validated",
+  "preferredWorkTypes": [
+    "bounties",
+    "gigs"
+  ],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "65944045f81c20572a98250e"
+  },
+  "name": "Talent Protocol",
+  "subdomain": "talentprotocol.builder.place",
+  "logo": "https://imagedelivery.net/3FRscrZr469XnyiCbQpTrA/b5993a4c-0696-4133-dc9e-c475ff6be600/public",
+  "profilePicture": "https://imagedelivery.net/3FRscrZr469XnyiCbQpTrA/cf19f68b-0057-4873-5e8e-84070d170300/public",
+  "palette": {
+    "primary": "#8c6aff",
+    "primaryFocus": "#fafafb",
+    "primaryContent": "#ffffff",
+    "base100": "#ffffff",
+    "base200": "#fafafb",
+    "base300": "#f0e8ff",
+    "baseContent": "#000000",
+    "info": "#826cc2",
+    "infoContent": "#ffffff",
+    "success": "#C5F1A4",
+    "successContent": "#000000",
+    "warning": "#FFE768",
+    "warningContent": "#000000",
+    "error": "#FFC2D1",
+    "errorContent": "#000000",
+    "_id": {
+      "$oid": "6578987a60b71f147391d2de"
+    }
+  },
+  "ownerTalentLayerId": "12039",
+  "owners": [
+    "0xA1b21044DafC329d8EA8F8c456cC3A0665367868",
+    "0x65690102665Ba08243D36F684E5F051AC3aE0257",
+    "0xdBf0BbE459bC3D2cbD7d7F334af3B12E36b40D0f"
+  ],
+  "ownerAddress": "0xa1b21044dafc329d8ea8f8c456cc3a0665367868",
+  "status": "validated",
+  "preferredWorkTypes": [
+    "bounties"
+  ],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "65944045f81c20572a982512"
+  },
+  "name": "zaedzaed",
+  "palette": {
+    "primary": "#FF71A2",
+    "primaryFocus": "#FFC2D1",
+    "primaryContent": "#ffffff",
+    "base100": "#ffffff",
+    "base200": "#fefcfa",
+    "base300": "#fae4ce",
+    "baseContent": "#000000",
+    "info": "#f4dabe",
+    "infoContent": "#000000",
+    "success": "#C5F1A4",
+    "successContent": "#000000",
+    "warning": "#FFE768",
+    "warningContent": "#000000",
+    "error": "#FFC2D1",
+    "errorContent": "#000000",
+    "_id": {
+      "$oid": "65685d016184b34a6f893f00"
+    }
+  },
+  "ownerTalentLayerId": "3",
+  "owners": [
+    "0x9F89836C22f250595DEA30327af026bA1c029f28"
+  ],
+  "ownerAddress": "0xebadc39dee2ede08113705584e8d2aeba56adf6d",
+  "status": "pending",
+  "preferredWorkTypes": [
+    "jobs",
+    "bounties"
+  ],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "65944045f81c20572a982516"
+  },
+  "name": "TalentLayer",
+  "baseline": "the api connecting the world's marketplaces !",
+  "subdomain": "talentlayer.builder.place",
+  "logo": "https://imagedelivery.net/3FRscrZr469XnyiCbQpTrA/83b43565-e291-41df-0828-ee81b5bde100/public",
+  "cover": "https://imagedelivery.net/3FRscrZr469XnyiCbQpTrA/6ebd27d7-909e-4242-490d-4490b6807800/public",
+  "profilePicture": "https://imagedelivery.net/3FRscrZr469XnyiCbQpTrA/242d9900-40a2-484c-2965-ad1049489500/public",
+  "palette": {
+    "primary": "#3035bc",
+    "primaryFocus": "#4254b8",
+    "primaryContent": "#ffffff",
+    "base100": "#ffffff",
+    "base200": "#ffffff",
+    "base300": "#d9dcff",
+    "baseContent": "#291334",
+    "info": "#74c4c9",
+    "infoContent": "#000000",
+    "success": "#C5F1A4",
+    "successContent": "#000000",
+    "warning": "#FFE768",
+    "warningContent": "#000000",
+    "error": "#FFC2D1",
+    "errorContent": "#000000",
+    "_id": {
+      "$oid": "659fff9107d4732ee71de44e"
+    }
+  },
+  "about": "\n# the api connecting the world's marketplaces\n\nHey, friend! We're team Talentlayer. It's great to meet you. We're an international team of open-source maxis who are building tech that empowers the marketplaces we all use today to bring you more of what you need when you need it. \n\n- **End users:** 12,000\n- **Platforms using us:** 3\n- **Service requests posted:** 80+\n- **Transaction volume:** 41K+\n- **Launch date:** April, 2023\n- **Open-source contributors:** 25+\n\n## meet talentlayer\n\n> **Service requests:** You can think of service requests as \"demand\" that exists on a services platform; this could be a ride-share user seeking a driver, a hirer seeking a Python developer, a mother seeking a babysitter, etc.\n\n### example: freelance marketplaces sharing liquidity\n\nIn the following example, two freelance marketplaces, Marketplace A and Marketplace B, participate in a transaction where A provides demand (a Python developer gig) and B provides supply (a Python developer). \n\nMarketplace A has a lot of hirers posting Python development gigs, but not a lot of Python developers looking for work. Because of this, they have low fulfillment rates for gig posts that hirers make in that category. This results in hirers to leave their platform and post elsewhere. \n\nMarketplace B has a lot of Python developers, but not many hirers posting Python development gigs. Because of this, the developers they onboard in this category churn quickly; the workers leave their platform and create profiles elsewhere. \n\nMarketplace A posts it's unfulfilled Python developer gigs via the TalentLayer API (the demand side of a gig transaction). Marketplaces like Marketplace B read in Python developer gigs and display them to their users in search results; interested developers submit work proposals (the supply side of a gig transaction). \n\nIf there is a successful match between a gig on Marketplace A and a proposal originating from Marketplace B, the users of each platform engage in a service transaction. Payment is facilitated between the users of the two platforms via the TalentLayer API. \n\nIn the end, Marketplace A and Marketplace B each take a fee on the transaction between their users; each earning for providing either supply side or demand side. Both marketplaces benefit from increasing fulfillment rates and reducing likelihood of user churn that takes place when user's needs aren't met. \n\n```mermaid\nsequenceDiagram\nNote left of Marketplace A: Has unfulfilled supply of <br/> Python freelance gigs.\n\nMarketplace A ->> API: push unfilfilled \"python\"<br/> gigs\nNote right of Marketplace B: Has unmet demand of <br/> Python freelance gigs.\n\nAPI-->>Marketplace B: read open \"python\" <br/>gigs\nNote right of Marketplace B: B displays python gigs <br/>in their search results, <br/>alongside gigs posted by<br/> their own platform's hirers. <br/> Their users submit <br/>proposals.\nMarketplace B->>API: push proposals for \"python\" <br/>gigs\nNote left of Marketplace A: A displays proposals<br/> to the hirer alongside<br/> proposals posted by their <br/>own platform's users. Hirer <br/>approves <br/>a proposal.\n\nAPI--x Marketplace A: read proposals \nMarketplace A-x Marketplace B: approve proposal\nNote right of Marketplace B: Gig worker completes<br/>  work and requests<br/>  payment.\n\nMarketplace B->>Marketplace A: request payment\nMarketplace A->>Marketplace B: 💸 payment transaction from buyer to seller\nNote right of Marketplace B: B earns a comission for providing supply side\nNote left of Marketplace A: A earns a comission for providing demand side\n```\n\n## meet the team\n\nWe've been building open-source from day one, when we started as a hackathon project of Kirsten and Romain at the ETH CC Hackathon in 2022. Since then, we've onboarded over a dozen open-source contributors who helped us reach our mainnet launch in April 2023 and beyond. \n\n### about the founding team\n\nWe're an all-technical team with a track record building scalable infrastructure and open-source communities. We’ve been freelancers and hired freelancers. Some of us have built marketplaces as priors startups. Together, we’re leading the open-source movement that’s behind TalentLayer.\n\nTalentLayer was co-founded by Kirsten and Romain. Quentin, our Founding Engineer has been here since nearly day 1.\n\n![romain](https://pbs.twimg.com/profile_images/1607416495474081792/F5aLIdU-_200x200.jpg)\n\n[Follow Romain](https://twitter.com/Romain__TL)\n\nRomain has spent the last seven years as the CTO of a major sports news and data company in Europe. He built a team that developed the infrastructure, mobile applications, and websites, which are now visited by millions of users. For the past four years, he has worked on various profitable crypto projects across DeFi, NFT, and other sectors in his spare time. With a decade of freelancing experience, he has built and launched several projects, managing them from the idea conception to production. Romain is the Technical Lead of TalentLayer and handles engineering management and development. \n\n![kirsten](https://pbs.twimg.com/profile_images/1735205362893025280/-9Z87DPZ_200x200.jpg)\n\n[Follow Kirsten](https://twitter.com/kirstenrpomales)\n\nKirsten has been contributing to open-source blockchain tech since 2019. She co-lead the IEEE’s Blockchain Governance Working Group and growing it to 200+ contributors across 6 continents. She spent a year growing the team behind FACINGS, a venture-backed white-label NFT marketplace platform. In a prior life, she was a freelance software developer moonlighting on various revenue-generating software startups including an influencer marketing marketplace and online education platform. Kirsten is the Executive Lead of TalentLayer and handles almost all non-tech operations. \n\n![quentin](https://pbs.twimg.com/profile_images/1632131846426464257/V5fdtJgz_200x200.jpg)\n\n[Follow Quentin](https://twitter.com/quentdc043)\n\nQuentin has spent the last five years as a full-stack software engineer working for multiple software companies as a freelancer and dedicated team member. Before his career in software, he worked for seven years as a renewable energy engineer; managing the development of large-scale energy facilities across South-East Asia and Oceania. Quentin has specialized in Solidity development for the past year and a half; directly before TalentLayer, Quentin was building a similar open network protocol for real estate markets. Quentin is the Founding Engineer of TalentLayer and works on fullstack development. \n\n## funding\n\nTalentLayer has been funded through grants from organizations like the European Union, Filecoin Foundation, iExec, and more. We've received a small amount of investment through incubator programs from Protocol Labs, Outlier Ventures, and Kleros Collective.\n\nWe sponsor open-source bounties for contributors that work on project areas we've earmarked as priorities.\n\n## connect with us\n\n- [Website](https://talentlayer.org/)\n- [Documentation](https://docs.talentlayer.org/)\n- [Twitter](https://twitter.com/talentlayer/)\n- [Linkedin](https://www.linkedin.com/company/talentlayer/)\n- [Medium](https://medium.com/talentlayer)\n- [Github TalentLayer Labs](https://github.com/TalentLayer)\n- [Github TalentLayer Core](https://github.com/TalentLayer-labs)\n",
+  "aboutTech": "# the api connecting the world's marketplaces\n\n## An Intro to TalentLayer’s Architecture\n\nIn this post we aim to help you…\n-   Gain a better understanding of the design principles behind TalentLayer’s architecture\n-   Understand the various main technical components of TalentLayer\n-   Understand our stack\n    \n\n## Design principles behind TalentLayer’s architecture\n\nWe'll begin this memo by discussing the decisions we made regarding security, scalability, and decentralization.\n\n### Philosophical Principles\n\nWhen building our technology stack, we followed some philosophical design principles at the protocol level (think of TalentLayer level) to help guide our decisions. Here is a list of these design principles.\n\n⭐ **Keep It Stupid Simple:** We keep our protocol and smart contracts as simple as possible.\n\n⭐ **FrictionLess:** We remove any friction in the protocol to make the platform and end users’ experience as easy as possible.\n\n⭐ **Optimistic:** We assume by default that the user and platforms will act in goodwill for the good of the ecosystem.\n\n⭐ **Autonomous protocol:** We create incentives for the ecosystem to act for the good of the platform and prevent bad behaviors. We incentivize good quality and good behavior.\n\n⭐ **Platform Compliance:** Platforms have to be compliant with the rules of their legal jurisdiction.\n\n⭐ **User Sovereignty:** Users have ownership of all the content they create: service, proposal, and all the reviews they receive. Although on a platform level we allow some restrictions against a user, we aim to always give the user alternative somewhere else in the protocol (e.g. another platform).\n\n⭐ **Reputation is everywhere:** Having an open system is all about reputation, everything is public, and every action of a user or a platform in the protocol can be used as a tool to calculate a new form of reputation. We remain open-minded that reputation can mean different things to different people and we let the marketplaces do their own interpretation.\n\n## TalentLayer stack \n\n- Solidity \n- TheGraph\n- TypeScript\n- Next.JS \n\n\n## all our code are open source\n\n- [Github TalentLayer Labs](https://github.com/TalentLayer)\n- [Github TalentLayer Core](https://github.com/TalentLayer-labs)\n\n\n## Overview of TalentLayer architecture\n\nHere is a simple illustration of TalentLayer tech stack and data flow.\n\n![](https://3573530651-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FLxwTmt3MOuMIlBTH8NKY%2Fuploads%2FahOZGcbuL7uUeUP2DZLS%2FUntitled.png?alt=media&token=29b2a5af-c722-404a-9870-efe4a3a1e6ae)\n",
+  "ownerTalentLayerId": "4",
+  "owners": [
+    "0xdBf0BbE459bC3D2cbD7d7F334af3B12E36b40D0f",
+    "0x0553b35743639be26870CEe5a1Fd2BEC457878d6"
+  ],
+  "ownerAddress": "0xdBf0BbE459bC3D2cbD7d7F334af3B12E36b40D0f",
+  "status": "validated",
+  "preferredWorkTypes": [
+    "bounties",
+    "grants",
+    "gigs",
+    "jobs"
+  ],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "65944046f81c20572a98251a"
+  },
+  "name": "data-labs",
+  "baseline": "",
+  "subdomain": "data-labs.builder.place",
+  "customDomain": "data-labs.dercio.de",
+  "logo": "",
+  "cover": "",
+  "profilePicture": "",
+  "palette": {
+    "primary": "#FF71A2",
+    "primaryFocus": "#FFC2D1",
+    "primaryContent": "#ffffff",
+    "base100": "#ffffff",
+    "base200": "#fefcfa",
+    "base300": "#fae4ce",
+    "baseContent": "#000000",
+    "info": "#f4dabe",
+    "infoContent": "#000000",
+    "success": "#C5F1A4",
+    "successContent": "#000000",
+    "warning": "#FFE768",
+    "warningContent": "#000000",
+    "error": "#FFC2D1",
+    "errorContent": "#000000",
+    "_id": {
+      "$oid": "65890333fb4fe4dce2c5f891"
+    }
+  },
+  "about": "",
+  "aboutTech": "",
+  "ownerTalentLayerId": "42",
+  "owners": [
+    "0xAe46E37B5628947aC159F001a847E87452175D99"
+  ],
+  "ownerAddress": "0xae46e37b5628947ac159f001a847e87452175d99",
+  "status": "validated",
+  "preferredWorkTypes": [
+    "bounties",
+    "gigs"
+  ],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "65a040b3227f685968c190ff"
+  },
+  "name": "KirstenBuilderPlace",
+  "palette": {
+    "primary": "#756CC2",
+    "primaryFocus": "#E5D7FF",
+    "primaryContent": "#ffffff",
+    "base100": "#ffffff",
+    "base200": "#E5D7FF",
+    "base300": "#d5c0fc",
+    "baseContent": "#000000",
+    "info": "#756CC2",
+    "infoContent": "#ffffff",
+    "success": "#C5F1A4",
+    "successContent": "#000000",
+    "warning": "#FFE768",
+    "warningContent": "#000000",
+    "error": "#FFC2D1",
+    "errorContent": "#000000",
+    "_id": {
+      "$oid": "65a041120ada463753aa5968"
+    }
+  },
+  "about": "I'm Kirsten and this is my BP platform where I will manage editing old posts.",
+  "owners": [
+    "0x0553b35743639be26870CEe5a1Fd2BEC457878d6"
+  ],
+  "status": "validated",
+  "preferredWorkTypes": [
+    "jobs"
+  ],
+  "__v": 1,
+  "ownerAddress": "0x0553b35743639be26870CEe5a1Fd2BEC457878d6",
+  "ownerTalentLayerId": "248",
+  "logo": "https://imagedelivery.net/3FRscrZr469XnyiCbQpTrA/c4e924cb-1def-4a13-b833-c8a522a1c700/public",
+  "subdomain": "hellokp.builder.place"
+}]

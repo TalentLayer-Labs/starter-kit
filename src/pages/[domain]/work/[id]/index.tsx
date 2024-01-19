@@ -22,7 +22,7 @@ function Service() {
     return <Loading />;
   }
 
-  if (builderPlace?.ownerTalentLayerId !== service?.buyer.id) {
+  if (builderPlace?.owner?.talentLayerId !== service?.buyer.id) {
     return <NotFound />;
   }
 

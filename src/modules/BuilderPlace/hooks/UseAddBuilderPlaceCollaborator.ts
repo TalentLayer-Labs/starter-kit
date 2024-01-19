@@ -5,7 +5,7 @@ export function useAddBuilderPlaceCollaborator() {
   const queryClient = useQueryClient();
 
   return useMutation<
-    { message: string; id: string; error?: string },
+    { message: string; address: string; id: string; error?: string },
     Error,
     AddBuilderPlaceCollaborator
   >((addBuilderPlaceCollaborator: AddBuilderPlaceCollaborator) =>

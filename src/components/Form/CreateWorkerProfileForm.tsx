@@ -51,8 +51,11 @@ function CreateWorkerProfileForm({ callback }: { callback?: () => void }) {
         picture: values.picture,
         about: values.about,
         skills: values.skills,
-        status: 'pending',
       });
+
+      if (response?.error) {
+        throw new Error(response.error);
+      }
 
       if (response?.id) {
         /**
@@ -77,9 +80,8 @@ function CreateWorkerProfileForm({ callback }: { callback?: () => void }) {
       if (callback) {
         callback();
       }
-    } catch (error) {
-      console.log(error);
-      showErrorTransactionToast(error);
+    } catch (error: any) {
+      showErrorTransactionToast(error.message);
     } finally {
       setSubmitting(false);
     }

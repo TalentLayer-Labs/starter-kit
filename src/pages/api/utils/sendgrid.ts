@@ -1,6 +1,6 @@
 import * as sgMail from '@sendgrid/mail';
 import { renderValidationMail } from './renderValidationEmail';
-import { getBuilderPlaceByDomain } from '../../../modules/BuilderPlace/actions';
+import { getBuilderPlaceByDomain } from '../../../modules/BuilderPlace/actions/builderPlace';
 
 const SENDERS_EMAIL = process.env.NEXT_PRIVATE_SENDGRID_VERIFIED_SENDER;
 const APIKEY = process.env.NEXT_PRIVATE_SENDGRID_API_KEY;
@@ -20,7 +20,7 @@ export const sendTransactionalEmailValidation = async (
   const builderPlace = await getBuilderPlaceByDomain(domain);
 
   console.log('Sending email with variables: ', to, userId, name, domain);
-  const htmlBody = renderValidationMail(name, userId, domain, builderPlace.logo);
+  const htmlBody = renderValidationMail(name, userId, domain, builderPlace?.logo);
   const subject = 'Validate your email';
 
   try {

@@ -8,6 +8,11 @@ import Steps from '../../../components/Steps';
 import { useSetWorkerProfileOwner } from '../../../modules/BuilderPlace/hooks/UseSetWorkerProfileOwner';
 import { slugify } from '../../../modules/BuilderPlace/utils';
 import { useGetWorkerById } from '../../../modules/BuilderPlace/hooks/UseGetWorkerById';
+import {
+  ALREADY_HAVE_PROFILE,
+  PROFILE_ALREADY_HAS_OWNER,
+  PROFILE_DOES_NOT_EXIST,
+} from '../../../modules/BuilderPlace/apiResponses';
 
 function workerOnboardingStep2() {
   const { account, loading, user } = useContext(TalentLayerContext);
@@ -20,20 +25,21 @@ function workerOnboardingStep2() {
 
   useEffect(() => {
     const setOwner = async () => {
-      if (account?.isConnected && user?.id && id) {
+      if (account?.isConnected && account.address && user?.id && id) {
         try {
           const response = await updateWorkerProfileAsync({
             id,
+            userAddress: account.address,
             talentLayerId: user.id,
           });
           /* If user tries to update a profile which already has an owner or if
           the profile does not exist, he's prompted to create his profile. */
           if (
-            response?.error === 'Profile already has an owner.' ||
-            response?.error === "Profile doesn't exist."
+            response?.error === PROFILE_ALREADY_HAS_OWNER ||
+            response?.error === PROFILE_DOES_NOT_EXIST
           ) {
             setError(response?.error);
-          } else if (response?.id || response?.error === 'You already have a profile') {
+          } else if (response?.id || response?.error === ALREADY_HAVE_PROFILE) {
             // If "id" successfully created or already has a profile redirect to step 3
             router.push({
               pathname: `/worker-onboarding/step3`,
@@ -49,7 +55,14 @@ function workerOnboardingStep2() {
   }, [user]);
 
   if (loading) {
-    return <Loading />;
+    return (
+      <>
+        <OnboardingSteps currentStep={3} type='worker' />
+        <div className='p-8 flex flex-col items-center'>
+          <Loading />
+        </div>
+      </>
+    );
   }
 
   return (
