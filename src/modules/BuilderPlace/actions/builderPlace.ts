@@ -399,7 +399,7 @@ export const getBuilderPlaceByOwnerId = async (id: string) => {
     const builderPlaceSubdomain = await prisma.builderPlace.findFirst({
       where: {
         owner: {
-          id: Number(id),
+          talentLayerId: id,
         },
       },
       include: {
