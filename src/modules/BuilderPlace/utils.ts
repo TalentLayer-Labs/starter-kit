@@ -24,6 +24,7 @@ export const generateDomainName = (name: string) => {
 
 export const slugify = (str: string | undefined) => {
   if (!str) return '';
+  console.log('slugify', { str });
   let string = String(str)
     .trim() // trim leading or trailing whitespace
     .normalize('NFKD') // split accented characters into their base characters and diacritical marks
