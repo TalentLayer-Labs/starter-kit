@@ -36,7 +36,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     const [
       existingSpace,
       builderSpace,
-      talentLayerUser,
+      talentLayerGraphResponse,
       existingProfileWithSameAddress,
       userProfile,
     ] = await Promise.all([
@@ -49,6 +49,8 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
       getUserByAddress(body.ownerAddress),
       getUserById(body.hirerId as string),
     ]);
+
+    const talentLayerUser = talentLayerGraphResponse?.data?.data?.users[0];
 
     // Validations
     if (existingSpace && existingSpace.status === EntityStatus.VALIDATED) {
