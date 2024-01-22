@@ -15,17 +15,19 @@ import {
 } from '../../../modules/BuilderPlace/apiResponses';
 
 function workerOnboardingStep2() {
-  const { account, loading, user } = useContext(TalentLayerContext);
+  const { account, loading, user, refreshWorkerProfile } = useContext(TalentLayerContext);
   const { mutateAsync: updateWorkerProfileAsync } = useSetWorkerProfileOwner();
   const [error, setError] = useState('');
   const router = useRouter();
   const id = new URL(window.location.href).searchParams.get('id');
   const worker = useGetWorkerById(id as string);
   const serviceId = new URL(window.location.href).searchParams.get('serviceId');
+  const [isSettingOwner, setIsSettingOwner] = useState(false);
 
   useEffect(() => {
     const setOwner = async () => {
       if (account?.isConnected && account.address && user?.id && id) {
+        setIsSettingOwner(true);
         try {
           const response = await updateWorkerProfileAsync({
             id,
@@ -48,14 +50,29 @@ function workerOnboardingStep2() {
           }
         } catch (e) {
           console.log('e', e);
+        } finally {
+          setIsSettingOwner(false);
+          refreshWorkerProfile();
         }
       }
     };
     setOwner();
   }, [user]);
 
-  if (loading) {
-    return <Loading />;
+  if (loading || isSettingOwner) {
+    return (
+      <>
+        <OnboardingSteps currentStep={2} type='worker' />
+        <div className='p-8 flex flex-col items-center'>
+          <Loading />
+        </div>
+        {isSettingOwner && (
+          <p className='text-center text-base-content opacity-50 mt-4'>
+            Connecting to your TalentLayer profile...
+          </p>
+        )}
+      </>
+    );
   }
 
   return (

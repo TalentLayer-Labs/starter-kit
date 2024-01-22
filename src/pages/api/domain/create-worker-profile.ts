@@ -5,41 +5,42 @@ import {
   createWorkerProfile,
   updateWorkerProfile,
 } from '../../../modules/BuilderPlace/actions/user';
+import { METHOD_NOT_ALLOWED } from '../../../modules/BuilderPlace/apiResponses';
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === 'POST') {
-    const body: CreateWorkerProfileProps = req.body;
-    console.log('Received data:', body);
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: METHOD_NOT_ALLOWED });
+  }
 
-    /**
-     * @dev: Checks on existing user with same email. If Pending, will delete the pending user and create a new one.
-     * If Validated, will return an error.
-     */
-    try {
-      const existingProfile = await getUserByEmail(body.email);
+  const body: CreateWorkerProfileProps = req.body;
+  console.log('Received data:', body);
 
-      if (existingProfile && existingProfile.status === 'VALIDATED') {
-        res.status(400).json({ error: 'A profile with this email already exists' });
-        return;
-      }
+  /**
+   * @dev: Checks on existing user with same email. If Pending, will delete the pending user and create a new one.
+   * If Validated, will return an error.
+   */
+  try {
+    const existingProfile = await getUserByEmail(body.email);
 
-      let result;
-      if (!existingProfile) {
-        result = await createWorkerProfile({
-          ...body,
-        });
-      } else {
-        result = await updateWorkerProfile({
-          id: Number(existingProfile.id),
-          ...body,
-        });
-      }
-
-      res.status(200).json({ message: result.message, id: result.id });
-    } catch (error: any) {
-      res.status(400).json({ error: error.message });
+    if (existingProfile && existingProfile.status === 'VALIDATED') {
+      res.status(400).json({ error: 'A profile with this email already exists' });
+      return;
     }
-  } else {
-    res.status(405).json({ error: 'Method not allowed' });
+
+    let result;
+    if (!existingProfile) {
+      result = await createWorkerProfile({
+        ...body,
+      });
+    } else {
+      result = await updateWorkerProfile({
+        id: Number(existingProfile.id),
+        ...body,
+      });
+    }
+
+    res.status(200).json({ message: result.message, id: result.id });
+  } catch (error: any) {
+    res.status(400).json({ error: error.message });
   }
 }

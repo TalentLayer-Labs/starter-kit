@@ -4,6 +4,7 @@ import {
   getBuilderPlaceByCollaboratorAddressAndId,
   getBuilderPlaceByOwnerTlIdAndId,
 } from '../../../modules/BuilderPlace/actions/builderPlace';
+import { User } from '.prisma/client';
 
 /**
  * Checks if the signature is from a BuilderPlace collaborator by getting the BuilderPlace
@@ -17,21 +18,27 @@ export const checkSignature = async (
   signature: `0x${string}` | Uint8Array,
   res: NextApiResponse,
 ) => {
-  const address = await recoverMessageAddress({
-    message: id,
-    signature: signature,
-  });
+  try {
+    const address = await recoverMessageAddress({
+      message: id,
+      signature: signature,
+    });
 
-  const builderPlace = await getBuilderPlaceByCollaboratorAddressAndId(
-    address.toLocaleLowerCase(),
-    id,
-  );
+    const builderPlace = await getBuilderPlaceByCollaboratorAddressAndId(
+      address.toLocaleLowerCase(),
+      id,
+    );
 
-  if (!builderPlace) {
-    return res.status(400).json({ error: 'No BuilderPlace found.' });
+    if (!builderPlace) {
+      return res.status(400).json({ error: 'No BuilderPlace found.' });
+    }
+
+    return { builderPlace, address };
+  } catch (error) {
+    console.error('Error in checkSignature:', error);
+
+    return res.status(500).json({ error: 'An error occurred while verifying the signature.' });
   }
-
-  return { builderPlace, address };
 };
 
 /**
@@ -49,19 +56,35 @@ export const checkOwnerSignature = async (
   signature: `0x${string}` | Uint8Array,
   res: NextApiResponse,
 ) => {
-  const address = await recoverMessageAddress({
-    message: ownerId,
-    signature: signature,
-  });
+  try {
+    const address = await recoverMessageAddress({
+      message: ownerId,
+      signature: signature,
+    });
 
-  const builderPlace = await getBuilderPlaceByOwnerTlIdAndId(ownerId, builderPlaceId);
+    const builderPlace = await getBuilderPlaceByOwnerTlIdAndId(ownerId, builderPlaceId);
 
-  if (
-    builderPlace &&
-    address.toLocaleLowerCase() !== builderPlace?.owner?.address?.toLocaleLowerCase()
-  ) {
-    return res.status(401).json({ error: 'Not BuilderPlace owner' });
+    if (
+      builderPlace &&
+      address.toLocaleLowerCase() !== builderPlace?.owner?.address?.toLocaleLowerCase()
+    ) {
+      return res.status(401).json({ error: 'Not BuilderPlace owner' });
+    }
+
+    return { builderPlace, address };
+  } catch (error) {
+    console.error('Error in checkSignature:', error);
+
+    return res.status(500).json({ error: 'An error occurred while verifying the signature.' });
   }
+};
 
-  return { builderPlace, address };
+export const isCollaboratorExists = (
+  collaborators: User[] = [],
+  newCollaboratorAddress: string,
+): boolean => {
+  return collaborators.some(
+    collaborator =>
+      collaborator?.address?.toLocaleLowerCase() === newCollaboratorAddress.toLocaleLowerCase(),
+  );
 };
