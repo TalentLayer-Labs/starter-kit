@@ -58,7 +58,6 @@ function EmailForm({ user, callback }: { user: IUser; callback?: () => void }) {
         const response = await updateUserEmailAsync({
           userId: workerProfile.id.toString(),
           email: values.email,
-          userAddress: account.address,
           name: workerProfile.name,
           domain,
           signature,

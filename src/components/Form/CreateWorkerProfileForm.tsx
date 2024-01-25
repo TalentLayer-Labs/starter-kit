@@ -1,4 +1,4 @@
-import { Field, Form, Formik } from 'formik';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useRouter } from 'next/router';
 import { useContext } from 'react';
 import * as Yup from 'yup';
@@ -106,6 +106,9 @@ function CreateWorkerProfileForm({ callback }: { callback?: () => void }) {
                 placeholder=''
               />
             </label>
+            <span className='text-alone-error'>
+              <ErrorMessage name='email' />
+            </span>
             <label className='block'>
               <span className='text-xl font-bold '>name</span>
               <Field
@@ -116,6 +119,9 @@ function CreateWorkerProfileForm({ callback }: { callback?: () => void }) {
                 placeholder=''
               />
             </label>
+            <span className='text-alone-error'>
+              <ErrorMessage name='name' />
+            </span>
 
             <UploadImage
               fieldName='picture'

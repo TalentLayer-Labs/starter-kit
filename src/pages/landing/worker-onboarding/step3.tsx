@@ -39,6 +39,17 @@ function onboardingStep3() {
     }
   };
 
+  if (loading) {
+    return (
+      <>
+        <OnboardingSteps currentStep={3} type='worker' />
+        <div className='p-8 flex flex-col items-center'>
+          <Loading />
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
       {workerProfile?.status === 'VALIDATED' ? (
@@ -46,7 +57,6 @@ function onboardingStep3() {
       ) : (
         <div>
           <OnboardingSteps currentStep={3} type='worker' />
-          {loading && <Loading />}
           <div className='max-w-7xl mx-auto text-base-content sm:px-4 lg:px-0 py-20'>
             <div className='flex flex-col items-center justify-center gap-10'>
               <p className='text-5xl sm:text-7xl font-bold tracking-wider max-w-5xl text-center'>

@@ -109,7 +109,6 @@ export interface VerifyEmail {
 export interface UpdateUserEmail {
   userId: string;
   email: string;
-  userAddress: string;
   name: string;
   domain: string;
   signature: `0x${string}` | Uint8Array;
