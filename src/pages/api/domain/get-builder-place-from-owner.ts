@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getBuilderPlaceByOwnerId } from '../../../modules/BuilderPlace/actions/builderPlace';
+import { getBuilderPlaceByOwnerTalentLayerId } from '../../../modules/BuilderPlace/actions/builderPlace';
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
   const body: any = req.body;
@@ -9,7 +9,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     return res.status(400).json({ error: 'No id.' });
   }
 
-  const result = await getBuilderPlaceByOwnerId(body.id);
+  const result = await getBuilderPlaceByOwnerTalentLayerId(body.id);
 
   return res.json(result);
 }
