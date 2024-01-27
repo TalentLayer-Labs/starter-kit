@@ -50,7 +50,7 @@ const VerifyEmailNotification = ({ callback }: VerifyEmailNotificationProps) => 
   return (
     <Notification
       title='Verify your email!'
-      text='Tired of paying gas fees? Verify your email and get gassless transactions!'
+      text='Needed to active email notifications.'
       link=''
       linkText={'Verify my email'}
       color='success'
