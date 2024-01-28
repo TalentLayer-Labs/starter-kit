@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getBuilderPlaceByOwnerTalentLayerId } from '../../../modules/BuilderPlace/actions/builderPlace';
 
+
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
   const body: any = req.body;
   console.log('Received data:', body);

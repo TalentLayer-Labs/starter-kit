@@ -75,13 +75,12 @@ export const CollaboratorForm = ({ callback }: { callback?: () => void }) => {
           newCollaboratorAddress: values.collaborator,
           signature,
         });
-
         if (response?.error) {
           throw new Error(response.error);
         }
 
         // if address is not delegated yet on chain
-        if (user.delegates?.indexOf(values.collaborator) === -1) {
+        if (!user.delegates?.includes(values.collaborator.toLowerCase())) {
           /**
            * @dev Add the new collaborator as a delegate to the BuilderPlace owner
            */
@@ -120,21 +119,40 @@ export const CollaboratorForm = ({ callback }: { callback?: () => void }) => {
       {({ isSubmitting }) => (
         <Form>
           <div className='grid grid-cols-1 gap-6'>
-            <label className='block'>
-              <span className='text-base-content font-bold'>Collaborator</span>
-              <Field
-                type='text'
-                id='collaborator'
-                name='collaborator'
-                className='mt-1 mb-1 block w-full rounded-xl border border-info bg-base-200 shadow-sm focus:ring-opacity-50'
-                placeholder='0x...'
-              />
-            </label>
-            <span className='text-alone-error'>
-              <ErrorMessage name='collaborator' />
-            </span>
-
-            <SubmitButton isSubmitting={isSubmitting} label='Add' />
+            <div className='block border border-base-300 rounded-lg border p-10'>
+              <span className='text-base-content font-bold'>
+                Invite new members by wallet address
+              </span>
+              <div className='border-b border-base-300 mb-10 mt-10'></div>
+              <span className='text-base-content '>Wallet Address</span>
+              <label className='block'>
+                <Field
+                  type='text'
+                  id='collaborator'
+                  name='collaborator'
+                  className='mt-1 mb-1 block w-full rounded-xl border border-info bg-base-200 shadow-sm focus:ring-opacity-50'
+                  placeholder='0x...'
+                />
+              </label>
+              <span className='text-alone-error'>
+                <ErrorMessage name='collaborator' />
+              </span>
+              <div className='border-b border-base-300 mt-10 mb-5'></div>
+              <div className='flex  lg:justify-between mr-2'>
+                <div className='mb-2 flex-col lg:items-center'>
+                  <span className='text-base-content'>Learn more about&nbsp;</span>
+                  <a
+                    href='https://github.com/TalentLayer-Labs/builder-place'
+                    target='_blank'
+                    className='text-base-content underline hover:opacity-60'>
+                    Collaborator
+                  </a>
+                </div>
+                <div className='ml-2'>
+                  <SubmitButton isSubmitting={isSubmitting} label='Add' />
+                </div>
+              </div>
+            </div>
           </div>
         </Form>
       )}
