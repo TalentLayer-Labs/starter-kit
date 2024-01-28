@@ -26,7 +26,9 @@ function ProposalItem({ proposal }: { proposal: IProposal }) {
             <ProfileImage size={50} url={proposal?.seller?.description?.image_url} />
             <div className='flex flex-col'>
               <p className='text-base-content font-medium break-all'>
-                {proposal.seller.handle} - {service.description?.title}
+                <Link href={`/profiles/${proposal.seller.id}`}>
+                  {proposal.seller.handle} - {service.description?.title}
+                </Link>
               </p>
               <p className='text-xs text-base-content opacity-50'>
                 Proposal created the {formatDate(Number(proposal.createdAt) * 1000)}
