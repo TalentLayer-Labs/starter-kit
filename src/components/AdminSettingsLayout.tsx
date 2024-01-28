@@ -18,8 +18,8 @@ function AdminSettingsLayout({ children, title, subTitle, className }: Container
               {title}
             </p>
             {subTitle && <p className='text-center text-gray-600 text-lg mb-6'>{subTitle}</p>}{' '}
-            <div className=' pb-16 max-w-3xl transition-all duration-300 rounded-md mx-auto'>
-              <div className='p-6 mx-auto'>{children}</div>
+            <div className=' pb-16 max-w-7xl transition-all duration-300 rounded-md mx-auto'>
+              <div className=' mx-auto '>{children}</div>
             </div>
           </div>
         </div>

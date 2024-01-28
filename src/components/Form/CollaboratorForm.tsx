@@ -140,13 +140,13 @@ export const CollaboratorForm = ({ callback }: { callback?: () => void }) => {
               <div className='border-b border-base-300 mt-10 mb-5'></div>
               <div className='flex  lg:justify-between mr-2'>
                 <div className='mb-2 flex-col lg:items-center'>
-                  <span className='text-base-content'>Learn more about&nbsp;</span>
+                  {/* <span className='text-base-content'>Learn more about&nbsp;</span>
                   <a
                     href='https://github.com/TalentLayer-Labs/builder-place'
                     target='_blank'
                     className='text-base-content underline hover:opacity-60'>
                     Collaborator
-                  </a>
+                  </a> */}
                 </div>
                 <div className='ml-2'>
                   <SubmitButton isSubmitting={isSubmitting} label='Add' />
