@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import BuilderPlaceContext from '../modules/BuilderPlace/context/BuilderPlaceContext';
 import { useRouter } from 'next/router';
 import useFilteredServices from '../hooks/useFilteredServices';
@@ -13,6 +13,7 @@ function ServiceList() {
   const router = useRouter();
   const query = router.query;
   const searchQuery = query.search as string;
+  const [view, setView] = useState(1);
 
   const { hasMoreData, services, loading, loadMore } = useFilteredServices(
     ServiceStatusEnum.Opened,
@@ -39,13 +40,32 @@ function ServiceList() {
         <SearchServiceButton value={searchQuery} />
       </div>
 
-      <div className='grid grid-cols-1 gap-4'>
-        {services.map((service: IService, i: number) => {
-          return (
-            <ServiceItem service={service} embedded={router.asPath.includes('embed/')} key={i} />
-          );
-        })}
-      </div>
+      <button onClick={() => setView(view === 1 ? 2 : 1)}>
+        Toggle View
+      </button>
+
+      {view === 1 && services.map((service: IService, i: number) => (
+        <ServiceItem service={service} embedded={router.asPath.includes('embed/')} key={i} view={view} />
+      ))}
+
+      {view === 2 && (
+        <table className='min-w-full'>
+          <thead>
+            <tr>
+              <th className='border border-gray-300 p-2'>Title</th>
+              <th className='border border-gray-300 p-2'>Days Ago</th>
+              <th className='border border-gray-300 p-2'>Rate</th>
+              <th className='border border-gray-300 p-2'>View</th>
+              <th className='border border-gray-300 p-2'>Gig</th>
+            </tr>
+          </thead>
+          <tbody>
+            {services.map((service: IService, i: number) => (
+              <ServiceItem service={service} embedded={router.asPath.includes('embed/')} key={i} view={view} />
+            ))}
+          </tbody>
+        </table>
+      )}
 
       {services.length > 0 && hasMoreData && !loading && (
         <div className='flex justify-center items-center gap-10 flex-col pb-5'>
