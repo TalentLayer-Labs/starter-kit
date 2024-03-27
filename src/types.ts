@@ -1,5 +1,5 @@
 import { Connector } from 'wagmi';
-import { EvmContractConditions } from "@lit-protocol/types";
+import { AccessControlConditions, EvmContractConditions } from "@lit-protocol/types";
 
 export type IHive = {
   id: string;
@@ -77,7 +77,7 @@ export type ICredentialDetailsEncrypted = {
   ciphertext: string;
   dataToEncryptHash: string;
   total: number;
-  condition: EvmContractConditions | String; // it's actually a EvmContractConditions encoded as a json string
+  condition: EvmContractConditions | AccessControlConditions | String; // it's actually a AccessControlConditions encoded as a json string
 }
 
 export type IWeb3mailPreferences = {
