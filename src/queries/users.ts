@@ -63,6 +63,31 @@ export const getUserById = (chainId: number, id: string): Promise<any> => {
             activeOnPlatformMarketing
             activeOnProtocolMarketing
           }
+          credentials {
+            issuer
+            signature1
+            signature2
+            credentialDetail {
+              author
+              platform
+              description
+              issueTime
+              expiryTime
+              userAddress
+              claims {
+                platform
+                criteria
+                condition
+                value
+              }
+              claimsEncrypted{
+                total
+                ciphertext
+                dataToEncryptHash
+                condition
+              }
+            }
+          }
         }
       }
     }
@@ -104,6 +129,31 @@ export const getUserByAddress = (chainId: number, address: string): Promise<any>
             activeOnReview
             activeOnPlatformMarketing
             activeOnProtocolMarketing
+          }
+          credentials {
+            issuer
+            signature1
+            signature2
+            credentialDetail {
+              author
+              platform
+              description
+              issueTime
+              expiryTime
+              userAddress
+              claims {
+                platform
+                criteria
+                condition
+                value
+              }
+              claimsEncrypted{
+                total
+                ciphertext
+                dataToEncryptHash
+                condition
+              }
+            }
           }
         }
       }

@@ -1,4 +1,5 @@
 import { Connector } from 'wagmi';
+import { AccessControlConditions, EvmContractConditions } from "@lit-protocol/types";
 
 export type IHive = {
   id: string;
@@ -40,7 +41,44 @@ export type IUserDetails = {
   skills_raw?: string;
   user: IUser;
   web3mailPreferences?: IWeb3mailPreferences;
+  credentials?: ICredential[];
 };
+
+export type ICredential = {
+  id: string;
+  issuer: string;
+  signature1: string;
+  signature2: string;
+  credentialDetail: ICredentialDetails;
+}
+
+export type ICredentialDetails = {
+  id: string;
+  author: string;
+  platform: string;
+  description: string;
+  issueTime: string;
+  expiryTime: string;
+  userAddress: string;
+  claims?: IClaim[];
+  claimsEncrypted?: ICredentialDetailsEncrypted;
+}
+
+export type IClaim = {
+  id: string;
+  platform: string;
+  criteria: string;
+  condition: string;
+  value: any;
+}
+
+export type ICredentialDetailsEncrypted = {
+  id: string;
+  ciphertext: string;
+  dataToEncryptHash: string;
+  total: number;
+  condition: EvmContractConditions | AccessControlConditions | String; // it's actually a AccessControlConditions encoded as a json string
+}
 
 export type IWeb3mailPreferences = {
   activeOnNewService: boolean;
