@@ -22,12 +22,20 @@ function EditTrustScore() {
     const credentials = user?.description?.credentials ?? [];
     if (credentials.length > 0) {
       let firstCredential = credentials[0];
+      // Parse the AccessControlConditions JSON
       const condition = firstCredential.credentialDetail.claimsEncrypted?.condition ?? null;
       if (typeof condition === 'string') {
         // @ts-ignore
         firstCredential.credentialDetail.claimsEncrypted.condition = JSON.parse(condition);
       }
-      setCredential(credentials[0]);
+      // Handle claims and set state directly because we don't need to decrypt
+      const claims = firstCredential.credentialDetail.claims ?? null;
+      if (claims && claims.length > 0) {
+        const formattedClaims = formatClaims(claims);
+        setDecryptedDatas(formattedClaims);
+      }
+      // Set the first credential
+      setCredential(firstCredential);
     }
     setLoading(false);
   }, [user]);
@@ -50,7 +58,8 @@ function EditTrustScore() {
         claimsEncrypted.condition as AccessControlConditions,
       );
 
-      setDecryptedDatas(JSON.parse(data.decryptedString));
+      const decryptedString = JSON.parse(data.decryptedString);
+      setDecryptedDatas(decryptedString);
     } catch (error) {
       console.log(error);
     }
@@ -94,9 +103,8 @@ function EditTrustScore() {
       return <ErrorDisplay message="No credential found" learnMoreLink={learnMoreLink} />;
     }
     if (!claimsEncrypted) {
-      return <ErrorDisplay message="Credential found but without encrypted claims" learnMoreLink={learnMoreLink} />;
+      return <ErrorDisplay message="Credential found but without supported claims" learnMoreLink={learnMoreLink} />;
     }
-    console.log(claimsEncrypted);
     return (
       <>
         <div className='relative z-20 flex flex-col gap-3 w-full text-gray-800'>
@@ -138,10 +146,15 @@ function EditTrustScore() {
       if (isDate) {
         claim.value = moment(claim.value).calendar();
       }
-      // format arrays
+
+      // format value
+      try {
+        claim.value = JSON.parse(claim.value);
+      } catch (e) {} // catch silently
       if (Array.isArray(claim.value)) {
         claim.value = claim.value.join(", ");
       }
+
       // format condition 
       if (typeof claim.condition === "string") {
         claim.condition = claim.condition.replace('==', '=');
@@ -152,14 +165,12 @@ function EditTrustScore() {
 
   }
 
-  const ClaimsDecrypted = (claimsDecrypted: any): JSX.Element => {
-    const claims = claimsDecrypted.claimsDecrypted ?? undefined;
-    const formattedClaims = formatClaims(claims);
+  const ClaimsDecrypted = (claims: any): JSX.Element => {
+    const formattedClaims = formatClaims(claims.claimsDecrypted);
     if (!formattedClaims) {
       return <div>No claims found</div>;
     }
 
-    console.log(formattedClaims);
     return (
       <div className='relative z-20 flex flex-col gap-3 w-full text-gray-800'>
         <h2 className='text-xl font-bold text-center my-4'>Decrypted Claims</h2>
