@@ -115,7 +115,7 @@ function UserIncomes({ id }: { id: string }) {
                         </a>
                       </td>
                       <td className=' p-2 text-center text-blue-500 border-b border-gray-500'>
-                        {network.chain?.id === 137 || network.chain?.id === 80001 ? (
+                        {network.chain?.id === 137 || network.chain?.id === 80001 || network.chain?.id === 80002 ? (
                           <a
                             target='_blank'
                             href={`${network.chain?.blockExplorers?.default.url}/tx/${payment.transactionHash}`}>

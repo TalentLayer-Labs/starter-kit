@@ -2,7 +2,7 @@ import { NextApiResponse } from 'next';
 import { getUserByAddress } from '../../../queries/users';
 import { mnemonicToAccount } from 'viem/accounts';
 import { createWalletClient, http } from 'viem';
-import { polygonMumbai } from '../../../chains';
+import { polygonAmoy } from '../../../chains';
 import { WalletClient } from 'wagmi';
 
 export async function isPlatformAllowedToDelegate(
@@ -32,7 +32,7 @@ export async function getDelegationSigner(res: NextApiResponse): Promise<WalletC
     const account = mnemonicToAccount(delegateSeedPhrase);
     const walletClient = createWalletClient({
       account,
-      chain: polygonMumbai,
+      chain: polygonAmoy,
       transport: http(),
     });
     return walletClient;

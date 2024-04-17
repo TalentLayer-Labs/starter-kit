@@ -14,7 +14,7 @@ class Lit {
   litNodeClient: LitJsSdk.LitNodeClient;
   chain;
 
-  constructor(chain: string = "mumbai") {
+  constructor(chain: string = "amoy") {
     this.chain = chain;
     this.litNodeClient = client;
   }

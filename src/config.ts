@@ -47,6 +47,39 @@ const mumbai: Config = {
   },
 };
 
+const amoy: Config = {
+  networkId: NetworkEnum.AMOY,
+  // subgraphUrl: 'https://api.studio.thegraph.com/query/41228/tl-graph/v0.0.47',
+  subgraphUrl: 'https://api.studio.thegraph.com/query/41228/tl-graph-amoy/v0.0.1',
+  contracts: {
+    talentLayerId: '0xBe0d91F2371e23b9A26Fb8949E041A65dD0aDe83',
+    serviceRegistry: '0x5394632Fe8044BF3c3eF6fBD30d1121d5d796542',
+    talentLayerReview: '0x194D3a30Ad6274F169c78D64A538a8F472c47819',
+    talentLayerEscrow: '0x466e65231DBe87b184c7cEeE8A319b4aB117915B',
+    talentLayerPlatformId: '0xbE56916C64f80040d46Ea5B32E1e851cE752cD3f',
+    talentLayerArbitrator: '0x0F39E0ffEaBE0C100768F16988F0c9405428E2D8',
+  },
+  escrowConfig: {
+    adminFee: '0',
+    adminWallet: '0xC01FcDfDE3B2ABA1eab76731493C617FfAED2F10',
+    timeoutPayment: 3600 * 24 * 7,
+  },
+  tokens: {
+    [ZERO_ADDRESS]: {
+      address: ZERO_ADDRESS,
+      symbol: 'MATIC',
+      name: 'Matic',
+      decimals: 18,
+    },
+    '0xe6b8a5CF854791412c1f6EFC7CAf629f5Df1c747': {
+      address: '0xe6b8a5CF854791412c1f6EFC7CAf629f5Df1c747',
+      symbol: 'USDC',
+      name: 'USDC Stablecoin',
+      decimals: 6,
+    },
+  },
+};
+
 const iexec: Config = {
   networkId: NetworkEnum.IEXEC,
   subgraphUrl: 'https://thegraph-sandbox.iex.ec/subgraphs/name/users/talentLayer',
@@ -113,6 +146,7 @@ const chains: { [networkId in NetworkEnum]: Config } = {
   [NetworkEnum.LOCAL]: local,
   [NetworkEnum.MUMBAI]: mumbai,
   [NetworkEnum.IEXEC]: iexec,
+  [NetworkEnum.AMOY]: amoy,
 };
 
 export const getConfig = (networkId: NetworkEnum) => chains[networkId];
