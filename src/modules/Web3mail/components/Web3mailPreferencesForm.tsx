@@ -12,7 +12,7 @@ import { useChainId } from '../../../hooks/useChainId';
 import { useConfig } from '../../../hooks/useConfig';
 import useUserById from '../../../hooks/useUserById';
 import { IWeb3mailPreferences } from '../../../types';
-import { postToIPFS } from '../../../utils/ipfs';
+import { postToIPFSwithQuickNode } from '../../../utils/ipfs';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../../utils/toast';
 import Web3mailCard from './Web3mailCard';
 import Web3mailRevokeButton from './Web3mailRevokeButton';
@@ -48,7 +48,7 @@ function Web3mailPreferencesForm() {
   ) => {
     if (user && publicClient && walletClient) {
       try {
-        const cid = await postToIPFS(
+        const cid = await postToIPFSwithQuickNode(
           JSON.stringify({
             title: userDescription?.title,
             role: userDescription?.role,

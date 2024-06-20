@@ -4,7 +4,7 @@ import { useContext } from 'react';
 import { usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
 import TalentLayerContext from '../../context/talentLayer';
-import { postToIPFS } from '../../utils/ipfs';
+import { postToIPFSwithQuickNode } from '../../utils/ipfs';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../utils/toast';
 import SubmitButton from './SubmitButton';
 import { getUserByAddress } from '../../queries/users';
@@ -45,7 +45,7 @@ function ReviewForm({ serviceId }: { serviceId: string }) {
   ) => {
     if (user && publicClient && walletClient) {
       try {
-        const uri = await postToIPFS(
+        const uri = await postToIPFSwithQuickNode(
           JSON.stringify({
             content: values.content,
             rating: values.rating,
