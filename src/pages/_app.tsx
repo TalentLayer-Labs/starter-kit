@@ -6,7 +6,7 @@ import type { AppProps } from 'next/app';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Chain, WagmiConfig, configureChains, createConfig } from 'wagmi';
-import { polygonMumbai } from 'wagmi/chains';
+import { avalancheFuji, polygonMumbai } from 'wagmi/chains';
 import SEO from '../../next-seo.config';
 import { iexec } from '../chains';
 import { TalentLayerProvider } from '../context/talentLayer';
@@ -17,7 +17,7 @@ import '../styles/globals.css';
 import Layout from './Layout';
 import { NetworkEnum } from '../types';
 
-export const chains: Chain[] = [polygonMumbai, iexec];
+export const chains: Chain[] = [polygonMumbai, iexec, avalancheFuji];
 export const defaultChain: Chain | undefined = chains.find(
   chain => chain.id === parseInt(process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as string),
 );

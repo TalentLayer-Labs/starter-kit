@@ -275,6 +275,7 @@ export enum NetworkEnum {
   LOCAL = 1337,
   MUMBAI = 80001,
   IEXEC = 134,
+  FUJI = 43113,
 }
 
 export type IToken = {
