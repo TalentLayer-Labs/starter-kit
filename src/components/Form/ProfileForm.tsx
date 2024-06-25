@@ -16,6 +16,7 @@ import { delegateUpdateProfileData } from '../request';
 import SubmitButton from './SubmitButton';
 import { SkillsInput } from './skills-input';
 import useTalentLayerClient from '../../hooks/useTalentLayerClient';
+import { pinToTheGraph } from '../../utils/ipfs';
 
 interface IFormValues {
   title?: string;
@@ -84,6 +85,7 @@ function ProfileForm({ callback }: { callback?: () => void }) {
         };
 
         let cid = await talentLayerClient.profile.upload(profile);
+        await pinToTheGraph(JSON.stringify(profile));
 
         let tx;
         if (isActiveDelegate) {

@@ -43,14 +43,14 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
     const chain = chains.find(chain => chain.id === chainId);
     if (!chain && defaultChain) {
       switchNetwork(defaultChain.id);
-    }
-    if (chainId && account.address) {
-      const talentLayerClient = new TalentLayerClient({
-        chainId,
-        ipfsConfig: {
-          clientId: process.env.NEXT_PUBLIC_INFURA_ID as string,
-          clientSecret: process.env.NEXT_PUBLIC_INFURA_SECRET as string,
-          baseUrl: process.env.NEXT_PUBLIC_IPFS_WRITE_URL as string,
+      }
+      if (chainId && account.address) {
+        const talentLayerClient = new TalentLayerClient({
+          chainId,
+          ipfsConfig: {
+            clientSecret: process.env.NEXT_PUBLIC_INFURA_SECRET as string,
+            baseUrl: process.env.NEXT_PUBLIC_IPFS_WRITE_URL as string,
+            pinataJWT: process.env.NEXT_PUBLIC_PINATA_JWT as string,
         },
         platformId: parseInt(process.env.NEXT_PUBLIC_PLATFORM_ID as string),
         signatureApiUrl: process.env.NEXT_PUBLIC_SIGNATURE_API_URL as string,
