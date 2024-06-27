@@ -14,7 +14,7 @@ class Lit {
   litNodeClient: LitJsSdk.LitNodeClient;
   chain;
 
-  constructor(chain: string = "amoy") {
+  constructor(chain: string = "fuji") {
     this.chain = chain;
     this.litNodeClient = client;
   }
@@ -31,7 +31,7 @@ class Lit {
     });
 
     // The native signMessage function
-    const nativeAuthSig = await LitJsSdk.checkAndSignAuthMessage({ chain: this.chain });
+    const nativeAuthSig = await LitJsSdk.checkAndSignAuthMessage({ chain: this.chain, nonce: "0" });
 
     // For now, we use our custom implementation
     return authSig;
