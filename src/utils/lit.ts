@@ -54,6 +54,7 @@ class Lit {
         chain: this.chain,
         dataToEncrypt: message,
       },
+      // @ts-ignore
       this.litNodeClient,
     );
 
@@ -82,6 +83,7 @@ class Lit {
         authSig,
         chain: this.chain,
       },
+      // @ts-ignore
       this.litNodeClient,
     );
     return { decryptedString }

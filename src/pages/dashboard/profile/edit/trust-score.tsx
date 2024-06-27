@@ -176,7 +176,7 @@ function EditTrustScore() {
         <h2 className='text-xl font-bold text-center my-4'>Decrypted Claims</h2>
         <TrustScore />
         <div className='grid grid-cols-3 gap-3 mt-3'>
-          {formattedClaims.map((claim, index: number) => (
+          {formattedClaims.map((claim: any, index: number) => (
             <div key={index} className='bg-white shadow-md p-4 rounded-lg'>
               <div className='font-bold'>{claim.criteria}</div>
               <div className='text-gray-500 text-lg'>
@@ -215,11 +215,12 @@ function EditTrustScore() {
   };
 
   const TrustScore = (): JSX.Element => {
-    if (!decryptedDatas || !Array.isArray(decryptedDatas)) {
+    if (!decryptedDatas) {
       return <div>No decrypted datas</div>;
     }
 
     const maxValue = 500; // represent the max value to reach 100% in one criteria
+    const maxYearValue = 20; // represent the max value to reach 100% in one criteria
     
     // Weights for each input data point
     const weights: MatrixPoint = {
@@ -231,17 +232,17 @@ function EditTrustScore() {
     };
 
     // Filter out the criteria we don't use
-    const filteredData = decryptedDatas.filter((claim: any) => {
+    const filteredData = (Array.isArray(decryptedDatas) ? decryptedDatas : []).filter((claim: any) => {
       return ['totalStars', 'totalPRsMerged', 'totalCommits', 'followers', 'accountCreation'].includes(claim.criteria);
     });
 
-    // Apply the range from 0 to 20 years to a value from 0 to maxValue
-    const accountCreationClaim = filteredData.find((claim: any) => claim.criteria === 'accountCreation');
+    // Apply the range from 0 to maxYearValue (20 years) to a value from 0 to maxValue
+    const accountCreationClaim = filteredData.find((claim: any) => claim.criteria === 'accountCreation') as { value: string } | undefined;
     let accountCreationScore = 0;
     if (accountCreationClaim) {
       const accountCreationDate = moment(accountCreationClaim.value, "MM/DD/YYYY");
       const yearsSinceCreation = moment().diff(accountCreationDate, 'years');
-      accountCreationScore = (yearsSinceCreation / 20) * maxValue;
+      accountCreationScore = (yearsSinceCreation / maxYearValue) * maxValue;
     }
 
     let weightedMaximum = 0; // represent the adjusted (weighted) total of maximum values
