@@ -174,6 +174,7 @@ function EditTrustScore() {
     return (
       <div className='relative z-20 flex flex-col gap-3 w-full text-gray-800'>
         <h2 className='text-xl font-bold text-center my-4'>Decrypted Claims</h2>
+        <TrustScore />
         <div className='grid grid-cols-3 gap-3 mt-3'>
           {formattedClaims.map((claim, index: number) => (
             <div key={index} className='bg-white shadow-md p-4 rounded-lg'>
@@ -203,6 +204,74 @@ function EditTrustScore() {
       </div>
     );
   };
+
+  // Define the type for matrix points
+  type MatrixPoint = {
+    totalStars?: number;
+    totalPRsMerged?: number;
+    totalCommits?: number;
+    followers?: number;
+    accountCreation?: number;
+  };
+
+  const TrustScore = (): JSX.Element => {
+    if (!decryptedDatas || !Array.isArray(decryptedDatas)) {
+      return <div>No decrypted datas</div>;
+    }
+
+    const maxValue = 500; // represent the max value to reach 100% in one criteria
+    
+    // Weights for each input data point
+    const weights: MatrixPoint = {
+      totalStars: 0.1, // not very important as a dev
+      totalPRsMerged: 0.6, // quitte important because represent contributions
+      totalCommits: 1, // important because represent contributions
+      followers: 0.1, // not very important as a dev
+      accountCreation: 0.6, // quitte important because reprensent when coding started
+    };
+
+    // Filter out the criteria we don't use
+    const filteredData = decryptedDatas.filter((claim: any) => {
+      return ['totalStars', 'totalPRsMerged', 'totalCommits', 'followers', 'accountCreation'].includes(claim.criteria);
+    });
+
+    // Apply the range from 0 to 20 years to a value from 0 to maxValue
+    const accountCreationClaim = filteredData.find((claim: any) => claim.criteria === 'accountCreation');
+    let accountCreationScore = 0;
+    if (accountCreationClaim) {
+      const accountCreationDate = moment(accountCreationClaim.value, "MM/DD/YYYY");
+      const yearsSinceCreation = moment().diff(accountCreationDate, 'years');
+      accountCreationScore = (yearsSinceCreation / 20) * maxValue;
+    }
+
+    let weightedMaximum = 0; // represent the adjusted (weighted) total of maximum values
+
+    // Normalize other matrix points to a value between 0 and maxValue
+    const normalizedMatrixPoints = filteredData.map((claim: any) => {
+      const criteria = claim.criteria as keyof MatrixPoint;
+      const weight = weights[criteria] ?? 1;
+      weightedMaximum += weight * maxValue;
+      const value = claim.value ?? 0;
+      if (criteria === 'accountCreation') return accountCreationScore;
+      return value * weight;
+    });
+
+    // Sum the values of the matrix points
+    const trustScore = normalizedMatrixPoints.reduce((acc: number, value: number) => acc + value, 0);
+
+    // Ensure the final trust score is between 0 and 100
+    const finalTrustScore = (trustScore/weightedMaximum) * 100;
+
+    return (
+      <div className="text-gray-800 flex justify-center items-center bg-white p-2 rounded-xl w-1/2 m-auto">
+        <svg className="w-8 h-8 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+        </svg>
+        <p className="ms-2 text-sm font-bold text-gray-900 dark:text-white">{finalTrustScore.toFixed(2)}</p>
+        <p className="text-sm font-medium text-gray-900 dark:text-white">/100</p>
+      </div>
+    );
+  }
 
   return (
     <Layout>
