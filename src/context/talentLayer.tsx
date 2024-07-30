@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useEffect, useMemo, useState } from 'react';
-import { useAccount, useSwitchNetwork, useWalletClient } from 'wagmi';
+import { useAccount, useNetwork, useSwitchNetwork, useWalletClient } from 'wagmi';
 import { useChainId } from '../hooks/useChainId';
 import { getUserByAddress } from '../queries/users';
 import { IAccount, IUser } from '../types';
@@ -29,6 +29,7 @@ const TalentLayerContext = createContext<{
 
 const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
   const chainId = useChainId();
+  const { chain: currentChain } = useNetwork();
   const { switchNetwork } = useSwitchNetwork();
   const [user, setUser] = useState<IUser | undefined>();
   const account = useAccount();
@@ -63,7 +64,7 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
       });
       setTalentLayerClient(talentLayerClient);
     }
-  }, [chainId, switchNetwork, account.address, walletClient]);
+  }, [chainId, switchNetwork, account.address, walletClient, currentChain]);
 
   const fetchData = async () => {
     if (!account.address || !account.isConnected || !talentLayerClient) {
