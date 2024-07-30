@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useEffect, useMemo, useState } from 'react';
-import { useAccount, useSwitchNetwork } from 'wagmi';
+import { useAccount, useSwitchNetwork, useWalletClient } from 'wagmi';
 import { useChainId } from '../hooks/useChainId';
 import { getUserByAddress } from '../queries/users';
 import { IAccount, IUser } from '../types';
@@ -36,14 +36,15 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
   const [completionScores, setCompletionScores] = useState<ICompletionScores | undefined>();
   const [talentLayerClient, setTalentLayerClient] = useState<TalentLayerClient>();
-
+  const { data: walletClient } = useWalletClient();
+  
   // automatically switch to the default chain is the current one is not part of the config
   useEffect(() => {
     if (!switchNetwork) return;
     const chain = chains.find(chain => chain.id === chainId);
     if (!chain && defaultChain) {
       switchNetwork(defaultChain.id);
-      }
+    }
       if (chainId && account.address) {
         const talentLayerClient = new TalentLayerClient({
           chainId,
@@ -54,10 +55,15 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
         },
         platformId: parseInt(process.env.NEXT_PUBLIC_PLATFORM_ID as string),
         signatureApiUrl: process.env.NEXT_PUBLIC_SIGNATURE_API_URL as string,
+        walletConfig: walletClient
+        ? {
+            walletClient,
+          }
+        : undefined,
       });
       setTalentLayerClient(talentLayerClient);
     }
-  }, [chainId, switchNetwork, account.address]);
+  }, [chainId, switchNetwork, account.address, walletClient]);
 
   const fetchData = async () => {
     if (!account.address || !account.isConnected || !talentLayerClient) {
