@@ -66,8 +66,15 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [chainId, switchNetwork, account.address, walletClient, currentChain]);
 
+  useEffect(() => {
+    setUser(undefined);
+    setLoading(true);
+    fetchData();
+  }, [account.address, chainId, talentLayerClient]);
+
   const fetchData = async () => {
     if (!account.address || !account.isConnected || !talentLayerClient) {
+      setUser(undefined);
       setLoading(false);
       return false;
     }
@@ -75,7 +82,8 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
     try {
       const userResponse = await getUserByAddress(chainId, account.address);
 
-      if (userResponse?.data?.data?.users?.length == 0) {
+      if (userResponse?.data?.data?.users?.length === 0) {
+        setUser(undefined);
         setLoading(false);
         return false;
       }
@@ -98,6 +106,7 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
       setLoading(false);
       return true;
     } catch (err: any) {
+      setUser(undefined);
       setLoading(false);
       // eslint-disable-next-line no-console
       console.error(err);
