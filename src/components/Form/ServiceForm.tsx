@@ -19,6 +19,7 @@ import Web3MailContext from '../../modules/Web3mail/context/web3mail';
 import useTalentLayerClient from '../../hooks/useTalentLayerClient';
 import usePlatform from '../../hooks/usePlatform';
 import { chains } from '../../pages/_app';
+import { pinToTheGraph } from '../../utils/ipfs';
 
 interface IFormValues {
   title: string;
@@ -113,13 +114,16 @@ function ServiceForm() {
 
         let tx, cid;
 
-        cid = await talentLayerClient.service.updloadServiceDataToIpfs({
+        const serviceData = {
           title: values.title,
           about: values.about,
           keywords: values.keywords,
           rateToken: values.rateToken,
           rateAmount: parsedRateAmountString,
-        });
+        };
+
+        cid = await talentLayerClient.service.updloadServiceDataToIpfs(serviceData);
+        await pinToTheGraph(JSON.stringify(serviceData));
 
         if (isActiveDelegate) {
           const response = await delegateCreateService(chainId, user.id, user.address, cid);
@@ -127,13 +131,7 @@ function ServiceForm() {
         } else {
           if (talentLayerClient) {
             const serviceResponse = await talentLayerClient.service.create(
-              {
-                title: values.title,
-                about: values.about,
-                keywords: values.keywords,
-                rateToken: values.rateToken,
-                rateAmount: parsedRateAmountString,
-              },
+              serviceData,
               user.id,
               parseInt(process.env.NEXT_PUBLIC_PLATFORM_ID as string),
             );
