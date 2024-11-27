@@ -4,7 +4,7 @@ import { useContext } from 'react';
 import { usePublicClient, useWalletClient } from 'wagmi';
 import * as Yup from 'yup';
 import TalentLayerContext from '../../context/talentLayer';
-import { postToIPFS } from '../../utils/ipfs';
+import { postToIPFSwithPinata } from '../../utils/ipfs';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../utils/toast';
 import SubmitButton from './SubmitButton';
 import { getUserByAddress } from '../../queries/users';
@@ -45,12 +45,11 @@ function ReviewForm({ serviceId }: { serviceId: string }) {
   ) => {
     if (user && publicClient && walletClient) {
       try {
-        const uri = await postToIPFS(
-          JSON.stringify({
-            content: values.content,
-            rating: values.rating,
-          }),
-        );
+        const review = {
+          content: values.content,
+          rating: values.rating,
+        };
+        const uri = await postToIPFSwithPinata(JSON.stringify(review));
 
         const getUser = await getUserByAddress(chainId, user.address);
         const delegateAddresses = getUser.data?.data?.users[0].delegates;

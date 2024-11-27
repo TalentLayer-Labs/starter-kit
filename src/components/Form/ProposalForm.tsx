@@ -21,6 +21,7 @@ import SubmitButton from './SubmitButton';
 import useTalentLayerClient from '../../hooks/useTalentLayerClient';
 import usePlatform from '../../hooks/usePlatform';
 import { chains } from '../../pages/_app';
+import { pinToTheGraph } from '../../utils/ipfs';
 
 interface IFormValues {
   about: string;
@@ -139,6 +140,7 @@ function ProposalForm({
         let tx, cid, proposalResponse;
 
         cid = await talentLayerClient?.proposal?.upload(proposal);
+        await pinToTheGraph(proposal)
 
         if (isActiveDelegate) {
           const proposalResponse = await delegateCreateOrUpdateProposal(

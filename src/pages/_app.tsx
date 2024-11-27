@@ -6,7 +6,7 @@ import type { AppProps } from 'next/app';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Chain, WagmiConfig, configureChains, createConfig } from 'wagmi';
-import { polygonMumbai } from 'wagmi/chains';
+import { avalancheFuji } from 'viem/chains';
 import SEO from '../../next-seo.config';
 import { iexec } from '../chains';
 import { TalentLayerProvider } from '../context/talentLayer';
@@ -16,8 +16,9 @@ import { Web3MailProvider } from '../modules/Web3mail/context/web3mail';
 import '../styles/globals.css';
 import Layout from './Layout';
 import { NetworkEnum } from '../types';
+import NetworkSwitcher from '../components/NetworkSwitcher';
 
-export const chains: Chain[] = [polygonMumbai, iexec];
+export const chains: Chain[] = [avalancheFuji, iexec];
 export const defaultChain: Chain | undefined = chains.find(
   chain => chain.id === parseInt(process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID as string),
 );
@@ -39,20 +40,22 @@ function MyApp({ Component, pageProps }: AppProps) {
     <>
       <DefaultSeo {...SEO} />
       <WagmiConfig config={wagmiConfig}>
-        <TalentLayerProvider>
-          <Web3MailProvider>
-            <XmtpContextProvider>
-              <MessagingProvider>
-                <ThemeProvider enableSystem={false}>
-                  <Layout>
-                    <Component {...pageProps} />
-                  </Layout>
-                </ThemeProvider>
-              </MessagingProvider>
-            </XmtpContextProvider>
-            <ToastContainer position='bottom-right' />
-          </Web3MailProvider>
-        </TalentLayerProvider>
+        <NetworkSwitcher>
+          <TalentLayerProvider>
+            <Web3MailProvider>
+              <XmtpContextProvider>
+                <MessagingProvider>
+                  <ThemeProvider enableSystem={false}>
+                    <Layout>
+                      <Component {...pageProps} />
+                    </Layout>
+                  </ThemeProvider>
+                </MessagingProvider>
+              </XmtpContextProvider>
+              <ToastContainer position='bottom-right' />
+            </Web3MailProvider>
+          </TalentLayerProvider>
+        </NetworkSwitcher>
         <Web3Modal
           projectId={projectId}
           ethereumClient={ethereumClient}

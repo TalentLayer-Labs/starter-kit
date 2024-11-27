@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useEffect, useMemo, useState } from 'react';
-import { useAccount, useSwitchNetwork } from 'wagmi';
+import { useAccount, useNetwork, useSwitchNetwork, useWalletClient } from 'wagmi';
 import { useChainId } from '../hooks/useChainId';
 import { getUserByAddress } from '../queries/users';
 import { IAccount, IUser } from '../types';
@@ -29,6 +29,7 @@ const TalentLayerContext = createContext<{
 
 const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
   const chainId = useChainId();
+  const { chain: currentChain } = useNetwork();
   const { switchNetwork } = useSwitchNetwork();
   const [user, setUser] = useState<IUser | undefined>();
   const account = useAccount();
@@ -36,7 +37,8 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
   const [completionScores, setCompletionScores] = useState<ICompletionScores | undefined>();
   const [talentLayerClient, setTalentLayerClient] = useState<TalentLayerClient>();
-
+  const { data: walletClient } = useWalletClient();
+  
   // automatically switch to the default chain is the current one is not part of the config
   useEffect(() => {
     if (!switchNetwork) return;
@@ -44,23 +46,35 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
     if (!chain && defaultChain) {
       switchNetwork(defaultChain.id);
     }
-    if (chainId && account.address) {
-      const talentLayerClient = new TalentLayerClient({
-        chainId,
-        ipfsConfig: {
-          clientId: process.env.NEXT_PUBLIC_INFURA_ID as string,
-          clientSecret: process.env.NEXT_PUBLIC_INFURA_SECRET as string,
-          baseUrl: process.env.NEXT_PUBLIC_IPFS_WRITE_URL as string,
+      if (chainId && account.address) {
+        const talentLayerClient = new TalentLayerClient({
+          chainId,
+          ipfsConfig: {
+            clientSecret: process.env.NEXT_PUBLIC_INFURA_SECRET as string,
+            baseUrl: process.env.NEXT_PUBLIC_IPFS_WRITE_URL as string,
+            pinataJWT: process.env.NEXT_PUBLIC_PINATA_JWT as string,
         },
         platformId: parseInt(process.env.NEXT_PUBLIC_PLATFORM_ID as string),
         signatureApiUrl: process.env.NEXT_PUBLIC_SIGNATURE_API_URL as string,
+        walletConfig: walletClient
+        ? {
+            walletClient,
+          }
+        : undefined,
       });
       setTalentLayerClient(talentLayerClient);
     }
-  }, [chainId, switchNetwork, account.address]);
+  }, [chainId, switchNetwork, account.address, walletClient, currentChain]);
+
+  useEffect(() => {
+    setUser(undefined);
+    setLoading(true);
+    fetchData();
+  }, [account.address, chainId, talentLayerClient]);
 
   const fetchData = async () => {
     if (!account.address || !account.isConnected || !talentLayerClient) {
+      setUser(undefined);
       setLoading(false);
       return false;
     }
@@ -68,7 +82,8 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
     try {
       const userResponse = await getUserByAddress(chainId, account.address);
 
-      if (userResponse?.data?.data?.users?.length == 0) {
+      if (userResponse?.data?.data?.users?.length === 0) {
+        setUser(undefined);
         setLoading(false);
         return false;
       }
@@ -91,6 +106,7 @@ const TalentLayerProvider = ({ children }: { children: ReactNode }) => {
       setLoading(false);
       return true;
     } catch (err: any) {
+      setUser(undefined);
       setLoading(false);
       // eslint-disable-next-line no-console
       console.error(err);

@@ -12,7 +12,7 @@ import { useChainId } from '../../../hooks/useChainId';
 import { useConfig } from '../../../hooks/useConfig';
 import useUserById from '../../../hooks/useUserById';
 import { IWeb3mailPreferences } from '../../../types';
-import { postToIPFS } from '../../../utils/ipfs';
+import { postToIPFSwithPinata } from '../../../utils/ipfs';
 import { createMultiStepsTransactionToast, showErrorTransactionToast } from '../../../utils/toast';
 import Web3mailCard from './Web3mailCard';
 import Web3mailRevokeButton from './Web3mailRevokeButton';
@@ -48,25 +48,24 @@ function Web3mailPreferencesForm() {
   ) => {
     if (user && publicClient && walletClient) {
       try {
-        const cid = await postToIPFS(
-          JSON.stringify({
-            title: userDescription?.title,
-            role: userDescription?.role,
-            image_url: userDescription?.image_url,
-            video_url: userDescription?.video_url,
-            name: userDescription?.name,
-            about: userDescription?.about,
-            skills: userDescription?.skills_raw,
-            web3mailPreferences: {
-              activeOnNewService: values.activeOnNewService,
-              activeOnNewProposal: values.activeOnNewProposal,
-              activeOnProposalValidated: values.activeOnProposalValidated,
-              activeOnFundRelease: values.activeOnFundRelease,
-              activeOnReview: values.activeOnReview,
-              activeOnPlatformMarketing: values.activeOnPlatformMarketing,
-            },
-          }),
-        );
+        const userDesc = {
+          title: userDescription?.title,
+          role: userDescription?.role,
+          image_url: userDescription?.image_url,
+          video_url: userDescription?.video_url,
+          name: userDescription?.name,
+          about: userDescription?.about,
+          skills: userDescription?.skills_raw,
+          web3mailPreferences: {
+            activeOnNewService: values.activeOnNewService,
+            activeOnNewProposal: values.activeOnNewProposal,
+            activeOnProposalValidated: values.activeOnProposalValidated,
+            activeOnFundRelease: values.activeOnFundRelease,
+            activeOnReview: values.activeOnReview,
+            activeOnPlatformMarketing: values.activeOnPlatformMarketing,
+          },
+        };
+        const cid = await postToIPFSwithPinata(JSON.stringify(userDesc));
 
         let tx;
         if (isActiveDelegate) {

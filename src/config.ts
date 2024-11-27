@@ -47,6 +47,70 @@ const mumbai: Config = {
   },
 };
 
+const fuji: Config = {
+  networkId: NetworkEnum.FUJI,
+  subgraphUrl: 'https://api.studio.thegraph.com/query/41228/tl-graph-fuji/version/latest',
+  contracts: {
+    talentLayerId: '0x11BF027d41011a050c77E3BE7fB1942500C29928',
+    serviceRegistry: '0x037a42146f7803Ac85Eeb201A8aab483E10c3E1A',
+    talentLayerReview: '0x5b1e55ca26f8128155f35a0c5804e292B1b66bb7',
+    talentLayerEscrow: '0x2D11f75E4af6626bA457532429D5FA6bF18ac011',
+    talentLayerPlatformId: '0x5582d6493449a9c8aE353715eaE55794056dBF19',
+    talentLayerArbitrator: '0x',
+  },
+  escrowConfig: {
+    adminFee: '0',
+    adminWallet: '0x754edfB906252B304f89c59c61f4368028bdcE6c',
+    timeoutPayment: 3600 * 24 * 7,
+  },
+  tokens: {
+    [ZERO_ADDRESS]: {
+      address: ZERO_ADDRESS,
+      symbol: 'AVAX',
+      name: 'Avax',
+      decimals: 18,
+    },
+    '0xAF82969ECF299c1f1Bb5e1D12dDAcc9027431160': {
+      address: '0xAF82969ECF299c1f1Bb5e1D12dDAcc9027431160',
+      symbol: 'USDC',
+      name: 'USDC Stablecoin',
+      decimals: 6,
+    },
+  },
+};
+
+const amoy: Config = {
+  networkId: NetworkEnum.AMOY,
+  subgraphUrl: 'https://api.studio.thegraph.com/query/41228/tl-graph-amoy/version/latest',
+  contracts: {
+    talentLayerId: '0xBe0d91F2371e23b9A26Fb8949E041A65dD0aDe83',
+    serviceRegistry: '0x5394632Fe8044BF3c3eF6fBD30d1121d5d796542',
+    talentLayerReview: '0x194D3a30Ad6274F169c78D64A538a8F472c47819',
+    talentLayerEscrow: '0x466e65231DBe87b184c7cEeE8A319b4aB117915B',
+    talentLayerPlatformId: '0xbE56916C64f80040d46Ea5B32E1e851cE752cD3f',
+    talentLayerArbitrator: '0x0F39E0ffEaBE0C100768F16988F0c9405428E2D8',
+  },
+  escrowConfig: {
+    adminFee: '0',
+    adminWallet: '0xC01FcDfDE3B2ABA1eab76731493C617FfAED2F10',
+    timeoutPayment: 3600 * 24 * 7,
+  },
+  tokens: {
+    [ZERO_ADDRESS]: {
+      address: ZERO_ADDRESS,
+      symbol: 'MATIC',
+      name: 'Matic',
+      decimals: 18,
+    },
+    '0xe6b8a5CF854791412c1f6EFC7CAf629f5Df1c747': {
+      address: '0xe6b8a5CF854791412c1f6EFC7CAf629f5Df1c747',
+      symbol: 'USDC',
+      name: 'USDC Stablecoin',
+      decimals: 6,
+    },
+  },
+};
+
 const iexec: Config = {
   networkId: NetworkEnum.IEXEC,
   subgraphUrl: 'https://thegraph-sandbox.iex.ec/subgraphs/name/users/talentLayer',
@@ -112,7 +176,9 @@ const local: Config = {
 const chains: { [networkId in NetworkEnum]: Config } = {
   [NetworkEnum.LOCAL]: local,
   [NetworkEnum.MUMBAI]: mumbai,
+  [NetworkEnum.FUJI]: fuji,
   [NetworkEnum.IEXEC]: iexec,
+  [NetworkEnum.AMOY]: amoy,
 };
 
 export const getConfig = (networkId: NetworkEnum) => chains[networkId];
